@@ -1,7 +1,7 @@
-# L'ARMÉE FANTÔME — story bible v1 (cast, places, hero objects, light, camera, sound)
+# THE GHOST ARMY — story bible v1 (cast, places, hero objects, light, camera, sound)
 
 ## Camera idea (one idea for the whole film)
-**"Le faux qui se révèle" (the reveal pull-back).** Each chapter opens on something that looks real and powerful (a tank barrel, a rumbling column, a Morse key, a whisper), framed tight and heroic, then the camera slides or pulls back to show the trick behind it (the air pump, the speaker, the copying operator, the fake patch). The audience is fooled first, exactly like the enemy.
+**"The fake reveals itself" (the reveal pull-back).** Each chapter opens on something that looks real and powerful (a tank barrel, a rumbling column, a Morse key, a whisper), framed tight and heroic, then the camera slides or pulls back to show the trick behind it (the air pump, the speaker, the copying operator, the fake patch). The audience is fooled first, exactly like the enemy.
 Signature move: line 14, a single long crane rises above the river: south, the inflated decoy field under shell bursts; it keeps rising and swings north to the real army crossing in silence on pontoons. One take, about 4 s.
 
 ## Cast (2D vector puppets, kit cast; outfits from the 1940s library)
@@ -17,7 +17,7 @@ Signature move: line 14, a single long crane rises above the river: south, the i
 | Waitress | apron, tray of coffees | rolls her eyes |
 | Enemy photo interpreter | grey uniform, magnifying loupe over aerial photos | smug as he counts tanks, then orders fire |
 | The grandchild (last scene) | child of today in a hoodie | wonder, lifts the rubber skin |
-| The old veteran (last scene) | Lou at about 75, cardigan, same wink | finger to the lips: "chut" |
+| The old veteran (last scene) | Lou at about 75, cardigan, same wink | finger to the lips: "shh" |
 
 ## Places (one connected world where possible; at least 5 kinds of light, see the gate "share of the most used light <= 75 %")
 | # | Place | Light | Story job | Dressing (real models first: Asset Hub) |
@@ -33,7 +33,7 @@ Signature move: line 14, a single long crane rises above the river: south, the i
 | P9 | An attic today | warm afternoon, dust motes | the last-line twist and the loop | trunk, medal box (Congressional Gold Medal), the folded rubber skin, old photos |
 
 ## Hero objects (built first, story marks)
-1. **The inflatable Sherman**: rubberized canvas over air tubes, a visible valve and patch repair, slight sag and wrinkles, a stenciled false unit number. From 400 m: perfect. Up close: it dents when a hand presses it.
+1. **The inflatable Sherman**: rubberized canvas over air tubes, a visible valve and patch repair, slight sag and wrinkles, a stenciled false unit number. From a quarter mile: perfect. Up close: it dents when a hand presses it.
 2. **The sound half-track (M3)**: a huge speaker cone on a turret, cables, a 16-inch transcription disc turntable, "SONIC" crate.
 3. **The fake shoulder patch**: embroidered, needle and thread, a box full of different patches.
 4. **The Morse key + the "fist" card**: the real operator's rhythm drawn as dots and dashes like a fingerprint.

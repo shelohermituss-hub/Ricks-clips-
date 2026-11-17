@@ -21,7 +21,7 @@ Rule (Rick pattern, finding 10): the narration carries no real names and no date
 - "Saved 15,000-30,000 lives": no reliable primary source.
 - "Impersonated generals": sources say they impersonated other units' soldiers, not generals specifically.
 - "Simulated 40,000 troops": unverified.
-- A Sherman weighs about 30-33 t; the anecdote's "40 tons" is the soldier's figure. The narration says "trente tonnes" (accurate) and keeps the line "Les Américains sont très forts" as the soldiers' joke.
+- A Sherman weighs about 30-33 t; the anecdote's "40 tons" is the soldier's figure. The narration says "thirty-ton" (accurate) and keeps "Americans are very strong" as the soldier's joke.
 
 ## Sources
 - https://ghostarmy.org/about/history/23rd-Headquarters-Special-Troops/
