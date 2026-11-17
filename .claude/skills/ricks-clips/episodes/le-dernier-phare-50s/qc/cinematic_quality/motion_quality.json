@@ -1,0 +1,21 @@
+{
+  "schema": "ricksclips.motion-quality.v1",
+  "generated_at": "2026-11-17T17:47:26.396Z",
+  "summary": {
+    "modules_expected": 42,
+    "modules_imported": 42,
+    "library_entries": 195,
+    "library_references_checked": 195,
+    "exported_styles_checked": 330,
+    "pose_samples_checked": 2640,
+    "errors": 0,
+    "warnings": 0
+  },
+  "status": "PASS",
+  "issues": [],
+  "warnings": [],
+  "notes": [
+    "Deterministic sampled-pose and library-integrity checks only.",
+    "Rendered foot contact, silhouette, timing, overlap and acting still require frame review / GPU frame checks."
+  ]
+}

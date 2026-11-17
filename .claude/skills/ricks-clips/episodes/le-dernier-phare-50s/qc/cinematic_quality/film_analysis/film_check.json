@@ -1,0 +1,201 @@
+{
+ "gates": [
+  {
+   "group": "camera",
+   "name": "camera at rest (< 2 px/f), % of frames",
+   "value": 51.46,
+   "status": "PASS",
+   "target": ">= 30 (Rick median 32) [Rick 5.65-58.02]",
+   "fix": ""
+  },
+  {
+   "group": "camera",
+   "name": "rests per 10 s",
+   "value": 4.0,
+   "status": "WARN",
+   "target": "2.2-3.8, aim 3 (Rick median 3.1; Railroads 2.5, Roller Coasters 2.7) [Rick 0.87-4.74]",
+   "fix": "too few: break long travels with a resting station; too many: station hopping, merge stations and let one move flow through them"
+  },
+  {
+   "group": "camera",
+   "name": "rest length median, s",
+   "value": 1.08,
+   "status": "PASS",
+   "target": ">= 0.6 (Rick 0.62) [Rick 0.37-1.28]",
+   "fix": ""
+  },
+  {
+   "group": "camera",
+   "name": "travel length p90, s",
+   "value": 1.56,
+   "status": "FAIL",
+   "target": "2.1-6.3 (Rick median 3.0; Railroads and Roller Coasters 4.7). CB 2026-11-10: the scene decides, but some moves must flow [Rick 1.73-9.52]",
+   "fix": "under 2.1: every move is a short hop, let one or two moves follow something through the set for 4-5 s; over 6.3: insert a rest inside the longest moves"
+  },
+  {
+   "group": "camera",
+   "name": "speed median, px/f",
+   "value": 1.87,
+   "status": "WARN",
+   "target": "about 4 (Rick 4.1) [Rick 1.55-14.11]",
+   "fix": "too high: slow down, rest more; too low: add creep to the rests"
+  },
+  {
+   "group": "camera",
+   "name": "speed p90, px/f",
+   "value": 17.68,
+   "status": "PASS",
+   "target": "<= 25 (Rick 23) [Rick 9.80-33.84]",
+   "fix": ""
+  },
+  {
+   "group": "camera",
+   "name": "cuts per 10 s",
+   "value": 0.8,
+   "status": "PASS",
+   "target": "<= 0.9, aim 0.4 [Rick 0.00-2.50]",
+   "fix": ""
+  },
+  {
+   "group": "camera",
+   "name": "roll rate p99, deg/f",
+   "value": 2.45,
+   "status": "FAIL",
+   "target": "<= 1.1 (Rick 1.08) [Rick 0.26-3.02]",
+   "fix": "smaller or slower dutch moves"
+  },
+  {
+   "group": "camera",
+   "name": "whips per minute",
+   "value": 4.8,
+   "status": "PASS",
+   "target": "<= 10 (Rick 5.8) [Rick 0.00-11.77]",
+   "fix": ""
+  },
+  {
+   "group": "camera",
+   "name": "camera at rest on long words, %",
+   "value": 54.0,
+   "status": "PASS",
+   "target": ">= 30 (Rick 33; CB: nouns land at rest) [Rick 2.38-52.87]",
+   "fix": ""
+  },
+  {
+   "group": "camera",
+   "name": "voice pace, words per second",
+   "value": 2.29,
+   "status": "FAIL",
+   "target": "3.5-4.5 (Rick 3.7) [Rick 3.36-4.06]",
+   "fix": "voice too slow or too fast: regenerate at the right pace, never time-stretch"
+  },
+  {
+   "group": "camera",
+   "name": "camera dead still (< 0.3 px/f), % of frames",
+   "value": 7.83,
+   "status": "PASS",
+   "target": "<= 21, aim 9 (Rick 9.3) [Rick 1.16-28.76]",
+   "fix": ""
+  },
+  {
+   "group": "scan",
+   "name": "frozen spans (camera and picture still 12+ f)",
+   "value": 0,
+   "status": "PASS",
+   "target": "0: every long hold has a creep or something moving",
+   "fix": ""
+  },
+  {
+   "group": "scan",
+   "name": "travels longer than 7 s",
+   "value": 0,
+   "status": "PASS",
+   "target": "0 (a flowing move of 3-7 s is wanted since 2026-11-10; Rick's long travels reach 4.8-9.5 s)",
+   "fix": ""
+  },
+  {
+   "group": "scan",
+   "name": "one-frame flashes or A-B-A flickers",
+   "value": 0,
+   "status": "PASS",
+   "target": "0 unplanned (planned flashes and washes are fine: confirm each)",
+   "fix": ""
+  },
+  {
+   "group": "scan",
+   "name": "picture jumps the plan does not explain (not a planned cut, mood change, effect or kick)",
+   "value": 0,
+   "status": "PASS",
+   "target": "0",
+   "fix": ""
+  },
+  {
+   "group": "plan",
+   "name": "rest share: plan 63 % vs picture 51 %",
+   "value": 11.2,
+   "status": "PASS",
+   "target": "within 12 points",
+   "fix": ""
+  },
+  {
+   "group": "plan",
+   "name": "plan gates failing (tools/film_plan.py check)",
+   "value": 0,
+   "status": "PASS",
+   "target": "0",
+   "fix": ""
+  },
+  {
+   "group": "faces",
+   "name": "first face, s",
+   "value": 0.0,
+   "status": "PASS",
+   "target": "<= 1.5",
+   "fix": ""
+  },
+  {
+   "group": "faces",
+   "name": "longest stretch without a face, s",
+   "value": 5.1,
+   "status": "PASS",
+   "target": "<= 6",
+   "fix": ""
+  },
+  {
+   "group": "faces",
+   "name": "head centres inside the caption band, %",
+   "value": 6.1,
+   "status": "WARN",
+   "target": "<= 3 (Rick 2.7)",
+   "fix": "re-aim those stations: captions sit at 60-74 % of the height"
+  }
+ ],
+ "numbers": {
+  "dur": 50.0,
+  "cuts_10s": 0.800533689126084,
+  "p50": 1.870121403735808,
+  "p90": 17.675682898637437,
+  "peak": 50.05855283976169,
+  "pct_hold03": 7.8284547311095976,
+  "pct_settled": 51.46358066712049,
+  "holds_10s": 4.0026684456304205,
+  "hold_p50": 1.0833333333333335,
+  "hold_p90": 2.2933333333333334,
+  "hold_max": 2.8,
+  "travel_p50": 0.5166666666666666,
+  "travel_p90": 1.5566666666666669,
+  "travel_max": 4.1,
+  "travels_over_3s": [
+   [
+    13.13,
+    4.1
+   ]
+  ],
+  "frozen_over_12f": [],
+  "words_per_s": 2.2913256955810146,
+  "settled_at_longword": 54.0,
+  "roll_rate_p99": 2.446113246597042,
+  "roll_drift_deg": 218.90081340251416,
+  "whips_min": 4.803202134756504,
+  "zoom_peak_p90": 4.204616495791672
+ }
+}

@@ -1,0 +1,16 @@
+{
+ "errors": [
+  "https://gofile.io/dist/js/config.js: HTTP Error 404: Not Found",
+  "https://gofile.io/dist/js/global.js: HTTP Error 404: Not Found",
+  "https://gofile.io/dist/js/wt.obf.js: HTTP Error 404: Not Found",
+  "contents: HTTP Error 401: Unauthorized"
+ ],
+ "sha256_local": "1c779940c37d163db210ea6fd3d5ed9f683882e191f0efb114daf2e05aa960a1",
+ "downloadPage": "https://gofile.io/d/rI6a7eet",
+ "fileId": "f8bf9d9c-0b91-40bb-ae12-b22150b35654",
+ "fileName": "final.mp4",
+ "size": 44982746,
+ "folder": "f65258f9-a3af-45a3-a591-e146e32efc9b",
+ "download_page_http": 200,
+ "verified": false
+}

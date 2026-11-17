@@ -168,3 +168,26 @@ Non-regression after the fixes: Cloud Doctor 12/1/0, Asset Hub 16/16, Motion QA 
 4. **Fab**: manual acquisition by the account owner, then `asset_hub.py import-local`.
 5. **Episode sheets**: copy the 4 files listed in `episodes/README.md` from the PC.
 6. **Optional**: wildcard domains (`*.polyhaven.com`, etc.) can only be added in the settings (exact hosts are already in place).
+
+---
+
+## 7. Addendum — LE DERNIER PHARE, 50 s, rendered on RunPod (2026-11-17)
+
+| Item | Value |
+|---|---|
+| MP4 | `.claude/skills/ricks-clips/episodes/le-dernier-phare-50s/final.mp4` · GoFile: https://gofile.io/d/rI6a7eet |
+| Format | 50.000 s, 1080×1920, 30 fps (1500 frames), H.264 CRF 18 + AAC 192 kb/s, 44,982,746 bytes |
+| SHA-256 | `1c779940c37d163db210ea6fd3d5ed9f683882e191f0efb114daf2e05aa960a1` (pod = local copy) |
+| Machine | RunPod RTX 4090 pod (48 vCPU), $0.89/h; **render on CPU** (SwiftShader, 6 processes), 3092 s = 2.06 s/frame |
+| RunPod cost | **$0.94** total (balance $8.33 → $7.39): failed pod 1, render pod 2, GPU diagnostic pod. All pods deleted (`pods: []`) |
+| GoFile | Upload PASS (size reported by GoFile = local size, page HTTP 200). **Download not verified by SHA-256**: GoFile now refuses the contents API to guest accounts (401) and its site scripts moved (404). From this session GoFile is blocked (TLS tunnel reset) |
+| Delivery QC | `check_delivery.py` PASS |
+| Cinematic QC (video) | **FAIL**: 9 PASS / 2 FAIL. Pixel analysis: travel p90 1.56 s, roll p99 2.45°/f, voice pace 2.29 words/s (narration deliberately slow, below Rick's 3.5–4.5). frame_checks: Lina cut by the edge on f518-615 ("foudre") and f655-682; 3 WARN: Lina's body crosses the gallery rail by 1–2 % |
+
+### RTX 4090 GPU: cause found and fixed
+- Pod 1: Chrome saw only SwiftShader, and 24 software processes saturated the CPU (Playwright 30 s timeout, 0 frames). Deleted.
+- `scripts/runpod/gpu_diag.sh` on a 4090: the NVIDIA EGL/Vulkan libraries **are** mounted. Headless ANGLE **Vulkan fails without `--disable-vulkan-surface`** (no WebGL2), and the second attempt used `gl` (needs X) instead of **`gl-egl`**. With either fix, Chrome reports `ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA GeForce RTX 4090))` / `NVIDIA GeForce RTX 4090/PCIe/SSE2, OpenGL ES 3.2`.
+- Fixed in `render_gpu.mjs` (Linux: `--disable-vulkan-surface`, `RICKCLIPS_GPU_ANGLE`, `RICKCLIPS_GPU_EXTRA_ARGS`) and `scripts/runpod/render_pod.sh` (tries vulkan then gl-egl, writes missing loader files, publishes `gpu_diag.txt`). The 50 s film was already 2/3 rendered on CPU, so it was not restarted. Next renders use the GPU.
+
+### Keys (Network Secrets, entered through the secure form, checked with authenticated requests)
+Fish Audio (`api.fish.audio`, Bearer) 200 · Sketchfab (`api.sketchfab.com`, `Token`) 200 · BlenderKit (`www.blenderkit.com`, Bearer) 200 · RunPod (`api.runpod.io` GraphQL, Bearer) 200. `rest.runpod.io` answers 502 upstream (not used).

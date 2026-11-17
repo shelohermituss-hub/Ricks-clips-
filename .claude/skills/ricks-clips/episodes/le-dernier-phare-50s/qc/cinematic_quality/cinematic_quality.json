@@ -1,0 +1,98 @@
+{
+  "schema": "ricksclips.cinematic-quality.v1",
+  "generated_at": "2026-11-17T17:48:30.596330+00:00",
+  "film": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/episodes/le-dernier-phare-50s/film.json",
+  "video": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/episodes/le-dernier-phare-50s/final.mp4",
+  "status": "FAIL",
+  "summary": {
+    "pass": 9,
+    "warn": 0,
+    "fail": 2,
+    "not_run": 0
+  },
+  "checks": [
+    {
+      "group": "film",
+      "name": "vertical delivery profile",
+      "status": "PASS",
+      "detail": "fps=30; size=[1080, 1920]; target=30 fps, [1080, 1920]",
+      "fix": "Set film.json fps to 30 and size to [1080, 1920] for the standard vertical master."
+    },
+    {
+      "group": "environment",
+      "name": "kit3d look kit enabled",
+      "status": "PASS",
+      "detail": "film.json kit3d=True",
+      "fix": "Enable kit3d for the PBR relief/sky/tree look; individual places can opt out deliberately."
+    },
+    {
+      "group": "motion",
+      "name": "secondary motion polish",
+      "status": "PASS",
+      "detail": "motion_polish={'enabled': True, 'head_follow': 0.14, 'hand_follow': 0.08, 'breath': 0.55, 'breath_rate': 2.4, 'auto_blink': True}",
+      "fix": "Set motion_polish.enabled=true to enable subtle head follow-through, breathing and safe hand follow-through."
+    },
+    {
+      "group": "film",
+      "name": "cast present",
+      "status": "PASS",
+      "detail": "cast entries=1",
+      "fix": ""
+    },
+    {
+      "group": "film",
+      "name": "places present",
+      "status": "PASS",
+      "detail": "places entries=1",
+      "fix": ""
+    },
+    {
+      "group": "film",
+      "name": "takes present",
+      "status": "PASS",
+      "detail": "takes entries=5",
+      "fix": ""
+    },
+    {
+      "group": "camera",
+      "name": "camera bake frames",
+      "status": "PASS",
+      "detail": "1500 frames; 0 malformed entries",
+      "fix": "Re-bake the plan and fix missing positions, aims, fov or place names."
+    },
+    {
+      "group": "motion",
+      "name": "motion-library QA",
+      "status": "PASS",
+      "detail": "Motion QA: PASS\nModules 42/42 | LIB refs 195/195 | styles 330 | sampled poses 2640\nNo missing library references, invalid views, malformed contacts/hands, thrown pose functions or non-finite pose numbers found.",
+      "fix": "Repair missing motion modules/references or invalid pose results shown in motion_quality.json."
+    },
+    {
+      "group": "delivery",
+      "name": "MP4 metadata",
+      "status": "PASS",
+      "detail": "Video: 1080x1920 | avg 30 fps (nominal 30) | 50.000 s | codec h264\nAudio stream: present\nAudio: aac | 48000 Hz | 2 channel(s)\nRESULT: PASS — delivery metadata meets the requested contract.",
+      "fix": "Correct resolution, frame rate, duration and the required audio stream."
+    },
+    {
+      "group": "delivery",
+      "name": "pixel camera/continuity analysis",
+      "status": "FAIL",
+      "detail": "PASS camera  whips per minute                                     4.8        target <= 10 (Rick 5.8) [Rick 0.00-11.77]\n  PASS camera  camera at rest on long words, %                      54.0       target >= 30 (Rick 33; CB: nouns land at rest) [Rick 2.38-52.87]\n  FAIL camera  voice pace, words per second                         2.29       target 3.5-4.5 (Rick 3.7) [Rick 3.36-4.06]\n         FIX: voice too slow or too fast: regenerate at the right pace, never time-stretch\n  PASS camera  camera dead still (< 0.3 px/f), % of frames          7.83       target <= 21, aim 9 (Rick 9.3) [Rick 1.16-28.76]\n  PASS scan    frozen spans (camera and picture still 12+ f)        0          target 0: every long hold has a creep or something moving\n  PASS scan    travels longer than 7 s                              0          target 0 (a flowing move of 3-7 s is wanted since 2026-11-10; Rick's long travels reach 4.8-9.5 s)\n  PASS scan    one-frame flashes or A-B-A flickers                  0          target 0 unplanned (planned flashes and washes are fine: confirm each)\n  PASS scan    picture jumps the plan does not explain (not a planned cut, mood change, effect or kick) 0          target 0\n  PASS plan    rest share: plan 63 % vs picture 51 %                11.2       target within 12 points\n  PASS plan    plan gates failing (tools/film_plan.py check)        0          target 0\n  PASS faces   first face, s                                        0.0        target <= 1.5\n  PASS faces   longest stretch without a face, s                    5.1        target <= 6\n  WARN faces   head centres inside the caption band, %              6.1        target <= 3 (Rick 2.7)\n         FIX: re-aim those stations: captions sit at 60-74 % of the height\nMANUAL  sound-off test, three-point shot check, judge agent 8.5+ per panel\nRESULT: 3 FAIL, 3 WARN of 21 gates -> /home/user/Ricks-clips-/.claude/skills/ricks-clips/episodes/le-dernier-phare-50s/qc/cinematic_quality/film_analysis/film_check.md",
+      "fix": "Review film_check.md and repair the measured camera/freeze/flicker/face gates."
+    },
+    {
+      "group": "render",
+      "name": "geometry-aware GPU frame checks",
+      "status": "FAIL",
+      "detail": "frame_checks: le-dernier-phare-50s/film.json  1206 of 1500 frames (rests f0-27 f136-292 f332-346 f395-478 f518-615 f655-682 f725-772 f773-831 f856-866 f888-908 f940-953 f1009-1073 f1074-1178 f1215-1237 f1274-1348 f1349-1408)  cast lina\nresult who            rest         check         number    worst at  bad frames what                                                      \nFAIL   lina           f518-615     body_side     52 %      f556      13/47      cut by the left edge                                      \nFAIL   lina           f518-615     head_cut      2 %       f565      11/46      cut by the left edge                                      \nFAIL   lina           f655-682     body_side     25 %      f655      2/3        cut by the right edge                                     \nWARN   lina           f1349-1408   body_in_mesh  1 %       f1362     40/60      inside lighthouse/gallery_rail: torso-hips-thighs 1 %, le~\nWARN   lina           f1409-1498 ~ body_in_mesh  2 %       f1429     10/46      inside lighthouse/gallery_rail: torso-hips-thighs 2 %, le~\nWARN   lina           f1074-1178   body_in_mesh  1 %       f1080     1/102      inside lighthouse/gallery_rail: torso-hips-thighs 1 %, le~\n3 FAIL, 3 WARN, 67 PASS (39.5 s, scan 26.5 s)  ->  /home/user/Ricks-clips-/.claude/skills/ricks-clips/episodes/le-dernier-phare-50s/out/frame_checks.md, 3 crops in /home/user/Ricks-clips-/.claude/skills/ricks-clips/episodes/le-dernier-phare-50s/out/frame_checks",
+      "fix": "Inspect frame_checks.md and FAIL crops; this gate requires the actual Three.js/WebGL renderer."
+    }
+  ],
+  "manual_review_required": [
+    "Compare representative full-resolution frames side-by-side with the approved visual reference (camera, world detail, materials, light, atmosphere, silhouette).",
+    "Watch all key actions at speed: planted feet, limb intersections, hand-object contact, expressions, blinks, follow-through and transitions.",
+    "Inspect at least 16 evenly spaced final-video frames for character/prop drift, background jumps, floating or clipping.",
+    "Listen to the complete film: voice, music and effects sync, balance, clipping, silence and ending."
+  ]
+}
