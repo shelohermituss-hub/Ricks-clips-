@@ -688,27 +688,32 @@
      "lead": 3,
      "hold": 0.2,
      "travel": 0.9
-    },
+    }
+   ]
+  },
+  {
+   "id": "t_sergeant",
+   "place": "cafe",
+   "stations": [
     {
      "at": [
-      "carnival",
+      "sergeant",
       1
      ],
      "pos": [
-      2.6,
+      3.2,
       0.9,
       1.6
      ],
      "aim": [
-      3.9,
+      4.0,
       3.4,
       1.4
      ],
-     "lens": 24,
+     "lens": 30,
      "subject": "sergeant",
      "framing": "C",
-     "lead": 3,
-     "travel": 1.2,
+     "lead": 2,
      "dof": 0.35
     }
    ]
@@ -950,16 +955,16 @@
       1
      ],
      "pos": [
-      0.3,
-      -2.6,
+      0.0,
+      -2.8,
       1.5
      ],
      "aim": [
-      0.0,
+      -0.2,
       1.8,
-      1.35
+      1.0
      ],
-     "lens": 40,
+     "lens": 30,
      "subject": "old_lou",
      "framing": "W",
      "lead": 4,
@@ -1070,65 +1075,49 @@
   },
   {
    "who": "carrier_tall",
-   "at": [
-    "suitcase",
-    1,
-    -6
-   ],
+   "at": 78,
    "pos": [
     -2.4,
     0.4,
     0
    ],
-   "move_s": 0.5,
+   "move_s": 0.4,
    "pose": "stand",
    "face": "k:sleepy"
   },
   {
    "who": "carrier_short",
-   "at": [
-    "suitcase",
-    1,
-    -6
-   ],
+   "at": 78,
    "pos": [
     -1.0,
     8.6,
     0
    ],
-   "move_s": 0.5,
+   "move_s": 0.4,
    "pose": "stand",
    "face": "k:sleepy"
   },
   {
    "who": "carrier_stocky",
-   "at": [
-    "suitcase",
-    1,
-    -6
-   ],
+   "at": 78,
    "pos": [
     -4.6,
     7.6,
     0
    ],
-   "move_s": 0.5,
+   "move_s": 0.4,
    "pose": "stand",
    "face": "k:sleepy"
   },
   {
    "who": "lou",
-   "at": [
-    "suitcase",
-    1,
-    -6
-   ],
+   "at": 78,
    "pos": [
     2.3,
     1.0,
     0
    ],
-   "move_s": 0.5,
+   "move_s": 0.4,
    "pose": "knock",
    "face": "k:smirk"
   },
@@ -1163,8 +1152,8 @@
     1
    ],
    "pos": [
-    -1.6,
-    2.4,
+    -1.8,
+    2.15,
     0
    ],
    "move_s": 0.4,
@@ -1299,6 +1288,20 @@
    "dir": 1,
    "pose": "m:sweep/A",
    "face": "k:concentrate"
+  },
+  {
+   "who": "carrier_short",
+   "at": [
+    "close",
+    1,
+    -10
+   ],
+   "pos": [
+    -7.6,
+    9.6,
+    0
+   ],
+   "move_s": 0.01
   },
   {
    "who": "carrier_tall",
@@ -1467,13 +1470,12 @@
   {
    "who": "waitress",
    "at": [
-    "carnival",
-    1,
-    -24
+    "spies",
+    1
    ],
    "pos": [
-    1.6,
-    6.2,
+    -0.6,
+    6.6,
     0
    ],
    "walk": true,
@@ -1534,6 +1536,23 @@
    "pose": "write"
   },
   {
+   "who": "spy",
+   "at": [
+    "laughs",
+    1
+   ],
+   "face": "k:smug"
+  },
+  {
+   "who": "spy",
+   "at": [
+    "carnival",
+    1
+   ],
+   "face": "k:think",
+   "pose": "sit"
+  },
+  {
    "who": "sergeant",
    "at": [
     "patches",
@@ -1553,6 +1572,33 @@
    "who": "sergeant",
    "at": [
     "laughs",
+    1
+   ],
+   "pose": "m:laugh/A",
+   "face": "k:laugh"
+  },
+  {
+   "who": "sergeant",
+   "at": [
+    "fight",
+    1
+   ],
+   "face": "k:smug",
+   "pose": "hands_hips"
+  },
+  {
+   "who": "sergeant",
+   "at": [
+    "carnival",
+    1
+   ],
+   "face": "k:laugh",
+   "pose": "point_out"
+  },
+  {
+   "who": "sergeant",
+   "at": [
+    "balloons",
     1
    ],
    "pose": "m:laugh/A",
@@ -1588,20 +1634,37 @@
   {
    "who": "sergeant",
    "at": [
-    "meanwhile",
+    "river",
     1,
-    -4
+    -6
    ],
    "pos": [
     57.0,
     44.0,
     0.6
    ],
+   "move_s": 0.01,
    "place": "river",
    "view": "front",
    "dir": 1,
    "pose": "stand",
    "face": "k:skeptical"
+  },
+  {
+   "who": "sergeant",
+   "at": [
+    "north",
+    1
+   ],
+   "face": "k:think"
+  },
+  {
+   "who": "sergeant",
+   "at": [
+    "crosses",
+    1
+   ],
+   "face": "k:surprised"
   },
   {
    "who": "sergeant",
