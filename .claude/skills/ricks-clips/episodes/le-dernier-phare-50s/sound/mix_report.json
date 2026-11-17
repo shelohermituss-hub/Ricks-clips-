@@ -1,0 +1,85 @@
+{
+ "duration_s": 50.0,
+ "sample_rate": 48000,
+ "channels": 2,
+ "integrated_lufs": -15.02,
+ "true_peak_dbtp": -1.0,
+ "voice_lufs": -16.0,
+ "cues": [
+  {
+   "t": 0.0,
+   "name": "rain_bed",
+   "lufs": -31
+  },
+  {
+   "t": 0.0,
+   "name": "surf_bed",
+   "lufs": -30
+  },
+  {
+   "t": 0.0,
+   "name": "storm_wind",
+   "lufs": -33
+  },
+  {
+   "t": 17.337,
+   "name": "thunder_close (crack + rumble)",
+   "lufs_max_m": -17
+  },
+  {
+   "t": 1.4,
+   "name": "thunder_far",
+   "lufs_max_m": -27.0
+  },
+  {
+   "t": 9.0,
+   "name": "thunder_far",
+   "lufs_max_m": -29.0
+  },
+  {
+   "t": 24.6,
+   "name": "thunder_far",
+   "lufs_max_m": -28.0
+  },
+  {
+   "t": 34.0,
+   "name": "thunder_far",
+   "lufs_max_m": -30.0
+  },
+  {
+   "t": 44.2,
+   "name": "thunder_far",
+   "lufs_max_m": -29.0
+  },
+  {
+   "t": 28.667,
+   "name": "run_steps_wet x13 (fading away)",
+   "lufs_max_m": -27
+  },
+  {
+   "t": 31.933,
+   "name": "tower_door_creak",
+   "lufs_max_m": -25
+  },
+  {
+   "t": 32.833,
+   "name": "stair_steps x14 (inside, muffled)",
+   "lufs_max_m": -31
+  },
+  {
+   "t": 37.233,
+   "name": "lamp_ignite (whoosh + mains hum)",
+   "lufs_max_m": -24
+  },
+  {
+   "t": 42.767,
+   "name": "boat_horn x2",
+   "lufs_max_m": -24
+  },
+  {
+   "t": 0.0,
+   "name": "music_pad_Am_to_C (ducked under voice)",
+   "lufs": -26
+  }
+ ]
+}

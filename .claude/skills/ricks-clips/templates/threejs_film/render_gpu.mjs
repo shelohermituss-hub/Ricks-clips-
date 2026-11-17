@@ -64,7 +64,8 @@ const [FW, FH] = film.size || [1080, 1920], scale = +val('--scale', has('--story
 // GPU: the default launch is the old headless shell, which draws WebGL with SwiftShader (the CPU). The full Chromium in the new headless mode can use the graphics card through ANGLE on Direct3D 11.
 const CLOUD = process.env.CLAUDE_CODE_REMOTE === 'true';   // cloud VM: no GPU, so the software (SwiftShader) path is always used
 const SOFT = has('--software') || CLOUD, GRAB = val('--grab', SOFT ? 'screenshot' : 'canvas');
-const GPU_ARGS = ['--use-angle=d3d11', '--use-gl=angle', '--enable-gpu', '--ignore-gpu-blocklist', '--enable-gpu-rasterization', '--disable-gpu-vsync', '--disable-frame-rate-limit', '--force_high_performance_gpu',
+const GPU_ANGLE = process.env.RICKCLIPS_GPU_ANGLE || (process.platform === 'win32' ? 'd3d11' : 'vulkan');   // cloud 2026-11-17: Linux GPU hosts (RunPod) use ANGLE on Vulkan (or 'gl' = EGL); Windows keeps Direct3D 11
+const GPU_ARGS = ['--use-angle=' + GPU_ANGLE, '--use-gl=angle', ...(GPU_ANGLE === 'vulkan' ? ['--enable-features=Vulkan,VulkanFromANGLE,DefaultANGLEVulkan', '--enable-unsafe-webgpu'] : []), ...(process.platform === 'linux' ? ['--no-sandbox', '--disable-dev-shm-usage'] : []), '--enable-gpu', '--ignore-gpu-blocklist', '--enable-gpu-rasterization', '--disable-gpu-vsync', '--disable-frame-rate-limit', '--force_high_performance_gpu',
   '--disable-background-timer-throttling', '--disable-backgrounding-occluded-windows', '--disable-renderer-backgrounding', '--force-color-profile=srgb'];
 const CHROME = process.env.CHROME_PATH || (CLOUD && fs.existsSync('/usr/bin/google-chrome') ? '/usr/bin/google-chrome' : undefined);
 const CLOUD_ARGS = CLOUD ? ['--no-sandbox', '--disable-dev-shm-usage', '--enable-unsafe-swiftshader'] : [];

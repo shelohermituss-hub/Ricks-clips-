@@ -1,0 +1,1075 @@
+{
+ "title": "LE DERNIER PHARE",
+ "fps": 30,
+ "size": [
+  1080,
+  1920
+ ],
+ "end": 1500,
+ "kit3d": true,
+ "words": "voice/words.json",
+ "camera_idea": {
+  "name": "The keeper's watch",
+  "why": "A child keeps the last light: the camera stays low with her on the rocks, then follows her along the causeway and up the tower, and only rises above the storm when the light is back.",
+  "signature": "The climb is told from outside: the windows light one by one while the camera cranes up the tower."
+ },
+ "cast": {
+  "lina": {
+   "puppet": "form:teengirl",
+   "height": 1.4,
+   "heads_tall": 2.6
+  }
+ },
+ "places": {
+  "coast": {
+   "set": "coast50",
+   "light": "night",
+   "light_over": {
+    "si": 1.25,
+    "ai": 0.85,
+    "amb": "#33406e"
+   },
+   "backdrop": 30,
+   "events": {
+    "out": 534,
+    "run": 842,
+    "climb": 958,
+    "top": 1078,
+    "on": 1126,
+    "levee": 1120,
+    "turn": 1277
+   },
+   "materials": [
+    {
+     "id": "polyhaven_coast_land_rocks_01",
+     "provider": "polyhaven",
+     "license": "CC0",
+     "maps": {
+      "color": "assets/coast_land_rocks_01/diff.jpg",
+      "normal": "assets/coast_land_rocks_01/normal.jpg",
+      "roughness": "assets/coast_land_rocks_01/rough.jpg"
+     },
+     "repeat": [
+      1.5,
+      1.5
+     ],
+     "normalScale": [
+      1.2,
+      1.2
+     ],
+     "target_materials": [
+      "cliff_rock"
+     ]
+    }
+   ]
+  }
+ },
+ "props": {
+  "lighthouse": {
+   "pos": [
+    6.4,
+    14,
+    17.5
+   ]
+  },
+  "lantern": {
+   "held_by": "lina"
+  }
+ },
+ "takes": [
+  {
+   "id": "t_ledge",
+   "place": "coast",
+   "stations": [
+    {
+     "lens": 24,
+     "subject": "lina",
+     "framing": "W",
+     "at": 0,
+     "pos": [
+      -2.1,
+      -1.2,
+      1.0
+     ],
+     "aim": [
+      0.5,
+      1.14,
+      1.05
+     ],
+     "hold": 0.0
+    },
+    {
+     "lens": 30,
+     "subject": "lina",
+     "framing": "M",
+     "at": [
+      "lina",
+      1
+     ],
+     "lead": 3,
+     "via": [
+      [
+       -1.3,
+       -2.3,
+       1.0
+      ]
+     ],
+     "pos": [
+      0.6,
+      -2.0,
+      0.92
+     ],
+     "aim": [
+      0.0,
+      0.0,
+      0.92
+     ],
+     "word": "lina",
+     "hold": 0.4,
+     "travel": 3.6
+    },
+    {
+     "lens": 30,
+     "subject": "lina",
+     "framing": "M",
+     "at": [
+      "malade",
+      1
+     ],
+     "lead": 3,
+     "pos": [
+      -0.9,
+      -2.0,
+      0.75
+     ],
+     "aim": [
+      0.1,
+      0.2,
+      0.95
+     ],
+     "word": "malade",
+     "hold": 0.3,
+     "travel": 1.3
+    },
+    {
+     "lens": 30,
+     "subject": "lina",
+     "framing": "O",
+     "at": [
+      "bateau",
+      1
+     ],
+     "lead": 3,
+     "pos": [
+      -1.5,
+      -0.7,
+      1.3
+     ],
+     "aim": [
+      -12.0,
+      22.0,
+      0.0
+     ],
+     "word": "bateau",
+     "hold": 0.4,
+     "travel": 1.6
+    },
+    {
+     "lens": 24,
+     "subject": "lina",
+     "framing": "P",
+     "at": [
+      "foudre",
+      1
+     ],
+     "lead": 3,
+     "pos": [
+      -1.8,
+      -2.6,
+      0.55
+     ],
+     "aim": [
+      2.5,
+      6.0,
+      4.4
+     ],
+     "word": "foudre",
+     "hold": 0.6,
+     "travel": 1.3
+    },
+    {
+     "lens": 24,
+     "subject": "lina",
+     "framing": "P",
+     "at": [
+      "lumière",
+      1
+     ],
+     "lead": 3,
+     "pos": [
+      -2.6,
+      -1.4,
+      1.6
+     ],
+     "aim": [
+      1.8,
+      6.0,
+      3.6
+     ],
+     "word": "lumière",
+     "hold": 0.3,
+     "travel": 1.3
+    },
+    {
+     "lens": 30,
+     "subject": "lina",
+     "framing": "O",
+     "at": [
+      "rochers",
+      1
+     ],
+     "lead": 3,
+     "pos": [
+      -2.3,
+      -0.5,
+      1.4
+     ],
+     "aim": [
+      -11.0,
+      21.0,
+      0.2
+     ],
+     "word": "rochers",
+     "travel": 1.4
+    }
+   ]
+  },
+  {
+   "id": "t_run",
+   "place": "coast",
+   "stations": [
+    {
+     "lens": 30,
+     "subject": "lina",
+     "framing": "M",
+     "at": [
+      "alors",
+      1
+     ],
+     "lead": 0,
+     "pos": [
+      0.35,
+      -1.9,
+      0.95
+     ],
+     "aim": [
+      0.0,
+      0.0,
+      0.95
+     ],
+     "word": "alors",
+     "hold": 0.3
+    },
+    {
+     "lens": 24,
+     "subject": "lina",
+     "framing": "W",
+     "at": [
+      "digue",
+      1
+     ],
+     "lead": 6,
+     "pos": [
+      2.7,
+      0.3,
+      1.5
+     ],
+     "aim": [
+      0.6,
+      2.3,
+      0.9
+     ],
+     "word": "digue",
+     "hold": 0.1,
+     "travel": 0.8
+    },
+    {
+     "lens": 24,
+     "subject": "lina",
+     "framing": "W",
+     "at": [
+      "pluie",
+      1
+     ],
+     "lead": 2,
+     "pos": [
+      4.6,
+      2.9,
+      2.1
+     ],
+     "aim": [
+      2.2,
+      5.0,
+      1.5
+     ],
+     "word": "pluie",
+     "travel": 0.7
+    },
+    {
+     "lens": 24,
+     "subject": "lina",
+     "framing": "W",
+     "at": 940,
+     "lead": 0,
+     "pos": [
+      7.2,
+      8.0,
+      3.9
+     ],
+     "aim": [
+      5.0,
+      9.8,
+      3.6
+     ],
+     "travel": 1.4
+    }
+   ]
+  },
+  {
+   "id": "t_climb",
+   "place": "coast",
+   "stations": [
+    {
+     "lens": 20,
+     "subject": "lina",
+     "framing": "P",
+     "at": [
+      "grimpe",
+      1
+     ],
+     "lead": 4,
+     "pos": [
+      3.4,
+      6.4,
+      2.4
+     ],
+     "aim": [
+      6.4,
+      14.0,
+      11.0
+     ],
+     "hold": 0.2
+    },
+    {
+     "lens": 20,
+     "subject": "lina",
+     "framing": "P",
+     "at": [
+      "une",
+      2
+     ],
+     "lead": 0,
+     "pos": [
+      3.6,
+      7.0,
+      11.5
+     ],
+     "aim": [
+      6.4,
+      14.0,
+      16.0
+     ],
+     "travel": 1.6
+    }
+   ]
+  },
+  {
+   "id": "t_top",
+   "place": "coast",
+   "stations": [
+    {
+     "lens": 30,
+     "subject": "lina",
+     "framing": "M",
+     "at": [
+      "tout",
+      1
+     ],
+     "lead": 4,
+     "pos": [
+      5.3,
+      9.7,
+      17.25
+     ],
+     "aim": [
+      6.4,
+      12.55,
+      17.35
+     ],
+     "word": "tout",
+     "hold": 0.3
+    },
+    {
+     "lens": 24,
+     "subject": "lina",
+     "framing": "P",
+     "at": [
+      "faisceau",
+      1
+     ],
+     "lead": 3,
+     "pos": [
+      1.6,
+      4.0,
+      19.6
+     ],
+     "aim": [
+      6.1,
+      12.2,
+      17.1
+     ],
+     "word": "faisceau",
+     "travel": 1.2
+    },
+    {
+     "lens": 24,
+     "subject": "lina",
+     "framing": "O",
+     "at": [
+      "vire",
+      1
+     ],
+     "lead": 3,
+     "pos": [
+      0.6,
+      6.2,
+      20.2
+     ],
+     "aim": [
+      -9.5,
+      17.5,
+      0.0
+     ],
+     "word": "vire",
+     "travel": 1.2
+    }
+   ]
+  },
+  {
+   "id": "t_final",
+   "place": "coast",
+   "stations": [
+    {
+     "lens": 28,
+     "subject": "lina",
+     "framing": "P",
+     "at": [
+      "cette",
+      2
+     ],
+     "lead": 4,
+     "pos": [
+      -24.0,
+      -13.0,
+      2.2
+     ],
+     "aim": [
+      0.0,
+      20.0,
+      8.0
+     ],
+     "word": "cette",
+     "hold": 0.2,
+     "creep": 0.0005
+    },
+    {
+     "lens": 28,
+     "subject": "lina",
+     "framing": "P",
+     "at": 1499,
+     "lead": 0,
+     "pos": [
+      -36.0,
+      -26.0,
+      9.0
+     ],
+     "aim": [
+      0.0,
+      20.0,
+      9.0
+     ],
+     "travel": 3.0
+    }
+   ]
+  }
+ ],
+ "kicks": [
+  {
+   "at": [
+    "foudre",
+    1,
+    4
+   ],
+   "amp": 0.3
+  }
+ ],
+ "acts": [
+  {
+   "who": "lina",
+   "at": 0,
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "view": "side",
+   "dir": 1,
+   "pose": "m:lantern/A+held",
+   "face": "k:worried"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "lina",
+    1
+   ],
+   "view": "front",
+   "face": "k:proud"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "malade",
+    1
+   ],
+   "face": "k:sad"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "large",
+    1
+   ],
+   "view": "side",
+   "dir": -1,
+   "face": "k:worried"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "foudre",
+    1
+   ],
+   "pose": "m:lantern/C+held",
+   "face": "k:scared",
+   "punch": true,
+   "punch_s": 0.4
+  },
+  {
+   "who": "lina",
+   "at": [
+    "rochers",
+    1
+   ],
+   "face": "k:nervous"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "alors",
+    1
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:lantern/B+held",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "court",
+    1
+   ],
+   "view": "side",
+   "dir": 1,
+   "pose": "m:run/A",
+   "pos": [
+    0.5,
+    2.0,
+    0
+   ],
+   "move_s": 0.6,
+   "linear": true
+  },
+  {
+   "who": "lina",
+   "at": 860,
+   "pos": [
+    6.1,
+    11.8,
+    3.4
+   ],
+   "move_s": 3.4,
+   "linear": true
+  },
+  {
+   "who": "lina",
+   "at": [
+    "grimpe",
+    1
+   ],
+   "exit": true
+  },
+  {
+   "who": "lina",
+   "at": 960,
+   "pos": [
+    6.4,
+    12.55,
+    16.65
+   ],
+   "move_s": 0.1,
+   "linear": true
+  },
+  {
+   "who": "lina",
+   "at": [
+    "tout",
+    1
+   ],
+   "visible": true,
+   "view": "front",
+   "dir": 1,
+   "pose": "m:lantern/B+held",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "rallume",
+    1
+   ],
+   "face": "k:surprised"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "faisceau",
+    1
+   ],
+   "face": "k:happy"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "vire",
+    1
+   ],
+   "face": "k:excited"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "brillé",
+    1
+   ],
+   "face": "k:proud"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "garde",
+    1
+   ],
+   "face": "k:proud"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "grand-père",
+    1
+   ],
+   "face": "k:happy"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "soir",
+    1
+   ],
+   "face": "k:worried"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "lutte",
+    1
+   ],
+   "face": "k:scared"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "temps",
+    1
+   ],
+   "face": "k:laugh"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "petite",
+    1
+   ],
+   "face": "k:shy"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "Cette nuit-là, la pire tempête du siècle frappe l'île.",
+   "words": [
+    0,
+    8
+   ],
+   "subject": "lina"
+  },
+  {
+   "text": "Lina, onze ans, garde le dernier phare de la côte avec son grand-père.",
+   "words": [
+    9,
+    21
+   ],
+   "subject": "lina"
+  },
+  {
+   "text": "Mais ce soir, papi est malade, et au large, un bateau de pêche lutte contre les vagues.",
+   "words": [
+    22,
+    38
+   ],
+   "subject": "lina"
+  },
+  {
+   "text": "Soudain, la foudre frappe la tour, et le phare s'éteint.",
+   "words": [
+    39,
+    48
+   ],
+   "subject": "lina"
+  },
+  {
+   "text": "Sans lumière, le bateau va se briser sur les rochers.",
+   "words": [
+    49,
+    58
+   ],
+   "subject": "lina"
+  },
+  {
+   "text": "Alors Lina prend sa lanterne, et court sur la digue, sous la pluie.",
+   "words": [
+    59,
+    71
+   ],
+   "subject": "lina"
+  },
+  {
+   "text": "Elle grimpe les cent marches, une à une.",
+   "words": [
+    72,
+    79
+   ],
+   "subject": "lina"
+  },
+  {
+   "text": "Tout en haut, elle rallume la grande lampe.",
+   "words": [
+    80,
+    87
+   ],
+   "subject": "lina"
+  },
+  {
+   "text": "Le faisceau balaie la mer, et le bateau vire, juste à temps.",
+   "words": [
+    88,
+    99
+   ],
+   "subject": "lina"
+  },
+  {
+   "text": "Cette nuit-là, le dernier phare a brillé grâce à une petite fille.",
+   "words": [
+    100,
+    111
+   ],
+   "subject": "lina"
+  }
+ ],
+ "fx": [
+  {
+   "at": [
+    "phare",
+    1
+   ],
+   "kind": "glow",
+   "pos": [
+    6.4,
+    14,
+    17.5
+   ]
+  },
+  {
+   "at": [
+    "bateau",
+    1
+   ],
+   "kind": "shine",
+   "pos": [
+    -22.5,
+    39.73,
+    0.2
+   ]
+  },
+  {
+   "at": [
+    "vagues",
+    1
+   ],
+   "kind": "puff",
+   "pos": [
+    -1.2,
+    3.8,
+    -0.6
+   ]
+  },
+  {
+   "at": [
+    "foudre",
+    1
+   ],
+   "kind": "hit",
+   "pos": [
+    6.4,
+    14,
+    20.8
+   ],
+   "size": 1.6
+  },
+  {
+   "at": [
+    "rochers",
+    1
+   ],
+   "kind": "puff",
+   "pos": [
+    -9.0,
+    15.5,
+    -0.8
+   ],
+   "size": 1.6
+  },
+  {
+   "at": [
+    "lanterne",
+    1
+   ],
+   "kind": "glow",
+   "on": "lantern"
+  },
+  {
+   "at": [
+    "digue",
+    1
+   ],
+   "kind": "puff",
+   "pos": [
+    3.3,
+    6.9,
+    0.9
+   ]
+  },
+  {
+   "at": [
+    "lampe",
+    1
+   ],
+   "kind": "glow",
+   "pos": [
+    6.4,
+    14,
+    17.5
+   ],
+   "size": 1.8
+  },
+  {
+   "at": [
+    "faisceau",
+    1
+   ],
+   "kind": "shine",
+   "pos": [
+    6.4,
+    14,
+    17.5
+   ],
+   "size": 1.6
+  },
+  {
+   "at": [
+    "vire",
+    1
+   ],
+   "kind": "puff",
+   "pos": [
+    -10.82,
+    18.86,
+    0.2
+   ]
+  },
+  {
+   "at": [
+    "brillé",
+    1
+   ],
+   "kind": "glint",
+   "pos": [
+    6.4,
+    14,
+    17.5
+   ],
+   "size": 1.4
+  }
+ ],
+ "moods": [
+  {
+   "at": [
+    "tempête",
+    1
+   ],
+   "look": "cold_blue"
+  },
+  {
+   "at": [
+    "phare",
+    1
+   ],
+   "look": "warm_glow"
+  },
+  {
+   "at": [
+    "malade",
+    1
+   ],
+   "look": "dark"
+  },
+  {
+   "at": [
+    "vagues",
+    1
+   ],
+   "look": "cold_blue"
+  },
+  {
+   "at": [
+    "foudre",
+    1
+   ],
+   "look": "flash_white"
+  },
+  {
+   "at": [
+    "rochers",
+    1
+   ],
+   "look": "flash_red"
+  },
+  {
+   "at": [
+    "alors",
+    1
+   ],
+   "look": "spot_dark"
+  },
+  {
+   "at": [
+    "lanterne",
+    1
+   ],
+   "look": "warm_up"
+  },
+  {
+   "at": [
+    "pluie",
+    1
+   ],
+   "look": "cold_blue"
+  },
+  {
+   "at": [
+    "lampe",
+    1
+   ],
+   "look": "warm_gold"
+  },
+  {
+   "at": [
+    "brillé",
+    1
+   ],
+   "look": "warm_gold"
+  }
+ ],
+ "sound": [
+  {
+   "at": [
+    "foudre",
+    1
+   ],
+   "name": "thunder_close"
+  },
+  {
+   "at": [
+    "court",
+    1
+   ],
+   "name": "run_steps_wet"
+  },
+  {
+   "at": [
+    "grimpe",
+    1
+   ],
+   "name": "door_and_stairs"
+  },
+  {
+   "at": [
+    "rallume",
+    1
+   ],
+   "name": "lamp_ignite_hum"
+  },
+  {
+   "at": [
+    "vire",
+    1
+   ],
+   "name": "boat_horn"
+  },
+  {
+   "at": [
+    "brillé",
+    1
+   ],
+   "name": "music_resolve"
+  }
+ ],
+ "motion_polish": {
+  "enabled": true,
+  "head_follow": 0.14,
+  "hand_follow": 0.08,
+  "breath": 0.55,
+  "breath_rate": 2.4,
+  "auto_blink": true
+ }
+}

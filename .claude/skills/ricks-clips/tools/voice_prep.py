@@ -7,6 +7,8 @@ os.makedirs(out, exist_ok=True)
 wav = os.path.join(out, "voice.wav")
 # 1) cut only silence: any pause longer than 0.28 s is shortened to 0.18 s (true silence below -42 dB); 2) atempo
 af = f"silenceremove=start_periods=1:start_threshold=-42dB:start_silence=0.05,silenceremove=stop_periods=-1:stop_duration=0.28:stop_threshold=-42dB:stop_silence=0.18,atempo={tempo},areverse,silenceremove=start_periods=1:start_threshold=-42dB:start_silence=0.25,areverse"
+if os.environ.get("RICKCLIPS_VOICE_KEEP_PAUSES") == "1":   # cloud 2026-11-17: slow, contemplative films keep the narrator's pauses (only lead/tail silence and atempo)
+    af = f"silenceremove=start_periods=1:start_threshold=-42dB:start_silence=0.05,atempo={tempo},areverse,silenceremove=start_periods=1:start_threshold=-42dB:start_silence=0.25,areverse"
 subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", raw, "-af", af, "-ar", "48000", "-ac", "1", wav], check=True)
 from faster_whisper import WhisperModel
 # Model and language: RICKCLIPS_WHISPER_MODEL (default small.en, English films) and RICKCLIPS_WHISPER_LANG (e.g. fr; needs a
