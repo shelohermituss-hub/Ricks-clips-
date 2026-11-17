@@ -17,9 +17,9 @@ a = sys.argv[1:]; opt = lambda k, d: a[a.index(k) + 1] if k in a else d
 if a[0] == "create":
     ep, gpu, br, key = a[1], opt("--gpu", "NVIDIA GeForce RTX 4090"), opt("--branch", "main"), secrets.token_hex(16)
     boot = ("apt-get update -qq && apt-get install -y -qq git ca-certificates >/dev/null 2>&1; git clone -q --depth 1 -b %s %s /root/repo "
-            "&& bash /root/repo/.claude/skills/ricks-clips/scripts/runpod/render_pod.sh; sleep infinity") % (br, REPO)
+            "&& bash /root/repo/.claude/skills/ricks-clips/scripts/runpod/%s; sleep infinity") % (br, REPO, "gpu_diag.sh" if "--diag" in a else "render_pod.sh")
     inp = {"cloudType": opt("--cloud", "ALL"), "gpuCount": 1, "volumeInGb": 0, "containerDiskInGb": 60, "minVcpuCount": 8, "minMemoryInGb": 30,
-           "gpuTypeId": gpu, "name": "ricksclips-render", "imageName": opt("--image", "runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04"),
+           "gpuTypeId": gpu, "name": "ricksclips-diag" if "--diag" in a else "ricksclips-render", "imageName": opt("--image", "runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04"),
            "dockerArgs": "bash -c '%s'" % boot, "ports": "8000/http", "volumeMountPath": "/workspace",
            "env": [{"key": "RICKCLIPS_EPISODE", "value": ep}, {"key": "RICKCLIPS_PUB_KEY", "value": key}, {"key": "RICKCLIPS_MAX_HOURS", "value": opt("--max-hours", "3")},
                    {"key": "NVIDIA_DRIVER_CAPABILITIES", "value": "all"}]}
