@@ -76,6 +76,15 @@ Never commit `.env`, API keys, OAuth tokens, cookies or BlenderKit credentials. 
 
 Cloud Environment variables are readable by sessions using that environment. Use a private personal environment for credentials; never put personal credentials in a shared environment.
 
+## Voice and transcription in the cloud (measured 2026-11-17)
+
+- faster-whisper weights are cached in `hf_cache/` (git-ignored; `HF_HOME` is set by the SessionStart hook through `CLAUDE_ENV_FILE`). `tools/voice_prep.py` reads `RICKCLIPS_WHISPER_MODEL` (default `small.en`) and `RICKCLIPS_WHISPER_LANG` (e.g. `fr` with the multilingual `small`). If the model cannot be downloaded the tool stops with the list of hosts to allow.
+- Offline TTS fallback when no Fish Audio key is configured: Piper (`piper-tts` in `requirements-cloud.txt`), French voice `hf_cache/piper/fr_FR-siwis-medium.onnx` (from `huggingface.co/rhasspy/piper-voices`):
+  `echo "texte" | .venv/bin/python -m piper -m hf_cache/piper/fr_FR-siwis-medium.onnx -f episodes/<film>/voice/raw.wav`
+  then `HF_HOME=$PWD/hf_cache RICKCLIPS_WHISPER_MODEL=small RICKCLIPS_WHISPER_LANG=fr .venv/bin/python tools/voice_prep.py episodes/<film>/voice/raw.wav 1.0 episodes/<film>/voice`.
+- Motion-library poses: `m:<id>+held` draws only what the hands hold (e.g. the lantern) without the move's 2D backdrop; `+props` keeps the old behaviour (backdrop included, meant for the motion previewer).
+- Worked cloud example from voice to MP4: `episodes/le-dernier-phare/` (see its `README.md`).
+
 ## Outputs
 
 Episodes, assets, reports and renders live under this Skill's `episodes/`, `library/` and `out/` folders in the cloned GitHub repository. Cloud sessions work on a branch; review the changes before merging. Do not commit `.venv`, `node_modules`, `.cloud-deps.sha256`, model weights or secrets. Keep the source Asset Hub licence/provenance restrictions in force.

@@ -1,15 +1,39 @@
-# Add to Cloud Environment > Network access > Limited > Allowed domains.
+# Add to Cloud Environment > Network access > Limited > Allowed domains (keep "Allow package managers" on).
 # npm/PyPI/GitHub package registries are in Claude's default allowlist.
-# Blender 5.2.2 LTS download used by scripts/cloud_environment_setup.sh
+# Exact hosts measured on 2026-11-17 (redirects included). Each was tested with a real request.
+
+# Blender 5.2.2 LTS download (scripts/cloud_environment_setup.sh)
 download.blender.org
-api.sketchfab.com
-*.sketchfab.com
+
+# Poly Haven (public API, CC0): search + file downloads
 api.polyhaven.com
-*.polyhaven.com
+dl.polyhaven.org
+polyhaven.com
+
+# ambientCG (public API, CC0): search; downloads redirect to the struffelproductions CDN
 ambientcg.com
-*.ambientcg.com
-fab.com
-*.fab.com
-blenderkit.com
-*.blenderkit.com
+acg-download.struffelproductions.com
+
+# Sketchfab: search is public; download needs a Network Secret (Authorization: Bearer <OAuth token>) for api.sketchfab.com
+api.sketchfab.com
+sketchfab.com
+media.sketchfab.com
+# the signed download URL returned by the API may point at another CDN host: add the exact host shown in the proxy error
+
+# BlenderKit: search is public (no login); download needs BLENDERKIT_API_KEY or the add-on login
+www.blenderkit.com
+
+# Fab: no API. tools/asset_hub.py only builds a search link; acquisition stays manual (Epic account)
+www.fab.com
+
+# Fish Audio TTS: needs a Network Secret (Authorization: Bearer <key>) for api.fish.audio
 api.fish.audio
+
+# Hugging Face: faster-whisper weights (tools/voice_prep.py) and Piper voices (offline TTS fallback)
+huggingface.co
+cdn-lfs.huggingface.co
+cdn-lfs.hf.co
+us.aws.cdn.hf.co
+cas-bridge.xethub.hf.co
+cas-server.xethub.hf.co
+transfer.xethub.hf.co

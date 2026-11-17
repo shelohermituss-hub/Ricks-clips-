@@ -1,0 +1,45 @@
+{
+ "duration_s": 8.0,
+ "sample_rate": 48000,
+ "channels": 2,
+ "integrated_lufs": -15.01,
+ "true_peak_dbtp": -1.0,
+ "voice_lufs": -16.0,
+ "cues": [
+  {
+   "t": 0.0,
+   "name": "rain_bed",
+   "lufs": -31
+  },
+  {
+   "t": 0.0,
+   "name": "surf_bed",
+   "lufs": -30
+  },
+  {
+   "t": 0.0,
+   "name": "storm_wind",
+   "lufs": -33
+  },
+  {
+   "t": 2.237,
+   "name": "thunder_close (crack + rumble)",
+   "lufs_max_m": -17
+  },
+  {
+   "t": 3.733,
+   "name": "lantern_creak",
+   "lufs_max_m": -27
+  },
+  {
+   "t": 4.967,
+   "name": "lamp_ignite (whoosh + mains hum)",
+   "lufs_max_m": -24
+  },
+  {
+   "t": 0.0,
+   "name": "music_pad_Am_to_C (ducked under voice)",
+   "lufs": -26
+  }
+ ]
+}

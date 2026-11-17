@@ -1,0 +1,12 @@
+{
+ "duration_s": 6.07,
+ "words": 23,
+ "words_per_s_overall": 3.79,
+ "words_per_s_talking": 4.51,
+ "sentence_gap_median": 0.36,
+ "longest_gap": 0.42,
+ "gaps_over_0_5": 0,
+ "pause_share_pct": 11.9,
+ "tempo": 1.0,
+ "transcript": "Cette nuit -l\u00e0, le dernier phare de la c\u00f4te s 'est \u00e9teint, alors Lina a lev\u00e9 sa lanterne et la lumi\u00e8re est revenue."
+}

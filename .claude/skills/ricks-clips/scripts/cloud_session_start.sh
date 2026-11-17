@@ -4,6 +4,8 @@ set -u
 [ "${CLAUDE_CODE_REMOTE:-}" = "true" ] || exit 0
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VENV="$ROOT/.venv"; MARKER="$ROOT/.cloud-deps.sha256"
+# Model caches stay inside the skill (git-ignored hf_cache/): faster-whisper weights and Piper voices.
+if [ -n "${CLAUDE_ENV_FILE:-}" ]; then echo "export HF_HOME=\"$ROOT/hf_cache\"" >> "$CLAUDE_ENV_FILE"; fi
 REQ="$ROOT/requirements-cloud.txt"; PKG="$ROOT/templates/threejs_film/package.json"; LOCK="$ROOT/templates/threejs_film/package-lock.json"
 HASH="$(sha256sum "$REQ" "$PKG" "$LOCK" "${BASH_SOURCE[0]}" 2>/dev/null | sha256sum | awk '{print $1}')"
 if [ -n "$HASH" ] && [ -f "$MARKER" ] && [ "$(cat "$MARKER" 2>/dev/null)" = "$HASH" ] && [ -x "$VENV/bin/python" ] && [ -d "$ROOT/templates/threejs_film/node_modules/playwright" ] && [ -d "$ROOT/templates/threejs_film/node_modules/three" ]; then

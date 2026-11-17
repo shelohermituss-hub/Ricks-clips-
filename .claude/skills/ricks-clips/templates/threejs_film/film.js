@@ -359,7 +359,7 @@ window.setup = async (cfg) => {
   }
   R.fx = (film.fx || []).map(e => ({ ...e, f: fr(e.at) })); R.moods = (film.moods || []).map(e => ({ ...e, f: fr(e.at) })); R.trans = (film.transitions || []).map(e => ({ ...e, f: fr(e.at) }));
   R.hl = (film.highlights || []).map(e => ({ ...e, f: fr(e.at), n: Math.max(2, Math.round((e.s ?? 1.2) * (film.fps || 30))) }));
-  return { frames: R.end, fps: R.fps, W, H, cast: Object.keys(R.cards), places: Object.keys(R.places), asset_errors: Object.entries(R.places).flatMap(([place, p]) => [...(p.assetReport?.failed || []), ...(p.materialReport?.failed || [])].map(x => ({ place, ...x }))) };
+  return { frames: R.end, fps: R.fps, W, H, cast: Object.keys(R.cards), places: Object.keys(R.places), assets_applied: Object.entries(R.places).flatMap(([place, p]) => [...(p.assetReport?.loaded || p.assetReport?.applied || []), ...(p.materialReport?.applied || [])].map(x => ({ place, id: x.id, matched_meshes: x.matched_meshes, channels: x.channels }))), asset_errors: Object.entries(R.places).flatMap(([place, p]) => [...(p.assetReport?.failed || []), ...(p.materialReport?.failed || [])].map(x => ({ place, ...x }))) };
 };
 
 function toonMat(color, opt = {}) {                                                  // 3-step toon shading shared by every set

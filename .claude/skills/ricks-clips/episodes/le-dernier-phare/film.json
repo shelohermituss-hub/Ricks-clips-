@@ -1,0 +1,350 @@
+{
+ "title": "LE DERNIER PHARE (cloud validation test, 2026-11-17)",
+ "fps": 30,
+ "size": [
+  1080,
+  1920
+ ],
+ "end": 240,
+ "kit3d": true,
+ "words": "voice/words.json",
+ "camera_idea": {
+  "name": "The keeper's look",
+  "why": "The lighthouse dies and a child relights it with one small lantern: the camera starts low and wide behind her, as small as she is under the storm, pushes in to her face when she decides, then sinks to a hero angle so the returning beam passes over her.",
+  "signature": "On 'lumiere' the camera drops and tilts up while the beam sweeps across the lens."
+ },
+ "cast": {
+  "lina": {
+   "puppet": "form:teengirl",
+   "height": 1.4,
+   "heads_tall": 2.6
+  }
+ },
+ "places": {
+  "coast": {
+   "set": "coast",
+   "light": "night",
+   "light_over": {
+    "si": 1.25,
+    "ai": 0.85,
+    "amb": "#33406e"
+   },
+   "backdrop": 30,
+   "events": {
+    "out": 68,
+    "levee": 112,
+    "on": 152
+   },
+   "materials": [
+    {
+     "id": "polyhaven_coast_land_rocks_01",
+     "provider": "polyhaven",
+     "license": "CC0",
+     "maps": {
+      "color": "assets/coast_land_rocks_01/diff.jpg",
+      "normal": "assets/coast_land_rocks_01/normal.jpg",
+      "roughness": "assets/coast_land_rocks_01/rough.jpg"
+     },
+     "repeat": [
+      1.5,
+      1.5
+     ],
+     "normalScale": [
+      1.2,
+      1.2
+     ],
+     "target_materials": [
+      "cliff_rock"
+     ]
+    }
+   ]
+  }
+ },
+ "props": {
+  "lighthouse": {
+   "pos": [
+    6.4,
+    14,
+    17.5
+   ]
+  },
+  "lantern": {
+   "held_by": "lina"
+  }
+ },
+ "takes": [
+  {
+   "id": "t1",
+   "place": "coast",
+   "stations": [
+    {
+     "at": 0,
+     "pos": [
+      -1.2,
+      -2.9,
+      1.15
+     ],
+     "aim": [
+      0.8,
+      2.6,
+      1.4
+     ],
+     "lens": 24,
+     "subject": "lina",
+     "framing": "W",
+     "shows": [
+      "lighthouse"
+     ],
+     "hold": 0.0
+    },
+    {
+     "at": [
+      "éteint",
+      1
+     ],
+     "lead": 10,
+     "pos": [
+      -1.0,
+      -2.6,
+      1.1
+     ],
+     "aim": [
+      0.8,
+      2.6,
+      1.45
+     ],
+     "lens": 24,
+     "subject": "lina",
+     "framing": "W",
+     "shows": [
+      "lighthouse"
+     ],
+     "word": "éteint",
+     "hold": 0.2
+    },
+    {
+     "at": [
+      "lina",
+      1
+     ],
+     "lead": 4,
+     "pos": [
+      0.6,
+      -2.0,
+      0.92
+     ],
+     "aim": [
+      0.0,
+      0.0,
+      0.92
+     ],
+     "lens": 30,
+     "subject": "lina",
+     "framing": "M",
+     "shows": [
+      "lantern"
+     ],
+     "word": "lina",
+     "hold": 0.6,
+     "travel": 1.0
+    },
+    {
+     "at": [
+      "lumière",
+      1
+     ],
+     "lead": 18,
+     "pos": [
+      -1.0,
+      -2.45,
+      0.75
+     ],
+     "aim": [
+      -0.11,
+      0.07,
+      1.15
+     ],
+     "lens": 24,
+     "subject": "lina",
+     "framing": "W",
+     "shows": [
+      "lighthouse"
+     ],
+     "word": "lumière",
+     "travel": 1.0
+    }
+   ]
+  }
+ ],
+ "kicks": [
+  {
+   "at": [
+    "éteint",
+    1
+   ],
+   "amp": 0.5
+  }
+ ],
+ "acts": [
+  {
+   "who": "lina",
+   "at": 0,
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "view": "side",
+   "dir": 1,
+   "pose": "m:lantern/A+held",
+   "face": "k:worried"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "éteint",
+    1
+   ],
+   "pose": "m:lantern/C+held",
+   "face": "k:scared",
+   "punch": true,
+   "punch_s": 0.4
+  },
+  {
+   "who": "lina",
+   "at": [
+    "lina",
+    1
+   ],
+   "view": "front",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "levé",
+    1
+   ],
+   "pose": "m:lantern/B+held",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "lumière",
+    1
+   ],
+   "face": "k:surprised"
+  },
+  {
+   "who": "lina",
+   "at": [
+    "revenue",
+    1
+   ],
+   "face": "k:proud"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "Cette nuit-là, le dernier phare de la côte s'est éteint.",
+   "words": [
+    0,
+    11
+   ],
+   "subject": "lina",
+   "show": [
+    "lighthouse"
+   ],
+   "nouns": [
+    {
+     "word": "phare",
+     "show": "lighthouse"
+    }
+   ]
+  },
+  {
+   "text": "Alors Lina a levé sa lanterne, et la lumière est revenue.",
+   "words": [
+    12,
+    22
+   ],
+   "subject": "lina",
+   "nouns": [
+    {
+     "word": "lanterne",
+     "show": "lantern"
+    },
+    {
+     "word": "lumière",
+     "show": "lighthouse"
+    }
+   ]
+  }
+ ],
+ "fx": [
+  {
+   "at": [
+    "éteint",
+    1
+   ],
+   "kind": "lightning_strike",
+   "on": "lighthouse"
+  },
+  {
+   "at": [
+    "lumière",
+    1
+   ],
+   "kind": "glow",
+   "on": "lighthouse"
+  }
+ ],
+ "moods": [
+  {
+   "at": [
+    "éteint",
+    1
+   ],
+   "look": "flash_blue"
+  },
+  {
+   "at": [
+    "lumière",
+    1
+   ],
+   "look": "warm_up"
+  }
+ ],
+ "sound": [
+  {
+   "at": [
+    "éteint",
+    1
+   ],
+   "name": "thunder_close"
+  },
+  {
+   "at": [
+    "levé",
+    1
+   ],
+   "name": "lantern_creak"
+  },
+  {
+   "at": [
+    "lumière",
+    1
+   ],
+   "name": "lamp_ignite_hum"
+  }
+ ],
+ "motion_polish": {
+  "enabled": true,
+  "head_follow": 0.14,
+  "hand_follow": 0.08,
+  "breath": 0.55,
+  "breath_rate": 2.4,
+  "auto_blink": true
+ }
+}

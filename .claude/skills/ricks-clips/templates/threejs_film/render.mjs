@@ -50,6 +50,8 @@ const browser = await chromium.launch({ ...(CHROME ? { executablePath: CHROME } 
 page.on('console', m => { if ((m.type() === 'warning' || m.type() === 'error') && !/GL Driver Message/.test(m.text())) console.log('[page]', m.text()); }); page.on('pageerror', e => console.log('[page error]', e.message));
 await page.goto(`${BASE}/kit/film_page.html`);
 const info = await page.evaluate(c => window.setup(c), { film: '/ep/' + path.basename(FILM), W, H, captions: !has('--no-captions'), sheets: SHEETS, epSets: fs.existsSync(path.join(EP, 'sets')) ? fs.readdirSync(path.join(EP, 'sets')) : [] });
+for (const a of info.assets_applied || []) console.log(`asset: ${a.place} ${a.id || a.asset_id || ''} applied${a.matched_meshes ? ' to ' + a.matched_meshes + ' meshes' : ''}${a.channels ? ' (' + a.channels.join(', ') + ')' : ''}`);   // cloud 2026-11-17: Asset Hub results were returned but never printed
+for (const e of info.asset_errors || []) console.error(`ASSET ERROR: ${e.place} ${e.id || e.asset_id || e.file || ''}: ${e.error || e.message || JSON.stringify(e)}`);
 const stage = page.locator('#stage');
 const shot = async (f, file) => { await page.evaluate(f => window.renderFrame(f), f); await stage.screenshot({ path: file }); };
 console.log(`film: ${info.frames} frames at ${info.fps} fps, ${W}x${H}, cast ${info.cast.join(', ')}`);

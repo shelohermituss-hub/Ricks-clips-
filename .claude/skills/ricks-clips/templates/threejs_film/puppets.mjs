@@ -96,9 +96,9 @@ function backHair(key, shape) {
     return [`<path d="${C.smooth(HP)}" fill="${hf}" stroke="${C.INK}" stroke-width="5" stroke-linejoin="round"/>`, ...strands, ...extra]; };
 }
 
-// ---- MOTION LIBRARY BRIDGE (2026-11-11). A pose "m:<id>[@offset | @=frozen time][+props]" plays a move from templates/motion_styles on ANY puppet (cast or form):
+// ---- MOTION LIBRARY BRIDGE (2026-11-11). A pose "m:<id>[@offset | @=frozen time][+props | +held]" plays a move from templates/motion_styles on ANY puppet (cast or form):
 // <id> = a library id (hammer/A, sleep/B, walk/A ...) or "<module>[#export]/<style>". The move gives view, body lean, planted bending legs, hands and head tilt;
-// the film keeps the face (CB: faces change on the word). The move's own drawn props (post, chair, hammer) are left out unless "+props": the film's props are 3D.
+// the film keeps the face (CB: faces change on the word). The move's own drawn props (post, chair, hammer) are left out unless "+props": the film's props are 3D. "+held" (cloud 2026-11-17) = only the things in the hands (a lantern), without the move's 2D backdrop (back), which would show as a rectangle in a 3D set.
 // Same drawing rules as motion_styles/rig.mjs drawPose, but on the film's character and in card pixels.
 const MG = 1010, CENTRE = /^(walk|run|crawl|sneak|carry|push|bike|dragged|queue)\b/;
 const rotP = (p, deg, c) => { const r = deg * Math.PI / 180, s = Math.sin(r), k = Math.cos(r), dx = p[0] - c[0], dy = p[1] - c[1]; return [c[0] + dx * k - dy * s, c[1] + dx * s + dy * k]; };
@@ -112,7 +112,7 @@ function chOf(entry) {
 function moveOf(entry, st) {
   const who = String(entry && (entry.id || entry.name || entry.puppet) || 'character');
   if (!M.motion || !/^m:/.test(st.pose || '')) return null;
-  const m = /^m:([^@+]+)(?:@(=?)([-\d.]+))?(\+props)?/.exec(st.pose), id = m[1], e = M.motion.LIB.find(x => x.id === id), k = id.lastIndexOf('/');
+  const m = /^m:([^@+]+)(?:@(=?)([-\d.]+))?(\+props|\+held)?/.exec(st.pose), id = m[1], e = M.motion.LIB.find(x => x.id === id), k = id.lastIndexOf('/');
   const [mn, ex = 'default'] = (e ? e.module : id.slice(0, k)).split('#'), style = e ? e.style : id.slice(k + 1), mod = M.motion.mods[mn]; if (!mod) { warn('move "' + id + '" not loaded'); return null; }
   const frontal = st.view === 'front' || st.view === '34';
   let v = mod[ex]; if (frontal) v = (ex === 'default' ? mod.front || (M.motion.mods[mn + '_front'] || {}).default : mod[ex.replace(/Side$/, '') + 'Front']) || v;
@@ -145,7 +145,7 @@ function moveOf(entry, st) {
   }
   const lag = M.motion.cloth && !m[2] ? M.motion.cloth.clothLag(u => sty.pose(u, ch), t, ch) : [0, 0]; /* LIVE CLOTH 2026-11-12: follow-through of long cloth and capes (a frozen pose has none) */ const extra = P.poses ? P : null; if (P.poses) P = P.poses[0];
   const view = P.view || 'side'; if (st.tgt && flipT && (view === 'front' || view === 'back')) { P = sty.pose(t, { ...ch0, tgt: st.tgt }); if (P.poses) P = P.poses[0]; }
-  return { P, ch, lag, dark: !!st.dark, lit: !!st.lit, pop: st.pop || 0, centre: CENTRE.test(e ? e.action : mn), props: !!m[4], back: (extra || P).back, front: (extra || P).front, mirror: (st.dir || 1) === -1 && view !== 'front' && view !== 'back' };
+  return { P, ch, lag, dark: !!st.dark, lit: !!st.lit, pop: st.pop || 0, centre: CENTRE.test(e ? e.action : mn), props: !!m[4], back: m[4] === '+held' ? null : (extra || P).back, front: m[4] === '+held' ? null : (extra || P).front, mirror: (st.dir || 1) === -1 && view !== 'front' && view !== 'back' };
 }
 function moveArms(P, ch, xo) {
   const view = P.view || 'side', dir = P.dir || 1, side = view === 'side', x = (P.x || 0) - xo, y = P.y || 0, rot = P.rot || 0, piv = P.pivot ? [P.pivot[0] - xo, P.pivot[1]] : [x, ch.hipY + y];

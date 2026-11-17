@@ -275,7 +275,7 @@ def search_blenderkit(query: str, limit: int = 7) -> List[dict]:
     if not blender:
         raise AssetHubError("Blender executable not found. Set BLENDER_BIN or add blender to PATH; BlenderKit search uses the logged-in add-on.")
     script = ROOT / "tools" / "blenderkit_tool.py"
-    proc = subprocess.run([blender, "-b", "--python", str(script), "--", "search", query],
+    proc = subprocess.run([blender, "-b", "--python-exit-code", "1", "--python", str(script), "--", "search", query],
                           capture_output=True, text=True, timeout=180)
     if proc.returncode:
         raise AssetHubError("BlenderKit bridge failed: " + (proc.stderr[-1200:] or proc.stdout[-1200:]))

@@ -21,7 +21,7 @@ export function createAssetLoader(THREE, episodeBase = './') {
     const key = `${url}|${colour}|${JSON.stringify(repeat || [])}`;
     if (loadedTextures.has(key)) return loadedTextures.get(key);
     const result = new Promise((resolvePromise, reject) => {
-      new THREE.TextureLoader().load(url, resolvePromise, undefined, reject);
+      new THREE.TextureLoader().load(url, resolvePromise, undefined, () => reject(new Error(`texture failed to load: ${rel}`)));   // cloud 2026-11-17: was a bare Event ('[object Event]')
     }).then(tex => {
       tex.flipY = false;
       if (colour) tex.colorSpace = THREE.SRGBColorSpace;

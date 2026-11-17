@@ -9,11 +9,19 @@ wav = os.path.join(out, "voice.wav")
 af = f"silenceremove=start_periods=1:start_threshold=-42dB:start_silence=0.05,silenceremove=stop_periods=-1:stop_duration=0.28:stop_threshold=-42dB:stop_silence=0.18,atempo={tempo},areverse,silenceremove=start_periods=1:start_threshold=-42dB:start_silence=0.25,areverse"
 subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", raw, "-af", af, "-ar", "48000", "-ac", "1", wav], check=True)
 from faster_whisper import WhisperModel
-m = WhisperModel("small.en", device="cpu", compute_type="int8")
+# Model and language: RICKCLIPS_WHISPER_MODEL (default small.en, English films) and RICKCLIPS_WHISPER_LANG (e.g. fr; needs a
+# multilingual model such as "small"). Weights are cached under HF_HOME (cloud: <skill>/hf_cache, set by scripts/cloud_session_start.sh).
+MODEL, LANG = os.environ.get("RICKCLIPS_WHISPER_MODEL", "small.en"), os.environ.get("RICKCLIPS_WHISPER_LANG") or None
+try:
+    m = WhisperModel(MODEL, device="cpu", compute_type="int8")
+except Exception as e:
+    sys.exit("voice_prep: cannot load the faster-whisper model '%s' (%s). It downloads once from huggingface.co: allow huggingface.co, "
+             "cdn-lfs.huggingface.co, cdn-lfs.hf.co, cas-bridge.xethub.hf.co, cas-server.xethub.hf.co, transfer.xethub.hf.co and us.aws.cdn.hf.co in the "
+             "cloud environment's network settings, or copy the model folder into HF_HOME." % (MODEL, type(e).__name__))
 import numpy as np
 pcm = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", wav, "-f", "s16le", "-ac", "1", "-ar", "16000", "-"], capture_output=True, check=True).stdout
 audio = np.frombuffer(pcm, np.int16).astype(np.float32) / 32768.0   # decode with ffmpeg: the PC's PyAV does not match faster-whisper 1.2.1
-segs, info = m.transcribe(audio, word_timestamps=True, beam_size=5, vad_filter=False)
+segs, info = m.transcribe(audio, word_timestamps=True, beam_size=5, vad_filter=False, language=LANG)
 words = [{"w": w.word.strip(), "s": round(float(w.start), 3), "e": round(float(w.end), 3)} for s in segs for w in s.words]
 json.dump(words, open(os.path.join(out, "words.json"), "w"), indent=0)
 dur = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", wav], capture_output=True, text=True).stdout)

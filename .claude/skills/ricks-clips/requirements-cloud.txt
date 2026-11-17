@@ -4,3 +4,4 @@ scipy>=1.11
 soundfile>=0.12
 faster-whisper>=1.1
 opencv-python-headless>=4.9
+piper-tts>=1.2

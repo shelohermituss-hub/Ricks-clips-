@@ -15,3 +15,9 @@
 **/tmp/
 **/temp/
 **/hf_cache/
+# Asset Hub downloads (re-downloadable; catalog.json keeps the provenance). Episodes copy what they use into episodes/<name>/assets/.
+.claude/skills/ricks-clips/library/assets/polyhaven/
+.claude/skills/ricks-clips/library/assets/ambientcg/
+.claude/skills/ricks-clips/library/assets/sketchfab/
+# Episode working output (plan, renders, logs): rebuilt from film.json; the delivered film and QC live in final.mp4 and qc/
+.claude/skills/ricks-clips/episodes/*/out/
