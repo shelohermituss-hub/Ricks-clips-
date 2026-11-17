@@ -227,7 +227,9 @@ export function build(THREE, scene, film, ctx) {
     room(5, 5, 2.8, '#7a8ab4', 'wood', '#6a5a46', { win: [1.2, 1.1, 1.2, 1.2] });
     box('bed_frame', 'wood', 1.2, 2.1, .45, [-.8, 2.2, 0], relief('wood', '#6a4a2e', { seed: 131 })); const blanket = box('blanket', 'cloth', 1.25, 1.6, .25, [-.8, 2.0, .45], std('#6a8ac0', { rough: .9 }));
     const lump = add(new THREE.Mesh(new THREE.SphereGeometry(.5, 20, 12), std('#6a8ac0', { rough: .9 })), 'pillow_lump', 'cloth'); lump.scale.set(.9, .45, 1.5); lump.position.copy(V(-.8, 2.0, .72));
-    box('window_frame', 'wood', 1.4, .12, 1.4, [1.2, 2.96, 1.0], relief('wood', '#ece4d4', { seed: 132 })); box('window_sill', 'wood', 1.4, .3, .08, [1.2, 3.0, 1.06], relief('wood', '#ece4d4', { seed: 133 }));
+    { const WF = relief('wood', '#ece4d4', { seed: 132 });   // an open window: four bars round the hole, no pane
+      box('window_frame', 'wood', 1.4, .14, .1, [1.2, 2.9, 1.0], WF); box('window_frame', 'wood', 1.4, .14, .1, [1.2, 2.9, 2.3], WF);
+      box('window_frame', 'wood', .1, .14, 1.4, [.55, 2.9, 1.0], WF); box('window_frame', 'wood', .1, .14, 1.4, [1.85, 2.9, 1.0], WF); } box('window_sill', 'wood', 1.4, .3, .08, [1.2, 3.0, 1.06], relief('wood', '#ece4d4', { seed: 133 }));
     box('night_garden', 'plaster', 9, .1, 6, [1.2, 7.5, 0], basic('#22305e'), { cast: false });   // the night outside, seen through the window
     box('garden_crate', 'wood', .7, .6, .6, [1.3, 3.8, 0], relief('wood', '#5a4630', { seed: 134 }));   // the boy stands on it, outside
     glow('#f4f0d8', .35, .9, V(2.6, 7.3, 3.6));

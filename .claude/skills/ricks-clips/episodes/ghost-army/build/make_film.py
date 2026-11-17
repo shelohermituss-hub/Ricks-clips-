@@ -16,7 +16,7 @@ takes = [
  dict(id='t_hook', place='field', stations=[
    St(0, [5.0, -3.6, 0.9], [0.0, 4.0, 2.0], lens=24, shows=['tank'], hold=0.0),
    St(['suitcase', 1], [5.2, -2.6, 1.6], [1.6, 1.6, 1.5], lens=30, framing='M', lead=3, hold=0.3, travel=1.6),
-   St(['bicycles', 1], [-3.6, -6.4, 1.3], [-7.2, -2.0, 1.0], subj='farmer', lead=3, hold=0.3, travel=1.0),
+   St(['bicycles', 1], [-2.2, -6.6, 1.3], [-7.2, -3.6, 1.0], subj='farmer', lead=3, hold=0.3, travel=1.0),
    St(['winks', 1], [4.2, -1.8, 1.45], [3.2, 0.5, 1.4], lens=35, framing='C', lead=3, hold=0.4, travel=1.0, **C),
    St(['rubber', 1], [1.6, -0.8, 1.9], [-1.3, 3.0, 1.5], lens=28, framing='O', lead=3, travel=0.9, **C)]),
  dict(id='t_camp', place='camp', stations=[
