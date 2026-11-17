@@ -80,7 +80,7 @@ export function build(THREE, scene, film, ctx) {
   const win = add(new THREE.Mesh(new THREE.BoxGeometry(.6, .55, .06), new THREE.MeshBasicMaterial({ color: '#ffb35a' })), 'cottage_window', 'lamp', { parent: cot, cast: false }); win.position.set(-.6, 1.3, 1.31);
   glow('#ffa040', 1.4, .55, new THREE.Vector3(-.6, 1.3, 1.45), cot); const winL = new THREE.PointLight('#ffa64a', 6, 6, 1.6); winL.position.set(-.6, 1.3, 2); cot.add(winL);
   // Lina's lantern light (her drawn lantern is the motion-library prop; this is its warm light on the rocks and on her)
-  const linaL = new THREE.PointLight('#ffb760', 2.5, 5, 1.5); linaL.position.copy(V(.35, -.25, .55)); scene.add(linaL); const linaGlow = glow('#ffbb66', .32, .3, V(.35, -.12, .55));
+  const linaL = new THREE.PointLight('#ffb760', 2.5, 5, 1.5); linaL.position.copy(V(.35, -.25, .55)); scene.add(linaL); const linaGlow = glow('#ffbb66', .2, .25, V(.35, -.12, .55));
 
   // ---------------- rain: streaks that fall in the wind around the camera ----------------
   const RN = 900, rainM = new THREE.InstancedMesh(new THREE.BoxGeometry(.008, .55, .008), new THREE.MeshBasicMaterial({ color: '#b9c9f0', transparent: true, opacity: .42, depthWrite: false, blending: THREE.AdditiveBlending, fog: false }), RN);
@@ -108,7 +108,7 @@ export function build(THREE, scene, film, ctx) {
     const k = lampK(f); lampCore.material.color.setRGB(.25 + .75 * k, .23 + .72 * k, .2 + .58 * k); halo.material.opacity = k; halo2.material.opacity = .35 * k; lampLight.intensity = 60 * k;
     beamRig.rotation.y = -t * 1.35 + 2.2; for (const b of beams) b.material.opacity = .32 * k;
     // Lina's lantern: brighter once she raises it
-    const lift = Math.min(1, Math.max(0, (f - EV.levee) / 12)); linaL.intensity = 2.2 + 3.2 * lift + .4 * Math.sin(t * 13); linaL.position.copy(V(.35, -.25, .55 + .45 * lift)); linaGlow.position.copy(linaL.position); linaGlow.material.opacity = .2 + .15 * lift;
+    const lift = Math.min(1, Math.max(0, (f - EV.levee) / 12)); linaL.intensity = 2.2 + 3.2 * lift + .4 * Math.sin(t * 13); linaL.position.copy(V(.35, -.25, .55 + .45 * lift)); linaGlow.position.copy(linaL.position); linaGlow.material.opacity = .15 + .1 * lift;
     // rain around the camera
     const cam = R && R.camera; const c = cam ? cam.position : new THREE.Vector3(0, 1.5, 4);
     for (let i = 0; i < RN; i++) { const d = drops[i], fall = ((t * 1.6 * d.v + d.ph) % 1); Pv.set(c.x + d.x + fall * 2.2, c.y + 8 - fall * 16, c.z - d.z); M4.compose(Pv, Q, S1); rainM.setMatrixAt(i, M4); }
