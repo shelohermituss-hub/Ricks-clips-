@@ -32,7 +32,7 @@ function faceFn(setName, face) {
   for (const set of order) if (set && set[face]) return set[face];
   return null;
 }
-export const stateKey = (who, st) => [who, st.view, st.dir, st.pose, st.face, st.mouth, st.blink, st.prop, st.hand, st.tw ? st.tw.pose + '>' + st.tw.prop + '>' + st.tw.hand + '>' + st.u : '', st.idle || '', st.mt ?? '', st.fw ? (st.fw.face || '') + '>' + st.fu : '', st.lie_art || '', st.tgt ? st.tgt.join(',') : '', st.pop || ''].join('|') + (st.h3 || st.hat ? '|h3:' + (st.h3 || '') + ':' + (st.hat ? ['R', 'L'].map(k => st.hat[k] ? st.hat[k].join(',') : '').join(';') : '') : '');   // fireworks kit_patch: hand target + head pop; kit 2026-11-13: a 3D held prop on this card (h3) and prop-driven fists (hat) are their own drawings, no h3 = the same key as before
+export const stateKey = (who, st) => [who, st.view, st.dir, st.pose, st.face, st.mouth, st.blink, st.prop, st.hand, st.tw ? st.tw.pose + '>' + st.tw.prop + '>' + st.tw.hand + '>' + st.u : '', st.idle || '', st.mt ?? '', st.fw ? (st.fw.face || '') + '>' + st.fu : '', st.lie_art || '', st.tgt ? st.tgt.join(',') : '', st.pop || '', st.blend ? st.blend.pose + '~' + st.blend.mt + '~' + st.blend.u : ''].join('|') + (st.h3 || st.hat ? '|h3:' + (st.h3 || '') + ':' + (st.hat ? ['R', 'L'].map(k => st.hat[k] ? st.hat[k].join(',') : '').join(';') : '') : '');   // fireworks kit_patch: hand target + head pop; kit 2026-11-13: a 3D held prop on this card (h3) and prop-driven fists (hat) are their own drawings, no h3 = the same key as before
 
 // character height in rig pixels (ground to top of the bare head), so a card can be sized in metres
 const customCard = entry => { const p = entry.puppet || ''; const sp = p.startsWith('cast:') && M.castIndex && M.castIndex[p.slice(5)]; return sp && sp.card ? sp : null; };   // kit_patch (character-artist 2026-11-13): a cast spec with its own card drawer (the cat: a new body form, spec.card = { svg(st, CARD), metrics })
@@ -109,7 +109,17 @@ function chOf(entry) {
   const fr = S.arms({ cx: CARD.CX, view: 'front', dir: 1, turn: 0 }).front, a = fr[fr.length - 1], m = /M\s*([-\d.]+)[ ,]+([-\d.]+)/.exec(a.d), sh = [Math.abs(+m[1] - CARD.CX), +m[2]], armL = (a.len0 ?? Math.hypot(a.hand[0] - +m[1], a.hand[1] - +m[2])) * 1.24;   /* len0: cast-size arms are drawn long now (bodies.mjs castArms); film length unchanged */   // CB 2026-11-15 (gold mine clip): arms a little LONGER, a hanging hand almost at the body's bottom edge (was x1.06)
   const ch = { form: 'cast', bodyTop, bodyBot, ground, K, hipY, legL, sh, armL, handX: Math.abs(a.hand[0] - CARD.CX), hy: bodyTop - 100 * K * .78, hipW: S.hipW ?? 13 }; chNums.set(k, ch); return ch;
 }
+// MOVE-TO-MOVE BLEND (2026-11-17, Ghost Army animation audit): a change from one library move to the next used to snap in one frame.
+// film.js passes st.blend = { pose, mt, u } for the first frames after a change; the previous move keeps playing and the new one
+// eases in over it (every number of the pose is mixed, arrays and nested hands/feet too). Only when both moves are in the same view.
+const mixP = (a, b, u) => { if (typeof a === 'number' && typeof b === 'number') return a + (b - a) * u; if (Array.isArray(a) && Array.isArray(b) && a.length === b.length) return b.map((v, i) => mixP(a[i], v, u));
+  if (a && b && typeof a === 'object' && typeof b === 'object' && !Array.isArray(a) && !Array.isArray(b)) { const o = { ...b }; for (const k of Object.keys(b)) if (k in a) o[k] = mixP(a[k], b[k], u); return o; } return b; };
 function moveOf(entry, st) {
+  const cur = moveOf1(entry, st); if (!cur || !st.blend || st.blend.u >= 1) return cur;
+  const prev = moveOf1(entry, { ...st, pose: st.blend.pose, mt: st.blend.mt, blend: null }); if (!prev || (prev.P.view || 'side') !== (cur.P.view || 'side')) return cur;
+  return { ...cur, P: mixP(prev.P, cur.P, st.blend.u) };
+}
+function moveOf1(entry, st) {
   const who = String(entry && (entry.id || entry.name || entry.puppet) || 'character');
   if (!M.motion || !/^m:/.test(st.pose || '')) return null;
   const m = /^m:([^@+]+)(?:@(=?)([-\d.]+))?(\+props|\+held)?/.exec(st.pose), id = m[1], e = M.motion.LIB.find(x => x.id === id), k = id.lastIndexOf('/');

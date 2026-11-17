@@ -41,7 +41,8 @@ function tweenedB(who, f) {
   const st = tweened0(who, f); if (!/^m:/.test(st.pose || '')) return st;
   const MC = (R.moveCh ||= {})[who] ||= (() => { const out = []; let prev; for (const r of R.perf[who]) { if (r.state.pose !== prev) { out.push(r.f0); prev = r.state.pose; } } return out; })();
   let f0 = 0; for (const x of MC) { if (x <= f) f0 = x; else break; }
-  const T = R.film.tween || {}, out = { ...st, tw: undefined, u: undefined, idle: undefined, mt: T.ones ? (f - f0) / R.fps : Math.round((f - f0) / R.fps * 15) / 15 };   // kit_patch: "ones" = a new pose every frame (STUDIO_MOTION rule 1)
+  const T = R.film.tween || {}, out = { ...st, tw: undefined, u: undefined, idle: undefined, mt: T.ones ? (f - f0) / R.fps : Math.round((f - f0) / R.fps * 15) / 15 };
+  { const BN = T.move_blend ?? 0; if (BN > 0) { const i = MC.indexOf(f0), d = f - f0; if (i > 0 && d < BN) { const pf0 = MC[i - 1], prevSt = perfAt(R.perf[who], pf0); if (/^m:/.test(prevSt.pose || '')) { const pmt = (f - pf0) / R.fps, e = EASE.inout((d + 1) / (BN + 1)); out.blend = { pose: prevSt.pose, mt: T.ones ? pmt : Math.round(pmt * 15) / 15, u: Math.round(e * 100) / 100 }; } } } }   /* move-to-move blend (Ghost Army audit): the previous move keeps playing and the new one eases in over BN frames */   // kit_patch: "ones" = a new pose every frame (STUDIO_MOTION rule 1)
   // kit_patch HANDS END ON THINGS: film.json "hand_at": [{ who, f0, f1, at: [x, y, z] plan metres }] -> st.tgt = that point on this frame's card, in move-rig px
   const ha = (R.film.hand_at || []).find(h => h.who === who && f >= fr(h.f0) && f <= fr(h.f1)); if (ha) out.tgt = handTarget(who, f, out.pos, ha.at);
   // kit_patch HEAD WOBBLE: a 5 f head-size pop (peak +7 %) on every face change (CB_RULES s5)

@@ -1028,8 +1028,13 @@
    "place": "field",
    "view": "34",
    "dir": -1,
-   "pose": "hold_up",
+   "pose": "m:lift/A",
    "face": "k:concentrate"
+  },
+  {
+   "who": "lou",
+   "at": 52,
+   "pose": "m:lift/B"
   },
   {
    "who": "carrier_tall",
@@ -1042,8 +1047,13 @@
    "place": "field",
    "view": "34",
    "dir": 1,
-   "pose": "hold_up",
+   "pose": "m:lift/A",
    "face": "k:concentrate"
+  },
+  {
+   "who": "carrier_tall",
+   "at": 52,
+   "pose": "m:lift/B"
   },
   {
    "who": "carrier_short",
@@ -1056,8 +1066,13 @@
    "place": "field",
    "view": "34",
    "dir": -1,
-   "pose": "hold_up",
+   "pose": "m:lift/A",
    "face": "k:concentrate"
+  },
+  {
+   "who": "carrier_short",
+   "at": 52,
+   "pose": "m:lift/B"
   },
   {
    "who": "carrier_stocky",
@@ -1070,71 +1085,111 @@
    "place": "field",
    "view": "34",
    "dir": 1,
-   "pose": "hold_up",
+   "pose": "m:lift/A",
    "face": "k:concentrate"
   },
   {
+   "who": "carrier_stocky",
+   "at": 52,
+   "pose": "m:lift/B"
+  },
+  {
    "who": "carrier_tall",
-   "at": 78,
+   "at": 84,
    "pos": [
-    -2.4,
-    0.4,
+    -2.6,
+    0.2,
     0
    ],
-   "move_s": 0.4,
-   "pose": "stand",
+   "move_s": 2.12,
+   "linear": true,
+   "pose": "m:walk/C",
+   "face": "k:sleepy"
+  },
+  {
+   "who": "carrier_tall",
+   "at": 148,
+   "pose": "m:idle/C"
+  },
+  {
+   "who": "carrier_short",
+   "at": 84,
+   "pos": [
+    2.9,
+    7.6,
+    0
+   ],
+   "move_s": 2.13,
+   "linear": true,
+   "pose": "m:walk/C",
    "face": "k:sleepy"
   },
   {
    "who": "carrier_short",
-   "at": 78,
+   "at": 148,
+   "pose": "m:idle/C"
+  },
+  {
+   "who": "carrier_stocky",
+   "at": 84,
    "pos": [
-    -1.0,
-    8.6,
+    -3.6,
+    7.4,
     0
    ],
-   "move_s": 0.4,
-   "pose": "stand",
+   "move_s": 2.07,
+   "linear": true,
+   "pose": "m:walk/C",
    "face": "k:sleepy"
   },
   {
    "who": "carrier_stocky",
-   "at": 78,
-   "pos": [
-    -4.6,
-    7.6,
-    0
-   ],
-   "move_s": 0.4,
-   "pose": "stand",
-   "face": "k:sleepy"
+   "at": 147,
+   "pose": "m:idle/C"
   },
   {
    "who": "lou",
-   "at": 78,
+   "at": 70,
+   "face": "k:smirk"
+  },
+  {
+   "who": "lou",
+   "at": 70,
    "pos": [
     2.3,
     1.0,
     0
    ],
-   "move_s": 0.4,
-   "pose": "knock",
-   "face": "k:smirk"
+   "move_s": 0.92,
+   "linear": true,
+   "pose": "m:walk/B"
+  },
+  {
+   "who": "lou",
+   "at": 98,
+   "pose": "m:lift/C"
   },
   {
    "who": "lou",
    "at": [
     "soldier",
-    1
+    1,
+    -14
    ],
    "pos": [
     3.0,
     1.3,
     0
    ],
-   "walk": true,
-   "pose": "stand",
+   "move_s": 0.54,
+   "linear": true,
+   "pose": "m:walk/B",
    "view": "front"
+  },
+  {
+   "who": "lou",
+   "at": 188,
+   "pose": "m:idle/A"
   },
   {
    "who": "lou",
@@ -1143,12 +1198,12 @@
     1
    ],
    "face": "k:slyWink",
-   "pose": "hands_hips"
+   "pose": "m:cheer/A"
   },
   {
    "who": "lou",
    "at": [
-    "rubber",
+    "see",
     1
    ],
    "pos": [
@@ -1156,19 +1211,24 @@
     2.15,
     0
    ],
-   "move_s": 0.4,
+   "move_s": 1.16,
    "linear": true,
+   "pose": "m:run/C",
    "view": "side",
-   "dir": 1,
-   "pose": "push",
+   "dir": -1,
    "face": "k:proud"
+  },
+  {
+   "who": "lou",
+   "at": 290,
+   "pose": "m:push/B"
   },
   {
    "who": "farmer",
    "at": 0,
    "pos": [
     -7.8,
-    -24.0,
+    -12.0,
     0
    ],
    "place": "field",
@@ -1182,7 +1242,7 @@
    "at": 0,
    "pos": [
     -6.7,
-    -26.0,
+    -13.0,
     0
    ],
    "place": "field",
@@ -1196,14 +1256,14 @@
    "at": [
     "bicycles",
     1,
-    -36
+    -60
    ],
    "pos": [
     -7.8,
     -2.6,
     0
    ],
-   "move_s": 1.3,
+   "move_s": 2.0,
    "linear": true
   },
   {
@@ -1211,14 +1271,14 @@
    "at": [
     "bicycles",
     1,
-    -36
+    -60
    ],
    "pos": [
     -6.7,
     -4.6,
     0
    ],
-   "move_s": 1.4,
+   "move_s": 2.0,
    "linear": true
   },
   {
@@ -1227,10 +1287,14 @@
     "dead",
     1
    ],
-   "pose": "flinch",
-   "view": "34",
-   "dir": 1,
-   "face": "k:shocked"
+   "pose": "m:bike/C+props",
+   "face": "k:shocked",
+   "pos": [
+    -7.8,
+    -2.0,
+    0
+   ],
+   "move_s": 1.4
   },
   {
    "who": "boy",
@@ -1238,10 +1302,14 @@
     "dead",
     1
    ],
-   "pose": "point_out",
-   "view": "34",
-   "dir": 1,
-   "face": "k:surprised"
+   "pose": "m:bike/C+props",
+   "face": "k:surprised",
+   "pos": [
+    -6.7,
+    -4.0,
+    0
+   ],
+   "move_s": 1.4
   },
   {
    "who": "boy",
@@ -1249,8 +1317,7 @@
     "strong",
     1
    ],
-   "face": "k:excited",
-   "pose": "cheer"
+   "face": "k:excited"
   },
   {
    "who": "lou",
@@ -1267,7 +1334,7 @@
    "place": "camp",
    "view": "34",
    "dir": -1,
-   "pose": "write",
+   "pose": "m:write/A",
    "face": "k:happy"
   },
   {
@@ -1294,14 +1361,21 @@
    "at": [
     "close",
     1,
-    -10
+    -40
    ],
    "pos": [
     -7.6,
     9.6,
     0
    ],
-   "move_s": 0.01
+   "move_s": 2.73,
+   "linear": true,
+   "pose": "m:walk/C"
+  },
+  {
+   "who": "carrier_short",
+   "at": 622,
+   "pose": "m:sweep/B"
   },
   {
    "who": "carrier_tall",
@@ -1318,7 +1392,7 @@
    "place": "camp",
    "view": "side",
    "dir": 1,
-   "pose": "push",
+   "pose": "m:push/A",
    "face": "k:concentrate"
   },
   {
@@ -1349,18 +1423,24 @@
     2.0,
     0
    ],
-   "walk": true,
-   "pose": "point_out",
+   "move_s": 4.12,
+   "linear": true,
+   "pose": "m:walk/B",
    "face": "k:proud"
   },
   {
    "who": "lou",
+   "at": 635,
+   "pose": "m:board/A"
+  },
+  {
+   "who": "lou",
    "at": [
-    "far",
-    1
+    "army",
+    2
    ],
    "face": "k:cheer",
-   "pose": "cheer"
+   "pose": "m:cheer/A"
   },
   {
    "who": "sound_op",
@@ -1377,16 +1457,17 @@
    "place": "road",
    "view": "34",
    "dir": -1,
-   "pose": "stand",
+   "pose": "m:idle/A",
    "face": "k:concentrate"
   },
   {
    "who": "sound_op",
    "at": [
     "hundred",
-    1
+    1,
+    -6
    ],
-   "pose": "finger_up",
+   "pose": "m:button/A",
    "face": "k:smug"
   },
   {
@@ -1412,7 +1493,7 @@
    "place": "radio",
    "view": "34",
    "dir": 1,
-   "pose": "write",
+   "pose": "m:write/A",
    "face": "k:concentrate"
   },
   {
@@ -1421,7 +1502,8 @@
     "morse",
     1
    ],
-   "face": "k:frozenTongue"
+   "face": "k:frozenTongue",
+   "pose": "m:write/B"
   },
   {
    "who": "radio_op",
@@ -1429,7 +1511,8 @@
     "signature",
     1
    ],
-   "face": "k:smug"
+   "face": "k:smug",
+   "pose": "m:write/A"
   },
   {
    "who": "lou",
@@ -1446,7 +1529,7 @@
    "place": "cafe",
    "view": "34",
    "dir": 1,
-   "pose": "lean_in",
+   "pose": "m:whisper/A",
    "face": "k:slyWink"
   },
   {
@@ -1464,7 +1547,7 @@
    "place": "cafe",
    "view": "34",
    "dir": -1,
-   "pose": "hold_out",
+   "pose": "m:carry/A",
    "face": "k:annoyed"
   },
   {
@@ -1478,9 +1561,14 @@
     6.6,
     0
    ],
-   "walk": true,
-   "view": "34",
-   "dir": -1
+   "move_s": 3.43,
+   "linear": true,
+   "pose": "m:walk/A"
+  },
+  {
+   "who": "waitress",
+   "at": 1365,
+   "pose": "m:idle/C"
   },
   {
    "who": "spy",
@@ -1497,7 +1585,7 @@
    "place": "cafe",
    "view": "34",
    "dir": 1,
-   "pose": "sit",
+   "pose": "m:sit/C",
    "face": "k:think"
   },
   {
@@ -1515,7 +1603,7 @@
    "place": "cafe",
    "view": "34",
    "dir": -1,
-   "pose": "stand",
+   "pose": "m:idle/B",
    "face": "k:skeptical"
   },
   {
@@ -1532,8 +1620,7 @@
     "spies",
     1
    ],
-   "face": "k:evil",
-   "pose": "write"
+   "face": "k:evil"
   },
   {
    "who": "spy",
@@ -1549,8 +1636,7 @@
     "carnival",
     1
    ],
-   "face": "k:think",
-   "pose": "sit"
+   "face": "k:think"
   },
   {
    "who": "sergeant",
@@ -1583,8 +1669,7 @@
     "fight",
     1
    ],
-   "face": "k:smug",
-   "pose": "hands_hips"
+   "face": "k:smug"
   },
   {
    "who": "sergeant",
@@ -1593,7 +1678,7 @@
     1
    ],
    "face": "k:laugh",
-   "pose": "point_out"
+   "pose": "m:laugh/B"
   },
   {
    "who": "sergeant",
@@ -1601,7 +1686,7 @@
     "balloons",
     1
    ],
-   "pose": "m:laugh/A",
+   "pose": "m:laugh/C",
    "face": "k:laugh"
   },
   {
@@ -1619,7 +1704,7 @@
    "place": "river",
    "view": "34",
    "dir": 1,
-   "pose": "point_out",
+   "pose": "m:board/A",
    "face": "k:concentrate"
   },
   {
@@ -1629,7 +1714,7 @@
     2
    ],
    "face": "k:proud",
-   "pose": "hands_hips"
+   "pose": "m:thumbs/A"
   },
   {
    "who": "sergeant",
@@ -1647,7 +1732,7 @@
    "place": "river",
    "view": "front",
    "dir": 1,
-   "pose": "stand",
+   "pose": "m:idle/B",
    "face": "k:skeptical"
   },
   {
@@ -1673,7 +1758,7 @@
     1
    ],
    "face": "k:shocked",
-   "pose": "flinch"
+   "pose": "m:turn/A"
   },
   {
    "who": "interpreter",
@@ -1690,7 +1775,7 @@
    "place": "photo",
    "view": "34",
    "dir": 1,
-   "pose": "lean_in",
+   "pose": "m:inspect/A",
    "face": "k:smug"
   },
   {
@@ -1700,7 +1785,7 @@
     2
    ],
    "face": "k:evil",
-   "pose": "point_out"
+   "pose": "m:button/A"
   },
   {
    "who": "boy",
@@ -1717,7 +1802,7 @@
    "place": "bedroom",
    "view": "front",
    "dir": 1,
-   "pose": "hands_hips",
+   "pose": "m:idle/A",
    "face": "k:smirk"
   },
   {
@@ -1726,7 +1811,8 @@
     "outside",
     1
    ],
-   "face": "k:slyWink"
+   "face": "k:slyWink",
+   "pose": "m:thumbs/A"
   },
   {
    "who": "old_lou",
@@ -1743,7 +1829,7 @@
    "place": "attic",
    "view": "34",
    "dir": 1,
-   "pose": "stand",
+   "pose": "m:idle/A",
    "face": "k:think"
   },
   {
@@ -1761,7 +1847,7 @@
    "place": "attic",
    "view": "34",
    "dir": -1,
-   "pose": "bend_down",
+   "pose": "m:inspect/B",
    "face": "k:surprised"
   },
   {
@@ -1779,7 +1865,7 @@
     1
    ],
    "face": "k:slyWink",
-   "pose": "finger_up"
+   "pose": "m:whisper/A"
   },
   {
    "who": "grandchild",
@@ -1788,26 +1874,8 @@
     1,
     -30
    ],
-   "pose": "hold_up",
+   "pose": "m:lift/A",
    "face": "k:excited"
-  },
-  {
-   "who": "carrier_short",
-   "at": [
-    "winks",
-    1,
-    -12
-   ],
-   "visible": false
-  },
-  {
-   "who": "carrier_stocky",
-   "at": [
-    "winks",
-    1,
-    -12
-   ],
-   "visible": false
   }
  ],
  "sentences": [
@@ -2401,6 +2469,11 @@
    "name": "music_box_attic"
   }
  ],
+ "tween": {
+  "ones": true,
+  "face_frames": 0,
+  "move_blend": 6
+ },
  "motion_polish": {
   "enabled": true,
   "head_follow": 0.14,

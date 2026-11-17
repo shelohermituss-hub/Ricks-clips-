@@ -171,6 +171,8 @@ export function build(THREE, scene, film, ctx) {
     const door = add(new THREE.Mesh(new THREE.BoxGeometry(1.1, 2.1, .12), relief('wood', '#5a3a26', { seed: 44 })), 'farm_door', 'wood', { parent: g }); door.position.set(3.6, 1.05, 3.04); return g; };
   const pole = (at) => { cyl('telegraph_pole', 'wood', .09, 7, at, relief('wood', '#5a4632', { seed: 51 }), { r2: .07 }); box('telegraph_bar', 'wood', 1.4, .1, .1, [at[0], at[1], at[2] + 6.4], relief('wood', '#5a4632', { seed: 52 })); };
 
+  // VFX audit: wind per place and light (dawn calm, open camp breezy, night road gusty in the poplars, river wind over the water)
+  if (ctx.atmosphere && ctx.atmosphere.setWind) { const WN = { field: [.32, .12], camp: [.5, .2], road: [.62, .3], river: [.7, .3] }[Z]; if (WN) ctx.atmosphere.setWind({ direction: [1, .3], strength: WN[0], gust: WN[1], speed: 1 }); }
   let anchors = {};
   // ============================================================ ZONES ============================================================
   if (Z === 'field' || Z === 'camp') {
@@ -193,7 +195,7 @@ export function build(THREE, scene, film, ctx) {
       // the hook: the truck has brought the tank; four GIs lift it off and set it down in the field
       cargoTruck('cargo_truck', [-7, 6, 0], -Math.PI / 2);
       const tk = sherman('inflatable_sherman', { at: [0, 4, 0], rot: -.35 }); const lift = EV.lift || [0, 52], set = EV.set || 103, dent = EV.dent || 110;
-      ups.push(f => { const a = sm((f - lift[0]) / (lift[1] - lift[0])), b = sm((f - lift[1]) / (set - lift[1])); tk.position.copy(V(-3.6 + 3.6 * b, 4.4 - .4 * b, 1.95 * (1 - b) + .25 * Math.sin(Math.PI * b))); tk.rotation.y = -.35 * b + (-Math.PI / 2) * (1 - b) * .2;
+      ups.push(f => { const a = sm((f - lift[0]) / (lift[1] - lift[0])), b = sm((f - lift[1]) / (set - lift[1])); tk.position.copy(V(0, 4, 1.55 * (1 - b) + .03 * Math.sin(f * .21) * (1 - b))); tk.rotation.y = -.35;   /* animation audit: the tank stays above its four lifters (it used to slide 3.6 m over static men) and comes down with them; a small bob while held */
         const d = Math.max(0, 1 - Math.abs(f - dent) / 10), dr = sm((f - (EV.deflate || 1e9)) / 18); tk.userData.set(.9 * dr, .12 * d + .25 * dr); });
       anchors = { tank: [0, 4, 1.2], truck: [-7, 6, 1.5] };
     } else {
@@ -274,6 +276,9 @@ export function build(THREE, scene, film, ctx) {
     for (const x of [-2.9, 2.9]) cyl('tent_pole', 'wood', .06, 3.2, [x, 1.0, 0], relief('wood', '#6a5434', { seed: 103 }));
     box('ridge_pole', 'wood', 6, .1, .1, [0, 1.0, 3.05], relief('wood', '#6a5434', { seed: 104 }));
     // the operator's desk dressing: headphones, logbook, field telephone, mug, folding chair, a lantern
+    cyl('ashtray', 'metal', .07, .02, [1.05, 1.25, .8], metal('iron', '#5a5a52')); { const cig = cyl('cigarette', 'cloth', .006, .07, [1.05, 1.25, .82], std('#efe8dc')); cig.rotation.z = Math.PI / 2 - .2; const ember = glow('#ff8a3a', .03, .9, V(1.09, 1.25, .826));
+      const wisps = []; for (let i = 0; i < 9; i++) { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: '#cfd2d6', transparent: true, opacity: 0, depthWrite: false })); sp.userData.noExport = true; scene.add(sp); wisps.push(sp); }
+      ups.push((f, t) => { wisps.forEach((sp, i) => { const q = ((t * .22 + i / wisps.length) % 1); sp.position.copy(V(1.09 + .05 * Math.sin(t * 1.3 + i * 2.1) * q * 4, 1.25 + .02 * Math.cos(t + i), .84 + q * .9)); sp.scale.setScalar(.04 + q * .22); sp.material.opacity = .22 * (1 - q) * Math.min(1, q * 6); }); ember.material.opacity = .7 + .3 * Math.sin(t * 3.1); }); }
     box('logbook', 'cloth', .34, .26, .03, [.9, 1.35, .8], std('#3a4a2a')); box('logbook_page', 'cloth', .3, .22, .005, [.9, 1.35, .832], std('#efe6cf'));
     box('field_phone', 'metal', .3, .2, .18, [-1.0, 1.75, .8], relief('wood', '#4a3a2a', { seed: 105 })); cyl('mug', 'metal', .045, .1, [1.2, 1.6, .8], metal('steel', '#cfd2c8', { rough: .5 }));
     { const hp = new THREE.Mesh(new THREE.TorusGeometry(.1, .012, 6, 20, Math.PI), std('#2a2a24')); hp.position.copy(V(.6, 1.7, .9)); add(hp, 'headphones', 'metal'); for (const sx of [-.1, .1]) cyl('earcup', 'metal', .04, .03, [.6 + sx, 1.7, .8], std('#1e1e1a')); }
@@ -354,9 +359,11 @@ export function build(THREE, scene, film, ctx) {
     // the decoy field: rows of inflatable tanks (south)
     const decoys = []; for (let r = 0; r < 4; r++) for (let c = 0; c < 7; c++) { const t = sherman('decoy_tank', { at: [-46 + c * 7 + rr(-1, 1), 18 + r * 8 + rr(-1, 1), 0], rot: rr(-.3, .3) }); decoys.push(t); }
     // shell bursts on the decoys from EV.shell on: flashes + tanks thrown and deflating
-    const bursts = []; for (let i = 0; i < 10; i++) { const b = glow('#ffb060', 6, 0, V(-42 + (i * 23) % 40, 20 + (i * 7) % 22, 1)); const l = new THREE.PointLight('#ffa040', 0, 40, 1.6); l.position.copy(b.position); scene.add(l); const fb = add(new THREE.Mesh(new THREE.SphereGeometry(1, 16, 10), basic('#ffd27a')), 'shell_fireball', 'fx', { cast: false }); fb.position.copy(b.position); fb.userData.noExport = true; const ob = add(new THREE.Mesh(new THREE.IcosahedronGeometry(1, 1), basic('#ff7a2a')), 'shell_fire_outer', 'fx', { cast: false }); ob.position.copy(b.position); const sk = []; for (let j = 0; j < 5; j++) { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: '#6a6660', transparent: true, opacity: .75, depthWrite: false })); sp.userData.noExport = true; sp.userData.off = [rr(-1.5, 1.5), rr(0, 2), rr(-1.5, 1.5)]; scene.add(sp); sk.push(sp); }   /* soft smoke puffs */ bursts.push({ b, l, fb, ob, sk, f0: (EV.shell || 0) + i * 8, d: decoys[(i * 5) % decoys.length] }); }   // the barrage keeps falling while the crane rises
+    const bursts = []; for (let i = 0; i < 10; i++) { const b = glow('#ffb060', 6, 0, V(-42 + (i * 23) % 40, 20 + (i * 7) % 22, 1)); const l = new THREE.PointLight('#ffa040', 0, 40, 1.6); l.position.copy(b.position); scene.add(l); const fb = add(new THREE.Mesh(new THREE.SphereGeometry(1, 16, 10), basic('#ffd27a')), 'shell_fireball', 'fx', { cast: false }); fb.position.copy(b.position); fb.userData.noExport = true; const ob = add(new THREE.Mesh(new THREE.IcosahedronGeometry(1, 1), basic('#ff7a2a')), 'shell_fire_outer', 'fx', { cast: false }); ob.position.copy(b.position); const sk = []; for (let j = 0; j < 5; j++) { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: '#6a6660', transparent: true, opacity: .75, depthWrite: false })); sp.userData.noExport = true; sp.userData.off = [rr(-1.5, 1.5), rr(0, 2), rr(-1.5, 1.5)]; scene.add(sp); sk.push(sp); }   /* soft smoke puffs */ const clods = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(.18, 0), std('#3a2e22', { rough: 1 }), 14); clods.userData.noExport = true; add(clods, 'shell_debris', 'fx', { cast: false }); const cv = Array.from({ length: 14 }, () => [rr(-5, 5), rr(7, 13), rr(-5, 5)]); bursts.push({ clods, cv, b, l, fb, ob, sk, f0: (EV.shell || 0) + i * 8, d: decoys[(i * 5) % decoys.length] }); }   // the barrage keeps falling while the crane rises
     // the real crossing (north): pontoon bridge and real (metal) tanks rolling across
-    box('assault_boat', 'wood', 1.6, 3.2, .45, [57.0, 44.0, .15], relief('wood', '#4a4a36', { seed: 160 }));   // the sergeant's boat beside the bridge
+    box('assault_boat', 'wood', 1.6, 3.2, .45, [57.0, 44.0, .15], relief('wood', '#4a4a36', { seed: 160 }));
+    { const rip = []; for (let i = 0; i < 10; i++) { const r_ = add(new THREE.Mesh(new THREE.RingGeometry(.92, 1.0, 48), new THREE.MeshBasicMaterial({ color: '#dfe8f4', transparent: true, opacity: 0, depthWrite: false })), 'water_ripple', 'water', { cast: false }); r_.rotation.x = -Math.PI / 2; r_.userData.c = i < 4 ? [57.0, 44.0] : [60 + (i % 2 ? 1.5 : -1.5), 37 + (i - 4) * 6]; r_.userData.ph = i * .37; rip.push(r_); }
+      ups.push((f, t) => { rip.forEach(r_ => { const q = (t * .35 + r_.userData.ph) % 1; r_.position.copy(V(r_.userData.c[0], r_.userData.c[1], .33)); r_.scale.setScalar(1.6 + q * 3.5); r_.material.opacity = .22 * (1 - q); }); }); }   /* ripples round the boat and pontoons */   // the sergeant's boat beside the bridge
     for (let i = 0; i < 14; i++) { const fr_ = add(new THREE.Mesh(new THREE.RingGeometry(1.5, 1.9, 4, 1), new THREE.MeshBasicMaterial({ color: '#dfe8f4', transparent: true, opacity: .28, depthWrite: false })), 'pontoon_foam', 'water', { cast: false }); fr_.rotation.x = -Math.PI / 2; fr_.rotation.z = Math.PI / 4; fr_.scale.set(1, 1.15, 1); fr_.position.copy(V(60, 37 + i * 3.1, .32)); }
     for (let i = 0; i < 14; i++) box('pontoon', 'metal', 2.6, 3.0, .5, [60, 37 + i * 3.1, .05], metal('iron', '#3a4030', { rough: .7 }));
     box('bridge_deck', 'wood', 3.2, 44, .12, [60, 58, .55], relief('wood', '#5a4a36', { seed: 121 }));
@@ -371,6 +378,8 @@ export function build(THREE, scene, film, ctx) {
         B.b.material.opacity = on; B.b.scale.setScalar(10 + 14 * Math.max(0, Math.min(1, k))); B.l.intensity = 60 * on; const kk = Math.max(0, Math.min(1, k)); B.fb.scale.setScalar(on > .02 ? (2 + 4 * kk) * Math.sqrt(on) : 1e-4); B.ob.scale.setScalar(on > .02 ? (3 + 5.5 * kk) * Math.sqrt(on) : 1e-4); B.ob.position.y = B.b.position.y + 1.2 * kk;
         const sm_ = (f - B.f0) / 60; B.sk.forEach(sp => { const o = sp.userData.off; sp.position.set(B.b.position.x + o[0] * (1 + sm_), B.b.position.y + 1.5 + o[1] + 5 * Math.max(0, sm_), B.b.position.z + o[2] * (1 + sm_)); sp.scale.setScalar(sm_ > .1 && sm_ < 1.8 ? 4 + 6 * Math.min(1, sm_) : 1e-4); sp.material.opacity = .7 * Math.max(0, 1 - sm_ / 1.8); });   // smoke rises after the flash
         B.fb.material.color.set(on > .5 ? '#fff0b0' : '#ff9a40');
+        { const ts = (f - B.f0) / 30, M4 = new THREE.Matrix4(); for (let j = 0; j < 14; j++) { const v_ = B.cv[j], live = ts > 0 && ts < 2.2; const x = B.b.position.x + v_[0] * ts, y = Math.max(.1, B.b.position.y - 1 + v_[1] * ts - 4.9 * ts * ts), z = B.b.position.z + v_[2] * ts;
+          M4.makeScale(live ? 1 : 1e-4, live ? 1 : 1e-4, live ? 1 : 1e-4).setPosition(x, y, z); B.clods.setMatrixAt(j, M4); } B.clods.instanceMatrix.needsUpdate = true; }   /* debris: earth thrown up and falling back */
         if (k > 0) { const q = Math.min(1, k * 1.5); B.d.userData.set(.8 * q, .6 * q); B.d.position.y = Math.max(0, Math.sin(Math.min(1, k) * Math.PI) * 4); B.d.rotation.z = q * .6; } }
       const go = sm((f - (EV.cross || 0)) / 140); real.forEach((t, i) => { t.position.copy(V(60, 30 - i * 9 + go * 60, .67)); });
     });
@@ -418,11 +427,13 @@ export function build(THREE, scene, film, ctx) {
     box('ridge_beam', 'wood', 7, .3, .3, [0, 1.5, 3.25], relief('wood', '#4a3424', { seed: 149 })); for (const x of [-2.6, 2.6]) box('attic_post', 'wood', .22, .22, 3.0, [x, 3.6, 0], relief('wood', '#4a3424', { seed: 150 }));
     const trunk = box('trunk', 'wood', 1.3, .7, .65, [0, 2.0, 0], relief('wood', '#6a4630', { seed: 151 })); const lid = box('trunk_lid', 'wood', 1.3, .7, .1, [0, 2.0, .65], relief('wood', '#5a3a26', { seed: 152 }));
     box('medal_box', 'cloth', .3, .2, .08, [.9, 1.6, 0], std('#1a2a5a')); box('old_sketchbook', 'cloth', .4, .3, .05, [-.9, 1.7, 0], std('#7a5a3a'));
+    { const shaft = add(new THREE.Mesh(new THREE.CylinderGeometry(.35, 1.3, 4.6, 24, 1, true), new THREE.MeshBasicMaterial({ color: '#ffd9a0', transparent: true, opacity: .07, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending })), 'light_shaft', 'fx', { cast: false });
+      shaft.position.copy(V(-1.6, .6, 2.0)); shaft.rotation.z = .55; shaft.rotation.x = -.25; shaft.userData.noExport = true; ups.push((f, t) => { shaft.material.opacity = .065 + .01 * Math.sin(t * .7); }); }   /* the window light the dust motes float in (story bible P9) */
     const skin = sherman('deflated_skin', { at: [0, 1.9, .55], scale: .22 }); skin.userData.set(.9, .85);
     scene.add(new THREE.HemisphereLight('#ffe2b8', '#4a3424', 1.6)); const sun = new THREE.SpotLight('#ffd9a0', 40, 16, .55, .6); sun.position.copy(V(-3, -1, 4)); sun.target.position.copy(V(0, 2, 0)); scene.add(sun, sun.target);
     const motes = []; for (let i = 0; i < 40; i++) motes.push(glow('#ffe6b0', rr(.03, .07), .6, V(rr(-2, 1), rr(0, 3), rr(.5, 3))));
     ups.push((f, t) => { motes.forEach((m, i) => { m.position.y += Math.sin(t * .5 + i) * .0008; m.position.x += Math.cos(t * .3 + i) * .0006; });
-      const up = sm((f - (EV.lift_skin || 1e9)) / 40); skin.position.copy(V(0, 1.9, .55 + up * 1.2)); skin.userData.set(.9 * (1 - up), .85 * (1 - up)); skin.scale.setScalar(.22 + up * .05); });
+      const up = sm((f - (EV.lift_skin || 1e9)) / 40); skin.position.copy(V(.7 * up, 1.9 - .55 * up, .55 + up * .75));   /* animation audit: it rose beside her; now it lifts into her raised hands */ skin.userData.set(.9 * (1 - up), .85 * (1 - up)); skin.scale.setScalar(.22 + up * .05); });
     anchors = { trunk: [0, 2.0, .8] };
   }
 

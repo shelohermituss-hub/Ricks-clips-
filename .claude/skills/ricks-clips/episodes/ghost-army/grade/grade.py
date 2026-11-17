@@ -46,6 +46,15 @@ def measure(a):
 
 def load(p): return np.asarray(Image.open(p).convert("RGB"), np.float32) / 255.0
 
+def camera_speed():
+    """measured screen speed (px/f at 720x1280) per frame from the baked camera: drives the motion blur on fast moves only"""
+    sys.path.insert(0, os.path.join(EP, "..", "..", "tools")); import film_plan as fp
+    cam = json.load(open(os.path.join(EP, "out", "plan", "camera_baked.json"))); cam = cam.get("frames", cam) if isinstance(cam, dict) else cam
+    sp = fp.screen_speed(cam); return {c["f"]: (0 if c.get("cut") else sp[i]) for i, c in enumerate(cam)}
+
+BLUR_FROM, BLUR_FULL, BLUR_MAX = 18.0, 55.0, .45     # px/f: no blur on rests and slow drifts; a shutter-like smear on whips and the crane
+GRAIN = .010                                        # luma grain sigma: present on a phone, never noisy
+
 if __name__ == "__main__":
     cmd = sys.argv[1]; places = frame_places()
     if cmd == "calibrate":
@@ -63,10 +72,16 @@ if __name__ == "__main__":
         cal = json.load(open(G)); src, dst = sys.argv[2], sys.argv[3]; os.makedirs(dst, exist_ok=True)
         files = sorted(glob.glob(os.path.join(src, "f_*.png")))
         jobs = int(sys.argv[sys.argv.index("--jobs") + 1]) if "--jobs" in sys.argv else 1; k = int(os.environ.get("GRADE_K", 0))
+        sp = camera_speed(); byf = {int(os.path.basename(p)[2:7]): p for p in files}
         for i, p in enumerate(files):
             if i % jobs != k: continue
-            f = int(os.path.basename(p)[2:7]); pl = places.get(f, "field")
-            Image.fromarray((grade(load(p), LOOK[pl], cal[pl]) * 255 + .5).astype(np.uint8)).save(os.path.join(dst, os.path.basename(p)))
+            f = int(os.path.basename(p)[2:7]); pl = places.get(f, "field"); a = load(p)
+            w = BLUR_MAX * min(1.0, max(0.0, (sp.get(f, 0) - BLUR_FROM) / (BLUR_FULL - BLUR_FROM)))
+            if w > 0 and f - 1 in byf and f + 1 in byf and places.get(f - 1) == pl and places.get(f + 1) == pl and sp.get(f - 1, 0) > 0 and sp.get(f + 1, 0) > 0:
+                a = (1 - w) * a + w * .5 * (load(byf[f - 1]) + load(byf[f + 1]))      # motion blur from the neighbours (never across a cut)
+            g = grade(a, LOOK[pl], cal[pl]); rng = np.random.default_rng(f)
+            g = np.clip(g + rng.normal(0, GRAIN, g.shape[:2])[..., None].astype(np.float32), 0, 1)
+            Image.fromarray((g * 255 + .5).astype(np.uint8)).save(os.path.join(dst, os.path.basename(p)))
     elif cmd == "measure":
         for p in sorted(glob.glob(os.path.join(sys.argv[2], "f_*.png"))):
             f = int(os.path.basename(p)[2:7]); print(os.path.basename(p), places.get(f), measure(load(p)))

@@ -61,55 +61,71 @@ takes = [
    St(['years', 1], [-0.1, -2.7, 1.25], [-0.1, 1.5, 1.2], subj='grandchild', framing='M', lead=3, travel=1.0)])]
 A = []
 def act(who, at, **o): A.append(dict(who=who, at=at, **o))
-# --- field (hook)
+# ANIMATION AUDIT 2026-11-17: every act is a registered motion-library move (m:<id>), every change of place a visible walk/run at a
+# believable speed (WALK m/s ~1.1, run ~3-4), no static kit pose, no planner 2-frame walk, no glide. Reasons per beat in audit/ANIMATION_AUDIT.md.
+WALK = 1.1
+def go(who, at, to, frm, speed=WALK, pose='m:walk/A', then=None, **o):
+    """a visible walk/run: the move plays its legs while the position travels at `speed` m/s; `then` = the move on arrival"""
+    import math as _m; d = _m.dist(frm[:2], to[:2]); s_ = round(max(.3, d / speed), 2)
+    act(who, at, pos=to, move_s=s_, linear=True, pose=pose, **o)
+    f0 = at if isinstance(at, int) else fr(at[0], at[1]) + (at[2] if len(at) > 2 else 0)
+    if then: act(who, f0 + int(s_ * 30) + 1, pose=then)
+    return s_
+# --- field (hook): the four lift the tank (it stays above them and comes down), step out, Lou pats it, the cyclists roll in
 for who, pos, d in (('lou', [1.9, 2.6, 0], -1), ('carrier_tall', [-1.4, 2.2, 0], 1), ('carrier_short', [1.4, 5.8, 0], -1), ('carrier_stocky', [-1.8, 6.0, 0], 1)):
-    act(who, 0, pos=pos, place='field', view='34', dir=d, pose='hold_up', face='k:concentrate')   # approved hook staging (gate 2026-11-17)
-for who, p_ in (('carrier_tall', [-2.4, 0.4, 0]), ('carrier_short', [-1.0, 8.6, 0]), ('carrier_stocky', [-4.6, 7.6, 0])): act(who, 78, pos=p_, move_s=0.4, pose='stand', face='k:sleepy')   # step out from under the hull once it is set down
-act('lou', 78, pos=[2.3, 1.0, 0], move_s=0.4, pose='knock', face='k:smirk'); act('lou', ['soldier', 1], pos=[3.0, 1.3, 0], walk=True, pose='stand', view='front')
-act('lou', ['winks', 1], face='k:slyWink', pose='hands_hips'); act('lou', ['rubber', 1], pos=[-1.8, 2.15, 0], move_s=0.4, linear=True, view='side', dir=1, pose='push', face='k:proud')
-act('farmer', 0, pos=[-7.8, -24.0, 0], place='field', view='side', dir=1, pose='m:bike/A+props', face='k:standard')
-act('boy', 0, pos=[-6.7, -26.0, 0], place='field', view='side', dir=1, pose='m:bike/B+props', face='k:happy')
-act('farmer', ['bicycles', 1, -36], pos=[-7.8, -2.6, 0], move_s=1.3, linear=True); act('boy', ['bicycles', 1, -36], pos=[-6.7, -4.6, 0], move_s=1.4, linear=True)
-act('farmer', ['dead', 1], pose='flinch', view='34', dir=1, face='k:shocked'); act('boy', ['dead', 1], pose='point_out', view='34', dir=1, face='k:surprised')
-act('boy', ['strong', 1], face='k:excited', pose='cheer')
+    act(who, 0, pos=pos, place='field', view='34', dir=d, pose='m:lift/A', face='k:concentrate')     # bored hold under the load
+    act(who, 52, pose='m:lift/B')                                                                       # the set-down (tank lowers f52-103)
+for who, frm, to in (('carrier_tall', [-1.4, 2.2, 0], [-2.6, 0.2, 0]), ('carrier_short', [1.4, 5.8, 0], [2.9, 7.6, 0]), ('carrier_stocky', [-1.8, 6.0, 0], [-3.6, 7.4, 0])):
+    go(who, 84, to, frm, pose='m:walk/C', face='k:sleepy', then='m:idle/C')                            # step out from under the hull, bored, then sway
+act('lou', 70, face='k:smirk'); go('lou', 70, [2.3, 1.0, 0], [1.9, 2.6, 0], speed=1.8, pose='m:walk/B', then='m:lift/C')   # lets go first, arrives f97, pats on 'suitcase' (f103)   # strolls to the side and pats it like luggage
+go('lou', ['soldier', 1, -14], [3.0, 1.3, 0], [2.3, 1.0, 0], speed=1.4, pose='m:walk/B', view='front', then='m:idle/A')   # arrives before 'winks'
+act('lou', ['winks', 1], face='k:slyWink', pose='m:cheer/A')   # "very strong": both fists up beside the head (the close-up crops anything lower)
+go('lou', ['see', 1], [-1.8, 2.15, 0], [3.0, 1.3, 0], speed=4.2, pose='m:run/C', view='side', dir=-1, then='m:push/B', face='k:proud')   # sprints to the valve, one smug push
+act('farmer', 0, pos=[-7.8, -12.0, 0], place='field', view='side', dir=1, pose='m:bike/A+props', face='k:standard')
+act('boy', 0, pos=[-6.7, -13.0, 0], place='field', view='side', dir=1, pose='m:bike/B+props', face='k:happy')
+act('farmer', ['bicycles', 1, -60], pos=[-7.8, -2.6, 0], move_s=2.0, linear=True); act('boy', ['bicycles', 1, -60], pos=[-6.7, -4.6, 0], move_s=2.0, linear=True)   # ~4.5 m/s, a real cycling speed
+act('farmer', ['dead', 1], pose='m:bike/C+props', face='k:shocked', pos=[-7.8, -2.0, 0], move_s=1.4); act('boy', ['dead', 1], pose='m:bike/C+props', face='k:surprised', pos=[-6.7, -4.0, 0], move_s=1.4)   # brake: lazy pedals, rolling to a stop
+act('boy', ['strong', 1], face='k:excited')
 # --- camp
-act('lou', ['painters', 1, -2], pos=[1.0, -1.4, 0], place='camp', view='34', dir=-1, pose='write', face='k:happy')
+act('lou', ['painters', 1, -2], pos=[1.0, -1.4, 0], place='camp', view='34', dir=-1, pose='m:write/A', face='k:happy')
 act('carrier_short', ['painters', 1, -2], pos=[-4.6, 9.4, 0], place='camp', visible=True, view='34', dir=1, pose='m:sweep/A', face='k:concentrate')
-act('carrier_short', ['close', 1, -10], pos=[-7.6, 9.6, 0], move_s=0.01)   # out of the lens for the 'up close' insert (he was 1.3 m from the camera, cut by the edge)
-act('carrier_tall', ['painters', 1, -2], pos=[-2.6, 1.7, 0], place='camp', view='side', dir=1, pose='push', face='k:strain' if False else 'k:concentrate')
-act('lou', ['job', 1], face='k:smug', view='front'); act('lou', ['nobody', 1], face='k:wink'); act('lou', ['rule', 1], pos=[-2.0, 2.0, 0], walk=True, pose='point_out', face='k:proud')
-act('lou', ['far', 1], face='k:cheer', pose='cheer')
+go('carrier_short', ['close', 1, -40], [-7.6, 9.6, 0], [-4.6, 9.4, 0], pose='m:walk/C', then='m:sweep/B')   # walks off the lens before the 'up close' insert
+act('carrier_tall', ['painters', 1, -2], pos=[-2.6, 1.7, 0], place='camp', view='side', dir=1, pose='m:push/A', face='k:concentrate')
+act('lou', ['job', 1], face='k:smug', view='front'); act('lou', ['nobody', 1], face='k:wink')
+go('lou', ['rule', 1], [-2.0, 2.0, 0], [1.0, -1.4, 0], pose='m:walk/B', face='k:proud', then='m:board/A')   # strolls to the line he will point at
+act('lou', ['army', 2], face='k:cheer', pose='m:cheer/A')
 # --- road (night)
-act('sound_op', ['night', 1, -4], pos=[2.0, 3.4, 0], place='road', view='34', dir=-1, pose='stand', face='k:concentrate')
-act('sound_op', ['hundred', 1], pose='finger_up', face='k:smug'); act('sound_op', ['speaker', 1], face='k:proud')
+act('sound_op', ['night', 1, -4], pos=[2.0, 3.4, 0], place='road', view='34', dir=-1, pose='m:idle/A', face='k:concentrate')
+act('sound_op', ['hundred', 1, -6], pose='m:button/A', face='k:smug'); act('sound_op', ['speaker', 1], face='k:proud')
 # --- radio tent
-act('radio_op', ['radio', 1, -4], pos=[-0.4, 0.35, 0], place='radio', view='34', dir=1, pose='write', face='k:concentrate')
-act('radio_op', ['morse', 1], face='k:frozenTongue'); act('radio_op', ['signature', 1], face='k:smug')
+act('radio_op', ['radio', 1, -4], pos=[-0.4, 0.35, 0], place='radio', view='34', dir=1, pose='m:write/A', face='k:concentrate')
+act('radio_op', ['morse', 1], face='k:frozenTongue', pose='m:write/B'); act('radio_op', ['signature', 1], face='k:smug', pose='m:write/A')
 # --- café
-act('lou', ['café', 1, -4], pos=[1.3, 3.5, 0], place='cafe', view='34', dir=1, pose='lean_in', face='k:slyWink')
-act('waitress', ['café', 1, -4], pos=[2.9, 5.2, 0], place='cafe', view='34', dir=-1, pose='hold_out', face='k:annoyed')
-act('waitress', ['spies', 1], pos=[-0.6, 6.6, 0], walk=True, view='34', dir=-1)   # she leaves before the sergeant's close-up (cut at 00:43)
-act('spy', ['café', 1, -4], pos=[-2.6, 1.15, 0], place='cafe', view='34', dir=1, pose='sit', face='k:think')
-act('sergeant', ['café', 1, -4], pos=[3.9, 3.4, 0], place='cafe', view='34', dir=-1, pose='stand', face='k:skeptical')
-act('lou', ['secrets', 1], face='k:wink'); act('spy', ['spies', 1], face='k:evil', pose='write'); act('spy', ['laughs', 1], face='k:smug'); act('spy', ['carnival', 1], face='k:think', pose='sit')
-act('sergeant', ['patches', 1], face='k:annoyed'); act('sergeant', ['spies', 1], face='k:browUp'); act('sergeant', ['laughs', 1], pose='m:laugh/A', face='k:laugh'); act('sergeant', ['fight', 1], face='k:smug', pose='hands_hips'); act('sergeant', ['carnival', 1], face='k:laugh', pose='point_out'); act('sergeant', ['balloons', 1], pose='m:laugh/A', face='k:laugh')
+act('lou', ['café', 1, -4], pos=[1.3, 3.5, 0], place='cafe', view='34', dir=1, pose='m:whisper/A', face='k:slyWink')
+act('waitress', ['café', 1, -4], pos=[2.9, 5.2, 0], place='cafe', view='34', dir=-1, pose='m:carry/A', face='k:annoyed')
+go('waitress', ['spies', 1], [-0.6, 6.6, 0], [2.9, 5.2, 0], pose='m:walk/A', then='m:idle/C')        # she leaves before the sergeant's close-up
+act('spy', ['café', 1, -4], pos=[-2.6, 1.15, 0], place='cafe', view='34', dir=1, pose='m:sit/C', face='k:think')
+act('sergeant', ['café', 1, -4], pos=[3.9, 3.4, 0], place='cafe', view='34', dir=-1, pose='m:idle/B', face='k:skeptical')
+act('lou', ['secrets', 1], face='k:wink'); act('spy', ['spies', 1], face='k:evil'); act('spy', ['laughs', 1], face='k:smug'); act('spy', ['carnival', 1], face='k:think')
+act('sergeant', ['patches', 1], face='k:annoyed'); act('sergeant', ['spies', 1], face='k:browUp'); act('sergeant', ['laughs', 1], pose='m:laugh/A', face='k:laugh')
+act('sergeant', ['fight', 1], face='k:smug'); act('sergeant', ['carnival', 1], face='k:laugh', pose='m:laugh/B'); act('sergeant', ['balloons', 1], pose='m:laugh/C', face='k:laugh')
 # --- river (the plan and the decoys)
-act('lou', ['river', 1, -4], pos=[-20.0, 4.0, 0], place='river', view='34', dir=1, pose='point_out', face='k:concentrate')
-act('lou', ['hundred', 2], face='k:proud', pose='hands_hips')
-act('sergeant', ['river', 1, -6], pos=[57.0, 44.0, 0.6], move_s=0.01, place='river', view='front', dir=1, pose='stand', face='k:skeptical')   # placed on his boat before the river chapter (no slide across the crane)
+act('lou', ['river', 1, -4], pos=[-20.0, 4.0, 0], place='river', view='34', dir=1, pose='m:board/A', face='k:concentrate')
+act('lou', ['hundred', 2], face='k:proud', pose='m:thumbs/A')
+act('sergeant', ['river', 1, -6], pos=[57.0, 44.0, 0.6], move_s=0.01, place='river', view='front', dir=1, pose='m:idle/B', face='k:skeptical')   # placed on his boat while the camera is elsewhere (place change)
 act('sergeant', ['north', 1], face='k:think'); act('sergeant', ['crosses', 1], face='k:surprised')
-act('sergeant', ['fired', 1], face='k:shocked', pose='flinch')
+act('sergeant', ['fired', 1], face='k:shocked', pose='m:turn/A')
 # --- enemy photo room
-act('interpreter', ['photographs', 1, -4], pos=[0.2, 0.45, 0], place='photo', view='34', dir=1, pose='lean_in', face='k:smug')
-act('interpreter', ['spies', 2], face='k:evil', pose='point_out')
+act('interpreter', ['photographs', 1, -4], pos=[0.2, 0.45, 0], place='photo', view='34', dir=1, pose='m:inspect/A', face='k:smug')
+act('interpreter', ['spies', 2], face='k:evil', pose='m:button/A')                                     # "...and sends every gun": the big-moment button
 # --- bedroom (the pillow trick): the boy is already outside, at the window
-act('boy', ['pillow-under-the-blanket', 1, -4], pos=[1.3, 3.8, 0.6], place='bedroom', view='front', dir=1, pose='hands_hips', face='k:smirk')
-act('boy', ['outside', 1], face='k:slyWink')
+act('boy', ['pillow-under-the-blanket', 1, -4], pos=[1.3, 3.8, 0.6], place='bedroom', view='front', dir=1, pose='m:idle/A', face='k:smirk')
+act('boy', ['outside', 1], face='k:slyWink', pose='m:thumbs/A')
 # --- attic (today)
-act('old_lou', ['fooled', 1, -4], pos=[-1.0, 1.2, 0], place='attic', view='34', dir=1, pose='stand', face='k:think')
-act('grandchild', ['fooled', 1, -4], pos=[0.7, 1.3, 0], place='attic', view='34', dir=-1, pose='bend_down', face='k:surprised')
-act('old_lou', ['families', 1], face='k:smirk'); act('old_lou', ['years', 1], face='k:slyWink', pose='finger_up')
-act('grandchild', ['years', 1, -30], pose='hold_up', face='k:excited')
+act('old_lou', ['fooled', 1, -4], pos=[-1.0, 1.2, 0], place='attic', view='34', dir=1, pose='m:idle/A', face='k:think')
+act('grandchild', ['fooled', 1, -4], pos=[0.7, 1.3, 0], place='attic', view='34', dir=-1, pose='m:inspect/B', face='k:surprised')
+act('old_lou', ['families', 1], face='k:smirk'); act('old_lou', ['years', 1], face='k:slyWink', pose='m:whisper/A')   # finger to the lips: shh
+act('grandchild', ['years', 1, -30], pose='m:lift/A', face='k:excited')                               # lifts the deflated skin overhead (rhymes with frame 0)
 sents, i = [], 0
 for line in open(os.path.join(EP, 'voice', 'script.txt'), encoding='utf-8').read().replace('!', '!|').replace('? ', '?| ').replace('. ', '.| ').split('|'):
     nw = len(line.split());
@@ -118,7 +134,6 @@ for line in open(os.path.join(EP, 'voice', 'script.txt'), encoding='utf-8').read
         sents.append(dict(text=line.strip(), words=[i, i + nw - 1], subject=who)); i += nw
 LAMP_EV = dict(field=dict(lift=[0, 60], set=fr('suitcase'), dent=fr('suitcase') + 7, deflate=fr('rubber')), road=dict(hundred=fr('hundred')), river=dict(inflate=fr('hundred', 2) - 10, shell=fr('gun') + 3, cross=fr('crosses') - 60), attic=dict(lift_skin=fr('years') - 30))
 places = {}
-for who in ('carrier_short', 'carrier_stocky'): act(who, ['winks', 1, -12], visible=False)   # they have left the field before Lou's close-ups
 for name, light, extra in (('field', 'morning', {}), ('camp', 'day', {}), ('road', 'night', {}), ('radio', 'interior', {}), ('cafe', 'interior', {}), ('photo', 'interior', dict(light_over=dict(sun='#cfe0ff', tint='#dfe8ff'))), ('river', 'night', {}), ('bedroom', 'night', {}), ('attic', 'golden', {})):
     places[name] = dict(set='ghost', zone=name, light=light, backdrop=8 if name in ('radio', 'cafe', 'photo', 'bedroom', 'attic') else 40, events=LAMP_EV.get(name, {}), **extra)
 # v1 note 7: particles only where the place has a reason for them (dawn pollen, lamp-lit dust, the attic's sunbeam), none outside at night or in the cold photo room
@@ -142,7 +157,7 @@ film = dict(title='THE GHOST ARMY', fps=30, size=[1080, 1920], end=END, kit3d=Tr
   sound=[dict(at=['suitcase', 1], name='rubber_thump'), dict(at=['bicycles', 1], name='bike_brakes_skid'), dict(at=['rubber', 1], name='valve_air_whistle'), dict(at=['bulldozer', 1], name='dozer_engine'),
          dict(at=['hundred', 1], name='tank_column_playback'), dict(at=['morse', 1], name='morse_beeps'), dict(at=['café', 1], name='cafe_room_accordion'), dict(at=['laughs', 1], name='sergeant_laugh'),
          dict(at=['hundred', 2], name='inflation_wave'), dict(at=['balloons', 2], name='shell_whistle_impacts'), dict(at=['crosses', 1], name='river_silence_paddles'), dict(at=['years', 1], name='music_box_attic')],
-  motion_polish=dict(enabled=True, head_follow=0.14, hand_follow=0.08, breath=0.55, breath_rate=2.15, auto_blink=True))
+  tween=dict(ones=True, face_frames=0, move_blend=6), motion_polish=dict(enabled=True, head_follow=0.14, hand_follow=0.08, breath=0.55, breath_rate=2.15, auto_blink=True))
 json.dump(film, open(os.path.join(EP, 'film.json'), 'w'), indent=1, ensure_ascii=False)
 print('film.json written: end', END, 'frames,', len(takes), 'takes,', sum(len(t['stations']) for t in takes), 'stations,', len(A), 'acts')
 

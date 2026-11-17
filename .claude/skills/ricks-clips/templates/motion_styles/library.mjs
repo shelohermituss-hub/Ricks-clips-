@@ -199,6 +199,9 @@ export const LIB = [
   ['sweep/A', 'sweep', ['happy', 'in love', 'neutral'], 2, ['side', 'front'], 'act_tool#sweep', 'A'],
   ['sweep/B', 'sweep', ['bored', 'tired', 'sad'], 1, ['side', 'front'], 'act_tool#sweep', 'B'],
   ['sweep/C', 'sweep', ['angry', 'impatient'], 3, ['side', 'front'], 'act_tool#sweep', 'C'],
+  ['lift/A', 'lift', ['bored', 'neutral', 'calm', 'strain'], 1, ['side', 'front'], 'act_lift', 'A'],   // Ghost Army 2026-11-17: hold a big light thing overhead
+  ['lift/B', 'lift', ['neutral', 'calm', 'careful'], 2, ['side', 'front'], 'act_lift', 'B'],          // set it down
+  ['lift/C', 'pat', ['smug', 'proud', 'cool', 'calm'], 1, ['side', 'front'], 'act_lift', 'C'],        // pat it like luggage
 ].map(([id, action, feelings, energy, views, module, style]) => ({ id, action, feelings, energy, views, module, style }));
 
 // feelings that mean nearly the same: a scene word maps onto the library's words
