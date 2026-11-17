@@ -92,9 +92,19 @@ export function build(THREE, scene, film, ctx) {
     p('ht_bumper', new THREE.BoxGeometry(.2, .25, 2.2), DARK, 2.5, .8, 0);
     for (const s of [-1, 1]) { p('ht_front_wheel', new THREE.CylinderGeometry(.48, .48, .3, 22), TYRE, 1.7, .48, s * .95, { rx: Math.PI / 2 }); p('ht_track', new THREE.BoxGeometry(2.6, .8, .4), TYRE, -1.0, .45, s * .9); for (let i = 0; i < 4; i++) p('ht_bogie', new THREE.CylinderGeometry(.28, .28, .1, 16), DARK, -2.0 + i * .66, .42, s * 1.12, { rx: Math.PI / 2 }); }
     // the giant speaker: a horn on a frame over the bed + the disc turntable and cables
-    const horn = p('ht_speaker_horn', new THREE.CylinderGeometry(.95, .22, 1.6, 28, 1, true), metal('steel', '#9aa094', { rough: .45, finish: 'brushed' }), -1.2, 2.75, 0, { rz: -Math.PI / 2 }); horn.material.side = THREE.DoubleSide;
-    p('ht_speaker_driver', new THREE.CylinderGeometry(.3, .3, .5, 18), DARK, -2.15, 2.75, 0, { rz: -Math.PI / 2 });
-    p('ht_speaker_frame', new THREE.BoxGeometry(.12, .9, .12), OD, -1.6, 2.2, 0);
+    const prof = []; for (let i = 0; i <= 24; i++) { const y = i / 24 * 1.7; prof.push(new THREE.Vector2(.2 + .82 * Math.pow(y / 1.7, 2.6), y - .85)); }
+    const HM = metal('steel', '#a3a99c', { rough: .42, finish: 'brushed' }); HM.side = THREE.DoubleSide;
+    const horn = p('ht_speaker_horn', new THREE.LatheGeometry(prof, 48), HM, -1.15, 2.8, 0, { rz: -Math.PI / 2 });
+    for (const [k, r] of [[.25, .27], [.5, .36], [.75, .56]]) p('ht_horn_rib', new THREE.TorusGeometry(r + .02, .025, 8, 40), OD, -1.15 - .85 + k * 1.7, 2.8, 0).rotation.y = Math.PI / 2;
+    p('ht_horn_rim', new THREE.TorusGeometry(1.03, .05, 10, 48), OD, -1.15 + .85, 2.8, 0).rotation.y = Math.PI / 2;
+    const throat = p('ht_horn_throat', new THREE.CircleGeometry(.95, 40), std('#121410', { rough: 1 }), -1.15 + .5, 2.8, 0); throat.rotation.y = Math.PI / 2;   // dark inside of the bell
+    p('ht_speaker_driver', new THREE.CylinderGeometry(.3, .34, .55, 20), OD, -2.25, 2.8, 0, { rz: -Math.PI / 2 }); p('ht_driver_cap', new THREE.SphereGeometry(.3, 16, 10, 0, Math.PI * 2, 0, Math.PI / 2), OD, -2.52, 2.8, 0, { rz: Math.PI / 2 });
+    for (const z of [-.45, .45]) p('ht_speaker_frame', new THREE.BoxGeometry(.1, 1.1, .1), OD, -1.7, 2.15, z); p('ht_speaker_cradle', new THREE.BoxGeometry(1.4, .1, 1.0), OD, -1.6, 2.4, 0);
+    const cab = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(-2.5, 2.8, .2), new THREE.Vector3(-2.6, 2.0, .6), new THREE.Vector3(-1.4, 1.8, .7), new THREE.Vector3(-.4, 1.85, -.4)]), 24, .03, 6), DARK); add(cab, 'ht_speaker_cable', 'rubber', { parent: g });
+    // armoured body detail: bed sides, fenders, headlights, winch roller, a "SONIC" crate
+    for (const s of [-1, 1]) { p('ht_bed_side', new THREE.BoxGeometry(3.2, .5, .06), OD, -1.0, 2.0, s * 1.08); p('ht_fender', new THREE.BoxGeometry(1.1, .06, .5), OD, 1.7, 1.02, s * .95); p('ht_headlight', new THREE.CylinderGeometry(.11, .12, .16, 14), metal('steel', '#c8c8c0', { rough: .3 }), 2.25, 1.35, s * .6, { rz: Math.PI / 2 }); }
+    p('ht_winch', new THREE.CylinderGeometry(.16, .16, 1.4, 16), DARK, 2.6, .95, 0, { rx: Math.PI / 2 });
+    const sc = p('ht_sonic_crate', new THREE.BoxGeometry(.8, .5, .6), relief('wood', '#7a6444', { seed: 13 }), -2.0, 2.0, .55);
     const disc = p('ht_disc', new THREE.CylinderGeometry(.42, .42, .02, 32), std('#111111', { rough: .3 }), -.2, 1.78, -.6); p('ht_turntable', new THREE.BoxGeometry(1.0, .12, 1.0), std('#5a4636'), -.2, 1.7, -.6);
     g.userData.disc = disc; g.userData.horn = horn; return g;
   }
@@ -218,17 +228,21 @@ export function build(THREE, scene, film, ctx) {
     // P3 moonlit country road: ONE half-track, and the sound of a hundred tanks
     if (ctx.sky && ctx.sky.on) ctx.sky.clouds({ kind: 'night-storm', seed: 31, coverage: .6 });
     if (ctx.atmosphere) ctx.atmosphere.setFog({ color: '#1e2a48', near: 30, far: 200 });
-    ground('#2f3e2a'); const road = add(new THREE.Mesh(new THREE.PlaneGeometry(5, 300), relief('cobble', '#6a6458', { seed: 81, size: 2 })), 'road', 'ground', { cast: false, mat: 'cobble' }); road.rotation.x = -Math.PI / 2; road.position.copy(V(0, 60, .01));
+    ground('#3e5236'); scene.add(new THREE.HemisphereLight('#7a92cc', '#2c3626', 2.4)); { const mk = new THREE.DirectionalLight('#b0c4ff', 2.2); mk.position.copy(V(-30, 60, 40)); mk.target.position.copy(V(0, 10, 0)); mk.castShadow = true; scene.add(mk, mk.target); }
+    const road = add(new THREE.Mesh(new THREE.PlaneGeometry(5, 300), relief('cobble', '#7a7466', { seed: 81, size: 2 })), 'road', 'ground', { cast: false, mat: 'cobble' }); road.rotation.x = -Math.PI / 2; road.position.copy(V(0, 60, .01));
     for (let i = 0; i < 18; i++) for (const s of [-1, 1]) tree([s * 4.2, -10 + i * 9, 0], 14, 'cypress', i * 2 + (s > 0 ? 1 : 0));   // poplars
-    const ht = halftrack('sound_halftrack', [0, 6, 0], -Math.PI / 2);
+    const ht = halftrack('sound_halftrack', [0, 6, 0], -Math.PI / 2); { const wl = new THREE.PointLight('#ffcf8a', 14, 9, 1.6); wl.position.copy(V(1.6, 6.2, 3.3)); scene.add(wl); glow('#ffcf8a', .5, .8, V(1.6, 6.2, 3.3)); cyl('ht_lamp_post', 'metal', .03, 1.2, [1.6, 6.2, 2.1], metal('iron', '#3a3a34')); }   /* the operator's hooded lamp: the vehicle reads at night */
     const moon = glow('#dfe8ff', 18, .9, V(-30, 120, 60)); const hl = new THREE.SpotLight('#ffe9b0', 30, 40, .5, .6); hl.position.copy(V(0, 8.6, 1.2)); hl.target.position.copy(V(0, 30, 0)); scene.add(hl, hl.target);
     // sound made visible: rings rolling out of the horn
-    const rings = []; for (let i = 0; i < 7; i++) { const r = new THREE.Mesh(new THREE.TorusGeometry(1, .04, 6, 48), new THREE.MeshBasicMaterial({ color: '#bcd4ff', transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending, fog: false })); r.userData.noExport = true; r.name = 'sound_ring'; scene.add(r); rings.push(r); }
+    const bandTex = canvasTex(256, 16, (g, w, h) => { const gr = g.createLinearGradient(0, 0, w, 0); gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(.55, 'rgba(255,255,255,.9)'); gr.addColorStop(.7, 'rgba(255,255,255,1)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(0, 0, w, h); });
+    const rings = []; for (let i = 0; i < 8; i++) { const rg = new THREE.RingGeometry(.7, 1.0, 72, 1), ru = rg.attributes.uv, rp = rg.attributes.position; for (let k = 0; k < ru.count; k++) ru.setXY(k, (Math.hypot(rp.getX(k), rp.getY(k)) - .7) / .3, .5); const r = new THREE.Mesh(rg, new THREE.MeshBasicMaterial({ map: bandTex, color: '#c4dcff', transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, fog: false })); r.userData.noExport = true; r.name = 'sound_ring'; scene.add(r); rings.push(r); }
     // ghost tanks that exist only as sound: faint silhouettes on the poplar line
     const ghosts = []; for (let i = 0; i < 5; i++) { const t = sherman('ghost_tank', { at: [rr(-14, -7), 18 + i * 10, 0], rot: Math.PI / 2, cast: false }); t.traverse(o => { if (o.isMesh) { o.material = o.material.clone(); o.material.transparent = true; o.material.opacity = 0; o.material.depthWrite = false; } }); ghosts.push(t); }
     const hz = EV.hundred || 0;
+    let CAM = null; scene.onBeforeRender = (r_, s_, c_) => { CAM = c_; };
     ups.push((f, t) => { ht.userData.disc.rotation.y = t * 3.5; const on = sm((f - (hz - 10)) / 15);
-      rings.forEach((r, i) => { const q = ((t * .7 + i / rings.length) % 1); const pos = ht.userData.horn.getWorldPosition(new THREE.Vector3()); r.position.copy(pos).add(new THREE.Vector3(0, 0, -q * 14)); r.scale.setScalar(.8 + q * 6); r.material.opacity = on * .55 * (1 - q); });
+      const hpos = ht.userData.horn.getWorldPosition(new THREE.Vector3()), ax = new THREE.Vector3(1, 0, 0).applyQuaternion(ht.quaternion).normalize();
+      rings.forEach((r, i) => { const q = ((t * .45 + i / rings.length) % 1); r.position.copy(hpos).addScaledVector(ax, .9 + q * 8); r.lookAt(r.position.clone().add(ax)); r.scale.setScalar(1.05 + q * 4.2); const dc = (CAM && CAM.position) ? r.position.distanceTo(CAM.position) : 99; r.material.opacity = on * .75 * Math.pow(1 - q, 1.2) * Math.min(1, q * 10) * Math.min(1, Math.max(0, (dc - 3) / 5));   /* never a veil over the lens */ });
       ghosts.forEach((g, i) => g.traverse(o => { if (o.isMesh) o.material.opacity = on * (.12 + .08 * Math.sin(t * 2 + i)); })); });
     anchors = { halftrack: [0, 6, 2], speaker: [0, 7.2, 2.75] };
   }
@@ -287,7 +301,7 @@ export function build(THREE, scene, film, ctx) {
     for (let i = 0; i < 14; i++) box('pontoon', 'metal', 2.6, 3.0, .5, [60, 37 + i * 3.1, .05], metal('iron', '#3a4030', { rough: .7 }));
     box('bridge_deck', 'wood', 3.2, 44, .12, [60, 58, .55], relief('wood', '#5a4a36', { seed: 121 }));
     const real = []; for (let i = 0; i < 3; i++) { const t = sherman('real_tank', { at: [60, 30 - i * 9, 0], rot: -Math.PI / 2, col: '#4a5030' }); t.traverse(o => { if (o.isMesh && o.material.name === 'rubber_canvas') { o.material = metal('iron', '#4a5030', { rough: .65, rust: .2 }); } }); real.push(t); }
-    const moon = glow('#e6eeff', 24, .9, V(120, 200, 80)); const path = add(new THREE.Mesh(new THREE.PlaneGeometry(6, 60), basic('#c8d8ff', { transparent: true, opacity: .22 })), 'moon_path', 'water', { cast: false }); path.rotation.x = -Math.PI / 2; path.position.copy(V(70, 70, .38)); const ml = new THREE.DirectionalLight('#b4c6ff', 3.2); scene.add(new THREE.HemisphereLight('#7c90c8', '#33402c', 3.2));   // night never under mean 0.31 (11c) for (const [x, y] of [[56, 24], [62, 44]]) { const nl = new THREE.PointLight('#9fb6ff', 18, 34, 1.4); nl.position.copy(V(x, y, 16)); scene.add(nl); }   // moonlight pools on the silent crossing (north)
+    const moon = glow('#e6eeff', 24, .9, V(120, 200, 80)); const path = add(new THREE.Mesh(new THREE.PlaneGeometry(6, 60), basic('#c8d8ff', { transparent: true, opacity: .22 })), 'moon_path', 'water', { cast: false }); path.rotation.x = -Math.PI / 2; path.position.copy(V(70, 70, .38)); const ml = new THREE.DirectionalLight('#b4c6ff', 3.2); scene.add(new THREE.HemisphereLight('#7c90c8', '#33402c', 3.2));   /* night never under mean 0.31 (11c) */ for (const [x, y] of [[56, 24], [62, 44]]) { const nl = new THREE.PointLight('#9fb6ff', 18, 34, 1.4); nl.position.copy(V(x, y, 16)); scene.add(nl); }   // moonlight pools on the silent crossing (north)
     for (const [x, y] of [[-40, 14], [-26, 16], [-12, 14], [-33, 36], [-19, 38]]) { const wl = new THREE.PointLight('#ffcf8a', 30, 26, 1.6); wl.position.copy(V(x, y, 4)); scene.add(wl); glow('#ffcf8a', 1.4, .9, V(x, y, 4)); cyl('work_lamp_pole', 'metal', .06, 4, [x, y, 0], metal('iron', '#3a3a34')); } ml.position.copy(V(80, 120, 60)); scene.add(ml);
     decoys.forEach((t, i) => { t.userData.i0 = (EV.inflate || 0) + i * 2; });
     ups.push((f, t) => {

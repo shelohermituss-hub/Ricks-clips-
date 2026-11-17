@@ -116,6 +116,11 @@ places = {}
 for who in ('carrier_short', 'carrier_stocky'): act(who, ['winks', 1, -12], visible=False)   # they have left the field before Lou's close-ups
 for name, light, extra in (('field', 'morning', {}), ('camp', 'day', {}), ('road', 'night', {}), ('radio', 'interior', {}), ('cafe', 'interior', {}), ('photo', 'interior', dict(light_over=dict(sun='#cfe0ff', tint='#dfe8ff'))), ('river', 'night', {}), ('bedroom', 'night', {}), ('attic', 'golden', {})):
     places[name] = dict(set='ghost', zone=name, light=light, backdrop=8 if name in ('radio', 'cafe', 'photo', 'bedroom', 'attic') else 40, events=LAMP_EV.get(name, {}), **extra)
+# v1 note 7: particles only where the place has a reason for them (dawn pollen, lamp-lit dust, the attic's sunbeam), none outside at night or in the cold photo room
+DUST = dict(field=.3, camp=0, road=0, radio=.35, cafe=.25, photo=0, river=0, bedroom=0, attic=1.0)
+for name in places: places[name]['post'] = dict(dust=DUST[name])
+# v1 note 2: night stays night but the foreground reads (kit light preset lifted: moon key and blue fill)
+for name in ('road', 'river', 'bedroom'): places[name].setdefault('light_over', {}).update(si=2.0, ai=2.3, amb='#5a6ca8', hor='#33447a')
 film = dict(title='THE GHOST ARMY', fps=30, size=[1080, 1920], end=END, kit3d=True, words='voice/words.json', puppet_pkg=['cast', '../../templates/vector2d_characters/code'],
   post=dict(dof=0), camera_idea=dict(name='The fake reveals itself', why='The audience is fooled first, like the enemy: each chapter opens on something real and powerful, then the camera shows the trick behind it.', signature='On "crosses" one crane rises over the river from the shelled decoys to the real army crossing in silence.'),
   cast={c: dict(puppet='cast:' + c, height=h, heads_tall=ht) for c, h, ht in (('lou', 1.78, 2.9), ('carrier_tall', 1.9, 3.0), ('carrier_stocky', 1.72, 2.8), ('carrier_short', 1.65, 2.8), ('farmer', 1.7, 2.9), ('boy', 1.2, 2.3), ('sergeant', 1.75, 2.8), ('sound_op', 1.76, 2.9), ('radio_op', 1.8, 2.9), ('spy', 1.82, 3.0), ('waitress', 1.62, 2.8), ('interpreter', 1.78, 2.9), ('grandchild', 1.25, 2.3), ('old_lou', 1.72, 2.9))},
