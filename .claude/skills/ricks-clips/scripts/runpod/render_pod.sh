@@ -34,9 +34,16 @@ if [ -n "$DRV" ] && [ ! -e /usr/share/vulkan/icd.d/nvidia_icd.json ] && [ ! -e /
   else echo "NVIDIA driver $DRV download failed" | tee "$PUB/nvidia_install.log"; fi
   ls /usr/share/vulkan/icd.d/ /etc/vulkan/icd.d/ 2>/dev/null; vulkaninfo --summary 2>&1 | grep -iE "deviceName|driverName" | head -4
 fi
-# GPU: ANGLE Vulkan, then EGL; keep the first that is really the NVIDIA card (render_gpu.mjs refuses a CPU renderer with exit 2)
+# Mounted NVIDIA libs without their loader files: write the EGL vendor file and the Vulkan ICD so ANGLE can find the card.
+LEGL=$(ldconfig -p | grep -oE '/[^ ]*libEGL_nvidia\.so\.0' | head -1); LGLX=$(ldconfig -p | grep -oE '/[^ ]*libGLX_nvidia\.so\.0' | head -1)
+mkdir -p /usr/share/glvnd/egl_vendor.d /usr/share/vulkan/icd.d
+[ -n "$LEGL" ] && ! ls /usr/share/glvnd/egl_vendor.d/*nvidia* >/dev/null 2>&1 && printf '{"file_format_version":"1.0.0","ICD":{"library_path":"libEGL_nvidia.so.0"}}\n' > /usr/share/glvnd/egl_vendor.d/10_nvidia.json
+[ -n "$LGLX" ] && ! ls /usr/share/vulkan/icd.d/*nvidia* /etc/vulkan/icd.d/*nvidia* >/dev/null 2>&1 && printf '{"file_format_version":"1.0.0","ICD":{"library_path":"libGLX_nvidia.so.0","api_version":"1.3.0"}}\n' > /usr/share/vulkan/icd.d/nvidia_icd.json
+{ echo "libEGL_nvidia=$LEGL libGLX_nvidia=$LGLX"; ls -la /usr/share/glvnd/egl_vendor.d /usr/share/vulkan/icd.d /etc/vulkan/icd.d 2>&1; ldconfig -p | grep -iE "nvidia" | sort; vulkaninfo --summary 2>&1 | grep -iE "deviceName|driverName|ERROR" | head -6; } > "$PUB/gpu_diag.txt" 2>&1
+# GPU: try each ANGLE backend (Vulkan without a surface = headless-safe, EGL, then Vulkan with extra features); keep the first that is
+# really the NVIDIA card (render_gpu.mjs refuses a CPU renderer with exit 2)
 MODE=software; ANG=""
-for a in vulkan gl; do
+for a in vulkan gl-egl; do
   if RICKCLIPS_GPU_ANGLE=$a timeout 180 node render_gpu.mjs "$EP/film.json" --gpu-info > "$PUB/gpuinfo_$a.txt" 2>&1 && grep -qi nvidia "$PUB/gpuinfo_$a.txt"; then MODE=gpu; ANG=$a; break; fi
 done
 grep -h "WebGL renderer" "$PUB"/gpuinfo_*.txt; echo "render mode: $MODE $ANG"
