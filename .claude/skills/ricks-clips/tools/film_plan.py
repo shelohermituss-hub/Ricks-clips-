@@ -265,7 +265,7 @@ def bake_performance(F):
         mine = [a for a in acts if a["who"] == who]
         if not mine: continue
         f0 = fr(F, mine[0]["at"]) if mine[0].get("enter") else 0
-        st = dict(view="front", dir=1, pose="stand", face="standard", prop=None, hand=None, pos=list(mine[0].get("pos", [0, 0, 0])), visible=True, look=None, look_full=False, walk_pose=None, cling=None)
+        st = dict(view="front", dir=1, pose="stand", face="standard", prop=None, hand=None, pos=list(mine[0].get("pos", [0, 0, 0])), visible=True, look=None, look_full=False, walk_pose=None, cling=None, place=next((m["place"] for m in mine if m.get("place")), None))   # a figure belongs to the place of its first placed act until an act moves it
         frames = [None] * end; talk = [False] * end; punch = [False] * end; swaps = []
         keys = []                                                                # (frame, field changes)
         for a in mine:
@@ -275,7 +275,7 @@ def bake_performance(F):
             if "face" in a:
                 keys.append((tf, dict(face=a["face"])))
                 if not first: swaps.append(tf)
-            body = {k: a[k] for k in ("view", "dir", "pose", "prop", "hand", "visible", "look", "look_full", "walk_pose", "cling") if k in a}
+            body = {k: a[k] for k in ("view", "dir", "pose", "prop", "hand", "visible", "look", "look_full", "walk_pose", "cling", "place") if k in a}   # "place" (2026-11-17): a figure shows only in that place (film.js reads st.place)
             if body: keys.append((tf + (1 if "face" in a and not first else 0), body))   # the body follows one frame later
             if "pos" in a and not first: keys.append((tf + 1, dict(_move=(list(a["pos"]), a.get("walk", False), int(round(a.get("move_s", 0.5) * fps)), bool(a.get("linear"))))))
             if a.get("exit"): keys.append((tf, dict(visible=False)))
@@ -315,6 +315,7 @@ def bake_performance(F):
                 frames[f]["look"] = look
                 if walking or st.get("look_full"): frames[f]["look_full"] = True
             if st.get("cling"): frames[f]["cling"] = st["cling"]
+            if st.get("place"): frames[f]["place"] = st["place"]
         # blinks: one covering each face swap, then every 0.5-2.3 s; 4 frames; never while talking or in a punch hold
         marks = sorted(set(max(0, s - 1) for s in swaps)); f = int(rnd((who, "b0"), 0.5, 2.3) * fps)
         while f < end: marks.append(f); f += int(rnd((who, f), 0.5, 2.3) * fps)
@@ -541,6 +542,7 @@ def check(F, cam=None, perf=None):
         for who in perf:
             st = perf_at(perf[who], i)
             if not st["visible"] or st["view"] == "back": continue
+            if st.get("place") and c.get("place") and st["place"] != c["place"]: continue   # film.js shows a figure only in its own place
             hc, hw, hh, H = head_box(F, who, st); p = project(c, hc)
             if not p: continue
             w = hw / p[2] * (0.5 / math.tan(math.radians(c["fov_v"]) / 2)) * PXH / PXW; h_ = w * PXW / PXH * hh / hw

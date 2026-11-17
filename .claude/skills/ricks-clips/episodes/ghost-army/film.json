@@ -1,0 +1,2289 @@
+{
+ "title": "THE GHOST ARMY",
+ "fps": 30,
+ "size": [
+  1080,
+  1920
+ ],
+ "end": 2137,
+ "kit3d": true,
+ "words": "voice/words.json",
+ "puppet_pkg": [
+  "cast",
+  "../../templates/vector2d_characters/code"
+ ],
+ "post": {
+  "dof": 0
+ },
+ "camera_idea": {
+  "name": "The fake reveals itself",
+  "why": "The audience is fooled first, like the enemy: each chapter opens on something real and powerful, then the camera shows the trick behind it.",
+  "signature": "On \"crosses\" one crane rises over the river from the shelled decoys to the real army crossing in silence."
+ },
+ "cast": {
+  "lou": {
+   "puppet": "cast:lou",
+   "height": 1.78,
+   "heads_tall": 2.9
+  },
+  "carrier_tall": {
+   "puppet": "cast:carrier_tall",
+   "height": 1.9,
+   "heads_tall": 3.0
+  },
+  "carrier_stocky": {
+   "puppet": "cast:carrier_stocky",
+   "height": 1.72,
+   "heads_tall": 2.8
+  },
+  "carrier_short": {
+   "puppet": "cast:carrier_short",
+   "height": 1.65,
+   "heads_tall": 2.8
+  },
+  "farmer": {
+   "puppet": "cast:farmer",
+   "height": 1.7,
+   "heads_tall": 2.9
+  },
+  "boy": {
+   "puppet": "cast:boy",
+   "height": 1.2,
+   "heads_tall": 2.3
+  },
+  "sergeant": {
+   "puppet": "cast:sergeant",
+   "height": 1.75,
+   "heads_tall": 2.8
+  },
+  "sound_op": {
+   "puppet": "cast:sound_op",
+   "height": 1.76,
+   "heads_tall": 2.9
+  },
+  "radio_op": {
+   "puppet": "cast:radio_op",
+   "height": 1.8,
+   "heads_tall": 2.9
+  },
+  "spy": {
+   "puppet": "cast:spy",
+   "height": 1.82,
+   "heads_tall": 3.0
+  },
+  "waitress": {
+   "puppet": "cast:waitress",
+   "height": 1.62,
+   "heads_tall": 2.8
+  },
+  "interpreter": {
+   "puppet": "cast:interpreter",
+   "height": 1.78,
+   "heads_tall": 2.9
+  },
+  "grandchild": {
+   "puppet": "cast:grandchild",
+   "height": 1.25,
+   "heads_tall": 2.3
+  },
+  "old_lou": {
+   "puppet": "cast:old_lou",
+   "height": 1.72,
+   "heads_tall": 2.9
+  }
+ },
+ "places": {
+  "field": {
+   "set": "ghost",
+   "zone": "field",
+   "light": "morning",
+   "backdrop": 40,
+   "events": {
+    "lift": [
+     0,
+     60
+    ],
+    "set": 103,
+    "dent": 110,
+    "deflate": 289
+   }
+  },
+  "camp": {
+   "set": "ghost",
+   "zone": "camp",
+   "light": "day",
+   "backdrop": 40,
+   "events": {}
+  },
+  "road": {
+   "set": "ghost",
+   "zone": "road",
+   "light": "night",
+   "backdrop": 40,
+   "events": {
+    "hundred": 860
+   }
+  },
+  "radio": {
+   "set": "ghost",
+   "zone": "radio",
+   "light": "interior",
+   "backdrop": 8,
+   "events": {}
+  },
+  "cafe": {
+   "set": "ghost",
+   "zone": "cafe",
+   "light": "interior",
+   "backdrop": 8,
+   "events": {}
+  },
+  "photo": {
+   "set": "ghost",
+   "zone": "photo",
+   "light": "interior",
+   "backdrop": 8,
+   "events": {},
+   "light_over": {
+    "sun": "#cfe0ff",
+    "tint": "#dfe8ff"
+   }
+  },
+  "river": {
+   "set": "ghost",
+   "zone": "river",
+   "light": "night",
+   "backdrop": 40,
+   "events": {
+    "inflate": 1513,
+    "shell": 1679,
+    "cross": 1708
+   }
+  },
+  "bedroom": {
+   "set": "ghost",
+   "zone": "bedroom",
+   "light": "night",
+   "backdrop": 8,
+   "events": {}
+  },
+  "attic": {
+   "set": "ghost",
+   "zone": "attic",
+   "light": "golden",
+   "backdrop": 8,
+   "events": {
+    "lift_skin": 2069
+   }
+  }
+ },
+ "props": {
+  "tank": {
+   "pos": [
+    0,
+    4,
+    1.5
+   ]
+  },
+  "lantern": {
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "takes": [
+  {
+   "id": "t_hook",
+   "place": "field",
+   "stations": [
+    {
+     "at": 0,
+     "pos": [
+      5.0,
+      -3.6,
+      0.9
+     ],
+     "aim": [
+      0.0,
+      4.0,
+      2.0
+     ],
+     "lens": 24,
+     "subject": "lou",
+     "framing": "W",
+     "shows": [
+      "tank"
+     ],
+     "hold": 0.0
+    },
+    {
+     "at": [
+      "suitcase",
+      1
+     ],
+     "pos": [
+      5.2,
+      -2.6,
+      1.6
+     ],
+     "aim": [
+      1.6,
+      1.6,
+      1.5
+     ],
+     "lens": 30,
+     "subject": "lou",
+     "framing": "M",
+     "lead": 3,
+     "hold": 0.3,
+     "travel": 1.6
+    },
+    {
+     "at": [
+      "bicycles",
+      1
+     ],
+     "pos": [
+      -3.6,
+      -6.4,
+      1.3
+     ],
+     "aim": [
+      -7.2,
+      -2.0,
+      1.35
+     ],
+     "lens": 40,
+     "subject": "farmer",
+     "framing": "W",
+     "lead": 3,
+     "hold": 0.3,
+     "travel": 1.0
+    },
+    {
+     "at": [
+      "winks",
+      1
+     ],
+     "pos": [
+      4.2,
+      -1.8,
+      1.45
+     ],
+     "aim": [
+      3.2,
+      0.5,
+      1.4
+     ],
+     "lens": 35,
+     "subject": "lou",
+     "framing": "C",
+     "lead": 3,
+     "hold": 0.4,
+     "travel": 1.0,
+     "dof": 0.35
+    },
+    {
+     "at": [
+      "rubber",
+      1
+     ],
+     "pos": [
+      1.6,
+      -0.8,
+      1.9
+     ],
+     "aim": [
+      -1.3,
+      3.0,
+      1.5
+     ],
+     "lens": 28,
+     "subject": "lou",
+     "framing": "O",
+     "lead": 3,
+     "travel": 0.9,
+     "dof": 0.35
+    }
+   ]
+  },
+  {
+   "id": "t_camp",
+   "place": "camp",
+   "stations": [
+    {
+     "at": [
+      "painters",
+      1
+     ],
+     "pos": [
+      -14.0,
+      -8.0,
+      3.0
+     ],
+     "aim": [
+      -4.0,
+      10.0,
+      1.2
+     ],
+     "lens": 24,
+     "subject": "lou",
+     "framing": "P",
+     "lead": 4,
+     "hold": 0.3
+    },
+    {
+     "at": [
+      "job",
+      1
+     ],
+     "pos": [
+      2.8,
+      -4.4,
+      1.5
+     ],
+     "aim": [
+      1.0,
+      -1.4,
+      1.3
+     ],
+     "lens": 24,
+     "subject": "lou",
+     "framing": "M",
+     "lead": 3,
+     "hold": 0.3,
+     "travel": 1.4
+    },
+    {
+     "at": [
+      "rule",
+      1
+     ],
+     "pos": [
+      -0.6,
+      -2.2,
+      1.3
+     ],
+     "aim": [
+      -2.2,
+      2.4,
+      1.4500000000000002
+     ],
+     "lens": 40,
+     "subject": "lou",
+     "framing": "W",
+     "lead": 3,
+     "hold": 0.2,
+     "travel": 1.2
+    },
+    {
+     "at": [
+      "close",
+      1
+     ],
+     "pos": [
+      -5.6,
+      8.6,
+      1.5
+     ],
+     "aim": [
+      -4.0,
+      12.0,
+      1.4
+     ],
+     "lens": 24,
+     "subject": "carrier_short",
+     "framing": "O",
+     "lead": 3,
+     "travel": 0.8,
+     "dof": 0.35
+    },
+    {
+     "at": [
+      "army",
+      2
+     ],
+     "pos": [
+      -6.0,
+      -30.0,
+      12.0
+     ],
+     "aim": [
+      -4.0,
+      14.0,
+      0.5
+     ],
+     "lens": 24,
+     "subject": "lou",
+     "framing": "P",
+     "lead": 3,
+     "hold": 0.2,
+     "travel": 1.4,
+     "drift": [
+      0.12,
+      0.08,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      "bulldozer",
+      1
+     ],
+     "pos": [
+      19.0,
+      -7.0,
+      3.0
+     ],
+     "aim": [
+      12.0,
+      0.0,
+      0.6
+     ],
+     "lens": 24,
+     "subject": "lou",
+     "framing": "P",
+     "lead": 3,
+     "travel": 1.4
+    }
+   ]
+  },
+  {
+   "id": "t_road",
+   "place": "road",
+   "stations": [
+    {
+     "at": [
+      "night",
+      1
+     ],
+     "pos": [
+      -1.2,
+      -2.4,
+      1.4
+     ],
+     "aim": [
+      1.4,
+      4.2,
+      1.85
+     ],
+     "lens": 40,
+     "subject": "sound_op",
+     "framing": "W",
+     "lead": 4,
+     "hold": 0.3
+    },
+    {
+     "at": [
+      "hundred",
+      1
+     ],
+     "pos": [
+      -7.0,
+      -9.0,
+      2.4
+     ],
+     "aim": [
+      -5.0,
+      22.0,
+      2.0
+     ],
+     "lens": 24,
+     "subject": "sound_op",
+     "framing": "P",
+     "lead": 6,
+     "hold": 0.3,
+     "travel": 0.8,
+     "drift": [
+      0.12,
+      0.08,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      "speaker",
+      1
+     ],
+     "pos": [
+      3.0,
+      3.6,
+      3.3
+     ],
+     "aim": [
+      0.0,
+      7.2,
+      2.7
+     ],
+     "lens": 24,
+     "subject": "sound_op",
+     "framing": "O",
+     "lead": 3,
+     "travel": 1.0,
+     "dof": 0.35
+    }
+   ]
+  },
+  {
+   "id": "t_radio",
+   "place": "radio",
+   "stations": [
+    {
+     "at": [
+      "radio",
+      1
+     ],
+     "pos": [
+      1.8,
+      -1.6,
+      1.7
+     ],
+     "aim": [
+      -0.2,
+      1.2,
+      1.1
+     ],
+     "lens": 24,
+     "subject": "radio_op",
+     "framing": "M",
+     "lead": 4,
+     "hold": 0.3
+    },
+    {
+     "at": [
+      "morse",
+      1
+     ],
+     "pos": [
+      -0.3,
+      0.2,
+      1.5
+     ],
+     "aim": [
+      -0.4,
+      1.6,
+      1.0
+     ],
+     "lens": 24,
+     "subject": "radio_op",
+     "framing": "O",
+     "lead": 3,
+     "travel": 0.9,
+     "dof": 0.35
+    }
+   ]
+  },
+  {
+   "id": "t_cafe",
+   "place": "cafe",
+   "stations": [
+    {
+     "at": [
+      "café",
+      1
+     ],
+     "pos": [
+      -1.2,
+      -1.6,
+      1.7
+     ],
+     "aim": [
+      1.2,
+      3.8,
+      1.65
+     ],
+     "lens": 40,
+     "subject": "lou",
+     "framing": "W",
+     "lead": 4,
+     "hold": 0.3
+    },
+    {
+     "at": [
+      "patches",
+      1
+     ],
+     "pos": [
+      0.6,
+      1.6,
+      1.5
+     ],
+     "aim": [
+      1.4,
+      3.6,
+      1.2
+     ],
+     "lens": 24,
+     "subject": "lou",
+     "framing": "M",
+     "lead": 3,
+     "hold": 0.2,
+     "travel": 0.9
+    },
+    {
+     "at": [
+      "spies",
+      1
+     ],
+     "pos": [
+      -1.0,
+      -0.2,
+      1.4
+     ],
+     "aim": [
+      -2.6,
+      1.6,
+      1.1
+     ],
+     "lens": 24,
+     "subject": "spy",
+     "framing": "M",
+     "lead": 3,
+     "hold": 0.2,
+     "travel": 0.9
+    },
+    {
+     "at": [
+      "carnival",
+      1
+     ],
+     "pos": [
+      2.6,
+      0.9,
+      1.6
+     ],
+     "aim": [
+      3.9,
+      3.4,
+      1.4
+     ],
+     "lens": 24,
+     "subject": "sergeant",
+     "framing": "C",
+     "lead": 3,
+     "travel": 1.2,
+     "dof": 0.35
+    }
+   ]
+  },
+  {
+   "id": "t_river",
+   "place": "river",
+   "stations": [
+    {
+     "at": [
+      "river",
+      1
+     ],
+     "pos": [
+      -22.6,
+      -0.4,
+      1.6
+     ],
+     "aim": [
+      -19.6,
+      4.6,
+      1.5499999999999998
+     ],
+     "lens": 40,
+     "subject": "lou",
+     "framing": "W",
+     "lead": 4,
+     "hold": 0.3
+    },
+    {
+     "at": [
+      "hundred",
+      2
+     ],
+     "pos": [
+      -36.0,
+      6.0,
+      5.0
+     ],
+     "aim": [
+      -25.0,
+      28.0,
+      0.5
+     ],
+     "lens": 24,
+     "subject": "lou",
+     "framing": "P",
+     "lead": 3,
+     "travel": 1.6
+    }
+   ]
+  },
+  {
+   "id": "t_photo",
+   "place": "photo",
+   "stations": [
+    {
+     "at": [
+      "photographs",
+      1
+     ],
+     "pos": [
+      -1.4,
+      -1.6,
+      1.8
+     ],
+     "aim": [
+      0.1,
+      1.2,
+      1.1
+     ],
+     "lens": 24,
+     "subject": "interpreter",
+     "framing": "M",
+     "lead": 4,
+     "hold": 0.3
+    },
+    {
+     "at": [
+      "spies",
+      2
+     ],
+     "pos": [
+      1.6,
+      -0.6,
+      1.6
+     ],
+     "aim": [
+      0.2,
+      1.3,
+      1.0
+     ],
+     "lens": 24,
+     "subject": "interpreter",
+     "framing": "M",
+     "lead": 3,
+     "travel": 0.8
+    }
+   ]
+  },
+  {
+   "id": "t_strike",
+   "place": "river",
+   "stations": [
+    {
+     "at": [
+      "gun",
+      1
+     ],
+     "pos": [
+      -34.0,
+      10.0,
+      4.0
+     ],
+     "aim": [
+      -26.0,
+      26.0,
+      1.0
+     ],
+     "lens": 24,
+     "subject": "lou",
+     "framing": "P",
+     "lead": 4,
+     "hold": 0.3
+    }
+   ]
+  },
+  {
+   "id": "t_cross",
+   "place": "river",
+   "stations": [
+    {
+     "at": [
+      "meanwhile",
+      1
+     ],
+     "pos": [
+      46.0,
+      16.0,
+      14.0
+     ],
+     "aim": [
+      60.0,
+      46.0,
+      0.0
+     ],
+     "lens": 24,
+     "subject": "sergeant",
+     "framing": "P",
+     "lead": 4,
+     "hold": 0.3,
+     "drift": [
+      0.12,
+      0.08,
+      0.0
+     ]
+    },
+    {
+     "at": [
+      "crosses",
+      1
+     ],
+     "pos": [
+      50.0,
+      26.0,
+      6.0
+     ],
+     "aim": [
+      60.0,
+      48.0,
+      0.5
+     ],
+     "lens": 24,
+     "subject": "sergeant",
+     "framing": "P",
+     "lead": 3,
+     "hold": 0.2,
+     "travel": 1.2
+    },
+    {
+     "at": [
+      "fired",
+      1
+     ],
+     "pos": [
+      56.4,
+      40.0,
+      1.3
+     ],
+     "aim": [
+      58.6,
+      44.0,
+      1.5
+     ],
+     "lens": 24,
+     "subject": "sergeant",
+     "framing": "C",
+     "lead": 3,
+     "travel": 0.9,
+     "dof": 0.35
+    }
+   ]
+  },
+  {
+   "id": "t_bed",
+   "place": "bedroom",
+   "stations": [
+    {
+     "at": [
+      "pillow-under-the-blanket",
+      1
+     ],
+     "pos": [
+      0.8,
+      -1.0,
+      1.5
+     ],
+     "aim": [
+      -0.4,
+      2.2,
+      1.25
+     ],
+     "lens": 40,
+     "subject": "boy",
+     "framing": "W",
+     "lead": 4,
+     "hold": 0.3
+    },
+    {
+     "at": [
+      "outside",
+      1
+     ],
+     "pos": [
+      0.2,
+      -0.2,
+      1.3
+     ],
+     "aim": [
+      1.3,
+      3.2,
+      1.0
+     ],
+     "lens": 24,
+     "subject": "boy",
+     "framing": "M",
+     "lead": 3,
+     "travel": 1.0
+    }
+   ]
+  },
+  {
+   "id": "t_attic",
+   "place": "attic",
+   "stations": [
+    {
+     "at": [
+      "fooled",
+      1
+     ],
+     "pos": [
+      0.3,
+      -2.6,
+      1.5
+     ],
+     "aim": [
+      0.0,
+      1.8,
+      1.35
+     ],
+     "lens": 40,
+     "subject": "old_lou",
+     "framing": "W",
+     "lead": 4,
+     "hold": 0.3
+    },
+    {
+     "at": [
+      "families",
+      1
+     ],
+     "pos": [
+      -0.4,
+      -0.8,
+      1.3
+     ],
+     "aim": [
+      -1.0,
+      1.3,
+      1.3
+     ],
+     "lens": 24,
+     "subject": "old_lou",
+     "framing": "M",
+     "lead": 3,
+     "hold": 0.3,
+     "travel": 1.0
+    },
+    {
+     "at": [
+      "years",
+      1
+     ],
+     "pos": [
+      0.2,
+      -1.4,
+      1.2
+     ],
+     "aim": [
+      0.1,
+      1.5,
+      1.3
+     ],
+     "lens": 24,
+     "subject": "grandchild",
+     "framing": "M",
+     "lead": 3,
+     "travel": 1.0
+    }
+   ]
+  }
+ ],
+ "acts": [
+  {
+   "who": "lou",
+   "at": 0,
+   "pos": [
+    1.9,
+    2.6,
+    0
+   ],
+   "place": "field",
+   "view": "34",
+   "dir": -1,
+   "pose": "hold_up",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "carrier_tall",
+   "at": 0,
+   "pos": [
+    -1.4,
+    2.2,
+    0
+   ],
+   "place": "field",
+   "view": "34",
+   "dir": 1,
+   "pose": "hold_up",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "carrier_short",
+   "at": 0,
+   "pos": [
+    1.4,
+    5.8,
+    0
+   ],
+   "place": "field",
+   "view": "34",
+   "dir": -1,
+   "pose": "hold_up",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "carrier_stocky",
+   "at": 0,
+   "pos": [
+    -1.8,
+    6.0,
+    0
+   ],
+   "place": "field",
+   "view": "34",
+   "dir": 1,
+   "pose": "hold_up",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "carrier_tall",
+   "at": [
+    "suitcase",
+    1,
+    -6
+   ],
+   "pos": [
+    -2.4,
+    0.4,
+    0
+   ],
+   "move_s": 0.5,
+   "pose": "stand",
+   "face": "k:sleepy"
+  },
+  {
+   "who": "carrier_short",
+   "at": [
+    "suitcase",
+    1,
+    -6
+   ],
+   "pos": [
+    3.0,
+    7.4,
+    0
+   ],
+   "move_s": 0.5,
+   "pose": "stand",
+   "face": "k:sleepy"
+  },
+  {
+   "who": "carrier_stocky",
+   "at": [
+    "suitcase",
+    1,
+    -6
+   ],
+   "pos": [
+    -3.6,
+    6.8,
+    0
+   ],
+   "move_s": 0.5,
+   "pose": "stand",
+   "face": "k:sleepy"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "suitcase",
+    1,
+    -6
+   ],
+   "pos": [
+    2.3,
+    1.0,
+    0
+   ],
+   "move_s": 0.5,
+   "pose": "knock",
+   "face": "k:smirk"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "soldier",
+    1
+   ],
+   "pos": [
+    3.0,
+    1.3,
+    0
+   ],
+   "walk": true,
+   "pose": "stand",
+   "view": "front"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "winks",
+    1
+   ],
+   "face": "k:slyWink",
+   "pose": "hands_hips"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "rubber",
+    1
+   ],
+   "pos": [
+    -1.6,
+    2.4,
+    0
+   ],
+   "move_s": 0.4,
+   "linear": true,
+   "view": "side",
+   "dir": 1,
+   "pose": "push",
+   "face": "k:proud"
+  },
+  {
+   "who": "farmer",
+   "at": 0,
+   "pos": [
+    -7.8,
+    -24.0,
+    0
+   ],
+   "place": "field",
+   "view": "side",
+   "dir": 1,
+   "pose": "m:bike/A+props",
+   "face": "k:standard"
+  },
+  {
+   "who": "boy",
+   "at": 0,
+   "pos": [
+    -6.7,
+    -26.0,
+    0
+   ],
+   "place": "field",
+   "view": "side",
+   "dir": 1,
+   "pose": "m:bike/B+props",
+   "face": "k:happy"
+  },
+  {
+   "who": "farmer",
+   "at": [
+    "bicycles",
+    1,
+    -36
+   ],
+   "pos": [
+    -7.8,
+    -2.6,
+    0
+   ],
+   "move_s": 1.3,
+   "linear": true
+  },
+  {
+   "who": "boy",
+   "at": [
+    "bicycles",
+    1,
+    -36
+   ],
+   "pos": [
+    -6.7,
+    -4.6,
+    0
+   ],
+   "move_s": 1.4,
+   "linear": true
+  },
+  {
+   "who": "farmer",
+   "at": [
+    "dead",
+    1
+   ],
+   "pose": "flinch",
+   "view": "34",
+   "dir": 1,
+   "face": "k:shocked"
+  },
+  {
+   "who": "boy",
+   "at": [
+    "dead",
+    1
+   ],
+   "pose": "point_out",
+   "view": "34",
+   "dir": 1,
+   "face": "k:surprised"
+  },
+  {
+   "who": "boy",
+   "at": [
+    "strong",
+    1
+   ],
+   "face": "k:excited",
+   "pose": "cheer"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "painters",
+    1,
+    -2
+   ],
+   "pos": [
+    1.0,
+    -1.4,
+    0
+   ],
+   "place": "camp",
+   "view": "34",
+   "dir": -1,
+   "pose": "write",
+   "face": "k:happy"
+  },
+  {
+   "who": "carrier_short",
+   "at": [
+    "painters",
+    1,
+    -2
+   ],
+   "pos": [
+    -4.6,
+    9.4,
+    0
+   ],
+   "place": "camp",
+   "view": "34",
+   "dir": 1,
+   "pose": "m:sweep/A",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "carrier_tall",
+   "at": [
+    "painters",
+    1,
+    -2
+   ],
+   "pos": [
+    -3.6,
+    2.6,
+    0
+   ],
+   "place": "camp",
+   "view": "side",
+   "dir": 1,
+   "pose": "push",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "job",
+    1
+   ],
+   "face": "k:smug",
+   "view": "front"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "nobody",
+    1
+   ],
+   "face": "k:wink"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "rule",
+    1
+   ],
+   "pos": [
+    -2.0,
+    2.0,
+    0
+   ],
+   "walk": true,
+   "pose": "point_out",
+   "face": "k:proud"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "far",
+    1
+   ],
+   "face": "k:cheer",
+   "pose": "cheer"
+  },
+  {
+   "who": "sound_op",
+   "at": [
+    "night",
+    1,
+    -4
+   ],
+   "pos": [
+    2.0,
+    3.4,
+    0
+   ],
+   "place": "road",
+   "view": "34",
+   "dir": -1,
+   "pose": "stand",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "sound_op",
+   "at": [
+    "hundred",
+    1
+   ],
+   "pose": "finger_up",
+   "face": "k:smug"
+  },
+  {
+   "who": "sound_op",
+   "at": [
+    "speaker",
+    1
+   ],
+   "face": "k:proud"
+  },
+  {
+   "who": "radio_op",
+   "at": [
+    "radio",
+    1,
+    -4
+   ],
+   "pos": [
+    -0.4,
+    0.7,
+    0
+   ],
+   "place": "radio",
+   "view": "34",
+   "dir": 1,
+   "pose": "write",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "radio_op",
+   "at": [
+    "morse",
+    1
+   ],
+   "face": "k:frozenTongue"
+  },
+  {
+   "who": "radio_op",
+   "at": [
+    "signature",
+    1
+   ],
+   "face": "k:smug"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "café",
+    1,
+    -4
+   ],
+   "pos": [
+    1.3,
+    3.5,
+    0
+   ],
+   "place": "cafe",
+   "view": "34",
+   "dir": 1,
+   "pose": "lean_in",
+   "face": "k:slyWink"
+  },
+  {
+   "who": "waitress",
+   "at": [
+    "café",
+    1,
+    -4
+   ],
+   "pos": [
+    2.9,
+    5.2,
+    0
+   ],
+   "place": "cafe",
+   "view": "34",
+   "dir": -1,
+   "pose": "hold_out",
+   "face": "k:annoyed"
+  },
+  {
+   "who": "spy",
+   "at": [
+    "café",
+    1,
+    -4
+   ],
+   "pos": [
+    -2.6,
+    1.4,
+    0
+   ],
+   "place": "cafe",
+   "view": "34",
+   "dir": 1,
+   "pose": "sit",
+   "face": "k:think"
+  },
+  {
+   "who": "sergeant",
+   "at": [
+    "café",
+    1,
+    -4
+   ],
+   "pos": [
+    3.9,
+    3.4,
+    0
+   ],
+   "place": "cafe",
+   "view": "34",
+   "dir": -1,
+   "pose": "stand",
+   "face": "k:skeptical"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "secrets",
+    1
+   ],
+   "face": "k:wink"
+  },
+  {
+   "who": "spy",
+   "at": [
+    "spies",
+    1
+   ],
+   "face": "k:evil",
+   "pose": "write"
+  },
+  {
+   "who": "sergeant",
+   "at": [
+    "patches",
+    1
+   ],
+   "face": "k:annoyed"
+  },
+  {
+   "who": "sergeant",
+   "at": [
+    "spies",
+    1
+   ],
+   "face": "k:browUp"
+  },
+  {
+   "who": "sergeant",
+   "at": [
+    "laughs",
+    1
+   ],
+   "pose": "m:laugh/A",
+   "face": "k:laugh"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "river",
+    1,
+    -4
+   ],
+   "pos": [
+    -20.0,
+    4.0,
+    0
+   ],
+   "place": "river",
+   "view": "34",
+   "dir": 1,
+   "pose": "point_out",
+   "face": "k:concentrate"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "hundred",
+    2
+   ],
+   "face": "k:proud",
+   "pose": "hands_hips"
+  },
+  {
+   "who": "sergeant",
+   "at": [
+    "meanwhile",
+    1,
+    -4
+   ],
+   "pos": [
+    58.6,
+    44.0,
+    0
+   ],
+   "place": "river",
+   "view": "front",
+   "dir": 1,
+   "pose": "stand",
+   "face": "k:skeptical"
+  },
+  {
+   "who": "sergeant",
+   "at": [
+    "fired",
+    1
+   ],
+   "face": "k:shocked",
+   "pose": "flinch"
+  },
+  {
+   "who": "interpreter",
+   "at": [
+    "photographs",
+    1,
+    -4
+   ],
+   "pos": [
+    0.2,
+    0.7,
+    0
+   ],
+   "place": "photo",
+   "view": "34",
+   "dir": 1,
+   "pose": "lean_in",
+   "face": "k:smug"
+  },
+  {
+   "who": "interpreter",
+   "at": [
+    "spies",
+    2
+   ],
+   "face": "k:evil",
+   "pose": "point_out"
+  },
+  {
+   "who": "boy",
+   "at": [
+    "pillow-under-the-blanket",
+    1,
+    -4
+   ],
+   "pos": [
+    1.4,
+    3.6,
+    0
+   ],
+   "place": "bedroom",
+   "view": "front",
+   "dir": 1,
+   "pose": "hands_hips",
+   "face": "k:smirk"
+  },
+  {
+   "who": "boy",
+   "at": [
+    "outside",
+    1
+   ],
+   "face": "k:slyWink"
+  },
+  {
+   "who": "old_lou",
+   "at": [
+    "fooled",
+    1,
+    -4
+   ],
+   "pos": [
+    -1.0,
+    1.2,
+    0
+   ],
+   "place": "attic",
+   "view": "34",
+   "dir": 1,
+   "pose": "stand",
+   "face": "k:think"
+  },
+  {
+   "who": "grandchild",
+   "at": [
+    "fooled",
+    1,
+    -4
+   ],
+   "pos": [
+    0.7,
+    1.3,
+    0
+   ],
+   "place": "attic",
+   "view": "34",
+   "dir": -1,
+   "pose": "bend_down",
+   "face": "k:surprised"
+  },
+  {
+   "who": "old_lou",
+   "at": [
+    "families",
+    1
+   ],
+   "face": "k:smirk"
+  },
+  {
+   "who": "old_lou",
+   "at": [
+    "years",
+    1
+   ],
+   "face": "k:slyWink",
+   "pose": "finger_up"
+  },
+  {
+   "who": "grandchild",
+   "at": [
+    "years",
+    1,
+    -30
+   ],
+   "pose": "hold_up",
+   "face": "k:excited"
+  }
+ ],
+ "sentences": [
+  {
+   "text": "Four soldiers pick up a thirty-ton tank...",
+   "words": [
+    0,
+    6
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "and set it down in a field like a suitcase!",
+   "words": [
+    7,
+    16
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "Two Frenchmen on bicycles stop dead.",
+   "words": [
+    17,
+    22
+   ],
+   "subject": "farmer"
+  },
+  {
+   "text": "A soldier winks: \"Americans are very strong.\" You see, that tank is made of rubber.",
+   "words": [
+    23,
+    37
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "And these soldiers are painters, set designers and art students!",
+   "words": [
+    38,
+    47
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "Their job: make the enemy believe a whole army is here...",
+   "words": [
+    48,
+    58
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "when there's nobody.",
+   "words": [
+    59,
+    61
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "One rule: nobody gets closer than a quarter mile.",
+   "words": [
+    62,
+    70
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "Up close, it's all fake.",
+   "words": [
+    71,
+    75
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "From far away, it's an army!",
+   "words": [
+    76,
+    81
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "By day they blow up tanks, trucks and cannons, and a bulldozer even draws the track marks!",
+   "words": [
+    82,
+    98
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "At night, one truck rolls by...",
+   "words": [
+    99,
+    104
+   ],
+   "subject": "sound_op"
+  },
+  {
+   "text": "and you hear a hundred tanks!",
+   "words": [
+    105,
+    110
+   ],
+   "subject": "sound_op"
+  },
+  {
+   "text": "Engines, tracks, shouted orders, all from a speaker you can hear fifteen miles away!",
+   "words": [
+    111,
+    124
+   ],
+   "subject": "sound_op"
+  },
+  {
+   "text": "On the radio, they even copy the way real operators tap their Morse code, like forging a signature.",
+   "words": [
+    125,
+    142
+   ],
+   "subject": "radio_op"
+  },
+  {
+   "text": "And in the village café, they sew on fake patches and let slip fake secrets...",
+   "words": [
+    143,
+    157
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "for the spies.",
+   "words": [
+    158,
+    160
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "A real sergeant laughs: \"So now we fight wars with carnival balloons?\" Then comes the big river.",
+   "words": [
+    161,
+    177
+   ],
+   "subject": "sergeant"
+  },
+  {
+   "text": "In six days, the real army has to cross it.",
+   "words": [
+    178,
+    187
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "So the ghost army blows up six hundred tanks, ten miles to the south.",
+   "words": [
+    188,
+    201
+   ],
+   "subject": "sound_op"
+  },
+  {
+   "text": "The enemy photographs them, listens to them, spies on them...",
+   "words": [
+    202,
+    211
+   ],
+   "subject": "interpreter"
+  },
+  {
+   "text": "and sends every gun at the balloons!",
+   "words": [
+    212,
+    218
+   ],
+   "subject": "lou"
+  },
+  {
+   "text": "Meanwhile, up north, the real army crosses the river with barely a shot fired.",
+   "words": [
+    219,
+    232
+   ],
+   "subject": "sergeant"
+  },
+  {
+   "text": "You see, it's the pillow-under-the-blanket trick: while everyone watches the bed, the kid is already outside.",
+   "words": [
+    233,
+    248
+   ],
+   "subject": "boy"
+  },
+  {
+   "text": "And the last people they fooled?",
+   "words": [
+    249,
+    254
+   ],
+   "subject": "old_lou"
+  },
+  {
+   "text": "Their own families.",
+   "words": [
+    255,
+    257
+   ],
+   "subject": "old_lou"
+  },
+  {
+   "text": "The secret lasted more than fifty years.",
+   "words": [
+    258,
+    264
+   ],
+   "subject": "old_lou"
+  }
+ ],
+ "kicks": [
+  {
+   "at": [
+    "balloons",
+    2,
+    3
+   ],
+   "amp": 0.3
+  }
+ ],
+ "fx": [
+  {
+   "at": [
+    "suitcase",
+    1
+   ],
+   "kind": "knock",
+   "pos": [
+    0.3,
+    3.6,
+    2.4
+   ]
+  },
+  {
+   "at": [
+    "strong",
+    1
+   ],
+   "kind": "glint",
+   "pos": [
+    3.0,
+    1.3,
+    1.6
+   ]
+  },
+  {
+   "at": [
+    "rubber",
+    1,
+    4
+   ],
+   "kind": "steam",
+   "pos": [
+    -1.9,
+    3.2,
+    2.2
+   ]
+  },
+  {
+   "at": [
+    "track",
+    1
+   ],
+   "kind": "dust",
+   "pos": [
+    12.0,
+    0.0,
+    0.3
+   ]
+  },
+  {
+   "at": [
+    "hundred",
+    1
+   ],
+   "kind": "ring",
+   "pos": [
+    0.0,
+    7.2,
+    2.75
+   ]
+  },
+  {
+   "at": [
+    "morse",
+    1
+   ],
+   "kind": "spark",
+   "pos": [
+    -0.5,
+    1.4,
+    0.9
+   ]
+  },
+  {
+   "at": [
+    "patches",
+    1
+   ],
+   "kind": "glint",
+   "pos": [
+    1.4,
+    3.4,
+    1.3
+   ]
+  },
+  {
+   "at": [
+    "spies",
+    1
+   ],
+   "kind": "glint",
+   "pos": [
+    -2.6,
+    1.4,
+    1.6
+   ]
+  },
+  {
+   "at": [
+    "hundred",
+    2
+   ],
+   "kind": "puff",
+   "pos": [
+    -25.0,
+    28.0,
+    1.0
+   ],
+   "size": 2
+  },
+  {
+   "at": [
+    "photographs",
+    1
+   ],
+   "kind": "glint",
+   "pos": [
+    0.25,
+    1.5,
+    0.95
+   ]
+  },
+  {
+   "at": [
+    "balloons",
+    2
+   ],
+   "kind": "hit",
+   "pos": [
+    -30.0,
+    26.0,
+    2.0
+   ],
+   "size": 2
+  },
+  {
+   "at": [
+    "years",
+    1
+   ],
+   "kind": "glint",
+   "pos": [
+    0.4,
+    1.6,
+    1.8
+   ]
+  }
+ ],
+ "moods": [
+  {
+   "at": [
+    "tank",
+    1
+   ],
+   "look": "warm_gold"
+  },
+  {
+   "at": [
+    "rubber",
+    1
+   ],
+   "look": "spot_dark"
+  },
+  {
+   "at": [
+    "painters",
+    1
+   ],
+   "look": "warm_up"
+  },
+  {
+   "at": [
+    "nobody",
+    1
+   ],
+   "look": "dark"
+  },
+  {
+   "at": [
+    "far",
+    1
+   ],
+   "look": "warm_gold"
+  },
+  {
+   "at": [
+    "night",
+    1
+   ],
+   "look": "cold_blue"
+  },
+  {
+   "at": [
+    "hundred",
+    1
+   ],
+   "look": "cold_blue"
+  },
+  {
+   "at": [
+    "radio",
+    1
+   ],
+   "look": "warm_up"
+  },
+  {
+   "at": [
+    "café",
+    1
+   ],
+   "look": "warm_gold"
+  },
+  {
+   "at": [
+    "carnival",
+    1
+   ],
+   "look": "spot_dark"
+  },
+  {
+   "at": [
+    "river",
+    1
+   ],
+   "look": "cold_blue"
+  },
+  {
+   "at": [
+    "south",
+    1
+   ],
+   "look": "dark"
+  },
+  {
+   "at": [
+    "photographs",
+    1
+   ],
+   "look": "cold_blue"
+  },
+  {
+   "at": [
+    "balloons",
+    2
+   ],
+   "look": "flash_white"
+  },
+  {
+   "at": [
+    "crosses",
+    1
+   ],
+   "look": "cold_blue"
+  },
+  {
+   "at": [
+    "pillow-under-the-blanket",
+    1
+   ],
+   "look": "cold_blue"
+  },
+  {
+   "at": [
+    "families",
+    1
+   ],
+   "look": "warm_up"
+  },
+  {
+   "at": [
+    "years",
+    1
+   ],
+   "look": "warm_gold"
+  }
+ ],
+ "sound": [
+  {
+   "at": [
+    "suitcase",
+    1
+   ],
+   "name": "rubber_thump"
+  },
+  {
+   "at": [
+    "bicycles",
+    1
+   ],
+   "name": "bike_brakes_skid"
+  },
+  {
+   "at": [
+    "rubber",
+    1
+   ],
+   "name": "valve_air_whistle"
+  },
+  {
+   "at": [
+    "bulldozer",
+    1
+   ],
+   "name": "dozer_engine"
+  },
+  {
+   "at": [
+    "hundred",
+    1
+   ],
+   "name": "tank_column_playback"
+  },
+  {
+   "at": [
+    "morse",
+    1
+   ],
+   "name": "morse_beeps"
+  },
+  {
+   "at": [
+    "café",
+    1
+   ],
+   "name": "cafe_room_accordion"
+  },
+  {
+   "at": [
+    "laughs",
+    1
+   ],
+   "name": "sergeant_laugh"
+  },
+  {
+   "at": [
+    "hundred",
+    2
+   ],
+   "name": "inflation_wave"
+  },
+  {
+   "at": [
+    "balloons",
+    2
+   ],
+   "name": "shell_whistle_impacts"
+  },
+  {
+   "at": [
+    "crosses",
+    1
+   ],
+   "name": "river_silence_paddles"
+  },
+  {
+   "at": [
+    "years",
+    1
+   ],
+   "name": "music_box_attic"
+  }
+ ],
+ "motion_polish": {
+  "enabled": true,
+  "head_follow": 0.14,
+  "hand_follow": 0.08,
+  "breath": 0.55,
+  "breath_rate": 2.15,
+  "auto_blink": true
+ }
+}

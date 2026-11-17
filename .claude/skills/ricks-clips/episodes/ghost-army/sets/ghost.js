@@ -1,0 +1,257 @@
+// THE GHOST ARMY — one set module for every place of the film (set-builder + props-hero, rough board v1, 2026-11-17).
+// film.json places.<name> = { "set": "ghost", "zone": "field" | "camp" | "road" | "radio" | "cafe" | "photo" | "river" | "bedroom" | "attic", "light": ... }.
+// Each place is its own three.js scene; every zone is built round the origin. Plan coordinates: metres, Z up, Y away from the first camera.
+// Hero objects are built here in code (the Asset Hub refuses military models on purpose): the INFLATABLE SHERMAN (rubberised canvas, valve,
+// patch, track-print skirt), the SOUND HALF-TRACK (giant speaker horn, disc turntable), the cargo truck, the bulldozer with its track-mark beam.
+// Story events come from places.<name>.events (frames). Real models (CC-BY, Sketchfab via Asset Hub) come in through places.<name>.assets.
+export function build(THREE, scene, film, ctx) {
+  const { B2T, toon } = ctx, P = ctx.place || {}, Z = P.zone || 'field', EV = P.events || {};
+  const V = (x, y, z) => B2T([x, y, z]), n = {};
+  let seed = 4417 + Z.length * 31; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647, rr = (a, b) => a + rnd() * (b - a);
+  const add = (m, name, role, o = {}) => { n[name] = (n[name] || 0) + 1; m.name = n[name] > 1 ? `${name}_${String(n[name]).padStart(2, '0')}` : name; m.userData.role = role; if (o.mat) m.userData.mat = o.mat; m.castShadow = o.cast ?? true; m.receiveShadow = o.receive ?? true; (o.parent || scene).add(m); return m; };
+  const relief = (kind, col, o = {}) => ctx.relief ? ctx.relief(kind, col, o) : toon(col);
+  const metal = (kind, col, o = {}) => ctx.pbr ? ctx.pbr.metal(kind, { color: col, ...o }) : toon(col);
+  const std = (col, o = {}) => new THREE.MeshStandardMaterial({ color: col, roughness: o.rough ?? .8, metalness: o.metal ?? 0, ...(o.extra || {}) });
+  const basic = (col, o = {}) => new THREE.MeshBasicMaterial({ color: col, ...o });
+  const box = (name, role, w, d, h, at, mat, o = {}) => { const m = add(new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat), name, role, o); m.position.copy(V(at[0], at[1], at[2] + h / 2)); if (o.rot) m.rotation.y = o.rot; return m; };
+  const cyl = (name, role, r, h, at, mat, o = {}) => { const m = add(new THREE.Mesh(new THREE.CylinderGeometry(o.r2 ?? r, r, h, o.seg ?? 20), mat), name, role, o); m.position.copy(V(at[0], at[1], at[2] + h / 2)); return m; };
+  const canvasTex = (w, h, draw) => { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; };
+  const glowTex = canvasTex(128, 128, (g, w) => { const r = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.3, 'rgba(255,255,255,.5)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, w, w); });
+  const glow = (col, size, op, at, parent = scene) => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: col, transparent: true, opacity: op, depthWrite: false, blending: THREE.AdditiveBlending, fog: false })); s.scale.setScalar(size); s.position.copy(at); s.userData.noExport = true; parent.add(s); return s; };
+  const ups = [];   // per-frame updates
+  const sm = x => x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x);
+
+  // ======================= HERO: THE INFLATABLE SHERMAN =======================
+  // Rubberised canvas: olive, satin sheen, faint wrinkle normal; seams along every edge; a brass valve on the rear deck; a patch; white star.
+  const rubberTex = canvasTex(256, 256, (g, w) => { g.fillStyle = '#808080'; g.fillRect(0, 0, w, w); for (let i = 0; i < 60; i++) { g.strokeStyle = `rgba(${rnd() < .5 ? '255,255,255' : '0,0,0'},.18)`; g.lineWidth = rr(1, 4); g.beginPath(); const x = rr(0, w), y = rr(0, w); g.moveTo(x, y); g.bezierCurveTo(x + rr(-60, 60), y + rr(-20, 20), x + rr(-60, 60), y + rr(-20, 20), x + rr(-90, 90), y + rr(-30, 30)); g.stroke(); } });
+  rubberTex.wrapS = rubberTex.wrapT = THREE.RepeatWrapping; rubberTex.colorSpace = THREE.NoColorSpace;
+  const rubber = (col) => new THREE.MeshStandardMaterial({ name: 'rubber_canvas', color: col, roughness: .55, metalness: 0, bumpMap: rubberTex, bumpScale: .6 });
+  const starTex = canvasTex(256, 256, (g, w) => { g.clearRect(0, 0, w, w); g.fillStyle = '#f2efe4'; g.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? w * .19 : w * .46; g.lineTo(w / 2 + Math.cos(a) * r, w / 2 + Math.sin(a) * r); } g.closePath(); g.fill(); g.lineWidth = 10; g.strokeStyle = '#f2efe4'; g.beginPath(); g.arc(w / 2, w / 2, w * .47, 0, 7); g.stroke(); });
+  function sherman(name, opts = {}) {
+    const g = new THREE.Group(); g.name = name; const col = opts.col || '#5d6538', M = rubber(col), MD = rubber(new THREE.Color(col).multiplyScalar(.72).getStyle()), MT = rubber('#3a3b34');
+    const part = (nm, geo, mat, x, y, z, o = {}) => { const m = add(new THREE.Mesh(geo, mat), nm, 'cloth', { parent: g, mat: 'rubber', cast: opts.cast ?? true }); m.position.set(x, y, z); if (o.rx) m.rotation.x = o.rx; if (o.rz) m.rotation.z = o.rz; if (o.ry) m.rotation.y = o.ry; return m; };
+    const rbox = (w, h, d, r = .12) => { const s = new THREE.Shape(), x = -w / 2, y = -h / 2; s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r); s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); const geo = new THREE.ExtrudeGeometry(s, { depth: d, bevelEnabled: true, bevelSize: .06, bevelThickness: .06, bevelSegments: 3, curveSegments: 6 }); geo.translate(0, 0, -d / 2); return geo; };
+    // tracks + road wheels (the "tracks" are a printed rubber skirt: the wheels are painted discs)
+    for (const s of [-1, 1]) { part('tank_track', rbox(5.6, .95, .55, .42), MT, 0, .5, s * 1.18); for (let i = 0; i < 6; i++) { const w = part('tank_wheel', new THREE.CylinderGeometry(.3, .3, .06, 20), MD, -2.0 + i * .8, .42, s * 1.47, { rx: Math.PI / 2 }); } }
+    // hull: sloped front glacis, flat deck
+    const hull = new THREE.Shape(); hull.moveTo(-2.7, 0); hull.lineTo(2.2, 0); hull.lineTo(2.9, .55); hull.lineTo(1.6, 1.25); hull.lineTo(-2.6, 1.25); hull.lineTo(-2.85, .7); hull.closePath();
+    const hg = new THREE.ExtrudeGeometry(hull, { depth: 2.3, bevelEnabled: true, bevelSize: .09, bevelThickness: .09, bevelSegments: 3 }); hg.translate(0, 0, -1.15);
+    const hm = part('tank_hull', hg, M, 0, .75, 0);
+    const turret = part('tank_turret', new THREE.SphereGeometry(1.0, 28, 14, 0, Math.PI * 2, 0, Math.PI * .55), M, -.35, 1.95, 0); turret.scale.set(1.25, .85, 1.0);
+    part('tank_turret_ring', new THREE.CylinderGeometry(1.15, 1.2, .18, 28), MD, -.35, 2.0, 0);
+    part('tank_hatch', new THREE.CylinderGeometry(.32, .34, .12, 18), MD, -.75, 2.78, .3);
+    const gun = new THREE.Group(); gun.position.set(.55, 2.25, 0); g.add(gun); gun.name = 'tank_gun_pivot';
+    const barrel = add(new THREE.Mesh(new THREE.CylinderGeometry(.11, .13, 3.2, 14), M), 'tank_gun', 'cloth', { parent: gun, mat: 'rubber' }); barrel.rotation.z = -Math.PI / 2; barrel.position.x = 1.6;
+    add(new THREE.Mesh(new THREE.CylinderGeometry(.25, .25, .5, 16), MD), 'tank_mantlet', 'cloth', { parent: gun }).rotation.z = -Math.PI / 2;
+    // the giveaways for close-ups: brass valve, a patch, white stars, seams
+    const valve = part('tank_valve', new THREE.CylinderGeometry(.07, .09, .22, 12), metal('brass', '#c8a24a', { rough: .3 }), -2.2, 2.12, -.6);
+    part('tank_patch', new THREE.CircleGeometry(.28, 18), rubber('#6c7444'), -1.4, 1.45, 1.21);
+    for (const s of [-1, 1]) { const st = add(new THREE.Mesh(new THREE.PlaneGeometry(1.0, 1.0), new THREE.MeshBasicMaterial({ map: starTex, transparent: true, depthWrite: false })), 'tank_star', 'cloth', { parent: g, cast: false }); st.position.set(-.6, 1.4, s * 1.24); if (s < 0) st.rotation.y = Math.PI; }
+    const sx = add(new THREE.Mesh(new THREE.TorusGeometry(.62, .02, 6, 40), rubber('#454a2c')), 'tank_seam', 'cloth', { parent: g, cast: false }); sx.position.set(-.35, 2.15, 0); sx.rotation.x = Math.PI / 2;
+    g.userData.droop = 0; g.userData.sag = 0;
+    g.userData.set = (droop = 0, sag = 0) => { gun.rotation.z = -droop * .9; g.scale.y = 1 - .45 * sag; turret.scale.y = .85 * (1 - .4 * sag); };
+    g.userData.valve = valve; g.userData.gun = gun; g.userData.barrel = barrel;
+    if (opts.at) g.position.copy(V(...opts.at)); g.rotation.y = opts.rot || 0; if (opts.scale) g.scale.setScalar(opts.scale);
+    (opts.parent || scene).add(g); return g;
+  }
+
+  // ======================= HERO: THE SOUND HALF-TRACK =======================
+  function halftrack(name, at, rot = 0) {
+    const g = new THREE.Group(); g.name = name; g.position.copy(V(...at)); g.rotation.y = rot; scene.add(g);
+    const OD = metal('iron', '#4d5634', { rough: .7, rust: .15 }), DARK = std('#22241e', { rough: .9 }), TYRE = std('#1c1c1c', { rough: .95 });
+    const p = (nm, geo, mat, x, y, z, o = {}) => { const m = add(new THREE.Mesh(geo, mat), nm, 'metal', { parent: g, mat: 'painted_metal_chipped' }); m.position.set(x, y, z); if (o.rx) m.rotation.x = o.rx; if (o.rz) m.rotation.z = o.rz; return m; };
+    p('ht_bed', new THREE.BoxGeometry(3.2, 1.0, 2.1), OD, -1.0, 1.25, 0); p('ht_hood', new THREE.BoxGeometry(1.7, .8, 1.6), OD, 1.6, 1.2, 0);
+    p('ht_cab', new THREE.BoxGeometry(1.1, .6, 2.0), OD, .5, 1.55, 0); p('ht_windshield', new THREE.BoxGeometry(.06, .5, 1.8), std('#7f93a3', { rough: .2 }), 1.0, 2.05, 0);
+    p('ht_bumper', new THREE.BoxGeometry(.2, .25, 2.2), DARK, 2.5, .8, 0);
+    for (const s of [-1, 1]) { p('ht_front_wheel', new THREE.CylinderGeometry(.48, .48, .3, 22), TYRE, 1.7, .48, s * .95, { rx: Math.PI / 2 }); p('ht_track', new THREE.BoxGeometry(2.6, .8, .4), TYRE, -1.0, .45, s * .9); for (let i = 0; i < 4; i++) p('ht_bogie', new THREE.CylinderGeometry(.28, .28, .1, 16), DARK, -2.0 + i * .66, .42, s * 1.12, { rx: Math.PI / 2 }); }
+    // the giant speaker: a horn on a frame over the bed + the disc turntable and cables
+    const horn = p('ht_speaker_horn', new THREE.CylinderGeometry(.95, .22, 1.6, 28, 1, true), metal('steel', '#9aa094', { rough: .45, finish: 'brushed' }), -1.2, 2.75, 0, { rz: -Math.PI / 2 }); horn.material.side = THREE.DoubleSide;
+    p('ht_speaker_driver', new THREE.CylinderGeometry(.3, .3, .5, 18), DARK, -2.15, 2.75, 0, { rz: -Math.PI / 2 });
+    p('ht_speaker_frame', new THREE.BoxGeometry(.12, .9, .12), OD, -1.6, 2.2, 0);
+    const disc = p('ht_disc', new THREE.CylinderGeometry(.42, .42, .02, 32), std('#111111', { rough: .3 }), -.2, 1.78, -.6); p('ht_turntable', new THREE.BoxGeometry(1.0, .12, 1.0), std('#5a4636'), -.2, 1.7, -.6);
+    g.userData.disc = disc; g.userData.horn = horn; return g;
+  }
+
+  // ======================= the cargo truck (the hook) =======================
+  function cargoTruck(name, at, rot = 0) {
+    const g = new THREE.Group(); g.name = name; g.position.copy(V(...at)); g.rotation.y = rot; scene.add(g);
+    const OD = metal('iron', '#545c38', { rough: .75 }), TYRE = std('#1c1c1c', { rough: .95 }), WOOD = relief('wood', '#7a6a4a', { seed: 12 });
+    const p = (nm, geo, mat, x, y, z, o = {}) => { const m = add(new THREE.Mesh(geo, mat), nm, 'metal', { parent: g }); m.position.set(x, y, z); if (o.rx) m.rotation.x = o.rx; return m; };
+    p('truck_bed', new THREE.BoxGeometry(4.6, .25, 2.3), WOOD, -.9, 1.2, 0); p('truck_cab', new THREE.BoxGeometry(1.5, 1.4, 2.0), OD, 2.0, 1.8, 0); p('truck_hood', new THREE.BoxGeometry(1.3, .9, 1.7), OD, 3.3, 1.5, 0);
+    for (const s of [-1, 1]) { p('truck_side', new THREE.BoxGeometry(4.6, .5, .08), WOOD, -.9, 1.55, s * 1.15); for (const x of [3.2, -.2, -1.6, -3.0]) p('truck_wheel', new THREE.CylinderGeometry(.5, .5, .35, 22), TYRE, x, .5, s * 1.0, { rx: Math.PI / 2 }); }
+    return g;
+  }
+  function bulldozer(name, at, rot = 0) {
+    const g = new THREE.Group(); g.name = name; g.position.copy(V(...at)); g.rotation.y = rot; scene.add(g);
+    const Y = metal('iron', '#8a7a3a', { rough: .6 }), D = std('#2a2a26', { rough: .9 });
+    const p = (nm, geo, mat, x, y, z) => { const m = add(new THREE.Mesh(geo, mat), nm, 'metal', { parent: g }); m.position.set(x, y, z); return m; };
+    p('dozer_body', new THREE.BoxGeometry(2.4, 1.3, 1.8), Y, 0, 1.2, 0); p('dozer_cab', new THREE.BoxGeometry(1.0, 1.0, 1.4), Y, -.5, 2.3, 0); p('dozer_blade', new THREE.BoxGeometry(.15, 1.0, 2.6), D, 1.6, .6, 0);
+    for (const s of [-1, 1]) p('dozer_track', new THREE.BoxGeometry(2.8, .7, .5), D, 0, .35, s * 1.0);
+    // the toothed beam it drags: it draws two lines of track marks behind it
+    p('dozer_beam', new THREE.BoxGeometry(.25, .2, 2.4), D, -1.8, .15, 0); return g;
+  }
+  // a printed track-mark strip on the ground (the fake tracks that fool the photos)
+  const trackTex = canvasTex(64, 256, (g, w, h) => { g.fillStyle = 'rgba(0,0,0,0)'; g.clearRect(0, 0, w, h); for (let y = 0; y < h; y += 16) { g.fillStyle = 'rgba(40,30,20,.55)'; g.fillRect(4, y, w - 8, 9); } });
+  trackTex.wrapT = THREE.RepeatWrapping;
+  const trackMarks = (name, from, to, gauge = 1.18) => { const dx = to[0] - from[0], dy = to[1] - from[1], L = Math.hypot(dx, dy), a = Math.atan2(dx, dy); const t = trackTex.clone(); t.needsUpdate = true; t.repeat.set(1, L / 1.2);
+    for (const s of [-1, 1]) { const m = add(new THREE.Mesh(new THREE.PlaneGeometry(.55, L), new THREE.MeshBasicMaterial({ map: t, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 })), name, 'ground', { cast: false });
+      m.rotation.x = -Math.PI / 2; m.rotation.z = -a; const cx = (from[0] + to[0]) / 2 + Math.cos(a) * s * gauge, cy = (from[1] + to[1]) / 2 - Math.sin(a) * s * gauge; m.position.copy(V(cx, cy, .02)); } };
+
+  // ======================= shared outdoor pieces =======================
+  const ground = (col, kind = 'grass', size = 400) => { const m = add(new THREE.Mesh(new THREE.PlaneGeometry(size, size), relief(kind, col, { seed: 21, size: 4 })), 'ground', 'ground', { cast: false, mat: 'turf' }); m.rotation.x = -Math.PI / 2; return m; };
+  const hedge = (name, from, to, h = 2.2) => { const dx = to[0] - from[0], dy = to[1] - from[1], L = Math.hypot(dx, dy); const m = add(new THREE.Mesh(new THREE.BoxGeometry(L, h, 1.6, Math.ceil(L), 3, 2), relief('grass', '#3f5a2c', { seed: 31, size: 2 })), name, 'foliage', { mat: 'foliage' });
+    const p = m.geometry.attributes.position; for (let i = 0; i < p.count; i++) { const y = p.getY(i); p.setY(i, y + (y > 0 ? rr(-.25, .35) : 0)); p.setZ(i, p.getZ(i) * rr(.85, 1.2)); } m.geometry.computeVertexNormals();
+    m.position.copy(V((from[0] + to[0]) / 2, (from[1] + to[1]) / 2, h / 2)); m.rotation.y = -Math.atan2(dy, dx); return m; };
+  const tree = (at, h, kind = 'oak', sd = 1) => ctx.trees ? ctx.trees.tree({ kind, at, height: h, seed: sd }) : cyl('tree', 'foliage', .3, h, at, toon('#3a5a2a'));
+  const farmhouse = (at, rot = 0) => { const g = new THREE.Group(); g.position.copy(V(...at)); g.rotation.y = rot; scene.add(g); const w = add(new THREE.Mesh(new THREE.BoxGeometry(9, 4.2, 6), relief('stone', '#b8ad96', { seed: 41 })), 'farm_walls', 'stone', { parent: g, mat: 'stone' }); w.position.y = 2.1;
+    const r = new THREE.CylinderGeometry(.01, 6.4, 3.0, 4, 1); r.rotateY(Math.PI / 4); const roof = add(new THREE.Mesh(r, relief('tile', '#6a4a3e', { seed: 42 })), 'farm_roof', 'roof', { parent: g, mat: 'roof_tile' }); roof.scale.set(1.0, 1, .7); roof.position.y = 5.7;
+    for (const x of [-2.8, 0, 2.8]) { const win = add(new THREE.Mesh(new THREE.BoxGeometry(.9, 1.1, .1), std('#3a4a5a', { rough: .3 })), 'farm_window', 'glass', { parent: g }); win.position.set(x, 2.4, 3.02); const sh = add(new THREE.Mesh(new THREE.BoxGeometry(.5, 1.2, .08), relief('wood', '#4f6f5a', { seed: 43 })), 'farm_shutter', 'wood', { parent: g }); sh.position.set(x - .72, 2.4, 3.05); }
+    const door = add(new THREE.Mesh(new THREE.BoxGeometry(1.1, 2.1, .12), relief('wood', '#5a3a26', { seed: 44 })), 'farm_door', 'wood', { parent: g }); door.position.set(3.6, 1.05, 3.04); return g; };
+  const pole = (at) => { cyl('telegraph_pole', 'wood', .09, 7, at, relief('wood', '#5a4632', { seed: 51 }), { r2: .07 }); box('telegraph_bar', 'wood', 1.4, .1, .1, [at[0], at[1], at[2] + 6.4], relief('wood', '#5a4632', { seed: 52 })); };
+
+  let anchors = {};
+  // ============================================================ ZONES ============================================================
+  if (Z === 'field' || Z === 'camp') {
+    // P1 Normandy bocage at dawn (hook) and P2 the same meadow as the ghost camp (overcast day)
+    if (ctx.sky && ctx.sky.on) ctx.sky.clouds({ kind: 'clear-day', seed: Z === 'field' ? 11 : 12, coverage: Z === 'field' ? .7 : 1.4 });
+    if (ctx.atmosphere) ctx.atmosphere.setFog({ color: Z === 'field' ? '#e8d2b0' : '#c9ccc8', near: 45, far: 260 });
+    ground('#6f8a46'); const road = add(new THREE.Mesh(new THREE.PlaneGeometry(4.2, 200), relief('mud', '#8a7656', { seed: 61, size: 3 })), 'dirt_road', 'ground', { cast: false, mat: 'mud' }); road.rotation.x = -Math.PI / 2; road.position.copy(V(-7, 40, .01));
+    hedge('hedge', [-60, 14], [-9.5, 14]); hedge('hedge', [-4.5, 14], [60, 14]); hedge('hedge', [-9.5, -30], [-9.5, 14]); hedge('hedge', [-4.5, 14], [-4.5, 90]); hedge('hedge', [14, 14], [14, 90]);
+    for (const [x, y, h, s] of [[-14, 18, 9, 3], [8, 20, 11, 4], [22, 30, 10, 5], [-26, 34, 12, 6], [4, 46, 9, 7], [-40, 10, 10, 8], [30, 8, 9, 9]]) tree([x, y, 0], h, 'oak', s);
+    for (const [x, y] of [[16, 10], [19, 6], [24, 11]]) tree([x, y, 0], 4.5, 'olive', Math.round(x));   // apple orchard stand-ins
+    farmhouse([24, 34, 0], -.4); for (let i = 0; i < 6; i++) pole([-4.2, -10 + i * 22, 0]);
+    if (ctx.detail) ctx.detail.grass({ at: [2, 4, 0], count: 420, radius: 16, height: .42, seed: 71 });
+    if (Z === 'field') {
+      // the hook: the truck has brought the tank; four GIs lift it off and set it down in the field
+      cargoTruck('cargo_truck', [-7, 6, 0], -Math.PI / 2);
+      const tk = sherman('inflatable_sherman', { at: [0, 4, 0], rot: -.35 }); const lift = EV.lift || [0, 52], set = EV.set || 103, dent = EV.dent || 110;
+      ups.push(f => { const a = sm((f - lift[0]) / (lift[1] - lift[0])), b = sm((f - lift[1]) / (set - lift[1])); tk.position.copy(V(-3.6 + 3.6 * b, 4.4 - .4 * b, 1.35 * (1 - b) + .25 * Math.sin(Math.PI * b))); tk.rotation.y = -.35 * b + (-Math.PI / 2) * (1 - b) * .2;
+        const d = Math.max(0, 1 - Math.abs(f - dent) / 10), dr = sm((f - (EV.deflate || 1e9)) / 18); tk.userData.set(.9 * dr, .12 * d + .25 * dr); });
+      anchors = { tank: [0, 4, 1.2], truck: [-7, 6, 1.5] };
+    } else {
+      // the camp: rows of tanks in every state of inflation, compressors, paint pots, the bulldozer drawing track marks
+      const rows = []; for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) { const t = sherman('camp_tank', { at: [-12 + c * 8, 12 + r * 9, 0], rot: rr(-.2, .2) + Math.PI * .02 }); t.userData.set(0, [0, .35, .7, 0][(r * 4 + c) % 4]); rows.push(t); }
+      const dz = bulldozer('bulldozer', [12, 2, 0], Math.PI / 2); trackMarks('fake_track_marks', [12, -6], [12, 1]);
+      for (const [x, y] of [[-4, 3], [5, 6], [-9, 8]]) { box('air_compressor', 'metal', 1.2, .8, .9, [x, y, 0], metal('iron', '#4a5236')); cyl('compressor_tank', 'metal', .3, 1.1, [x + .2, y, .9], metal('steel', '#8a8f86')); }
+      for (let i = 0; i < 8; i++) cyl('paint_pot', 'metal', .16, .3, [rr(-3, 3), rr(-1, 2), 0], metal('steel', ['#6a7a3a', '#3a3a2a', '#8a6a3a', '#efe6d2'][i % 4]));
+      box('paint_table', 'wood', 2.2, .9, .85, [1.5, -.5, 0], relief('wood', '#8a6a46', { seed: 72 }));
+      ups.push((f, t) => { dz.position.copy(V(12, 2 - ((t * .6) % 8), 0)); });
+      anchors = { tank: [-4, 12, 1.5], dozer: [12, 2, 1.5] };
+    }
+  }
+  if (Z === 'road') {
+    // P3 moonlit country road: ONE half-track, and the sound of a hundred tanks
+    if (ctx.sky && ctx.sky.on) ctx.sky.clouds({ kind: 'night-storm', seed: 31, coverage: .6 });
+    if (ctx.atmosphere) ctx.atmosphere.setFog({ color: '#1e2a48', near: 30, far: 200 });
+    ground('#2f3e2a'); const road = add(new THREE.Mesh(new THREE.PlaneGeometry(5, 300), relief('cobble', '#6a6458', { seed: 81, size: 2 })), 'road', 'ground', { cast: false, mat: 'cobble' }); road.rotation.x = -Math.PI / 2; road.position.copy(V(0, 60, .01));
+    for (let i = 0; i < 18; i++) for (const s of [-1, 1]) tree([s * 4.2, -10 + i * 9, 0], 14, 'cypress', i * 2 + (s > 0 ? 1 : 0));   // poplars
+    const ht = halftrack('sound_halftrack', [0, 6, 0], -Math.PI / 2);
+    const moon = glow('#dfe8ff', 18, .9, V(-30, 120, 60)); const hl = new THREE.SpotLight('#ffe9b0', 30, 40, .5, .6); hl.position.copy(V(0, 8.6, 1.2)); hl.target.position.copy(V(0, 30, 0)); scene.add(hl, hl.target);
+    // sound made visible: rings rolling out of the horn
+    const rings = []; for (let i = 0; i < 7; i++) { const r = new THREE.Mesh(new THREE.TorusGeometry(1, .04, 6, 48), new THREE.MeshBasicMaterial({ color: '#bcd4ff', transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending, fog: false })); r.userData.noExport = true; r.name = 'sound_ring'; scene.add(r); rings.push(r); }
+    // ghost tanks that exist only as sound: faint silhouettes on the poplar line
+    const ghosts = []; for (let i = 0; i < 5; i++) { const t = sherman('ghost_tank', { at: [rr(-14, -7), 18 + i * 10, 0], rot: Math.PI / 2, cast: false }); t.traverse(o => { if (o.isMesh) { o.material = o.material.clone(); o.material.transparent = true; o.material.opacity = 0; o.material.depthWrite = false; } }); ghosts.push(t); }
+    const hz = EV.hundred || 0;
+    ups.push((f, t) => { ht.userData.disc.rotation.y = t * 3.5; const on = sm((f - (hz - 10)) / 15);
+      rings.forEach((r, i) => { const q = ((t * .7 + i / rings.length) % 1); const pos = ht.userData.horn.getWorldPosition(new THREE.Vector3()); r.position.copy(pos).add(new THREE.Vector3(0, 0, -q * 14)); r.scale.setScalar(.8 + q * 6); r.material.opacity = on * .55 * (1 - q); });
+      ghosts.forEach((g, i) => g.traverse(o => { if (o.isMesh) o.material.opacity = on * (.12 + .08 * Math.sin(t * 2 + i)); })); });
+    anchors = { halftrack: [0, 6, 2], speaker: [0, 7.2, 2.75] };
+  }
+  const room = (w, d, h, wallCol, floorKind, floorCol, o = {}) => { const fl = add(new THREE.Mesh(new THREE.PlaneGeometry(w, d), relief(floorKind, floorCol, { seed: 91, size: 2 })), 'floor', 'wood', { cast: false, mat: floorKind === 'wood' ? 'wood_grain' : 'stone' }); fl.rotation.x = -Math.PI / 2; fl.position.copy(V(0, d / 2 - 2, 0));
+    const W = relief(o.wallKind || 'plaster', wallCol, { seed: 92 }); if (o.win) { const [cx, z0, ww, wh] = o.win, x0 = cx - ww / 2, x1 = cx + ww / 2;   // back wall with a real hole for the window
+      box('wall_back', 'plaster', x0 + w / 2, .2, h, [(-w / 2 + x0) / 2, d - 2, 0], W); box('wall_back', 'plaster', w / 2 - x1, .2, h, [(x1 + w / 2) / 2, d - 2, 0], W);
+      box('wall_back', 'plaster', ww, .2, z0, [cx, d - 2, 0], W); box('wall_back', 'plaster', ww, .2, h - z0 - wh, [cx, d - 2, z0 + wh], W);
+    } else box('wall_back', 'plaster', w, .2, h, [0, d - 2, 0], W); box('wall_left', 'plaster', .2, d, h, [-w / 2, d / 2 - 2, 0], W); box('wall_right', 'plaster', .2, d, h, [w / 2, d / 2 - 2, 0], W);
+    if (!o.noCeil) box('ceiling', 'plaster', w, d, .2, [0, d / 2 - 2, h], W, { cast: false }); };
+  const lamp = (at, col = '#ffcf8a', I = 14, R = 9) => { const l = new THREE.PointLight(col, I, R, 1.5); l.position.copy(V(...at)); scene.add(l); glow(col, .9, .8, V(...at)); return l; };
+  if (Z === 'radio') {
+    room(6, 6, 3.2, '#8a8460', 'wood', '#6a5a44', { wallKind: 'plaster', noCeil: false });   // inside the radio tent (canvas walls)
+    box('radio_table', 'wood', 2.4, 1.0, .8, [0, 1.6, 0], relief('wood', '#7a5a3a', { seed: 101 }));
+    box('field_radio', 'metal', .9, .5, .6, [.3, 1.7, .8], metal('iron', '#4d5634', { rough: .6 })); for (let i = 0; i < 4; i++) cyl('radio_dial', 'metal', .06, .04, [.0 + i * .2, 1.44, 1.2], metal('steel', '#c8c8c0'));
+    const key = box('morse_key', 'metal', .26, .12, .05, [-.5, 1.4, .8], metal('brass', '#c8a24a')); box('morse_base', 'wood', .3, .16, .03, [-.5, 1.4, .79], relief('wood', '#3a2a1e', { seed: 102 }));
+    const card = add(new THREE.Mesh(new THREE.PlaneGeometry(.8, .5), basic('#ffffff', { map: canvasTex(320, 200, (g, w, h) => { g.fillStyle = '#efe6d0'; g.fillRect(0, 0, w, h); g.fillStyle = '#2a2420'; g.font = 'bold 20px serif'; g.fillText('FIST: OP. 4th ARMD', 14, 30); for (let r = 0; r < 4; r++) { let x = 14; for (let i = 0; i < 14; i++) { const dash = rnd() < .45; g.fillRect(x, 60 + r * 34, dash ? 22 : 8, 8); x += dash ? 30 : 16; } } }) })), 'fist_card', 'cloth', { cast: false }); card.position.copy(V(-.2, 3.85, 1.6));
+    lamp([.8, 1.4, 2.4], '#ffd08a', 16, 8); box('map_board', 'wood', 1.6, .05, 1.0, [1.4, 3.86, 1.2], basic('#c9b98a'));
+    ups.push((f, t) => { key.rotation.z = (Math.sin(t * 22) > .4 ? -.08 : 0); });
+    anchors = { key: [-.5, 1.4, .85], card: [-.2, 3.85, 1.85] };
+  }
+  if (Z === 'cafe') {
+    room(10, 8, 3.6, '#d8c49a', 'tile', '#b8a88a', { wallKind: 'plaster' });
+    box('zinc_bar', 'metal', 4.2, .8, 1.1, [2.4, 4.4, 0], metal('steel', '#a8aaa4', { rough: .35, finish: 'brushed' })); box('bar_top', 'metal', 4.4, 1.0, .06, [2.4, 4.4, 1.1], metal('steel', '#c8cac4', { rough: .25 }));
+    for (const [x, y] of [[-2.6, 2.0], [-1.0, 3.6], [-3.4, 4.6]]) { cyl('cafe_table', 'wood', .45, .04, [x, y, .74], relief('wood', '#6a4a30', { seed: 111 })); cyl('cafe_table_leg', 'metal', .04, .74, [x, y, 0], metal('iron', '#2a2a2a')); for (const a of [0, 2.2, 4.2]) { cyl('cafe_chair_seat', 'wood', .2, .05, [x + Math.cos(a) * .75, y + Math.sin(a) * .75, .45], relief('wood', '#7a5a3a', { seed: 112 })); } }
+    for (let i = 0; i < 3; i++) { const post = add(new THREE.Mesh(new THREE.PlaneGeometry(.9, 1.3), basic('#ffffff', { map: canvasTex(180, 260, (g, w, h) => { g.fillStyle = ['#e8c45a', '#5a8ac8', '#d86a4a'][i]; g.fillRect(0, 0, w, h); g.fillStyle = '#1e1a1a'; g.font = 'bold 26px serif'; g.fillText(['CINZANO', 'BYRRH', 'PERNOD'][i], 14, 60); g.font = '18px serif'; g.fillText('apéritif', 40, 220); }) })), 'cafe_poster', 'cloth', { cast: false }); post.position.copy(V(-3.8 + i * 1.3, 5.88, 2.2)); }
+    for (let i = 0; i < 6; i++) cyl('bottle', 'glass', .05, .32, [1.0 + i * .4, 5.7, 1.2], std(['#2a5a3a', '#6a2a2a', '#3a3a6a'][i % 3], { rough: .15 }));
+    // the window to the street and the ONE red of the film: the café's awning, seen through the glass
+    box('cafe_window', 'glass', 3.0, .1, 1.8, [-1.0, -1.95, .9], std('#b8d0e0', { rough: .1, extra: { transparent: true, opacity: .35 } }));
+    box('red_awning', 'cloth', 3.4, .9, .2, [-1.0, -2.6, 2.9], std('#c8322c', { rough: .7 }));
+    lamp([-2, 3, 3.2], '#ffc884', 20, 10); lamp([2.4, 4, 3.2], '#ffc884', 14, 8);
+    anchors = { bar: [2.4, 4.4, 1.2], spy_table: [-2.6, 2.0, .8] };
+  }
+  if (Z === 'photo') {
+    room(7, 6, 3.0, '#5a5e60', 'stone', '#4a4c4e');
+    const lt = box('light_table', 'lamp', 2.2, 1.3, .9, [0, 1.6, 0], std('#2a2c2e')); const top = box('light_table_glass', 'lamp', 2.0, 1.1, .03, [0, 1.6, .9], basic('#9fb2c8'));
+    const photoTex = canvasTex(512, 384, (g, w, h) => { g.fillStyle = '#8a8a80'; g.fillRect(0, 0, w, h); for (let i = 0; i < 9000; i++) { g.fillStyle = `rgba(${rnd() * 60 | 0},${rnd() * 60 | 0},${rnd() * 50 | 0},.08)`; g.fillRect(rnd() * w, rnd() * h, 3, 3); } g.fillStyle = '#3a3a34'; for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) { const x = 40 + c * 75, y = 60 + r * 80; g.fillRect(x, y, 36, 22); g.fillRect(x + 30, y + 9, 20, 4); g.fillStyle = 'rgba(30,25,20,.5)'; g.fillRect(x + 4, y + 24, 4, 50); g.fillRect(x + 26, y + 24, 4, 50); g.fillStyle = '#3a3a34'; } });
+    const ph = add(new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.0), basic('#d8d8d0', { map: photoTex })), 'aerial_photo', 'cloth', { cast: false }); ph.rotation.x = -Math.PI / 2; ph.position.copy(V(0, 1.6, .925));
+    const loupe = cyl('loupe', 'glass', .09, .08, [.25, 1.5, .93], std('#cfe6ff', { rough: .05, extra: { transparent: true, opacity: .5 } }));
+    const tl = new THREE.PointLight('#dfeaff', 5, 6, 1.4); tl.position.copy(V(0, 1.6, 1.3)); scene.add(tl); lamp([2.6, 3.4, 2.8], '#9fb0c8', 6, 8);
+    box('river_map', 'cloth', 2.4, .04, 1.4, [0, 3.95, 1.4], basic('#ffffff', { map: canvasTex(480, 280, (g, w, h) => { g.fillStyle = '#d8d0b4'; g.fillRect(0, 0, w, h); g.strokeStyle = '#4a6ab0'; g.lineWidth = 16; g.beginPath(); g.moveTo(w * .55, 0); g.bezierCurveTo(w * .4, h * .3, w * .7, h * .6, w * .5, h); g.stroke(); g.fillStyle = '#b02a2a'; for (let i = 0; i < 12; i++) g.fillRect(w * .62 + (i % 4) * 14, h * .72 + Math.floor(i / 4) * 14, 9, 9); }) }));
+    anchors = { photo: [0, 1.6, .93], loupe: [.25, 1.5, .95] };
+  }
+  if (Z === 'river') {
+    // P7: the great river at night. SOUTH (x < 0): the decoy field under shell bursts. NORTH (x > 40): the real army crossing on pontoons in silence.
+    if (ctx.sky && ctx.sky.on) ctx.sky.clouds({ kind: 'night-storm', seed: 71, coverage: .8 });
+    if (ctx.atmosphere) ctx.atmosphere.setFog({ color: '#1a2440', near: 40, far: 320 });
+    ground('#2e3a26');
+    const riv = add(new THREE.Mesh(new THREE.PlaneGeometry(400, 70, 120, 20), ctx.pbr ? ctx.pbr.metal('wet', { color: '#14283a', rough: .18, env: .9 }) : toon('#1a3048')), 'river', 'water', { cast: false, mat: 'water' }); riv.rotation.x = -Math.PI / 2; riv.position.copy(V(20, 70, -.6));
+    const rb = riv.geometry.attributes.position.array.slice();
+    // the decoy field: rows of inflatable tanks (south)
+    const decoys = []; for (let r = 0; r < 4; r++) for (let c = 0; c < 7; c++) { const t = sherman('decoy_tank', { at: [-46 + c * 7 + rr(-1, 1), 18 + r * 8 + rr(-1, 1), 0], rot: rr(-.3, .3) }); decoys.push(t); }
+    // shell bursts on the decoys from EV.shell on: flashes + tanks thrown and deflating
+    const bursts = []; for (let i = 0; i < 6; i++) { const b = glow('#ffb060', 6, 0, V(-40 + i * 8, 24 + (i % 3) * 6, 1)); const l = new THREE.PointLight('#ffa040', 0, 40, 1.6); l.position.copy(b.position); scene.add(l); bursts.push({ b, l, f0: (EV.shell || 0) + i * 9, d: decoys[(i * 5) % decoys.length] }); }
+    // the real crossing (north): pontoon bridge and real (metal) tanks rolling across
+    for (let i = 0; i < 14; i++) box('pontoon', 'metal', 2.6, 3.0, .5, [60, 37 + i * 3.1, -.65], metal('iron', '#3a4030', { rough: .7 }));
+    box('bridge_deck', 'wood', 3.2, 44, .12, [60, 58, -.1], relief('wood', '#5a4a36', { seed: 121 }));
+    const real = []; for (let i = 0; i < 3; i++) { const t = sherman('real_tank', { at: [60, 30 - i * 9, 0], rot: -Math.PI / 2, col: '#4a5030' }); t.traverse(o => { if (o.isMesh && o.material.name === 'rubber_canvas') { o.material = metal('iron', '#4a5030', { rough: .65, rust: .2 }); } }); real.push(t); }
+    const moon = glow('#e6eeff', 24, .9, V(120, 200, 80)); const ml = new THREE.DirectionalLight('#a8bcff', 1.8); scene.add(new THREE.HemisphereLight('#5a6c9e', '#1e2a1c', 1.4)); for (const [x, y] of [[56, 24], [62, 44]]) { const nl = new THREE.PointLight('#9fb6ff', 26, 30, 1.4); nl.position.copy(V(x, y, 9)); scene.add(nl); }   // moonlight pools on the silent crossing (north)
+    for (const [x, y] of [[-40, 14], [-26, 16], [-12, 14], [-33, 36], [-19, 38]]) { const wl = new THREE.PointLight('#ffcf8a', 30, 26, 1.6); wl.position.copy(V(x, y, 4)); scene.add(wl); glow('#ffcf8a', 1.4, .9, V(x, y, 4)); cyl('work_lamp_pole', 'metal', .06, 4, [x, y, 0], metal('iron', '#3a3a34')); } ml.position.copy(V(80, 120, 60)); scene.add(ml);
+    decoys.forEach((t, i) => { t.userData.i0 = (EV.inflate || 0) + i * 2; });
+    ups.push((f, t) => {
+      decoys.forEach(t => { if (t.position.y > .01) return; const u = sm((f - t.userData.i0) / 12); t.visible = u > .02; t.scale.set(1, Math.max(.05, u), 1); });
+      const p = riv.geometry.attributes.position; for (let i = 0; i < p.count; i++) { const x = rb[i * 3], y = rb[i * 3 + 1]; p.setZ(i, .12 * Math.sin(.2 * x + 1.4 * t) + .08 * Math.sin(.31 * y - 1.1 * t)); } p.needsUpdate = true; riv.geometry.computeVertexNormals();
+      for (const B of bursts) { const k = (f - B.f0) / 18, on = k > 0 && k < 1 ? (1 - k) * (1 - k) : 0; B.b.material.opacity = on; B.b.scale.setScalar(4 + 10 * Math.max(0, Math.min(1, k))); B.l.intensity = 80 * on;
+        if (k > 0) { const q = Math.min(1, k * 1.5); B.d.userData.set(.8 * q, .6 * q); B.d.position.y = Math.max(0, Math.sin(Math.min(1, k) * Math.PI) * 4); B.d.rotation.z = q * .6; } }
+      const go = sm((f - (EV.cross || 0)) / 140); real.forEach((t, i) => { t.position.copy(V(60, 30 - i * 9 + go * 60, 0)); });
+    });
+    anchors = { decoys: [-25, 30, 1], bridge: [60, 58, 0] };
+  }
+  if (Z === 'bedroom') {
+    room(5, 5, 2.8, '#7a8ab4', 'wood', '#6a5a46', { win: [1.2, 1.1, 1.2, 1.2] });
+    box('bed_frame', 'wood', 1.2, 2.1, .45, [-.8, 2.2, 0], relief('wood', '#6a4a2e', { seed: 131 })); const blanket = box('blanket', 'cloth', 1.25, 1.6, .25, [-.8, 2.0, .45], std('#6a8ac0', { rough: .9 }));
+    const lump = add(new THREE.Mesh(new THREE.SphereGeometry(.5, 20, 12), std('#6a8ac0', { rough: .9 })), 'pillow_lump', 'cloth'); lump.scale.set(.9, .45, 1.5); lump.position.copy(V(-.8, 2.0, .72));
+    box('window_frame', 'wood', 1.4, .12, 1.4, [1.2, 2.96, 1.0], relief('wood', '#ece4d4', { seed: 132 })); box('window_sill', 'wood', 1.4, .3, .08, [1.2, 3.0, 1.06], relief('wood', '#ece4d4', { seed: 133 }));
+    box('night_garden', 'plaster', 9, .1, 6, [1.2, 7.5, 0], basic('#22305e'), { cast: false });   // the night outside, seen through the window
+    box('garden_crate', 'wood', .7, .6, .6, [1.3, 3.8, 0], relief('wood', '#5a4630', { seed: 134 }));   // the boy stands on it, outside
+    glow('#f4f0d8', .35, .9, V(2.6, 7.3, 3.6));
+    const hemi = new THREE.HemisphereLight('#9fb4ff', '#3a3040', 1.6); scene.add(hemi);
+    const out = new THREE.PointLight('#b8ccff', 10, 6, 1.5); out.position.copy(V(1.0, 5.2, 2.4)); scene.add(out);
+    const sheets = add(new THREE.Mesh(new THREE.CylinderGeometry(.07, .07, 2.4, 8), std('#ece8de')), 'rope_of_sheets', 'cloth'); sheets.position.copy(V(1.4, 2.9, .2)); sheets.rotation.x = .25;
+    const ml = new THREE.SpotLight('#a8c0ff', 30, 12, .6, .7); ml.position.copy(V(1.4, 5, 2.6)); ml.target.position.copy(V(-.8, 2.0, .5)); scene.add(ml, ml.target);
+    ups.push((f, t) => { lump.scale.y = .45 + .03 * Math.sin(t * 1.5); });
+    anchors = { bed: [-.8, 2.0, .8], window: [1.2, 2.96, 1.2] };
+  }
+  if (Z === 'attic') {
+    room(7, 7, 3.4, '#8a7058', 'wood', '#7a5a3e', { wallKind: 'wood', noCeil: true });
+    for (let i = 0; i < 6; i++) box('roof_rafter', 'wood', .2, 7, .25, [-3 + i * 1.2, 1.5, 3.0], relief('wood', '#5a4030', { seed: 141 + i }));
+    box('ridge_beam', 'wood', 7, .3, .3, [0, 1.5, 3.25], relief('wood', '#4a3424', { seed: 149 })); for (const x of [-2.6, 2.6]) box('attic_post', 'wood', .22, .22, 3.0, [x, 3.6, 0], relief('wood', '#4a3424', { seed: 150 }));
+    const trunk = box('trunk', 'wood', 1.3, .7, .65, [0, 2.0, 0], relief('wood', '#6a4630', { seed: 151 })); const lid = box('trunk_lid', 'wood', 1.3, .7, .1, [0, 2.0, .65], relief('wood', '#5a3a26', { seed: 152 }));
+    box('medal_box', 'cloth', .3, .2, .08, [.9, 1.6, 0], std('#1a2a5a')); box('old_sketchbook', 'cloth', .4, .3, .05, [-.9, 1.7, 0], std('#7a5a3a'));
+    const skin = sherman('deflated_skin', { at: [0, 1.9, .55], scale: .22 }); skin.userData.set(.9, .85);
+    const sun = new THREE.SpotLight('#ffd9a0', 26, 14, .45, .6); sun.position.copy(V(-3, -1, 4)); sun.target.position.copy(V(0, 2, 0)); scene.add(sun, sun.target);
+    const motes = []; for (let i = 0; i < 40; i++) motes.push(glow('#ffe6b0', rr(.03, .07), .6, V(rr(-2, 1), rr(0, 3), rr(.5, 3))));
+    ups.push((f, t) => { motes.forEach((m, i) => { m.position.y += Math.sin(t * .5 + i) * .0008; m.position.x += Math.cos(t * .3 + i) * .0006; });
+      const up = sm((f - (EV.lift_skin || 1e9)) / 40); skin.position.copy(V(0, 1.9, .55 + up * 1.2)); skin.userData.set(.9 * (1 - up), .85 * (1 - up)); skin.scale.setScalar(.22 + up * .05); });
+    anchors = { trunk: [0, 2.0, .8] };
+  }
+
+  const update = (f, t) => { for (const u of ups) u(f, t); };
+  return { update, anchors };
+}

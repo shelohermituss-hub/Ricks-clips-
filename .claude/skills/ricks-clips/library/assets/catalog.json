@@ -374,6 +374,104 @@
       ],
       "status": "ingested",
       "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "sketchfab",
+      "asset_id": "1795f6e907634afda88fdaf45f67b279",
+      "name": "Vintage Bicycle",
+      "creator": "VladNeko",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_url": "https://sketchfab.com/3d-models/vintage-bicycle-1795f6e907634afda88fdaf45f67b279",
+      "kind": "model",
+      "commercial_use": "check exact license and preserve attribution",
+      "downloaded_at_utc": "2026-11-17T18:18:41Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/1795f6e907634afda88fdaf45f67b279_source.zip",
+          "bytes": 34296417,
+          "sha256": "f10b455332247833dd9da998fadf30574a3dcdbde46d83a2393c7f2e775999da",
+          "md5": "4e45067c3ee2ab9961cb4ec2d89dc49f",
+          "role": "source_archive"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/license.txt",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/scene.bin",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/scene.gltf",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/brake_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/brake_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/detail_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/detail_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/frame_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/frame_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/gear_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/gear_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/other_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/other_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/seater_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/seater_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/whell_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/gltf/textures/whell_normal.png",
+          "role": "extracted"
+        }
+      ],
+      "status": "ingested"
     }
   ]
 }
