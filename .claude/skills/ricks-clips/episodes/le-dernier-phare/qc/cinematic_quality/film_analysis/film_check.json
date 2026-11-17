@@ -3,7 +3,7 @@
   {
    "group": "camera",
    "name": "camera at rest (< 2 px/f), % of frames",
-   "value": 80.26,
+   "value": 37.77,
    "status": "PASS",
    "target": ">= 30 (Rick median 32) [Rick 5.65-58.02]",
    "fix": ""
@@ -11,15 +11,15 @@
   {
    "group": "camera",
    "name": "rests per 10 s",
-   "value": 3.77,
-   "status": "PASS",
+   "value": 6.28,
+   "status": "FAIL",
    "target": "2.2-3.8, aim 3 (Rick median 3.1; Railroads 2.5, Roller Coasters 2.7) [Rick 0.87-4.74]",
-   "fix": ""
+   "fix": "too few: break long travels with a resting station; too many: station hopping, merge stations and let one move flow through them"
   },
   {
    "group": "camera",
    "name": "rest length median, s",
-   "value": 2.23,
+   "value": 0.77,
    "status": "PASS",
    "target": ">= 0.6 (Rick 0.62) [Rick 0.37-1.28]",
    "fix": ""
@@ -27,7 +27,7 @@
   {
    "group": "camera",
    "name": "travel length p90, s",
-   "value": 0.81,
+   "value": 1.49,
    "status": "FAIL",
    "target": "2.1-6.3 (Rick median 3.0; Railroads and Roller Coasters 4.7). CB 2026-11-10: the scene decides, but some moves must flow [Rick 1.73-9.52]",
    "fix": "under 2.1: every move is a short hop, let one or two moves follow something through the set for 4-5 s; over 6.3: insert a rest inside the longest moves"
@@ -35,15 +35,15 @@
   {
    "group": "camera",
    "name": "speed median, px/f",
-   "value": 1.21,
-   "status": "FAIL",
+   "value": 3.02,
+   "status": "PASS",
    "target": "about 4 (Rick 4.1) [Rick 1.55-14.11]",
-   "fix": "too high: slow down, rest more; too low: add creep to the rests"
+   "fix": ""
   },
   {
    "group": "camera",
    "name": "speed p90, px/f",
-   "value": 16.65,
+   "value": 15.22,
    "status": "PASS",
    "target": "<= 25 (Rick 23) [Rick 9.80-33.84]",
    "fix": ""
@@ -59,10 +59,10 @@
   {
    "group": "camera",
    "name": "roll rate p99, deg/f",
-   "value": 1.81,
-   "status": "WARN",
+   "value": 1.64,
+   "status": "PASS",
    "target": "<= 1.1 (Rick 1.08) [Rick 0.26-3.02]",
-   "fix": "smaller or slower dutch moves"
+   "fix": ""
   },
   {
    "group": "camera",
@@ -75,7 +75,7 @@
   {
    "group": "camera",
    "name": "camera at rest on long words, %",
-   "value": 62.5,
+   "value": 50.0,
    "status": "PASS",
    "target": ">= 30 (Rick 33; CB: nouns land at rest) [Rick 2.38-52.87]",
    "fix": ""
@@ -91,7 +91,7 @@
   {
    "group": "camera",
    "name": "camera dead still (< 0.3 px/f), % of frames",
-   "value": 11.59,
+   "value": 10.3,
    "status": "PASS",
    "target": "<= 21, aim 9 (Rick 9.3) [Rick 1.16-28.76]",
    "fix": ""
@@ -130,8 +130,8 @@
   },
   {
    "group": "plan",
-   "name": "rest share: plan 70 % vs picture 80 %",
-   "value": 9.8,
+   "name": "rest share: plan 48 % vs picture 38 %",
+   "value": 9.7,
    "status": "PASS",
    "target": "within 12 points",
    "fix": ""
@@ -146,35 +146,51 @@
   },
   {
    "group": "faces",
-   "name": "visibility.json",
-   "value": "missing",
-   "status": "WARN",
-   "target": "render with the three.js kit: node render.mjs film.json --visibility",
-   "fix": "face and caption gates were skipped"
+   "name": "first face, s",
+   "value": 0.0,
+   "status": "PASS",
+   "target": "<= 1.5",
+   "fix": ""
+  },
+  {
+   "group": "faces",
+   "name": "longest stretch without a face, s",
+   "value": 0.0,
+   "status": "PASS",
+   "target": "<= 6",
+   "fix": ""
+  },
+  {
+   "group": "faces",
+   "name": "head centres inside the caption band, %",
+   "value": 0.0,
+   "status": "PASS",
+   "target": "<= 3 (Rick 2.7)",
+   "fix": ""
   }
  ],
  "numbers": {
   "dur": 8.0,
   "cuts_10s": 0.0,
-  "p50": 1.2073922679242626,
-  "p90": 16.654410063656105,
-  "peak": 26.598357533532997,
-  "pct_hold03": 11.587982832618025,
-  "pct_settled": 80.25751072961373,
-  "holds_10s": 3.7656903765690375,
-  "hold_p50": 2.2333333333333334,
-  "hold_p90": 3.2733333333333334,
-  "hold_max": 3.533333333333333,
-  "travel_p50": 0.7,
-  "travel_p90": 0.8066666666666666,
-  "travel_max": 0.8333333333333334,
+  "p50": 3.0192165973511798,
+  "p90": 15.224698209588663,
+  "peak": 23.223273337655222,
+  "pct_hold03": 10.300429184549357,
+  "pct_settled": 37.76824034334764,
+  "holds_10s": 6.2761506276150625,
+  "hold_p50": 0.7666666666666667,
+  "hold_p90": 0.8400000000000001,
+  "hold_max": 0.8666666666666667,
+  "travel_p50": 1.0333333333333334,
+  "travel_p90": 1.4933333333333334,
+  "travel_max": 1.5333333333333334,
   "travels_over_3s": [],
   "frozen_over_12f": [],
   "words_per_s": 3.951890034364261,
-  "settled_at_longword": 62.5,
-  "roll_rate_p99": 1.8132567754052116,
-  "roll_drift_deg": 37.033459055625144,
+  "settled_at_longword": 50.0,
+  "roll_rate_p99": 1.6444853943248934,
+  "roll_drift_deg": 35.8631584066439,
   "whips_min": 0.0,
-  "zoom_peak_p90": 3.1998662661874615
+  "zoom_peak_p90": 2.512458052214962
  }
 }
