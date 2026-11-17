@@ -22,14 +22,26 @@ cd "$SKILL/templates/threejs_film" && npm install --no-audit --no-fund >/dev/nul
 st plan "film_plan check"
 python3 "$SKILL/tools/film_plan.py" check "$EP/film.json" | tail -3 || fail "film_plan"
 N=$(python3 -c "import json;print(json.load(open('$EP/film.json'))['end'])")
+# RunPod containers expose CUDA but not the NVIDIA graphics libraries (Vulkan ICD / EGL): Chrome then falls back to SwiftShader.
+# Install the user-space part of the SAME driver version as the host (no kernel module), so ANGLE can reach the card.
+DRV=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader | head -1 | tr -d ' ')
+if [ -n "$DRV" ] && [ ! -e /usr/share/vulkan/icd.d/nvidia_icd.json ] && [ ! -e /etc/vulkan/icd.d/nvidia_icd.json ]; then
+  st setup "installing NVIDIA user-space graphics driver $DRV"
+  apt-get install -y -qq kmod pkg-config libglvnd-dev >/dev/null 2>&1 || true
+  if curl -fsSL -o /tmp/nv.run "https://us.download.nvidia.com/XFree86/Linux-x86_64/$DRV/NVIDIA-Linux-x86_64-$DRV.run" || curl -fsSL -o /tmp/nv.run "https://us.download.nvidia.com/tesla/$DRV/NVIDIA-Linux-x86_64-$DRV.run"; then
+    sh /tmp/nv.run --silent --no-kernel-module --no-kernel-modules --no-x-check --no-nouveau-check --no-systemd --no-questions --ui=none --install-libglvnd > "$PUB/nvidia_install.log" 2>&1 \
+      || sh /tmp/nv.run --silent --no-kernel-module --no-x-check --no-nouveau-check --no-systemd --no-questions --ui=none >> "$PUB/nvidia_install.log" 2>&1 || true
+  else echo "NVIDIA driver $DRV download failed" | tee "$PUB/nvidia_install.log"; fi
+  ls /usr/share/vulkan/icd.d/ /etc/vulkan/icd.d/ 2>/dev/null; vulkaninfo --summary 2>&1 | grep -iE "deviceName|driverName" | head -4
+fi
 # GPU: ANGLE Vulkan, then EGL; keep the first that is really the NVIDIA card (render_gpu.mjs refuses a CPU renderer with exit 2)
 MODE=software; ANG=""
 for a in vulkan gl; do
   if RICKCLIPS_GPU_ANGLE=$a timeout 180 node render_gpu.mjs "$EP/film.json" --gpu-info > "$PUB/gpuinfo_$a.txt" 2>&1 && grep -qi nvidia "$PUB/gpuinfo_$a.txt"; then MODE=gpu; ANG=$a; break; fi
 done
 grep -h "WebGL renderer" "$PUB"/gpuinfo_*.txt; echo "render mode: $MODE $ANG"
-if [ "$MODE" = gpu ]; then K=${RICKCLIPS_PROCS:-3}; EXTRA=""; else K=${RICKCLIPS_PROCS:-$(( $(nproc) / 4 > 2 ? $(nproc) / 4 : 2 ))}; EXTRA="--software"; fi
-FR=/root/frames; rm -rf "$FR"; mkdir -p "$FR"; st render "mode=$MODE angle=$ANG procs=$K frames=$N"
+if [ "$MODE" = gpu ]; then K=${RICKCLIPS_PROCS:-3}; EXTRA=""; else K=${RICKCLIPS_PROCS:-$(( $(nproc) / 8 > 2 ? $(nproc) / 8 : 2 ))}; EXTRA="--software"; fi
+FR=/root/frames; rm -rf "$FR"; mkdir -p "$FR"; echo "cpus: $(nproc)"; st render "mode=$MODE angle=$ANG procs=$K frames=$N"
 TR0=$(date +%s); pids=()
 for i in $(seq 0 $((K-1))); do a=$(( N * i / K )); b=$(( N * (i+1) / K - 1 ))
   RICKCLIPS_GPU_ANGLE=$ANG node render_gpu.mjs "$EP/film.json" --frames $a-$b --scale 1 --seed 7 --stills-dir "$FR" --cache /tmp/pc_$i $EXTRA > "$PUB/render_part$i.log" 2>&1 & pids+=($!); done

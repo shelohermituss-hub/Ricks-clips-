@@ -74,6 +74,7 @@ const browser = SOFT
   : await chromium.launch({ channel: 'chromium', headless: !has('--headed'), args: has('--headed') ? [...GPU_ARGS, '--window-position=-32000,-32000'] : GPU_ARGS });
 process.on('exit', () => { if (!val('--cache')) fs.rmSync(CACHE, { recursive: true, force: true }); });
 const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
+page.setDefaultTimeout(+process.env.RICKCLIPS_PAGE_TIMEOUT_MS || 180000);   // cloud 2026-11-17: a loaded CPU host can take over 30 s for one full-size frame
 if (!SOFT && !has('--no-guard')) await page.addInitScript(POW_GUARD.replace('__GUARD__', val('--guard', 'abs') === 'max' ? 'max(a, 0.)' : 'abs(a)'));
 if (has('--seed')) await page.addInitScript(`(() => { let a = ${+val('--seed', 1) >>> 0} || 1; Math.random = () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; })()`);   // GPU: --seed N = the same 'random' dust and set scatter on every run, so two renders can be compared pixel by pixel
 page.on('console', m => { if ((m.type() === 'warning' || m.type() === 'error') && !/GL Driver Message/.test(m.text())) console.log('[page]', m.text()); }); page.on('pageerror', e => console.log('[page error]', e.message));
