@@ -742,6 +742,7 @@ window.exportSet = async (place) => {
   const { GLTFExporter } = await import('./vendor/GLTFExporter.js'), pl = R.places[place], root = new THREE.Scene(); root.name = 'set_' + place;
   if (pl.update) pl.update(0, 0, R);                                                  // moving set parts are exported in their frame 0 pose
   for (const ch of pl.scene.children) if (!ch.isLight && !ch.isCamera && !ch.userData.noExport) root.add(ch.clone(true));
+  { const drop = []; root.traverse(o => { if (o !== root && (o.userData.noExport || o.isLight)) drop.push(o); }); for (const o of drop) if (o.parent) o.parent.remove(o); }   // cloud 2026-11-17: noExport / lights NESTED in a group (a lighthouse's beams) were exported too
   const meshes = [], uses = {}; root.traverse(o => { if (o.isMesh) meshes.push(o); });
   for (const o of meshes) { const hex = (Array.isArray(o.material) ? o.material[0] : o.material).color.getHexString(), lib = o.userData.mat || ROLE_MAT[o.userData.role] || 'untagged_' + hex; o.userData.mat = lib; o.userData.color = '#' + hex; (uses[lib] ||= new Set()).add(hex); }
   const mats = {};

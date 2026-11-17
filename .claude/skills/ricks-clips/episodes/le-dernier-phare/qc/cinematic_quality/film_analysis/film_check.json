@@ -3,7 +3,7 @@
   {
    "group": "camera",
    "name": "camera at rest (< 2 px/f), % of frames",
-   "value": 48.31,
+   "value": 51.93,
    "status": "PASS",
    "target": ">= 30 (Rick median 32) [Rick 5.65-58.02]",
    "fix": ""
@@ -27,23 +27,23 @@
   {
    "group": "camera",
    "name": "travel length p90, s",
-   "value": 1.43,
-   "status": "FAIL",
+   "value": 1.92,
+   "status": "WARN",
    "target": "2.1-6.3 (Rick median 3.0; Railroads and Roller Coasters 4.7). CB 2026-11-10: the scene decides, but some moves must flow [Rick 1.73-9.52]",
    "fix": "under 2.1: every move is a short hop, let one or two moves follow something through the set for 4-5 s; over 6.3: insert a rest inside the longest moves"
   },
   {
    "group": "camera",
    "name": "speed median, px/f",
-   "value": 2.26,
-   "status": "PASS",
+   "value": 1.73,
+   "status": "WARN",
    "target": "about 4 (Rick 4.1) [Rick 1.55-14.11]",
-   "fix": ""
+   "fix": "too high: slow down, rest more; too low: add creep to the rests"
   },
   {
    "group": "camera",
    "name": "speed p90, px/f",
-   "value": 9.52,
+   "value": 10.42,
    "status": "PASS",
    "target": "<= 25 (Rick 23) [Rick 9.80-33.84]",
    "fix": ""
@@ -59,7 +59,7 @@
   {
    "group": "camera",
    "name": "roll rate p99, deg/f",
-   "value": 1.34,
+   "value": 1.57,
    "status": "PASS",
    "target": "<= 1.1 (Rick 1.08) [Rick 0.26-3.02]",
    "fix": ""
@@ -91,7 +91,7 @@
   {
    "group": "camera",
    "name": "camera dead still (< 0.3 px/f), % of frames",
-   "value": 12.29,
+   "value": 14.59,
    "status": "PASS",
    "target": "<= 21, aim 9 (Rick 9.3) [Rick 1.16-28.76]",
    "fix": ""
@@ -130,11 +130,11 @@
   },
   {
    "group": "plan",
-   "name": "rest share: plan 59 % vs picture 48 %",
-   "value": 10.9,
-   "status": "PASS",
+   "name": "rest share: plan 40 % vs picture 52 %",
+   "value": 12.3,
+   "status": "WARN",
    "target": "within 12 points",
-   "fix": ""
+   "fix": "the render does not follow the bake: re-bake, or the set has parallax the plan cannot see (check foreground props)"
   },
   {
    "group": "plan",
@@ -172,25 +172,25 @@
  "numbers": {
   "dur": 8.0,
   "cuts_10s": 0.0,
-  "p50": 2.264648560243943,
-  "p90": 9.517527609219387,
-  "peak": 15.21090149545891,
-  "pct_hold03": 12.288135593220339,
-  "pct_settled": 48.30508474576271,
+  "p50": 1.732437588871735,
+  "p90": 10.423146687866385,
+  "peak": 17.15322622014794,
+  "pct_hold03": 14.592274678111588,
+  "pct_settled": 51.931330472103,
   "holds_10s": 3.7656903765690375,
   "hold_p50": 1.2666666666666666,
   "hold_p90": 1.4266666666666665,
   "hold_max": 1.4666666666666666,
-  "travel_p50": 0.5666666666666667,
-  "travel_p90": 1.4266666666666665,
-  "travel_max": 1.4666666666666666,
+  "travel_p50": 1.3333333333333333,
+  "travel_p90": 1.9200000000000002,
+  "travel_max": 2.066666666666667,
   "travels_over_3s": [],
   "frozen_over_12f": [],
   "words_per_s": 3.951890034364261,
   "settled_at_longword": 37.5,
-  "roll_rate_p99": 1.3427703552725636,
-  "roll_drift_deg": 36.07372798297732,
+  "roll_rate_p99": 1.5708108911172463,
+  "roll_drift_deg": 59.590890558275504,
   "whips_min": 0.0,
-  "zoom_peak_p90": 1.9348869678206173
+  "zoom_peak_p90": 2.0032655954505545
  }
 }
