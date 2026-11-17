@@ -1,0 +1,320 @@
+{
+ "duration_s": 71.233,
+ "sample_rate": 48000,
+ "channels": 2,
+ "integrated_lufs": -15.02,
+ "true_peak_dbtp": -1.0,
+ "voice_lufs": -16.0,
+ "cues": [
+  {
+   "t": 0.0,
+   "name": "bed_field",
+   "until": 10.6
+  },
+  {
+   "t": 10.6,
+   "name": "bed_camp",
+   "until": 26.43
+  },
+  {
+   "t": 26.43,
+   "name": "bed_road",
+   "until": 34.0
+  },
+  {
+   "t": 34.0,
+   "name": "bed_radio",
+   "until": 38.7
+  },
+  {
+   "t": 38.7,
+   "name": "bed_cafe",
+   "until": 46.67
+  },
+  {
+   "t": 46.67,
+   "name": "bed_river",
+   "until": 52.7
+  },
+  {
+   "t": 52.7,
+   "name": "bed_photo",
+   "until": 55.67
+  },
+  {
+   "t": 55.67,
+   "name": "bed_river",
+   "until": 61.5
+  },
+  {
+   "t": 61.5,
+   "name": "bed_bedroom",
+   "until": 66.43
+  },
+  {
+   "t": 66.43,
+   "name": "bed_attic",
+   "until": 71.23
+  },
+  {
+   "t": 3.433,
+   "name": "tank_set_down_rubber_thump",
+   "lufs_max_m": -22.0
+  },
+  {
+   "t": 3.667,
+   "name": "pat_dent_boing",
+   "lufs_max_m": -24.0
+  },
+  {
+   "t": 4.467,
+   "name": "bike_brakes_skid x2",
+   "lufs_max_m": -25.0
+  },
+  {
+   "t": 4.617,
+   "name": "bike_brakes_skid_2",
+   "lufs_max_m": -27.0
+  },
+  {
+   "t": 6.54,
+   "name": "wink_glint",
+   "lufs_max_m": -30.0
+  },
+  {
+   "t": 9.633,
+   "name": "valve_air_whistle + sag",
+   "lufs_max_m": -23.0
+  },
+  {
+   "t": 24.333,
+   "name": "dozer_engine + track rattle",
+   "lufs_max_m": -24.0
+  },
+  {
+   "t": 26.9,
+   "name": "halftrack_idle",
+   "lufs_max_m": -28.0
+  },
+  {
+   "t": 28.267,
+   "name": "speaker: a hundred tanks (engines, tracks, shouts, crackle)",
+   "lufs_max_m": -19.0
+  },
+  {
+   "t": 36.333,
+   "name": "morse_beeps",
+   "lufs_max_m": -27.0
+  },
+  {
+   "t": 38.833,
+   "name": "cafe_accordion",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 43.267,
+   "name": "sergeant_laugh",
+   "lufs_max_m": -22.0
+  },
+  {
+   "t": 50.433,
+   "name": "inflate_hiss",
+   "lufs_max_m": -30.0
+  },
+  {
+   "t": 50.713,
+   "name": "inflate_hiss",
+   "lufs_max_m": -30.3
+  },
+  {
+   "t": 50.993,
+   "name": "inflate_hiss",
+   "lufs_max_m": -30.6
+  },
+  {
+   "t": 51.273,
+   "name": "inflate_hiss",
+   "lufs_max_m": -30.9
+  },
+  {
+   "t": 51.553,
+   "name": "inflate_hiss",
+   "lufs_max_m": -31.2
+  },
+  {
+   "t": 51.833,
+   "name": "inflate_hiss",
+   "lufs_max_m": -31.5
+  },
+  {
+   "t": 52.113,
+   "name": "inflate_hiss",
+   "lufs_max_m": -31.8
+  },
+  {
+   "t": 52.393,
+   "name": "inflate_hiss",
+   "lufs_max_m": -32.1
+  },
+  {
+   "t": 52.673,
+   "name": "inflate_hiss",
+   "lufs_max_m": -32.4
+  },
+  {
+   "t": 52.953,
+   "name": "inflate_hiss",
+   "lufs_max_m": -32.7
+  },
+  {
+   "t": 55.067,
+   "name": "shell_whistle",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 55.967,
+   "name": "shell_impact",
+   "lufs_max_m": -18.0
+  },
+  {
+   "t": 55.333,
+   "name": "shell_whistle",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 56.233,
+   "name": "shell_impact",
+   "lufs_max_m": -19.0
+  },
+  {
+   "t": 55.6,
+   "name": "shell_whistle",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 56.5,
+   "name": "shell_impact",
+   "lufs_max_m": -20.0
+  },
+  {
+   "t": 55.867,
+   "name": "shell_whistle",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 56.767,
+   "name": "shell_impact",
+   "lufs_max_m": -18.0
+  },
+  {
+   "t": 56.133,
+   "name": "shell_whistle",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 57.033,
+   "name": "shell_impact",
+   "lufs_max_m": -19.0
+  },
+  {
+   "t": 56.4,
+   "name": "shell_whistle",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 57.3,
+   "name": "shell_impact",
+   "lufs_max_m": -20.0
+  },
+  {
+   "t": 56.667,
+   "name": "shell_whistle",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 57.567,
+   "name": "shell_impact",
+   "lufs_max_m": -18.0
+  },
+  {
+   "t": 56.933,
+   "name": "shell_whistle",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 57.833,
+   "name": "shell_impact",
+   "lufs_max_m": -19.0
+  },
+  {
+   "t": 57.2,
+   "name": "shell_whistle",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 58.1,
+   "name": "shell_impact",
+   "lufs_max_m": -20.0
+  },
+  {
+   "t": 57.467,
+   "name": "shell_whistle",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 58.367,
+   "name": "shell_impact",
+   "lufs_max_m": -18.0
+  },
+  {
+   "t": 57.733,
+   "name": "paddle_splash",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 58.283,
+   "name": "paddle_splash",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 58.833,
+   "name": "paddle_splash",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 59.383,
+   "name": "paddle_splash",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 59.933,
+   "name": "paddle_splash",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 60.483,
+   "name": "paddle_splash",
+   "lufs_max_m": -31.0
+  },
+  {
+   "t": 58.333,
+   "name": "pontoon_creak",
+   "lufs_max_m": -30.0
+  },
+  {
+   "t": 65.98,
+   "name": "trunk_lid_creak",
+   "lufs_max_m": -27.0
+  },
+  {
+   "t": 69.367,
+   "name": "rubber_skin_unfold",
+   "lufs_max_m": -29.0
+  },
+  {
+   "t": 0.0,
+   "name": "music: swing (G) -> river tension -> D major relief -> music box",
+   "lufs": -25
+  }
+ ]
+}

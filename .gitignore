@@ -21,3 +21,5 @@
 .claude/skills/ricks-clips/library/assets/sketchfab/
 # Episode working output (plan, renders, logs): rebuilt from film.json; the delivered film and QC live in final.mp4 and qc/
 .claude/skills/ricks-clips/episodes/*/out/
+.claude/skills/ricks-clips/episodes/ghost-army/v1/*.mp4
+.claude/skills/ricks-clips/episodes/ghost-army/sound/*.wav
