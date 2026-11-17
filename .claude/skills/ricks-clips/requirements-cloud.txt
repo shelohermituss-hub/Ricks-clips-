@@ -1,0 +1,6 @@
+Pillow>=10.0
+numpy>=1.26,<3
+scipy>=1.11
+soundfile>=0.12
+faster-whisper>=1.1
+opencv-python-headless>=4.9

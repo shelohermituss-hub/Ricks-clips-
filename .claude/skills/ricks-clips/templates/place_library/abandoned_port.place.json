@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "place_id": "abandoned_port",
+  "name": "Abandoned Port",
+  "description": "Reusable story-neutral port environment recipe. Replace the example model entry with a staged, licensed GLB before rendering.",
+  "coordinate_system": "film-plan-metres-x-y-forward-z-up",
+  "visual_direction": {
+    "style": "polished stylized 3D cartoon world with detailed materials and clean silhouettes",
+    "palette": ["#52636A", "#9B8165", "#34464D", "#D5B58D"],
+    "time_of_day": "overcast afternoon",
+    "weather": "light sea mist",
+    "atmosphere": "layered haze, gulls, ropes and flags moving gently; keep text-bearing signs still"
+  },
+  "anchors": {
+    "dock_center": [0, 0, 0],
+    "warehouse_door": [8, 14, 0],
+    "lookout": [-14, 18, 7]
+  },
+  "camera_stations": [
+    {"id": "wide_dock", "position": [0, -16, 7], "aim": [0, 10, 2], "lens": 35},
+    {"id": "warehouse_reveal", "position": [-8, 3, 4], "aim": [8, 14, 2], "lens": 45}
+  ],
+  "assets": [
+    {
+      "provider": "polyhaven",
+      "asset_id": "REPLACE_WITH_STAGED_ASSET_ID",
+      "role": "warehouse_or_crane_model",
+      "license": "CC0",
+      "source_url": "https://polyhaven.com/",
+      "creator": "record_actual_author_from_asset_manifest",
+      "file": "assets/asset_hub/polyhaven/REPLACE_WITH_STAGED_ASSET_ID/model.glb",
+      "position": [8, 14, 0],
+      "rotationY": 0,
+      "scale": 1,
+      "required": false
+    }
+  ],
+  "set_module": "sets/abandoned_port.js",
+  "approved_stills": []
+}

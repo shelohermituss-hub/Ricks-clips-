@@ -1,0 +1,15 @@
+# Add to Cloud Environment > Network access > Limited > Allowed domains.
+# npm/PyPI/GitHub package registries are in Claude's default allowlist.
+# Blender 5.2.2 LTS download used by scripts/cloud_environment_setup.sh
+download.blender.org
+api.sketchfab.com
+*.sketchfab.com
+api.polyhaven.com
+*.polyhaven.com
+ambientcg.com
+*.ambientcg.com
+fab.com
+*.fab.com
+blenderkit.com
+*.blenderkit.com
+api.fish.audio

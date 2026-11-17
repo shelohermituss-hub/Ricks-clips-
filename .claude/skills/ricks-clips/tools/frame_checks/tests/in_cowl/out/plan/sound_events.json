@@ -1,0 +1,62 @@
+[
+ {
+  "t": 0.0,
+  "name": "airfield_wind_engines_ticking",
+  "gain": 0
+ },
+ {
+  "t": 3.6,
+  "name": "slide_rule_ting_on_metal",
+  "gain": 0
+ },
+ {
+  "t": 3.9,
+  "name": "slide_rule_ting_on_metal_2",
+  "gain": 0
+ },
+ {
+  "t": 4.367,
+  "name": "sheet_metal_clang",
+  "gain": 0
+ },
+ {
+  "t": 4.633,
+  "name": "sheet_metal_second_bounce",
+  "gain": 0
+ },
+ {
+  "t": 5.133,
+  "name": "chalk_squeak_round",
+  "gain": 0
+ },
+ {
+  "t": 7.167,
+  "name": "fists_on_hips_slap",
+  "gain": 0
+ },
+ {
+  "t": 8.6,
+  "name": "belly_laugh",
+  "gain": 0
+ },
+ {
+  "t": 9.067,
+  "name": "rivets_late_laugh",
+  "gain": 0
+ },
+ {
+  "t": 9.133,
+  "name": "knee_slap",
+  "gain": 0
+ },
+ {
+  "t": 11.167,
+  "name": "rubber_slap",
+  "gain": 0
+ },
+ {
+  "t": 11.233,
+  "name": "tire_thrum",
+  "gain": 0
+ }
+]

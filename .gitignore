@@ -1,0 +1,17 @@
+.venv/
+**/.venv/
+**/__pycache__/
+**/*.py[cod]
+**/node_modules/
+**/.cloud-deps.sha256
+.env
+.env.*
+!.env.example
+**/.fish_api_key
+**/*oauth*token*
+**/*api_key*
+**/.cache/
+**/cache/
+**/tmp/
+**/temp/
+**/hf_cache/

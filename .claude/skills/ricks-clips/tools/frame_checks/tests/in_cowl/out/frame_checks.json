@@ -1,0 +1,1366 @@
+{
+ "summary": {
+  "film": "<HOME>\\Downloads\\Ricks Clips Animation Skill\\tools\\frame_checks\\tests\\in_cowl\\film.json",
+  "frames_in_film": 356,
+  "frames_checked": 267,
+  "rests": [
+   "f47-62",
+   "f96-127",
+   "f184-205",
+   "f222-283",
+   "f298-331"
+  ],
+  "cast": [
+   "mathematician",
+   "chief",
+   "rivets"
+  ],
+  "fail": 12,
+  "warn": 2,
+  "pass": 57,
+  "seconds": 60.9,
+  "scan_seconds": 42.4,
+  "pose_seconds": 22.9,
+  "moving_exempt": 0,
+  "ms": {
+   "render": 22908.500002264977,
+   "art": 3045.500001311302,
+   "face": 9261.199999332428,
+   "inside": 734.1000002622604,
+   "feet": 879.8999996185303,
+   "body": 5189.099999308586
+  },
+  "settings": {
+   "heldNames": [],
+   "crops": 12,
+   "skipName": "sky|dome|cone|beam|haze|fog|dust|glow|halo|smoke|spark|cloud|backdrop|mote|rain|snow",
+   "headOut": 0.02,
+   "headFull": 0.97,
+   "bodyLo": 0.15,
+   "bodyHi": 0.85,
+   "faceEps": 0.03,
+   "footTol": 0.04,
+   "footReach": 0.25,
+   "footUp": 0.5,
+   "footDown": 3,
+   "moveEps": 0.002,
+   "minBad": 4,
+   "body": true,
+   "debug": false,
+   "bodyUpper": 0.75,
+   "bodyLowSkip": 0.06,
+   "bodyFail": 0.1,
+   "bodyWarn": 0.03,
+   "bodyBand": 0.15,
+   "bodyBandWarn": 0.08,
+   "bodyIn": 0.01,
+   "bodyBehind": 0.08,
+   "seatName": "seat|stool|bench|saddle|sofa|couch",
+   "rest_thr": 0.01,
+   "rest_min": 8
+  },
+  "set_meshes": {
+   "apron": {
+    "solid": 6255,
+    "instances": 34360,
+    "see-through": 279,
+    "small scatter (rivets, grass)": 2,
+    "name": 85
+   }
+  },
+  "notes": [],
+  "page_errors": []
+ },
+ "rows": [
+  {
+   "who": "mathematician",
+   "rest": "f96-127",
+   "check": "body_in_mesh",
+   "status": "FAIL",
+   "value": 16,
+   "unit": "% of the body inside set geometry",
+   "frame": 97,
+   "bad_frames": 32,
+   "frames": 32,
+   "detail": "inside bomber_old_faithful/bomber_airframe/engine_cylinder_23: torso-hips-thighs 18 %, legs 0 %, 9 cm of it in front of the card, 7 cm behind; cuts 70 % of the body width with 9 cm of engine_cylinder_22 running on behind the body (+3 more parts)",
+   "mark": [
+    51,
+    32,
+    170,
+    335
+   ],
+   "crop": "frame_checks/FAIL_body_in_mesh_mathematician_f00097.jpg"
+  },
+  {
+   "who": "mathematician",
+   "rest": "f96-127",
+   "check": "face_covered",
+   "status": "FAIL",
+   "value": 3,
+   "unit": "of 3 face rays blocked",
+   "frame": 107,
+   "bad_frames": 32,
+   "frames": 32,
+   "detail": "head centre INSIDE bomber_old_faithful/bomber_airframe/engine_push_rod_21; in front: bomber_old_faithful/bomber_airframe/engine_ignition_ring_03",
+   "mark": [
+    38,
+    35,
+    138,
+    144
+   ],
+   "crop": "frame_checks/FAIL_face_covered_mathematician_f00107.jpg"
+  },
+  {
+   "who": "mathematician",
+   "rest": "f96-127",
+   "check": "feet",
+   "status": "FAIL",
+   "value": -46.2,
+   "unit": "cm foot above (+) or inside (-) the surface",
+   "frame": 111,
+   "bad_frames": 32,
+   "frames": 32,
+   "detail": "2 of 2 feet sunk, nearest bomber_old_faithful/bomber_airframe/cowl_rear_03",
+   "mark": [
+    92,
+    334,
+    107,
+    347
+   ],
+   "crop": "frame_checks/FAIL_feet_mathematician_f00111.jpg"
+  },
+  {
+   "who": "chief",
+   "rest": "f184-205",
+   "check": "body_side",
+   "status": "FAIL",
+   "value": 50,
+   "unit": "% of width in frame",
+   "frame": 184,
+   "bad_frames": 22,
+   "frames": 22,
+   "detail": "cut by the right edge",
+   "mark": [
+    73,
+    157,
+    471,
+    873
+   ],
+   "crop": "frame_checks/FAIL_body_side_chief_f00184.jpg"
+  },
+  {
+   "who": "chief",
+   "rest": "f184-205",
+   "check": "head_cut",
+   "status": "FAIL",
+   "value": 30,
+   "unit": "% of head+hat in frame",
+   "frame": 195,
+   "bad_frames": 22,
+   "frames": 22,
+   "detail": "cut by the right edge",
+   "mark": [
+    192,
+    165,
+    430,
+    429
+   ],
+   "crop": "frame_checks/FAIL_head_cut_chief_f00195.jpg"
+  },
+  {
+   "who": "mathematician",
+   "rest": "f1-46 move",
+   "check": "body_in_mesh",
+   "status": "FAIL",
+   "value": 59,
+   "unit": "% of the body inside set geometry",
+   "frame": 31,
+   "bad_frames": 16,
+   "frames": 16,
+   "detail": "inside bomber_old_faithful/bomber_airframe/cowl_rear_03: torso-hips-thighs 66 %, legs 0 %, 43 cm of it in front of the card, 109 cm behind; cuts 100 % of the body width with 102 cm of cowl_rear_03 running on behind the body (+2 more parts)",
+   "mark": [
+    3,
+    161,
+    51,
+    273
+   ],
+   "crop": "frame_checks/FAIL_body_in_mesh_mathematician_f00031.jpg"
+  },
+  {
+   "who": "chief",
+   "rest": "f47-62",
+   "check": "body_side",
+   "status": "FAIL",
+   "value": 80,
+   "unit": "% of width in frame",
+   "frame": 57,
+   "bad_frames": 12,
+   "frames": 16,
+   "detail": "cut by the right edge",
+   "mark": [
+    96,
+    204,
+    313,
+    694
+   ],
+   "crop": "frame_checks/FAIL_body_side_chief_f00057.jpg"
+  },
+  {
+   "who": "mathematician",
+   "rest": "f128-183 move",
+   "check": "body_in_mesh",
+   "status": "FAIL",
+   "value": 82,
+   "unit": "% of the body inside set geometry",
+   "frame": 144,
+   "bad_frames": 11,
+   "frames": 19,
+   "detail": "inside bomber_old_faithful/bomber_airframe/cowl_rear_03: torso-hips-thighs 87 %, legs 0 %, 27 cm of it in front of the card, 104 cm behind; cuts 100 % of the body width with 113 cm of cowl_rear_03 running on behind the body",
+   "mark": [
+    25,
+    198,
+    65,
+    285
+   ],
+   "crop": "frame_checks/FAIL_body_in_mesh_mathematician_f00144.jpg"
+  },
+  {
+   "who": "mathematician",
+   "rest": "f63-95 move",
+   "check": "body_in_mesh",
+   "status": "FAIL",
+   "value": 100,
+   "unit": "% of the body inside set geometry",
+   "frame": 81,
+   "bad_frames": 8,
+   "frames": 8,
+   "detail": "inside bomber_old_faithful/bomber_airframe/cowl_rear_03: torso-hips-thighs 100 %, legs 0 %, 22 cm of it in front of the card, 128 cm behind; cuts 100 % of the body width with 122 cm of cowl_rear_03 running on behind the body",
+   "mark": [
+    -98,
+    5,
+    58,
+    334
+   ],
+   "crop": "frame_checks/FAIL_body_in_mesh_mathematician_f00081.jpg"
+  },
+  {
+   "who": "mathematician",
+   "rest": "f0 (first)",
+   "check": "body_in_mesh",
+   "status": "FAIL",
+   "value": 33,
+   "unit": "% of the body inside set geometry",
+   "frame": 0,
+   "bad_frames": 1,
+   "frames": 1,
+   "detail": "inside bomber_old_faithful/bomber_airframe/cowl_rear_03: torso-hips-thighs 38 %, legs 0 %, 39 cm of it in front of the card, 123 cm behind; cuts 47 % of the body width with 114 cm of cowl_rear_03 running on behind the body (+3 more parts)",
+   "mark": [
+    17,
+    141,
+    83,
+    293
+   ],
+   "crop": "frame_checks/FAIL_body_in_mesh_mathematician_f00000.jpg"
+  },
+  {
+   "who": "mathematician",
+   "rest": "f0 (first)",
+   "check": "face_covered",
+   "status": "FAIL",
+   "value": 3,
+   "unit": "of 3 face rays blocked",
+   "frame": 0,
+   "bad_frames": 1,
+   "frames": 1,
+   "detail": "head centre INSIDE bomber_old_faithful/bomber_airframe/engine_cylinder_21; in front: bomber_old_faithful/bomber_airframe/cowl_polished_band_03",
+   "mark": [
+    27,
+    141,
+    79,
+    196
+   ],
+   "crop": "frame_checks/FAIL_face_covered_mathematician_f00000.jpg"
+  },
+  {
+   "who": "mathematician",
+   "rest": "f0 (first)",
+   "check": "feet",
+   "status": "FAIL",
+   "value": -46.3,
+   "unit": "cm foot above (+) or inside (-) the surface",
+   "frame": 0,
+   "bad_frames": 1,
+   "frames": 1,
+   "detail": "2 of 2 feet sunk, nearest bomber_old_faithful/bomber_airframe/cowl_rear_03",
+   "mark": [
+    32,
+    286,
+    47,
+    299
+   ],
+   "crop": "frame_checks/FAIL_feet_mathematician_f00000.jpg"
+  },
+  {
+   "who": "chief",
+   "rest": "f298-331",
+   "check": "body_side",
+   "status": "WARN",
+   "value": 75,
+   "unit": "% of width in frame",
+   "frame": 331,
+   "bad_frames": 3,
+   "frames": 34,
+   "detail": "cut by the right edge (only 3 frames: WARN)",
+   "mark": [
+    199,
+    155,
+    294,
+    334
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f298-331",
+   "check": "head_cut",
+   "status": "WARN",
+   "value": 92,
+   "unit": "% of head+hat in frame",
+   "frame": 331,
+   "bad_frames": 2,
+   "frames": 34,
+   "detail": "cut by the right edge (only 2 frames: WARN)",
+   "mark": [
+    213,
+    155,
+    281,
+    228
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f0 (first)",
+   "check": "body_side",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of width in frame",
+   "frame": 0,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "",
+   "mark": [
+    17,
+    141,
+    83,
+    293
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f0 (first)",
+   "check": "head_cut",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of head+hat in frame",
+   "frame": 0,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "",
+   "mark": [
+    27,
+    141,
+    79,
+    196
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f0 (first)",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 0,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "",
+   "mark": [
+    174,
+    247,
+    251,
+    394
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f0 (first)",
+   "check": "body_side",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of width in frame",
+   "frame": 0,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "",
+   "mark": [
+    174,
+    247,
+    251,
+    394
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f0 (first)",
+   "check": "head_cut",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of head+hat in frame",
+   "frame": 0,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "",
+   "mark": [
+    184,
+    247,
+    237,
+    306
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f0 (first)",
+   "check": "face_covered",
+   "status": "PASS",
+   "value": 0,
+   "unit": "of 3 face rays blocked",
+   "frame": 0,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "",
+   "mark": [
+    184,
+    247,
+    237,
+    306
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f0 (first)",
+   "check": "feet",
+   "status": "PASS",
+   "value": 0,
+   "unit": "cm foot above (+) or inside (-) the surface",
+   "frame": 0,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "on apron_concrete",
+   "mark": [
+    214,
+    384,
+    229,
+    397
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f0 (first)",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 0,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "",
+   "mark": [
+    226,
+    279,
+    270,
+    384
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f0 (first)",
+   "check": "body_side",
+   "status": "PASS",
+   "value": 99,
+   "unit": "% of width in frame",
+   "frame": 0,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "",
+   "mark": [
+    226,
+    279,
+    270,
+    384
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f0 (first)",
+   "check": "head_cut",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of head+hat in frame",
+   "frame": 0,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "",
+   "mark": [
+    230,
+    279,
+    267,
+    315
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f0 (first)",
+   "check": "face_covered",
+   "status": "PASS",
+   "value": 0,
+   "unit": "of 3 face rays blocked",
+   "frame": 0,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "",
+   "mark": [
+    230,
+    279,
+    267,
+    315
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f0 (first)",
+   "check": "feet",
+   "status": "PASS",
+   "value": 0,
+   "unit": "cm foot above (+) or inside (-) the surface",
+   "frame": 0,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "on apron_concrete",
+   "mark": [
+    250,
+    374,
+    265,
+    387
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f1-46 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 1,
+   "bad_frames": 0,
+   "frames": 24,
+   "detail": "",
+   "mark": [
+    175,
+    247,
+    252,
+    394
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f1-46 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 1,
+   "bad_frames": 0,
+   "frames": 18,
+   "detail": "",
+   "mark": [
+    227,
+    279,
+    272,
+    384
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f47-62",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 47,
+   "bad_frames": 0,
+   "frames": 16,
+   "detail": "",
+   "mark": [
+    98,
+    204,
+    306,
+    665
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f47-62",
+   "check": "head_cut",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of head+hat in frame",
+   "frame": 47,
+   "bad_frames": 0,
+   "frames": 16,
+   "detail": "",
+   "mark": [
+    138,
+    204,
+    259,
+    351
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f47-62",
+   "check": "face_covered",
+   "status": "PASS",
+   "value": 0,
+   "unit": "of 3 face rays blocked",
+   "frame": 47,
+   "bad_frames": 0,
+   "frames": 16,
+   "detail": "",
+   "mark": [
+    138,
+    204,
+    259,
+    351
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f47-62",
+   "check": "body_side",
+   "status": "PASS",
+   "value": 2,
+   "unit": "% of width in frame",
+   "frame": 47,
+   "bad_frames": 0,
+   "frames": 6,
+   "detail": "cut by the right edge",
+   "mark": [
+    267,
+    291,
+    407,
+    605
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f63-95 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 63,
+   "bad_frames": 0,
+   "frames": 10,
+   "detail": "",
+   "mark": [
+    45,
+    200,
+    282,
+    713
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f96-127",
+   "check": "body_side",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of width in frame",
+   "frame": 96,
+   "bad_frames": 0,
+   "frames": 32,
+   "detail": "",
+   "mark": [
+    51,
+    32,
+    170,
+    335
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f96-127",
+   "check": "head_cut",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of head+hat in frame",
+   "frame": 96,
+   "bad_frames": 0,
+   "frames": 32,
+   "detail": "",
+   "mark": [
+    56,
+    32,
+    155,
+    146
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f128-183 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 138,
+   "bad_frames": 0,
+   "frames": 24,
+   "detail": "",
+   "mark": [
+    183,
+    181,
+    312,
+    404
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f128-183 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 142,
+   "bad_frames": 0,
+   "frames": 10,
+   "detail": "",
+   "mark": [
+    236,
+    208,
+    305,
+    363
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f184-205",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 184,
+   "bad_frames": 0,
+   "frames": 22,
+   "detail": "",
+   "mark": [
+    73,
+    157,
+    471,
+    873
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f184-205",
+   "check": "face_covered",
+   "status": "PASS",
+   "value": 0,
+   "unit": "of 1 face rays blocked",
+   "frame": 184,
+   "bad_frames": 0,
+   "frames": 22,
+   "detail": "",
+   "mark": [
+    193,
+    173,
+    423,
+    423
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f206-221 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 206,
+   "bad_frames": 0,
+   "frames": 9,
+   "detail": "",
+   "mark": [
+    178,
+    175,
+    462,
+    911
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f206-221 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 216,
+   "bad_frames": 0,
+   "frames": 4,
+   "detail": "",
+   "mark": [
+    -39,
+    249,
+    46,
+    396
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f206-221 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 218,
+   "bad_frames": 0,
+   "frames": 3,
+   "detail": "",
+   "mark": [
+    202,
+    196,
+    278,
+    370
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f222-283",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "",
+   "mark": [
+    11,
+    238,
+    58,
+    333
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f222-283",
+   "check": "body_side",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of width in frame",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "",
+   "mark": [
+    11,
+    238,
+    58,
+    333
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f222-283",
+   "check": "head_cut",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of head+hat in frame",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "",
+   "mark": [
+    21,
+    238,
+    56,
+    273
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f222-283",
+   "check": "face_covered",
+   "status": "PASS",
+   "value": 0,
+   "unit": "of 3 face rays blocked",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "",
+   "mark": [
+    21,
+    238,
+    56,
+    273
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f222-283",
+   "check": "feet",
+   "status": "PASS",
+   "value": 0,
+   "unit": "cm foot above (+) or inside (-) the surface",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "on apron_concrete",
+   "mark": [
+    16,
+    324,
+    31,
+    337
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f222-283",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "",
+   "mark": [
+    130,
+    220,
+    182,
+    334
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f222-283",
+   "check": "body_side",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of width in frame",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "",
+   "mark": [
+    130,
+    220,
+    182,
+    334
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f222-283",
+   "check": "head_cut",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of head+hat in frame",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "",
+   "mark": [
+    135,
+    220,
+    174,
+    262
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f222-283",
+   "check": "face_covered",
+   "status": "PASS",
+   "value": 0,
+   "unit": "of 3 face rays blocked",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "",
+   "mark": [
+    135,
+    220,
+    174,
+    262
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f222-283",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "",
+   "mark": [
+    187,
+    200,
+    251,
+    347
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f222-283",
+   "check": "body_side",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of width in frame",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "",
+   "mark": [
+    187,
+    200,
+    251,
+    347
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f222-283",
+   "check": "head_cut",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of head+hat in frame",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "",
+   "mark": [
+    192,
+    200,
+    245,
+    249
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f222-283",
+   "check": "face_covered",
+   "status": "PASS",
+   "value": 0,
+   "unit": "of 3 face rays blocked",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "",
+   "mark": [
+    192,
+    200,
+    245,
+    249
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f222-283",
+   "check": "feet",
+   "status": "PASS",
+   "value": 0,
+   "unit": "cm foot above (+) or inside (-) the surface",
+   "frame": 222,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "on apron_concrete",
+   "mark": [
+    221,
+    335,
+    236,
+    348
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f222-283",
+   "check": "feet",
+   "status": "PASS",
+   "value": 0,
+   "unit": "cm foot above (+) or inside (-) the surface",
+   "frame": 270,
+   "bad_frames": 0,
+   "frames": 62,
+   "detail": "on apron_concrete",
+   "mark": [
+    128,
+    330,
+    143,
+    343
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f284-297 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 284,
+   "bad_frames": 0,
+   "frames": 8,
+   "detail": "",
+   "mark": [
+    2,
+    239,
+    57,
+    341
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f284-297 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 284,
+   "bad_frames": 0,
+   "frames": 8,
+   "detail": "",
+   "mark": [
+    102,
+    231,
+    189,
+    334
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f284-297 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 284,
+   "bad_frames": 0,
+   "frames": 5,
+   "detail": "",
+   "mark": [
+    184,
+    201,
+    257,
+    361
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f298-331",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 298,
+   "bad_frames": 0,
+   "frames": 34,
+   "detail": "",
+   "mark": [
+    7,
+    191,
+    84,
+    331
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f298-331",
+   "check": "body_side",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of width in frame",
+   "frame": 298,
+   "bad_frames": 0,
+   "frames": 34,
+   "detail": "",
+   "mark": [
+    7,
+    191,
+    84,
+    331
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f298-331",
+   "check": "head_cut",
+   "status": "PASS",
+   "value": 100,
+   "unit": "% of head+hat in frame",
+   "frame": 298,
+   "bad_frames": 0,
+   "frames": 34,
+   "detail": "",
+   "mark": [
+    19,
+    191,
+    63,
+    244
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f298-331",
+   "check": "face_covered",
+   "status": "PASS",
+   "value": 0,
+   "unit": "of 3 face rays blocked",
+   "frame": 298,
+   "bad_frames": 0,
+   "frames": 34,
+   "detail": "",
+   "mark": [
+    19,
+    191,
+    63,
+    244
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f298-331",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 298,
+   "bad_frames": 0,
+   "frames": 34,
+   "detail": "",
+   "mark": [
+    163,
+    159,
+    265,
+    332
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f298-331",
+   "check": "face_covered",
+   "status": "PASS",
+   "value": 0,
+   "unit": "of 3 face rays blocked",
+   "frame": 298,
+   "bad_frames": 0,
+   "frames": 34,
+   "detail": "",
+   "mark": [
+    189,
+    159,
+    257,
+    229
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f298-331",
+   "check": "feet",
+   "status": "PASS",
+   "value": 0,
+   "unit": "cm foot above (+) or inside (-) the surface",
+   "frame": 301,
+   "bad_frames": 0,
+   "frames": 34,
+   "detail": "on apron_concrete",
+   "mark": [
+    33,
+    321,
+    48,
+    334
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f298-331",
+   "check": "feet",
+   "status": "PASS",
+   "value": 0,
+   "unit": "cm foot above (+) or inside (-) the surface",
+   "frame": 330,
+   "bad_frames": 0,
+   "frames": 34,
+   "detail": "on apron_concrete",
+   "mark": [
+    204,
+    324,
+    219,
+    337
+   ]
+  },
+  {
+   "who": "mathematician",
+   "rest": "f332-354 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 332,
+   "bad_frames": 0,
+   "frames": 4,
+   "detail": "",
+   "mark": [
+    9,
+    192,
+    72,
+    335
+   ]
+  },
+  {
+   "who": "chief",
+   "rest": "f332-354 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 332,
+   "bad_frames": 0,
+   "frames": 5,
+   "detail": "",
+   "mark": [
+    199,
+    155,
+    294,
+    334
+   ]
+  },
+  {
+   "who": "rivets",
+   "rest": "f332-354 move",
+   "check": "body_in_mesh",
+   "status": "PASS",
+   "value": 0,
+   "unit": "% of the body inside set geometry",
+   "frame": 340,
+   "bad_frames": 0,
+   "frames": 1,
+   "detail": "",
+   "mark": [
+    140,
+    184,
+    237,
+    421
+   ]
+  }
+ ]
+}
