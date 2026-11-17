@@ -27,6 +27,9 @@ export function build(THREE, scene, film, ctx) {
   rubberTex.wrapS = rubberTex.wrapT = THREE.RepeatWrapping; rubberTex.colorSpace = THREE.NoColorSpace;
   const rubber = (col) => new THREE.MeshStandardMaterial({ name: 'rubber_canvas', color: col, roughness: .55, metalness: 0, bumpMap: rubberTex, bumpScale: .6 });
   const starTex = canvasTex(256, 256, (g, w) => { g.clearRect(0, 0, w, w); g.fillStyle = '#f2efe4'; g.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? w * .19 : w * .46; g.lineTo(w / 2 + Math.cos(a) * r, w / 2 + Math.sin(a) * r); } g.closePath(); g.fill(); g.lineWidth = 10; g.strokeStyle = '#f2efe4'; g.beginPath(); g.arc(w / 2, w / 2, w * .47, 0, 7); g.stroke(); });
+  const treadTex = canvasTex(64, 512, (g, w, h) => { g.fillStyle = '#808080'; g.fillRect(0, 0, w, h); for (let y = 0; y < h; y += 16) { g.fillStyle = '#d0d0d0'; g.fillRect(0, y, w, 7); g.fillStyle = '#404040'; g.fillRect(0, y + 7, w, 2); } });
+  treadTex.wrapS = treadTex.wrapT = THREE.RepeatWrapping; treadTex.repeat.set(6, 1); treadTex.colorSpace = THREE.NoColorSpace;
+  const stencilTex = ['3A-27', 'USA 30117', '6-B-41', 'W-3088'].map(txt => canvasTex(256, 74, (g, w, h) => { g.clearRect(0, 0, w, h); g.fillStyle = 'rgba(236,232,214,.92)'; g.font = 'bold 44px monospace'; g.textAlign = 'center'; g.fillText(txt, w / 2, 54); }));
   function sherman(name, opts = {}) {
     const g = new THREE.Group(); g.name = name; const col = opts.col || '#5d6538', M = rubber(col), MD = rubber(new THREE.Color(col).multiplyScalar(.72).getStyle()), MT = rubber('#3a3b34');
     const part = (nm, geo, mat, x, y, z, o = {}) => { const m = add(new THREE.Mesh(geo, mat), nm, 'cloth', { parent: g, mat: 'rubber', cast: opts.cast ?? true }); m.position.set(x, y, z); if (o.rx) m.rotation.x = o.rx; if (o.rz) m.rotation.z = o.rz; if (o.ry) m.rotation.y = o.ry; return m; };
@@ -46,7 +49,31 @@ export function build(THREE, scene, film, ctx) {
     // the giveaways for close-ups: brass valve, a patch, white stars, seams
     const valve = part('tank_valve', new THREE.CylinderGeometry(.07, .09, .22, 12), metal('brass', '#c8a24a', { rough: .3 }), -2.2, 2.12, -.6);
     part('tank_patch', new THREE.CircleGeometry(.28, 18), rubber('#6c7444'), -1.4, 1.45, 1.21);
-    for (const s of [-1, 1]) { const st = add(new THREE.Mesh(new THREE.PlaneGeometry(1.0, 1.0), new THREE.MeshBasicMaterial({ map: starTex, transparent: true, depthWrite: false })), 'tank_star', 'cloth', { parent: g, cast: false }); st.position.set(-.6, 1.4, s * 1.24); if (s < 0) st.rotation.y = Math.PI; }
+    // star decal (v1 note: half buried in the track skirt): smaller, higher, on the flat hull side, alpha-cut so it never smears
+    for (const s of [-1, 1]) { const st = add(new THREE.Mesh(new THREE.PlaneGeometry(.78, .78), new THREE.MeshBasicMaterial({ map: starTex, transparent: true, alphaTest: .4, polygonOffset: true, polygonOffsetFactor: -4 })), 'tank_star', 'cloth', { parent: g, cast: false }); st.position.set(-.8, 1.55, s * 1.265); if (s < 0) st.rotation.y = Math.PI; }
+    // ---- detail pass (v1 notes 1 + 4): running gear, fenders, stowage, lights, hull MG, deck grille, antenna, stencils; per-tank variation ----
+    const VR = opts.vary ?? Math.abs(Math.sin((opts.at ? opts.at[0] * 12.9 + opts.at[1] * 78.2 : 1) * 43758.5)) % 1;   // 0..1, stable per tank
+    const TR = new THREE.MeshStandardMaterial({ name: 'rubber_canvas', color: '#34352e', roughness: .8, bumpMap: treadTex, bumpScale: 1.2 });
+    for (const s of [-1, 1]) { if (s < 0) g.children.filter(o => /^tank_track/.test(o.name)).forEach(o => { o.material = TR; });
+      part('tank_sprocket', new THREE.CylinderGeometry(.42, .42, .14, 12), MD, 2.45, .62, s * 1.47, { rx: Math.PI / 2 }); part('tank_idler', new THREE.CylinderGeometry(.36, .36, .12, 18), MD, -2.45, .55, s * 1.47, { rx: Math.PI / 2 });
+      for (let i = 0; i < 3; i++) part('tank_return_roller', new THREE.CylinderGeometry(.11, .11, .1, 12), MT, -1.3 + i * 1.3, .99, s * 1.47, { rx: Math.PI / 2 });
+      for (let i = 0; i < 3; i++) part('tank_bogie_arm', new THREE.BoxGeometry(.75, .16, .08), MD, -1.6 + i * 1.6, .55, s * 1.51);
+      part('tank_fender', new THREE.BoxGeometry(5.5, .05, .42), MD, 0, 1.03, s * 1.36);
+      if (VR > .25 || s > 0) part('tank_stowage_box', new THREE.BoxGeometry(.7, .32, .34), M, -2.2 + VR * .3, 1.22, s * 1.36);
+      if (VR > .55) part('tank_bedroll', new THREE.CylinderGeometry(.14, .14, .9, 12), rubber('#6a6448'), 1.2, 1.2, s * 1.33, { rz: Math.PI / 2 }); }
+    for (const z of [-.75, .75]) { part('tank_headlight', new THREE.CylinderGeometry(.09, .1, .14, 14), metal('steel', '#9a9c94', { rough: .4 }), 2.55, 1.45, z, { rz: Math.PI / 2 }); part('tank_light_guard', new THREE.TorusGeometry(.13, .015, 6, 14, Math.PI), MD, 2.6, 1.5, z, { ry: Math.PI / 2 }); }
+    part('tank_hull_mg', new THREE.CylinderGeometry(.04, .05, .5, 8), MD, 2.62, 1.55, .45, { rz: -Math.PI / 2 - .5 }); part('tank_mg_ball', new THREE.SphereGeometry(.12, 12, 8), MD, 2.45, 1.45, .45);
+    for (let i = 0; i < 5; i++) part('tank_spare_track', new THREE.BoxGeometry(.12, .05, .38), TR, 2.15 - i * .02, 1.78 - i * .0, -.55 + i * .27, { rz: -.55 });
+    for (let i = 0; i < 7; i++) part('tank_deck_grille', new THREE.BoxGeometry(.05, .03, 1.5), MD, -2.45 + i * .14, 2.02, 0);
+    for (const z of [-.6, .6]) part('tank_tow_hook', new THREE.TorusGeometry(.09, .025, 6, 12), MD, 2.92, .9, z);
+    part('tank_periscope', new THREE.BoxGeometry(.18, .12, .1), MD, .2, 2.62, -.45); part('tank_cupola', new THREE.CylinderGeometry(.36, .4, .22, 16), M, -.75, 2.66, .3);
+    for (const z of [-.7, .7]) part('tank_lift_ring', new THREE.TorusGeometry(.07, .02, 6, 10), MD, -.35, 2.42, z, { rx: Math.PI / 2 });
+    const ant = part('tank_antenna', new THREE.CylinderGeometry(.012, .02, 1.6 + VR * 1.2, 5), std('#2a2a24'), -1.3, 2.8 + (.8 + VR * .6), -.55); ant.rotation.z = -.08 - VR * .1;
+    const stc = add(new THREE.Mesh(new THREE.PlaneGeometry(.9, .26), new THREE.MeshBasicMaterial({ map: stencilTex[Math.floor(VR * stencilTex.length) % stencilTex.length], transparent: true, alphaTest: .4, polygonOffset: true, polygonOffsetFactor: -4 })), 'tank_stencil', 'cloth', { parent: g, cast: false });
+    stc.position.set(2.62, 1.2, -.35); stc.rotation.y = Math.PI / 2; stc.rotation.x = 0; stc.rotation.z = 0; stc.rotateX(-.66);
+    // variation: tint, slight turret traverse, barrel angle
+    if (!opts.col) { const c = new THREE.Color('#5d6538').offsetHSL((VR - .5) * .02, (VR - .5) * .08, (VR - .5) * .06); M.color.copy(c); }
+    turret.rotation.y = (VR - .5) * .25;
     const sx = add(new THREE.Mesh(new THREE.TorusGeometry(.62, .02, 6, 40), rubber('#454a2c')), 'tank_seam', 'cloth', { parent: g, cast: false }); sx.position.set(-.35, 2.15, 0); sx.rotation.x = Math.PI / 2;
     g.userData.droop = 0; g.userData.sag = 0;
     g.userData.set = (droop = 0, sag = 0) => { gun.rotation.z = -droop * .9; g.scale.y = 1 - .45 * sag; turret.scale.y = .85 * (1 - .4 * sag); };
@@ -88,7 +115,14 @@ export function build(THREE, scene, film, ctx) {
     p('dozer_body', new THREE.BoxGeometry(2.4, 1.3, 1.8), Y, 0, 1.2, 0); p('dozer_cab', new THREE.BoxGeometry(1.0, 1.0, 1.4), Y, -.5, 2.3, 0); p('dozer_blade', new THREE.BoxGeometry(.15, 1.0, 2.6), D, 1.6, .6, 0);
     for (const s of [-1, 1]) p('dozer_track', new THREE.BoxGeometry(2.8, .7, .5), D, 0, .35, s * 1.0);
     // the toothed beam it drags: it draws two lines of track marks behind it
-    p('dozer_beam', new THREE.BoxGeometry(.25, .2, 2.4), D, -1.8, .15, 0); return g;
+    p('dozer_beam', new THREE.BoxGeometry(.25, .2, 2.4), D, -1.8, .15, 0);
+    for (let i = 0; i < 8; i++) p('dozer_beam_tooth', new THREE.BoxGeometry(.08, .22, .14), D, -1.8, .02, -1.05 + i * .3);   // the teeth that draw the tread marks
+    p('dozer_exhaust', new THREE.CylinderGeometry(.07, .07, 1.0, 10), D, .7, 2.3, .5); p('dozer_grille', new THREE.BoxGeometry(.05, .9, 1.4), D, 1.22, 1.25, 0);
+    for (let i = 0; i < 6; i++) p('dozer_grille_bar', new THREE.BoxGeometry(.06, .05, 1.3), Y, 1.25, .85 + i * .15, 0);
+    for (const s of [-1, 1]) { p('dozer_arm', new THREE.BoxGeometry(1.4, .14, .14), D, 1.0, .7, s * 1.15); for (let i = 0; i < 5; i++) p('dozer_roller', new THREE.CylinderGeometry(.2, .2, .1, 12), Y, -1.0 + i * .5, .3, s * 1.27).rotation.x = Math.PI / 2;
+      for (let i = 0; i < 14; i++) p('dozer_track_shoe', new THREE.BoxGeometry(.08, .06, .52), D, -1.3 + i * .2, .72, s * 1.0); }
+    p('dozer_seat', new THREE.BoxGeometry(.4, .1, .45), std('#3a2a1e'), -.6, 1.9, 0); p('dozer_roof', new THREE.BoxGeometry(1.2, .06, 1.6), Y, -.5, 2.85, 0);
+    return g;
   }
   // a printed track-mark strip on the ground (the fake tracks that fool the photos)
   const trackTex = canvasTex(64, 256, (g, w, h) => { g.fillStyle = 'rgba(0,0,0,0)'; g.clearRect(0, 0, w, h); for (let y = 0; y < h; y += 16) { g.fillStyle = 'rgba(40,30,20,.55)'; g.fillRect(4, y, w - 8, 9); } });
@@ -98,18 +132,27 @@ export function build(THREE, scene, film, ctx) {
       m.rotation.x = -Math.PI / 2; m.rotation.z = -a; const cx = (from[0] + to[0]) / 2 + Math.cos(a) * s * gauge, cy = (from[1] + to[1]) / 2 - Math.sin(a) * s * gauge; m.position.copy(V(cx, cy, .02)); } };
 
   // ======================= shared outdoor pieces =======================
-  const ground = (col, kind = 'grass', size = 400) => { const m = add(new THREE.Mesh(new THREE.PlaneGeometry(size, size), relief(kind, col, { seed: 21, size: 4 })), 'ground', 'ground', { cast: false, mat: 'turf' }); m.rotation.x = -Math.PI / 2; return m; };
+  const ground = (col, kind = 'grass', size = 400, o = {}) => { const geo = new THREE.PlaneGeometry(size, size, 200, 200), gp = geo.attributes.position, cols = new Float32Array(gp.count * 3), C0 = new THREE.Color(col), C = new THREE.Color();
+    const nz = (x, y) => Math.sin(x * .071 + Math.sin(y * .043) * 2.1) * Math.cos(y * .067 - Math.sin(x * .037) * 1.7) * .5 + Math.sin(x * .19 + y * .23) * .25 + Math.sin(x * .53 - y * .41) * .12;
+    for (let i = 0; i < gp.count; i++) { const x = gp.getX(i), y = -gp.getY(i), k = nz(x, y), far = Math.min(1, Math.max(0, (Math.hypot(x, y) - 22) / 30));
+      gp.setZ(i, o.roll ? o.roll * far * (nz(x * .5, y * .5) + .3) : 0);   // optional soft undulation (off: roads, water and props sit on z 0)
+      const k2 = nz(x * 3.1 + 17, y * 2.7 - 9); C.copy(C0).offsetHSL(.012 * k, .05 * k, .09 * k + .05 * k2 + (o.dry ? .03 * Math.sin(x * .9) * Math.sin(y * 1.1) : 0)); cols[i * 3] = C.r / C0.r; cols[i * 3 + 1] = C.g / C0.g; cols[i * 3 + 2] = C.b / C0.b; }
+    geo.setAttribute('color', new THREE.BufferAttribute(cols, 3)); geo.computeVertexNormals();
+    const mat = relief(kind, col, { seed: 21, size: o.tile || 9 }); mat.vertexColors = true; mat.needsUpdate = true;
+    const m = add(new THREE.Mesh(geo, mat), 'ground', 'ground', { cast: false, mat: 'turf' }); m.rotation.x = -Math.PI / 2; return m; };
+  const leafTex = canvasTex(256, 256, (g, w) => { g.fillStyle = '#7a7a7a'; g.fillRect(0, 0, w, w); for (let i = 0; i < 900; i++) { const x = rr(0, w), y = rr(0, w), r = rr(3, 9), a = rr(0, 6.3); g.fillStyle = `rgb(${rr(90, 230) | 0},${rr(90, 230) | 0},${rr(90, 230) | 0})`; g.beginPath(); g.ellipse(x, y, r, r * .55, a, 0, 6.3); g.fill(); } });
+  leafTex.wrapS = leafTex.wrapT = THREE.RepeatWrapping; leafTex.colorSpace = THREE.NoColorSpace;
   const hedge = (name, from, to, h = 2.2) => { const dx = to[0] - from[0], dy = to[1] - from[1], L = Math.hypot(dx, dy); const m = add(new THREE.Mesh(new THREE.BoxGeometry(L, h, 1.6, Math.ceil(L), 3, 2), relief('grass', '#3f5a2c', { seed: 31, size: 2 })), name, 'foliage', { mat: 'foliage' });
     const p = m.geometry.attributes.position; for (let i = 0; i < p.count; i++) { const y = p.getY(i); p.setY(i, y + (y > 0 ? rr(-.25, .35) : 0)); p.setZ(i, p.getZ(i) * rr(.85, 1.2)); } m.geometry.computeVertexNormals();
     m.position.copy(V((from[0] + to[0]) / 2, (from[1] + to[1]) / 2, h / 2)); m.rotation.y = -Math.atan2(dy, dx); m.scale.set(1, .72, .8);
     // bocage: an earth bank under a row of rounded leaf clumps with light and shade (no more box silhouette)
-    const n = Math.ceil(L * 1.8), g = new THREE.IcosahedronGeometry(1, 2), gp = g.attributes.position;
-    for (let i = 0; i < gp.count; i++) { const k = 1 + .18 * Math.sin(gp.getX(i) * 5.1 + gp.getY(i) * 3.7) * Math.cos(gp.getZ(i) * 4.3); gp.setXYZ(i, gp.getX(i) * k, gp.getY(i) * k, gp.getZ(i) * k); } g.computeVertexNormals();
-    const im = new THREE.InstancedMesh(g, std('#ffffff', { rough: .95 }), n), M4 = new THREE.Matrix4(), Q = new THREE.Quaternion(), C = new THREE.Color();
-    for (let i = 0; i < n; i++) { const t = (i + rr(-.3, .3)) / n, r = rr(.7, 1.25), side = rr(-.45, .45);
+    const n = Math.ceil(L * 2.6), g = new THREE.SphereGeometry(1, 18, 12), gp = g.attributes.position;
+    for (let i = 0; i < gp.count; i++) { const k = 1 + .16 * Math.sin(gp.getX(i) * 5.1 + gp.getY(i) * 3.7) * Math.cos(gp.getZ(i) * 4.3) + .07 * Math.sin(gp.getX(i) * 13.0 + gp.getZ(i) * 11.0); gp.setXYZ(i, gp.getX(i) * k, gp.getY(i) * k, gp.getZ(i) * k); } g.computeVertexNormals();
+    const im = new THREE.InstancedMesh(g, new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: .9, bumpMap: leafTex, bumpScale: 2.5 }), n), M4 = new THREE.Matrix4(), Q = new THREE.Quaternion(), C = new THREE.Color();
+    for (let i = 0; i < n; i++) { const t = (i + rr(-.3, .3)) / n, r = i % 3 ? rr(.7, 1.3) : rr(.35, .6), side = rr(-.55, .55);
       const P = V(from[0] + dx * t - dy / L * side, from[1] + dy * t + dx / L * side, h * rr(.55, .95));
       Q.setFromEuler(new THREE.Euler(rr(0, 6), rr(0, 6), rr(0, 6))); M4.compose(P, Q, new THREE.Vector3(r, r * rr(.75, 1.0), r)); im.setMatrixAt(i, M4);
-      im.setColorAt(i, C.set(['#3f6a2a', '#4d7a30', '#5a8a36', '#365c26', '#6a9440'][i % 5]).offsetHSL(rr(-.01, .01), 0, rr(-.04, .04))); }
+      im.setColorAt(i, C.set(['#3f6a2a', '#4d7a30', '#5a8a36', '#365c26', '#6a9440', '#7a9a3e', '#2f5222'][(i * 7 + (i >> 2)) % 7]).offsetHSL(rr(-.01, .01), 0, rr(-.04, .04))); }
     im.castShadow = true; im.receiveShadow = true; add(im, name + '_clumps', 'foliage', { mat: 'foliage' }); return m; };
   const tree = (at, h, kind = 'oak', sd = 1) => ctx.trees ? ctx.trees.tree({ kind, at, height: h, seed: sd }) : cyl('tree', 'foliage', .3, h, at, toon('#3a5a2a'));
   const farmhouse = (at, rot = 0) => { const g = new THREE.Group(); g.position.copy(V(...at)); g.rotation.y = rot; scene.add(g); const w = add(new THREE.Mesh(new THREE.BoxGeometry(9, 4.2, 6), relief('stone', '#b8ad96', { seed: 41 })), 'farm_walls', 'stone', { parent: g, mat: 'stone' }); w.position.y = 2.1;
@@ -129,7 +172,13 @@ export function build(THREE, scene, film, ctx) {
     for (const [x, y, h, s] of [[-14, 18, 9, 3], [8, 20, 11, 4], [22, 30, 10, 5], [-26, 34, 12, 6], [4, 46, 9, 7], [-40, 10, 10, 8], [30, 8, 9, 9]]) tree([x, y, 0], h, 'oak', s);
     for (const [x, y] of [[16, 10], [19, 6], [24, 11]]) tree([x, y, 0], 4.5, 'olive', Math.round(x));   // apple orchard stand-ins
     farmhouse([24, 34, 0], -.4); for (let i = 0; i < 6; i++) pole([-4.2, -10 + i * 22, 0]);
-    if (ctx.detail) ctx.detail.grass({ at: [2, 4, 0], count: 420, radius: 16, height: .42, seed: 71 });
+    const offRoad = (x, y) => Math.abs(x + 7) < 2.8 || Math.hypot(x - 5, y + 3.6) < 4.5 || Math.hypot(x + 3.4, y + 6.6) < 3;   // the dirt road and the lens of the low hook camera stay clear
+    const clearBand = (im) => { if (!im || !im.isInstancedMesh) return; const M4 = new THREE.Matrix4(), Z0 = new THREE.Matrix4().makeScale(0, 0, 0), q = new THREE.Vector3();
+      for (let i = 0; i < im.count; i++) { im.getMatrixAt(i, M4); q.setFromMatrixPosition(M4); const x = im.position.x + q.x, y = -(im.position.z + q.z); if (offRoad(x, y)) im.setMatrixAt(i, Z0); } im.instanceMatrix.needsUpdate = true; };
+    if (ctx.detail) { clearBand(ctx.detail.grass({ at: [2, 4, 0], count: 1400, radius: 18, height: .34, seed: 71 })); clearBand(ctx.detail.grass({ at: [0, 30, 0], count: 1200, radius: 40, height: .5, seed: 73 })); clearBand(ctx.detail.rocks({ at: [-6, 8, 0], count: 40, radius: 18, size: .14, seed: 74 })); }
+    { const fl = new THREE.InstancedMesh(new THREE.SphereGeometry(.035, 6, 4), new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: .8 }), 500), M4 = new THREE.Matrix4(), C = new THREE.Color();   // wild flowers: buttercups, daisies, clover
+      for (let i = 0; i < 500; i++) { let a = rr(0, 6.3), r = rr(2, 30); while (offRoad(Math.cos(a) * r, 6 + Math.sin(a) * r)) { a = rr(0, 6.3); r = rr(2, 30); } M4.makeTranslation(...V(Math.cos(a) * r, 6 + Math.sin(a) * r, rr(.12, .3)).toArray()); fl.setMatrixAt(i, M4); fl.setColorAt(i, C.set(['#f2d23a', '#f4f1e6', '#d98ab0', '#f4f1e6'][i % 4])); }
+      add(fl, 'wild_flowers', 'foliage', { cast: false }); }
     if (Z === 'field') {
       // the hook: the truck has brought the tank; four GIs lift it off and set it down in the field
       cargoTruck('cargo_truck', [-7, 6, 0], -Math.PI / 2);
@@ -141,10 +190,27 @@ export function build(THREE, scene, film, ctx) {
       // the camp: rows of tanks in every state of inflation, compressors, paint pots, the bulldozer drawing track marks
       const rows = []; for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) { const t = sherman('camp_tank', { at: [-12 + c * 8, 12 + r * 9, 0], rot: rr(-.2, .2) + Math.PI * .02 }); t.userData.set(0, [0, .35, .7, 0][(r * 4 + c) % 4]); rows.push(t); }
       const dz = bulldozer('bulldozer', [12, 2, 0], Math.PI / 2); trackMarks('fake_track_marks', [12, -6], [12, 1]);
-      for (const [x, y] of [[-4, 3], [5, 6], [-9, 8]]) { box('air_compressor', 'metal', 1.2, .8, .9, [x, y, 0], metal('iron', '#4a5236')); cyl('compressor_tank', 'metal', .3, 1.1, [x + .2, y, .9], metal('steel', '#8a8f86')); }
-      for (let i = 0; i < 8; i++) cyl('paint_pot', 'metal', .16, .3, [rr(-3, 3), rr(-1, 2), 0], metal('steel', ['#6a7a3a', '#3a3a2a', '#8a6a3a', '#efe6d2'][i % 4]));
-      box('paint_table', 'wood', 2.2, .9, .85, [1.5, -.5, 0], relief('wood', '#8a6a46', { seed: 72 }));
-      ups.push((f, t) => { dz.position.copy(V(12, 2 - ((t * .6) % 8), 0)); });
+      // air compressors (v1 note: plain blocks): a wheeled cart, the tank on top, a motor, a gauge, a hose running to the nearest decoy
+      const OD = metal('iron', '#4f5a36', { rough: .6, rust: .2 }), DK = std('#23241f', { rough: .9 }), ST = metal('steel', '#9a9f96', { rough: .35 });
+      for (const [x, y] of [[-4, 3], [5, 6], [-9, 8]]) { box('compressor_cart', 'metal', 1.3, .8, .12, [x, y, .32], OD); for (const sx of [-.45, .45]) for (const sy of [-.38, .38]) { const w = cyl('compressor_wheel', 'metal', .22, .1, [x + sx, y + sy, .0], DK); w.rotation.x = Math.PI / 2; w.position.copy(V(x + sx, y + sy, .22)); }
+        const tk = cyl('compressor_tank', 'metal', .26, 1.2, [x, y, .7], ST); tk.rotation.z = Math.PI / 2; tk.position.copy(V(x, y, .7));
+        box('compressor_motor', 'metal', .45, .5, .4, [x - .35, y, .44], OD); cyl('compressor_flywheel', 'metal', .17, .05, [x - .62, y, .62], DK).rotation.z = Math.PI / 2;
+        cyl('compressor_gauge', 'metal', .07, .03, [x + .3, y - .27, .95], metal('brass', '#c8a24a')); box('compressor_stencil', 'cloth', .5, .02, .14, [x, y - .41, .38], basic('#e8e2cc'));
+        const hose = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([V(x + .6, y, .7), V(x + 1.2, y + .6, .05), V(x + 2.4, y + 2.4, .05), V(x + 3.2, y + 4.6, .5)]), 30, .035, 6), DK); add(hose, 'air_hose', 'rubber'); }
+      for (let i = 0; i < 8; i++) { const [px, py] = [rr(-3, 3), rr(-1, 2)], pc = ['#6a7a3a', '#3a3a2a', '#8a6a3a', '#efe6d2'][i % 4]; cyl('paint_pot', 'metal', .16, .3, [px, py, 0], metal('steel', '#a8aaa2', { rough: .4 })); cyl('paint_in_pot', 'cloth', .145, .01, [px, py, .3], std(pc, { rough: .3 })); const hb = new THREE.Mesh(new THREE.TorusGeometry(.16, .008, 4, 16, Math.PI), DK); hb.position.copy(V(px, py, .3)); add(hb, 'pot_handle', 'metal'); }
+      // crates and jerrycans: planks, battens, stencils
+      const crate = (at, w, d, h, r = 0) => { const g = new THREE.Group(); g.position.copy(V(...at)); g.rotation.y = r; scene.add(g); const W = relief('wood', '#8a7048', { seed: 75 + (at[0] * 3 | 0) }), B = relief('wood', '#6a5434', { seed: 76 });
+        const m = add(new THREE.Mesh(new THREE.BoxGeometry(w, h, d), W), 'crate', 'wood', { parent: g }); m.position.y = h / 2;
+        for (const sx of [-1, 1]) for (const sz of [-1, 1]) { const b = add(new THREE.Mesh(new THREE.BoxGeometry(.06, h + .02, .06), B), 'crate_batten', 'wood', { parent: g }); b.position.set(sx * (w / 2 - .02), h / 2, sz * (d / 2 - .02)); }
+        const lb = add(new THREE.Mesh(new THREE.PlaneGeometry(w * .7, h * .35), new THREE.MeshBasicMaterial({ map: stencilTex[(at[0] * 7 | 0) & 3], transparent: true, alphaTest: .4 })), 'crate_stencil', 'cloth', { parent: g, cast: false }); lb.position.set(0, h * .55, d / 2 + .005); return g; };
+      crate([2.6, -1.2, 0], .9, .6, .6, .3); crate([2.7, -1.15, .6], .6, .5, .4, .1); crate([-6.2, 5.0, 0], 1.2, .8, .7, -.4); crate([7.4, 4.0, 0], .8, .8, .6, .7);
+      for (const [x, y] of [[3.4, -.8], [3.6, -.5], [-6.9, 4.6]]) { box('jerrycan', 'metal', .17, .34, .48, [x, y, 0], metal('iron', '#4a5634', { rough: .55 })); box('jerrycan_handle', 'metal', .04, .2, .06, [x, y, .48], DK); }
+      { const TW = relief('wood', '#8a6a46', { seed: 72 }); box('paint_table', 'wood', 2.2, .9, .06, [1.5, -.5, .8], TW); for (const sx of [-1, 1]) for (const sy of [-1, 1]) box('table_leg', 'wood', .07, .07, .8, [1.5 + sx * 1.0, -.5 + sy * .38, 0], TW);
+        box('table_stretcher', 'wood', 2.0, .05, .05, [1.5, -.5, .25], TW);
+        for (const [x, y, r, c] of [[.9, -.6, .2, '#efe8d6'], [1.3, -.4, -.15, '#e8e0c8'], [2.1, -.55, .4, '#f2ecdc']]) { const sh = box('sketch_sheet', 'cloth', .42, .3, .005, [x, y, .86], std(c, { rough: .9 }), { rot: r }); }
+        box('camo_stencil', 'cloth', .6, .45, .01, [1.8, -.35, .87], std('#3f4a2a', { rough: .9 }), { rot: .2 });
+        for (let i = 0; i < 4; i++) { const b = cyl('paint_brush', 'wood', .012, .32, [2.3 + i * .05, -.3, .86], relief('wood', '#c8a878', { seed: 77 })); b.rotation.z = Math.PI / 2 - .2; b.position.copy(V(2.3 + i * .06, -.3 + i * .04, .88)); } }
+      ups.push((f, t) => { dz.position.copy(V(12, 1 - Math.min(7, Math.max(0, (t - 22) * .6)), 0)); });   // drives toward the camera through the bulldozer line, never wraps
       anchors = { tank: [-4, 12, 1.5], dozer: [12, 2, 1.5] };
     }
   }

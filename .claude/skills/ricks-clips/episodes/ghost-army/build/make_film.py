@@ -25,7 +25,7 @@ takes = [
    St(['rule', 1], [-0.6, -2.2, 1.3], [-2.2, 2.4, 1.1], lead=3, hold=0.2, travel=1.2),
    St(['close', 1], [-5.6, 8.6, 1.5], [-4.0, 12.0, 1.4], framing='O', subj='carrier_short', lead=3, travel=0.8, **C),
    St(['army', 2], [-6.0, -30.0, 12.0], [-4.0, 14.0, 0.5], framing='P', lead=3, hold=0.2, travel=1.4, drift=[0.12, 0.08, 0.0]),
-   St(['bulldozer', 1], [19.0, -7.0, 3.0], [12.0, 0.0, 0.6], framing='P', lead=3, travel=1.4)]),
+   St(['bulldozer', 1], [19.5, -12.0, 3.0], [12.0, -3.5, 0.8], framing='P', lead=3, travel=1.4)]),
  dict(id='t_road', place='road', stations=[
    St(['night', 1], [-1.2, -2.4, 1.4], [1.4, 4.2, 1.5], subj='sound_op', lead=4, hold=0.3),
    St(['hundred', 1], [-7.0, -9.0, 2.4], [-5.0, 22.0, 2.0], subj='sound_op', framing='P', lead=6, hold=0.3, travel=0.8, drift=[0.12, 0.08, 0.0]),
