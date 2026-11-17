@@ -293,7 +293,7 @@ export function build(THREE, scene, film, ctx) {
     { const WD = relief('wood', '#5a3a24', { seed: 112 });   // wood wainscot + chair rail, ceiling beams, mirror and shelves behind the bar, a chalkboard, a clock, the accordion on a chair
       box('wainscot', 'wood', 9.8, .06, 1.1, [0, 5.9, 0], WD); box('wainscot', 'wood', .06, 7.8, 1.1, [-4.88, 2, 0], WD); box('wainscot', 'wood', .06, 7.8, 1.1, [4.88, 2, 0], WD);
       box('chair_rail', 'wood', 9.8, .1, .06, [0, 5.87, 1.1], WD); for (let i = 0; i < 5; i++) box('ceiling_beam', 'wood', .22, 8, .26, [-4 + i * 2, 2, 3.34], WD);
-      box('bar_mirror', 'glass', 3.0, .04, 1.0, [2.4, 5.92, 1.6], metal('steel', '#c8d2d8', { rough: .08 })); for (const z of [1.45, 2.2]) box('bar_shelf', 'wood', 3.4, .25, .04, [2.4, 5.8, z], WD);
+      box('bar_mirror', 'glass', 3.0, .04, 1.0, [2.4, 5.92, 1.6], std('#8c989e', { rough: .12, metal: .85 })); for (const z of [1.45, 2.2]) box('bar_shelf', 'wood', 3.4, .25, .04, [2.4, 5.8, z], WD);
       for (let i = 0; i < 10; i++) cyl('shelf_bottle', 'glass', .045, rr(.26, .36), [1.0 + i * .3, 5.8, 2.24], std(['#2a5a3a', '#6a4a1a', '#3a3a6a', '#7a2a2a', '#c8b060'][i % 5], { rough: .12 }));
       box('chalkboard', 'wood', 1.0, .04, .7, [-3.0, 5.9, 1.6], std('#ffffff', { extra: { map: canvasTex(200, 140, (g, w, h) => { g.fillStyle = '#2c3a30'; g.fillRect(0, 0, w, h); g.strokeStyle = '#6a4a2a'; g.lineWidth = 10; g.strokeRect(0, 0, w, h); g.fillStyle = '#e8e8dc'; g.font = '18px serif'; g.fillText('PLAT DU JOUR', 30, 40); g.font = '15px serif'; g.fillText('Omelette ... 8 F', 26, 75); g.fillText('Café ...... 2 F', 26, 102); }) } }));
       cyl('clock_face', 'cloth', .22, .04, [0.0, 5.9, 2.6], std('#efe8d6')).rotation.x = Math.PI / 2;
@@ -419,7 +419,7 @@ export function build(THREE, scene, film, ctx) {
     const trunk = box('trunk', 'wood', 1.3, .7, .65, [0, 2.0, 0], relief('wood', '#6a4630', { seed: 151 })); const lid = box('trunk_lid', 'wood', 1.3, .7, .1, [0, 2.0, .65], relief('wood', '#5a3a26', { seed: 152 }));
     box('medal_box', 'cloth', .3, .2, .08, [.9, 1.6, 0], std('#1a2a5a')); box('old_sketchbook', 'cloth', .4, .3, .05, [-.9, 1.7, 0], std('#7a5a3a'));
     const skin = sherman('deflated_skin', { at: [0, 1.9, .55], scale: .22 }); skin.userData.set(.9, .85);
-    const sun = new THREE.SpotLight('#ffd9a0', 26, 14, .45, .6); sun.position.copy(V(-3, -1, 4)); sun.target.position.copy(V(0, 2, 0)); scene.add(sun, sun.target);
+    scene.add(new THREE.HemisphereLight('#ffe2b8', '#4a3424', 1.6)); const sun = new THREE.SpotLight('#ffd9a0', 40, 16, .55, .6); sun.position.copy(V(-3, -1, 4)); sun.target.position.copy(V(0, 2, 0)); scene.add(sun, sun.target);
     const motes = []; for (let i = 0; i < 40; i++) motes.push(glow('#ffe6b0', rr(.03, .07), .6, V(rr(-2, 1), rr(0, 3), rr(.5, 3))));
     ups.push((f, t) => { motes.forEach((m, i) => { m.position.y += Math.sin(t * .5 + i) * .0008; m.position.x += Math.cos(t * .3 + i) * .0006; });
       const up = sm((f - (EV.lift_skin || 1e9)) / 40); skin.position.copy(V(0, 1.9, .55 + up * 1.2)); skin.userData.set(.9 * (1 - up), .85 * (1 - up)); skin.scale.setScalar(.22 + up * .05); });

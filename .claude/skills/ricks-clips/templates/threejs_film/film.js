@@ -354,7 +354,7 @@ window.setup = async (cfg) => {
     const mat = new THREE.MeshBasicMaterial({ transparent: true, alphaTest: .03, toneMapped: false, side: THREE.DoubleSide });
     const mesh = new THREE.Mesh(geo, mat); mesh.scale.set(CARD.W * k, CARD.H * k, 1); mesh.castShadow = true;
     mesh.customDepthMaterial = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking, alphaTest: .5 });
-    const blob = new THREE.Mesh(new THREE.CircleGeometry(1, 24), new THREE.MeshBasicMaterial({ color: '#1a1028', transparent: true, opacity: .22, depthWrite: false })); blob.rotation.x = -Math.PI / 2; blob.scale.set(m.headPx * k * .42, m.headPx * k * .2, 1);   // contact shadow so feet never float
+    const blob = new THREE.Mesh(new THREE.CircleGeometry(1, 32), new THREE.MeshBasicMaterial({ color: '#140c20', map: contactTex(), transparent: true, opacity: .62, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 }));   /* soft contact shadow: dark under the feet, feathered out (v1 note 7, Ghost Army) */ blob.rotation.x = -Math.PI / 2; blob.scale.set(m.headPx * k * .42, m.headPx * k * .2, 1);   // contact shadow so feet never float
     mesh.userData.noExport = blob.userData.noExport = true; R.cards[who] = { entry, mesh, blob, k, m, key: null };
   }
   R.fx = (film.fx || []).map(e => ({ ...e, f: fr(e.at) })); R.moods = (film.moods || []).map(e => ({ ...e, f: fr(e.at) })); R.trans = (film.transitions || []).map(e => ({ ...e, f: fr(e.at) }));
@@ -502,6 +502,10 @@ function hlMeshes(h, pl) {
 function glowTex() { if (glowTex.t) return glowTex.t; const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d'), gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
   gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(.22, 'rgba(255,255,255,.5)'); gr.addColorStop(.55, 'rgba(255,255,255,.12)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); return glowTex.t = new THREE.CanvasTexture(c); }
 // a soft additive light bloom that lives IN the scene (depth-tested: a figure in front of the lit thing stays clean)
+let _contactTex = null;
+function contactTex() { if (_contactTex) return _contactTex; const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d'), r = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.35, 'rgba(255,255,255,.75)'); r.addColorStop(.7, 'rgba(255,255,255,.25)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, 128, 128);
+  _contactTex = new THREE.CanvasTexture(c); return _contactTex; }
 const glowSprite = (col = '#ffffff', op = 1) => { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex(), color: col, opacity: op, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, toneMapped: false, fog: false })); sp.userData.noExport = true; return sp; };
 function hlPoints(h, f, pl) {                                         // where the bloom sits: a typed point, an anchor, or three points along a single lit object (a lever glows along its length)
   if (Array.isArray(h.pos)) return [B2T(h.pos)];

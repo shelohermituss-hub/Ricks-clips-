@@ -133,7 +133,7 @@ film = dict(title='THE GHOST ARMY', fps=30, size=[1080, 1920], end=END, kit3d=Tr
   kicks=[dict(at=['balloons', 2, 3], amp=0.3)],
   fx=[dict(at=['suitcase', 1], kind='knock', pos=[0.3, 3.6, 2.4]), dict(at=['strong', 1], kind='glint', pos=[3.0, 1.3, 1.6]), dict(at=['rubber', 1, 4], kind='steam', pos=[-1.9, 3.2, 2.2]),
       dict(at=['track', 1], kind='dust', pos=[12.0, 0.0, 0.3]), dict(at=['hundred', 1], kind='ring', pos=[0.0, 7.2, 2.75]), dict(at=['morse', 1], kind='spark', pos=[-0.5, 1.4, 0.9]),
-      dict(at=['patches', 1], kind='glint', pos=[1.4, 3.4, 1.3]), dict(at=['spies', 1], kind='glint', pos=[-2.6, 1.4, 1.6]), dict(at=['hundred', 2], kind='puff', pos=[-25.0, 28.0, 1.0], size=2),
+      dict(at=['patches', 1], kind='glint', pos=[1.15, 3.45, 0.95]), dict(at=['spies', 1], kind='glint', pos=[-2.6, 1.4, 1.6]), dict(at=['hundred', 2], kind='puff', pos=[-25.0, 28.0, 1.0], size=2),
       dict(at=['photographs', 1], kind='glint', pos=[0.25, 1.5, 0.95]), dict(at=['balloons', 2], kind='hit', pos=[-30.0, 26.0, 2.0], size=2), dict(at=['years', 1], kind='glint', pos=[0.4, 1.6, 1.8])],
   moods=[dict(at=['tank', 1], look='warm_gold'), dict(at=['rubber', 1], look='spot_dark'), dict(at=['painters', 1], look='warm_up'), dict(at=['nobody', 1], look='dark'), dict(at=['far', 1], look='warm_gold'),
          dict(at=['night', 1], look='cold_blue'), dict(at=['hundred', 1], look='cold_blue'), dict(at=['radio', 1], look='warm_up'), dict(at=['café', 1], look='warm_gold'), dict(at=['carnival', 1], look='spot_dark'),
