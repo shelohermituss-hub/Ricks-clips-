@@ -20,7 +20,7 @@ takes = [
    St(['winks', 1], [4.2, -1.8, 1.45], [3.2, 0.5, 1.4], lens=35, framing='C', lead=3, hold=0.4, travel=1.0, **C),
    St(['rubber', 1], [1.6, -0.8, 1.9], [-1.3, 3.0, 1.5], lens=28, framing='O', lead=3, travel=0.9, **C)]),
  dict(id='t_camp', place='camp', stations=[
-   St(['painters', 1], [-14.0, -8.0, 3.0], [-4.0, 10.0, 1.2], framing='P', lead=4, hold=0.3),
+   St(['painters', 1], [-7.6, -7.4, 3.2], [-2.0, 6.0, 1.0], framing='P', lead=4, hold=0.3),
    St(['job', 1], [2.8, -4.4, 1.5], [1.0, -1.4, 1.3], framing='M', lead=3, hold=0.3, travel=1.4),
    St(['rule', 1], [-0.6, -2.2, 1.3], [-2.2, 2.4, 1.1], lead=3, hold=0.2, travel=1.2),
    St(['close', 1], [-5.6, 8.6, 1.5], [-4.0, 12.0, 1.4], framing='O', subj='carrier_short', lead=3, travel=0.8, **C),
@@ -32,7 +32,7 @@ takes = [
    St(['speaker', 1], [3.0, 3.6, 3.3], [0.0, 7.2, 2.7], subj='sound_op', framing='O', lead=3, travel=1.0, **C)]),
  dict(id='t_radio', place='radio', stations=[
    St(['radio', 1], [1.8, -1.6, 1.7], [-0.2, 1.2, 1.1], subj='radio_op', framing='M', lead=4, hold=0.3),
-   St(['morse', 1], [-0.3, 0.2, 1.5], [-0.4, 1.6, 1.0], subj='radio_op', framing='O', lead=3, travel=0.9, **C)]),
+   St(['morse', 1], [-2.0, -1.2, 1.7], [-0.3, 0.85, 1.15], subj='radio_op', framing='O', lead=3, travel=0.9, **C)]),
  dict(id='t_cafe', place='cafe', stations=[
    St(['café', 1], [-1.2, -1.6, 1.7], [1.2, 3.8, 1.3], lead=4, hold=0.3),
    St(['patches', 1], [0.6, 1.6, 1.5], [1.4, 3.6, 1.2], framing='M', lead=3, hold=0.2, travel=0.9),
@@ -43,27 +43,25 @@ takes = [
    St(['hundred', 2], [-36.0, 6.0, 5.0], [-25.0, 28.0, 0.5], framing='P', lead=3, travel=1.6)]),
  dict(id='t_photo', place='photo', stations=[
    St(['photographs', 1], [-1.4, -1.6, 1.8], [0.1, 1.2, 1.1], subj='interpreter', framing='M', lead=4, hold=0.3),
-   St(['spies', 2], [1.6, -0.6, 1.6], [0.2, 1.3, 1.0], subj='interpreter', framing='M', lead=3, travel=0.8)]),
+   St(['spies', 2], [1.9, -1.3, 1.6], [-0.1, 1.0, 1.1], subj='interpreter', framing='M', lead=3, travel=0.8)]),
  dict(id='t_strike', place='river', stations=[
-   St(['gun', 1], [-34.0, 10.0, 4.0], [-26.0, 26.0, 1.0], framing='P', lead=4, hold=0.3),
-   ]),
- dict(id='t_cross', place='river', stations=[
-   St(['meanwhile', 1], [49.0, 14.0, 7.0], [60.0, 34.0, 0.6], subj='sergeant', framing='P', lead=4, hold=0.3, drift=[0.12, 0.08, 0.0]),
-   St(['crosses', 1], [50.0, 26.0, 6.0], [60.0, 48.0, 0.5], subj='sergeant', framing='P', lead=3, hold=0.2, travel=1.2),
-   St(['fired', 1], [56.4, 40.0, 1.3], [58.6, 44.0, 1.5], subj='sergeant', framing='C', lead=3, travel=0.9, **C)]),
+   St(['gun', 1], [-34.0, 10.0, 4.0], [-26.0, 26.0, 1.0], framing='P', lead=6, hold=0.0),
+   # THE SIGNATURE (story bible): one crane from the shelled decoy field, rising and swinging north to the silent crossing
+   St(['crosses', 1], [48.0, 22.0, 7.0], [60.0, 44.0, 0.5], subj='sergeant', framing='P', lead=3, hold=0.2, travel=3.2, via=[[-14.0, 4.0, 22.0], [24.0, 6.0, 20.0]]),
+   St(['fired', 1], [55.2, 40.4, 1.3], [57.0, 44.0, 1.5], subj='sergeant', framing='C', lead=3, travel=0.9, **C)]),
  dict(id='t_bed', place='bedroom', stations=[
    St(['pillow-under-the-blanket', 1], [0.8, -1.0, 1.5], [-0.4, 2.2, 0.9], subj='boy', lead=4, hold=0.3),
    St(['outside', 1], [0.2, -0.2, 1.3], [1.3, 3.2, 1.0], subj='boy', framing='M', lead=3, travel=1.0)]),
  dict(id='t_attic', place='attic', stations=[
    St(['fooled', 1], [0.3, -2.6, 1.5], [0.0, 1.8, 1.0], subj='old_lou', lead=4, hold=0.3),
    St(['families', 1], [-0.4, -0.8, 1.3], [-1.0, 1.3, 1.3], subj='old_lou', framing='M', lead=3, hold=0.3, travel=1.0),
-   St(['years', 1], [0.2, -1.4, 1.2], [0.1, 1.5, 1.3], subj='grandchild', framing='M', lead=3, travel=1.0)])]
+   St(['years', 1], [-0.1, -2.7, 1.25], [-0.1, 1.5, 1.2], subj='grandchild', framing='M', lead=3, travel=1.0)])]
 A = []
 def act(who, at, **o): A.append(dict(who=who, at=at, **o))
 # --- field (hook)
 for who, pos, d in (('lou', [1.9, 2.6, 0], -1), ('carrier_tall', [-1.4, 2.2, 0], 1), ('carrier_short', [1.4, 5.8, 0], -1), ('carrier_stocky', [-1.8, 6.0, 0], 1)):
-    act(who, 0, pos=pos, place='field', view='34', dir=d, pose='hold_up', face='k:concentrate')
-for who, p_ in (('carrier_tall', [-2.4, 0.4, 0]), ('carrier_short', [3.0, 7.4, 0]), ('carrier_stocky', [-3.6, 6.8, 0])): act(who, ['suitcase', 1, -6], pos=p_, move_s=0.5, pose='stand', face='k:sleepy')   # step out from under the hull once it is set down
+    act(who, 0, pos=pos, place='field', view='34', dir=d, pose='hold_up', face='k:concentrate')   # approved hook staging (gate 2026-11-17)
+for who, p_ in (('carrier_tall', [-2.4, 0.4, 0]), ('carrier_short', [-1.0, 8.6, 0]), ('carrier_stocky', [-4.6, 7.6, 0])): act(who, ['suitcase', 1, -6], pos=p_, move_s=0.5, pose='stand', face='k:sleepy')   # step out from under the hull once it is set down
 act('lou', ['suitcase', 1, -6], pos=[2.3, 1.0, 0], move_s=0.5, pose='knock', face='k:smirk'); act('lou', ['soldier', 1], pos=[3.0, 1.3, 0], walk=True, pose='stand', view='front')
 act('lou', ['winks', 1], face='k:slyWink', pose='hands_hips'); act('lou', ['rubber', 1], pos=[-1.6, 2.4, 0], move_s=0.4, linear=True, view='side', dir=1, pose='push', face='k:proud')
 act('farmer', 0, pos=[-7.8, -24.0, 0], place='field', view='side', dir=1, pose='m:bike/A+props', face='k:standard')
@@ -73,30 +71,31 @@ act('farmer', ['dead', 1], pose='flinch', view='34', dir=1, face='k:shocked'); a
 act('boy', ['strong', 1], face='k:excited', pose='cheer')
 # --- camp
 act('lou', ['painters', 1, -2], pos=[1.0, -1.4, 0], place='camp', view='34', dir=-1, pose='write', face='k:happy')
-act('carrier_short', ['painters', 1, -2], pos=[-4.6, 9.4, 0], place='camp', view='34', dir=1, pose='m:sweep/A', face='k:concentrate')
-act('carrier_tall', ['painters', 1, -2], pos=[-3.6, 2.6, 0], place='camp', view='side', dir=1, pose='push', face='k:strain' if False else 'k:concentrate')
+act('carrier_short', ['painters', 1, -2], pos=[-4.6, 9.4, 0], place='camp', visible=True, view='34', dir=1, pose='m:sweep/A', face='k:concentrate')
+act('carrier_tall', ['painters', 1, -2], pos=[-2.6, 1.7, 0], place='camp', view='side', dir=1, pose='push', face='k:strain' if False else 'k:concentrate')
 act('lou', ['job', 1], face='k:smug', view='front'); act('lou', ['nobody', 1], face='k:wink'); act('lou', ['rule', 1], pos=[-2.0, 2.0, 0], walk=True, pose='point_out', face='k:proud')
 act('lou', ['far', 1], face='k:cheer', pose='cheer')
 # --- road (night)
 act('sound_op', ['night', 1, -4], pos=[2.0, 3.4, 0], place='road', view='34', dir=-1, pose='stand', face='k:concentrate')
 act('sound_op', ['hundred', 1], pose='finger_up', face='k:smug'); act('sound_op', ['speaker', 1], face='k:proud')
 # --- radio tent
-act('radio_op', ['radio', 1, -4], pos=[-0.4, 0.7, 0], place='radio', view='34', dir=1, pose='write', face='k:concentrate')
+act('radio_op', ['radio', 1, -4], pos=[-0.4, 0.35, 0], place='radio', view='34', dir=1, pose='write', face='k:concentrate')
 act('radio_op', ['morse', 1], face='k:frozenTongue'); act('radio_op', ['signature', 1], face='k:smug')
 # --- café
 act('lou', ['café', 1, -4], pos=[1.3, 3.5, 0], place='cafe', view='34', dir=1, pose='lean_in', face='k:slyWink')
 act('waitress', ['café', 1, -4], pos=[2.9, 5.2, 0], place='cafe', view='34', dir=-1, pose='hold_out', face='k:annoyed')
-act('spy', ['café', 1, -4], pos=[-2.6, 1.4, 0], place='cafe', view='34', dir=1, pose='sit', face='k:think')
+act('waitress', ['carnival', 1, -24], pos=[1.6, 6.2, 0], walk=True, view='34', dir=-1)   # she leaves the sergeant's close-up
+act('spy', ['café', 1, -4], pos=[-2.6, 1.15, 0], place='cafe', view='34', dir=1, pose='sit', face='k:think')
 act('sergeant', ['café', 1, -4], pos=[3.9, 3.4, 0], place='cafe', view='34', dir=-1, pose='stand', face='k:skeptical')
 act('lou', ['secrets', 1], face='k:wink'); act('spy', ['spies', 1], face='k:evil', pose='write')
 act('sergeant', ['patches', 1], face='k:annoyed'); act('sergeant', ['spies', 1], face='k:browUp'); act('sergeant', ['laughs', 1], pose='m:laugh/A', face='k:laugh')
 # --- river (the plan and the decoys)
 act('lou', ['river', 1, -4], pos=[-20.0, 4.0, 0], place='river', view='34', dir=1, pose='point_out', face='k:concentrate')
 act('lou', ['hundred', 2], face='k:proud', pose='hands_hips')
-act('sergeant', ['meanwhile', 1, -4], pos=[58.6, 44.0, 0], place='river', view='front', dir=1, pose='stand', face='k:skeptical')
+act('sergeant', ['meanwhile', 1, -4], pos=[57.0, 44.0, 0.6], place='river', view='front', dir=1, pose='stand', face='k:skeptical')
 act('sergeant', ['fired', 1], face='k:shocked', pose='flinch')
 # --- enemy photo room
-act('interpreter', ['photographs', 1, -4], pos=[0.2, 0.7, 0], place='photo', view='34', dir=1, pose='lean_in', face='k:smug')
+act('interpreter', ['photographs', 1, -4], pos=[0.2, 0.45, 0], place='photo', view='34', dir=1, pose='lean_in', face='k:smug')
 act('interpreter', ['spies', 2], face='k:evil', pose='point_out')
 # --- bedroom (the pillow trick): the boy is already outside, at the window
 act('boy', ['pillow-under-the-blanket', 1, -4], pos=[1.3, 3.8, 0.6], place='bedroom', view='front', dir=1, pose='hands_hips', face='k:smirk')
@@ -114,6 +113,7 @@ for line in open(os.path.join(EP, 'voice', 'script.txt'), encoding='utf-8').read
         sents.append(dict(text=line.strip(), words=[i, i + nw - 1], subject=who)); i += nw
 LAMP_EV = dict(field=dict(lift=[0, 60], set=fr('suitcase'), dent=fr('suitcase') + 7, deflate=fr('rubber')), road=dict(hundred=fr('hundred')), river=dict(inflate=fr('hundred', 2) - 10, shell=fr('gun') + 3, cross=fr('crosses') - 60), attic=dict(lift_skin=fr('years') - 30))
 places = {}
+for who in ('carrier_short', 'carrier_stocky'): act(who, ['winks', 1, -12], visible=False)   # they have left the field before Lou's close-ups
 for name, light, extra in (('field', 'morning', {}), ('camp', 'day', {}), ('road', 'night', {}), ('radio', 'interior', {}), ('cafe', 'interior', {}), ('photo', 'interior', dict(light_over=dict(sun='#cfe0ff', tint='#dfe8ff'))), ('river', 'night', {}), ('bedroom', 'night', {}), ('attic', 'golden', {})):
     places[name] = dict(set='ghost', zone=name, light=light, backdrop=8 if name in ('radio', 'cafe', 'photo', 'bedroom', 'attic') else 40, events=LAMP_EV.get(name, {}), **extra)
 film = dict(title='THE GHOST ARMY', fps=30, size=[1080, 1920], end=END, kit3d=True, words='voice/words.json', puppet_pkg=['cast', '../../templates/vector2d_characters/code'],
@@ -135,3 +135,4 @@ film = dict(title='THE GHOST ARMY', fps=30, size=[1080, 1920], end=END, kit3d=Tr
   motion_polish=dict(enabled=True, head_follow=0.14, hand_follow=0.08, breath=0.55, breath_rate=2.15, auto_blink=True))
 json.dump(film, open(os.path.join(EP, 'film.json'), 'w'), indent=1, ensure_ascii=False)
 print('film.json written: end', END, 'frames,', len(takes), 'takes,', sum(len(t['stations']) for t in takes), 'stations,', len(A), 'acts')
+

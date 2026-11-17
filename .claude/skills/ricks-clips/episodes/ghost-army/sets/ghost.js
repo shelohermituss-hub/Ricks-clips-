@@ -101,7 +101,16 @@ export function build(THREE, scene, film, ctx) {
   const ground = (col, kind = 'grass', size = 400) => { const m = add(new THREE.Mesh(new THREE.PlaneGeometry(size, size), relief(kind, col, { seed: 21, size: 4 })), 'ground', 'ground', { cast: false, mat: 'turf' }); m.rotation.x = -Math.PI / 2; return m; };
   const hedge = (name, from, to, h = 2.2) => { const dx = to[0] - from[0], dy = to[1] - from[1], L = Math.hypot(dx, dy); const m = add(new THREE.Mesh(new THREE.BoxGeometry(L, h, 1.6, Math.ceil(L), 3, 2), relief('grass', '#3f5a2c', { seed: 31, size: 2 })), name, 'foliage', { mat: 'foliage' });
     const p = m.geometry.attributes.position; for (let i = 0; i < p.count; i++) { const y = p.getY(i); p.setY(i, y + (y > 0 ? rr(-.25, .35) : 0)); p.setZ(i, p.getZ(i) * rr(.85, 1.2)); } m.geometry.computeVertexNormals();
-    m.position.copy(V((from[0] + to[0]) / 2, (from[1] + to[1]) / 2, h / 2)); m.rotation.y = -Math.atan2(dy, dx); return m; };
+    m.position.copy(V((from[0] + to[0]) / 2, (from[1] + to[1]) / 2, h / 2)); m.rotation.y = -Math.atan2(dy, dx); m.scale.set(1, .72, .8);
+    // bocage: an earth bank under a row of rounded leaf clumps with light and shade (no more box silhouette)
+    const n = Math.ceil(L * 1.8), g = new THREE.IcosahedronGeometry(1, 2), gp = g.attributes.position;
+    for (let i = 0; i < gp.count; i++) { const k = 1 + .18 * Math.sin(gp.getX(i) * 5.1 + gp.getY(i) * 3.7) * Math.cos(gp.getZ(i) * 4.3); gp.setXYZ(i, gp.getX(i) * k, gp.getY(i) * k, gp.getZ(i) * k); } g.computeVertexNormals();
+    const im = new THREE.InstancedMesh(g, std('#ffffff', { rough: .95 }), n), M4 = new THREE.Matrix4(), Q = new THREE.Quaternion(), C = new THREE.Color();
+    for (let i = 0; i < n; i++) { const t = (i + rr(-.3, .3)) / n, r = rr(.7, 1.25), side = rr(-.45, .45);
+      const P = V(from[0] + dx * t - dy / L * side, from[1] + dy * t + dx / L * side, h * rr(.55, .95));
+      Q.setFromEuler(new THREE.Euler(rr(0, 6), rr(0, 6), rr(0, 6))); M4.compose(P, Q, new THREE.Vector3(r, r * rr(.75, 1.0), r)); im.setMatrixAt(i, M4);
+      im.setColorAt(i, C.set(['#3f6a2a', '#4d7a30', '#5a8a36', '#365c26', '#6a9440'][i % 5]).offsetHSL(rr(-.01, .01), 0, rr(-.04, .04))); }
+    im.castShadow = true; im.receiveShadow = true; add(im, name + '_clumps', 'foliage', { mat: 'foliage' }); return m; };
   const tree = (at, h, kind = 'oak', sd = 1) => ctx.trees ? ctx.trees.tree({ kind, at, height: h, seed: sd }) : cyl('tree', 'foliage', .3, h, at, toon('#3a5a2a'));
   const farmhouse = (at, rot = 0) => { const g = new THREE.Group(); g.position.copy(V(...at)); g.rotation.y = rot; scene.add(g); const w = add(new THREE.Mesh(new THREE.BoxGeometry(9, 4.2, 6), relief('stone', '#b8ad96', { seed: 41 })), 'farm_walls', 'stone', { parent: g, mat: 'stone' }); w.position.y = 2.1;
     const r = new THREE.CylinderGeometry(.01, 6.4, 3.0, 4, 1); r.rotateY(Math.PI / 4); const roof = add(new THREE.Mesh(r, relief('tile', '#6a4a3e', { seed: 42 })), 'farm_roof', 'roof', { parent: g, mat: 'roof_tile' }); roof.scale.set(1.0, 1, .7); roof.position.y = 5.7;
@@ -125,7 +134,7 @@ export function build(THREE, scene, film, ctx) {
       // the hook: the truck has brought the tank; four GIs lift it off and set it down in the field
       cargoTruck('cargo_truck', [-7, 6, 0], -Math.PI / 2);
       const tk = sherman('inflatable_sherman', { at: [0, 4, 0], rot: -.35 }); const lift = EV.lift || [0, 52], set = EV.set || 103, dent = EV.dent || 110;
-      ups.push(f => { const a = sm((f - lift[0]) / (lift[1] - lift[0])), b = sm((f - lift[1]) / (set - lift[1])); tk.position.copy(V(-3.6 + 3.6 * b, 4.4 - .4 * b, 1.35 * (1 - b) + .25 * Math.sin(Math.PI * b))); tk.rotation.y = -.35 * b + (-Math.PI / 2) * (1 - b) * .2;
+      ups.push(f => { const a = sm((f - lift[0]) / (lift[1] - lift[0])), b = sm((f - lift[1]) / (set - lift[1])); tk.position.copy(V(-3.6 + 3.6 * b, 4.4 - .4 * b, 1.95 * (1 - b) + .25 * Math.sin(Math.PI * b))); tk.rotation.y = -.35 * b + (-Math.PI / 2) * (1 - b) * .2;
         const d = Math.max(0, 1 - Math.abs(f - dent) / 10), dr = sm((f - (EV.deflate || 1e9)) / 18); tk.userData.set(.9 * dr, .12 * d + .25 * dr); });
       anchors = { tank: [0, 4, 1.2], truck: [-7, 6, 1.5] };
     } else {
@@ -200,26 +209,30 @@ export function build(THREE, scene, film, ctx) {
     // P7: the great river at night. SOUTH (x < 0): the decoy field under shell bursts. NORTH (x > 40): the real army crossing on pontoons in silence.
     if (ctx.sky && ctx.sky.on) ctx.sky.clouds({ kind: 'night-storm', seed: 71, coverage: .8 });
     if (ctx.atmosphere) ctx.atmosphere.setFog({ color: '#1a2440', near: 40, far: 320 });
-    ground('#2e3a26');
-    const riv = add(new THREE.Mesh(new THREE.PlaneGeometry(400, 70, 120, 20), ctx.pbr ? ctx.pbr.metal('wet', { color: '#14283a', rough: .18, env: .9 }) : toon('#1a3048')), 'river', 'water', { cast: false, mat: 'water' }); riv.rotation.x = -Math.PI / 2; riv.position.copy(V(20, 70, -.6));
+    ground('#4a5c3a');
+    const riv = add(new THREE.Mesh(new THREE.PlaneGeometry(400, 70, 120, 20), std('#3a6690', { rough: .85 })), 'river', 'water', { cast: false, mat: 'water' }); riv.rotation.x = -Math.PI / 2; riv.position.copy(V(20, 70, .3));   // above the ground plane, or the ground hides it
     const rb = riv.geometry.attributes.position.array.slice();
     // the decoy field: rows of inflatable tanks (south)
     const decoys = []; for (let r = 0; r < 4; r++) for (let c = 0; c < 7; c++) { const t = sherman('decoy_tank', { at: [-46 + c * 7 + rr(-1, 1), 18 + r * 8 + rr(-1, 1), 0], rot: rr(-.3, .3) }); decoys.push(t); }
     // shell bursts on the decoys from EV.shell on: flashes + tanks thrown and deflating
-    const bursts = []; for (let i = 0; i < 6; i++) { const b = glow('#ffb060', 6, 0, V(-40 + i * 8, 24 + (i % 3) * 6, 1)); const l = new THREE.PointLight('#ffa040', 0, 40, 1.6); l.position.copy(b.position); scene.add(l); bursts.push({ b, l, f0: (EV.shell || 0) + i * 9, d: decoys[(i * 5) % decoys.length] }); }
+    const bursts = []; for (let i = 0; i < 10; i++) { const b = glow('#ffb060', 6, 0, V(-42 + (i * 23) % 40, 20 + (i * 7) % 22, 1)); const l = new THREE.PointLight('#ffa040', 0, 40, 1.6); l.position.copy(b.position); scene.add(l); const fb = add(new THREE.Mesh(new THREE.SphereGeometry(1, 16, 10), basic('#ffd27a')), 'shell_fireball', 'fx', { cast: false }); fb.position.copy(b.position); fb.userData.noExport = true; const ob = add(new THREE.Mesh(new THREE.IcosahedronGeometry(1, 1), basic('#ff7a2a')), 'shell_fire_outer', 'fx', { cast: false }); ob.position.copy(b.position); const sk = []; for (let j = 0; j < 5; j++) { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: '#6a6660', transparent: true, opacity: .75, depthWrite: false })); sp.userData.noExport = true; sp.userData.off = [rr(-1.5, 1.5), rr(0, 2), rr(-1.5, 1.5)]; scene.add(sp); sk.push(sp); }   /* soft smoke puffs */ bursts.push({ b, l, fb, ob, sk, f0: (EV.shell || 0) + i * 8, d: decoys[(i * 5) % decoys.length] }); }   // the barrage keeps falling while the crane rises
     // the real crossing (north): pontoon bridge and real (metal) tanks rolling across
-    for (let i = 0; i < 14; i++) box('pontoon', 'metal', 2.6, 3.0, .5, [60, 37 + i * 3.1, -.65], metal('iron', '#3a4030', { rough: .7 }));
-    box('bridge_deck', 'wood', 3.2, 44, .12, [60, 58, -.1], relief('wood', '#5a4a36', { seed: 121 }));
+    box('assault_boat', 'wood', 1.6, 3.2, .45, [57.0, 44.0, .15], relief('wood', '#4a4a36', { seed: 160 }));   // the sergeant's boat beside the bridge
+    for (let i = 0; i < 14; i++) box('pontoon', 'metal', 2.6, 3.0, .5, [60, 37 + i * 3.1, .05], metal('iron', '#3a4030', { rough: .7 }));
+    box('bridge_deck', 'wood', 3.2, 44, .12, [60, 58, .55], relief('wood', '#5a4a36', { seed: 121 }));
     const real = []; for (let i = 0; i < 3; i++) { const t = sherman('real_tank', { at: [60, 30 - i * 9, 0], rot: -Math.PI / 2, col: '#4a5030' }); t.traverse(o => { if (o.isMesh && o.material.name === 'rubber_canvas') { o.material = metal('iron', '#4a5030', { rough: .65, rust: .2 }); } }); real.push(t); }
-    const moon = glow('#e6eeff', 24, .9, V(120, 200, 80)); const ml = new THREE.DirectionalLight('#a8bcff', 1.8); scene.add(new THREE.HemisphereLight('#5a6c9e', '#1e2a1c', 1.4)); for (const [x, y] of [[56, 24], [62, 44]]) { const nl = new THREE.PointLight('#9fb6ff', 26, 30, 1.4); nl.position.copy(V(x, y, 9)); scene.add(nl); }   // moonlight pools on the silent crossing (north)
+    const moon = glow('#e6eeff', 24, .9, V(120, 200, 80)); const path = add(new THREE.Mesh(new THREE.PlaneGeometry(6, 60), basic('#c8d8ff', { transparent: true, opacity: .22 })), 'moon_path', 'water', { cast: false }); path.rotation.x = -Math.PI / 2; path.position.copy(V(70, 70, .38)); const ml = new THREE.DirectionalLight('#b4c6ff', 3.2); scene.add(new THREE.HemisphereLight('#7c90c8', '#33402c', 3.2));   // night never under mean 0.31 (11c) for (const [x, y] of [[56, 24], [62, 44]]) { const nl = new THREE.PointLight('#9fb6ff', 18, 34, 1.4); nl.position.copy(V(x, y, 16)); scene.add(nl); }   // moonlight pools on the silent crossing (north)
     for (const [x, y] of [[-40, 14], [-26, 16], [-12, 14], [-33, 36], [-19, 38]]) { const wl = new THREE.PointLight('#ffcf8a', 30, 26, 1.6); wl.position.copy(V(x, y, 4)); scene.add(wl); glow('#ffcf8a', 1.4, .9, V(x, y, 4)); cyl('work_lamp_pole', 'metal', .06, 4, [x, y, 0], metal('iron', '#3a3a34')); } ml.position.copy(V(80, 120, 60)); scene.add(ml);
     decoys.forEach((t, i) => { t.userData.i0 = (EV.inflate || 0) + i * 2; });
     ups.push((f, t) => {
       decoys.forEach(t => { if (t.position.y > .01) return; const u = sm((f - t.userData.i0) / 12); t.visible = u > .02; t.scale.set(1, Math.max(.05, u), 1); });
-      const p = riv.geometry.attributes.position; for (let i = 0; i < p.count; i++) { const x = rb[i * 3], y = rb[i * 3 + 1]; p.setZ(i, .12 * Math.sin(.2 * x + 1.4 * t) + .08 * Math.sin(.31 * y - 1.1 * t)); } p.needsUpdate = true; riv.geometry.computeVertexNormals();
-      for (const B of bursts) { const k = (f - B.f0) / 18, on = k > 0 && k < 1 ? (1 - k) * (1 - k) : 0; B.b.material.opacity = on; B.b.scale.setScalar(4 + 10 * Math.max(0, Math.min(1, k))); B.l.intensity = 80 * on;
+      const p = riv.geometry.attributes.position; for (let i = 0; i < p.count; i++) { const x = rb[i * 3], y = rb[i * 3 + 1]; p.setZ(i, .05 * Math.sin(.2 * x + 1.4 * t) + .03 * Math.sin(.31 * y - 1.1 * t)); } p.needsUpdate = true; riv.geometry.computeVertexNormals();
+      for (const B of bursts) { const k = (f - B.f0) / 22, on = k > 0 && k < 1 ? (k < .15 ? .85 * k / .15 : .85 * Math.pow((1 - k) / .85, 1.5)) : 0;   // 3-frame build, then a slow fall; softer peak (no white-out)
+        B.b.material.opacity = on; B.b.scale.setScalar(10 + 14 * Math.max(0, Math.min(1, k))); B.l.intensity = 60 * on; const kk = Math.max(0, Math.min(1, k)); B.fb.scale.setScalar(on > .02 ? (2 + 4 * kk) * Math.sqrt(on) : 1e-4); B.ob.scale.setScalar(on > .02 ? (3 + 5.5 * kk) * Math.sqrt(on) : 1e-4); B.ob.position.y = B.b.position.y + 1.2 * kk;
+        const sm_ = (f - B.f0) / 60; B.sk.forEach(sp => { const o = sp.userData.off; sp.position.set(B.b.position.x + o[0] * (1 + sm_), B.b.position.y + 1.5 + o[1] + 5 * Math.max(0, sm_), B.b.position.z + o[2] * (1 + sm_)); sp.scale.setScalar(sm_ > .1 && sm_ < 1.8 ? 4 + 6 * Math.min(1, sm_) : 1e-4); sp.material.opacity = .7 * Math.max(0, 1 - sm_ / 1.8); });   // smoke rises after the flash
+        B.fb.material.color.set(on > .5 ? '#fff0b0' : '#ff9a40');
         if (k > 0) { const q = Math.min(1, k * 1.5); B.d.userData.set(.8 * q, .6 * q); B.d.position.y = Math.max(0, Math.sin(Math.min(1, k) * Math.PI) * 4); B.d.rotation.z = q * .6; } }
-      const go = sm((f - (EV.cross || 0)) / 140); real.forEach((t, i) => { t.position.copy(V(60, 30 - i * 9 + go * 60, 0)); });
+      const go = sm((f - (EV.cross || 0)) / 140); real.forEach((t, i) => { t.position.copy(V(60, 30 - i * 9 + go * 60, .67)); });
     });
     anchors = { decoys: [-25, 30, 1], bridge: [60, 58, 0] };
   }
