@@ -10,8 +10,8 @@ _ADDON = bpy.context.preferences.addons.get("bl_ext.user_default.blenderkit")
 # Token: the logged-in add-on (Windows PC), else BLENDERKIT_API_KEY (cloud). Search works without one; downloads need one. Never printed.
 TOK = (getattr(_ADDON.preferences, "api_key", "") if _ADDON else "") or os.environ.get("BLENDERKIT_API_KEY", "")
 H = {"User-Agent": "BlenderKit-client", **({"Authorization": "Bearer " + TOK} if TOK else {})}
-if A and A[0] == "get" and not TOK:
-    sys.exit("BlenderKit download needs a login: install/log in the BlenderKit add-on in this Blender, or set BLENDERKIT_API_KEY (cloud: environment secret). Search works without it.")
+if A and A[0] == "get" and not TOK and os.environ.get("CLAUDE_CODE_REMOTE") != "true":   # in Claude Code Web a Network Secret for www.blenderkit.com injects the header
+    sys.exit("BlenderKit download needs a login: install/log in the BlenderKit add-on in this Blender, or set BLENDERKIT_API_KEY. Search works without it.")
 OK = ("royalty_free", "cc_zero")
 def api(url):
     return json.load(urllib.request.urlopen(urllib.request.Request(url if url.startswith("http") else "https://www.blenderkit.com/api/v1/" + url, headers=H), timeout=60))
