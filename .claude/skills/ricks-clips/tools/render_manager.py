@@ -86,7 +86,8 @@ def bench(blend, out, frames, res="540x960", samples=64, gpu=False):
             t = time.time()
             try: r = bl_render(blend, d, frames, eng, res, samples if eng == "CYCLES" else max(16, samples // 2), gpu and eng == "CYCLES")
             except RuntimeError as e: R[eng] = {"error": str(e)[-600:]}; continue
-        R[eng] = {"seconds_per_frame": round(sum(r["sec"]) / len(r["sec"]), 2), "wall_s": round(time.time() - t, 1), "device": r.get("device"), "gpu": G.peak(n0)}
+        sec = r["sec"]; warm = sorted(sec[1:]) or sec                      # the 1st frame of a process pays the GPU kernel compile / scene load
+        R[eng] = {"seconds_per_frame": round(warm[len(warm) // 2], 2), "first_frame_s": round(sec[0], 2), "per_frame_s": sec, "wall_s": round(time.time() - t, 1), "device": r.get("device"), "gpu": G.peak(n0)}   # median after warm-up (measured 2026-11-18: 121 s then 4.5 s)
     if "error" not in R.get("CYCLES", {"error": 1}) and "error" not in R.get("EEVEE", {"error": 1}):
         diffs = []
         for f in frames:
