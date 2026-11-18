@@ -9,14 +9,18 @@ import bpy, bmesh, os, json, math, random, re, urllib.request, time
 from mathutils import Vector, Matrix
 
 CACHE = os.environ.get("PH_CACHE", "/root/ph"); CREDITS = []
+UA = {"User-Agent": "RicksClips-LookDev/1.0 (Blender asset fetch)"}   # Poly Haven refuses the default Python agent (403)
+def _open(url, timeout=120): return urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=timeout)
 def _get(url, dst):
     if os.path.exists(dst) and os.path.getsize(dst) > 0: return dst
     os.makedirs(os.path.dirname(dst), exist_ok=True); tmp = dst + ".part"
     for k in range(4):
-        try: urllib.request.urlretrieve(url, tmp); os.replace(tmp, dst); return dst
+        try:
+            with _open(url) as r, open(tmp, "wb") as f: f.write(r.read())
+            os.replace(tmp, dst); return dst
         except Exception as e: print("download retry", url, e); time.sleep(2 + 3 * k)
     raise RuntimeError("download failed " + url)
-def _files(aid): return json.load(urllib.request.urlopen("https://api.polyhaven.com/files/" + aid, timeout=60))
+def _files(aid): return json.load(_open("https://api.polyhaven.com/files/" + aid, timeout=60))
 def tex(aid, res="2k"):
     """a Poly Haven texture set -> {diff, rough, nor, ao, disp} local paths (jpg/png)"""
     F = _files(aid); out = {}
