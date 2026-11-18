@@ -1,4 +1,4 @@
-# Production state — ghost-army (updated 2026-11-18, Mission 1 start)
+# Production state — ghost-army — ARCHIVED 2026-11-18 (CB: film stopped; see ../ARCHIVED.md) (updated 2026-11-18, Mission 1 start)
 
 ## Where the project is
 The project is being restructured (CB approved Mission 0, `docs/MISSION_0_ARCHITECTURE_RICKSCLIPS.md`): Blender becomes the single world engine,
