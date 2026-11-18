@@ -73,6 +73,32 @@
     {
       "schema_version": 1,
       "provider": "polyhaven",
+      "asset_id": "boulder_01",
+      "name": "Boulder 01",
+      "creator": "Rico Cilliers",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license",
+      "source_url": "https://polyhaven.com/a/boulder_01",
+      "kind": "model",
+      "api_credit": "Powered by Poly Haven",
+      "downloaded_at_utc": "2026-11-18T17:07:45Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/boulder_01/boulder_01_gltf_1k_gltf.gltf",
+          "bytes": 2773,
+          "sha256": "51487934db898b4c24072780a451e34eca5c02e3ada24a62bbc600bbc4019e92",
+          "md5": "26e2eef4a1f68c9557c65cd375b21d6c",
+          "role": "primary",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/boulder_01/boulder_01_1k.gltf"
+        }
+      ],
+      "status": "ingested",
+      "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "polyhaven",
       "asset_id": "coast_land_rocks_01",
       "name": "Coast Land Rocks 01",
       "creator": "Rob Tuytel, Rico Cilliers",
@@ -370,6 +396,214 @@
           "role": "pbr_map",
           "resolution": "1k",
           "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/coast_land_rocks_01/coast_land_rocks_01_disp_1k.png"
+        }
+      ],
+      "status": "ingested",
+      "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "polyhaven",
+      "asset_id": "dandelion_01",
+      "name": "Dandelion 01",
+      "creator": "Rob Tuytel, Rico Cilliers",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license",
+      "source_url": "https://polyhaven.com/a/dandelion_01",
+      "kind": "model",
+      "api_credit": "Powered by Poly Haven",
+      "downloaded_at_utc": "2026-11-18T17:07:44Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/dandelion_01/dandelion_01_gltf_1k_gltf.gltf",
+          "bytes": 8915,
+          "sha256": "68f804fe29f641f37b03c470cf9065d34aacd1b4f580ed6f35385626c2bb42b7",
+          "md5": "9e470fe32469a68b70f6a7ecc01e2af4",
+          "role": "primary",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/dandelion_01/dandelion_01_1k.gltf"
+        }
+      ],
+      "status": "ingested",
+      "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "polyhaven",
+      "asset_id": "dead_tree_trunk",
+      "name": "Dead Tree Trunk",
+      "creator": "Rob Tuytel",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license",
+      "source_url": "https://polyhaven.com/a/dead_tree_trunk",
+      "kind": "model",
+      "api_credit": "Powered by Poly Haven",
+      "downloaded_at_utc": "2026-11-18T17:07:47Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/dead_tree_trunk/dead_tree_trunk_gltf_1k_gltf.gltf",
+          "bytes": 2812,
+          "sha256": "8baaf1ff66ba1f79acdceed0dc3797a882990a3abb10b18abe56762f34c26e39",
+          "md5": "7bbf9fc9fdf61b50ed0495a29c03ecab",
+          "role": "primary",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/dead_tree_trunk/dead_tree_trunk_1k.gltf"
+        }
+      ],
+      "status": "ingested",
+      "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "polyhaven",
+      "asset_id": "grass_medium_02",
+      "name": "Grass Medium 02",
+      "creator": "Rico Cilliers",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license",
+      "source_url": "https://polyhaven.com/a/grass_medium_02",
+      "kind": "model",
+      "api_credit": "Powered by Poly Haven",
+      "downloaded_at_utc": "2026-11-18T17:07:43Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/grass_medium_02/grass_medium_02_gltf_1k_gltf.gltf",
+          "bytes": 8864,
+          "sha256": "7037f8d2dfc6aeec0bf72f4eeb96cfa3f6b3a5e6c6f0bc5de537c055b2fd5d04",
+          "md5": "dd8f166a6399238553bc3b2931677b68",
+          "role": "primary",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/grass_medium_02/grass_medium_02_1k.gltf"
+        }
+      ],
+      "status": "ingested",
+      "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "polyhaven",
+      "asset_id": "island_tree_02",
+      "name": "Island Tree 02",
+      "creator": "Rob Tuytel, Rico Cilliers",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license",
+      "source_url": "https://polyhaven.com/a/island_tree_02",
+      "kind": "model",
+      "api_credit": "Powered by Poly Haven",
+      "downloaded_at_utc": "2026-11-18T17:07:51Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/island_tree_02/island_tree_02_gltf_1k_gltf.gltf",
+          "bytes": 8545,
+          "sha256": "d8c5d9ead41cdbef91a648f40ff60470faa19eb3a7010e59e44cb1a01250f75d",
+          "md5": "825057164e987894cbfc6c462977fa71",
+          "role": "primary",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/island_tree_02/island_tree_02_1k.gltf"
+        }
+      ],
+      "status": "ingested",
+      "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "polyhaven",
+      "asset_id": "nettle_plant",
+      "name": "Nettle Plant",
+      "creator": "Rob Tuytel, Rico Cilliers",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license",
+      "source_url": "https://polyhaven.com/a/nettle_plant",
+      "kind": "model",
+      "api_credit": "Powered by Poly Haven",
+      "downloaded_at_utc": "2026-11-18T17:07:43Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/nettle_plant/nettle_plant_gltf_1k_gltf.gltf",
+          "bytes": 10450,
+          "sha256": "45baafa16feb0017e6a46712e2aa7afe7841fd00905075ead8316a5fc8314b0e",
+          "md5": "474e138cdee694335ca4270ac43f9d49",
+          "role": "primary",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/nettle_plant/nettle_plant_1k.gltf"
+        }
+      ],
+      "status": "ingested",
+      "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "polyhaven",
+      "asset_id": "shrub_03",
+      "name": "Shrub 03",
+      "creator": "Rico Cilliers",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license",
+      "source_url": "https://polyhaven.com/a/shrub_03",
+      "kind": "model",
+      "api_credit": "Powered by Poly Haven",
+      "downloaded_at_utc": "2026-11-18T17:07:41Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/shrub_03/shrub_03_gltf_1k_gltf.gltf",
+          "bytes": 7296,
+          "sha256": "b76d7c14bc027e834e82d3f984c32b5d060e62908aa90ff9420a637ca253a8ea",
+          "md5": "2c1ef10ff17e23f81d29c851d1409c9a",
+          "role": "primary",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/shrub_03/shrub_03_1k.gltf"
+        }
+      ],
+      "status": "ingested",
+      "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "polyhaven",
+      "asset_id": "shrub_04",
+      "name": "Shrub 04",
+      "creator": "Rico Cilliers",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license",
+      "source_url": "https://polyhaven.com/a/shrub_04",
+      "kind": "model",
+      "api_credit": "Powered by Poly Haven",
+      "downloaded_at_utc": "2026-11-18T17:07:42Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/shrub_04/shrub_04_gltf_1k_gltf.gltf",
+          "bytes": 2882,
+          "sha256": "782832cbc57e96686b78c6ef9df6234c25f564f78421c8ed4bd42c3631f5aeae",
+          "md5": "eba22f7e018dd3d9ed951150c2092f17",
+          "role": "primary",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/shrub_04/shrub_04_1k.gltf"
+        }
+      ],
+      "status": "ingested",
+      "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "polyhaven",
+      "asset_id": "tree_stump_01",
+      "name": "Tree Stump 01",
+      "creator": "Rob Tuytel",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license",
+      "source_url": "https://polyhaven.com/a/tree_stump_01",
+      "kind": "model",
+      "api_credit": "Powered by Poly Haven",
+      "downloaded_at_utc": "2026-11-18T17:07:46Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/tree_stump_01/tree_stump_01_gltf_1k_gltf.gltf",
+          "bytes": 2793,
+          "sha256": "9c66ba87d693f35eb404acaa96e0eeff831c295b61a0a903795584cbcc3527c9",
+          "md5": "fedfc620634a8dbaf6345413b13abe1a",
+          "role": "primary",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/tree_stump_01/tree_stump_01_1k.gltf"
         }
       ],
       "status": "ingested",

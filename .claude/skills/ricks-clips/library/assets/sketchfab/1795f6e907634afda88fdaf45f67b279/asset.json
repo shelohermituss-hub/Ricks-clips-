@@ -1,0 +1,30 @@
+{
+ "schema_version": 1,
+ "id": "vintage_bicycle",
+ "name": "Vintage Bicycle",
+ "kind": "model",
+ "category": "prop",
+ "tier": "foreground",
+ "description": "Vintage bicycle, 49k tris, 1k textures.",
+ "source": {
+  "provider": "sketchfab",
+  "url": "https://sketchfab.com/3d-models/vintage-bicycle-1795f6e907634afda88fdaf45f67b279"
+ },
+ "license": {
+  "name": "CC-BY-4.0",
+  "url": "https://creativecommons.org/licenses/by/4.0",
+  "author": "VladNeko",
+  "commercial_use": true,
+  "credit_required": true
+ },
+ "build": {
+  "type": "file",
+  "file": "glb/vintage_bicycle_1k.glb",
+  "scale": 0.0016773
+ },
+ "episodes": [
+  "ghost-army"
+ ],
+ "notes": "source is authored ~595x real size; scale brings the length to 1.70 m (measured by rc.qa at ingest)",
+ "fetch_note": "Sketchfab downloads need the user's token: re-fetch with tools/asset_hub.py download sketchfab 1795f6e907634afda88fdaf45f67b279 (file not in git)"
+}

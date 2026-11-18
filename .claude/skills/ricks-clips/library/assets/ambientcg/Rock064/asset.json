@@ -1,0 +1,26 @@
+{
+ "schema_version": 1,
+ "id": "rock064",
+ "name": "Rock 064",
+ "kind": "material",
+ "category": "material",
+ "tier": "foreground",
+ "description": "Rock PBR set, 1k JPG.",
+ "source": {
+  "provider": "ambientcg",
+  "url": "https://ambientcg.com/a/Rock064"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://ambientcg.com/license",
+  "author": "ambientCG"
+ },
+ "build": {
+  "type": "ambientcg_maps",
+  "source_id": "Rock064",
+  "res": "1K",
+  "params": {
+   "tile": 0.5
+  }
+ }
+}

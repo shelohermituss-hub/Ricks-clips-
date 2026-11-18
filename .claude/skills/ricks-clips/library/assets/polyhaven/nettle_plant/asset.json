@@ -1,0 +1,25 @@
+{
+ "schema_version": 1,
+ "id": "nettle_plant",
+ "name": "Nettle plant",
+ "kind": "model",
+ "category": "vegetation",
+ "tier": "foreground",
+ "description": "Nettles for hedge feet and field edges.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/nettle_plant"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven (Rob Tuytel, Rico Cilliers, Greg Zaal and contributors)"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "nettle_plant",
+  "res": "1k",
+  "scale": 1.0
+ },
+ "variants": true
+}

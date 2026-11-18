@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "id": "boulder_01",
+ "name": "Boulder",
+ "kind": "model",
+ "category": "rock",
+ "tier": "midground",
+ "description": "Mossy field boulder.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/boulder_01"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven (Rob Tuytel, Rico Cilliers, Greg Zaal and contributors)"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "boulder_01",
+  "res": "1k",
+  "scale": 1.0
+ }
+}

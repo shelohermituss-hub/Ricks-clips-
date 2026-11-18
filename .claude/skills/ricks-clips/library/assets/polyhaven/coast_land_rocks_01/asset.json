@@ -1,0 +1,26 @@
+{
+ "schema_version": 1,
+ "id": "coast_land_rocks_01",
+ "name": "Coast Land Rocks 01",
+ "kind": "material",
+ "category": "material",
+ "tier": "foreground",
+ "description": "Rocky ground PBR set, 1k.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/coast_land_rocks_01"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Rob Tuytel, Rico Cilliers"
+ },
+ "build": {
+  "type": "polyhaven_maps",
+  "source_id": "coast_land_rocks_01",
+  "res": "1k",
+  "params": {
+   "tile": 0.5
+  }
+ }
+}

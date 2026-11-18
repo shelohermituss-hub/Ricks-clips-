@@ -1,0 +1,26 @@
+{
+ "schema_version": 1,
+ "id": "tex_rusty_painted_metal",
+ "name": "Painted metal, worn",
+ "kind": "material",
+ "category": "material",
+ "tier": "foreground",
+ "description": "Painted metal, worn PBR set (1k), tinted to the place palette by rc.lookdev.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/rusty_painted_metal"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven (Rob Tuytel, Rico Cilliers, Greg Zaal and contributors)"
+ },
+ "build": {
+  "type": "polyhaven_maps",
+  "source_id": "rusty_painted_metal",
+  "res": "1k",
+  "params": {
+   "tile": 0.5
+  }
+ }
+}

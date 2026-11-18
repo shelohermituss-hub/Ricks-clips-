@@ -6,27 +6,32 @@
 import math, random
 import bpy
 
-def _gn_instancer(name, src):
+def _gn_instancer(name, src, pick=False, seed=0):
     nt = bpy.data.node_groups.new(name, "GeometryNodeTree")
     nt.interface.new_socket("Geometry", in_out="INPUT", socket_type="NodeSocketGeometry"); nt.interface.new_socket("Geometry", in_out="OUTPUT", socket_type="NodeSocketGeometry")
     N, L = nt.nodes, nt.links; gi, go, iop = N.new("NodeGroupInput"), N.new("NodeGroupOutput"), N.new("GeometryNodeInstanceOnPoints")
     if isinstance(src, bpy.types.Collection):
         info = N.new("GeometryNodeCollectionInfo"); info.inputs["Collection"].default_value = src; info.transform_space = "ORIGINAL"
-        info.inputs["Separate Children"].default_value = False; info.inputs["Reset Children"].default_value = True; out = info.outputs[0]
+        info.inputs["Separate Children"].default_value = pick; info.inputs["Reset Children"].default_value = True; out = info.outputs[0]
     else:
         info = N.new("GeometryNodeObjectInfo"); info.inputs["Object"].default_value = src; info.transform_space = "ORIGINAL"; out = info.outputs["Geometry"]
     ra, sa = N.new("GeometryNodeInputNamedAttribute"), N.new("GeometryNodeInputNamedAttribute"); ra.data_type = sa.data_type = "FLOAT_VECTOR"
     ra.inputs["Name"].default_value = "inst_rot"; sa.inputs["Name"].default_value = "inst_scale"; e2r = N.new("FunctionNodeEulerToRotation")
     L.new(gi.outputs[0], iop.inputs["Points"]); L.new(out, iop.inputs["Instance"]); L.new(ra.outputs["Attribute"], e2r.inputs[0]); L.new(e2r.outputs[0], iop.inputs["Rotation"])
-    L.new(sa.outputs["Attribute"], iop.inputs["Scale"]); L.new(iop.outputs["Instances"], go.inputs[0]); return nt
+    L.new(sa.outputs["Attribute"], iop.inputs["Scale"]); L.new(iop.outputs["Instances"], go.inputs[0])
+    if pick:                                                     # one variant per point: seeded random index from the point id (frame-independent)
+        iop.inputs["Pick Instance"].default_value = True; rv = N.new("FunctionNodeRandomValue"); rv.data_type = "INT"
+        rv.inputs["Min"].default_value = 0; rv.inputs["Max"].default_value = 10000; rv.inputs["Seed"].default_value = seed
+        L.new(rv.outputs[2] if len(rv.outputs) > 2 else rv.outputs[0], iop.inputs["Instance Index"])
+    return nt
 
-def instancer(name, points, src, collection, rots=None, scales=None):
+def instancer(name, points, src, collection, rots=None, scales=None, pick=False, seed=0):
     me = bpy.data.meshes.new(name + "_pts"); me.from_pydata([tuple(p) for p in points], [], []); me.update()
     ra = me.attributes.new("inst_rot", "FLOAT_VECTOR", "POINT"); sa = me.attributes.new("inst_scale", "FLOAT_VECTOR", "POINT")
     for i in range(len(points)):
         ra.data[i].vector = rots[i] if rots else (0, 0, 0)
         s = scales[i] if scales else 1.0; sa.data[i].vector = (s, s, s) if isinstance(s, (int, float)) else s
-    ob = bpy.data.objects.new(name, me); collection.objects.link(ob); ob.modifiers.new("instances", "NODES").node_group = _gn_instancer(name, src); return ob
+    ob = bpy.data.objects.new(name, me); collection.objects.link(ob); ob.modifiers.new("instances", "NODES").node_group = _gn_instancer(name, src, pick, seed); return ob
 
 def _inside(zone, x, y):
     if "radius" in zone: return math.hypot(x - zone["center"][0], y - zone["center"][1]) <= zone["radius"]

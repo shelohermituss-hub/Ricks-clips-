@@ -1,0 +1,25 @@
+{
+ "schema_version": 1,
+ "id": "shrub_03",
+ "name": "Shrub 03 (hedge filler)",
+ "kind": "model",
+ "category": "vegetation",
+ "tier": "midground",
+ "description": "Low leafy shrub for hedge rows.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/shrub_03"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven (Rob Tuytel, Rico Cilliers, Greg Zaal and contributors)"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "shrub_03",
+  "res": "1k",
+  "scale": 1.0
+ },
+ "variants": true
+}

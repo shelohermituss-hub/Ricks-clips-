@@ -19,14 +19,17 @@ def ingest(src, meta, out):
     else: raise ValueError("unsupported source " + src)
     new = [o for o in bpy.data.objects if o not in before]; aid = meta["id"]
     col = bpy.data.collections.new(aid); bpy.context.scene.collection.children.link(col)
-    root = bpy.data.objects.new(aid + "_root", None); col.objects.link(root)
+    s = float(meta.get("scale", 1.0)); var = bool(meta.get("variants"))
+    root = None if var else bpy.data.objects.new(aid + "_root", None)
+    if root: col.objects.link(root); root.scale = (s, s, s)
     for o in new:
         for c in list(o.users_collection): c.objects.unlink(o)
         col.objects.link(o)
-        if o.parent is None: o.parent = root
-    s = float(meta.get("scale", 1.0)); root.scale = (s, s, s)
+        if o.parent is None:
+            if root: o.parent = root
+            else: o.scale = tuple(v * s for v in o.scale)   # VARIANTS (Poly Haven sets lay several plants in a row): each top object stays a separate child; the scatter picks one per point
     bpy.context.view_layer.update(); stats = qa.collection_stats(col)
-    stats.update({"id": aid, "tier": meta.get("tier"), "category": meta.get("category"), "source": os.path.basename(src)})
+    stats.update({"variants": [o.name for o in col.objects if o.parent is None] if var else [], "id": aid, "tier": meta.get("tier"), "category": meta.get("category"), "source": os.path.basename(src)})
     parts = meta.get("parts") or []
     names = {o.name for o in col.all_objects}; stats["parts_found"] = [p for p in parts if any(n.startswith(p) for n in names)]
     stats["parts_missing"] = [p for p in parts if p not in stats["parts_found"]]

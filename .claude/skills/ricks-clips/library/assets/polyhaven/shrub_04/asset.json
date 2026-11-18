@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "id": "shrub_04",
+ "name": "Shrub 04 (hedge body)",
+ "kind": "model",
+ "category": "vegetation",
+ "tier": "midground",
+ "description": "Leafy shrub for hedge rows.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/shrub_04"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven (Rob Tuytel, Rico Cilliers, Greg Zaal and contributors)"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "shrub_04",
+  "res": "1k",
+  "scale": 1.0
+ }
+}

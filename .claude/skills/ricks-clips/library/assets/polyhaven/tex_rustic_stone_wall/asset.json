@@ -1,0 +1,26 @@
+{
+ "schema_version": 1,
+ "id": "tex_rustic_stone_wall",
+ "name": "Farm stone wall",
+ "kind": "material",
+ "category": "material",
+ "tier": "foreground",
+ "description": "Farm stone wall PBR set (1k), tinted to the place palette by rc.lookdev.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/rustic_stone_wall"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven (Rob Tuytel, Rico Cilliers, Greg Zaal and contributors)"
+ },
+ "build": {
+  "type": "polyhaven_maps",
+  "source_id": "rustic_stone_wall",
+  "res": "1k",
+  "params": {
+   "tile": 0.5
+  }
+ }
+}

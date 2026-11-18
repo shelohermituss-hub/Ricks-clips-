@@ -15,10 +15,16 @@
 **/tmp/
 **/temp/
 **/hf_cache/
-# Asset Hub downloads (re-downloadable; catalog.json keeps the provenance). Episodes copy what they use into episodes/<name>/assets/.
-.claude/skills/ricks-clips/library/assets/polyhaven/
-.claude/skills/ricks-clips/library/assets/ambientcg/
-.claude/skills/ricks-clips/library/assets/sketchfab/
+# Asset Hub downloads (re-downloadable; catalog.json keeps the provenance). Mission 2: their asset.json (metadata + how to fetch) ARE versioned; the files are not. Episodes copy what they use into episodes/<name>/assets/.
+.claude/skills/ricks-clips/library/assets/polyhaven/**
+!.claude/skills/ricks-clips/library/assets/polyhaven/**/
+!.claude/skills/ricks-clips/library/assets/polyhaven/**/asset.json
+.claude/skills/ricks-clips/library/assets/ambientcg/**
+!.claude/skills/ricks-clips/library/assets/ambientcg/**/
+!.claude/skills/ricks-clips/library/assets/ambientcg/**/asset.json
+.claude/skills/ricks-clips/library/assets/sketchfab/**
+!.claude/skills/ricks-clips/library/assets/sketchfab/**/
+!.claude/skills/ricks-clips/library/assets/sketchfab/**/asset.json
 # Episode working output (plan, renders, logs): rebuilt from film.json; the delivered film and QC live in final.mp4 and qc/
 .claude/skills/ricks-clips/episodes/*/out/
 .claude/skills/ricks-clips/episodes/ghost-army/v1/*.mp4

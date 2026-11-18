@@ -14,7 +14,7 @@ So `resolve(id)` returns a ready .blend; a second call (or a second film) never 
     python3 -m rc.library resolve --all
 (run from blender/, or with PYTHONPATH=blender)"""
 import glob, json, os, shutil, subprocess, sys
-from . import SKILL, cache
+from . import SKILL, cache, fetch
 
 LIB = os.path.join(SKILL, "library", "assets")
 BLENDER = os.environ.get("RICKCLIPS_BLENDER", shutil.which("blender") or "blender")
@@ -47,10 +47,12 @@ def validate(a):
         if not b.get("output"): probs.append("build.output (the GLB file name the script writes)")
     elif b.get("type") == "file":
         if not os.path.exists(os.path.join(a["_dir"], b.get("file", ""))): probs.append("build.file not found: %s" % b.get("file"))
+    elif b.get("type") in ("polyhaven_model", "polyhaven_maps", "ambientcg_maps"):
+        if not b.get("source_id"): probs.append("build.source_id (the provider id to fetch)")
     elif b.get("type") == "maps":
         for k, f in (b.get("maps") or {}).items():
             if not os.path.exists(os.path.join(a["_dir"], f)): probs.append("map %s not found: %s" % (k, f))
-    else: probs.append("build.type must be script|file|maps")
+    else: probs.append("build.type must be script|file|maps|polyhaven_model|polyhaven_maps|ambientcg_maps")
     return probs
 
 def _run_blender(args, log):
@@ -77,15 +79,19 @@ def resolve(asset_id, log=print):
     if probs: raise ValueError("asset %s invalid: %s" % (asset_id, probs))
     ver = _blender_version(); b = a["build"]
     if a["kind"] == "material":
-        maps = {k: os.path.join(a["_dir"], f) for k, f in b["maps"].items()}
+        if b["type"] == "polyhaven_maps": maps = fetch.polyhaven_maps(b["source_id"], b.get("res", "1k"), log=log)
+        elif b["type"] == "ambientcg_maps": maps = fetch.ambientcg_maps(b["source_id"], b.get("res", "1K"), log=log)
+        else: maps = {k: os.path.join(a["_dir"], f) for k, f in b["maps"].items()}
+        maps = {k: v for k, v in maps.items() if k in ("color", "roughness", "normal")}
         def build(out): _run_blender(["--python", BL_SIDE, "--", "material", asset_id, json.dumps(maps), json.dumps(b.get("params", {})), out], log)
-        d = cache.get_or_build("material_blend", {"id": asset_id, "maps": sorted(b["maps"].items()), "params": b.get("params", {})}, build,
+        d = cache.get_or_build("material_blend", {"id": asset_id, "maps": sorted(maps), "params": b.get("params", {})}, build,
                                code_files=[BL_SIDE], input_files=list(maps.values()), versions={"blender": ver}, log=log)
     else:
-        src = _script_glb(a, ver, log) if b["type"] == "script" else os.path.join(a["_dir"], b["file"])
-        meta = {"id": asset_id, "tier": a["tier"], "category": a["category"], "parts": a.get("parts", []), "scale": b.get("scale", 1.0), "forward": b.get("forward", "X")}
+        src = _script_glb(a, ver, log) if b["type"] == "script" else fetch.polyhaven_model(b["source_id"], b.get("res", "1k"), log=log) if b["type"] == "polyhaven_model" else os.path.join(a["_dir"], b["file"])
+        meta = {"id": asset_id, "tier": a["tier"], "category": a["category"], "parts": a.get("parts", []), "scale": b.get("scale", 1.0), "forward": b.get("forward", "X"), "variants": bool(a.get("variants"))}
         def build(out): _run_blender(["--python", BL_SIDE, "--", "ingest", src, json.dumps(meta), out], log)
-        d = cache.get_or_build("asset_blend", meta, build, code_files=[BL_SIDE], input_files=[src], versions={"blender": ver}, log=log)
+        ins = [src] + ([os.path.join(r, n) for r, _, ns in os.walk(os.path.dirname(src)) for n in ns if n != "meta.json"] if src.endswith(".gltf") else [])
+        d = cache.get_or_build("asset_blend", meta, build, code_files=[BL_SIDE], input_files=sorted(set(ins)), versions={"blender": ver}, log=log)
     stats = json.load(open(os.path.join(d, "ingest.json")))
     return os.path.join(d, asset_id + ".blend"), stats
 

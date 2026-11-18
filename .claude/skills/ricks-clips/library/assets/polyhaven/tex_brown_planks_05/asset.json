@@ -1,0 +1,26 @@
+{
+ "schema_version": 1,
+ "id": "tex_brown_planks_05",
+ "name": "Weathered planks",
+ "kind": "material",
+ "category": "material",
+ "tier": "foreground",
+ "description": "Weathered planks PBR set (1k), tinted to the place palette by rc.lookdev.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/brown_planks_05"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven (Rob Tuytel, Rico Cilliers, Greg Zaal and contributors)"
+ },
+ "build": {
+  "type": "polyhaven_maps",
+  "source_id": "brown_planks_05",
+  "res": "1k",
+  "params": {
+   "tile": 0.5
+  }
+ }
+}

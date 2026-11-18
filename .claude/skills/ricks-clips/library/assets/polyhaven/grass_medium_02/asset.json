@@ -1,0 +1,25 @@
+{
+ "schema_version": 1,
+ "id": "grass_medium_02",
+ "name": "Grass clump, medium",
+ "kind": "model",
+ "category": "vegetation",
+ "tier": "foreground",
+ "description": "Dense meadow grass patch.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/grass_medium_02"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven (Rob Tuytel, Rico Cilliers, Greg Zaal and contributors)"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "grass_medium_02",
+  "res": "1k",
+  "scale": 1.0
+ },
+ "variants": true
+}

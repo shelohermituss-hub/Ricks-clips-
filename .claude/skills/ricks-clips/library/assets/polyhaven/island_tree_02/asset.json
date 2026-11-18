@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "id": "island_tree_02",
+ "name": "Broadleaf tree (bocage oak stand-in)",
+ "kind": "model",
+ "category": "vegetation",
+ "tier": "midground",
+ "description": "Broadleaf tree, real branches and leaf clusters; Poly Haven 1.76 M tris.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/island_tree_02"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven (Rob Tuytel, Rico Cilliers, Greg Zaal and contributors)"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "island_tree_02",
+  "res": "1k",
+  "scale": 1.0
+ }
+}

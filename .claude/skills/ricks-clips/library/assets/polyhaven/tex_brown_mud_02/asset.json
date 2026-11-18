@@ -1,0 +1,26 @@
+{
+ "schema_version": 1,
+ "id": "tex_brown_mud_02",
+ "name": "Lane mud",
+ "kind": "material",
+ "category": "material",
+ "tier": "foreground",
+ "description": "Lane mud PBR set (1k), tinted to the place palette by rc.lookdev.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/brown_mud_02"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven (Rob Tuytel, Rico Cilliers, Greg Zaal and contributors)"
+ },
+ "build": {
+  "type": "polyhaven_maps",
+  "source_id": "brown_mud_02",
+  "res": "1k",
+  "params": {
+   "tile": 0.5
+  }
+ }
+}

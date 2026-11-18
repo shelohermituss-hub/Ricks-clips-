@@ -52,7 +52,8 @@ def build(place_path, out_blend, light=True):
     S = _col("RC_SCATTER")
     for s in P.get("scatter", []):
         pts, rots, scl = geo.scatter_points(s["zone"], s["count"], s["seed"], s.get("exclude", ()), tuple(s.get("scale", (1, 1))))
-        geo.instancer(s.get("name", s["asset"]), pts, _source(s["asset"], cols), S, rots, scl); report.setdefault("scatter", {})[s.get("name", s["asset"])] = len(pts)
+        var = bool(library.index().get(s["asset"], {}).get("variants"))
+        geo.instancer(s.get("name", s["asset"]), pts, _source(s["asset"], cols), S, rots, scl, pick=var, seed=s["seed"]); report.setdefault("scatter", {})[s.get("name", s["asset"])] = len(pts)
     if P.get("camera"): _camera(sc, P["episode"], P["camera"]["frames"])
     if light and P.get("light"):
         sys.path.insert(0, os.path.join(SKILL, "templates"))

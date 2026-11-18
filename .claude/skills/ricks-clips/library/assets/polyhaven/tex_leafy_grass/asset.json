@@ -1,0 +1,26 @@
+{
+ "schema_version": 1,
+ "id": "tex_leafy_grass",
+ "name": "Meadow ground (leafy grass)",
+ "kind": "material",
+ "category": "material",
+ "tier": "foreground",
+ "description": "Meadow ground (leafy grass) PBR set (1k), tinted to the place palette by rc.lookdev.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/leafy_grass"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven (Rob Tuytel, Rico Cilliers, Greg Zaal and contributors)"
+ },
+ "build": {
+  "type": "polyhaven_maps",
+  "source_id": "leafy_grass",
+  "res": "1k",
+  "params": {
+   "tile": 0.5
+  }
+ }
+}

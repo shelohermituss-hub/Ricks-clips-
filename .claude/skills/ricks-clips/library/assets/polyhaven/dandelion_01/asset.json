@@ -1,0 +1,25 @@
+{
+ "schema_version": 1,
+ "id": "dandelion_01",
+ "name": "Dandelion",
+ "kind": "model",
+ "category": "vegetation",
+ "tier": "foreground",
+ "description": "Meadow flower.",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/dandelion_01"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven (Rob Tuytel, Rico Cilliers, Greg Zaal and contributors)"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "dandelion_01",
+  "res": "1k",
+  "scale": 1.0
+ },
+ "variants": true
+}
