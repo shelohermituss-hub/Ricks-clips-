@@ -353,7 +353,31 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     if (ctx.atmosphere) ctx.atmosphere.setFog({ color: '#1e2a48', near: 30, far: 200 });
     ground('#3e5236'); scene.add(new THREE.HemisphereLight('#7a92cc', '#2c3626', 2.4)); { const mk = new THREE.DirectionalLight('#b0c4ff', 2.2); mk.position.copy(V(-30, 60, 40)); mk.target.position.copy(V(0, 10, 0)); mk.castShadow = true; scene.add(mk, mk.target); }
     const road = add(new THREE.Mesh(new THREE.PlaneGeometry(5, 300), relief('cobble', '#7a7466', { seed: 81, size: 2 })), 'road', 'ground', { cast: false, mat: 'cobble' }); road.rotation.x = -Math.PI / 2; road.position.copy(V(0, 60, .01));
-    for (let i = 0; i < 18; i++) for (const s of [-1, 1]) tree([s * 4.2, -10 + i * 9, 0], 14, 'cypress', i * 2 + (s > 0 ? 1 : 0));   // poplars
+    /* V3 step 5: poplars with a leafy, broken silhouette (trunk + a column of lumpy leaf clumps) instead of smooth cypress cones */
+    { const PT = relief('wood', '#3a3428', { seed: 82 }), clG = new THREE.SphereGeometry(1, 14, 10), cp = clG.attributes.position;
+      for (let i = 0; i < cp.count; i++) { const k = 1 + .18 * Math.sin(cp.getX(i) * 5.3 + cp.getY(i) * 3.1) * Math.cos(cp.getZ(i) * 4.7); cp.setXYZ(i, cp.getX(i) * k, cp.getY(i) * k, cp.getZ(i) * k); } clG.computeVertexNormals();
+      const N = 36 * 20, im = new THREE.InstancedMesh(clG, new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: .9, bumpMap: leafTex, bumpScale: 2.2 }), N), M4 = new THREE.Matrix4(), Q = new THREE.Quaternion(), C = new THREE.Color(); let k = 0;
+      for (let i = 0; i < 18; i++) for (const sd of [-1, 1]) { const x = sd * (4.2 + rr(-.3, .3)), y = -10 + i * 9 + rr(-1, 1), h = rr(12, 16);
+        cyl('poplar_trunk', 'wood', .16, h * .45, [x, y, 0], PT, { r2: .1 });
+        for (let j = 0; j < 20; j++) { const t = j / 19, z = h * (.22 + .74 * t), r = (.95 - .6 * t * t) * rr(.65, 1.0);
+          Q.setFromEuler(new THREE.Euler(rr(0, 6), rr(0, 6), rr(0, 6))); M4.compose(V(x + rr(-.35, .35), y + rr(-.35, .35), z), Q, new THREE.Vector3(r, r * 1.5, r)); im.setMatrixAt(k, M4);
+          im.setColorAt(k++, C.set(['#2c4a2a', '#34522e', '#26402a', '#3a5a32'][j % 4]).offsetHSL(0, 0, rr(-.03, .03))); } }
+      im.castShadow = true; im.receiveShadow = true; add(im, 'poplar_crowns', 'foliage', { mat: 'foliage' }); }
+    /* V3 step 5: a wet night - glossy cobbles, puddles that hold the sky and the lamps, rain streaks, ripples, grass verges, roadside lamps */
+    { road.material.roughness = Math.min(road.material.roughness ?? .8, .38); if ('metalness' in road.material) road.material.metalness = .05; road.material.needsUpdate = true;
+      const wet = ctx.pbr ? ctx.pbr.metal('wet', { color: '#2a3040', rough: .06 }) : std('#2a3040', { rough: .1 });
+      const pud = []; for (let i = 0; i < 16; i++) { const g = new THREE.CircleGeometry(1, 28), q = g.attributes.position; const ax = rr(.5, 1.6), ay = rr(.35, 1.0);
+        for (let k = 1; k < q.count; k++) { const a = Math.atan2(q.getY(k), q.getX(k)), r = 1 + .22 * Math.sin(a * 3 + i) + .12 * Math.sin(a * 7 + i * 2); q.setXY(k, Math.cos(a) * r * ax, Math.sin(a) * r * ay); }
+        const m = add(new THREE.Mesh(g, wet), 'puddle', 'water', { cast: false }); m.rotation.x = -Math.PI / 2; m.rotation.z = rr(0, 3); m.position.copy(V(rr(-2, 2), rr(-6, 60), .02)); pud.push(m); }
+      const rip = []; for (let i = 0; i < 14; i++) { const r = add(new THREE.Mesh(new THREE.RingGeometry(.9, 1, 32), new THREE.MeshBasicMaterial({ color: '#c8d4ff', transparent: true, opacity: 0, depthWrite: false })), 'rain_ripple', 'fx', { cast: false }); r.rotation.x = -Math.PI / 2; r.userData.noExport = true; r.userData.p = pud[i % pud.length]; r.userData.o = rnd(); rip.push(r); }
+      const NR = 1600, rg = new THREE.BufferGeometry(), rp = new Float32Array(NR * 6), seedP = []; for (let i = 0; i < NR; i++) seedP.push([rr(-9, 9), rr(-8, 50), rr(0, 14), rr(.6, 1)]);
+      rg.setAttribute('position', new THREE.BufferAttribute(rp, 3)); const rain = new THREE.LineSegments(rg, new THREE.LineBasicMaterial({ color: '#a9b8e6', transparent: true, opacity: .32, depthWrite: false })); rain.frustumCulled = false; rain.name = 'rain'; rain.userData.noExport = true; scene.add(rain);
+      for (const yy of [-2, 16, 34]) { cyl('road_lamp_post', 'metal', .05, 4.2, [3.0, yy, 0], metal('iron', '#2a2a26', { rough: .6 })); box('road_lamp_arm', 'metal', .8, .06, .06, [2.65, yy, 4.15], metal('iron', '#2a2a26'));
+        const pl = new THREE.PointLight('#ffc070', 10, 11, 1.6); pl.position.copy(V(2.3, yy, 3.95)); scene.add(pl); glow('#ffc890', .55, .85, V(2.3, yy, 3.98)); }
+      for (const sd of [-1, 1]) { const im = meadow({ name: 'verge_grass', at: [sd * 9, 20], radius: 28, count: 3000, height: .45, tints: ['#c8d0d8', '#b8c4cc', '#d4dccc'] }), M4 = new THREE.Matrix4(), Z0 = new THREE.Matrix4().makeScale(0, 0, 0), q = new THREE.Vector3();
+        for (let i = 0; i < im.count; i++) { im.getMatrixAt(i, M4); q.setFromMatrixPosition(M4); if (Math.abs(q.x) < 2.9) im.setMatrixAt(i, Z0); } im.instanceMatrix.needsUpdate = true; }   /* verges only: the cobbles stay clear */
+      ups.push((f, t) => { for (let i = 0; i < NR; i++) { const [x, y, z0, sp] = seedP[i]; const z = ((z0 - t * 11 * sp) % 14 + 14) % 14, j = i * 6; rp[j] = x; rp[j + 1] = z; rp[j + 2] = -y; rp[j + 3] = x - .06; rp[j + 4] = z + .55 * sp; rp[j + 5] = -y; } rg.attributes.position.needsUpdate = true;
+        rip.forEach(r => { const q = (t * .9 + r.userData.o) % 1; r.position.copy(r.userData.p.position); r.position.y += .01; r.position.x += Math.sin(r.userData.o * 40) * .4; r.scale.setScalar(.05 + q * .35); r.material.opacity = .5 * (1 - q); }); }); }
     const ht = halftrack('sound_halftrack', [0, 6, 0], -Math.PI / 2); { const wl = new THREE.PointLight('#ffcf8a', 14, 9, 1.6); wl.position.copy(V(1.6, 6.2, 3.3)); scene.add(wl); glow('#ffcf8a', .5, .8, V(1.6, 6.2, 3.3)); cyl('ht_lamp_post', 'metal', .03, 1.2, [1.6, 6.2, 2.1], metal('iron', '#3a3a34')); }   /* the operator's hooded lamp: the vehicle reads at night */
     const moon = glow('#dfe8ff', 18, .9, V(-30, 120, 60)); const hl = new THREE.SpotLight('#ffe9b0', 30, 40, .5, .6); hl.position.copy(V(0, 8.6, 1.2)); hl.target.position.copy(V(0, 30, 0)); scene.add(hl, hl.target);
     // sound made visible: rings rolling out of the horn
@@ -392,6 +416,16 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
   const roomPaper = surf((g, w, h) => { g.fillStyle = '#d6cdb2'; g.fillRect(0, 0, w, h); for (let y = 24; y < h; y += 48) for (let x = (y / 48 % 2) * 24 + 12; x < w; x += 48) { g.fillStyle = 'rgba(90,110,160,.45)'; for (let k = 0; k < 5; k++) { const a = k * 1.2566; g.beginPath(); g.ellipse(x + Math.cos(a) * 5, y + Math.sin(a) * 5, 4, 2.4, a, 0, 6.3); g.fill(); } g.fillStyle = 'rgba(240,200,90,.8)'; g.beginPath(); g.arc(x, y, 2.2, 0, 6.3); g.fill(); }
       noiseFill(g, w, h, 3000, .04); }, [4, 1.4]);
   const lamp = (at, col = '#ffcf8a', I = 14, R = 9) => { const l = new THREE.PointLight(col, I, R, 1.5); l.position.copy(V(...at)); scene.add(l); glow(col, .9, .8, V(...at)); return l; };
+  /* V3 step 4 helpers: soft, irregular shapes for dressing (sandbags, duffels, cushions), built as real deformed meshes */
+  const lumpGeo = (sx, sy, sz, k = .12, sd = 1) => { const g = new THREE.SphereGeometry(1, 18, 12).toNonIndexed(), q = g.attributes.position;
+    for (let i = 0; i < q.count; i++) { const x = q.getX(i), y = q.getY(i), z = q.getZ(i), n = 1 + k * Math.sin(x * 4.1 + sd) * Math.cos(z * 3.3 + sd * 2) + k * .5 * Math.sin(y * 7 + sd);
+      q.setXYZ(i, x * sx * n, Math.max(-sy * .55, y * sy * n), z * sz * n); } g.computeVertexNormals(); return g; };
+  const lump = (name, role, geo, mat, at, rot = 0) => { const m = add(new THREE.Mesh(geo, mat), name, role); m.position.copy(V(...at)); m.rotation.y = rot; return m; };
+  const crate = (at, w, d, h, stencil, sd) => { const W = relief('wood', '#7a6444', { seed: sd }); box('supply_crate', 'wood', w, d, h, at, W);
+    for (const dz of [.12, h - .12]) box('crate_band', 'metal', w + .01, d + .01, .04, [at[0], at[1], at[2] + dz], metal('iron', '#3a3a32', { rough: .7 }));
+    if (stencil) { const t = canvasTex(256, 96, (g, ww, hh) => { g.clearRect(0, 0, ww, hh); g.fillStyle = 'rgba(30,28,20,.85)'; g.font = 'bold 40px monospace'; g.textAlign = 'center'; g.fillText(stencil, ww / 2, 62); });
+      const m = add(new THREE.Mesh(new THREE.PlaneGeometry(w * .8, h * .35), new THREE.MeshStandardMaterial({ map: t, transparent: true, alphaTest: .3, polygonOffset: true, polygonOffsetFactor: -4 })), 'crate_stencil', 'wood', { cast: false });
+      m.position.copy(V(at[0], at[1] - d / 2 - .006, at[2] + h * .55)); } };
   if (Z === 'radio') {
     room(6, 6, 3.2, '#8a8460', 'wood', '#6a5a44', { wallMat: tentCanvas, ceilMat: tentCanvas });   // inside the radio tent: canvas walls with seams, tent poles
     for (const x of [-2.9, 2.9]) cyl('tent_pole', 'wood', .06, 3.2, [x, 1.0, 0], relief('wood', '#6a5434', { seed: 103 }));
@@ -411,6 +445,30 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     lamp([.8, 1.4, 2.4], '#ffd08a', 16, 8);
     box('map_board', 'wood', 1.6, .05, 1.0, [1.4, 3.86, 1.2], std('#ffffff', { extra: { map: canvasTex(320, 200, (g, w, h) => { g.fillStyle = '#d8ccA0'; g.fillRect(0, 0, w, h); g.strokeStyle = 'rgba(90,120,80,.6)'; for (let i = 0; i < 14; i++) { g.beginPath(); g.moveTo(0, rr(0, h)); g.bezierCurveTo(w * .3, rr(0, h), w * .6, rr(0, h), w, rr(0, h)); g.stroke(); }
       g.strokeStyle = '#4a6ab0'; g.lineWidth = 6; g.beginPath(); g.moveTo(w * .7, 0); g.bezierCurveTo(w * .55, h * .4, w * .8, h * .7, w * .6, h); g.stroke(); g.fillStyle = '#2a2a24'; g.font = 'bold 14px serif'; g.fillText('SECTOR 7 - GRID 41', 10, 18); for (let i = 0; i < 7; i++) { g.fillStyle = ['#c8322c', '#2a5ab0', '#2a2a24'][i % 3]; g.beginPath(); g.arc(rr(30, w - 30), rr(30, h - 30), 4, 0, 6.3); g.fill(); } }) } }));
+    /* V3 step 4: a real signals tent - canvas roof in an A between the walls and the ridge pole, sagging between the poles; duckboard floor;
+       sandbags along the walls; stacked supply crates with stencils; battery boxes cabled to the set; a second receiver; a cot with a blanket;
+       a hanging hurricane lantern (practical light); a helmet and a musette bag; telephone wire reel; a clipboard. */
+    for (const sgn of [-1, 1]) { const g = new THREE.PlaneGeometry(6.2, 3.3, 30, 16), q = g.attributes.position;
+      for (let i = 0; i < q.count; i++) { const x = q.getX(i), y = q.getY(i); q.setZ(i, -.09 * Math.sin((y + 1.65) / 3.3 * Math.PI) * (1 - .4 * Math.abs(Math.sin(x * 1.05))) + .012 * Math.sin(x * 9 + y * 4)); }
+      g.computeVertexNormals(); const r = add(new THREE.Mesh(g, tentCanvas), 'tent_roof', 'cloth', { cast: false }); r.position.copy(V(0, 1.0 + sgn * 1.55, 2.68)); r.rotation.x = -Math.PI / 2 + sgn * .43; r.rotation.order = 'YXZ'; if (sgn > 0) r.rotation.y = Math.PI; r.material.side = THREE.DoubleSide; }
+    for (let i = 0; i < 9; i++) box('duckboard', 'wood', .5, 5.8, .04, [-2.6 + i * .62, 1.0, .005], relief('wood', '#6e5a40', { seed: 170 + i }), { cast: false });
+    const bagM = relief('cloth', '#8a7a52', { seed: 180 }), bagG = [0, 1, 2].map(k => lumpGeo(.32, .14, .2, .1, k * 1.7));
+    for (let i = 0; i < 9; i++) { lump('sandbag', 'cloth', bagG[i % 3], bagM, [-2.65 + i * .62, 3.75, .1], rr(-.15, .15)); if (i % 2 === 0) lump('sandbag', 'cloth', bagG[(i + 1) % 3], bagM, [-2.35 + i * .62, 3.72, .32], rr(-.2, .2)); }
+    for (let i = 0; i < 5; i++) lump('sandbag', 'cloth', bagG[i % 3], bagM, [2.72, 3.4 - i * .62, .1], Math.PI / 2 + rr(-.15, .15));
+    crate([2.25, 3.35, 0], .9, .6, .55, 'SIG. CORPS', 191); crate([2.25, 3.35, .56], .8, .55, .45, 'BC-610', 192); crate([1.35, 3.5, 0], .7, .5, .5, '603 ENGR', 193);
+    for (let i = 0; i < 3; i++) { box('battery_box', 'metal', .3, .22, .26, [.9 + i * .34, 2.3, .8], std('#2a2c26', { rough: .6 })); cyl('battery_post', 'metal', .02, .04, [.86 + i * .34, 2.3, 1.07], metal('brass', '#c8a24a')); }
+    { const cab = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([V(.9, 2.3, 1.08), V(.8, 2.1, 1.15), V(.55, 1.95, 1.1), V(.4, 1.85, 1.05)]), 24, .012, 6), std('#1a1a18', { rough: .7 })); add(cab, 'battery_cable', 'metal'); }
+    box('receiver_set', 'metal', .6, .38, .34, [-.25, 1.75, 1.4], metal('iron', '#4d5634', { rough: .55 })); for (let i = 0; i < 3; i++) cyl('receiver_knob', 'metal', .035, .03, [-.45 + i * .2, 1.55, 1.5], std('#151515', { rough: .4 }));
+    box('cot_frame', 'wood', .8, 2.0, .08, [-2.35, 2.6, .42], relief('wood', '#6a5434', { seed: 194 })); for (const sx of [-.35, .35]) for (const sy of [1.7, 3.5]) box('cot_leg', 'wood', .04, .04, .42, [-2.35 + sx, sy, 0], relief('wood', '#6a5434', { seed: 195 }));
+    lump('cot_blanket', 'cloth', lumpGeo(.42, .1, 1.0, .08, 3), relief('cloth', '#5a5a3e', { seed: 196 }), [-2.35, 2.6, .5]); lump('duffel_bag', 'cloth', lumpGeo(.45, .22, .25, .1, 5), relief('cloth', '#6a6444', { seed: 197 }), [-2.3, 3.6, .22], .3);
+    cyl('helmet_on_crate', 'metal', .17, .13, [1.35, 3.45, .5], metal('iron', '#4d5634', { rough: .65, rust: .2 }), { r2: .1 });
+    cyl('wire_reel', 'metal', .16, .22, [2.4, 2.0, .16], metal('iron', '#3a3a34'), { rx: Math.PI / 2 }); cyl('wire_coil', 'metal', .14, .18, [2.4, 2.0, .16], std('#2a2a22', { rough: .7 }), { rx: Math.PI / 2 });
+    box('clipboard', 'wood', .24, .02, .32, [-2.85, 1.6, 1.5], relief('wood', '#8a6a44', { seed: 198 })); box('clip_sheet', 'cloth', .2, .005, .26, [-2.84, 1.59, 1.49], std('#efe6cf'));
+    { const lan = new THREE.Group(); lan.position.copy(V(-.9, 1.0, 2.55)); scene.add(lan); lan.name = 'hurricane_lantern';
+      const fr = add(new THREE.Mesh(new THREE.CylinderGeometry(.08, .1, .26, 12, 1, true), std('#e8d8a0', { rough: .2, extra: { emissive: new THREE.Color('#ffb860'), emissiveIntensity: 1.6, transparent: true, opacity: .85 } })), 'lantern_glass', 'glass', { parent: lan, cast: false });
+      add(new THREE.Mesh(new THREE.CylinderGeometry(.05, .11, .06, 12), metal('iron', '#2a2a24')), 'lantern_cap', 'metal', { parent: lan }).position.y = .16;
+      add(new THREE.Mesh(new THREE.TorusGeometry(.06, .008, 6, 14, Math.PI), metal('iron', '#2a2a24')), 'lantern_handle', 'metal', { parent: lan }).position.y = .22;
+      const ll = new THREE.PointLight('#ffb460', 6, 6, 1.6); lan.add(ll); ups.push((f, t) => { lan.rotation.z = .04 * Math.sin(t * 1.1); ll.intensity = 6 + .5 * Math.sin(t * 13) * Math.sin(t * 3.1); }); }
     ups.push((f, t) => { key.rotation.z = (Math.sin(t * 22) > .4 ? -.08 : 0); });
     anchors = { key: [-.5, 1.4, .85], card: [-.2, 3.85, 1.85] };
   }
@@ -524,7 +582,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     { const toy = sherman('toy_tank', { at: [.5, 1.5, .01], rot: .6, scale: .07, col: '#6a7a3a' }); }
     box('wardrobe', 'wood', 1.0, .55, 1.9, [-2.1, .4, 0], BW); box('wardrobe_door_line', 'wood', .02, .01, 1.7, [-2.1, .12, .1], std('#2a1a10'));
     for (const sx of [-.75, .75]) { const cu = add(new THREE.Mesh(new THREE.PlaneGeometry(.35, 1.5, 6, 1), new THREE.MeshStandardMaterial({ color: '#e8d8b0', roughness: .9, side: THREE.DoubleSide })), 'curtain', 'cloth'); cu.position.copy(V(1.2 + sx, 2.86, 1.65)); ups.push((f, t) => { cu.rotation.y = .12 * Math.sin(t * 1.1 + sx); }); }
-    const lump = add(new THREE.Mesh(new THREE.SphereGeometry(.5, 20, 12), new THREE.MeshStandardMaterial({ map: quiltTex, roughness: .95 })), 'pillow_lump', 'cloth'); lump.scale.set(.62, .34, 1.15); lump.position.copy(V(-.8, 2.0, .66));
+    const plump = add(new THREE.Mesh(new THREE.SphereGeometry(.5, 20, 12), new THREE.MeshStandardMaterial({ map: quiltTex, roughness: .95 })), 'pillow_lump', 'cloth'); plump.scale.set(.62, .34, 1.15); plump.position.copy(V(-.8, 2.0, .66));
     { const WF = relief('wood', '#ece4d4', { seed: 132 });   // an open window: four bars round the hole, no pane
       box('window_frame', 'wood', 1.4, .14, .1, [1.2, 2.9, 1.0], WF); box('window_frame', 'wood', 1.4, .14, .1, [1.2, 2.9, 2.3], WF);
       box('window_frame', 'wood', .1, .14, 1.4, [.55, 2.9, 1.0], WF); box('window_frame', 'wood', .1, .14, 1.4, [1.85, 2.9, 1.0], WF); } box('window_sill', 'wood', 1.4, .3, .08, [1.2, 3.0, 1.06], relief('wood', '#ece4d4', { seed: 133 }));
@@ -535,7 +593,16 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     const out = new THREE.PointLight('#b8ccff', 10, 6, 1.5); out.position.copy(V(1.0, 5.2, 2.4)); scene.add(out);
     const sheets = add(new THREE.Mesh(new THREE.CylinderGeometry(.07, .07, 2.4, 8), std('#ece8de')), 'rope_of_sheets', 'cloth'); sheets.position.copy(V(1.4, 2.9, .2)); sheets.rotation.x = .25;
     const ml = new THREE.SpotLight('#a8c0ff', 30, 12, .6, .7); ml.position.copy(V(1.4, 5, 2.6)); ml.target.position.copy(V(-.8, 2.0, .5)); scene.add(ml, ml.target);
-    ups.push((f, t) => { lump.scale.y = .34 + .025 * Math.sin(t * 1.5); });
+    /* V3 step 4: the boy's room lived in - a chair with clothes, a shelf with books and a toy plane, framed pictures, a clock, slippers, a chest at the bed foot */
+    box('wall_shelf', 'wood', 1.0, .22, .03, [-2.0, 2.0 + .9, 1.55], BW); for (let i = 0; i < 7; i++) box('shelf_book', 'cloth', .05 + rnd() * .03, .17, .2 + rnd() * .06, [-2.4 + i * .085, 2.9, 1.57], std(['#7a2a24', '#2a4a6a', '#5a6a3a', '#c8a868', '#4a3a5a'][i % 5], { rough: .8 }));
+    { const pl = new THREE.Group(); pl.position.copy(V(-1.75, 2.9, 1.66)); scene.add(pl); pl.name = 'toy_plane'; const PM = std('#9aa0a6', { rough: .5 });
+      add(new THREE.Mesh(lumpGeo(.12, .025, .025, .02, 2), PM), 'toy_plane_body', 'wood', { parent: pl }); const wg = add(new THREE.Mesh(new THREE.BoxGeometry(.03, .004, .26), PM), 'toy_plane_wing', 'wood', { parent: pl }); wg.position.x = .02; }
+    for (const [x, z, w, h, c] of [[-1.6, 1.75, .3, .38, '#5a6a8a'], [-1.15, 1.85, .24, .3, '#8a6a4a']]) { box('picture_frame', 'wood', w, .025, h, [x, 3.18, z], BW); box('picture', 'cloth', w - .06, .005, h - .06, [x, 3.165, z], std(c, { rough: .7 })); }
+    cyl('wall_clock', 'wood', .14, .04, [.6, 3.18, 2.05], BW, { rx: Math.PI / 2 }); cyl('clock_face', 'cloth', .12, .005, [.6, 3.155, 2.05], std('#f0ead8'), { rx: Math.PI / 2 });
+    box('chair_seat', 'wood', .4, .4, .04, [.55, 2.3, .42], BW); for (const sx of [-.17, .17]) for (const sy of [-.17, .17]) box('chair_leg', 'wood', .03, .03, .42, [.55 + sx, 2.3 + sy, 0], BW); box('chair_back', 'wood', .4, .03, .45, [.55, 2.49, .45], BW);
+    lump('folded_clothes', 'cloth', lumpGeo(.18, .06, .14, .1, 7), std('#3a4a6a', { rough: .95 }), [.55, 2.3, .5]); lump('hung_jumper', 'cloth', lumpGeo(.2, .2, .04, .12, 8), std('#8a3a2a', { rough: .95 }), [.55, 2.52, .7]);
+    box('bed_chest', 'wood', 1.0, .4, .4, [-.8, 1.0, 0], relief('wood', '#5a3a26', { seed: 136 })); for (const sx of [-.35, .35]) lump('slipper', 'cloth', lumpGeo(.06, .03, .12, .05, sx * 9), std('#6a4a3a', { rough: .95 }), [.05 + sx * .3, 1.55, .02]);
+    ups.push((f, t) => { plump.scale.y = .34 + .025 * Math.sin(t * 1.5); });
     anchors = { bed: [-.8, 2.0, .8], window: [1.2, 2.96, 1.2] };
   }
   if (Z === 'attic') {
@@ -551,8 +618,8 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     box('ridge_beam', 'wood', 7, .3, .3, [0, 1.5, 3.25], relief('wood', '#4a3424', { seed: 149 })); for (const x of [-2.6, 2.6]) box('attic_post', 'wood', .22, .22, 3.0, [x, 3.6, 0], relief('wood', '#4a3424', { seed: 150 }));
     const trunk = box('trunk', 'wood', 1.3, .7, .65, [0, 2.0, 0], relief('wood', '#6a4630', { seed: 151 })); const lid = box('trunk_lid', 'wood', 1.3, .7, .1, [0, 2.0, .65], relief('wood', '#5a3a26', { seed: 152 }));
     box('medal_box', 'cloth', .3, .2, .08, [.9, 1.6, 0], std('#1a2a5a')); box('old_sketchbook', 'cloth', .4, .3, .05, [-.9, 1.7, 0], std('#7a5a3a'));
-    { const shaft = add(new THREE.Mesh(new THREE.CylinderGeometry(.35, 1.3, 4.6, 24, 1, true), new THREE.MeshBasicMaterial({ color: '#ffd9a0', transparent: true, opacity: .07, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending })), 'light_shaft', 'fx', { cast: false });
-      shaft.position.copy(V(-1.6, .6, 2.0)); shaft.rotation.z = .55; shaft.rotation.x = -.25; shaft.userData.noExport = true; ups.push((f, t) => { shaft.material.opacity = .065 + .01 * Math.sin(t * .7); }); }   /* the window light the dust motes float in (story bible P9) */
+    { const shaft = add(new THREE.Mesh(new THREE.CylinderGeometry(.22, .8, 4.6, 24, 1, true), new THREE.MeshBasicMaterial({ color: '#ffd9a0', transparent: true, opacity: .035, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending })), 'light_shaft', 'fx', { cast: false });
+      shaft.position.copy(V(-1.6, .6, 2.0)); shaft.rotation.z = .55; shaft.rotation.x = -.25; shaft.userData.noExport = true; ups.push((f, t) => { shaft.material.opacity = .032 + .006 * Math.sin(t * .7); });   /* V3: was .065 over a 1.3 m cone: a milky veil over the shot */ }   /* the window light the dust motes float in (story bible P9) */
     const skin = sherman('deflated_skin', { at: [0, 1.9, .55], scale: .22 }); skin.userData.set(.9, .85);
     scene.add(new THREE.HemisphereLight('#ffe2b8', '#4a3424', 1.6)); const sun = new THREE.SpotLight('#ffd9a0', 40, 16, .55, .6); sun.position.copy(V(-3, -1, 4)); sun.target.position.copy(V(0, 2, 0)); scene.add(sun, sun.target);
     const motes = []; for (let i = 0; i < 40; i++) motes.push(glow('#ffe6b0', rr(.03, .07), .6, V(rr(-2, 1), rr(0, 3), rr(.5, 3))));

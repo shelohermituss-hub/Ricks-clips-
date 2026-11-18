@@ -141,7 +141,7 @@ places = {}
 for name, light, extra in (('field', 'morning', {}), ('camp', 'day', {}), ('road', 'night', {}), ('radio', 'interior', {}), ('cafe', 'interior', {}), ('photo', 'interior', dict(light_over=dict(sun='#cfe0ff', tint='#dfe8ff'))), ('river', 'night', {}), ('bedroom', 'night', {}), ('attic', 'golden', {})):
     places[name] = dict(set='ghost', zone=name, light=light, backdrop=8 if name in ('radio', 'cafe', 'photo', 'bedroom', 'attic') else 40, events=LAMP_EV.get(name, {}), **extra)
 # v1 note 7: particles only where the place has a reason for them (dawn pollen, lamp-lit dust, the attic's sunbeam), none outside at night or in the cold photo room
-DUST = dict(field=.3, camp=0, road=0, radio=.35, cafe=.25, photo=0, river=0, bedroom=0, attic=1.0)
+DUST = dict(field=.3, camp=0, road=0, radio=.35, cafe=.25, photo=0, river=0, bedroom=0, attic=.3)   # V3: attic 1.0 -> .3 (the milky veil)
 for name in places: places[name]['post'] = dict(dust=DUST[name])
 # v1 note 2: night stays night but the foreground reads (kit light preset lifted: moon key and blue fill)
 for name in ('road', 'river', 'bedroom'): places[name].setdefault('light_over', {}).update(si=2.0, ai=2.3, amb='#5a6ca8', hor='#33447a')
