@@ -157,7 +157,7 @@
    "gate": "F_PREVIEW_REVIEW",
    "check": "timecoded_issues_logged",
    "status": "PASS",
-   "evidence": "9 issues, 4 open"
+   "evidence": "14 issues, 9 open"
   },
   {
    "gate": "F_PREVIEW_REVIEW",

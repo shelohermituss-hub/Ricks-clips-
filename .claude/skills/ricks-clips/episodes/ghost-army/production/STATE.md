@@ -22,5 +22,9 @@ three.js keeps only the character drawings. Ghost Army is the migration target; 
 ## Quality numbers (V3 graded vs fortress, 05:32)
 edge 0.060 (>= 0.075 FAIL), saturation-seconds 8 (FAIL), motion 12.9 (>= 18 FAIL), peaks 5.47/10 s (FAIL); luma, crushed, burned, saturation, still frames PASS.
 
+## Mission 1 (foundations) — done 2026-11-18, report docs/MISSION_1_FONDATIONS_RAPPORT.md
+blender/rc: cache, library (10 assets), qa, geo, assemble, render, cli; card drawing cache; scene-gates; blender_pod.sh (NOT RUN on a pod).
+Tests: test_rc 15/15, test_pod_guard 13/13, test_production_intelligence 11/11.
+
 ## Next
-Mission 1 foundations (blender/rc package, cache, asset library, QA stats, scene assembly, card service cache, render manager, gates, tests), then Mission 2 prototype (field + destruction test; GPU render needs CB approval).
+Mission 2 prototype on the field (sequence ~150 frames) + destruction test (dozer vs cart); GPU benchmark/render needs CB approval.

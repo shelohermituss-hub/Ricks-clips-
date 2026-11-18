@@ -148,3 +148,14 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Evidence:** 
 - **Regression check:** 
 
+## PI-015 — Two renders of the same Blender frame gave different sha256 although the pictures were the [validated, medium]
+
+- **Where:** pipeline render
+- **Root cause:** Cycles writes its timings (total_time, render_time) as PNG text chunks; the OIDN denoiser keeps state between renders of one process.
+- **Fix:** rc.render strips PNG text chunks after each write and turns stamps off; determinism is tested without denoise (bit-identical) and the denoise tolerance is 1/255.
+- **Files:** blender/rc/render.py, tools/tests/test_rc.py
+- **Tests:** tools/tests/test_rc.py: determinism frame alone == frame after frame 0 (sha256 equal)
+- **Evidence:** tools/tests/test_rc.py
+- **Regression check:** 3 repeated pairs bit-identical on a fresh scene (2026-11-18)
+
+  - history: 2026-11-18: tested -> validated

@@ -352,6 +352,34 @@
     "regression_check": ""
    },
    "status": "tested"
+  },
+  {
+   "id": "PI-015",
+   "date": "2026-11-18",
+   "episode": "pipeline",
+   "shot_timecode": "render",
+   "severity": "medium",
+   "problem": "Two renders of the same Blender frame gave different sha256 although the pictures were the same; with the denoiser on, a frame rendered after another differed by 1/255 on 0.7 % of pixels.",
+   "root_cause": "Cycles writes its timings (total_time, render_time) as PNG text chunks; the OIDN denoiser keeps state between renders of one process.",
+   "fix": "rc.render strips PNG text chunks after each write and turns stamps off; determinism is tested without denoise (bit-identical) and the denoise tolerance is 1/255.",
+   "files_changed": [
+    "blender/rc/render.py",
+    "tools/tests/test_rc.py"
+   ],
+   "verification": {
+    "tests": [
+     "tools/tests/test_rc.py: determinism frame alone == frame after frame 0 (sha256 equal)"
+    ],
+    "before_after_evidence": [
+     "tools/tests/test_rc.py"
+    ],
+    "regression_check": "3 repeated pairs bit-identical on a fresh scene (2026-11-18)"
+   },
+   "status": "validated",
+   "history": [
+    "2026-11-18: tested -> validated"
+   ],
+   "promote_global": true
   }
  ]
 }

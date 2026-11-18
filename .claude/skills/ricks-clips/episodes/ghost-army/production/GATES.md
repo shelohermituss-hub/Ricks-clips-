@@ -27,7 +27,7 @@
 | E_VFX_AUDIO | set_modules_no_swallowed_code | **PASS** | lint_set_modules: 0 suspicious comment(s) in 1 file(s) |
 | F_PREVIEW_REVIEW | contact_sheet_created | **PASS** | 1 sheets |
 | F_PREVIEW_REVIEW | continuous_clips_inspected | **PASS** | 5 strips |
-| F_PREVIEW_REVIEW | timecoded_issues_logged | **PASS** | 9 issues, 4 open |
+| F_PREVIEW_REVIEW | timecoded_issues_logged | **PASS** | 14 issues, 9 open |
 | F_PREVIEW_REVIEW | reference_standard_compared | **FAIL** | ghost_army_preview_v3_graded.mp4 (2026-11-18): FAIL ['edge_detail', 'saturation_seconds_over_max', 'motion_median_x1000', 'peaks_per_10s']; WARN ['hard_cuts'] |
 | F_PREVIEW_REVIEW | fixes_rerendered | **PASS** | 4 fixed, 4 with after-render evidence |
 | G_FINAL_DELIVERY | no_hero_placeholders | **FAIL** | Real tanks at the crossing: 73 parts, 5712 tris, 96% primitive generators, 72 textured mats -> primitive assembly / below hero detail; Farmer's and boy's bicycles: flat 2D library prop, not a 3D asset; Inflatable Sherman (hero decoy): 35 parts, 85548 tris, 6% primitive generators, 6 textured mats [modelled asset]; Sound half-track with horn speaker: 22 parts, 17460 tris, 59% primitive generators,  |

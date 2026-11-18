@@ -26,7 +26,7 @@ API = "https://api.runpod.io/graphql"
 REPO = "https://github.com/shelohermituss-hub/Ricks-clips-.git"
 SKILL = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 PODS = os.path.expanduser(os.environ.get("RICKCLIPS_PODS_DIR", "~/.ricksclips/pods"))
-EXPECT = {"lookdev_pod.sh": ["lock.tar", "lock.json"], "render_pod.sh": ["final.mp4"], "gpu_diag.sh": []}
+EXPECT = {"lookdev_pod.sh": ["lock.tar", "lock.json"], "render_pod.sh": ["final.mp4"], "gpu_diag.sh": [], "blender_pod.sh": ["cycles_devices.txt", "gpu_usage.csv"]}
 
 def gql(q, v=None):
     req = urllib.request.Request(API, json.dumps({"query": q, "variables": v or {}}).encode(), {"content-type": "application/json", "Authorization": "Bearer " + os.environ.get("RUNPOD_API_KEY", "proxy-injected")})
