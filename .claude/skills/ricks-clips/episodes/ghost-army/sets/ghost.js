@@ -245,6 +245,12 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
      meadow(): dense curved grass clumps up to the lens (5 tapered blades per clump, dark base -> light tip, wind in the vertex shader)
      instead of the kit's thin 3-blade tufts that read as green sticks. farLandscape(): a ring of rolling hills out to 480 m with a
      patchwork of fields in several tints, dark hedgerow lines, copses, farms and a church spire, fading into the place's haze. */
+  /* V3.1 (lock fix 2026-11-18): remove instances that fail a plan-space test by packing the kept ones and lowering im.count.
+     Zero-scale matrices decompose to NaN rotations, which the glTF exporter wrote into the lock and Blender refused to import. */
+  const dropInstances = (im, drop) => { if (!im || !im.isInstancedMesh) return im; const M4 = new THREE.Matrix4(), q = new THREE.Vector3(), C = new THREE.Color(); let k = 0;
+    for (let i = 0; i < im.count; i++) { im.getMatrixAt(i, M4); q.setFromMatrixPosition(M4); const x = im.position.x + q.x, y = -(im.position.z + q.z); if (drop(x, y)) continue;
+      if (k !== i) { im.setMatrixAt(k, M4); if (im.instanceColor) { im.getColorAt(i, C); im.setColorAt(k, C); } } k++; }
+    im.count = k; im.instanceMatrix.needsUpdate = true; if (im.instanceColor) im.instanceColor.needsUpdate = true; return im; };
   const windT = { value: 0 }; ups.push((f) => { windT.value = f / 30; });
   function meadow(o = {}) {
     const blades = o.blades || 5, segs = 3, pos = [], col = [], idx = []; let vi = 0;
@@ -310,8 +316,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
         for (let k = 0; k <= 24; k++) { const u = k / 24, q = a.clone().lerp(c, u); q.y -= .55 * 4 * u * (1 - u); pts.push(q); }
         add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 48, .012, 5), WIRE), 'power_line', 'metal', { cast: false }); } }
     const offRoad = (x, y) => Math.abs(x + 7) < 2.8 || Math.hypot(x - 5, y + 3.6) < 4.5 || Math.hypot(x + 3.4, y + 6.6) < 3;   // the dirt road and the lens of the low hook camera stay clear
-    const clearBand = (im) => { if (!im || !im.isInstancedMesh) return; const M4 = new THREE.Matrix4(), Z0 = new THREE.Matrix4().makeScale(0, 0, 0), q = new THREE.Vector3();
-      for (let i = 0; i < im.count; i++) { im.getMatrixAt(i, M4); q.setFromMatrixPosition(M4); const x = im.position.x + q.x, y = -(im.position.z + q.z); if (offRoad(x, y)) im.setMatrixAt(i, Z0); } im.instanceMatrix.needsUpdate = true; };
+    const clearBand = (im) => dropInstances(im, (x, y) => offRoad(x, y));   /* V3.1: kept instances are packed and the count lowered (zero-scale ones exported NaN rotations into the lock GLB) */
     if (ctx.detail) { clearBand(meadow({ name: 'meadow_near', at: [2, 4], radius: 20, count: 5200, height: .42, patchy: true })); clearBand(meadow({ name: 'meadow_mid', at: [0, 32], radius: 46, count: 5200, height: .55, patchy: true }));   /* V3 step 3: dense curved grass (was kit tufts reading as sticks) */ clearBand(ctx.detail.rocks({ at: [-6, 8, 0], count: 40, radius: 18, size: .14, seed: 74 })); }
     { const fl = new THREE.InstancedMesh(new THREE.SphereGeometry(.035, 6, 4), new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: .8 }), 500), M4 = new THREE.Matrix4(), C = new THREE.Color();   // wild flowers: buttercups, daisies, clover
       for (let i = 0; i < 500; i++) { let a = rr(0, 6.3), r = rr(2, 30); while (offRoad(Math.cos(a) * r, 6 + Math.sin(a) * r)) { a = rr(0, 6.3); r = rr(2, 30); } M4.makeTranslation(...V(Math.cos(a) * r, 6 + Math.sin(a) * r, rr(.12, .3)).toArray()); fl.setMatrixAt(i, M4); fl.setColorAt(i, C.set(['#f2d23a', '#f4f1e6', '#d98ab0', '#f4f1e6'][i % 4])); }
@@ -390,8 +395,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
       rg.setAttribute('position', new THREE.BufferAttribute(rp, 3)); const rain = new THREE.LineSegments(rg, new THREE.LineBasicMaterial({ color: '#a9b8e6', transparent: true, opacity: .32, depthWrite: false })); rain.frustumCulled = false; rain.name = 'rain'; rain.userData.noExport = true; scene.add(rain);
       for (const yy of [-2, 16, 34]) { cyl('road_lamp_post', 'metal', .05, 4.2, [3.0, yy, 0], metal('iron', '#2a2a26', { rough: .6 })); box('road_lamp_arm', 'metal', .8, .06, .06, [2.65, yy, 4.15], metal('iron', '#2a2a26'));
         const pl = new THREE.PointLight('#ffc070', 10, 11, 1.6); pl.position.copy(V(2.3, yy, 3.95)); scene.add(pl); glow('#ffc890', .55, .85, V(2.3, yy, 3.98)); }
-      for (const sd of [-1, 1]) { const im = meadow({ name: 'verge_grass', at: [sd * 9, 20], radius: 28, count: 3000, height: .45, tints: ['#c8d0d8', '#b8c4cc', '#d4dccc'] }), M4 = new THREE.Matrix4(), Z0 = new THREE.Matrix4().makeScale(0, 0, 0), q = new THREE.Vector3();
-        for (let i = 0; i < im.count; i++) { im.getMatrixAt(i, M4); q.setFromMatrixPosition(M4); if (Math.abs(q.x) < 2.9) im.setMatrixAt(i, Z0); } im.instanceMatrix.needsUpdate = true; }   /* verges only: the cobbles stay clear */
+      for (const sd of [-1, 1]) dropInstances(meadow({ name: 'verge_grass', at: [sd * 9, 20], radius: 28, count: 3000, height: .45, tints: ['#c8d0d8', '#b8c4cc', '#d4dccc'] }), (x) => Math.abs(x) < 2.9);   /* verges only: the cobbles stay clear */
       ups.push((f, t) => { for (let i = 0; i < NR; i++) { const [x, y, z0, sp] = seedP[i]; const z = ((z0 - t * 11 * sp) % 14 + 14) % 14, j = i * 6; rp[j] = x; rp[j + 1] = z; rp[j + 2] = -y; rp[j + 3] = x - .06; rp[j + 4] = z + .55 * sp; rp[j + 5] = -y; } rg.attributes.position.needsUpdate = true;
         rip.forEach(r => { const q = (t * .9 + r.userData.o) % 1; r.position.copy(r.userData.p.position); r.position.y += .01; r.position.x += Math.sin(r.userData.o * 40) * .4; r.scale.setScalar(.05 + q * .35); r.material.opacity = .5 * (1 - q); }); }); }
     const ht = halftrack('sound_halftrack', [0, 6, 0], -Math.PI / 2); { const wl = new THREE.PointLight('#ffcf8a', 14, 9, 1.6); wl.position.copy(V(1.6, 6.2, 3.3)); scene.add(wl); glow('#ffcf8a', .5, .8, V(1.6, 6.2, 3.3)); cyl('ht_lamp_post', 'metal', .03, 1.2, [1.6, 6.2, 2.1], metal('iron', '#3a3a34')); }   /* the operator's hooded lamp: the vehicle reads at night */
