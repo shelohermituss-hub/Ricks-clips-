@@ -1,0 +1,140 @@
+{
+ "video": "/tmp/claude-0/proto/v3_0_150.mp4",
+ "frames": 151,
+ "seconds": 5.03,
+ "per_second": [
+  {
+   "t": 0,
+   "luma": 0.299,
+   "sat": 0.797,
+   "crushed": 0.0345,
+   "burned": 0.001,
+   "motion": 7.27,
+   "edge": 0.0532
+  },
+  {
+   "t": 1,
+   "luma": 0.298,
+   "sat": 0.783,
+   "crushed": 0.0364,
+   "burned": 0.0013,
+   "motion": 8.31,
+   "edge": 0.0523
+  },
+  {
+   "t": 2,
+   "luma": 0.299,
+   "sat": 0.781,
+   "crushed": 0.0371,
+   "burned": 0.0013,
+   "motion": 18.64,
+   "edge": 0.0538
+  },
+  {
+   "t": 3,
+   "luma": 0.316,
+   "sat": 0.76,
+   "crushed": 0.0236,
+   "burned": 0.0012,
+   "motion": 16.7,
+   "edge": 0.0554
+  },
+  {
+   "t": 4,
+   "luma": 0.29,
+   "sat": 0.77,
+   "crushed": 0.0171,
+   "burned": 0.0014,
+   "motion": 33.97,
+   "edge": 0.0407
+  },
+  {
+   "t": 5,
+   "luma": 0.277,
+   "sat": 0.756,
+   "crushed": 0.0122,
+   "burned": 0.0025,
+   "motion": 7.14,
+   "edge": 0.0421
+  }
+ ],
+ "hard_cuts": [],
+ "peaks": [
+  4.0,
+  4.6
+ ],
+ "overall": {
+  "luma": 0.3,
+  "saturation": 0.778,
+  "contrast": 0.171,
+  "crushed": 0.0296,
+  "burned": 0.0012,
+  "motion_median_x1000": 8.78,
+  "still_frames_pct": 0.7,
+  "edge_detail": 0.051,
+  "hard_cuts": 0,
+  "peaks_per_10s": 3.97
+ },
+ "compare": [
+  {
+   "metric": "edge_detail",
+   "value": 0.051,
+   "target": ">= 0.075 (ref 0.095)",
+   "status": "FAIL"
+  },
+  {
+   "metric": "luma_day",
+   "value": 0.296,
+   "target": "0.36-0.5",
+   "status": "FAIL"
+  },
+  {
+   "metric": "crushed",
+   "value": 0.0296,
+   "target": "<= 0.01",
+   "status": "FAIL"
+  },
+  {
+   "metric": "burned",
+   "value": 0.0012,
+   "target": "<= 0.015",
+   "status": "PASS"
+  },
+  {
+   "metric": "saturation",
+   "value": 0.778,
+   "target": "0.32-0.52 (ref 0.4)",
+   "status": "FAIL"
+  },
+  {
+   "metric": "saturation_seconds_over_max",
+   "value": 6,
+   "target": "0 s above 0.6 (seconds: [0, 1, 2, 3, 4, 5])",
+   "status": "FAIL"
+  },
+  {
+   "metric": "still_frames_pct",
+   "value": 0.7,
+   "target": "<= 2.0",
+   "status": "PASS"
+  },
+  {
+   "metric": "motion_median_x1000",
+   "value": 8.78,
+   "target": ">= 18.0 (ref 35.8)",
+   "status": "FAIL"
+  },
+  {
+   "metric": "peaks_per_10s",
+   "value": 3.97,
+   "target": ">= 6.0 (ref 10.47)",
+   "status": "FAIL"
+  },
+  {
+   "metric": "hard_cuts",
+   "value": 0,
+   "target": "0 unless listed as deliberate in DECISIONS.md (at [] s)",
+   "status": "PASS"
+  }
+ ]
+}

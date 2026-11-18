@@ -1,0 +1,31 @@
+{
+ "stats_file": "/tmp/claude-0/proto/field_stats.json",
+ "gates": [
+  {
+   "check": "objects_bounded",
+   "status": "PASS",
+   "evidence": "68 objects (max 3000)"
+  },
+  {
+   "check": "repeats_instanced",
+   "status": "PASS",
+   "evidence": "instance ratio 0.997 of 17970 drawn"
+  },
+  {
+   "check": "no_primitive_stand_ins",
+   "status": "PASS",
+   "evidence": "0 primitive-like of 18 meshes (ratio 0.000; 12 character cards counted apart)"
+  },
+  {
+   "check": "materials_textured",
+   "status": "PASS",
+   "evidence": "61/61 textured (min 85 %)"
+  }
+ ],
+ "totals": {
+  "PASS": 4,
+  "WARN": 0,
+  "FAIL": 0,
+  "NOT_RUN": 0
+ }
+}

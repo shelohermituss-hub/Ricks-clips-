@@ -26,5 +26,10 @@ edge 0.060 (>= 0.075 FAIL), saturation-seconds 8 (FAIL), motion 12.9 (>= 18 FAIL
 blender/rc: cache, library (10 assets), qa, geo, assemble, render, cli; card drawing cache; scene-gates; blender_pod.sh (NOT RUN on a pod).
 Tests: test_rc 15/15, test_pod_guard 13/13, test_production_intelligence 11/11.
 
+## Mission 2 (prototype) — 2026-11-18, report docs/MISSION_2_PROTOTYPE_RAPPORT.md, evidence production/PROTO_M2/
+Field (f0-150) and destruction test rendered in Blender (Cycles CPU 270x480). Gates 4/4 PASS; fortress compare 6/10 vs 3/10 for V3 on the
+same frames (edge 0.078 PASS for the first time); frame-order independence proven on both scenes. Open: physics release pop, lane shot
+bushes, grade not applied, sky clouds. GPU render + EEVEE/Cycles benchmark NOT RUN (job look/jobs/101_proto_gpu.sh ready, needs CB approval).
+
 ## Next
-Mission 2 prototype on the field (sequence ~150 frames) + destruction test (dozer vs cart); GPU benchmark/render needs CB approval.
+CB decision on the GPU job 101 (cost cap), then fix the P2 defects, then Mission 3 (migrate the other places).

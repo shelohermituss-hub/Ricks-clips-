@@ -1,0 +1,22 @@
+{
+ "engine": "CYCLES",
+ "res": [
+  135,
+  240
+ ],
+ "samples": 16,
+ "device": "CPU",
+ "devices": {
+  "compute_device_type": "NONE",
+  "gpus": []
+ },
+ "frames": [
+  {
+   "f": 30,
+   "seconds": 2.685,
+   "sha256": "ed4049921efdd1f650a99d79c85557ef68e21909043b891b2432de00eb54424f"
+  }
+ ],
+ "blend": "/tmp/claude-0/proto/field_env.blend",
+ "blender": "5.2.2 LTS"
+}

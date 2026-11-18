@@ -1,0 +1,66 @@
+{
+ "objects": 68,
+ "mesh_objects": 50,
+ "mesh_datablocks": 50,
+ "tris": 31872,
+ "instancer_objects": 20,
+ "character_card_objects": 12,
+ "primitive_like_objects": 0,
+ "primitive_ratio": 0.0,
+ "primitive_tris_ratio": 0.0,
+ "materials": 61,
+ "textured_materials": 61,
+ "dims_m": [
+  240.0,
+  260.0,
+  4.705
+ ],
+ "largest_meshes": [
+  [
+   "terrain",
+   {
+    "verts": 14641,
+    "tris": 28800
+   }
+  ],
+  [
+   "lane",
+   {
+    "verts": 1005,
+    "tris": 1600
+   }
+  ],
+  [
+   "setdown_puff_00",
+   {
+    "verts": 42,
+    "tris": 80
+   }
+  ],
+  [
+   "setdown_puff_01",
+   {
+    "verts": 42,
+    "tris": 80
+   }
+  ],
+  [
+   "setdown_puff_02",
+   {
+    "verts": 42,
+    "tris": 80
+   }
+  ]
+ ],
+ "untextured_material_names": [],
+ "instances_drawn": 17920,
+ "instanced_tris": 101772573,
+ "total_tris_drawn": 101804445,
+ "by_type": {
+  "MESH": 50,
+  "EMPTY": 15,
+  "CAMERA": 1,
+  "LIGHT": 2
+ },
+ "instance_ratio": 0.9972
+}

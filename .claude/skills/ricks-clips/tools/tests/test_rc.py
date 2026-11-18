@@ -67,6 +67,14 @@ def test_scene_gates(blend, tmp):
     r = subprocess.run([sys.executable, os.path.join(SKILL, "tools", "production_controller.py"), "scene-gates", os.path.join(tmp, "stats.json")], capture_output=True, text=True)
     t("gates: scene gates read measured stats (instanced untextured assets must FAIL materials_textured)", "FAIL     materials_textured" in r.stdout and "PASS     repeats_instanced" in r.stdout, r.stdout.strip().splitlines()[-1] if r.stdout else r.stderr[-300:])
 
+def test_physics(tmp):
+    place = os.path.join(SKILL, "episodes", "ghost-army", "places", "field_crash_test", "place.json")
+    rc, res, log = blender("assemble", place, os.path.join(tmp, "crash.blend"))
+    ph = (res or {}).get("physics", [{}])[0]
+    t("physics: prepared destruction (fracture + breakable joints) bakes to keys", rc == 0 and ph.get("pieces", 0) >= 40 and ph.get("joints", 0) >= 100, json.dumps({k: ph.get(k) for k in ("pieces", "joints", "pieces_moved_after_release")}))
+    tr = ph.get("track", {}); mv = [v["moved_m"] for v in tr.values()]
+    t("physics: the cart is pushed by the striker, no piece thrown absurdly far (< 8 m)", bool(mv) and min(mv) > 1.0 and max(mv) < 8.0, json.dumps({k: v["moved_m"] for k, v in tr.items()}))
+
 def test_card_cache(tmp):
     ep = os.path.join(SKILL, "episodes", "ghost-army"); node = shutil.which("node")
     if not node: t("cards: cache", False, "node missing"); return
@@ -82,6 +90,7 @@ if __name__ == "__main__":
     try:
         test_cache(); test_library(); b = test_blender_scene(tmp)
         if b: test_determinism(b, tmp); test_gpu_required(b, tmp); test_scene_gates(b, tmp)
+        test_physics(tmp)
         if "--no-cards" not in sys.argv: test_card_cache(tmp)
     finally: shutil.rmtree(tmp, ignore_errors=True)
     n = sum(ok for _, ok in RES); print("%d/%d PASS" % (n, len(RES))); sys.exit(0 if n == len(RES) else 1)
