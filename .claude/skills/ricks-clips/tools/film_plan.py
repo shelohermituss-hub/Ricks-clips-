@@ -77,8 +77,10 @@ def _catmull(pts, u):
     p0, p1, p2, p3 = pts[max(0, i - 1)], pts[i], pts[i + 1], pts[min(n, i + 2)]
     return [0.5 * ((2 * p1[c]) + (-p0[c] + p2[c]) * t + (2 * p0[c] - 5 * p1[c] + 4 * p2[c] - p3[c]) * t * t + (-p0[c] + 3 * p1[c] - 3 * p2[c] + p3[c]) * t ** 3) for c in range(3)]
 
+LIFE = dict(rest_mult=1.0, push=None)   # film.json "camera_life": {"rest_mult": k, "push": p}; set per film by camera_segments (kit 2026-11-18, V3)
 def camera_segments(F, tv_fix=None):
     """Resolve every station to frames: arrive (at rest from here), depart (travel starts), and the travel into it."""
+    LIFE.update(rest_mult=float((F.get("camera_life") or {}).get("rest_mult", 1.0)), push=(F.get("camera_life") or {}).get("push"))
     tv_fix = tv_fix or {}
     takes = []
     for ti, tk in enumerate(F["takes"]):
@@ -112,9 +114,9 @@ def _rest_motion(s, prev, first):
     "ends": true = pos and aim are where the rest ENDS, not where it starts; "loop": true = it ends on the film's first frame."""
     if s.get("loop"): s["pos"] = list(first.get("_pos0", first["pos"])); s["aim"] = list(first.get("_aim0", first["aim"])); s["lens"] = first.get("lens", D["lens"]); s["ends"] = True
     s["_pos0"] = list(s["pos"]); s["_aim0"] = list(s["aim"])
-    v = vsub(s["aim"], s["pos"]); d = max(0.3, vlen(v)); far = s["_far"]; want = REST_PX.get(s.get("framing", "W"), 1.4)
+    v = vsub(s["aim"], s["pos"]); d = max(0.3, vlen(v)); far = s["_far"]; want = REST_PX.get(s.get("framing", "W"), 1.4) * LIFE["rest_mult"]
     own = "creep" in s or "drift" in s
-    s["_creep"] = s["creep"] if "creep" in s else PUSH
+    s["_creep"] = s["creep"] if "creep" in s else (LIFE["push"] if LIFE["push"] is not None else PUSH)
     if "drift" in s: s["_slide"] = vmul(s["drift"], 1.0 / FPS); s["_slide_aim"] = s.get("drift_aim", 0.0)
     elif own: s["_slide"] = [0.0, 0.0, 0.0]; s["_slide_aim"] = 0.0
     else:
@@ -173,6 +175,12 @@ def _bake(F, tv_fix=None):
                 pos = _catmull([p0] + [list(v) for v in nx.get("via", [])] + [nx["pos"]], u); aim = vlerp(a0, nx["aim"], u)
                 lens = math.exp(math.log(l0) + (math.log(nx.get("lens", D["lens"])) - math.log(l0)) * u)        # zoom feels even in log focal length
                 roll = s.get("roll", 0.0) + (nx.get("roll", 0.0) - s.get("roll", 0.0)) * u + nx.get("travel_roll", 0.0) * math.sin(math.pi * u) ** 2   # dutch only inside the move, back to level on landing
+            jn = int(tk.get("join_frames", 9))                                                                     # kit 2026-11-18 (V3): push-through joins between takes
+            if tk.get("join_out") == "push" and f > tk["_f1"] - jn:
+                k = ((f - (tk["_f1"] - jn)) / float(jn)) ** 2; pos = vadd(pos, vmul(vsub(aim, pos), float(tk.get("join_k", .3)) * k))
+            ji = int(tk.get("join_in_frames", jn))
+            if tk.get("join_in") == "push" and f < tk["_f0"] + ji and f > 0:
+                k = (1 - (f - tk["_f0"]) / float(ji)) ** 2; pos = vsub(pos, vmul(vsub(aim, pos), .9 * float(tk.get("join_k", .3)) * k))
             for kf, amp in kicks:                                                                                  # impact kick: flips sign every frame, gone in 7
                 if 0 <= f - kf < 7: roll += amp * (1 - (f - kf) / 7.0) * (1 if (f - kf) % 2 == 0 else -1); aim = vadd(aim, [0, 0, 0.012 * amp * (1 - (f - kf) / 7.0) * (1 if (f - kf) % 2 == 0 else -1)])
             kicked = any(0 <= f - kf < 8 for kf, amp in kicks)

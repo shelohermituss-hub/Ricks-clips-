@@ -18,37 +18,39 @@ takes = [
    St(['suitcase', 1], [5.2, -2.6, 1.6], [1.6, 1.6, 1.5], lens=30, framing='M', lead=3, hold=0.3, travel=1.6),
    St(['bicycles', 1], [-2.2, -6.6, 1.3], [-7.2, -3.6, 1.0], subj='farmer', lead=3, hold=0.3, travel=1.0),
    St(['winks', 1], [4.2, -1.8, 1.45], [3.2, 0.5, 1.4], lens=35, framing='C', lead=3, hold=0.4, travel=1.0, **C),
-   St(['rubber', 1], [1.6, -0.8, 1.9], [-1.3, 3.0, 1.5], lens=28, framing='O', lead=3, travel=0.9, **C)]),
- dict(id='t_camp', place='camp', stations=[
-   St(['painters', 1], [-7.6, -7.4, 3.2], [-2.0, 6.0, 1.0], framing='P', lead=4, hold=0.3),
+   # V3 step 7: macro insert on the brass valve while the decoy sighs down (valve_air_whistle on 'rubber'); plan = the valve on the rear deck
+   St(['rubber', 1], [-2.75, 4.05, 2.85], [-1.96, 5.19, 2.12], lens=50, framing='O', lead=3, travel=0.9, **C)], join_out='push'),
+ dict(id='t_camp', place='camp', join_in='push', join_in_frames=3, stations=[
+   St(['painters', 1], [-7.6, -7.4, 3.2], [-2.0, 6.0, 1.0], framing='P', lead=9, hold=0.3),
    St(['job', 1], [2.8, -4.4, 1.5], [1.0, -1.4, 1.3], framing='M', lead=3, hold=0.3, travel=1.4),
    St(['rule', 1], [-0.6, -2.2, 1.3], [-2.2, 2.4, 1.1], lead=3, hold=0.2, travel=1.2),
    St(['close', 1], [-5.6, 8.6, 1.5], [-4.0, 12.0, 1.4], framing='O', subj='carrier_short', lead=3, travel=0.8, **C),
    St(['army', 2], [-6.0, -30.0, 12.0], [-4.0, 14.0, 0.5], framing='P', lead=3, hold=0.2, travel=1.4, drift=[0.12, 0.08, 0.0]),
    St(['bulldozer', 1], [19.5, -12.0, 3.0], [12.0, -3.5, 0.8], framing='P', lead=3, travel=1.4)]),
- dict(id='t_road', place='road', stations=[
+ dict(id='t_road', place='road', join_out='push', stations=[
    St(['night', 1], [-1.2, -2.4, 1.4], [1.4, 4.2, 1.5], subj='sound_op', lead=4, hold=0.3),
    St(['hundred', 1], [-7.0, -9.0, 2.4], [-5.0, 22.0, 2.0], subj='sound_op', framing='P', lead=6, hold=0.3, travel=0.8, drift=[0.12, 0.08, 0.0]),
    St(['speaker', 1], [3.0, 3.6, 3.3], [0.0, 7.2, 2.7], subj='sound_op', framing='O', lead=3, travel=1.0, **C)]),
- dict(id='t_radio', place='radio', stations=[
-   St(['radio', 1], [1.8, -1.6, 1.7], [-0.2, 1.2, 1.1], subj='radio_op', framing='M', lead=4, hold=0.3),
+ dict(id='t_radio', place='radio', join_in='push', join_in_frames=3, join_out='push', stations=[
+   St(['radio', 1], [1.8, -1.6, 1.7], [-0.2, 1.2, 1.1], subj='radio_op', framing='M', lead=9, hold=0.3),
    St(['morse', 1], [-2.0, -1.2, 1.7], [-0.3, 0.85, 1.15], subj='radio_op', framing='O', lead=3, travel=0.9, **C)]),
- dict(id='t_cafe', place='cafe', stations=[
-   St(['café', 1], [-1.2, -1.6, 1.7], [1.2, 3.8, 1.3], lead=4, hold=0.3),
+ dict(id='t_cafe', place='cafe', join_in='push', join_in_frames=3, stations=[
+   St(['café', 1], [-1.2, -1.6, 1.7], [1.2, 3.8, 1.3], lead=9, hold=0.3),
    St(['patches', 1], [0.6, 1.6, 1.5], [1.4, 3.6, 1.2], framing='M', lead=3, hold=0.2, travel=0.9),
    St(['spies', 1], [-1.0, -0.2, 1.4], [-2.6, 1.6, 1.1], subj='spy', framing='M', lead=3, hold=0.2, travel=0.9),
    ]),
  # v1 note 3: the travel from the spy to the sergeant swept past Lou, cut by the right edge, and the sergeant arrived late. Now a cut lands on him on "sergeant".
  dict(id='t_sergeant', place='cafe', stations=[
    St(['sergeant', 1], [3.2, 0.9, 1.6], [4.0, 3.4, 1.4], subj='sergeant', framing='C', lens=30, lead=2, **C)]),
- dict(id='t_river', place='river', stations=[
+ dict(id='t_river', place='river', join_out='push', stations=[
    St(['river', 1], [-22.6, -0.4, 1.6], [-19.6, 4.6, 1.2], lead=4, hold=0.3),
    St(['hundred', 2], [-36.0, 6.0, 5.0], [-25.0, 28.0, 0.5], framing='P', lead=3, travel=1.6)]),
- dict(id='t_photo', place='photo', stations=[
-   St(['photographs', 1], [-1.4, -1.6, 1.8], [0.1, 1.2, 1.1], subj='interpreter', framing='M', lead=4, hold=0.3),
+ dict(id='t_photo', place='photo', join_in='push', join_in_frames=3, stations=[
+   # V3 step 7: open on the aerial photographs under the loupe (macro), then pull to the interpreter on 'spies'
+   St(['photographs', 1], [0.75, 0.95, 1.75], [0.05, 1.6, 0.93], lens=45, subj='interpreter', framing='O', lead=9, hold=0.3),
    St(['spies', 2], [1.9, -1.3, 1.6], [-0.1, 1.0, 1.1], subj='interpreter', framing='M', lead=3, travel=0.8)]),
  dict(id='t_strike', place='river', stations=[
-   St(['gun', 1], [-34.0, 10.0, 4.0], [-26.0, 26.0, 1.0], framing='P', lead=6, hold=0.0),
+   St(['gun', 1], [-34.0, 10.0, 4.0], [-26.0, 26.0, 1.0], framing='P', lead=6, hold=0.15),
    # THE SIGNATURE (story bible): one crane from the shelled decoy field, rising and swinging north to the silent crossing
    St(['crosses', 1], [48.0, 22.0, 7.0], [60.0, 44.0, 0.5], subj='sergeant', framing='P', lead=3, hold=0.2, travel=3.2, via=[[-14.0, 4.0, 22.0], [24.0, 6.0, 20.0]]),
    St(['fired', 1], [55.2, 40.4, 1.3], [57.0, 44.0, 1.5], subj='sergeant', framing='C', lead=3, travel=0.9, **C)]),
@@ -150,17 +152,31 @@ film = dict(title='THE GHOST ARMY', fps=30, size=[1080, 1920], end=END, kit3d=Tr
   cast={c: dict(puppet='cast:' + c, height=h, heads_tall=ht) for c, h, ht in (('lou', 1.78, 2.9), ('carrier_tall', 1.9, 3.0), ('carrier_stocky', 1.72, 2.8), ('carrier_short', 1.65, 2.8), ('farmer', 1.7, 2.9), ('boy', 1.2, 2.3), ('sergeant', 1.75, 2.8), ('sound_op', 1.76, 2.9), ('radio_op', 1.8, 2.9), ('spy', 1.82, 3.0), ('waitress', 1.62, 2.8), ('interpreter', 1.78, 2.9), ('grandchild', 1.25, 2.3), ('old_lou', 1.72, 2.9))},
   places=places, props=dict(tank=dict(pos=[0, 4, 1.5]), lantern=dict(pos=[0, 0, 0])), takes=takes, acts=A, sentences=sents,
   kicks=[dict(at=['balloons', 2, 3], amp=0.3)],
+  # V3 step 9: the 'hit' fx on balloons#2 and its flash_white mood are retired: the layered 3D bursts carry the impact (no white-out)
   fx=[dict(at=['suitcase', 1], kind='knock', pos=[0.3, 3.6, 2.4]), dict(at=['strong', 1], kind='glint', pos=[3.0, 1.3, 1.6]), dict(at=['rubber', 1, 4], kind='steam', pos=[-1.9, 3.2, 2.2]),
       dict(at=['track', 1], kind='dust', pos=[12.0, 0.0, 0.3]), dict(at=['hundred', 1], kind='ring', pos=[0.0, 7.2, 2.75]), dict(at=['morse', 1], kind='spark', pos=[-0.5, 1.4, 0.9]),
       dict(at=['patches', 1], kind='glint', pos=[1.15, 3.45, 0.95]), dict(at=['spies', 1], kind='glint', pos=[-2.6, 1.4, 1.6]), 
-      dict(at=['photographs', 1], kind='glint', pos=[0.25, 1.5, 0.95]), dict(at=['balloons', 2], kind='hit', pos=[-30.0, 26.0, 2.0], size=2), dict(at=['years', 1], kind='glint', pos=[0.4, 1.6, 1.8])],
+      dict(at=['photographs', 1], kind='glint', pos=[0.25, 1.5, 0.95]), dict(at=['years', 1], kind='glint', pos=[0.4, 1.6, 1.8])],
   moods=[dict(at=['tank', 1], look='warm_gold'), dict(at=['rubber', 1], look='spot_dark'), dict(at=['painters', 1], look='warm_up'), dict(at=['nobody', 1], look='dark'), dict(at=['far', 1], look='warm_gold'),
          dict(at=['night', 1], look='cold_blue'), dict(at=['hundred', 1], look='cold_blue'), dict(at=['radio', 1], look='warm_up'), dict(at=['café', 1], look='warm_gold'), dict(at=['carnival', 1], look='spot_dark'),
-         dict(at=['river', 1], look='cold_blue'), dict(at=['south', 1], look='dark'), dict(at=['photographs', 1], look='cold_blue'), dict(at=['balloons', 2], look='flash_white'), dict(at=['crosses', 1], look='cold_blue'),
+         dict(at=['river', 1], look='cold_blue'), dict(at=['south', 1], look='dark'), dict(at=['photographs', 1], look='cold_blue'), dict(at=['balloons', 2], look='warm_up'), dict(at=['crosses', 1], look='cold_blue'),
          dict(at=['pillow-under-the-blanket', 1], look='cold_blue'), dict(at=['families', 1], look='warm_up'), dict(at=['years', 1], look='warm_gold')],
   sound=[dict(at=['suitcase', 1], name='rubber_thump'), dict(at=['bicycles', 1], name='bike_brakes_skid'), dict(at=['rubber', 1], name='valve_air_whistle'), dict(at=['bulldozer', 1], name='dozer_engine'),
          dict(at=['hundred', 1], name='tank_column_playback'), dict(at=['morse', 1], name='morse_beeps'), dict(at=['café', 1], name='cafe_room_accordion'), dict(at=['laughs', 1], name='sergeant_laugh'),
          dict(at=['hundred', 2], name='inflation_wave'), dict(at=['balloons', 2], name='shell_whistle_impacts'), dict(at=['crosses', 1], name='river_silence_paddles'), dict(at=['years', 1], name='music_box_attic')],
+  # V3 steps 7-8 (2026-11-18): a camera that never parks (rest drift x2.6, gentle push) and joins without unmotivated hard cuts.
+  # joins: how each take is entered (by the incoming take). 'dissolve' = n-frame blend in the edit (edit/joins.py); 'cut' = kept on purpose, with the reason.
+  camera_life=dict(rest_mult=1.0, push=0.0015),
+  joins=[dict(take='t_camp', kind='dissolve', frames=4, why='push-through from the deflating valve into the camp'),
+         dict(take='t_road', kind='dissolve', frames=6, why='day to night: a slower blend marks the time jump'),
+         dict(take='t_radio', kind='dissolve', frames=3, why='push into the horn, push out of the radio: the sound carries the join'),
+         dict(take='t_cafe', kind='dissolve', frames=4, why='push-through from the radio to the cafe'),
+         dict(take='t_sergeant', kind='cut', frames=0, why='deliberate comic cut on "sergeant" (v1 note 3: the travel cut Lou by the edge); same room'),
+         dict(take='t_river', kind='dissolve', frames=5, why='cafe to the river at night'),
+         dict(take='t_photo', kind='dissolve', frames=3, why='push-through: the decoy field becomes the enemy photograph'),
+         dict(take='t_strike', kind='cut', frames=0, why='deliberate shock cut: "every gun" lands on the shelling'),
+         dict(take='t_bed', kind='dissolve', frames=6, why='place and mood change: the shelling to the quiet bedroom'),
+         dict(take='t_attic', kind='dissolve', frames=6, why='decades later: the time jump to the attic')],
   tween=dict(ones=True, face_frames=0, move_blend=6), motion_polish=dict(enabled=True, head_follow=0.14, hand_follow=0.08, breath=0.55, breath_rate=2.15, auto_blink=True))
 json.dump(film, open(os.path.join(EP, 'film.json'), 'w'), indent=1, ensure_ascii=False)
 print('film.json written: end', END, 'frames,', len(takes), 'takes,', sum(len(t['stations']) for t in takes), 'stations,', len(A), 'acts')

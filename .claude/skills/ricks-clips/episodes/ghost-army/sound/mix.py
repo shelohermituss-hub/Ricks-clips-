@@ -55,8 +55,10 @@ def bed(kind, d):
         thr = lp(colored(ns(d), R, 1.5), 120) * (.8 + .2 * np.sin(2 * np.pi * 24 * np.arange(ns(d)) / SR))
         x = breeze(d, R, level=.6, gust=.2)[:, :ns(d)] + .5 * pan(hiss * .4, -.4) + .5 * pan(thr, .3) + .5 * np.vstack([bird_chirps(d, R, .3, "sparrow")] * 2)[:, :ns(d)]
         return norm_to(x, -30.0, "integrated")
-    if kind == "road":    # moonlit night: crickets, poplars in the wind
-        x = np.vstack([crickets(d, R, 4), crickets(d, R, 3)])[:, :ns(d)] * .6 + breeze(d, R, level=.6, gust=.3, bright=600)[:, :ns(d)]
+    if kind == "road":    # moonlit night: poplars in the wind; V3: steady rain on wet cobbles (hiss + random drips), fewer crickets
+        n = ns(d); rain = bp(colored(n, R, .1), 2500, 9000, 1) * (.7 + .3 * smooth_noise(n, R, .8))
+        drips = np.zeros(n); idx = R.integers(0, n, int(d * 60)); drips[idx] = R.uniform(.2, 1, idx.size); drips = bp(np.convolve(drips, np.exp(-np.arange(int(.01 * SR)) / (.002 * SR)), "same"), 1800, 7000, 1)
+        x = np.vstack([crickets(d, R, 4), crickets(d, R, 3)])[:, :ns(d)] * .3 + breeze(d, R, level=.6, gust=.3, bright=600)[:, :ns(d)] + .9 * pan(rain, -.2) + .9 * pan(np.roll(rain, 4410), .2) + .5 * pan(drips, .1)
         return norm_to(x, -31.0, "integrated")
     if kind in ("radio", "photo"):   # interior room tone, lamp hum
         n = ns(d); t = np.arange(n) / SR

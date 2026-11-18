@@ -336,27 +336,30 @@
       1
      ],
      "pos": [
-      1.6,
-      -0.8,
-      1.9
+      -2.75,
+      4.05,
+      2.85
      ],
      "aim": [
-      -1.3,
-      3.0,
-      1.5
+      -1.96,
+      5.19,
+      2.12
      ],
-     "lens": 28,
+     "lens": 50,
      "subject": "lou",
      "framing": "O",
      "lead": 3,
      "travel": 0.9,
      "dof": 0.35
     }
-   ]
+   ],
+   "join_out": "push"
   },
   {
    "id": "t_camp",
    "place": "camp",
+   "join_in": "push",
+   "join_in_frames": 3,
    "stations": [
     {
      "at": [
@@ -376,7 +379,7 @@
      "lens": 24,
      "subject": "lou",
      "framing": "P",
-     "lead": 4,
+     "lead": 9,
      "hold": 0.3
     },
     {
@@ -498,6 +501,7 @@
   {
    "id": "t_road",
    "place": "road",
+   "join_out": "push",
    "stations": [
     {
      "at": [
@@ -574,6 +578,9 @@
   {
    "id": "t_radio",
    "place": "radio",
+   "join_in": "push",
+   "join_in_frames": 3,
+   "join_out": "push",
    "stations": [
     {
      "at": [
@@ -593,7 +600,7 @@
      "lens": 24,
      "subject": "radio_op",
      "framing": "M",
-     "lead": 4,
+     "lead": 9,
      "hold": 0.3
     },
     {
@@ -623,6 +630,8 @@
   {
    "id": "t_cafe",
    "place": "cafe",
+   "join_in": "push",
+   "join_in_frames": 3,
    "stations": [
     {
      "at": [
@@ -642,7 +651,7 @@
      "lens": 40,
      "subject": "lou",
      "framing": "W",
-     "lead": 4,
+     "lead": 9,
      "hold": 0.3
     },
     {
@@ -721,6 +730,7 @@
   {
    "id": "t_river",
    "place": "river",
+   "join_out": "push",
    "stations": [
     {
      "at": [
@@ -769,6 +779,8 @@
   {
    "id": "t_photo",
    "place": "photo",
+   "join_in": "push",
+   "join_in_frames": 3,
    "stations": [
     {
      "at": [
@@ -776,19 +788,19 @@
       1
      ],
      "pos": [
-      -1.4,
-      -1.6,
-      1.8
+      0.75,
+      0.95,
+      1.75
      ],
      "aim": [
-      0.1,
-      1.2,
-      1.1
+      0.05,
+      1.6,
+      0.93
      ],
-     "lens": 24,
+     "lens": 45,
      "subject": "interpreter",
-     "framing": "M",
-     "lead": 4,
+     "framing": "O",
+     "lead": 9,
      "hold": 0.3
     },
     {
@@ -837,7 +849,7 @@
      "subject": "lou",
      "framing": "P",
      "lead": 6,
-     "hold": 0.0
+     "hold": 0.15
     },
     {
      "at": [
@@ -2206,19 +2218,6 @@
   },
   {
    "at": [
-    "balloons",
-    2
-   ],
-   "kind": "hit",
-   "pos": [
-    -30.0,
-    26.0,
-    2.0
-   ],
-   "size": 2
-  },
-  {
-   "at": [
     "years",
     1
    ],
@@ -2327,7 +2326,7 @@
     "balloons",
     2
    ],
-   "look": "flash_white"
+   "look": "warm_up"
   },
   {
    "at": [
@@ -2442,6 +2441,72 @@
     1
    ],
    "name": "music_box_attic"
+  }
+ ],
+ "camera_life": {
+  "rest_mult": 1.0,
+  "push": 0.0015
+ },
+ "joins": [
+  {
+   "take": "t_camp",
+   "kind": "dissolve",
+   "frames": 4,
+   "why": "push-through from the deflating valve into the camp"
+  },
+  {
+   "take": "t_road",
+   "kind": "dissolve",
+   "frames": 6,
+   "why": "day to night: a slower blend marks the time jump"
+  },
+  {
+   "take": "t_radio",
+   "kind": "dissolve",
+   "frames": 3,
+   "why": "push into the horn, push out of the radio: the sound carries the join"
+  },
+  {
+   "take": "t_cafe",
+   "kind": "dissolve",
+   "frames": 4,
+   "why": "push-through from the radio to the cafe"
+  },
+  {
+   "take": "t_sergeant",
+   "kind": "cut",
+   "frames": 0,
+   "why": "deliberate comic cut on \"sergeant\" (v1 note 3: the travel cut Lou by the edge); same room"
+  },
+  {
+   "take": "t_river",
+   "kind": "dissolve",
+   "frames": 5,
+   "why": "cafe to the river at night"
+  },
+  {
+   "take": "t_photo",
+   "kind": "dissolve",
+   "frames": 3,
+   "why": "push-through: the decoy field becomes the enemy photograph"
+  },
+  {
+   "take": "t_strike",
+   "kind": "cut",
+   "frames": 0,
+   "why": "deliberate shock cut: \"every gun\" lands on the shelling"
+  },
+  {
+   "take": "t_bed",
+   "kind": "dissolve",
+   "frames": 6,
+   "why": "place and mood change: the shelling to the quiet bedroom"
+  },
+  {
+   "take": "t_attic",
+   "kind": "dissolve",
+   "frames": 6,
+   "why": "decades later: the time jump to the attic"
   }
  ],
  "tween": {

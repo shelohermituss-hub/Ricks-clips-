@@ -2,42 +2,42 @@
  "duration_s": 71.233,
  "sample_rate": 48000,
  "channels": 2,
- "integrated_lufs": -15.02,
+ "integrated_lufs": -14.97,
  "true_peak_dbtp": -1.0,
  "voice_lufs": -16.0,
  "cues": [
   {
    "t": 0.0,
    "name": "bed_field",
-   "until": 10.6
+   "until": 10.43
   },
   {
-   "t": 10.6,
+   "t": 10.43,
    "name": "bed_camp",
    "until": 26.43
   },
   {
    "t": 26.43,
    "name": "bed_road",
-   "until": 34.0
+   "until": 33.83
   },
   {
-   "t": 34.0,
+   "t": 33.83,
    "name": "bed_radio",
-   "until": 38.7
+   "until": 38.53
   },
   {
-   "t": 38.7,
+   "t": 38.53,
    "name": "bed_cafe",
    "until": 46.67
   },
   {
    "t": 46.67,
    "name": "bed_river",
-   "until": 52.7
+   "until": 52.53
   },
   {
-   "t": 52.7,
+   "t": 52.53,
    "name": "bed_photo",
    "until": 55.67
   },

@@ -52,7 +52,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     const hull = body.getObjectByName('hull_bladder'); body.updateMatrixWorld(true);
     // painted markings, laid on the real surface with a ray (they follow the inflated bulge)
     const decal = (tex, w, h, from, dir, nm) => { ray.set(new THREE.Vector3(...from), new THREE.Vector3(...dir).normalize()); const hit = ray.intersectObject(hull, false)[0]; if (!hit) return null;
-      const m = add(new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshStandardMaterial({ map: tex, transparent: true, alphaTest: .4, roughness: .6, polygonOffset: true, polygonOffsetFactor: -4 })), nm, 'cloth', { parent: g, cast: false });
+      const m = add(new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshStandardMaterial({ map: tex, color: '#d6d0bc', transparent: true, alphaTest: .4, roughness: .75, polygonOffset: true, polygonOffsetFactor: -4 })), nm, 'cloth', { parent: g, cast: false });   /* painted off-white, never bloom-hot */
       const nrm = hit.face.normal.clone().transformDirection(hull.matrixWorld); m.position.copy(hit.point).addScaledVector(nrm, .012); m.lookAt(hit.point.clone().addScaledVector(nrm, 1)); return m; };
     for (const s of [-1, 1]) decal(starTex, .8, .8, [-.75, 1.42, s * 3], [0, 0, -s], 'tank_star');
     decal(stencilTex[Math.floor(VR * stencilTex.length) % stencilTex.length], .9, .26, [5, 1.3, -.45], [-1, -.35, 0], 'tank_stencil');
@@ -540,8 +540,51 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     const rb = riv.geometry.attributes.position.array.slice();
     // the decoy field: rows of inflatable tanks (south)
     const decoys = decoyField('decoy_tank', -46, 18, 7, 4, 7, 8, { nets: 0, gaps: .1 });   /* V3 step 2 (was a 4x7 grid of clones) */
+    /* ---- V3 steps 9-10 (2026-11-18): a LAYERED stylised burst, purely visual fiction (no weapon parameters): an incoming glowing trail,
+       a brief flash (no white disc), a billowing fire envelope that cools from yellow to dark red, a smoke column that rises and spreads into a
+       mushroom cap and drifts away, sparks and clods on ballistic arcs, the light on the set that flares and decays, and a scorch that stays. */
+    const puffTex = canvasTex(128, 128, (g, w) => { for (let i = 0; i < 9; i++) { const x = w / 2 + rr(-18, 18), y = w / 2 + rr(-18, 18), r = rr(22, 40), gr = g.createRadialGradient(x, y, 0, x, y, r);
+        gr.addColorStop(0, 'rgba(255,255,255,.55)'); gr.addColorStop(.6, 'rgba(255,255,255,.25)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); }
+      const im = g.getImageData(0, 0, w, w); for (let i = 0; i < im.data.length; i += 4) im.data[i + 3] *= .75 + .25 * Math.random(); g.putImageData(im, 0, 0); });
+    const FIRE = ['#fff4c0', '#ffd060', '#ff9a30', '#e05a1a', '#8a2a10'].map(c => new THREE.Color(c)), SMOKE0 = new THREE.Color('#5a3a26'), SMOKE1 = new THREE.Color('#4a4a4e');
+    const scorchTex = canvasTex(128, 128, (g, w) => { const gr = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2); gr.addColorStop(0, 'rgba(14,10,8,.9)'); gr.addColorStop(.6, 'rgba(24,18,12,.6)'); gr.addColorStop(1, 'rgba(30,24,16,0)'); g.fillStyle = gr; g.fillRect(0, 0, w, w); });
+    function layeredBurst(P) {
+      const sprite = (col, blend) => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: puffTex, color: col, transparent: true, opacity: 0, depthWrite: false, blending: blend || THREE.NormalBlending, rotation: rr(0, 6.3) })); s.userData.noExport = true; s.scale.setScalar(1e-4); scene.add(s); return s; };
+      const fire = Array.from({ length: 16 }, () => ({ s: sprite('#ffd060', THREE.AdditiveBlending), d: new THREE.Vector3(rr(-1, 1), rr(.2, 1.2), rr(-1, 1)).normalize(), sp: rr(.6, 1.2), sz: rr(1.4, 2.6) }));
+      const smoke = Array.from({ length: 22 }, (_, i) => ({ s: sprite('#5a4a3a'), h: i / 22, a: rr(0, 6.3), r: rr(.2, 1), sz: rr(2.2, 3.6), dl: rr(0, 6) }));
+      const flash = sprite('#fff6d8', THREE.AdditiveBlending);
+      const NS = 40, sg = new THREE.BufferGeometry(), sv = new Float32Array(NS * 3), vel = Array.from({ length: NS }, () => new THREE.Vector3(rr(-7, 7), rr(6, 15), rr(-7, 7)));
+      sg.setAttribute('position', new THREE.BufferAttribute(sv, 3)); const sparks = new THREE.Points(sg, new THREE.PointsMaterial({ color: '#ffc070', size: .22, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
+      sparks.frustumCulled = false; sparks.userData.noExport = true; scene.add(sparks);
+      const scorch = add(new THREE.Mesh(new THREE.CircleGeometry(3.2, 24), new THREE.MeshBasicMaterial({ map: scorchTex, transparent: true, opacity: 0, depthWrite: false })), 'scorch_mark', 'fx', { cast: false });
+      scorch.rotation.x = -Math.PI / 2; scorch.position.set(P.x, .03, P.z); scorch.userData.noExport = true;
+      const tg = new THREE.BufferGeometry(), tv = new Float32Array(8 * 3); tg.setAttribute('position', new THREE.BufferAttribute(tv, 3));
+      const trail = new THREE.Line(tg, new THREE.LineBasicMaterial({ color: '#ffd9a0', transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending })); trail.frustumCulled = false; trail.userData.noExport = true; scene.add(trail);
+      const from = new THREE.Vector3(P.x + 40, 34, P.z - 70), arc = (u) => new THREE.Vector3().lerpVectors(from, P, u).add(new THREE.Vector3(0, 10 * Math.sin(Math.PI * u), 0));
+      return { fire, smoke, flash, sparks, scorch, trail, update(a, light) {   /* a = frames since impact */
+        // incoming trail: the 10 frames before impact, a short glowing streak running down its arc
+        const u = (a + 10) / 10; trail.material.opacity = u > 0 && u < 1 ? .9 : 0; if (u > 0 && u < 1) { for (let k = 0; k < 8; k++) { const q = arc(Math.max(0, u - k * .025)); tv[k * 3] = q.x; tv[k * 3 + 1] = q.y; tv[k * 3 + 2] = q.z; } tg.attributes.position.needsUpdate = true; }
+        // flash: 3 frames, small and warm
+        const fl = a >= 0 && a < 4 ? 1 - a / 4 : 0; flash.position.set(P.x, P.y + 1, P.z); flash.scale.setScalar(fl ? 3 + 2 * (1 - fl) : 1e-4); flash.material.opacity = .85 * fl;
+        // fire envelope: puffs billow out and up, cooling yellow -> orange -> dark red, gone by 1.3 s
+        for (const F of fire) { const t = a / 40; if (a < 0 || t > 1) { F.s.scale.setScalar(1e-4); F.s.material.opacity = 0; continue; }
+          const e = 1 - Math.pow(1 - Math.min(1, t * 2.2), 3); F.s.position.set(P.x + F.d.x * 3.2 * e * F.sp, P.y + .6 + F.d.y * 3.6 * e * F.sp + 2.5 * t, P.z + F.d.z * 3.2 * e * F.sp);
+          F.s.scale.setScalar(F.sz * (.6 + 1.8 * e)); const ci = Math.min(FIRE.length - 1.001, t * (FIRE.length - 1)); F.s.material.color.copy(FIRE[Math.floor(ci)]).lerp(FIRE[Math.ceil(ci)], ci % 1); F.s.material.opacity = .8 * (1 - t) * Math.min(1, a / 2); }
+        // smoke: a column that rises and spreads into a cap, lit warm from below at first, then grey; it drifts with the wind and thins out over 4 s
+        for (const S of smoke) { const t = (a - 4 - S.dl) / 120; if (t <= 0 || t > 1) { S.s.scale.setScalar(1e-4); S.s.material.opacity = 0; continue; }
+          const rise = 9 * (1 - Math.pow(1 - Math.min(1, t * 1.6), 2)) * (.35 + .65 * S.h), cap = S.h > .6 ? 2.6 * Math.min(1, t * 2) : .6 * t, drift = 3.5 * t;
+          S.s.position.set(P.x + Math.cos(S.a) * (S.r + cap) + drift, P.y + 1 + rise, P.z + Math.sin(S.a) * (S.r + cap) * .7);
+          S.s.scale.setScalar(S.sz * (.7 + 1.6 * Math.min(1, t * 2)) * (S.h > .6 ? 1.25 : 1)); S.s.material.color.copy(SMOKE0).lerp(SMOKE1, Math.min(1, t * 3)); S.s.material.opacity = .62 * Math.min(1, t * 8) * (1 - t); }
+        // sparks: ballistic, fading
+        const ts = a / 30; sparks.material.opacity = a >= 0 && ts < 1.2 ? .95 * (1 - ts / 1.2) : 0;
+        if (a >= 0 && ts < 1.2) { for (let k = 0; k < NS; k++) { sv[k * 3] = P.x + vel[k].x * ts; sv[k * 3 + 1] = Math.max(.05, P.y + .5 + vel[k].y * ts - 9.8 * ts * ts); sv[k * 3 + 2] = P.z + vel[k].z * ts; } sg.attributes.position.needsUpdate = true; }
+        // the scorch stays (aftermath)
+        scorch.material.opacity = a > 2 ? Math.min(.85, (a - 2) / 6) : 0;
+        // light on the set: flare, flicker, decay over a second
+        if (light) light.intensity = a >= 0 && a < 34 ? 70 * Math.exp(-a / 9) * (.85 + .15 * Math.sin(a * 2.3)) : 0; } };
+    }
     // shell bursts on the decoys from EV.shell on: flashes + tanks thrown and deflating
-    const bursts = []; for (let i = 0; i < 10; i++) { const b = glow('#ffb060', 6, 0, V(-42 + (i * 23) % 40, 20 + (i * 7) % 22, 1)); const l = new THREE.PointLight('#ffa040', 0, 40, 1.6); l.position.copy(b.position); scene.add(l); const fb = add(new THREE.Mesh(new THREE.SphereGeometry(1, 16, 10), basic('#fff2c0', { transparent: true, depthWrite: false })), 'shell_fireball', 'fx', { cast: false }); fb.position.copy(b.position); fb.userData.noExport = true; const ob = add(new THREE.Mesh(new THREE.IcosahedronGeometry(1, 1), basic('#ff7a2a', { transparent: true, depthWrite: false })), 'shell_fire_outer', 'fx', { cast: false }); ob.position.copy(b.position); const sk = []; for (let j = 0; j < 5; j++) { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: '#6a6660', transparent: true, opacity: .75, depthWrite: false })); sp.userData.noExport = true; sp.userData.off = [rr(-1.5, 1.5), rr(0, 2), rr(-1.5, 1.5)]; scene.add(sp); sk.push(sp); }   /* soft smoke puffs */ const clods = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(.32, 0), std('#3a2e22', { rough: 1 }), 14); clods.userData.noExport = true; add(clods, 'shell_debris', 'fx', { cast: false }); const cv = Array.from({ length: 14 }, () => [rr(-5, 5), rr(7, 13), rr(-5, 5)]); bursts.push({ clods, cv, b, l, fb, ob, sk, f0: (EV.shell || 0) + i * 8, d: decoys[(i * 5) % decoys.length] }); }   // the barrage keeps falling while the crane rises
+    const bursts = []; for (let i = 0; i < 10; i++) { const b = glow('#ffb060', 6, 0, V(-42 + (i * 23) % 40, 20 + (i * 7) % 22, 1)); const l = new THREE.PointLight('#ffa040', 0, 40, 1.6); l.position.copy(b.position); scene.add(l); const fb = add(new THREE.Mesh(new THREE.SphereGeometry(1, 16, 10), basic('#fff2c0', { transparent: true, depthWrite: false })), 'shell_fireball', 'fx', { cast: false }); fb.position.copy(b.position); fb.userData.noExport = true; const ob = add(new THREE.Mesh(new THREE.IcosahedronGeometry(1, 1), basic('#ff7a2a', { transparent: true, depthWrite: false })), 'shell_fire_outer', 'fx', { cast: false }); ob.position.copy(b.position); const sk = []; for (let j = 0; j < 5; j++) { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: '#6a6660', transparent: true, opacity: .75, depthWrite: false })); sp.userData.noExport = true; sp.userData.off = [rr(-1.5, 1.5), rr(0, 2), rr(-1.5, 1.5)]; scene.add(sp); sk.push(sp); }   /* soft smoke puffs */ const clods = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(.32, 0), std('#3a2e22', { rough: 1 }), 14); clods.userData.noExport = true; add(clods, 'shell_debris', 'fx', { cast: false }); const cv = Array.from({ length: 14 }, () => [rr(-5, 5), rr(7, 13), rr(-5, 5)]); bursts.push({ clods, cv, b, l, fb, ob, sk, f0: (EV.shell || 0) + i * 8, d: decoys[(i * 5) % decoys.length], L: layeredBurst(b.position.clone()) }); }   // the barrage keeps falling while the crane rises (V3: + the layered burst)
     // the real crossing (north): pontoon bridge and real (metal) tanks rolling across
     box('assault_boat', 'wood', 1.6, 3.2, .45, [57.0, 44.0, .15], relief('wood', '#4a4a36', { seed: 160 }));
     { const rip = []; for (let i = 0; i < 10; i++) { const r_ = add(new THREE.Mesh(new THREE.RingGeometry(.92, 1.0, 48), new THREE.MeshBasicMaterial({ color: '#dfe8f4', transparent: true, opacity: 0, depthWrite: false })), 'water_ripple', 'water', { cast: false }); r_.rotation.x = -Math.PI / 2; r_.userData.c = i < 4 ? [57.0, 44.0] : [60 + (i % 2 ? 1.5 : -1.5), 37 + (i - 4) * 6]; r_.userData.ph = i * .37; rip.push(r_); }
@@ -560,6 +603,8 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
         B.b.material.opacity = .4 * on; B.b.scale.setScalar(5 + 6 * Math.max(0, Math.min(1, k))); B.l.intensity = 60 * on; const kk = Math.max(0, Math.min(1, k)); B.fb.scale.setScalar(on > .02 ? (1.2 + 2.2 * kk) * Math.sqrt(on) : 1e-4); B.ob.scale.setScalar(on > .02 ? (2.4 + 4.6 * kk) : 1e-4); B.fb.material.opacity = Math.min(1, on * 1.3); B.ob.material.opacity = .8 * on;   /* a hot core inside a fading orange shell, not a solid ball */ B.ob.position.y = B.b.position.y + 1.2 * kk;
         const sm_ = (f - B.f0) / 60; B.sk.forEach(sp => { const o = sp.userData.off; sp.position.set(B.b.position.x + o[0] * (1 + sm_), B.b.position.y + 1.5 + o[1] + 5 * Math.max(0, sm_), B.b.position.z + o[2] * (1 + sm_)); sp.scale.setScalar(sm_ > .1 && sm_ < 1.8 ? 4 + 6 * Math.min(1, sm_) : 1e-4); sp.material.opacity = .7 * Math.max(0, 1 - sm_ / 1.8); });   // smoke rises after the flash
         B.fb.material.color.set(on > .5 ? '#fff0b0' : '#ff9a40');
+        /* V3 step 9: the old sphere fireball, orange shell, wide glow disc and round smoke puffs are retired; the layered burst draws the event */
+        B.fb.visible = B.ob.visible = false; B.b.material.opacity = 0; B.sk.forEach(sp => { sp.visible = false; }); B.L.update(f - B.f0, B.l);
         { const ts = (f - B.f0) / 30, M4 = new THREE.Matrix4(); for (let j = 0; j < 14; j++) { const v_ = B.cv[j], live = ts > 0 && ts < 2.2; const x = B.b.position.x + v_[0] * ts, y = Math.max(.1, B.b.position.y - 1 + v_[1] * ts - 4.9 * ts * ts), z = B.b.position.z + v_[2] * ts;
           M4.makeScale(live ? 1 : 1e-4, live ? 1 : 1e-4, live ? 1 : 1e-4).setPosition(x, y, z); B.clods.setMatrixAt(j, M4); } B.clods.instanceMatrix.needsUpdate = true; }   /* debris: earth thrown up and falling back */
         if (k > 0) { const q = Math.min(1, k * 1.5); B.d.userData.set(.8 * q, .6 * q); B.d.position.y = Math.max(0, Math.sin(Math.min(1, k) * Math.PI) * 4); B.d.rotation.z = q * .6; } }

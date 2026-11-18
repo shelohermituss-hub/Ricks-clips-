@@ -12,16 +12,16 @@ from PIL import Image
 EP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 G = os.path.join(EP, "grade", "grade.json")
 #            target mean, saturation, contrast, gains (r, g, b), vignette
-LOOK = {
-    "field":   dict(mean=.44, sat=.92, con=.10, gain=(1.04, 1.00, .94), vig=.10),   # dawn: a touch warm
-    "camp":    dict(mean=.45, sat=.86, con=.08, gain=(1.00, 1.00, .98), vig=.10),   # overcast day: neutral
-    "road":    dict(mean=.27, sat=.80, con=.06, gain=(.92, 1.00, 1.10), vig=.16),   # moonlit night: blue, readable
-    "radio":   dict(mean=.40, sat=.70, con=.10, gain=(1.00, .98, .94), vig=.14),   # warm lamp, not orange
-    "cafe":    dict(mean=.44, sat=.72, con=.08, gain=(1.00, .98, .95), vig=.12),
-    "photo":   dict(mean=.34, sat=.80, con=.10, gain=(.94, 1.00, 1.08), vig=.14),   # the enemy's cold room
-    "river":   dict(mean=.28, sat=.70, con=.06, gain=(.94, 1.00, 1.08), vig=.14),
-    "bedroom": dict(mean=.32, sat=.90, con=.06, gain=(.96, .98, 1.06), vig=.14),
-    "attic":   dict(mean=.36, sat=.62, con=.08, gain=(1.00, .98, .95), vig=.12),   # golden afternoon, today
+LOOK = {   # V3 step 6 (2026-11-18): saturation lowered about 17 % per place toward the fortress standard (0.40-0.50 overall); exposure targets kept
+    "field":   dict(mean=.44, sat=.76, con=.10, gain=(1.04, 1.00, .94), vig=.10),   # dawn: a touch warm
+    "camp":    dict(mean=.45, sat=.72, con=.08, gain=(1.00, 1.00, .98), vig=.10),   # overcast day: neutral
+    "road":    dict(mean=.28, sat=.66, con=.06, gain=(.92, 1.00, 1.10), vig=.16),   # moonlit night: blue, readable
+    "radio":   dict(mean=.40, sat=.58, con=.10, gain=(1.00, .98, .94), vig=.14),   # warm lamp, not orange
+    "cafe":    dict(mean=.44, sat=.60, con=.08, gain=(1.00, .98, .95), vig=.12),
+    "photo":   dict(mean=.34, sat=.66, con=.10, gain=(.94, 1.00, 1.08), vig=.14),   # the enemy's cold room
+    "river":   dict(mean=.29, sat=.60, con=.06, gain=(.94, 1.00, 1.08), vig=.14),
+    "bedroom": dict(mean=.32, sat=.75, con=.06, gain=(.96, .98, 1.06), vig=.14),
+    "attic":   dict(mean=.38, sat=.55, con=.08, gain=(1.00, .98, .95), vig=.12),   # golden afternoon, today
 }
 LUMA = np.array([.2126, .7152, .0722], np.float32)
 
