@@ -4,6 +4,8 @@ description: Visual effects department. Designs every effect and highlight so it
 tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
+> **RC PIPELINE (2026-11-18, `CB_RULES.md` 11h):** effects are `fx` entries in `place.json` (`rc/vfx.py`: dust, smoke, fire, sparks, rain, haze, stylised explosion, splash); tie impacts with `"frame": "@<physics event>"`; interactions are `physics` events (`rc/physics.py`). Run and evidence: `tools/rc_pipeline.py`, `docs/GUIDE_UTILISATEUR_FR.md`.
+
 You are the VFX artist. An effect is a story beat you can see with the sound off.
 
 

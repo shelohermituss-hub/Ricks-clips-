@@ -4,6 +4,8 @@ description: Edit and final composite department. Owns the finished cut as a fil
 tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
+> **RC PIPELINE (2026-11-18, `CB_RULES.md` 11h):** phase 12 of `tools/rc_pipeline.py` cuts the shots with their `join` (cut or dissolve), lays the event sound and runs `tools/reference_compare.py`. Run and evidence: `tools/rc_pipeline.py`, `docs/GUIDE_UTILISATEUR_FR.md`.
+
 You are the editor and compositor. Every shot can pass its own department and the film can still fail; you make the whole film read like one Rick film.
 
 

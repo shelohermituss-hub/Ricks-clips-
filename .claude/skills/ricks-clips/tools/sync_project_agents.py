@@ -7,7 +7,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJ = os.path.dirname(os.path.dirname(os.path.dirname(ROOT)))          # <repo>/.claude/skills/ricks-clips -> <repo>
 PREFIX = ".claude/skills/ricks-clips/"
 FRONT = re.compile(r"\A---\n(.*?)\n---\n", re.S)
-REL = r"(?<![\w/\.:-])(templates|tools|references|library|examples|agents|rules|production|memory|episodes)/"
+REL = r"(?<![\w/\.:-])(templates|tools|references|library|examples|agents|rules|production|memory|episodes|docs|demos|blender|scripts)/"
 ROOTFILES = r"(?<![\w/\.:-])(CB_RULES|SKILL|START_HERE|WORKFLOW|CLOUD_MODE|DENSITY_RULES|CINEMATOGRAPHY)\.md"
 def project_copy(text):
     m = FRONT.match(text); head, body = (m.group(0), text[m.end():]) if m else ("", text)

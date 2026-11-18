@@ -4,6 +4,8 @@ description: Sound department. Builds the sound from sound_events.json: an SFX o
 tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
+> **RC PIPELINE (2026-11-18, `.claude/skills/ricks-clips/CB_RULES.md` 11h):** `rc/sound.py` builds the event track from the scene's computed frames (phase 12); add library sounds on top, same mix rules. Run and evidence: `.claude/skills/ricks-clips/tools/rc_pipeline.py`, `.claude/skills/ricks-clips/docs/GUIDE_UTILISATEUR_FR.md`.
+
 You are the sound designer. The story must read with the sound off, and feel better with it on.
 
 

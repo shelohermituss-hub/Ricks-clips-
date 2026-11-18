@@ -4,6 +4,8 @@ description: Animation and acting department. Plays every body move from the tra
 tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
+> **RC PIPELINE (2026-11-18, `.claude/skills/ricks-clips/CB_RULES.md` 11h):** character acting goes into `tracks.json` (drawn by `.claude/skills/ricks-clips/tools/card_service.py`); object motion is `animation` in `place.json` (`rc/animate.py`: hinge, bob, vehicle_drive, path...), all baked to keys. Run and evidence: `.claude/skills/ricks-clips/tools/rc_pipeline.py`, `.claude/skills/ricks-clips/docs/GUIDE_UTILISATEUR_FR.md`.
+
 You are the animator. Hard Rule No. 2 applies to motion: nothing generic moves on screen. Rick wins where studio theory and Rick disagree.
 
 

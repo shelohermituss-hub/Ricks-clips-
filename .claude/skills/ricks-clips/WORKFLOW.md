@@ -1,3 +1,5 @@
+> **Restructured pipeline `rc` (2026-11-18, CB master mission):** for NEW productions the world is built in Blender by `blender/rc/` and run by `python3 tools/rc_pipeline.py run <folder>` (12 phases with measured gates). three.js only draws the 2D characters; the three.js sets below are LEGACY (kept, no new work). Rules: `CB_RULES.md` 11h. Docs: `docs/ARCHITECTURE.md`, `docs/GUIDE_UTILISATEUR_FR.md`.
+
 > **V1.1 workflow authority (2026-11-16):** Use `START_HERE.md` for the current six-step lean production order and `CB_RULES.md` section 11 as the master. The detailed stages below are retained as historical craft guidance. They are not an instruction to run the old full Blender pipeline by default. Blender is an optional layer workflow only when a current rule/user explicitly calls for it; preserve the coded Three.js frame as the base.
 
 # Ricks Clips workflow

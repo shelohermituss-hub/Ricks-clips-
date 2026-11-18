@@ -4,6 +4,8 @@ description: Lighting and colour department. Sets one visible key light per scen
 tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
+> **RC PIPELINE (2026-11-18, `CB_RULES.md` 11h):** light is `light` in `place.json` (preset, key direction, exposure, white balance, grade) and is calibrated in phase 9 of `tools/rc_pipeline.py`. Run and evidence: `tools/rc_pipeline.py`, `docs/GUIDE_UTILISATEUR_FR.md`.
+
 You are the lighting director (and colourist). You decide the light; the look finisher only keeps it.
 
 

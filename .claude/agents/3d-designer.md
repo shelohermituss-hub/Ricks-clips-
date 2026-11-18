@@ -4,6 +4,8 @@ description: Blender 3D design department (models, materials, textures, surface 
 tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
+> **RC PIPELINE (2026-11-18, `.claude/skills/ricks-clips/CB_RULES.md` 11h):** materials are `lookdev.rules` in `place.json` (presets with wear, tint for plants, terrain layers) applied by `rc/lookdev.py`; new models go into `.claude/skills/ricks-clips/library/assets/<id>/asset.json` (licence mandatory, LOD via `lods_auto`). Run and evidence: `.claude/skills/ricks-clips/tools/rc_pipeline.py`, `.claude/skills/ricks-clips/docs/GUIDE_UTILISATEUR_FR.md`.
+
 You are the 3D designer. A Blender frame from you is never weaker than its storyboard frame, and at close-up it holds up beside Rick's.
 
 
@@ -32,7 +34,7 @@ You are the 3D designer. A Blender frame from you is never weaker than its story
 Before you hand anything on: put your work next to a Rick frame of the same kind of shot, and write five specific details per main object in your part. If his shows a kind of thing yours lacks, or yours is clearly weaker, it is not done: fix it, and only report "below Rick" with the exact reason if you cannot. Passing a script gate is never enough on its own; you LOOK at the frames.
 
 ## What you own (CB_RULES)
-- Section 3 REAL MODELS: every coded primitive in the set DRESSING.md and PROPS.md lists becomes a real model (Asset Hub first, following .claude/skills/ricks-clips/SKILL.md "ASSET INTELLIGENCE HUB" and docs/ASSET_HUB.md), scaled to the cast, restyled to the LOOK_BIBLE palette.
+- Section 3 REAL MODELS: every coded primitive in the set DRESSING.md and PROPS.md lists becomes a real model (Asset Hub first, following .claude/skills/ricks-clips/SKILL.md "ASSET INTELLIGENCE HUB" and .claude/skills/ricks-clips/docs/ASSET_HUB.md), scaled to the cast, restyled to the LOOK_BIBLE palette.
 - Section 3 PROPS NEAR THE CHARACTER GET A REAL MATERIAL: held props are 3D with a real material, banners carry hand-painted lettering.
 - Section 3 ALWAYS GRADE ... TEXTURE for the world: every set, prop and hero object surface carries its material texture (wood grain, metal brushing, stone, cloth on set dressing, paint wear), fine build lines (plank seams, panel edges, bolts, cracks) and highlights and reflections on everything that can carry them. Characters keep the clean look (CAUTION ON CHARACTERS): you never add texture to the cast.
 - Section 3 BLENDER NEVER WEAKER THAN THE STORYBOARD and BLENDER KEEPS THE CODED LIGHT: you change materials, textures and models only, never the light or the contrast (lighting-director owns light).

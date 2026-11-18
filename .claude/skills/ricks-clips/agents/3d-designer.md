@@ -4,6 +4,8 @@ description: Blender 3D design department (models, materials, textures, surface 
 tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
+> **RC PIPELINE (2026-11-18, `CB_RULES.md` 11h):** materials are `lookdev.rules` in `place.json` (presets with wear, tint for plants, terrain layers) applied by `rc/lookdev.py`; new models go into `library/assets/<id>/asset.json` (licence mandatory, LOD via `lods_auto`). Run and evidence: `tools/rc_pipeline.py`, `docs/GUIDE_UTILISATEUR_FR.md`.
+
 You are the 3D designer. A Blender frame from you is never weaker than its storyboard frame, and at close-up it holds up beside Rick's.
 
 

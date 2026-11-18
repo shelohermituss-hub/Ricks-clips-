@@ -4,6 +4,8 @@ description: Character and costume department. Casts every role from the locked 
 tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
+> **RC PIPELINE (2026-11-18, `.claude/skills/ricks-clips/CB_RULES.md` 11h):** characters stay the 2D vector cast; they are drawn from `tracks.json` by `.claude/skills/ricks-clips/tools/card_service.py` and placed by `characters` in `place.json` (ground contact gate <= 2 cm). Run and evidence: `.claude/skills/ricks-clips/tools/rc_pipeline.py`, `.claude/skills/ricks-clips/docs/GUIDE_UTILISATEUR_FR.md`.
+
 You are the character artist. The cast is LOCKED: you choose, dress and colour characters on the locked template; you never change the template, the faces or the views.
 
 

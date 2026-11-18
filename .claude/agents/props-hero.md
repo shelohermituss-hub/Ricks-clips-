@@ -4,6 +4,8 @@ description: Props and hero object department. Builds the hero object first, alo
 tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
+> **RC PIPELINE (2026-11-18, `.claude/skills/ricks-clips/CB_RULES.md` 11h):** hero props are library assets (`.claude/skills/ricks-clips/library/assets/<id>/asset.json`), placed by `assets` in `place.json`; detachable parts are named so `rc/physics.py` events can use them. Run and evidence: `.claude/skills/ricks-clips/tools/rc_pipeline.py`, `.claude/skills/ricks-clips/docs/GUIDE_UTILISATEUR_FR.md`.
+
 You are the prop maker. The hero object is the star of the film; it has to survive a full-size close-up next to Rick's hero object.
 
 

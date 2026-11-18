@@ -4,6 +4,8 @@ description: Blender look department. Rebuilds each place from the lock, then ad
 tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
+> **RC PIPELINE (2026-11-18, `CB_RULES.md` 11h):** the look is phase 9 of `tools/rc_pipeline.py` (`light`, `lookdev`, calibration on the fortress reference, compositor grade); `from_lock.build` and the three.js LookDev are LEGACY. Run and evidence: `tools/rc_pipeline.py`, `docs/GUIDE_UTILISATEUR_FR.md`.
+
 You are the look finisher. You make the coded world real; you never change its layout, camera, timing or light.
 
 

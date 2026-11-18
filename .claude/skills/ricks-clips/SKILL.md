@@ -5,6 +5,8 @@ description: "Ricks Clips Animation Skill V1.1: makes Ricks Clips style 3D carto
 
 # RicksClips animation: the main skill
 
+> **Restructured pipeline `rc` (2026-11-18, CB master mission, `CB_RULES.md` 11h):** new productions build the world in Blender with `blender/rc/` and run `python3 tools/rc_pipeline.py run <folder>` (12 phases, measured gates, evidence in `production/PIPELINE_STATE.json`). three.js now only draws the 2D characters (`tools/card_service.py`); three.js sets and the three.js LookDev are LEGACY. Start with `docs/GUIDE_UTILISATEUR_FR.md`; example: `demos/farmyard/`.
+
 ## CLAUDE CODE WEB MODE — INSTALL AND RUNTIME RULES
 
 This release is packaged as a normal project Skill at `.claude/skills/ricks-clips/SKILL.md`.
