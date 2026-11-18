@@ -41,7 +41,7 @@ const ROOTS = { kit: KIT, ep: EP, puppets: CACHE };
 // GPU: the three small changes film.js needs (see GPU_RENDER.md). The look pass keeps its picture in a half-float buffer; ONE not-a-number pixel from any set shader was smeared by the bloom blur and the
 // soft-focus loop into a big BLACK RECTANGLE (the failed --gpu try of 2026-11-13). Software WebGL never makes such pixels, the graphics card does. Reading the buffer through clamp() stops the spread.
 const FILM_PATCHES = has('--no-patch') ? [] : [
-  ['void main(){ vec3 c = texture2D(tC, vUv).rgb; float l = dot(', 'void main(){ vec3 c = clamp(texture2D(tC, vUv).rgb, 0., 1e4); float l = dot('],   // bloom bright pass
+  // bloom bright pass: film.js clamps it itself since 2026-11-18 (clamp(c, 0., 2.6): no NaN, no negative, no firefly), so no patch here
   ['vec3 sharp = texture2D(tC, vUv).rgb; float m =', 'vec3 sharp = clamp(texture2D(tC, vUv).rgb, 0., 1e4); float m ='],                           // final pass, the sharp picture
   ['acc += texture2D(tC, uv).rgb * w; wsum += w;', 'acc += clamp(texture2D(tC, uv).rgb, 0., 1e4) * w; wsum += w;'],                               // final pass, the soft-focus samples
 ];

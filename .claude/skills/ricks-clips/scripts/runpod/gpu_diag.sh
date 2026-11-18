@@ -12,7 +12,7 @@ sec env; env | grep -iE "nvidia|cuda" | sort
 sec nvidia-smi; nvidia-smi --query-gpu=name,driver_version --format=csv
 sec icd/egl files; ls -la /usr/share/vulkan/icd.d /etc/vulkan/icd.d /usr/share/glvnd/egl_vendor.d /etc/glvnd/egl_vendor.d 2>&1; cat /usr/share/vulkan/icd.d/*.json /etc/vulkan/icd.d/*.json 2>/dev/null
 sec nvidia libs; ldconfig -p | grep -iE "nvidia|libEGL|libGLX|libvulkan" | sort
-export DEBIAN_FRONTEND=noninteractive; apt-get update -qq >/dev/null; apt-get install -y -qq vulkan-tools libvulkan1 libegl1 mesa-utils curl xz-utils >/dev/null 2>&1
+export DEBIAN_FRONTEND=noninteractive; apt-get update -qq >/dev/null; apt-get install -y -qq curl xz-utils libvulkan1 vulkan-tools libegl1 libgl1 libgles2 libglvnd0 libglx0 libx11-6 libxext6 libxcb1 libx11-xcb1 libxrandr2 libxkbcommon0 mesa-utils >/dev/null 2>&1; export XDG_RUNTIME_DIR=/tmp/xdg; mkdir -p -m 700 $XDG_RUNTIME_DIR   # same GPU packages as render_pod.sh
 sec vulkaninfo before; vulkaninfo --summary 2>&1 | grep -iE "deviceName|driverName|apiVersion|ERROR" | head -8
 curl -fsSL https://nodejs.org/dist/v22.11.0/node-v22.11.0-linux-x64.tar.xz | tar -xJ -C /opt; export PATH=/opt/node-v22.11.0-linux-x64/bin:$PATH
 cd "$SKILL/templates/threejs_film" && npm install --no-audit --no-fund >/dev/null 2>&1 && npx playwright install --with-deps chromium >/dev/null 2>&1

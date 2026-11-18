@@ -14,7 +14,11 @@ fail(){ st failed "$1"; echo "FAILED: $1"; sleep infinity; }
 ( sleep $(( ${RICKCLIPS_MAX_HOURS:-3} * 3600 )); st watchdog "max time reached, removing pod"; command -v runpodctl >/dev/null && runpodctl remove pod "${RUNPOD_POD_ID:-}" ) &
 st setup "apt + node + playwright"
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq && apt-get install -y -qq ffmpeg curl xz-utils libvulkan1 vulkan-tools >/dev/null || fail "apt"
+# GPU user-space deps (2026-11-18): libGLX_nvidia / libEGL_nvidia need X11 + GLVND loaders; without them the NVIDIA Vulkan ICD fails
+# ("Could not get vkCreateInstance ... libGLX_nvidia.so.0") and Chromium silently falls back to llvmpipe/SwiftShader (the V3 run on pod eq0n6km0gocqnk).
+GPU_PKGS="libvulkan1 vulkan-tools libegl1 libgl1 libgles2 libglvnd0 libglx0 libx11-6 libxext6 libxcb1 libx11-xcb1 libxrandr2 libxkbcommon0 mesa-utils"
+apt-get update -qq && apt-get install -y -qq ffmpeg curl xz-utils bc $GPU_PKGS >/dev/null || fail "apt"
+export XDG_RUNTIME_DIR=/tmp/xdg; mkdir -p -m 700 $XDG_RUNTIME_DIR
 nvidia-smi -L; nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader > "$PUB/gpu.txt" || true
 curl -fsSL https://nodejs.org/dist/v22.11.0/node-v22.11.0-linux-x64.tar.xz | tar -xJ -C /opt && export PATH=/opt/node-v22.11.0-linux-x64/bin:$PATH || fail "node"
 node --version; ffmpeg -version | head -1
@@ -48,6 +52,8 @@ for a in vulkan gl-egl; do
   if RICKCLIPS_GPU_ANGLE=$a timeout 180 node render_gpu.mjs "$EP/film.json" --gpu-info > "$PUB/gpuinfo_$a.txt" 2>&1 && grep -qi nvidia "$PUB/gpuinfo_$a.txt"; then MODE=gpu; ANG=$a; break; fi
 done
 grep -h "WebGL renderer" "$PUB"/gpuinfo_*.txt; echo "render mode: $MODE $ANG"
+# No silent CPU fallback on a paid GPU (2026-11-18): stop here unless RICKCLIPS_ALLOW_CPU=1, so the pod is not billed for nothing
+if [ "$MODE" != gpu ] && [ "${RICKCLIPS_ALLOW_CPU:-0}" != 1 ]; then fail "GPU NOT REACHED (WebGL is a CPU renderer): see gpuinfo_*.txt and gpu_diag.txt; set RICKCLIPS_ALLOW_CPU=1 to render on the CPU anyway"; fi
 if [ "$MODE" = gpu ]; then K=${RICKCLIPS_PROCS:-3}; EXTRA=""; else K=${RICKCLIPS_PROCS:-$(( $(nproc) / 8 > 2 ? $(nproc) / 8 : 2 ))}; EXTRA="--software"; fi
 FR=/root/frames; rm -rf "$FR"; mkdir -p "$FR"; echo "cpus: $(nproc)"; st render "mode=$MODE angle=$ANG procs=$K frames=$N"
 TR0=$(date +%s); pids=()

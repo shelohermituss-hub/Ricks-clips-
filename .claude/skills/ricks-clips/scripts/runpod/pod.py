@@ -21,7 +21,7 @@ if a[0] == "create":
     inp = {"cloudType": opt("--cloud", "ALL"), "gpuCount": 1, "volumeInGb": 0, "containerDiskInGb": 60, "minVcpuCount": 8, "minMemoryInGb": 30,
            "gpuTypeId": gpu, "name": "ricksclips-diag" if "--diag" in a else "ricksclips-render", "imageName": opt("--image", "runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04"),
            "dockerArgs": "bash -c '%s'" % boot, "ports": "8000/http", "volumeMountPath": "/workspace",
-           "env": [{"key": "RICKCLIPS_EPISODE", "value": ep}, {"key": "RICKCLIPS_PUB_KEY", "value": key}, {"key": "RICKCLIPS_MAX_HOURS", "value": opt("--max-hours", "3")}, {"key": "RICKCLIPS_SCALE", "value": opt("--scale", "1")}, {"key": "RICKCLIPS_POST", "value": opt("--post", "")},
+           "env": [{"key": "RICKCLIPS_EPISODE", "value": ep}, {"key": "RICKCLIPS_PUB_KEY", "value": key}, {"key": "RICKCLIPS_MAX_HOURS", "value": opt("--max-hours", "3")}, {"key": "RICKCLIPS_SCALE", "value": opt("--scale", "1")}, {"key": "RICKCLIPS_POST", "value": opt("--post", "")}, {"key": "RICKCLIPS_ALLOW_CPU", "value": "1" if "--allow-cpu" in a else "0"},
                    {"key": "NVIDIA_DRIVER_CAPABILITIES", "value": "all"}]}
     d = gql("mutation($i: PodFindAndDeployOnDemandInput) { podFindAndDeployOnDemand(input: $i) { id name desiredStatus costPerHr machine { gpuDisplayName } } }", {"i": inp})["podFindAndDeployOnDemand"]
     d["pub_key"] = key; d["status_url"] = "https://%s-8000.proxy.runpod.net/%s/status.json" % (d["id"], key); print(json.dumps(d))
