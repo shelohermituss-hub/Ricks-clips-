@@ -28,13 +28,13 @@
 | F_PREVIEW_REVIEW | contact_sheet_created | **PASS** | 1 sheets |
 | F_PREVIEW_REVIEW | continuous_clips_inspected | **PASS** | 5 strips |
 | F_PREVIEW_REVIEW | timecoded_issues_logged | **PASS** | 7 issues, 2 open |
-| F_PREVIEW_REVIEW | reference_standard_compared | **FAIL** | ghost_army_preview_v1.mp4 (2026-11-18): FAIL ['edge_detail', 'luma_day', 'luma_night', 'crushed', 'saturation', 'saturation_seconds_over_max', 'still_frames_pct', 'motion_median_x1000', 'peaks_per_10s']; WARN ['hard_cuts'] |
+| F_PREVIEW_REVIEW | reference_standard_compared | **FAIL** | ghost_army_preview_v2_graded.mp4 (2026-11-18): FAIL ['edge_detail', 'saturation', 'saturation_seconds_over_max', 'motion_median_x1000', 'peaks_per_10s']; WARN ['hard_cuts'] |
 | F_PREVIEW_REVIEW | fixes_rerendered | **PASS** | 4 fixed, 4 with after-render evidence |
 | G_FINAL_DELIVERY | no_hero_placeholders | **FAIL** | Inflatable Sherman (hero decoy): 71 parts, 5616 tris, 96% primitive generators, 12 textured mats -> primitive assembly / below hero detail; Real tanks at the crossing: 73 parts, 5712 tris, 96% primitive generators, 72 textured mats -> primitive assembly / below hero detail; Sound half-track with horn speaker: 39 parts, 7080 tris, 95% primitive generators, 5 textured mats -> primitive assembly / be |
-| G_FINAL_DELIVERY | grade_applied_to_all_shots | **FAIL** | grade_log=None |
+| G_FINAL_DELIVERY | grade_applied_to_all_shots | **PASS** | grade_log={'frames_graded': 2137, 'src': '/tmp/claude-0/-home-user-Ricks-clips-/c2e4e0a8-fcc3-5126-ae4d-aec5b0cb3372/scratchpad/v2raw', 'dst': '/tmp/claude-0/-home-user-Ricks-clips-/c2e4e0a8-fcc3-5126-ae4d-aec5b0cb3372/scratchpad/v2graded'} |
 | G_FINAL_DELIVERY | native_resolution_render | **NOT_RUN** | no --video |
 | G_FINAL_DELIVERY | audio_and_subtitles_verified | **NOT_RUN** | no --video |
 | G_FINAL_DELIVERY | final_mp4_inspected | **NOT_RUN** | no --video |
 | G_FINAL_DELIVERY | lessons_saved | **PASS** | lessons from this episode in memory/lessons_learned.json |
 
-Totals: PASS 20, WARN 5, FAIL 6, NOT_RUN 3
+Totals: PASS 21, WARN 5, FAIL 5, NOT_RUN 3

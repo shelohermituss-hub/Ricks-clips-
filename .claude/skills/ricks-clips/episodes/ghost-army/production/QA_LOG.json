@@ -92,6 +92,34 @@
    "root_cause": "the 2D bike move draws its own bike; a 3D bike cannot be ridden by the 2D rig",
    "fix": "(open) 3D bicycle exists and is render-tested; staging decision needed (ride as 2D, or 3D bike parked/pushed)",
    "status": "open"
+  },
+  {
+   "id": "QA-008",
+   "date": "2026-11-18",
+   "timecode": "01:06-01:11",
+   "shot": "t_attic",
+   "severity": "medium",
+   "category": "lighting",
+   "observation": "attic light shaft fills the frame with a milky beige veil; edge detail fell from .050 (v1) to .037 (v2), old Lou and the grandchild look washed out",
+   "root_cause": "light shaft volume/opacity added in the audit pass covers the camera view; grade then lifts it to mean .44",
+   "fix": "pending (step 6): narrow the shaft, lower its opacity, keep contrast in the grade",
+   "status": "open",
+   "before": "episodes/ghost-army/v1/v1_vs_v2_graded.jpg",
+   "after": "episodes/ghost-army/v2/review/v2_overview_1fps.jpg"
+  },
+  {
+   "id": "QA-009",
+   "date": "2026-11-18",
+   "timecode": "00:56-00:57",
+   "shot": "t_strike",
+   "severity": "high",
+   "category": "vfx",
+   "observation": "v2: bursts are translucent orange spheres then a white disc flash covering a quarter of the frame; no mushroom, readable debris or lingering smoke",
+   "root_cause": "burst effect built from sphere meshes and a flat glow sprite",
+   "fix": "pending (steps 9-10): layered effect",
+   "status": "open",
+   "before": null,
+   "after": "episodes/ghost-army/v2/review/v2_clip_strike_f1670-1845.jpg"
   }
  ],
  "waivers": [

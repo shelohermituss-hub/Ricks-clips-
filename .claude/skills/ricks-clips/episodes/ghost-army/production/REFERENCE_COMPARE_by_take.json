@@ -1,0 +1,255 @@
+{
+ "t_hook": {
+  "v1": {
+   "luma": 0.304,
+   "sat": 0.75,
+   "crushed": 0.031,
+   "motion": 18.079,
+   "edge": 0.046
+  },
+  "v2_raw": {
+   "luma": 0.304,
+   "sat": 0.757,
+   "crushed": 0.034,
+   "motion": 17.256,
+   "edge": 0.049
+  },
+  "v2_graded": {
+   "luma": 0.41,
+   "sat": 0.686,
+   "crushed": 0.001,
+   "motion": 17.849,
+   "edge": 0.051
+  }
+ },
+ "t_camp": {
+  "v1": {
+   "luma": 0.365,
+   "sat": 0.655,
+   "crushed": 0.004,
+   "motion": 21.793,
+   "edge": 0.057
+  },
+  "v2_raw": {
+   "luma": 0.369,
+   "sat": 0.659,
+   "crushed": 0.004,
+   "motion": 20.381,
+   "edge": 0.06
+  },
+  "v2_graded": {
+   "luma": 0.432,
+   "sat": 0.572,
+   "crushed": 0.0,
+   "motion": 20.193,
+   "edge": 0.06
+  }
+ },
+ "t_road": {
+  "v1": {
+   "luma": 0.089,
+   "sat": 0.823,
+   "crushed": 0.396,
+   "motion": 16.913,
+   "edge": 0.034
+  },
+  "v2_raw": {
+   "luma": 0.139,
+   "sat": 0.772,
+   "crushed": 0.068,
+   "motion": 16.106,
+   "edge": 0.04
+  },
+  "v2_graded": {
+   "luma": 0.302,
+   "sat": 0.657,
+   "crushed": 0.003,
+   "motion": 19.035,
+   "edge": 0.05
+  }
+ },
+ "t_radio": {
+  "v1": {
+   "luma": 0.354,
+   "sat": 0.824,
+   "crushed": 0.0,
+   "motion": 14.626,
+   "edge": 0.05
+  },
+  "v2_raw": {
+   "luma": 0.355,
+   "sat": 0.833,
+   "crushed": 0.001,
+   "motion": 16.256,
+   "edge": 0.056
+  },
+  "v2_graded": {
+   "luma": 0.383,
+   "sat": 0.64,
+   "crushed": 0.001,
+   "motion": 14.362,
+   "edge": 0.055
+  }
+ },
+ "t_cafe": {
+  "v1": {
+   "luma": 0.479,
+   "sat": 0.685,
+   "crushed": 0.001,
+   "motion": 22.41,
+   "edge": 0.063
+  },
+  "v2_raw": {
+   "luma": 0.45,
+   "sat": 0.701,
+   "crushed": 0.001,
+   "motion": 37.273,
+   "edge": 0.076
+  },
+  "v2_graded": {
+   "luma": 0.451,
+   "sat": 0.552,
+   "crushed": 0.001,
+   "motion": 31.61,
+   "edge": 0.073
+  }
+ },
+ "t_sergeant": {
+  "v1": {
+   "luma": 0.445,
+   "sat": 0.698,
+   "crushed": 0.001,
+   "motion": 25.962,
+   "edge": 0.058
+  },
+  "v2_raw": {
+   "luma": 0.402,
+   "sat": 0.705,
+   "crushed": 0.0,
+   "motion": 19.038,
+   "edge": 0.068
+  },
+  "v2_graded": {
+   "luma": 0.417,
+   "sat": 0.559,
+   "crushed": 0.0,
+   "motion": 18.678,
+   "edge": 0.066
+  }
+ },
+ "t_river": {
+  "v1": {
+   "luma": 0.174,
+   "sat": 0.647,
+   "crushed": 0.014,
+   "motion": 16.183,
+   "edge": 0.041
+  },
+  "v2_raw": {
+   "luma": 0.192,
+   "sat": 0.61,
+   "crushed": 0.008,
+   "motion": 16.605,
+   "edge": 0.042
+  },
+  "v2_graded": {
+   "luma": 0.329,
+   "sat": 0.499,
+   "crushed": 0.001,
+   "motion": 18.295,
+   "edge": 0.045
+  }
+ },
+ "t_photo": {
+  "v1": {
+   "luma": 0.164,
+   "sat": 0.548,
+   "crushed": 0.092,
+   "motion": 9.87,
+   "edge": 0.041
+  },
+  "v2_raw": {
+   "luma": 0.224,
+   "sat": 0.46,
+   "crushed": 0.085,
+   "motion": 13.673,
+   "edge": 0.053
+  },
+  "v2_graded": {
+   "luma": 0.309,
+   "sat": 0.441,
+   "crushed": 0.004,
+   "motion": 14.043,
+   "edge": 0.055
+  }
+ },
+ "t_strike": {
+  "v1": {
+   "luma": 0.192,
+   "sat": 0.712,
+   "crushed": 0.007,
+   "motion": 22.498,
+   "edge": 0.035
+  },
+  "v2_raw": {
+   "luma": 0.158,
+   "sat": 0.723,
+   "crushed": 0.007,
+   "motion": 23.19,
+   "edge": 0.032
+  },
+  "v2_graded": {
+   "luma": 0.298,
+   "sat": 0.585,
+   "crushed": 0.0,
+   "motion": 25.008,
+   "edge": 0.035
+  }
+ },
+ "t_bed": {
+  "v1": {
+   "luma": 0.184,
+   "sat": 0.726,
+   "crushed": 0.003,
+   "motion": 9.15,
+   "edge": 0.028
+  },
+  "v2_raw": {
+   "luma": 0.286,
+   "sat": 0.362,
+   "crushed": 0.003,
+   "motion": 13.34,
+   "edge": 0.051
+  },
+  "v2_graded": {
+   "luma": 0.309,
+   "sat": 0.374,
+   "crushed": 0.0,
+   "motion": 11.872,
+   "edge": 0.05
+  }
+ },
+ "t_attic": {
+  "v1": {
+   "luma": 0.185,
+   "sat": 0.768,
+   "crushed": 0.119,
+   "motion": 19.568,
+   "edge": 0.05
+  },
+  "v2_raw": {
+   "luma": 0.292,
+   "sat": 0.704,
+   "crushed": 0.009,
+   "motion": 12.492,
+   "edge": 0.039
+  },
+  "v2_graded": {
+   "luma": 0.436,
+   "sat": 0.518,
+   "crushed": 0.0,
+   "motion": 12.966,
+   "edge": 0.037
+  }
+ }
+}

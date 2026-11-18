@@ -82,7 +82,7 @@ def memory_schema():
 # Reference standard: the fortress itself passes every threshold; the Ghost Army v1 preview does not (measured 2026-11-18)
 def reference_standard_discriminates():
     sys.path.insert(0, "tools"); import reference_compare as rc
-    ref = json.load(open("references/fortress/reference_compare_self.json")); ga = json.load(open(GA + "/production/REFERENCE_COMPARE.json"))
+    ref = json.load(open("references/fortress/reference_compare_self.json")); ga = json.load(open(GA + "/production/REFERENCE_COMPARE_v1.json"))
     a = rc.compare(ref); b = rc.compare(ga, [tuple(x) for x in ga.get("night", [])])
     fa = [r["metric"] for r in a if r["status"] != "PASS"]; fb = [r["metric"] for r in b if r["status"] == "FAIL"]
     return not fa and len(fb) >= 5, "reference not PASS: %s; v1 FAIL: %s" % (fa, fb)

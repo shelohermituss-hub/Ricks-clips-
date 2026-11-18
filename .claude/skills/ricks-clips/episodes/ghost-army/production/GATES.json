@@ -163,7 +163,7 @@
    "gate": "F_PREVIEW_REVIEW",
    "check": "reference_standard_compared",
    "status": "FAIL",
-   "evidence": "ghost_army_preview_v1.mp4 (2026-11-18): FAIL ['edge_detail', 'luma_day', 'luma_night', 'crushed', 'saturation', 'saturation_seconds_over_max', 'still_frames_pct', 'motion_median_x1000', 'peaks_per_10s']; WARN ['hard_cuts']"
+   "evidence": "ghost_army_preview_v2_graded.mp4 (2026-11-18): FAIL ['edge_detail', 'saturation', 'saturation_seconds_over_max', 'motion_median_x1000', 'peaks_per_10s']; WARN ['hard_cuts']"
   },
   {
    "gate": "F_PREVIEW_REVIEW",
@@ -180,8 +180,8 @@
   {
    "gate": "G_FINAL_DELIVERY",
    "check": "grade_applied_to_all_shots",
-   "status": "FAIL",
-   "evidence": "grade_log=None"
+   "status": "PASS",
+   "evidence": "grade_log={'frames_graded': 2137, 'src': '/tmp/claude-0/-home-user-Ricks-clips-/c2e4e0a8-fcc3-5126-ae4d-aec5b0cb3372/scratchpad/v2raw', 'dst': '/tmp/claude-0/-home-user-Ricks-clips-/c2e4e0a8-fcc3-5126-ae4d-aec5b0cb3372/scratchpad/v2graded'}"
   },
   {
    "gate": "G_FINAL_DELIVERY",
