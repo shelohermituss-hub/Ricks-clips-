@@ -28,8 +28,8 @@
   "primitive_like_objects": 104,
   "primitive_ratio": 0.229,
   "primitive_tris_ratio": 0.0109,
-  "materials": 329,
-  "textured_materials": 326,
+  "materials": 72,
+  "textured_materials": 69,
   "dims_m": [
    220.0,
    220.0,

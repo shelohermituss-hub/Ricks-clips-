@@ -36,7 +36,7 @@ def main(a):
     if a[0] == "render":
         from rc import render
         bpy.ops.wm.open_mainfile(filepath=a[1]); sc = bpy.context.scene; w, h = map(int, opt("--res", "270x480").split("x"))
-        info = render.setup(sc, opt("--engine", "CYCLES"), (w, h), int(opt("--samples", "16")), int(opt("--seed", "0")), gpu="--gpu" in a, denoise="--no-denoise" not in a)
+        info = render.setup(sc, opt("--engine", "CYCLES"), (w, h), int(opt("--samples", "16")), int(opt("--seed", "0")), gpu="--gpu" in a, denoise="--no-denoise" not in a, biased_volumes="--unbiased-volumes" not in a)
         rep = render.frames(sc, _frames(a[3]), a[2], info); print("RC_RESULT " + json.dumps({k: rep[k] for k in rep if k != "frames"} | {"n": len(rep["frames"]), "sec": [r["seconds"] for r in rep["frames"]]})); return
     if a[0] == "calibrate":                                     # calibrate <blend> <frame> <reference.png> <outdir> [--res 135x240] [--samples 16]
         from rc import render, lookdev

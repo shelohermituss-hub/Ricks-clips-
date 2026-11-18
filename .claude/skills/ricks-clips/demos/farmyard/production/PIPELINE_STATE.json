@@ -152,8 +152,8 @@
    "production/p4_cards.log",
    "production/scene_qa.json"
   ],
-  "seconds": 141.1,
-  "date": "2026-11-18T22:34:27Z"
+  "seconds": 125.7,
+  "date": "2026-11-18T23:22:43Z"
  },
  "5": {
   "name": "ANIMATION BLOCKING",
@@ -182,7 +182,7 @@
    "production/scene_qa.json"
   ],
   "seconds": 0.0,
-  "date": "2026-11-18T22:34:27Z"
+  "date": "2026-11-18T23:22:43Z"
  },
  "6": {
   "name": "INTERACTION SYSTEM",
@@ -339,7 +339,7 @@
    "production/scene_qa.json"
   ],
   "seconds": 0.0,
-  "date": "2026-11-18T22:34:27Z"
+  "date": "2026-11-18T23:22:43Z"
  },
  "7": {
   "name": "ANIMATION POLISH",
@@ -371,7 +371,7 @@
    "production/scene_report.json"
   ],
   "seconds": 0.0,
-  "date": "2026-11-18T22:34:27Z"
+  "date": "2026-11-18T23:22:43Z"
  },
  "8": {
   "name": "VFX",
@@ -406,7 +406,7 @@
    "production/scene_report.json"
   ],
   "seconds": 0.0,
-  "date": "2026-11-18T22:34:27Z"
+  "date": "2026-11-18T23:22:43Z"
  },
  "9": {
   "name": "LOOKDEV",
@@ -415,7 +415,7 @@
    {
     "check": "materials textured >= 85 %",
     "pass": true,
-    "evidence": "326/329"
+    "evidence": "69/72"
    },
    {
     "check": "exposure calibrated on the reference (luminance within 10 %)",
@@ -446,8 +446,8 @@
    "production/p9_calibration.json",
    "production/scene_qa.json"
   ],
-  "seconds": 209.6,
-  "date": "2026-11-18T22:37:56Z"
+  "seconds": 28.5,
+  "date": "2026-11-18T23:23:11Z"
  },
  "10": {
   "name": "FINAL CAMERA AND LIGHTING VALIDATION",
@@ -471,7 +471,7 @@
   "evidence": [
    "production/p10_validation_sheet.jpg"
   ],
-  "seconds": 419.6,
-  "date": "2026-11-18T22:44:56Z"
+  "seconds": 75.4,
+  "date": "2026-11-18T23:24:27Z"
  }
 }

@@ -25,12 +25,15 @@ def devices(require_gpu=False):
         if require_gpu: raise RuntimeError("GPU REQUIRED but Cycles sees no GPU device (types tried: %s)" % ", ".join(GPU_TYPES))
     return {"compute_device_type": prefs.compute_device_type, "gpus": found}
 
-def setup(scene, engine="CYCLES", res=(540, 960), samples=64, seed=0, gpu=False, denoise=True):
+def setup(scene, engine="CYCLES", res=(540, 960), samples=64, seed=0, gpu=False, denoise=True, biased_volumes=True):
     r = scene.render; r.resolution_x, r.resolution_y = res; r.resolution_percentage = 100; r.image_settings.file_format = "PNG"
     info = {"engine": engine, "res": list(res), "samples": samples}
     for k in [k for k in dir(r) if k.startswith("use_stamp")]: setattr(r, k, False)   # no date / render time written into the PNG: same picture = same bytes = same sha256
     if engine == "CYCLES":
         r.engine = "CYCLES"; c = scene.cycles; c.samples = samples; c.seed = seed; c.use_animated_seed = False; c.use_denoising = denoise
+        # BIASED VOLUMES (measured 2026-11-18, Blender 5.2.2): the unbiased null-scattering mode pre-analyses every procedural volume on the
+        # CPU each frame (farmyard: 22.7 s of sync for 0.05 s of sampling, GPU at 3 %); ray-marched volumes: 1.7 s, same picture (0.4-0.6/255)
+        c.volume_biased = biased_volumes; info["biased_volumes"] = biased_volumes
         d = devices(require_gpu=gpu); c.device = "GPU" if d["gpus"] else "CPU"; info.update(device=c.device, devices=d)
     elif engine == "EEVEE":
         r.engine = "BLENDER_EEVEE"; scene.eevee.taa_render_samples = samples; info["device"] = "OpenGL"

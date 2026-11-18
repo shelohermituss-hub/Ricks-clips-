@@ -7,7 +7,7 @@
   },
   {
    "iter": 1,
-   "temperature": 11000.3,
+   "temperature": 10996.4,
    "rb_ratio_vs_ref": 0.994
   }
  ],
@@ -35,6 +35,6 @@
    ]
   }
  ],
- "exposure": 0.991121232509613,
- "temperature": 11000.255859375
+ "exposure": 0.9909197688102722,
+ "temperature": 10996.390625
 }

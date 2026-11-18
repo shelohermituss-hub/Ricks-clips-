@@ -7,29 +7,38 @@ import math, random
 import bpy
 from mathutils import Vector
 
-def _dust_mat(color, name):
+def _dust_mat(color, name, base=2.5):
+    """SHARED volume material (2026-11-18: one material per puff made Cycles re-sync 366 shaders = 20 s per frame on the farmyard, GPU idle).
+    Density = field (spherical gradient x noise) x base x the OBJECT property rc_dens (0..1, keyed per puff), read by an Attribute node.
+    One material per (name, colour) is reused by every puff that asks for it."""
+    if name in bpy.data.materials: return bpy.data.materials[name]
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links; N.clear()
     out = N.new("ShaderNodeOutputMaterial"); v = N.new("ShaderNodeVolumePrincipled"); v.inputs["Color"].default_value = (*color, 1)
     tc = N.new("ShaderNodeTexCoord"); gr = N.new("ShaderNodeTexGradient"); gr.gradient_type = "SPHERICAL"; L.new(tc.outputs["Object"], gr.inputs[0])
     nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 3.0; L.new(tc.outputs["Object"], nz.inputs["Vector"])
-    a = N.new("ShaderNodeMath"); a.operation = "MULTIPLY"; L.new(gr.outputs["Fac"], a.inputs[0]); L.new(nz.outputs["Fac"], a.inputs[1])
-    d = N.new("ShaderNodeMath"); d.operation = "MULTIPLY"; d.name = "density"; d.inputs[1].default_value = 2.5; L.new(a.outputs[0], d.inputs[0])
+    a = N.new("ShaderNodeMath"); a.operation = "MULTIPLY"; a.name = "field"; L.new(gr.outputs["Fac"], a.inputs[0]); L.new(nz.outputs["Fac"], a.inputs[1])
+    at = N.new("ShaderNodeAttribute"); at.attribute_type = "OBJECT"; at.attribute_name = "rc_dens"
+    db = N.new("ShaderNodeMath"); db.operation = "MULTIPLY"; db.name = "density"; db.inputs[1].default_value = base; L.new(at.outputs["Fac"], db.inputs[0])
+    d = N.new("ShaderNodeMath"); d.operation = "MULTIPLY"; L.new(a.outputs[0], d.inputs[0]); L.new(db.outputs[0], d.inputs[1])
     L.new(d.outputs[0], v.inputs["Density"]); L.new(v.outputs[0], out.inputs["Volume"]); return m
+
+def _key_dens(o, value, f):
+    o["rc_dens"] = float(value); o.keyframe_insert('["rc_dens"]', frame=f)
 
 def dust_burst(scene, name, at, frame, count=14, radius=1.2, height=.9, color=(.62, .55, .44), seed=1, life=45):
     R = random.Random(seed); col = bpy.data.collections.get("RC_FX") or bpy.data.collections.new("RC_FX")
     if col.name not in scene.collection.children: scene.collection.children.link(col)
     for i in range(count):
-        a = 2 * math.pi * i / count + R.uniform(-.2, .2); sp = R.uniform(.6, 1.2); m = _dust_mat(color, "%s_dust_%02d" % (name, i))
+        a = 2 * math.pi * i / count + R.uniform(-.2, .2); sp = R.uniform(.6, 1.2); m = _dust_mat(color, "rc_dust_%s" % "_".join("%.2f" % c for c in color))
         bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=2, radius=1.0); o = bpy.context.object; o.name = "%s_puff_%02d" % (name, i)
         for c in list(o.users_collection): c.objects.unlink(o)
-        col.objects.link(o); o.data.materials.append(m); o.visible_shadow = False; dn = m.node_tree.nodes["density"].inputs[1]
+        col.objects.link(o); o.data.materials.append(m); o.visible_shadow = False
         for f in range(frame - 1, frame + life + 1):
             k = max(0.0, (f - frame) / life); r = radius * sp * (1 - (1 - k) ** 2); s = .05 + .55 * sp * k ** .6
             o.location = (at[0] + math.cos(a) * r, at[1] + math.sin(a) * r, at[2] + .1 + height * k ** .8 * sp)
             o.scale = (s, s, s * .8); o.keyframe_insert("location", frame=f); o.keyframe_insert("scale", frame=f)
             o.hide_render = f < frame or f >= frame + life; o.keyframe_insert("hide_render", frame=f)
-            dn.default_value = 2.5 * (1 - k) ** 1.5 if f >= frame else 0; dn.keyframe_insert("default_value", frame=f)
+            _key_dens(o, (1 - k) ** 1.5 if f >= frame else 0, f)
     return count
 
 def _fxcol(scene):
@@ -38,13 +47,15 @@ def _fxcol(scene):
     return col
 
 def _vol_mat(name, color, density=2.5, emission=0.0, emit_color=None, noise_scale=3.0):
-    m = _dust_mat(color, name); nt = m.node_tree; v = [n for n in nt.nodes if n.type == "PRINCIPLED_VOLUME"][0]
+    """shared per look: the name is derived from the parameters, so every puff of the same look reuses one material"""
+    key = "rc_vol_%s_%.2f_%.1f_%s_%.1f" % ("_".join("%.2f" % c for c in color), density, emission, "_".join("%.2f" % c for c in (emit_color or color)), noise_scale)
+    if key in bpy.data.materials: return bpy.data.materials[key]
+    m = _dust_mat(color, key, density); nt = m.node_tree; v = [n for n in nt.nodes if n.type == "PRINCIPLED_VOLUME"][0]
     if emission:                                                     # emission follows the density FIELD (bright core, fading edge); a constant
         v.inputs["Emission Color"].default_value = (*(emit_color or color), 1)   # strength lit the whole sphere like a ball (seen on the farmyard sheet)
-        fld = nt.nodes["density"].inputs[0].links[0].from_socket; pw = nt.nodes.new("ShaderNodeMath"); pw.operation = "POWER"; pw.inputs[1].default_value = 2.0
+        fld = nt.nodes["field"].outputs[0]; pw = nt.nodes.new("ShaderNodeMath"); pw.operation = "POWER"; pw.inputs[1].default_value = 2.0
         em = nt.nodes.new("ShaderNodeMath"); em.operation = "MULTIPLY"; em.inputs[1].default_value = emission
         nt.links.new(fld, pw.inputs[0]); nt.links.new(pw.outputs[0], em.inputs[0]); nt.links.new(em.outputs[0], v.inputs["Emission Strength"])
-    nt.nodes["density"].inputs[1].default_value = density
     for n in nt.nodes:
         if n.type == "TEX_NOISE": n.inputs["Scale"].default_value = noise_scale
     return m
@@ -53,15 +64,15 @@ def _puffs(scene, name, at, frame, count, seed, life, color, rise, spread, size,
     """generic billowing volume puffs (smoke, fire, fireball): each puff = volume sphere keyed per frame (pure function of the frame)"""
     R = random.Random(seed); col = _fxcol(scene); n = 0
     for i in range(count):
-        t0 = frame + R.uniform(0, life * .6); a = R.uniform(0, 2 * math.pi); sp = R.uniform(.5, 1.0); m = _vol_mat("%s_m%02d" % (name, i), color, density, emission, emit_color)
+        t0 = frame + R.uniform(0, life * .6); a = R.uniform(0, 2 * math.pi); sp = R.uniform(.5, 1.0); m = _vol_mat(name, color, density, emission, emit_color)
         bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=2, radius=1.0); o = bpy.context.object; o.name = "%s_%02d" % (name, i)
         for c in list(o.users_collection): c.objects.unlink(o)
-        col.objects.link(o); o.data.materials.append(m); o.visible_shadow = emission == 0; dn = m.node_tree.nodes["density"].inputs[1]; L = life * R.uniform(.7, 1.0)
+        col.objects.link(o); o.data.materials.append(m); o.visible_shadow = emission == 0; L = life * R.uniform(.7, 1.0)
         for f in range(int(frame) - 1, int(t0 + L) + 2):
             k = max(0.0, (f - t0) / L); r = spread * sp * k ** .7; s_ = size * (.3 + 1.2 * k ** .5) * sp
             o.location = (at[0] + math.cos(a) * r + drift[0] * k, at[1] + math.sin(a) * r + drift[1] * k, at[2] + rise * k * sp); o.scale = (s_, s_, s_)
             o.keyframe_insert("location", frame=f); o.keyframe_insert("scale", frame=f); o.hide_render = f < t0 or k >= 1; o.keyframe_insert("hide_render", frame=f)
-            dn.default_value = density * (1 - min(k, 1.0)) ** 1.3 if f >= t0 else 0; dn.keyframe_insert("default_value", frame=f)
+            _key_dens(o, (1 - min(k, 1.0)) ** 1.3 if f >= t0 else 0, f)
         n += 1
     return n
 
@@ -165,7 +176,7 @@ def explosion_stylized(scene, spec):
     n += _puffs(scene, "blast_smoke", at, f + 6, 16, sd + 2, 120, (.22, .21, .2), 6.0, 2.5, 1.4, 1.8, drift=(2.0, 0))
     bpy.ops.mesh.primitive_torus_add(major_radius=1, minor_radius=.08, location=(at[0], at[1], at[2] + .05)); ring = bpy.context.object; ring.name = "blast_ring"
     for c in list(ring.users_collection): c.objects.unlink(ring)
-    _fxcol(scene).objects.link(ring); ring.data.materials.append(_vol_mat("blast_ring_m", (.6, .55, .45), 2.0))
+    _fxcol(scene).objects.link(ring); ring.data.materials.append(_vol_mat("blast_ring_m", (.6, .55, .45), 2.0)); ring["rc_dens"] = 1.0
     for g in range(f - 1, f + 26):
         k = max(0, g - f) / 25; ring.scale = (.2 + 6 * k, .2 + 6 * k, 1); ring.hide_render = g < f or k >= 1; ring.keyframe_insert("scale", frame=g); ring.keyframe_insert("hide_render", frame=g)
     return n + 2
