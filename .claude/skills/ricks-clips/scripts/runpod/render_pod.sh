@@ -3,15 +3,16 @@
 # Renders one episode at 1080x1920 / 30 fps, muxes the episode's sound mix, uploads the MP4 to GoFile and verifies the
 # download (sha256), and publishes its progress, log and result read-only at  http://<pod>:8000/<RICKCLIPS_PUB_KEY>/
 # (RunPod proxy: https://<podId>-8000.proxy.runpod.net/<key>/status.json). Env: RICKCLIPS_EPISODE (path from the skill root),
-# RICKCLIPS_PUB_KEY (random), RICKCLIPS_MAX_HOURS (watchdog, default 3: the pod deletes itself after that, if runpodctl is present).
+# RICKCLIPS_PUB_KEY (random), RICKCLIPS_MAX_HOURS (watchdog, default 3: the pod STOPS itself after that (results kept on its volume), if runpodctl is present).
 set -u
 SKILL=/root/repo/.claude/skills/ricks-clips; EP="$SKILL/${RICKCLIPS_EPISODE:?}"; PUB=/root/pub/${RICKCLIPS_PUB_KEY:?}
+if [ -d /workspace ] && [ -w /workspace ]; then mkdir -p /workspace/pub; rm -rf /root/pub; ln -sfn /workspace/pub /root/pub; fi   # results guard 2026-11-18: results on the pod VOLUME, so a watchdog STOP keeps them
 mkdir -p "$PUB"; : > /root/pub/index.html; LOG="$PUB/render.log"; exec > >(tee -a "$LOG") 2>&1
 T0=$(date +%s)
 st(){ printf '{"stage":"%s","msg":"%s","elapsed_s":%d,"time":"%s"}\n' "$1" "${2:-}" $(( $(date +%s) - T0 )) "$(date -u +%FT%TZ)" > "$PUB/status.json.tmp" && mv "$PUB/status.json.tmp" "$PUB/status.json"; echo "[status] $1 ${2:-}"; }
 fail(){ st failed "$1"; echo "FAILED: $1"; sleep infinity; }
 (cd /root/pub && nohup python3 -m http.server 8000 --bind 0.0.0.0 >/dev/null 2>&1 &)
-( sleep $(( ${RICKCLIPS_MAX_HOURS:-3} * 3600 )); st watchdog "max time reached, removing pod"; command -v runpodctl >/dev/null && runpodctl remove pod "${RUNPOD_POD_ID:-}" ) &
+( sleep $(( ${RICKCLIPS_MAX_HOURS:-3} * 3600 )); st watchdog "max time reached, STOPPING pod (volume and results kept; pod.py resume + fetch, then delete)"; command -v runpodctl >/dev/null && runpodctl stop pod "${RUNPOD_POD_ID:-}" ) &
 st setup "apt + node + playwright"
 export DEBIAN_FRONTEND=noninteractive
 # GPU user-space deps (2026-11-18): libGLX_nvidia / libEGL_nvidia need X11 + GLVND loaders; without them the NVIDIA Vulkan ICD fails
@@ -88,7 +89,7 @@ PYEOF
   sha256sum "$PUB"/ghost_army_preview_v3_*.mp4 > "$PUB/v3.sha256"; cp "$PUB/ghost_army_preview_v3_graded.mp4" "$PUB/final.mp4"
 fi
 printf '{"mode":"%s","angle":"%s","procs":%d,"frames":%d,"render_s":%d,"s_per_frame":%.3f}\n' "$MODE" "$ANG" "$K" "$N" "$TR" "$(echo "$TR / $N" | bc -l 2>/dev/null || echo 0)" > "$PUB/render.json"
-sha256sum "$PUB/final.mp4" | cut -d' ' -f1 > "$PUB/final.sha256"
+sha256sum "$PUB/final.mp4" | cut -d' ' -f1 > "$PUB/final.sha256"; python3 "$SKILL/scripts/runpod/manifest.py" "$PUB" final
 st upload "GoFile"
 python3 "$SKILL/scripts/runpod/gofile_upload_verify.py" "$PUB/final.mp4" "$PUB/gofile.json" || st upload_failed "see gofile.json"
 st done "$(python3 -c "import json;d=json.load(open('$PUB/gofile.json'));print(d.get('downloadPage',''), 'verified' if d.get('verified') else 'NOT verified')" 2>/dev/null)"

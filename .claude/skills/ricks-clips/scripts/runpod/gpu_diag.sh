@@ -2,10 +2,11 @@
 # GPU diagnostic for RunPod (2026-11-17): why Chrome/ANGLE sees SwiftShader instead of the NVIDIA card, and which fix works.
 # Started by pod.py with --diag; publishes diag.txt under the same read-only status page as render_pod.sh.
 set -u
+if [ -d /workspace ] && [ -w /workspace ]; then mkdir -p /workspace/pub; rm -rf /root/pub; ln -sfn /workspace/pub /root/pub; fi   # results guard 2026-11-18: results on the pod VOLUME, so a watchdog STOP keeps them
 SKILL=/root/repo/.claude/skills/ricks-clips; PUB=/root/pub/${RICKCLIPS_PUB_KEY:?}; mkdir -p "$PUB"; : > /root/pub/index.html
 exec > >(tee -a "$PUB/diag.txt") 2>&1
 (cd /root/pub && nohup python3 -m http.server 8000 --bind 0.0.0.0 >/dev/null 2>&1 &)
-( sleep 3600; command -v runpodctl >/dev/null && runpodctl remove pod "${RUNPOD_POD_ID:-}" ) &
+( sleep 3600; command -v runpodctl >/dev/null && runpodctl stop pod "${RUNPOD_POD_ID:-}" ) &
 echo '{"stage":"diag","msg":"running"}' > "$PUB/status.json"
 sec(){ echo; echo "===== $*"; }
 sec env; env | grep -iE "nvidia|cuda" | sort

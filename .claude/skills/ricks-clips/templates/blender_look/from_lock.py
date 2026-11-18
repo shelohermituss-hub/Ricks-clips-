@@ -40,6 +40,38 @@ def _flat(col):
     m = bpy.data.materials.new("flat_%02x%02x%02x" % col); m.use_nodes = True; nt = m.node_tree; b = nt.nodes.get("Principled BSDF"); c = tuple(M.lin(col)) + (1,)
     b.inputs["Base Color"].default_value = c; b.inputs["Roughness"].default_value = .7; b.inputs["Emission Color"].default_value = c; b.inputs["Emission Strength"].default_value = .35; return m
 
+def collapse_instances(objs, min_count=16):
+    """2026-11-18 (audit T11): the glTF importer turns every EXT_mesh_gpu_instancing instance into its own object (field: 50,656 objects for
+    202 meshes, 23 s to import, 80 s to build). Linked duplicates of one mesh under one parent become ONE point object whose geometry nodes put
+    the mesh on every point (same local matrix: location, rotation, scale), the way three.js drew them. Same picture, a few hundred objects.
+    Groups under min_count, objects with children, modifiers or animation are left as they are. Returns (objects now in the set, report)."""
+    groups = {}
+    for o in objs:
+        if o.type == "MESH" and not o.children and not o.modifiers and not o.animation_data: groups.setdefault((o.data.name, o.parent.name if o.parent else None), []).append(o)
+    ptr, gone, new, made = [(o.as_pointer(), o) for o in objs], set(), [], 0   # removed objects cannot be touched afterwards: track them by pointer
+    for (mname, pname), G in groups.items():
+        if len(G) < min_count: continue
+        src = G[0]; me = bpy.data.meshes.new("inst_pts:" + mname); M4 = [o.matrix_local.copy() for o in G]
+        me.from_pydata([m.to_translation() for m in M4], [], []); me.update()
+        rot = me.attributes.new("inst_rot", "FLOAT_VECTOR", "POINT"); scl = me.attributes.new("inst_scale", "FLOAT_VECTOR", "POINT")
+        for i, m in enumerate(M4): rot.data[i].vector = m.to_euler("XYZ"); scl.data[i].vector = m.to_scale()
+        ob = bpy.data.objects.new("inst:%s:%s" % (pname or "root", mname), me)
+        for c in src.users_collection: c.objects.link(ob)
+        if src.parent: ob.parent = src.parent; ob.matrix_parent_inverse.identity()
+        nt = bpy.data.node_groups.new("inst:" + mname, "GeometryNodeTree")
+        nt.interface.new_socket("Geometry", in_out="INPUT", socket_type="NodeSocketGeometry"); nt.interface.new_socket("Geometry", in_out="OUTPUT", socket_type="NodeSocketGeometry")
+        N = nt.nodes; gi, go = N.new("NodeGroupInput"), N.new("NodeGroupOutput"); iop = N.new("GeometryNodeInstanceOnPoints"); info = N.new("GeometryNodeObjectInfo")
+        info.inputs["Object"].default_value = src; info.transform_space = "ORIGINAL"
+        ra, sa = N.new("GeometryNodeInputNamedAttribute"), N.new("GeometryNodeInputNamedAttribute"); ra.data_type = sa.data_type = "FLOAT_VECTOR"; ra.inputs["Name"].default_value = "inst_rot"; sa.inputs["Name"].default_value = "inst_scale"
+        e2r = N.new("FunctionNodeEulerToRotation"); L = nt.links
+        L.new(gi.outputs[0], iop.inputs["Points"]); L.new(info.outputs["Geometry"], iop.inputs["Instance"]); L.new(ra.outputs["Attribute"], e2r.inputs[0]); L.new(e2r.outputs[0], iop.inputs["Rotation"])
+        L.new(sa.outputs["Attribute"], iop.inputs["Scale"]); L.new(iop.outputs["Instances"], go.inputs[0])
+        ob.modifiers.new("instances", "NODES").node_group = nt
+        src.hide_render = True; src.hide_viewport = True                                  # the source stays (Object Info reads it), unseen
+        for o in G[1:]: gone.add(o.as_pointer()); bpy.data.objects.remove(o, do_unlink=True)
+        new.append(ob); made += 1
+    return [o for p, o in ptr if p not in gone] + new, {"instancers": made, "objects_removed": len(gone)}
+
 def import_set(scene, lock, place):
     """the approved three.js set, same geometry; library materials by tag"""
     before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(lock, "sets", place + ".glb")); objs = [o for o in bpy.data.objects if o not in before]; made = {}; report = {}; unknown = set(); done = set()
@@ -55,6 +87,7 @@ def import_set(scene, lock, place):
             if key not in made: made[key] = M.glass() if tag == "glass" else M.emissive_lamp(col) if tag == "emissive_lamp" else _flat(col) if tag == "flat" else M.get(tag, color=col)
             s.material = made[key]; done.add(made[key]); report[tag] = report.get(tag, 0) + 1
     if unknown: report["_unknown_as_matte"] = sorted(unknown)
+    objs, report["_instances"] = collapse_instances(objs)   # after the materials: the instancers inherit the library materials of their mesh
     return objs, report
 
 def _rot(pos, aim, up_hint, roll_deg):

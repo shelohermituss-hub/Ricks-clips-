@@ -9,12 +9,13 @@
 # Watchdog: RICKCLIPS_MAX_HOURS (the pod removes itself after that, budget cap).
 set -u
 SKILL=/root/repo/.claude/skills/ricks-clips; EP="$SKILL/${RICKCLIPS_EPISODE:?}"; PUB=/root/pub/${RICKCLIPS_PUB_KEY:?}; BR=${RICKCLIPS_BRANCH:-main}
+if [ -d /workspace ] && [ -w /workspace ]; then mkdir -p /workspace/pub; rm -rf /root/pub; ln -sfn /workspace/pub /root/pub; fi   # results guard 2026-11-18: results on the pod VOLUME, so a watchdog STOP keeps them
 mkdir -p "$PUB/jobs"; : > /root/pub/index.html; LOG="$PUB/setup.log"; exec > >(tee -a "$LOG") 2>&1
 T0=$(date +%s)
 st(){ printf '{"stage":"%s","msg":"%s","elapsed_s":%d,"time":"%s"}\n' "$1" "${2:-}" $(( $(date +%s) - T0 )) "$(date -u +%FT%TZ)" > "$PUB/status.json.tmp" && mv "$PUB/status.json.tmp" "$PUB/status.json"; echo "[status] $1 ${2:-}"; }
 fail(){ st failed "$1"; echo "FAILED: $1"; sleep infinity; }
 (cd /root/pub && nohup python3 -m http.server 8000 --bind 0.0.0.0 >/dev/null 2>&1 &)
-( sleep $(( ${RICKCLIPS_MAX_HOURS:-3} * 3600 )); st watchdog "max time reached, removing pod"; command -v runpodctl >/dev/null && runpodctl remove pod "${RUNPOD_POD_ID:-}" ) &
+( sleep $(( ${RICKCLIPS_MAX_HOURS:-3} * 3600 )); st watchdog "max time reached, STOPPING pod (volume and results kept; pod.py resume + fetch, then delete)"; command -v runpodctl >/dev/null && runpodctl stop pod "${RUNPOD_POD_ID:-}" ) &
 export DEBIAN_FRONTEND=noninteractive XDG_RUNTIME_DIR=/tmp/xdg; mkdir -p -m 700 $XDG_RUNTIME_DIR
 st setup "apt (GPU libs, X11 for Blender)"
 apt-get update -qq && apt-get install -y -qq ffmpeg curl xz-utils bc git libvulkan1 vulkan-tools libegl1 libgl1 libgles2 libglvnd0 libglx0 libx11-6 libxext6 libxcb1 libx11-xcb1 \
@@ -35,6 +36,7 @@ ANG=""; for a in vulkan gl-egl; do if RICKCLIPS_GPU_ANGLE=$a timeout 180 node "$
 echo "webgl angle: ${ANG:-software}" | tee -a "$PUB/blender.txt"
 RICKCLIPS_GPU_ANGLE=$ANG node "$SKILL/templates/threejs_film/render_gpu.mjs" "$EP/film.json" --export-lock ${ANG:+} $([ -z "$ANG" ] && echo --software) --cache /tmp/pc_lock > "$PUB/lock.log" 2>&1 || fail "export-lock"
 grep -E "^set |^cards |highlights" "$PUB/lock.log" | tail -30; cp "$EP/out/lock/lock.json" "$PUB/lock.json" 2>/dev/null
+tar -cf "$PUB/lock.tar" -C "$EP/out" lock plan && python3 "$SKILL/scripts/runpod/manifest.py" "$PUB" lock || fail "lock archive"   # results guard: the WHOLE lock is published (it was only on the pod disk before)
 export SKILL EP BLENDER
 st ready "waiting for jobs in look/jobs"
 while :; do
@@ -44,6 +46,7 @@ while :; do
     mkdir -p "$PUB/jobs/$id"; st job "$id running"; t=$(date +%s)
     OUT="$PUB/jobs/$id" bash "$j" > "$PUB/jobs/$id/log.txt" 2>&1; rc=$?
     printf '{"rc":%d,"seconds":%d}\n' $rc $(( $(date +%s) - t )) > "$PUB/jobs/$id/done"; ls "$PUB/jobs/$id" > "$PUB/jobs/$id/files.txt"
+    python3 "$SKILL/scripts/runpod/manifest.py" "$PUB" "job $id"
     st ready "$id finished rc=$rc"
   done
   sleep 30
