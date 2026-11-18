@@ -88,7 +88,11 @@ class Run:
         for p in ph:
             if p["type"] == "deform": chk.append(("deform %s: vertices moved" % p.get("object"), p["deformed_vertices"] > 0, p["deformed_vertices"])); continue
             chk.append(("%s: pieces moved after release" % p["type"], p.get("pieces_moved", 0) > 0, {k: p.get(k) for k in ("pieces", "joints", "pieces_moved", "release")}))
-            chk.append(("%s: nothing thrown absurdly far (< 12 m)" % p["type"], p.get("max_moved_m", 0) < 12, p.get("max_moved_m")))
+            spec = next((x for x in self.P["physics"] if x["type"] == p["type"]), {})
+            if spec.get("striker"):          # pushed pieces travel with the striker: distance is not projection (gate refined 2026-11-18 after the cart, pushed 12.1 m, failed it)
+                chk.append(("%s: no piece projected (peak free speed < 15 m/s)" % p["type"], p.get("max_speed_ms", 99) < 15, {"max_speed_ms": p.get("max_speed_ms"), "fastest": p.get("fastest"), "max_moved_m": p.get("max_moved_m")}))
+            else:
+                chk.append(("%s: nothing thrown absurdly far (< 12 m) and no projection (< 15 m/s)" % p["type"], p.get("max_moved_m", 0) < 12 and p.get("max_speed_ms", 99) < 15, {"max_moved_m": p.get("max_moved_m"), "max_speed_ms": p.get("max_speed_ms")}))
         pen = self.Q.get("penetration", {}); chk.append(("no simulated piece sunk > 5 cm into the ground (vertex check every 15 frames)", not pen.get("over_5cm") and "error" not in pen, {"max_depth_m": pen.get("max_depth_m"), "over_5cm": pen.get("over_5cm")}))
         return chk or [("physics events", False, "none")], [os.path.join(self.E, "scene_report.json"), os.path.join(self.E, "scene_qa.json")]
     def p7(self):
@@ -101,7 +105,9 @@ class Run:
     def p9(self):
         cal = self.P.get("lookdev", {}).get("calibrate"); ev = []
         if cal:
-            refs = sorted(glob.glob(os.path.join(os.path.dirname(self.place), cal["reference"][0], "*.jpg")))[:len(cal["frames"])]
+            allr = sorted(glob.glob(os.path.join(os.path.dirname(self.place), cal["reference"][0], "*.jpg")) + glob.glob(os.path.join(os.path.dirname(self.place), cal["reference"][0], "*.png")))
+            if not allr: raise RuntimeError("calibration reference folder has no images: %s" % os.path.normpath(os.path.join(os.path.dirname(self.place), cal["reference"][0])))
+            n = len(cal["frames"]); refs = [allr[round(i * (len(allr) - 1) / max(1, n - 1))] for i in range(n)]   # spread over the reference, not its first seconds
             c = bl("calibrate", os.path.join(self.B, "scene.blend"), ",".join(map(str, cal["frames"])), ",".join(refs), os.path.join(self.B, "calib"), "--res", "135x240", "--samples", "8")
             json.dump(c, open(os.path.join(self.E, "p9_calibration.json"), "w"), indent=1); ev.append(os.path.join(self.E, "p9_calibration.json")); last = c["calibration"][-1]
         st = self.Q["stats"]; tex = st["textured_materials"] / max(1, st["materials"])

@@ -1,6 +1,6 @@
 """RunPod control for RicksClips GPU renders (GraphQL API https://api.runpod.io/graphql), 2026-11-17; results guard 2026-11-18.
     python scripts/runpod/pod.py create <episode path from the skill root> [--gpu "NVIDIA GeForce RTX 4090"] [--branch <git branch>] [--script X.sh]
-                                        [--cloud ALL|COMMUNITY|SECURE] [--volume-gb 20] [--max-hours 3] [--scale 1] [--post v3] [--allow-cpu] [--diag]
+                                        [--cloud ALL|COMMUNITY|SECURE] [--volume-gb 20] [--max-hours 3 (fractional ok)] [--expect jobs/201_render/x.mp4,...] [--scale 1] [--post v3] [--allow-cpu] [--diag]
     python scripts/runpod/pod.py status <podId>
     python scripts/runpod/pod.py fetch  <podId> [--dest <dir>]      download every file of the pod's manifest.json, check each sha256, write FETCH_RECEIPT.json
     python scripts/runpod/pod.py verify <podId> [--dest <dir>]      the delete checks without deleting (exit 0 = safe to delete)
@@ -116,7 +116,8 @@ def main(a):
                        {"key": "NVIDIA_DRIVER_CAPABILITIES", "value": "all"}]}
         d = gql("mutation($i: PodFindAndDeployOnDemandInput) { podFindAndDeployOnDemand(input: $i) { id name desiredStatus costPerHr machine { gpuDisplayName } } }", {"i": inp})["podFindAndDeployOnDemand"]
         d["pub_key"] = key; d["status_url"] = "https://%s-8000.proxy.runpod.net/%s/status.json" % (d["id"], key)
-        save_rec({"id": d["id"], "status_url": d["status_url"], "episode": ep, "script": script, "expect": EXPECT.get(script, []), "created": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "costPerHr": d.get("costPerHr")})
+        # --expect: job outputs that must be fetched before any delete
+        save_rec({"id": d["id"], "status_url": d["status_url"], "episode": ep, "script": script, "expect": EXPECT.get(script, []) + [x for x in opt(a, "--expect", "").split(",") if x], "created": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "costPerHr": d.get("costPerHr")})
         print(json.dumps(d)); return 0
     if a[0] == "status":
         print(json.dumps(gql("query($i: PodFilter) { pod(input: $i) { id name desiredStatus lastStatusChange costPerHr uptimeSeconds: runtime { uptimeInSeconds } } }", {"i": {"podId": a[1]}})["pod"])); return 0

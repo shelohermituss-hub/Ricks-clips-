@@ -76,7 +76,7 @@ class Sim:
         if scene.rigidbody_world is None:
             with bpy.context.temp_override(scene=scene): bpy.ops.rigidbody.world_add()
         rw = scene.rigidbody_world; rw.collection = _col(scene, "RC_RIGIDBODY_%d" % f0); rw.point_cache.frame_start, rw.point_cache.frame_end = f0, f1
-        rw.substeps_per_frame = substeps; rw.solver_iterations = iters; self.rw = rw
+        rw.substeps_per_frame = substeps; rw.solver_iterations = iters; self.rw = rw; self.release = {}
     def rb(self, o, kind, mass=1.0, shape="CONVEX_HULL", friction=.75, bounce=.12, group=0):
         if o.name not in self.rw.collection.objects: self.rw.collection.objects.link(o)
         with bpy.context.temp_override(object=o, active_object=o, selected_objects=[o]):
@@ -93,7 +93,7 @@ class Sim:
         if release > self.f0:
             r.kinematic = True; r.keyframe_insert("kinematic", frame=self.f0); r.kinematic = True; r.keyframe_insert("kinematic", frame=release - 1)
             r.kinematic = False; r.keyframe_insert("kinematic", frame=release)
-        self.parts.append(o); return r
+        self.parts.append(o); self.release[o.name] = release; return r
     def collider(self, o, shape="MESH"):
         r = self.rb(o, "PASSIVE", shape=shape); self.passive.append(o)
         if shape == "MESH": r.mesh_source = "FINAL"; r.collision_margin = .01      # a triangle-mesh ground is paper-thin: a small margin stops pieces pressed through it
@@ -159,7 +159,17 @@ class Sim:
             moved += d > .05; far = max(far, d)
             nm = o.name.split(":")[-1]
             if any(t in nm for t in track_names): track[nm] = {"before": [round(v, 2) for v in p0], "end": [round(v, 2) for v in p1], "moved_m": round(d, 2)}
-        return {"pieces": len(self.parts), "joints": self.joints, "pieces_moved": moved, "max_moved_m": round(far, 2), "track": track}
+        # PROJECTION measure: peak speed of each FREE piece (after its release; a piece kinematic for the whole event is authored motion,
+        # not simulation). A pushed piece moves at the pusher's speed; a thrown or exploding one is fast (gate: < 15 m/s).
+        fps = sc.render.fps / sc.render.fps_base; vmax, vwho = 0.0, None
+        for o in self.parts:
+            r0 = self.release.get(o.name, self.f0)
+            if r0 > self.f1: continue
+            T = [m.translation for m in M[o.name]]
+            for i in range(max(1, r0 - self.f0 + 1), len(T)):
+                v = (T[i] - T[i - 1]).length * fps
+                if v > vmax: vmax, vwho = v, o.name
+        return {"pieces": len(self.parts), "joints": self.joints, "pieces_moved": moved, "max_moved_m": round(far, 2), "max_speed_ms": round(vmax, 2), "fastest": vwho, "track": track}
 
 def _shrink(o, k=.985):
     """pre-separation: each fragment shrunk 1.5 % about its own centre so neighbours never start interpenetrated (no pop at release)"""

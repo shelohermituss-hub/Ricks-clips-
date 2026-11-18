@@ -15,8 +15,9 @@ mkdir -p "$PUB/jobs"; : > /root/pub/index.html; LOG="$PUB/setup.log"; exec > >(t
 T0=$(date +%s)
 st(){ printf '{"stage":"%s","msg":"%s","elapsed_s":%d,"time":"%s"}\n' "$1" "${2:-}" $(( $(date +%s) - T0 )) "$(date -u +%FT%TZ)" > "$PUB/status.json.tmp" && mv "$PUB/status.json.tmp" "$PUB/status.json"; echo "[status] $1 ${2:-}"; }
 fail(){ st failed "$1"; echo "FAILED: $1"; sleep infinity; }
+# watchdog below: RICKCLIPS_MAX_HOURS may be fractional (budget caps like 2.4 h)
 (cd /root/pub && nohup python3 -m http.server 8000 --bind 0.0.0.0 >/dev/null 2>&1 &)
-( sleep $(( ${RICKCLIPS_MAX_HOURS:-3} * 3600 )); st watchdog "max time reached, STOPPING pod (volume and results kept; pod.py resume + fetch, then delete)"; command -v runpodctl >/dev/null && runpodctl stop pod "${RUNPOD_POD_ID:-}" ) &
+( sleep $(awk "BEGIN{print int(${RICKCLIPS_MAX_HOURS:-3}*3600)}"); st watchdog "max time reached, STOPPING pod (volume and results kept; pod.py resume + fetch, then delete)"; command -v runpodctl >/dev/null && runpodctl stop pod "${RUNPOD_POD_ID:-}" ) &
 export DEBIAN_FRONTEND=noninteractive XDG_RUNTIME_DIR=/tmp/xdg; mkdir -p -m 700 $XDG_RUNTIME_DIR
 st setup "apt (GPU libs, X11 for Blender)"
 apt-get update -qq && apt-get install -y -qq ffmpeg curl xz-utils bc git libvulkan1 vulkan-tools libegl1 libgl1 libgles2 libglvnd0 libglx0 libx11-6 libxext6 libxcb1 libx11-xcb1 \
