@@ -62,3 +62,24 @@ def scene_stats(scene=None):
     s.update({"instances_drawn": inst, "instanced_tris": inst_tris, "total_tris_drawn": s["tris"] + inst_tris, "by_type": by_type,
               "instance_ratio": round(inst / max(1, inst + s["mesh_objects"]), 4)})
     return s
+
+def character_contact(scene=None, step=15, tol=.02):
+    """phase-4 gate: on sampled frames, every visible card's feet are on the ground (|card z - terrain z| <= tol) and it casts a shadow"""
+    from rc import envbuild
+    scene = scene or bpy.context.scene; ground = bpy.data.objects.get("terrain"); out = {}
+    for o in [o for o in scene.objects if o.name.startswith("Card_")]:
+        worst = 0.0; n = 0
+        for f in range(scene.frame_start, scene.frame_end + 1, step):
+            scene.frame_set(f)
+            if o.hide_render: continue
+            p = o.matrix_world.translation; dz = abs(p.z - envbuild.ground_z(ground, p.x, p.y)); worst = max(worst, dz); n += 1
+        out[o.name[5:]] = {"frames_checked": n, "max_gap_m": round(worst, 4), "ok": n > 0 and worst <= tol, "casts_shadow": bool(o.visible_shadow)}
+    return out
+
+def animation_keys(names):
+    """phase-5 gate: each named target carries keys (a recipe really baked)"""
+    out = {}
+    for nm in names:
+        o = bpy.data.objects.get(nm); ad = o.animation_data if o else None
+        out[nm] = {"exists": o is not None, "keyed": bool(ad and ad.action)}
+    return out

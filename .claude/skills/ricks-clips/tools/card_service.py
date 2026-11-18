@@ -14,7 +14,7 @@ import json, os, shutil, subprocess, sys
 SKILL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def main(tracks, out):
-    T = json.load(open(tracks)); plan = os.path.join(out, "plan"); os.makedirs(plan, exist_ok=True)
+    out = os.path.abspath(out); T = json.load(open(tracks)); plan = os.path.join(out, "plan"); os.makedirs(plan, exist_ok=True)
     acts = [dict(a, place="yard") for a in T["acts"]]
     F = {"title": T.get("title", "card service"), "fps": T.get("fps", 30), "size": [1080, 1920], "end": T["end"],
          "puppet_pkg": [os.path.relpath(os.path.join(SKILL, "templates", "vector2d_characters", "code"), plan)],
@@ -31,7 +31,7 @@ def main(tracks, out):
     if r.returncode != 0 or not lines: raise SystemExit("card export failed:\n" + (r.stdout + r.stderr)[-2000:])
     cards = os.path.join(out, "cards")
     if os.path.exists(cards): shutil.rmtree(cards)
-    shutil.copytree(os.path.join(lock, "cards"), cards); shutil.rmtree(os.path.join(out, ".puppet_cache"), ignore_errors=True)
+    shutil.copytree(os.path.join(lock, "cards"), cards)            # .puppet_cache is kept: unchanged drawings are reused next run
     print("\n".join(lines)); return 0
 
 if __name__ == "__main__":
