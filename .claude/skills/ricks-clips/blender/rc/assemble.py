@@ -145,4 +145,17 @@ def build(place_path, out_blend, upto=9, light=True):
         if P.get("lookdev"): report["lookdev"] = lookdev.apply(P["lookdev"]["rules"])
         report["phases"].append(9)
     os.makedirs(os.path.dirname(os.path.abspath(out_blend)), exist_ok=True); bpy.ops.wm.save_as_mainfile(filepath=out_blend, compress=True)
-    report["assets_used"] = sorted(cols); return report
+    report["assets_used"] = sorted(cols); sc["rc_build_key"] = report["build_key"] = build_key(P, place_path, root, upto); return report
+
+def build_key(P, place_path, root, upto):
+    """CONTENT KEY of an assembled scene (a .blend saved twice is not byte-identical, measured 2026-11-18, so its bytes cannot key the
+    frame cache): the place.json, the phases built, the rc package source, the asset build keys used, the character cards' index files
+    and the Blender version. Same key = same scene = rendered frames are reused."""
+    import glob, hashlib
+    h = hashlib.sha256(); h.update(json.dumps(P, sort_keys=True).encode()); h.update(str(upto).encode()); h.update(bpy.app.version_string.encode())
+    for f in sorted(glob.glob(os.path.join(os.path.dirname(os.path.abspath(__file__)), "*.py"))): h.update(open(f, "rb").read())
+    for aid in sorted(library.index()): h.update(json.dumps(library.index()[aid], sort_keys=True).encode())
+    ch = P.get("characters", {})
+    if ch.get("cards"):
+        for f in sorted(glob.glob(os.path.join(root, ch["cards"], "*", "index.json"))): h.update(open(f, "rb").read())
+    return h.hexdigest()

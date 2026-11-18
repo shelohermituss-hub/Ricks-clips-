@@ -52,8 +52,12 @@ def _sha(p):
     h = hashlib.sha256(); h.update(open(p, "rb").read()); return h.hexdigest()
 
 def scene_key(info):
-    """content key of what decides a frame's pixels: the saved .blend bytes + the render settings (engine, res, samples, seed, device)"""
-    h = hashlib.sha256(); h.update(open(bpy.data.filepath, "rb").read()); h.update(json.dumps({k: info[k] for k in sorted(info) if k != "devices"}, sort_keys=True, default=str).encode()); return h.hexdigest()
+    """content key of what decides a frame's pixels: the rc build key (or the .blend bytes) + view settings + the render settings (engine, res, samples, seed, device)"""
+    sc = bpy.context.scene; vs = sc.view_settings; h = hashlib.sha256()
+    if sc.get("rc_build_key"):                                         # assembled by rc: content key of its inputs (+ what calibrate changes after)
+        h.update(sc["rc_build_key"].encode()); h.update(json.dumps([vs.view_transform, vs.look, round(vs.exposure, 5), round(vs.gamma, 5), vs.use_white_balance, round(vs.white_balance_temperature, 3), round(vs.white_balance_tint, 3)]).encode())
+    else: h.update(open(bpy.data.filepath, "rb").read())
+    h.update(json.dumps({k: info[k] for k in sorted(info) if k != "devices"}, sort_keys=True, default=str).encode()); return h.hexdigest()
 
 def frames(scene, frame_list, outdir, info, frame_cache=True):
     """renders each frame; FRAME CACHE: a frame whose (scene key, frame) was rendered before is copied, not rendered again"""

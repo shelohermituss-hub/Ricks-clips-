@@ -38,10 +38,10 @@ grep -q "RC_GPU" "$PUB/cycles_devices.txt" || fail "Cycles sees no GPU (see cycl
 (nvidia-smi --query-gpu=timestamp,utilization.gpu,memory.used,power.draw --format=csv -l 2 > "$PUB/gpu_usage.csv" 2>&1 &)
 export RICKCLIPS_CACHE=/workspace/rc_cache; [ -d /workspace ] || export RICKCLIPS_CACHE=/root/rc_cache; mkdir -p "$RICKCLIPS_CACHE"   # content cache on the volume: a stopped/resumed pod keeps it
 export SKILL EP BLENDER RICKCLIPS_CACHE
-st ready "waiting for jobs in look/jobs"
+st ready "waiting for jobs in look/jobs or jobs/"
 while :; do
   (cd /root/repo && git fetch -q origin "$BR" && git reset -q --hard FETCH_HEAD) || true
-  for j in $(ls "$EP"/look/jobs/[1-9][0-9][0-9]_*.sh 2>/dev/null | sort); do   # Mission 2: the Blender pod runs jobs 100+ only (000-007 are the old three.js LookDev jobs)
+  for j in $(ls "$EP"/look/jobs/[1-9][0-9][0-9]_*.sh "$EP"/jobs/[1-9][0-9][0-9]_*.sh 2>/dev/null | sort); do   # episodes: look/jobs; generic demos (demos/<name>): jobs/   # Mission 2: the Blender pod runs jobs 100+ only (000-007 are the old three.js LookDev jobs)
     id=$(basename "$j" .sh); [ -e "$PUB/jobs/$id/done" ] && continue
     mkdir -p "$PUB/jobs/$id"; st job "$id running"; t=$(date +%s)
     OUT="$PUB/jobs/$id" bash "$j" > "$PUB/jobs/$id/log.txt" 2>&1; rc=$?

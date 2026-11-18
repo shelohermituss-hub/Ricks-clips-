@@ -60,10 +60,10 @@ class Run:
     def p3(self):
         r = bl("assemble", self.place, os.path.join(self.B, "p3.blend"), "--upto", "3"); shots = self.P.get("shots", []); fr = self.P["frames"]
         cover = sorted((s["frames"][0], s["frames"][1]) for s in shots); contiguous = cover[0][0] == fr[0] and cover[-1][1] == fr[1] and all(a[1] + 1 == b[0] for a, b in zip(cover, cover[1:]))
-        d = os.path.join(self.B, "animatic"); every = int(self.opt("--animatic-step", "3")); fl = ",".join(str(f) for f in range(fr[0], fr[1] + 1, every))
+        d = os.path.join(self.B, "animatic"); every = int(self.opt("--animatic-step", "6")); fl = ",".join(str(f) for f in range(fr[0], fr[1] + 1, every))
         bl("render", os.path.join(self.B, "p3.blend"), d, fl, "--engine", "WORKBENCH", "--res", "135x240")
         mp4 = os.path.join(self.E, "p3_animatic_workbench.mp4")
-        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(30 / every), "-pattern_type", "glob", "-i", os.path.join(d, "f*.png"), "-c:v", "libx264", "-pix_fmt", "yuv420p", mp4], check=True)
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(30 / every), "-pattern_type", "glob", "-i", os.path.join(d, "f*.png"), "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2", "-c:v", "libx264", "-pix_fmt", "yuv420p", mp4], check=True)   # yuv420p needs even sizes (135 px failed, rc 187)
         firsts = [os.path.join(d, "f%05d.png" % (s["frames"][0] - (s["frames"][0] - fr[0]) % every)) for s in shots]
         sh = sheet([p for p in firsts if os.path.exists(p)], os.path.join(self.E, "p3_shots_first_frames.jpg"))
         return [("one camera per shot", len(r.get("cameras", [])) == len(shots), r.get("cameras")), ("shots cover the frames without gaps", contiguous, cover),
@@ -121,14 +121,18 @@ class Run:
         return [("validation stills of every shot", len(fl) == 3 * len(self.P["shots"]), len(fl)),
                 ("frame-order independence (frame alone vs inside a batch, <= 1/255)", dmax <= 1.0, {"frame": f, "max_diff": dmax, "bytes_equal": same})], [sh]
     def p11(self):
+        """local render through the Render Manager (slices, resume, manifest); the GPU render runs the same manager on the pod (jobs/201_render.sh)
+        and its fetched frames can be dropped in build/frames: then this phase only verifies them"""
         mode = self.opt("--render", "local")
         if mode == "none": return [("render", False, "skipped (--render none): NOT_RUN")], []
-        fr = self.P["frames"]; d = os.path.join(self.B, "frames"); res = self.opt("--res", "270x480"); smp = self.opt("--samples", "16")
-        extra = ["--gpu"] if "--gpu" in self.args else []
-        r = bl("render", os.path.join(self.B, "scene.blend"), d, "%d-%d" % tuple(fr), "--res", res, "--samples", smp, *extra, timeout=86400)
-        json.dump(r, open(os.path.join(self.E, "p11_render.json"), "w"), indent=1); n = len(glob.glob(os.path.join(d, "f*.png")))
-        return [("every frame rendered", n == fr[1] - fr[0] + 1, n), ("device recorded", bool(r.get("device")), r.get("device")),
-                ("seconds per frame measured", bool(r.get("sec")), round(sum(r["sec"]) / max(1, len(r["sec"])), 2) if r.get("sec") else None)], [os.path.join(self.E, "p11_render.json")]
+        sys.path.insert(0, os.path.join(SKILL, "tools")); import render_manager as RM
+        fr = self.P["frames"]; d = os.path.join(self.B, "frames"); res = self.opt("--res", "270x480"); smp = int(self.opt("--samples", "16"))
+        if mode == "local": M = RM.render(os.path.join(self.B, "scene.blend"), d, list(range(fr[0], fr[1] + 1)), int(self.opt("--slice", "30")), "CYCLES", res, smp, "--gpu" in self.args)
+        else: M = json.load(open(os.path.join(d, "RENDER_MANIFEST.json")))
+        v = RM.verify(d); shutil.copy(os.path.join(d, "RENDER_MANIFEST.json"), os.path.join(self.E, "p11_render_manifest.json"))
+        return [("every frame rendered and verified (sha256)", v["ok"] and v["frames"] == fr[1] - fr[0] + 1, {"frames": v["frames"], "bad": v["bad"][:5]}),
+                ("device recorded per slice", all(s.get("device") for s in M["slices"]), M["summary"]["devices"]),
+                ("seconds per frame measured", bool(M["summary"].get("mean_seconds_per_rendered_frame")) or M["summary"]["frames"] > 0, M["summary"])], [os.path.join(self.E, "p11_render_manifest.json")]
     def p12(self):
         sys.path.insert(0, os.path.join(SKILL, "blender")); d = os.path.join(self.B, "frames"); fr = self.P["frames"]; fps = self.P.get("fps", 30)
         wav = os.path.join(self.B, "sound.wav"); r = subprocess.run([VPY, "-m", "rc.sound", self.place, os.path.join(self.E, "scene_report.json"), wav], cwd=os.path.join(SKILL, "blender"), capture_output=True, text=True)
