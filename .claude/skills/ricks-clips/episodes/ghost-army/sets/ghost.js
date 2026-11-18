@@ -4,7 +4,7 @@
 // Hero objects are built here in code (the Asset Hub refuses military models on purpose): the INFLATABLE SHERMAN (rubberised canvas, valve,
 // patch, track-print skirt), the SOUND HALF-TRACK (giant speaker horn, disc turntable), the cargo truck, the bulldozer with its track-mark beam.
 // Story events come from places.<name>.events (frames). Real models (CC-BY, Sketchfab via Asset Hub) come in through places.<name>.assets.
-export function build(THREE, scene, film, ctx) {
+export async function build(THREE, scene, film, ctx) {   /* V3: async, the inflatable decoy is a Blender GLB */
   const { B2T, toon } = ctx, P = ctx.place || {}, Z = P.zone || 'field', EV = P.events || {};
   const V = (x, y, z) => B2T([x, y, z]), n = {};
   let seed = 4417 + Z.length * 31; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647, rr = (a, b) => a + rnd() * (b - a);
@@ -30,7 +30,79 @@ export function build(THREE, scene, film, ctx) {
   const treadTex = canvasTex(64, 512, (g, w, h) => { g.fillStyle = '#808080'; g.fillRect(0, 0, w, h); for (let y = 0; y < h; y += 16) { g.fillStyle = '#d0d0d0'; g.fillRect(0, y, w, 7); g.fillStyle = '#404040'; g.fillRect(0, y + 7, w, 2); } });
   treadTex.wrapS = treadTex.wrapT = THREE.RepeatWrapping; treadTex.repeat.set(6, 1); treadTex.colorSpace = THREE.NoColorSpace;
   const stencilTex = ['3A-27', 'USA 30117', '6-B-41', 'W-3088'].map(txt => canvasTex(256, 74, (g, w, h) => { g.clearRect(0, 0, w, h); g.fillStyle = 'rgba(236,232,214,.92)'; g.font = 'bold 44px monospace'; g.textAlign = 'center'; g.fillText(txt, w / 2, 54); }));
-  function sherman(name, opts = {}) {
+  /* ---- V3 step 1 (2026-11-18): the INFLATABLE DECOY is a custom Blender model, not a primitive assembly.
+     Source: library/assets/custom/inflatable_tank/build_inflatable_tank.py -> episodes/ghost-army/assets/inflatable_tank.glb (hero, close-ups)
+     and inflatable_tank_lod.glb (rows of decoys). Bladders, sewn seams, tread tie-seams, wheel cushions, brass valves, stitched patches,
+     webbing straps, lift loops, a sausage-segment gun. A fictional film prop. The procedural build below stays for the REAL tanks only. */
+  const GLB = {};
+  { const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js'), L = new GLTFLoader();
+    for (const k of ['inflatable_tank', 'inflatable_tank_lod']) GLB[k] = (await L.loadAsync(new URL('../assets/' + k + '.glb', import.meta.url).href)).scene; }
+  const TRK = new THREE.MeshStandardMaterial({ name: 'rubber_canvas', color: '#34352e', roughness: .8, bumpMap: treadTex, bumpScale: 1.2 });
+  const ray = new THREE.Raycaster();
+  function inflatable(name, opts = {}) {
+    const hero = /^(inflatable_sherman|deflated_skin)$/.test(name) || opts.hero;
+    const g = new THREE.Group(); g.name = name; const body = GLB[hero ? 'inflatable_tank' : 'inflatable_tank_lod'].clone(true); body.name = name + '_model'; g.add(body);
+    const VR = opts.vary ?? Math.abs(Math.sin((opts.at ? opts.at[0] * 12.9 + opts.at[1] * 78.2 : 1) * 43758.5)) % 1;
+    const col = new THREE.Color(opts.col || '#5d6538'); if (!opts.col) col.offsetHSL((VR - .5) * .03, (VR - .5) * .1, (VR - .5) * .08);
+    const M = rubber(col), MD = rubber(col.clone().multiplyScalar(.74)), MP = rubber(col.clone().offsetHSL(.015, .05, .06));
+    body.traverse(o => { if (!o.isMesh) return; const k = o.material.name;
+      o.material = k === 'rubber_body' ? M : k === 'rubber_dark' ? MD : k === 'rubber_track' ? TRK : k === 'patch' ? MP : o.material;
+      o.userData.role = 'cloth'; o.userData.mat = 'rubber'; o.castShadow = opts.cast ?? true; o.receiveShadow = true; });
+    const turret = body.getObjectByName('turret'), gun = body.getObjectByName('gun_pivot'), valve = body.getObjectByName('valve_main');
+    const hull = body.getObjectByName('hull_bladder'); body.updateMatrixWorld(true);
+    // painted markings, laid on the real surface with a ray (they follow the inflated bulge)
+    const decal = (tex, w, h, from, dir, nm) => { ray.set(new THREE.Vector3(...from), new THREE.Vector3(...dir).normalize()); const hit = ray.intersectObject(hull, false)[0]; if (!hit) return null;
+      const m = add(new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshStandardMaterial({ map: tex, transparent: true, alphaTest: .4, roughness: .6, polygonOffset: true, polygonOffsetFactor: -4 })), nm, 'cloth', { parent: g, cast: false });
+      const nrm = hit.face.normal.clone().transformDirection(hull.matrixWorld); m.position.copy(hit.point).addScaledVector(nrm, .012); m.lookAt(hit.point.clone().addScaledVector(nrm, 1)); return m; };
+    for (const s of [-1, 1]) decal(starTex, .8, .8, [-.75, 1.42, s * 3], [0, 0, -s], 'tank_star');
+    decal(stencilTex[Math.floor(VR * stencilTex.length) % stencilTex.length], .9, .26, [5, 1.3, -.45], [-1, -.35, 0], 'tank_stencil');
+    if (turret) turret.rotation.y = (VR - .5) * .25;
+    const t0 = turret ? turret.scale.clone() : null;
+    g.userData.droop = 0; g.userData.sag = 0;
+    g.userData.set = (droop = 0, sag = 0) => { if (gun) gun.rotation.z = -droop * .9; g.scale.y = (opts.scale || 1) * (1 - .45 * sag); if (turret) { turret.scale.set(t0.x * (1 + .06 * sag), t0.y * (1 - .4 * sag), t0.z * (1 + .06 * sag)); } };
+    g.userData.valve = valve; g.userData.gun = gun; g.userData.barrel = gun;
+    if (opts.at) g.position.copy(V(...opts.at)); g.rotation.y = opts.rot || 0; if (opts.scale) g.scale.setScalar(opts.scale);
+    (opts.parent || scene).add(g); return g;
+  }
+  /* ---- V3 step 2 (2026-11-18): a decoy FIELD, not a grid of clones. Rows that bend and break, every balloon with its own
+     tint, size, heading and inflation (some still soft, one half collapsed), camouflage nets thrown over a few, unit pennants
+     on poles at the row ends, flapping in the wind. Same model, so the camp still reads as one unit's work. */
+  const DECOY_TINTS = ['#5d6538', '#535a33', '#646b3e', '#5a5a3a', '#4f5a36', '#666a40'];
+  const netTex = canvasTex(256, 256, (g, w) => { g.clearRect(0, 0, w, w); g.strokeStyle = 'rgba(40,46,28,.95)'; g.lineWidth = 3;
+    for (let i = -w; i < 2 * w; i += 22) { g.beginPath(); g.moveTo(i, 0); g.lineTo(i + w, w); g.stroke(); g.beginPath(); g.moveTo(i, w); g.lineTo(i + w, 0); g.stroke(); }
+    for (let i = 0; i < 150; i++) { g.fillStyle = ['#4b5a2c', '#6b6a3a', '#3c4a26', '#7a6e44'][i % 4]; g.beginPath(); g.ellipse(rr(0, w), rr(0, w), rr(4, 11), rr(2, 6), rr(0, 3), 0, 7); g.fill(); } });
+  netTex.wrapS = netTex.wrapT = THREE.RepeatWrapping; netTex.repeat.set(3, 2);
+  const netMat = new THREE.MeshStandardMaterial({ map: netTex, alphaTest: .35, transparent: true, side: THREE.DoubleSide, roughness: .95 });
+  function camoNet(t) {   /* a net draped over one decoy: high on the turret, sagging to pegs on the ground */
+    const geo = new THREE.PlaneGeometry(8.4, 5.6, 28, 20), q = geo.attributes.position;
+    for (let i = 0; i < q.count; i++) { const x = q.getX(i), y = q.getY(i); q.setZ(i, Math.max(.04, 3.0 * Math.exp(-(x * x / 9 + y * y / 3.2)) + .12 * Math.sin(x * 2.1 + y * 1.3))); }
+    geo.computeVertexNormals(); const m = add(new THREE.Mesh(geo, netMat), 'camo_net', 'cloth', { cast: true });
+    m.rotation.x = -Math.PI / 2; m.position.copy(t.position); m.rotation.z = t.rotation.y; m.position.y += .02; return m; }
+  const pennants = [];
+  function pennant(at, col, col2) {
+    const pole = cyl('pennant_pole', 'wood', .035, 4.2, [at[0], at[1], 2.1], std('#6b5a3c', { rough: .9 }));
+    const geo = new THREE.PlaneGeometry(1.2, .55, 10, 3), q = geo.attributes.position;
+    for (let i = 0; i < q.count; i++) { const x = q.getX(i) + .6; q.setY(i, q.getY(i) * (1 - x / 1.25)); q.setX(i, x); }
+    const tex = canvasTex(64, 32, (g, w, h) => { g.fillStyle = col; g.fillRect(0, 0, w, h); g.fillStyle = col2; g.fillRect(0, h * .38, w, h * .24); });
+    const fl = add(new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: tex, side: THREE.DoubleSide, roughness: .85 })), 'unit_pennant', 'cloth', { cast: true });
+    fl.position.copy(V(at[0], at[1], 3.95)); fl.userData.b = geo.attributes.position.array.slice(); pennants.push(fl); return fl; }
+  ups.push((f) => { for (const fl of pennants) { const q = fl.geometry.attributes.position, b = fl.userData.b; for (let i = 0; i < q.count; i++) { const x = b[i * 3]; q.setZ(i, .09 * x * Math.sin(x * 4 - f * .32 + fl.id)); } q.needsUpdate = true; } });
+  function decoyField(name, x0, y0, cols, rowsN, dx, dy, opts = {}) {
+    const out = [];
+    for (let r = 0; r < rowsN; r++) { const bend = rr(-1.2, 1.2), shift = rr(-2, 2);
+      for (let c = 0; c < cols; c++) { if (rnd() < (opts.gaps ?? .08)) continue;
+        const x = x0 + c * dx + shift + rr(-1.1, 1.1), y = y0 + r * dy + bend * Math.sin(c * .9 + r) + rr(-1.3, 1.3);
+        const odd = rnd() < .12, k = rnd();
+        const t = sherman(name, { at: [x, y, 0], rot: (odd ? Math.PI / 2 + rr(-.3, .3) : rr(-.45, .45)) + (opts.rot0 || 0), col: DECOY_TINTS[Math.floor(rnd() * DECOY_TINTS.length)], vary: rnd() });
+        const s0 = rr(.9, 1.07); t.scale.setScalar(s0); t.userData.s0 = s0;
+        const sag = k < .62 ? rr(0, .08) : k < .85 ? rr(.18, .4) : k < .95 ? rr(.5, .65) : .78; t.userData.sagV = sag;
+        t.userData.set(sag > .7 ? .9 : sag > .45 ? .35 : 0, sag); t.scale.x = t.scale.z = s0; t.scale.y *= s0;
+        out.push(t); }
+      if (opts.pennants !== false && r % 2 === 0) pennant([x0 - dx * .8, y0 + r * dy], ['#b8312a', '#e0c23a', '#2a5ca8'][r % 3], '#f2efe4'); }
+    const nets = opts.nets ?? 2; for (let i = 0; i < nets && out.length; i++) camoNet(out[Math.floor(rr(0, out.length))]);
+    return out; }
+  function sherman(name, opts = {}) { return name === 'real_tank' || opts.real ? shermanCode(name, opts) : inflatable(name, opts); }
+  function shermanCode(name, opts = {}) {
     const g = new THREE.Group(); g.name = name; const col = opts.col || '#5d6538', M = rubber(col), MD = rubber(new THREE.Color(col).multiplyScalar(.72).getStyle()), MT = rubber('#3a3b34');
     const part = (nm, geo, mat, x, y, z, o = {}) => { const m = add(new THREE.Mesh(geo, mat), nm, 'cloth', { parent: g, mat: 'rubber', cast: opts.cast ?? true }); m.position.set(x, y, z); if (o.rx) m.rotation.x = o.rx; if (o.rz) m.rotation.z = o.rz; if (o.ry) m.rotation.y = o.ry; return m; };
     const rbox = (w, h, d, r = .12) => { const s = new THREE.Shape(), x = -w / 2, y = -h / 2; s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r); s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); const geo = new THREE.ExtrudeGeometry(s, { depth: d, bevelEnabled: true, bevelSize: .06, bevelThickness: .06, bevelSegments: 3, curveSegments: 6 }); geo.translate(0, 0, -d / 2); return geo; };
@@ -171,6 +243,54 @@ export function build(THREE, scene, film, ctx) {
     const door = add(new THREE.Mesh(new THREE.BoxGeometry(1.1, 2.1, .12), relief('wood', '#5a3a26', { seed: 44 })), 'farm_door', 'wood', { parent: g }); door.position.set(3.6, 1.05, 3.04); return g; };
   const pole = (at) => { cyl('telegraph_pole', 'wood', .09, 7, at, relief('wood', '#5a4632', { seed: 51 }), { r2: .07 }); box('telegraph_bar', 'wood', 1.4, .1, .1, [at[0], at[1], at[2] + 6.4], relief('wood', '#5a4632', { seed: 52 })); };
 
+  /* ---- V3 step 3 (2026-11-18): exteriors at three scales, after the fortress reference.
+     meadow(): dense curved grass clumps up to the lens (5 tapered blades per clump, dark base -> light tip, wind in the vertex shader)
+     instead of the kit's thin 3-blade tufts that read as green sticks. farLandscape(): a ring of rolling hills out to 480 m with a
+     patchwork of fields in several tints, dark hedgerow lines, copses, farms and a church spire, fading into the place's haze. */
+  const windT = { value: 0 }; ups.push((f) => { windT.value = f / 30; });
+  function meadow(o = {}) {
+    const blades = o.blades || 5, segs = 3, pos = [], col = [], idx = []; let vi = 0;
+    for (let b = 0; b < blades; b++) { const a = b / blades * 6.283 + rr(-.3, .3), r = rr(0, .1), bx = Math.cos(a) * r, bz = Math.sin(a) * r, lean = rr(.08, .3), dir = rr(0, 6.283), w = rr(.018, .03), h = rr(.65, 1);
+      for (let k = 0; k <= segs; k++) { const t = k / segs, y = h * t, off = lean * t * t, ww = w * (1 - t * .92), cx = bx + Math.cos(dir) * off, cz = bz + Math.sin(dir) * off, px = -Math.sin(dir) * ww, pz = Math.cos(dir) * ww;
+        pos.push(cx - px, y, cz - pz, cx + px, y, cz + pz); const c = new THREE.Color('#2c4a1e').lerp(new THREE.Color('#a4b85e'), Math.pow(t, .8)); col.push(c.r, c.g, c.b, c.r, c.g, c.b);
+        if (k) idx.push(vi - 2, vi - 1, vi, vi - 1, vi + 1, vi); vi += 2; } }
+    const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); geo.setIndex(idx); geo.computeVertexNormals();
+    const mat = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: .85 });
+    mat.onBeforeCompile = sh => { sh.uniforms.uWind = windT; sh.vertexShader = 'uniform float uWind;\n' + sh.vertexShader.replace('#include <begin_vertex>',
+      '#include <begin_vertex>\n#ifdef USE_INSTANCING\n float ph = instanceMatrix[3].x * .37 + instanceMatrix[3].z * .23;\n#else\n float ph = 0.;\n#endif\n transformed.x += sin(uWind * 1.9 + ph) * .07 * position.y * position.y; transformed.z += cos(uWind * 1.3 + ph * 1.7) * .035 * position.y * position.y;'); };
+    const n = o.count || 3000, im = new THREE.InstancedMesh(geo, mat, n), M4 = new THREE.Matrix4(), Q = new THREE.Quaternion(), C = new THREE.Color(), at = o.at || [0, 0, 0];
+    const tints = o.tints || ['#ffffff', '#e8f0d0', '#f4e8c0', '#d8e8c8', '#fff4d8'];
+    for (let i = 0; i < n; i++) { const a = rr(0, 6.283), r = Math.sqrt(rnd()) * (o.radius || 20), x = at[0] + Math.cos(a) * r, y = at[1] + Math.sin(a) * r, hh = (o.height || .5) * rr(.6, 1.35) * (o.patchy ? (.55 + .9 * Math.abs(Math.sin(x * .21) * Math.cos(y * .17))) : 1);
+      Q.setFromEuler(new THREE.Euler(0, rr(0, 6.283), 0)); M4.compose(V(x, y, 0), Q, new THREE.Vector3(rr(.8, 1.3), hh, rr(.8, 1.3))); im.setMatrixAt(i, M4); im.setColorAt(i, C.set(tints[i % tints.length]).multiplyScalar(rr(.82, 1.08))); }
+    im.castShadow = false; im.receiveShadow = true; add(im, o.name || 'meadow_grass', 'foliage', { cast: false, mat: 'foliage' }); return im; }
+  function farLandscape(o = {}) {
+    const r0 = o.r0 || 150, r1 = o.r1 || 480, cx = o.at ? o.at[0] : 0, cy = o.at ? o.at[1] : 0, segA = 220, segR = 60;
+    const fields = (o.tints || ['#7a9a46', '#9aa852', '#b8b066', '#6a8a3e', '#c4a65a', '#8aa04a', '#5f7f3a', '#a89a58']).map(c => new THREE.Color(c));
+    const hedge = new THREE.Color(o.hedge || '#3a5226'), pos = [], col = [], idx = [], C = new THREE.Color();
+    const hill = (x, y) => { const d = Math.hypot(x - cx, y - cy), k = Math.min(1, Math.max(0, (d - r0) / 90)); return k * (9 * Math.sin(x * .011 + 1.3) * Math.cos(y * .009 - .4) + 6 * Math.sin(x * .023 - y * .019) + 14 + (d - r0) * .05 * (.6 + .4 * Math.sin(x * .004 + y * .006))); };
+    for (let j = 0; j <= segR; j++) for (let i = 0; i <= segA; i++) {
+      const a = i / segA * 6.283, d = r0 + (r1 - r0) * Math.pow(j / segR, 1.35), x = cx + Math.cos(a) * d, y = cy + Math.sin(a) * d; const P = V(x, y, hill(x, y)); pos.push(P.x, P.y, P.z);
+      const u = x * .028 + Math.sin(y * .011) * 1.6, v = y * .031 + Math.sin(x * .013) * 1.3, fu = u - Math.floor(u), fv = v - Math.floor(v);
+      const cell = Math.abs(Math.floor(u) * 73 + Math.floor(v) * 151) % fields.length, edge = Math.min(fu, 1 - fu, fv, 1 - fv) < .07;
+      C.copy(edge ? hedge : fields[cell]).offsetHSL(0, 0, .04 * Math.sin(x * .3 + y * .2)); col.push(C.r, C.g, C.b); }
+    for (let j = 0; j < segR; j++) for (let i = 0; i < segA; i++) { const a = j * (segA + 1) + i, b = a + 1, c = a + segA + 1, d = c + 1; idx.push(a, c, b, b, c, d); }
+    const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); geo.setIndex(idx); geo.computeVertexNormals();
+    const land = add(new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .95 })), 'far_landscape', 'ground', { cast: false, mat: 'grass' });
+    // copses and hedgerow trees: instanced leafy blobs on the hills, two tones
+    const tg = new THREE.IcosahedronGeometry(1, 1), tp = tg.attributes.position; for (let i = 0; i < tp.count; i++) { const k = 1 + .14 * Math.sin(tp.getX(i) * 5 + tp.getY(i) * 3) * Math.cos(tp.getZ(i) * 4); tp.setXYZ(i, tp.getX(i) * k, tp.getY(i) * k, tp.getZ(i) * k); } tg.computeVertexNormals();
+    const nT = o.trees || 900, tm = new THREE.InstancedMesh(tg, new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: .95 }), nT), M4 = new THREE.Matrix4(), Q = new THREE.Quaternion();
+    for (let i = 0; i < nT; i++) { const a = rr(0, 6.283), d = rr(r0 + 15, r1 - 40), x = cx + Math.cos(a) * d, y = cy + Math.sin(a) * d, cl = i % 9 < 6, s = cl ? rr(3, 6.5) : rr(2.5, 4.5);
+      const xx = cl ? x + rr(-12, 12) : x, yy = cl ? y + rr(-12, 12) : y; M4.compose(V(xx, yy, hill(xx, yy) + s * .8), Q.identity(), new THREE.Vector3(s, s * rr(.8, 1.15), s)); tm.setMatrixAt(i, M4); tm.setColorAt(i, C.set(['#3c5a28', '#4a6a2e', '#2f4c22', '#566e34'][i % 4])); }
+    add(tm, 'far_copses', 'foliage', { cast: false, mat: 'foliage' });
+    // farms with red-brown roofs and one church spire, so the eye finds landmarks
+    const wallM = std('#d8cdb2', { rough: .9 }), roofM = std('#7a4a3a', { rough: .85 });
+    for (let i = 0; i < (o.farms || 26); i++) { const a = rr(0, 6.283), d = rr(r0 + 20, r1 * .7), x = cx + Math.cos(a) * d, y = cy + Math.sin(a) * d, z = hill(x, y), w = rr(7, 13), dd = rr(5, 8), rot = rr(0, 3);
+      const g = new THREE.Group(); g.position.copy(V(x, y, z)); g.rotation.y = rot; scene.add(g); g.name = 'far_farm';
+      const wall = new THREE.Mesh(new THREE.BoxGeometry(w, 4, dd), wallM); wall.position.y = 2; g.add(wall); const rf = new THREE.Mesh(new THREE.CylinderGeometry(.01, dd * .78, 3, 4, 1), roofM); rf.rotation.y = Math.PI / 4; rf.scale.set(w / dd, 1, 1); rf.position.y = 5.5; g.add(rf); }
+    { const a = o.spire ?? .35, d = r0 + 70, x = cx + Math.cos(a) * d, y = cy + Math.sin(a) * d, z = hill(x, y), g = new THREE.Group(); g.position.copy(V(x, y, z)); scene.add(g); g.name = 'far_church';
+      const nave = new THREE.Mesh(new THREE.BoxGeometry(16, 8, 8), wallM); nave.position.y = 4; g.add(nave); const tw = new THREE.Mesh(new THREE.BoxGeometry(4.5, 16, 4.5), wallM); tw.position.set(-8, 8, 0); g.add(tw);
+      const sp = new THREE.Mesh(new THREE.ConeGeometry(3.4, 11, 8), std('#5a5f66', { rough: .6 })); sp.position.set(-8, 21.5, 0); g.add(sp); }
+    return land; }
   // VFX audit: wind per place and light (dawn calm, open camp breezy, night road gusty in the poplars, river wind over the water)
   if (ctx.atmosphere && ctx.atmosphere.setWind) { const WN = { field: [.32, .12], camp: [.5, .2], road: [.62, .3], river: [.7, .3] }[Z]; if (WN) ctx.atmosphere.setWind({ direction: [1, .3], strength: WN[0], gust: WN[1], speed: 1 }); }
   let anchors = {};
@@ -178,7 +298,8 @@ export function build(THREE, scene, film, ctx) {
   if (Z === 'field' || Z === 'camp') {
     // P1 Normandy bocage at dawn (hook) and P2 the same meadow as the ghost camp (overcast day)
     if (ctx.sky && ctx.sky.on) ctx.sky.clouds({ kind: 'clear-day', seed: Z === 'field' ? 11 : 12, coverage: Z === 'field' ? .7 : 1.4 });
-    if (ctx.atmosphere) ctx.atmosphere.setFog({ color: Z === 'field' ? '#e8d2b0' : '#c9ccc8', near: 45, far: 260 });
+    if (ctx.atmosphere) ctx.atmosphere.setFog({ color: Z === 'field' ? '#e6d6bc' : '#bcc6cc', near: 70, far: 560 });   /* V3: haze reaches the far landscape progressively (was a wall at 260 m) */
+    farLandscape({ at: [0, 20], r0: 160, r1: 470, spire: Z === 'field' ? 1.45 : 1.2 });
     ground('#6f8a46'); const road = add(new THREE.Mesh(new THREE.PlaneGeometry(4.2, 200), relief('mud', '#8a7656', { seed: 61, size: 3 })), 'dirt_road', 'ground', { cast: false, mat: 'mud' }); road.rotation.x = -Math.PI / 2; road.position.copy(V(-7, 40, .01));
     hedge('hedge', [-60, 14], [-9.5, 14]); hedge('hedge', [-4.5, 14], [60, 14]); hedge('hedge', [-9.5, -30], [-9.5, 14]); hedge('hedge', [-4.5, 14], [-4.5, 90]); hedge('hedge', [14, 14], [14, 90]);
     for (const [x, y, h, s] of [[-14, 18, 9, 3], [8, 20, 11, 4], [22, 30, 10, 5], [-26, 34, 12, 6], [4, 46, 9, 7], [-40, 10, 10, 8], [30, 8, 9, 9]]) tree([x, y, 0], h, 'oak', s);
@@ -187,7 +308,7 @@ export function build(THREE, scene, film, ctx) {
     const offRoad = (x, y) => Math.abs(x + 7) < 2.8 || Math.hypot(x - 5, y + 3.6) < 4.5 || Math.hypot(x + 3.4, y + 6.6) < 3;   // the dirt road and the lens of the low hook camera stay clear
     const clearBand = (im) => { if (!im || !im.isInstancedMesh) return; const M4 = new THREE.Matrix4(), Z0 = new THREE.Matrix4().makeScale(0, 0, 0), q = new THREE.Vector3();
       for (let i = 0; i < im.count; i++) { im.getMatrixAt(i, M4); q.setFromMatrixPosition(M4); const x = im.position.x + q.x, y = -(im.position.z + q.z); if (offRoad(x, y)) im.setMatrixAt(i, Z0); } im.instanceMatrix.needsUpdate = true; };
-    if (ctx.detail) { clearBand(ctx.detail.grass({ at: [2, 4, 0], count: 1400, radius: 18, height: .34, seed: 71 })); clearBand(ctx.detail.grass({ at: [0, 30, 0], count: 1200, radius: 40, height: .5, seed: 73 })); clearBand(ctx.detail.rocks({ at: [-6, 8, 0], count: 40, radius: 18, size: .14, seed: 74 })); }
+    if (ctx.detail) { clearBand(meadow({ name: 'meadow_near', at: [2, 4], radius: 20, count: 5200, height: .42, patchy: true })); clearBand(meadow({ name: 'meadow_mid', at: [0, 32], radius: 46, count: 5200, height: .55, patchy: true }));   /* V3 step 3: dense curved grass (was kit tufts reading as sticks) */ clearBand(ctx.detail.rocks({ at: [-6, 8, 0], count: 40, radius: 18, size: .14, seed: 74 })); }
     { const fl = new THREE.InstancedMesh(new THREE.SphereGeometry(.035, 6, 4), new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: .8 }), 500), M4 = new THREE.Matrix4(), C = new THREE.Color();   // wild flowers: buttercups, daisies, clover
       for (let i = 0; i < 500; i++) { let a = rr(0, 6.3), r = rr(2, 30); while (offRoad(Math.cos(a) * r, 6 + Math.sin(a) * r)) { a = rr(0, 6.3); r = rr(2, 30); } M4.makeTranslation(...V(Math.cos(a) * r, 6 + Math.sin(a) * r, rr(.12, .3)).toArray()); fl.setMatrixAt(i, M4); fl.setColorAt(i, C.set(['#f2d23a', '#f4f1e6', '#d98ab0', '#f4f1e6'][i % 4])); }
       add(fl, 'wild_flowers', 'foliage', { cast: false }); }
@@ -200,7 +321,7 @@ export function build(THREE, scene, film, ctx) {
       anchors = { tank: [0, 4, 1.2], truck: [-7, 6, 1.5] };
     } else {
       // the camp: rows of tanks in every state of inflation, compressors, paint pots, the bulldozer drawing track marks
-      const rows = []; for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) { const t = sherman('camp_tank', { at: [-12 + c * 8, 12 + r * 9, 0], rot: rr(-.2, .2) + Math.PI * .02 }); t.userData.set(0, [0, .35, .7, 0][(r * 4 + c) % 4]); rows.push(t); }
+      const rows = decoyField('camp_tank', -13, 12, 4, 3, 8.2, 9, { nets: 2, gaps: .04 });   /* V3 step 2 (was a 3x4 grid of clones) */
       const dz = bulldozer('bulldozer', [12, 2, 0], Math.PI / 2); trackMarks('fake_track_marks', [12, -6], [12, 1]);
       // air compressors (v1 note: plain blocks): a wheeled cart, the tank on top, a motor, a gauge, a hose running to the nearest decoy
       const OD = metal('iron', '#4f5a36', { rough: .6, rust: .2 }), DK = std('#23241f', { rough: .9 }), ST = metal('steel', '#9a9f96', { rough: .35 });
@@ -228,7 +349,7 @@ export function build(THREE, scene, film, ctx) {
   }
   if (Z === 'road') {
     // P3 moonlit country road: ONE half-track, and the sound of a hundred tanks
-    if (ctx.sky && ctx.sky.on) ctx.sky.clouds({ kind: 'night-storm', seed: 31, coverage: .6 });
+    if (ctx.sky && ctx.sky.on) ctx.sky.clouds({ kind: 'night-storm', seed: 31, coverage: .6, storm: { under: '#2c3a62', underAmt: .12 } })   /* V3 step 5: no orange town-glow under the clouds (read as pink clouds at night) */;
     if (ctx.atmosphere) ctx.atmosphere.setFog({ color: '#1e2a48', near: 30, far: 200 });
     ground('#3e5236'); scene.add(new THREE.HemisphereLight('#7a92cc', '#2c3626', 2.4)); { const mk = new THREE.DirectionalLight('#b0c4ff', 2.2); mk.position.copy(V(-30, 60, 40)); mk.target.position.copy(V(0, 10, 0)); mk.castShadow = true; scene.add(mk, mk.target); }
     const road = add(new THREE.Mesh(new THREE.PlaneGeometry(5, 300), relief('cobble', '#7a7466', { seed: 81, size: 2 })), 'road', 'ground', { cast: false, mat: 'cobble' }); road.rotation.x = -Math.PI / 2; road.position.copy(V(0, 60, .01));
@@ -335,9 +456,11 @@ export function build(THREE, scene, film, ctx) {
   }
   if (Z === 'river') {
     // P7: the great river at night. SOUTH (x < 0): the decoy field under shell bursts. NORTH (x > 40): the real army crossing on pontoons in silence.
-    if (ctx.sky && ctx.sky.on) ctx.sky.clouds({ kind: 'night-storm', seed: 71, coverage: .8 });
-    if (ctx.atmosphere) ctx.atmosphere.setFog({ color: '#1a2440', near: 40, far: 320 });
+    if (ctx.sky && ctx.sky.on) ctx.sky.clouds({ kind: 'night-storm', seed: 71, coverage: .8, storm: { under: '#2c3a62', underAmt: .12 } })   /* V3 step 5: no orange town-glow under the clouds (read as pink clouds at night) */;
+    if (ctx.atmosphere) ctx.atmosphere.setFog({ color: '#1c2744', near: 50, far: 520 });
     ground('#4a5c3a');
+    farLandscape({ at: [0, 30], r0: 170, r1: 470, tints: ['#5a7040', '#6a7848', '#7a7a50', '#4e663a', '#80764e', '#62743e'], hedge: '#2a3a20', spire: 2.0 });   /* V3 step 3 */
+    meadow({ name: 'meadow_river', at: [-24, 26], radius: 34, count: 4200, height: .5, patchy: true }); meadow({ name: 'meadow_river_near', at: [-8, 4], radius: 18, count: 2200, height: .4 });
     // v1 note 5: real water. Reflective (the place's own sky as env map), two layers of moving ripples (normal maps), deeper colour mid-stream, shallow and lighter at the banks
     const waveN = canvasTex(256, 256, (g, w, h) => { const im = g.createImageData(w, h), H = (x, y) => Math.sin(x * 6.283 * 3 / w + Math.sin(y * 6.283 * 2 / h) * 1.3) * .5 + Math.sin(y * 6.283 * 5 / h + x * 6.283 * 2 / w) * .3 + Math.sin((x + y) * 6.283 * 7 / w) * .2;
       for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const dx = H(x + 1, y) - H(x - 1, y), dy = H(x, y + 1) - H(x, y - 1), i = (y * w + x) * 4; im.data[i] = 128 + dx * 90; im.data[i + 1] = 128 + dy * 90; im.data[i + 2] = 255; im.data[i + 3] = 255; } g.putImageData(im, 0, 0); });
@@ -358,7 +481,7 @@ export function build(THREE, scene, film, ctx) {
       for (let i = 0; i < 700; i++) { const x = rr(-60, 100), h = rr(.6, 1.4); Q.setFromEuler(new THREE.Euler(rr(-.2, .2), 0, rr(-.2, .2))); M4.compose(V(x, y0 + dir * rr(-.6, 1.4), h / 2), Q, new THREE.Vector3(1, h, 1)); reeds.setMatrixAt(i, M4); } add(reeds, 'reeds', 'foliage', { cast: false }); }
     const rb = riv.geometry.attributes.position.array.slice();
     // the decoy field: rows of inflatable tanks (south)
-    const decoys = []; for (let r = 0; r < 4; r++) for (let c = 0; c < 7; c++) { const t = sherman('decoy_tank', { at: [-46 + c * 7 + rr(-1, 1), 18 + r * 8 + rr(-1, 1), 0], rot: rr(-.3, .3) }); decoys.push(t); }
+    const decoys = decoyField('decoy_tank', -46, 18, 7, 4, 7, 8, { nets: 0, gaps: .1 });   /* V3 step 2 (was a 4x7 grid of clones) */
     // shell bursts on the decoys from EV.shell on: flashes + tanks thrown and deflating
     const bursts = []; for (let i = 0; i < 10; i++) { const b = glow('#ffb060', 6, 0, V(-42 + (i * 23) % 40, 20 + (i * 7) % 22, 1)); const l = new THREE.PointLight('#ffa040', 0, 40, 1.6); l.position.copy(b.position); scene.add(l); const fb = add(new THREE.Mesh(new THREE.SphereGeometry(1, 16, 10), basic('#fff2c0', { transparent: true, depthWrite: false })), 'shell_fireball', 'fx', { cast: false }); fb.position.copy(b.position); fb.userData.noExport = true; const ob = add(new THREE.Mesh(new THREE.IcosahedronGeometry(1, 1), basic('#ff7a2a', { transparent: true, depthWrite: false })), 'shell_fire_outer', 'fx', { cast: false }); ob.position.copy(b.position); const sk = []; for (let j = 0; j < 5; j++) { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: '#6a6660', transparent: true, opacity: .75, depthWrite: false })); sp.userData.noExport = true; sp.userData.off = [rr(-1.5, 1.5), rr(0, 2), rr(-1.5, 1.5)]; scene.add(sp); sk.push(sp); }   /* soft smoke puffs */ const clods = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(.32, 0), std('#3a2e22', { rough: 1 }), 14); clods.userData.noExport = true; add(clods, 'shell_debris', 'fx', { cast: false }); const cv = Array.from({ length: 14 }, () => [rr(-5, 5), rr(7, 13), rr(-5, 5)]); bursts.push({ clods, cv, b, l, fb, ob, sk, f0: (EV.shell || 0) + i * 8, d: decoys[(i * 5) % decoys.length] }); }   // the barrage keeps falling while the crane rises
     // the real crossing (north): pontoon bridge and real (metal) tanks rolling across
@@ -373,7 +496,7 @@ export function build(THREE, scene, film, ctx) {
     for (const [x, y] of [[-40, 14], [-26, 16], [-12, 14], [-33, 36], [-19, 38]]) { const wl = new THREE.PointLight('#ffcf8a', 30, 26, 1.6); wl.position.copy(V(x, y, 4)); scene.add(wl); glow('#ffcf8a', 1.4, .9, V(x, y, 4)); cyl('work_lamp_pole', 'metal', .06, 4, [x, y, 0], metal('iron', '#3a3a34')); } ml.position.copy(V(-40, -60, 70));   /* key from the camera side: the moon glint off the water bloomed into a haze */ scene.add(ml);
     decoys.forEach((t, i) => { t.userData.i0 = (EV.inflate || 0) + i * 2; });
     ups.push((f, t) => {
-      decoys.forEach(t => { if (t.position.y > .01) return; const u = sm((f - t.userData.i0) / 12); t.visible = u > .02; t.scale.set(1, Math.max(.05, u), 1); });
+      decoys.forEach(t => { if (t.position.y > .01) return; const u = sm((f - t.userData.i0) / 12), s0 = t.userData.s0 || 1; t.visible = u > .02; t.scale.set(s0, s0 * Math.max(.05, u) * (1 - .45 * (t.userData.sagV || 0)), s0); });
       const p = riv.geometry.attributes.position; for (let i = 0; i < p.count; i++) { const x = rb[i * 3], y = rb[i * 3 + 1]; p.setZ(i, .05 * Math.sin(.2 * x + 1.4 * t) + .03 * Math.sin(.31 * y - 1.1 * t)); } p.needsUpdate = true; riv.geometry.computeVertexNormals();
       for (const B of bursts) { const k = (f - B.f0) / 22, on = k > 0 && k < 1 ? (k < .15 ? .85 * k / .15 : .85 * Math.pow((1 - k) / .85, 1.5)) : 0;   // 3-frame build, then a slow fall; softer peak (no white-out)
         B.b.material.opacity = .4 * on; B.b.scale.setScalar(5 + 6 * Math.max(0, Math.min(1, k))); B.l.intensity = 60 * on; const kk = Math.max(0, Math.min(1, k)); B.fb.scale.setScalar(on > .02 ? (1.2 + 2.2 * kk) * Math.sqrt(on) : 1e-4); B.ob.scale.setScalar(on > .02 ? (2.4 + 4.6 * kk) : 1e-4); B.fb.material.opacity = Math.min(1, on * 1.3); B.ob.material.opacity = .8 * on;   /* a hot core inside a fading orange shell, not a solid ball */ B.ob.position.y = B.b.position.y + 1.2 * kk;
