@@ -1,0 +1,231 @@
+{
+ "title": "farmyard demo",
+ "fps": 30,
+ "size": [
+  1080,
+  1920
+ ],
+ "end": 450,
+ "puppet_pkg": [
+  "../../../../templates/vector2d_characters/code"
+ ],
+ "cast": {
+  "farmer": {
+   "puppet": "cast:farmer",
+   "height": 1.75
+  },
+  "smith": {
+   "puppet": "cast:blacksmith",
+   "height": 1.82
+  }
+ },
+ "places": {
+  "yard": {
+   "set": "platform",
+   "light": "day"
+  }
+ },
+ "takes": [
+  {
+   "id": "t0",
+   "place": "yard",
+   "stations": [
+    {
+     "at": 0,
+     "pos": [
+      0,
+      -12,
+      1.6
+     ],
+     "aim": [
+      0,
+      0,
+      1.0
+     ],
+     "lens": 30,
+     "framing": "W",
+     "hold": 0.0
+    }
+   ]
+  }
+ ],
+ "acts": [
+  {
+   "who": "farmer",
+   "at": 0,
+   "pos": [
+    -0.8,
+    -2.6,
+    0
+   ],
+   "view": "34",
+   "dir": -1,
+   "pose": "m:idle/A",
+   "face": "k:happy",
+   "move_s": 0.01,
+   "place": "yard"
+  },
+  {
+   "who": "farmer",
+   "at": 96,
+   "pos": [
+    -5.6,
+    6.9,
+    0
+   ],
+   "view": "side",
+   "dir": -1,
+   "pose": "m:walk/A",
+   "face": "k:happy",
+   "move_s": 1.5,
+   "place": "yard"
+  },
+  {
+   "who": "farmer",
+   "at": 142,
+   "pos": [
+    -5.6,
+    6.9,
+    0
+   ],
+   "view": "34",
+   "dir": -1,
+   "pose": "m:push/A",
+   "face": "k:concentrate",
+   "move_s": 0.01,
+   "place": "yard"
+  },
+  {
+   "who": "farmer",
+   "at": 168,
+   "pos": [
+    -5.6,
+    6.9,
+    0
+   ],
+   "view": "34",
+   "dir": 1,
+   "pose": "m:idle/B",
+   "face": "k:surprised",
+   "move_s": 0.01,
+   "place": "yard"
+  },
+  {
+   "who": "farmer",
+   "at": 205,
+   "pos": [
+    -5.6,
+    6.9,
+    0
+   ],
+   "view": "34",
+   "dir": 1,
+   "pose": "m:idle/B",
+   "face": "k:shocked",
+   "move_s": 0.01,
+   "place": "yard"
+  },
+  {
+   "who": "farmer",
+   "at": 360,
+   "pos": [
+    -5.6,
+    6.9,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:idle/C",
+   "face": "k:shocked",
+   "move_s": 0.01,
+   "place": "yard"
+  },
+  {
+   "who": "smith",
+   "at": 0,
+   "pos": [
+    -2.1,
+    4.4,
+    0
+   ],
+   "view": "34",
+   "dir": 1,
+   "pose": "m:idle/A",
+   "face": "k:standard",
+   "move_s": 0.01,
+   "place": "yard"
+  },
+  {
+   "who": "smith",
+   "at": 160,
+   "pos": [
+    -2.1,
+    4.4,
+    0
+   ],
+   "view": "34",
+   "dir": -1,
+   "pose": "m:thumbs/A",
+   "face": "k:smirk",
+   "move_s": 0.01,
+   "place": "yard"
+  },
+  {
+   "who": "smith",
+   "at": 200,
+   "pos": [
+    -2.1,
+    4.4,
+    0
+   ],
+   "view": "34",
+   "dir": -1,
+   "pose": "m:idle/B",
+   "face": "k:surprised",
+   "move_s": 0.01,
+   "place": "yard"
+  },
+  {
+   "who": "smith",
+   "at": 345,
+   "pos": [
+    -6.5,
+    -1.5,
+    0
+   ],
+   "view": "side",
+   "dir": -1,
+   "pose": "m:run/C",
+   "face": "k:shocked",
+   "move_s": 1.2,
+   "place": "yard"
+  },
+  {
+   "who": "smith",
+   "at": 400,
+   "pos": [
+    -6.5,
+    -1.5,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:cheer/A",
+   "face": "k:laugh",
+   "move_s": 0.01,
+   "place": "yard"
+  }
+ ],
+ "tween": {
+  "ones": true,
+  "move_blend": 6
+ },
+ "motion_polish": {
+  "enabled": true,
+  "head_follow": 0.14,
+  "hand_follow": 0.08,
+  "breath": 0.55,
+  "breath_rate": 2.15,
+  "auto_blink": true
+ }
+}

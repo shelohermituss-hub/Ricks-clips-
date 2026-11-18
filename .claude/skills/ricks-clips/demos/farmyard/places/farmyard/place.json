@@ -1,0 +1,1511 @@
+{
+ "schema_version": 3,
+ "place_id": "farmyard",
+ "frames": [
+  0,
+  449
+ ],
+ "fps": 30,
+ "palette": {
+  "meadow": "#6f8a46",
+  "yard_mud": "#7a6448",
+  "wall": "#b8ad96",
+  "shutters": "#4f6f5a",
+  "roof": "#7a4a3a"
+ },
+ "light": {
+  "preset": "day",
+  "key_dir": [
+   0.55,
+   -0.6,
+   0.58
+  ],
+  "view_transform": "Khronos PBR Neutral",
+  "exposure": 0.2,
+  "white_balance": 7600,
+  "grade": {
+   "saturation": 1.05,
+   "gamma": 1.0,
+   "gain": 1.0,
+   "vignette": 0.22
+  }
+ },
+ "terrain": {
+  "size": [
+   220,
+   220
+  ],
+  "res": 140,
+  "height": 2.4,
+  "seed": 5,
+  "material": {
+   "name": "ground",
+   "color": "#6f8a46"
+  },
+  "flat": [
+   {
+    "center": [
+     0,
+     6
+    ],
+    "radius": 16,
+    "blend": 10
+   }
+  ],
+  "paths": [
+   {
+    "points": [
+     [
+      -40,
+      -26
+     ],
+     [
+      -14,
+      -8
+     ],
+     [
+      -2,
+      2
+     ],
+     [
+      5,
+      9
+     ]
+    ],
+    "width": 3.6,
+    "feather": 1.4
+   },
+   {
+    "points": [
+     [
+      -2,
+      2
+     ],
+     [
+      -6.5,
+      8.2
+     ]
+    ],
+    "width": 1.6,
+    "feather": 1.0
+   }
+  ]
+ },
+ "assets": [
+  {
+   "asset": "normandy_farmhouse",
+   "name": "farmhouse",
+   "at": [
+    6,
+    16,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "asset": "garden_shed",
+   "name": "shed",
+   "at": [
+    -7,
+    9,
+    0
+   ],
+   "rot": 15,
+   "realize": true
+  },
+  {
+   "asset": "stone_well",
+   "name": "well",
+   "at": [
+    -2,
+    10.2,
+    0
+   ],
+   "rot": 20
+  },
+  {
+   "asset": "water_trough",
+   "name": "trough",
+   "at": [
+    3.2,
+    9.4,
+    0
+   ],
+   "rot": -8
+  },
+  {
+   "asset": "hay_bale",
+   "name": "hay_a",
+   "at": [
+    -10.4,
+    5.2,
+    0
+   ],
+   "rot": 80
+  },
+  {
+   "asset": "hay_bale",
+   "name": "hay_b",
+   "at": [
+    -10.9,
+    6.6,
+    0
+   ],
+   "rot": 95
+  },
+  {
+   "asset": "hay_bale",
+   "name": "hay_c",
+   "at": [
+    -10.6,
+    5.9,
+    0.42
+   ],
+   "rot": 88
+  },
+  {
+   "asset": "barrel_stove",
+   "name": "fire_drum",
+   "at": [
+    -3.5,
+    2.6,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "asset": "metal_jerrycan",
+   "name": "jerrycan",
+   "at": [
+    -2.7,
+    2.1,
+    0
+   ],
+   "rot": 30,
+   "hide_from": 405
+  },
+  {
+   "asset": "lantern_01",
+   "name": "lantern",
+   "at": [
+    -6.0,
+    8.05,
+    1.95
+   ],
+   "rot": 15,
+   "on_ground": false
+  },
+  {
+   "asset": "washing_posts",
+   "name": "washing",
+   "at": [
+    -13,
+    14.5,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "asset": "wooden_ladder",
+   "name": "ladder",
+   "at": [
+    9.6,
+    12.4,
+    0
+   ],
+   "rot": 10
+  },
+  {
+   "asset": "wooden_bucket_01",
+   "name": "bucket",
+   "at": [
+    2.3,
+    8.6,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "asset": "wicker_basket_01",
+   "name": "basket",
+   "at": [
+    -9.4,
+    7.6,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "asset": "old_tyre",
+   "name": "tyre",
+   "at": [
+    12.5,
+    9.5,
+    0
+   ],
+   "rot": 40
+  },
+  {
+   "asset": "wooden_axe",
+   "name": "axe",
+   "at": [
+    -8.8,
+    4.1,
+    0
+   ],
+   "rot": 70
+  },
+  {
+   "asset": "painted_wooden_bench",
+   "name": "bench",
+   "at": [
+    1.5,
+    12.6,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "asset": "crawler_dozer",
+   "name": "dozer",
+   "at": [
+    -8,
+    -6,
+    0
+   ],
+   "rot": 242
+  },
+  {
+   "asset": "farm_cart",
+   "name": "cart",
+   "at": [
+    8.5,
+    2.0,
+    0
+   ],
+   "rot": 90,
+   "physics": true
+  },
+  {
+   "asset": "barrel_01",
+   "name": "oil_barrel",
+   "at": [
+    4.4,
+    3.35,
+    0
+   ],
+   "rot": 0,
+   "realize": true
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "tree_0",
+   "at": [
+    -22,
+    18,
+    0
+   ],
+   "rot": 0,
+   "scale": 3.3
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "tree_1",
+   "at": [
+    -14,
+    24,
+    0
+   ],
+   "rot": 53,
+   "scale": 3.0
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "tree_2",
+   "at": [
+    2,
+    28,
+    0
+   ],
+   "rot": 106,
+   "scale": 3.6
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "tree_3",
+   "at": [
+    18,
+    26,
+    0
+   ],
+   "rot": 159,
+   "scale": 3.1
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "tree_4",
+   "at": [
+    28,
+    12,
+    0
+   ],
+   "rot": 212,
+   "scale": 3.4
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "tree_5",
+   "at": [
+    -30,
+    4,
+    0
+   ],
+   "rot": 265,
+   "scale": 3.0
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "tree_6",
+   "at": [
+    24,
+    -6,
+    0
+   ],
+   "rot": 318,
+   "scale": 2.8
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "tree_7",
+   "at": [
+    -26,
+    -14,
+    0
+   ],
+   "rot": 11,
+   "scale": 3.2
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "tree_8",
+   "at": [
+    12,
+    34,
+    0
+   ],
+   "rot": 64,
+   "scale": 3.0
+  }
+ ],
+ "lines": [
+  {
+   "asset": "rail_fence",
+   "name": "fence_back",
+   "points": [
+    [
+     -20,
+     21
+    ],
+    [
+     -6,
+     22
+    ],
+    [
+     20,
+     21.5
+    ]
+   ],
+   "spacing": 4.0,
+   "seed": 1
+  },
+  {
+   "asset": "rail_fence",
+   "name": "fence_side",
+   "points": [
+    [
+     22,
+     20
+    ],
+    [
+     22,
+     -4
+    ],
+    [
+     14,
+     -9
+    ]
+   ],
+   "spacing": 4.0,
+   "seed": 2
+  }
+ ],
+ "scatter": [
+  {
+   "biome": "muddy_yard",
+   "name": "yard",
+   "zone": {
+    "center": [
+     0,
+     6
+    ],
+    "radius": 9
+   },
+   "seed": 21,
+   "exclude": [
+    {
+     "center": [
+      -0.8,
+      -2.6
+     ],
+     "radius": 0.9
+    },
+    {
+     "center": [
+      -5.6,
+      6.9
+     ],
+     "radius": 0.9
+    },
+    {
+     "center": [
+      -2.1,
+      4.4
+     ],
+     "radius": 0.9
+    },
+    {
+     "center": [
+      -6.5,
+      -1.5
+     ],
+     "radius": 0.9
+    },
+    {
+     "from": [
+      -14,
+      1.5
+     ],
+     "to": [
+      18,
+      1.5
+     ],
+     "width": 4.4
+    },
+    {
+     "center": [
+      6,
+      16
+     ],
+     "radius": 7.5
+    },
+    {
+     "center": [
+      -7,
+      9
+     ],
+     "radius": 2.6
+    },
+    {
+     "center": [
+      -2,
+      10
+     ],
+     "radius": 1.4
+    }
+   ]
+  },
+  {
+   "biome": "meadow",
+   "name": "meadow",
+   "zone": {
+    "polygon": [
+     [
+      -60,
+      -40
+     ],
+     [
+      60,
+      -40
+     ],
+     [
+      60,
+      60
+     ],
+     [
+      -60,
+      60
+     ]
+    ]
+   },
+   "seed": 22,
+   "density": 0.55,
+   "exclude": [
+    {
+     "center": [
+      -0.8,
+      -2.6
+     ],
+     "radius": 0.9
+    },
+    {
+     "center": [
+      -5.6,
+      6.9
+     ],
+     "radius": 0.9
+    },
+    {
+     "center": [
+      -2.1,
+      4.4
+     ],
+     "radius": 0.9
+    },
+    {
+     "center": [
+      -6.5,
+      -1.5
+     ],
+     "radius": 0.9
+    },
+    {
+     "from": [
+      -14,
+      1.5
+     ],
+     "to": [
+      18,
+      1.5
+     ],
+     "width": 4.4
+    },
+    {
+     "center": [
+      6,
+      16
+     ],
+     "radius": 7.5
+    },
+    {
+     "center": [
+      -7,
+      9
+     ],
+     "radius": 2.6
+    },
+    {
+     "center": [
+      -2,
+      10
+     ],
+     "radius": 1.4
+    },
+    {
+     "center": [
+      0,
+      6
+     ],
+     "radius": 9
+    },
+    {
+     "from": [
+      -40,
+      -26
+     ],
+     "to": [
+      -2,
+      2
+     ],
+     "width": 4.2
+    }
+   ],
+   "lod": {
+    "camera": [
+     0,
+     -14
+    ],
+    "near": 26
+   }
+  },
+  {
+   "biome": "hedge",
+   "name": "hedge_back",
+   "zone": {
+    "from": [
+     -40,
+     30
+    ],
+    "to": [
+     40,
+     31
+    ],
+    "width": 2.0
+   },
+   "seed": 23
+  },
+  {
+   "biome": "path_edge",
+   "name": "lane_edge",
+   "zone": {
+    "from": [
+     -40,
+     -26
+    ],
+    "to": [
+     -2,
+     2
+    ],
+    "width": 6.5
+   },
+   "seed": 24,
+   "exclude": [
+    {
+     "from": [
+      -40,
+      -26
+     ],
+     "to": [
+      -2,
+      2
+     ],
+     "width": 3.8
+    },
+    {
+     "center": [
+      -0.8,
+      -2.6
+     ],
+     "radius": 0.9
+    },
+    {
+     "center": [
+      -5.6,
+      6.9
+     ],
+     "radius": 0.9
+    },
+    {
+     "center": [
+      -2.1,
+      4.4
+     ],
+     "radius": 0.9
+    },
+    {
+     "center": [
+      -6.5,
+      -1.5
+     ],
+     "radius": 0.9
+    },
+    {
+     "from": [
+      -14,
+      1.5
+     ],
+     "to": [
+      18,
+      1.5
+     ],
+     "width": 4.4
+    },
+    {
+     "center": [
+      6,
+      16
+     ],
+     "radius": 7.5
+    },
+    {
+     "center": [
+      -7,
+      9
+     ],
+     "radius": 2.6
+    },
+    {
+     "center": [
+      -2,
+      10
+     ],
+     "radius": 1.4
+    }
+   ]
+  }
+ ],
+ "shots": [
+  {
+   "name": "s1_wide",
+   "frames": [
+    0,
+    89
+   ],
+   "keys": [
+    {
+     "f": 0,
+     "pos": [
+      -3,
+      -24,
+      10
+     ],
+     "aim": [
+      1,
+      8,
+      2
+     ],
+     "fov_v": 46
+    },
+    {
+     "f": 89,
+     "pos": [
+      1,
+      -15,
+      4.2
+     ],
+     "aim": [
+      0,
+      8,
+      2
+     ],
+     "fov_v": 46
+    }
+   ],
+   "join": "cut"
+  },
+  {
+   "name": "s2_shed",
+   "frames": [
+    90,
+    179
+   ],
+   "keys": [
+    {
+     "f": 90,
+     "pos": [
+      -1.0,
+      -1.6,
+      1.7
+     ],
+     "aim": [
+      -6.0,
+      8.0,
+      1.5
+     ],
+     "fov_v": 44
+    },
+    {
+     "f": 179,
+     "pos": [
+      -2.2,
+      1.6,
+      1.65
+     ],
+     "aim": [
+      -6.5,
+      8.6,
+      1.5
+     ],
+     "fov_v": 40
+    }
+   ],
+   "join": "dissolve:6",
+   "fstop": 4
+  },
+  {
+   "name": "s3_hay",
+   "frames": [
+    180,
+    269
+   ],
+   "keys": [
+    {
+     "f": 180,
+     "pos": [
+      -3.6,
+      -2.4,
+      1.5
+     ],
+     "aim": [
+      -9.5,
+      5.0,
+      0.8
+     ],
+     "fov_v": 48
+    },
+    {
+     "f": 269,
+     "pos": [
+      -4.6,
+      -3.0,
+      1.6
+     ],
+     "aim": [
+      -7.5,
+      3.0,
+      0.8
+     ],
+     "fov_v": 52
+    }
+   ],
+   "join": "cut"
+  },
+  {
+   "name": "s4_dozer",
+   "frames": [
+    270,
+    389
+   ],
+   "keys": [
+    {
+     "f": 270,
+     "pos": [
+      3.0,
+      -8.5,
+      1.8
+     ],
+     "aim": [
+      1.0,
+      2.5,
+      1.0
+     ],
+     "fov_v": 52
+    },
+    {
+     "f": 389,
+     "pos": [
+      6.5,
+      -8.0,
+      2.0
+     ],
+     "aim": [
+      8.0,
+      2.5,
+      1.0
+     ],
+     "fov_v": 52
+    }
+   ],
+   "join": "cut"
+  },
+  {
+   "name": "s5_end",
+   "frames": [
+    390,
+    449
+   ],
+   "keys": [
+    {
+     "f": 390,
+     "pos": [
+      -1.0,
+      -6.5,
+      2.2
+     ],
+     "aim": [
+      -3.0,
+      3.0,
+      1.0
+     ],
+     "fov_v": 50
+    },
+    {
+     "f": 449,
+     "pos": [
+      1.5,
+      -11,
+      4.0
+     ],
+     "aim": [
+      -1.0,
+      5.0,
+      1.5
+     ],
+     "fov_v": 52
+    }
+   ],
+   "join": "cut"
+  }
+ ],
+ "characters": {
+  "cards": "build/cards",
+  "who": [
+   "farmer",
+   "smith"
+  ],
+  "self_lit": 0.55,
+  "props": [
+   {
+    "who": "smith",
+    "asset": "wooden_axe",
+    "hand": 1,
+    "scale": 0.9,
+    "frames": [
+     0,
+     199
+    ]
+   }
+  ]
+ },
+ "animation": [
+  {
+   "type": "hinge",
+   "target": "shed:shed_door",
+   "frames": [
+    0,
+    449
+   ],
+   "open": 144,
+   "angle": -100,
+   "axis": "Z",
+   "ease": 16
+  },
+  {
+   "type": "bob",
+   "target": "lantern",
+   "frames": [
+    0,
+    449
+   ],
+   "amp": 5,
+   "period": 2.2,
+   "axis": "X"
+  },
+  {
+   "type": "vehicle_drive",
+   "target": "dozer",
+   "frames": [
+    0,
+    449
+   ],
+   "points": [
+    [
+     -8,
+     -6
+    ],
+    [
+     -4,
+     1.5
+    ],
+    [
+     16,
+     1.5
+    ]
+   ],
+   "speed": 5.0,
+   "start": 270,
+   "heading_offset": 180
+  }
+ ],
+ "physics": [
+  {
+   "type": "glass_shatter",
+   "name": "pane",
+   "pane": "shed:shed_glass_0",
+   "frames": [
+    140,
+    260
+   ],
+   "at_frame": 166,
+   "cuts": 4,
+   "seed": 31,
+   "strength": 3,
+   "impulse": {
+    "from": [
+     -2.4,
+     4.6,
+     1.5
+    ],
+    "to": "shed:shed_glass_0",
+    "frames": 7
+   }
+  },
+  {
+   "type": "drop",
+   "name": "crate_drop",
+   "asset": "wooden_crate_02",
+   "at": [
+    -9.3,
+    4.6,
+    0
+   ],
+   "height": 1.3,
+   "tilt": [
+    18,
+    6
+   ],
+   "frames": [
+    180,
+    300
+   ],
+   "release": 205,
+   "bounce": 0.35
+  },
+  {
+   "type": "roll",
+   "name": "barrel_roll",
+   "asset": "wine_barrel_01",
+   "at": [
+    -13.0,
+    2.2,
+    0.35
+   ],
+   "rot": 90,
+   "direction": [
+    1,
+    0.15
+   ],
+   "speed": 2.6,
+   "push_from": 215,
+   "release": 232,
+   "radius": 0.35,
+   "frames": [
+    180,
+    320
+   ]
+  },
+  {
+   "type": "collapse",
+   "name": "crates",
+   "items": [
+    {
+     "asset": "wooden_crate_01",
+     "at": [
+      1.2,
+      3.05,
+      0
+     ]
+    },
+    {
+     "asset": "wooden_crate_01",
+     "at": [
+      2.05,
+      3.05,
+      0
+     ]
+    },
+    {
+     "asset": "wooden_crate_01",
+     "at": [
+      1.6,
+      3.05,
+      0.36
+     ]
+    },
+    {
+     "asset": "wooden_crate_01",
+     "at": [
+      1.6,
+      3.05,
+      0.72
+     ],
+     "rot": 12
+    }
+   ],
+   "striker": {
+    "name": "dozer",
+    "box": [
+     [
+      -2.25,
+      -1.5,
+      0.1
+     ],
+     [
+      2.1,
+      1.5,
+      1.7
+     ]
+    ]
+   },
+   "frames": [
+    270,
+    449
+   ],
+   "joint_strength": 6,
+   "seed": 41
+  },
+  {
+   "type": "deform",
+   "name": "barrel_dent",
+   "object": "oil_barrel:Barrel_01",
+   "point": [
+    4.4,
+    3.05,
+    0.55
+   ],
+   "direction": [
+    0,
+    1,
+    0
+   ],
+   "radius": 0.35,
+   "depth": 0.09,
+   "at_frame": 342,
+   "ease": 3
+  },
+  {
+   "type": "crash",
+   "name": "cart",
+   "target_asset": "farm_cart",
+   "at": [
+    8.5,
+    2.0,
+    0
+   ],
+   "rot": 90,
+   "frames": [
+    270,
+    449
+   ],
+   "seed": 3,
+   "striker": {
+    "name": "dozer",
+    "box": [
+     [
+      -2.25,
+      -1.5,
+      0.1
+     ],
+     [
+      2.1,
+      1.5,
+      1.7
+     ]
+    ]
+   },
+   "fracture": {
+    "cart_plank_": {
+     "pieces": 3,
+     "seed": 3
+    },
+    "cart_side_": {
+     "pieces": 2,
+     "seed": 4
+    },
+    "cart_end_": {
+     "pieces": 2,
+     "seed": 5
+    }
+   },
+   "joint_strength": 40,
+   "weak": {
+    "cart_wheel_": 8,
+    "cart_shaft_": 15,
+    "cart_stake_": 10
+   }
+  }
+ ],
+ "cloth": [
+  {
+   "type": "line_cloth",
+   "name": "sheet_white",
+   "at": [
+    -14.0,
+    14.5,
+    1.55
+   ],
+   "size": [
+    1.1,
+    0.8
+   ],
+   "rot": 0,
+   "frames": [
+    0,
+    449
+   ],
+   "wind": 140,
+   "seed": 3,
+   "material": {
+    "name": "linen",
+    "color": "#e8e4d8"
+   }
+  },
+  {
+   "type": "line_cloth",
+   "name": "sheet_red",
+   "at": [
+    -12.0,
+    14.5,
+    1.6
+   ],
+   "size": [
+    0.9,
+    0.7
+   ],
+   "rot": 0,
+   "frames": [
+    0,
+    449
+   ],
+   "wind": 140,
+   "seed": 4,
+   "material": {
+    "name": "linen_red",
+    "color": "#b8524a"
+   }
+  }
+ ],
+ "fx": [
+  {
+   "type": "fire",
+   "name": "drum_fire",
+   "at": [
+    -3.5,
+    2.6,
+    0.86
+   ],
+   "frames": [
+    0,
+    449
+   ],
+   "every": 4,
+   "seed": 2,
+   "light": 140
+  },
+  {
+   "type": "smoke",
+   "name": "drum_smoke",
+   "at": [
+    -3.5,
+    2.6,
+    1.4
+   ],
+   "frames": [
+    0,
+    449
+   ],
+   "every": 18,
+   "seed": 3,
+   "per_burst": 2,
+   "rise": 3.0,
+   "size": 0.45,
+   "density": 1.0,
+   "life": 80
+  },
+  {
+   "type": "smoke",
+   "name": "chimney",
+   "at": [
+    10.55,
+    16.0,
+    10.0
+   ],
+   "frames": [
+    0,
+    449
+   ],
+   "every": 25,
+   "seed": 4,
+   "per_burst": 2,
+   "rise": 4.0,
+   "size": 0.7,
+   "density": 0.8,
+   "color": [
+    0.6,
+    0.6,
+    0.62
+   ],
+   "life": 110,
+   "on_ground": false
+  },
+  {
+   "type": "dust_burst",
+   "name": "crate_dust",
+   "at": [
+    -9.0,
+    4.4,
+    0
+   ],
+   "frame": "@crate_drop+8",
+   "count": 8,
+   "radius": 0.9,
+   "height": 0.4,
+   "seed": 5
+  },
+  {
+   "type": "dust_burst",
+   "name": "crates_dust",
+   "at": [
+    1.6,
+    3.0,
+    0
+   ],
+   "frame": "@crates",
+   "count": 12,
+   "radius": 1.6,
+   "height": 0.7,
+   "seed": 6
+  },
+  {
+   "type": "sparks",
+   "name": "cart_sparks",
+   "at": [
+    6.8,
+    2.0,
+    0.7
+   ],
+   "frame": "@cart",
+   "count": 45,
+   "seed": 7
+  },
+  {
+   "type": "dust_burst",
+   "name": "cart_dust",
+   "at": [
+    7.5,
+    2.0,
+    0
+   ],
+   "frame": "@cart",
+   "count": 18,
+   "radius": 2.4,
+   "height": 1.0,
+   "seed": 8,
+   "life": 50
+  },
+  {
+   "type": "explosion_stylized",
+   "name": "can_burst",
+   "at": [
+    -2.7,
+    2.1,
+    0.2
+   ],
+   "frame": 405,
+   "seed": 9
+  }
+ ],
+ "lookdev": {
+  "rules": {
+   "ground": {
+    "layers": {
+     "base": "meadow_tex",
+     "over": "yard_tex",
+     "mask": "path_mask",
+     "edge_noise": 0.35
+    }
+   },
+   "meadow_tex": {
+    "preset": "grass_ground",
+    "color": "#6f8a46"
+   },
+   "yard_tex": {
+    "preset": "earth",
+    "color": "#7a6448"
+   },
+   "stone": {
+    "preset": "stone"
+   },
+   "quoin": {
+    "preset": "stone",
+    "tile": 1.2,
+    "contrast": 0.55
+   },
+   "roof": {
+    "tex": "tex_clay_roof_tiles",
+    "tile": 0.7,
+    "contrast": 0.6,
+    "normal": 0.8,
+    "wear": 0.25
+   },
+   "wood": {
+    "preset": "wood"
+   },
+   "wood_dark": {
+    "preset": "wood",
+    "contrast": 0.6
+   },
+   "wood_paint": {
+    "preset": "wood",
+    "contrast": 0.45,
+    "wear": 0.45
+   },
+   "glass": {
+    "preset": "glass"
+   },
+   "iron": {
+    "preset": "iron"
+   },
+   "straw": {
+    "preset": "straw"
+   },
+   "twine": {
+    "preset": "fabric"
+   },
+   "rope": {
+    "preset": "fabric"
+   },
+   "water": {
+    "preset": "water"
+   },
+   "paint": {
+    "preset": "painted_metal"
+   },
+   "paint_worn": {
+    "preset": "painted_metal",
+    "contrast": 0.7
+   },
+   "rust": {
+    "preset": "rust"
+   },
+   "steel_dark": {
+    "preset": "iron",
+    "contrast": 0.25
+   },
+   "track": {
+    "preset": "iron",
+    "rough": [
+     0.6,
+     0.9
+    ]
+   },
+   "exhaust": {
+    "preset": "iron",
+    "contrast": 0.4
+   },
+   "rubber": {
+    "preset": "rubber"
+   },
+   "linen": {
+    "preset": "fabric"
+   },
+   "linen_red": {
+    "preset": "fabric"
+   },
+   "grass_medium_02": {
+    "tint": "#8fa850",
+    "amount": 0.5,
+    "mean": 0.2
+   },
+   "shrub_04": {
+    "tint": "#4d7a30",
+    "amount": 0.5,
+    "mean": 0.2
+   },
+   "shrub_03": {
+    "tint": "#5a8a36",
+    "amount": 0.5,
+    "mean": 0.2
+   },
+   "nettle_plant": {
+    "tint": "#3f6a2a",
+    "amount": 0.5,
+    "mean": 0.2
+   },
+   "island_tree_02_leaves": {
+    "tint": "#4d7a30",
+    "amount": 0.5,
+    "mean": 0.2
+   }
+  },
+  "calibrate": {
+   "reference": [
+    "../../references/fortress/frames"
+   ],
+   "frames": [
+    40,
+    150,
+    300
+   ]
+  }
+ }
+}

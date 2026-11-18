@@ -1,0 +1,200 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "rc/place.schema.json",
+ "title": "RicksClips place (rc v3)",
+ "type": "object",
+ "required": [
+  "schema_version",
+  "place_id"
+ ],
+ "properties": {
+  "schema_version": {
+   "enum": [
+    2,
+    3
+   ]
+  },
+  "place_id": {
+   "type": "string"
+  },
+  "root": {
+   "type": "string"
+  },
+  "frames": {
+   "type": "array",
+   "minItems": 2,
+   "maxItems": 2
+  },
+  "fps": {
+   "type": "integer"
+  },
+  "palette": {
+   "type": "object"
+  },
+  "light": {
+   "type": "object"
+  },
+  "terrain": {
+   "type": "object"
+  },
+  "assets": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "asset",
+     "at"
+    ]
+   }
+  },
+  "lines": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "asset",
+     "points"
+    ]
+   }
+  },
+  "scatter": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "zone",
+     "seed"
+    ],
+    "properties": {
+     "zone": {
+      "oneOf": [
+       {
+        "type": "object",
+        "required": [
+         "center",
+         "radius"
+        ]
+       },
+       {
+        "type": "object",
+        "required": [
+         "polygon"
+        ]
+       },
+       {
+        "type": "object",
+        "required": [
+         "from",
+         "to",
+         "width"
+        ]
+       }
+      ]
+     }
+    }
+   }
+  },
+  "shots": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "frames"
+    ]
+   }
+  },
+  "characters": {
+   "type": "object"
+  },
+  "animation": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "type"
+    ],
+    "properties": {
+     "type": {
+      "enum": [
+       "bob",
+       "flicker",
+       "hinge",
+       "lift_set",
+       "look_at",
+       "orbit",
+       "path",
+       "spin",
+       "vehicle_drive"
+      ]
+     }
+    }
+   }
+  },
+  "physics": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "type"
+    ],
+    "properties": {
+     "type": {
+      "enum": [
+       "collapse",
+       "crash",
+       "deform",
+       "door_break",
+       "drop",
+       "glass_shatter",
+       "roll",
+       "topple"
+      ]
+     }
+    }
+   }
+  },
+  "fx": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "type"
+    ],
+    "properties": {
+     "type": {
+      "enum": [
+       "dust_burst",
+       "explosion_stylized",
+       "fire",
+       "haze",
+       "rain",
+       "smoke",
+       "sparks",
+       "splash"
+      ]
+     }
+    }
+   }
+  },
+  "cloth": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "type"
+    ],
+    "properties": {
+     "type": {
+      "enum": [
+       "flag",
+       "line_cloth"
+      ]
+     }
+    }
+   }
+  },
+  "lookdev": {
+   "type": "object"
+  }
+ }
+}

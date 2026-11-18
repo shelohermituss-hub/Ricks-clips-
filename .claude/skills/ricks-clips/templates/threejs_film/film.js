@@ -785,7 +785,8 @@ window.cardIndex = (who, px = 2, fa = 0, fb = null) => {   // fa..fb (Mission 2)
     const c = R.cam[f], st = tweened(who, f), tn = cardTint(who, f), tint = tn && tn.a > 0 ? tn : null, shd = lockShade(who, f, st), tk = (tint ? '|tint' + tint.hex + tint.a : '') + (shd ? shd.key : '');
     const vis = !!st.visible && (!st.place || st.place === c.place), key = vis || !states.length ? stateKey(who, st) + tk : states[runs[runs.length - 1].img - 1].keys[0]; let i = byKey[key];
     if (i === undefined) { const svg = svgFor(card.entry, st), sk = svg + tk; i = bySvg.get(sk); if (i === undefined) { i = states.push({ img: states.length + 1, keys: [], svg, tint, shade: shd ? shd.sh : null }) - 1; bySvg.set(sk, i); } states[i].keys.push(key); byKey[key] = i; }
-    const run = { f0: f, f1: f, img: i + 1, pos: st.pos.map(v => +(+v).toFixed(4)), flip: false, visible: !!st.visible && (!st.place || st.place === c.place) }, last = runs[runs.length - 1];
+    const hh = moveHands(card.entry, st), hands = hh && hh.hands ? hh.hands.map(p => [+((p[0] - CARD.CX) * card.k).toFixed(4), +((CARD.GY - p[1]) * card.k).toFixed(4)]) : null;   // HANDS (deliverable 5, 2026-11-18): card-local metres (x right, z up from the feet) so a 3D prop can follow a hand
+    const run = { f0: f, f1: f, img: i + 1, pos: st.pos.map(v => +(+v).toFixed(4)), flip: false, visible: !!st.visible && (!st.place || st.place === c.place), hands }, last = runs[runs.length - 1];
     if (last && last.f1 + 1 === run.f0 && last.img === run.img && last.visible === run.visible && String(last.pos) === String(run.pos)) last.f1 = run.f1; else runs.push(run);
   }
   card.lock = states;

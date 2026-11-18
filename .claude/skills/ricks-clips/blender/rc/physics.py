@@ -55,71 +55,246 @@ def _volume(o):
 def _aabb(o):
     bb = [o.matrix_world @ Vector(c) for c in o.bound_box]; return Vector([min(c) for c in zip(*bb)]), Vector([max(c) for c in zip(*bb)])
 
+# ------------------------------------------------------------------ shared simulation core (deliverable 7, 2026-11-18)
+DENS = {"wood": 600, "wood_dark": 650, "iron": 7800, "steel": 7800, "glass": 2500, "stone": 2400, "straw": 120, "rubber": 1100}
+
+class Sim:
+    """one rigid-body world for one event: add pieces, passive colliders, animated strikers, breakable joints, then bake() simulates and
+    turns every piece's motion into plain keys and removes the world (no live simulation in the file: frame-order independent)."""
+    def __init__(self, scene, f0, f1, substeps=20, iters=30):
+        self.sc, self.f0, self.f1 = scene, f0, f1; self.parts, self.passive, self.joints = [], [], 0; self.col = _col(scene, "RC_PHYSICS")
+        if scene.rigidbody_world is None:
+            with bpy.context.temp_override(scene=scene): bpy.ops.rigidbody.world_add()
+        rw = scene.rigidbody_world; rw.collection = _col(scene, "RC_RIGIDBODY_%d" % f0); rw.point_cache.frame_start, rw.point_cache.frame_end = f0, f1
+        rw.substeps_per_frame = substeps; rw.solver_iterations = iters; self.rw = rw
+    def rb(self, o, kind, mass=1.0, shape="CONVEX_HULL", friction=.75, bounce=.12, group=0):
+        if o.name not in self.rw.collection.objects: self.rw.collection.objects.link(o)
+        with bpy.context.temp_override(object=o, active_object=o, selected_objects=[o]):
+            if o.rigid_body is None: bpy.ops.rigidbody.object_add()
+        r = o.rigid_body; r.type = kind; r.collision_shape = shape; r.friction = friction; r.restitution = bounce; r.linear_damping = .08; r.angular_damping = .12
+        r.use_margin = True; r.collision_margin = .001                                   # tiny margin: touching pieces do not push each other apart at release
+        if kind == "ACTIVE": r.mass = max(.05, mass)
+        for g in range(20): r.collision_collections[g] = (g == group) or (kind == "PASSIVE" and g < 2)
+        return r
+    def piece(self, o, release, density=None, group=0, shape="CONVEX_HULL", bounce=.12):
+        m = o.data.materials[0].name.split(".")[0] if o.type == "MESH" and o.data.materials else "wood"
+        r = self.rb(o, "ACTIVE", _volume(o) * (density or DENS.get(m, 600)), shape=shape, group=group, bounce=bounce)
+        if release > self.f0:
+            r.kinematic = True; r.keyframe_insert("kinematic", frame=self.f0); r.kinematic = True; r.keyframe_insert("kinematic", frame=release - 1)
+            r.kinematic = False; r.keyframe_insert("kinematic", frame=release)
+        self.parts.append(o); return r
+    def collider(self, o, shape="MESH"): self.rb(o, "PASSIVE", shape=shape); self.passive.append(o)
+    def striker(self, follow, box, name="striker"):
+        """an animated box (in `follow`'s local metres) keyed from `follow` every frame (a parented rigid body is unreliable in Bullet)"""
+        from mathutils import Matrix
+        lo, hi = box; bpy.ops.mesh.primitive_cube_add(size=1); px = bpy.context.object; px.name = name
+        for c in list(px.users_collection): c.objects.unlink(px)
+        self.col.objects.link(px); px.dimensions = [hi[i] - lo[i] for i in range(3)]; bpy.ops.object.transform_apply(scale=True)
+        off = Vector([(lo[i] + hi[i]) / 2 for i in range(3)]); px.hide_render = True; px.display_type = "WIRE"
+        for f in range(self.f0, self.f1 + 1):
+            self.sc.frame_set(f); px.matrix_world = follow.matrix_world @ Matrix.Translation(off); px.keyframe_insert("location", frame=f); px.keyframe_insert("rotation_euler", frame=f)
+        r = self.rb(px, "PASSIVE", shape="BOX"); r.kinematic = True; self.passive.append(px); return px
+    def contact_frame(self, striker, targets, gap=.05):
+        """first frame where the striker's box reaches any target's box (+gap): the release frame (no jump before the impact)"""
+        bpy.context.view_layer.update(); T = [_aabb(o) for o in targets]
+        for f in range(self.f0, self.f1 + 1):
+            self.sc.frame_set(f); lo, hi = _aabb(striker)
+            if any(all(lo[k] - gap <= h[k] and l[k] - gap <= hi[k] for k in range(3)) for l, h in T): return f
+        return self.f1
+    def joints_between(self, parts, strength, weak=None, tol=.03, kind="FIXED"):
+        weak = weak or {}; bpy.context.view_layer.update(); B = {o.name: _aabb(o) for o in parts}; n0 = self.joints
+        for i, a in enumerate(parts):
+            la, ha = B[a.name]
+            for b in parts[i + 1:]:
+                lb, hb = B[b.name]
+                if all(la[k] - tol <= hb[k] and lb[k] - tol <= ha[k] for k in range(3)):
+                    self.joint(a, b, min([v for p, v in weak.items() if p in a.name or p in b.name] or [strength]), kind, ((la + ha) / 2 + (lb + hb) / 2) / 2)
+        return self.joints - n0
+    def joint(self, a, b, threshold, kind="FIXED", at=None, axis_rot=None):
+        e = bpy.data.objects.new("joint_%04d" % self.joints, None); self.col.objects.link(e); e.location = at if at is not None else (a.matrix_world.translation + b.matrix_world.translation) / 2
+        if axis_rot: e.rotation_euler = axis_rot
+        with bpy.context.temp_override(object=e, active_object=e, selected_objects=[e]): bpy.ops.rigidbody.constraint_add()
+        c = e.rigid_body_constraint; c.type = kind; c.object1, c.object2 = a, b; c.use_breaking = threshold is not None; c.disable_collisions = True
+        if threshold is not None: c.breaking_threshold = threshold
+        self.joints += 1; return c
+    def bake(self, track_names=(), before=None):
+        sc = self.sc
+        with bpy.context.temp_override(scene=sc): bpy.ops.ptcache.free_bake_all()
+        sc.frame_set(self.f0)
+        with bpy.context.temp_override(scene=sc, point_cache=self.rw.point_cache): bpy.ops.ptcache.bake(bake=True)
+        M = {o.name: [] for o in self.parts}
+        for f in range(self.f0, self.f1 + 1):
+            sc.frame_set(f)
+            for o in self.parts: M[o.name].append(o.matrix_world.copy())
+        for o in self.parts + self.passive:
+            if o.name in self.rw.collection.objects: self.rw.collection.objects.unlink(o)
+            if o.rigid_body:
+                with bpy.context.temp_override(object=o, active_object=o, selected_objects=[o]): bpy.ops.rigidbody.object_remove()
+        for o in self.parts:
+            if o.animation_data: o.animation_data_clear()
+            o.rotation_mode = "QUATERNION"; prev = None
+            for i, m in enumerate(M[o.name]):
+                loc, q, s_ = m.decompose()
+                if prev is not None and q.dot(prev) < 0: q.negate()
+                prev = q; o.location = loc; o.rotation_quaternion = q; o.scale = s_
+                o.keyframe_insert("location", frame=self.f0 + i); o.keyframe_insert("rotation_quaternion", frame=self.f0 + i)
+        for o in [o for o in self.col.objects if o.name.startswith("joint_")]: bpy.data.objects.remove(o, do_unlink=True)
+        with bpy.context.temp_override(scene=sc): bpy.ops.rigidbody.world_remove()
+        b = before if before is not None else self.f0; moved, far, track = 0, 0.0, {}
+        for o in self.parts:
+            sc.frame_set(b); p0 = o.matrix_world.translation.copy(); sc.frame_set(self.f1); p1 = o.matrix_world.translation.copy(); d = (p1 - p0).length
+            moved += d > .05; far = max(far, d)
+            nm = o.name.split(":")[-1]
+            if any(t in nm for t in track_names): track[nm] = {"before": [round(v, 2) for v in p0], "end": [round(v, 2) for v in p1], "moved_m": round(d, 2)}
+        return {"pieces": len(self.parts), "joints": self.joints, "pieces_moved": moved, "max_moved_m": round(far, 2), "track": track}
+
+def _shrink(o, k=.985):
+    """pre-separation: each fragment shrunk 1.5 % about its own centre so neighbours never start interpenetrated (no pop at release)"""
+    from mathutils import Matrix
+    c = sum((v.co for v in o.data.vertices), Vector()) / max(1, len(o.data.vertices)); o.data.transform(Matrix.Translation(c) @ Matrix.Scale(k, 4) @ Matrix.Translation(-c))
+
+def _scene_obj(name):
+    o = bpy.data.objects.get(name)
+    if o is None: raise KeyError("physics: object '%s' not in the scene" % name)
+    return o
+
 def crash(scene, spec, asset_col, ground, striker_empty, log=print):
-    col = _col(scene, "RC_PHYSICS"); rot = math.radians(spec.get("rot", 0)); f0, f1 = spec["frames"]
-    parts = realize(scene, asset_col, spec.get("name", "target"), spec["at"], rot, col)
+    """tier 3: a striker (vehicle) drives into a prepared, fractured target; released at the computed contact frame"""
+    f0, f1 = spec["frames"]; S = Sim(scene, f0, f1); parts = realize(scene, asset_col, spec.get("name", "target"), spec["at"], math.radians(spec.get("rot", 0)), S.col)
     for pre, fr in (spec.get("fracture") or {}).items():
         for o in [o for o in parts if o.name.split(":")[-1].startswith(pre)]:
-            parts.remove(o); parts += fracture(o, fr.get("pieces", 3), fr.get("seed", 1), col)
-    if scene.rigidbody_world is None: bpy.ops.rigidbody.world_add()
-    rw = scene.rigidbody_world; rw.collection = _col(scene, "RC_RIGIDBODY"); rw.point_cache.frame_start, rw.point_cache.frame_end = f0, f1
-    rw.substeps_per_frame = 20; rw.solver_iterations = 30
-    def rb(o, kind, mass=1.0, shape="CONVEX_HULL"):
-        if o.name not in rw.collection.objects: rw.collection.objects.link(o)
-        bpy.context.view_layer.objects.active = o; o.select_set(True)
-        if o.rigid_body is None: bpy.ops.rigidbody.object_add()
-        r = o.rigid_body; r.type = kind; r.collision_shape = shape; r.friction = .75; r.restitution = .12; r.linear_damping = .08; r.angular_damping = .12
-        if kind == "ACTIVE": r.mass = mass
-        o.select_set(False); return r
-    D = spec.get("densities", {"wood": 600, "wood_dark": 650, "iron": 7800})
+            parts.remove(o); parts += fracture(o, fr.get("pieces", 3), fr.get("seed", spec.get("seed", 1)), S.col)
+    for o in parts: _shrink(o)
+    S.collider(ground); px = S.striker(striker_empty, spec["striker"]["box"]); rel = spec.get("release") or S.contact_frame(px, parts)
+    for o in parts: S.piece(o, rel, group=1 if any(k in o.name for k in spec.get("own_group", ["cart_wheel_"])) else 0)
+    n = S.joints_between(parts, spec.get("joint_strength", 60), spec.get("weak", {})); log("[physics] crash: %d pieces, %d joints, release f%d" % (len(parts), n, rel))
+    r = S.bake(spec.get("track", ("cart_wheel_L", "cart_wheel_R", "cart_axle", "plank_03_frag0")), before=rel - 1); r["release"] = rel; return r
+
+def drop(scene, spec, src_fn, ground):
+    """tier 2: an object falls from a height (optional initial tilt) and bounces/settles on the ground and on named colliders"""
+    f0, f1 = spec["frames"]; S = Sim(scene, f0, f1); col = S.col
+    parts = realize(scene, src_fn(spec["asset"]), spec.get("name", spec["asset"]), [spec["at"][0], spec["at"][1], spec["at"][2] + spec.get("height", 2.0)], math.radians(spec.get("rot", 0)), col) if "asset" in spec else [_scene_obj(spec["object"])]
     for o in parts:
-        m = o.data.materials[0].name.split(".")[0] if o.data.materials else "wood"; r = rb(o, "ACTIVE", _volume(o) * D.get(m, 600))
-        r.kinematic = True; r.keyframe_insert("kinematic", frame=f0)                  # held still (as built) until the release frame: no settling jitter
-        r.kinematic = False; r.keyframe_insert("kinematic", frame=spec.get("release", f0 + 1))
-    for o in parts:                                              # wheels go through their axle by design: separate collision group, so a broken
-        if any(k in o.name for k in spec.get("own_group", ["cart_wheel_"])):                 # wheel joint does not explode from an overlap
-            o.rigid_body.collision_collections[0] = False; o.rigid_body.collision_collections[1] = True
-    g = rb(ground, "PASSIVE", shape="MESH"); g.collision_collections[1] = True
-    lo, hi = spec["striker"]["box"]; bpy.ops.mesh.primitive_cube_add(size=1); px = bpy.context.object; px.name = "striker_proxy"
-    for c in list(px.users_collection): c.objects.unlink(px)
-    col.objects.link(px); px.dimensions = [hi[i] - lo[i] for i in range(3)]; bpy.ops.object.transform_apply(scale=True)
-    off = Vector([(lo[i] + hi[i]) / 2 for i in range(3)]); px.hide_render = True; px.display_type = "WIRE"
-    from mathutils import Matrix
-    for f in range(f0, f1 + 1):                                  # the proxy gets its OWN keys copied from the striker (a parented rigid body is not reliable in Bullet)
-        scene.frame_set(f); px.matrix_world = striker_empty.matrix_world @ Matrix.Translation(off); px.keyframe_insert("location", frame=f); px.keyframe_insert("rotation_euler", frame=f)
-    r = rb(px, "PASSIVE", shape="BOX"); r.kinematic = True; r.collision_collections[1] = True
-    S, W = spec.get("joint_strength", 60), spec.get("weak", {}); n = 0; bpy.context.view_layer.update(); boxes = {o.name: _aabb(o) for o in parts}
-    for i, a in enumerate(parts):                                                    # breakable joints between touching pieces
-        la, ha = boxes[a.name]
-        for b in parts[i + 1:]:
-            lb, hb = boxes[b.name]
-            if all(la[k] - .03 <= hb[k] and lb[k] - .03 <= ha[k] for k in range(3)):
-                e = bpy.data.objects.new("joint_%04d" % n, None); col.objects.link(e); e.location = ((la + ha) / 2 + (lb + hb) / 2) / 2
-                bpy.context.view_layer.objects.active = e; e.select_set(True); bpy.ops.rigidbody.constraint_add(); e.select_set(False)
-                c = e.rigid_body_constraint; c.type = "FIXED"; c.object1, c.object2 = a, b; c.use_breaking = True
-                thr = min([v for p, v in W.items() if p in a.name or p in b.name] or [S]); c.breaking_threshold = thr; n += 1
-    log("[physics] %d pieces, %d breakable joints" % (len(parts), n))
-    bpy.ops.ptcache.free_bake_all(); scene.frame_set(f0)
-    with bpy.context.temp_override(scene=scene, point_cache=rw.point_cache): bpy.ops.ptcache.bake(bake=True)
-    # simulation -> plain keys (deterministic, slice-safe). Own loop: bpy.ops.rigidbody.bake_to_keyframes needs a UI context (fails headless)
-    M = {o.name: [] for o in parts}
-    for f in range(f0, f1 + 1):
-        scene.frame_set(f)
-        for o in parts: M[o.name].append(o.matrix_world.copy())
+        if spec.get("tilt"): o.rotation_euler.x += math.radians(spec["tilt"][0]); o.rotation_euler.y += math.radians(spec["tilt"][1])
+    S.collider(ground)
+    for c in spec.get("colliders", []): S.collider(_scene_obj(c), "CONVEX_HULL")
+    rel = spec.get("release", f0 + 1)
+    for o in parts: S.piece(o, rel, bounce=spec.get("bounce", .35))
+    if len(parts) > 1: S.joints_between(parts, None)                     # an asset made of several meshes stays one body (unbreakable joints)
+    return S.bake(tuple(o.name.split(":")[-1] for o in parts), before=rel - 1)
+
+def topple(scene, spec, src_fn, ground):
+    """tier 2: an upright object is tipped past its balance (keyed tilt before the release) and falls over"""
+    f0, f1 = spec["frames"]; S = Sim(scene, f0, f1); col = S.col
+    parts = realize(scene, src_fn(spec["asset"]), spec.get("name", spec["asset"]), spec["at"], math.radians(spec.get("rot", 0)), col) if "asset" in spec else [_scene_obj(spec["object"])]
+    rel = spec["at_frame"]; ax = 0 if spec.get("axis", "X") == "X" else 1
     for o in parts:
-        rw.collection.objects.unlink(o)
-        with bpy.context.temp_override(object=o, active_object=o, selected_objects=[o]): bpy.ops.rigidbody.object_remove()
-        o.rotation_mode = "QUATERNION"; prev = None
-        for i, m in enumerate(M[o.name]):
-            loc, q, sc_ = m.decompose()
-            if prev is not None and q.dot(prev) < 0: q.negate()
-            prev = q; o.location = loc; o.rotation_quaternion = q; o.keyframe_insert("location", frame=f0 + i); o.keyframe_insert("rotation_quaternion", frame=f0 + i)
-    for o in [o for o in col.objects if o.name.startswith("joint_")]: bpy.data.objects.remove(o, do_unlink=True)
-    with bpy.context.temp_override(scene=scene): bpy.ops.rigidbody.world_remove()        # no live simulation left in the file
-    rel = spec.get("release", f0 + 1); moved, track = 0, {}
-    for o in parts:                                              # proof of consequence: where each piece is before the release and at the end
-        scene.frame_set(rel - 1); p0 = o.matrix_world.translation.copy(); scene.frame_set(f1); p1 = o.matrix_world.translation.copy(); d = (p1 - p0).length
-        if d > .05: moved += 1
-        nm = o.name.split(":")[-1]
-        if nm in ("cart_wheel_L", "cart_wheel_R", "cart_axle") or nm.endswith("_frag0") and "plank_03" in nm: track[nm] = {"before": [round(v, 2) for v in p0], "end": [round(v, 2) for v in p1], "moved_m": round(d, 2)}
-    return {"pieces": len(parts), "joints": n, "pieces_moved_after_release": moved, "track": track}
+        base = list(o.rotation_euler)
+        for f, k in ((f0, 0.0), (rel - 6, 0.0), (rel, 1.0)):
+            r = list(base); r[ax] += math.radians(spec.get("tilt", 14)) * k; o.rotation_euler = r; o.keyframe_insert("rotation_euler", frame=f)
+    S.collider(ground)
+    for o in parts: S.piece(o, rel)
+    if len(parts) > 1: S.joints_between(parts, spec.get("joint_strength"))
+    return S.bake(tuple(o.name.split(":")[-1] for o in parts), before=rel - 1)
+
+def roll(scene, spec, src_fn, ground):
+    """tier 2: an object (barrel, tyre) set rolling: keyed (kinematic) push along a direction until release, then free on the ground"""
+    f0, f1 = spec["frames"]; S = Sim(scene, f0, f1); col = S.col
+    parts = realize(scene, src_fn(spec["asset"]), spec.get("name", spec["asset"]), spec["at"], math.radians(spec.get("rot", 0)), col) if "asset" in spec else [_scene_obj(spec["object"])]
+    rel = spec["release"]; d = Vector((*spec["direction"], 0)).normalized(); v = spec.get("speed", 2.0); r0 = spec.get("radius", .3)
+    for o in parts:
+        p0 = o.location.copy(); b = list(o.rotation_euler)
+        for f in range(f0, rel + 1):
+            s = max(0, f - spec.get("push_from", f0)) * v / scene.render.fps; o.location = p0 + d * s; rr = list(b); rr[0] += s / r0; o.rotation_euler = rr
+            o.keyframe_insert("location", frame=f); o.keyframe_insert("rotation_euler", frame=f)
+    S.collider(ground)
+    for c in spec.get("colliders", []): S.collider(_scene_obj(c), "CONVEX_HULL")
+    for o in parts: S.piece(o, rel, shape=spec.get("shape", "CYLINDER"), bounce=.2)
+    if len(parts) > 1: S.joints_between(parts, None)
+    return S.bake(tuple(o.name.split(":")[-1] for o in parts), before=f0)
+
+def glass_pieces(ob, cuts, seed, col):
+    """a pane cut into shards by seeded random plane cuts in its own plane (Voronoi-like), real cut faces"""
+    pieces = [ob]; R = random.Random(seed)
+    for c in range(cuts):
+        nxt = []
+        for p in pieces:
+            lo, hi = _aabb(p); mid = Vector([R.uniform(lo[k] + (hi[k] - lo[k]) * .3, lo[k] + (hi[k] - lo[k]) * .7) for k in range(3)])
+            a = R.uniform(0, math.pi); n = Vector((math.cos(a), 0, math.sin(a))) if (hi - lo).y < (hi - lo).x else Vector((0, math.cos(a), math.sin(a)))
+            halves = []
+            for side in (1, -1):
+                bm = bmesh.new(); bm.from_mesh(p.data); bm.transform(p.matrix_world)
+                r = bmesh.ops.bisect_plane(bm, geom=bm.verts[:] + bm.edges[:] + bm.faces[:], plane_co=mid, plane_no=n, clear_inner=side > 0, clear_outer=side < 0)
+                cut = [e for e in r["geom_cut"] if isinstance(e, bmesh.types.BMEdge)]
+                if cut: bmesh.ops.holes_fill(bm, edges=cut)
+                if not bm.verts: bm.free(); continue
+                me = bpy.data.meshes.new(p.name + "s"); bm.to_mesh(me); bm.free()
+                for m in p.data.materials: me.materials.append(m)
+                ctr = sum((v.co for v in me.vertices), Vector()) / len(me.vertices); me.transform(__import__("mathutils").Matrix.Translation(-ctr))
+                q = bpy.data.objects.new(p.name + ("a" if side > 0 else "b"), me); col.objects.link(q); q.location = ctr; halves.append(q)
+            bpy.data.objects.remove(p, do_unlink=True); nxt += halves
+        pieces = nxt
+    return pieces
+
+def glass_shatter(scene, spec, src_fn, ground):
+    """tier 3: a named glass pane is replaced by seeded shards held by weak joints; a striker (object/proxy) or a thrown object breaks it"""
+    f0, f1 = spec["frames"]; S = Sim(scene, f0, f1, substeps=30); pane = _scene_obj(spec["pane"]); pane_copy = pane.copy(); pane_copy.data = pane.data.copy()
+    S.col.objects.link(pane_copy); pane_copy.matrix_world = pane.matrix_world.copy(); pane.hide_render = True; pane.keyframe_insert("hide_render", frame=f0)
+    shards = glass_pieces(pane_copy, spec.get("cuts", 4), spec["seed"], S.col)
+    for o in shards: _shrink(o, .99)
+    S.collider(ground)
+    for c in spec.get("colliders", []): S.collider(_scene_obj(c), "CONVEX_HULL")
+    if spec.get("striker"): px = S.striker(_scene_obj(spec["striker"]["name"]), spec["striker"]["box"]); rel = S.contact_frame(px, shards)
+    else: rel = spec["at_frame"]
+    for o in shards: S.piece(o, rel, density=2500, bounce=.25)
+    S.joints_between(shards, spec.get("strength", 4), tol=.01)
+    if spec.get("impulse"):                                               # a thrown stone: a small fast drop object aimed at the pane
+        st = spec["impulse"]; bpy.ops.mesh.primitive_ico_sphere_add(radius=.05, location=st["from"]); stone = bpy.context.object; stone.name = "thrown_stone"
+        for c in list(stone.users_collection): c.objects.unlink(stone)
+        S.col.objects.link(stone); tgt = Vector(st["to"]) if isinstance(st["to"], list) else sum(((pane_copy.matrix_world @ Vector(c)) for c in pane_copy.bound_box), Vector()) / 8 if False else (Vector(st["to"]) if isinstance(st["to"], list) else _scene_obj(st["to"]).matrix_world @ (sum((Vector(c) for c in _scene_obj(st["to"]).bound_box), Vector()) / 8)); p0 = Vector(st["from"]); n = st.get("frames", 8)
+        for k in range(n + 1): stone.location = p0.lerp(tgt, k / n); stone.keyframe_insert("location", frame=rel - n + k)
+        S.piece(stone, rel, density=2400)
+    r = S.bake(("shed_glass",), before=rel - 1); r["release"] = rel; r["shards"] = len(shards); return r
+
+def door_break(scene, spec, src_fn, ground):
+    """tier 3: a hinged door held by HINGE joints (breakable) to an invisible frame; a striker tears it off"""
+    f0, f1 = spec["frames"]; S = Sim(scene, f0, f1); door = _scene_obj(spec["door"]); frame = door.copy(); frame.data = door.data.copy(); S.col.objects.link(frame)
+    frame.matrix_world = door.matrix_world.copy(); frame.hide_render = True; frame.display_type = "WIRE"; frame.scale = (.2, .2, 1.0)
+    S.collider(ground); S.collider(frame, "BOX"); px = S.striker(_scene_obj(spec["striker"]["name"]), spec["striker"]["box"]); rel = S.contact_frame(px, [door])
+    S.piece(door, rel)
+    for z in (.3, 1.7): S.joint(door, frame, spec.get("hinge_strength", 30), "HINGE", door.matrix_world @ Vector((0, 0, z)), (0, 0, 0))
+    r = S.bake((door.name.split(":")[-1],), before=rel - 1); r["release"] = rel; return r
+
+def collapse(scene, spec, src_fn, ground):
+    """tier 3: a stack/structure of placed assets joined by breakable joints; a support is pulled out (keyed) or a striker hits it"""
+    f0, f1 = spec["frames"]; S = Sim(scene, f0, f1); parts = []
+    for i, it in enumerate(spec["items"]):
+        parts += realize(scene, src_fn(it["asset"]), "%s_%d" % (spec.get("name", "stack"), i), it["at"], math.radians(it.get("rot", 0)), S.col)
+    for o in parts: _shrink(o, .995)
+    S.collider(ground)
+    if spec.get("striker"): px = S.striker(_scene_obj(spec["striker"]["name"]), spec["striker"]["box"]); rel = S.contact_frame(px, parts)
+    else: rel = spec["at_frame"]
+    for o in parts: S.piece(o, rel)
+    S.joints_between(parts, spec.get("joint_strength", 25), tol=.04)
+    r = S.bake((), before=rel - 1); r["release"] = rel; return r
+
+def deform(scene, spec, src_fn, ground):
+    """tier 3 DEFORMATION (not a move): a dent pressed into a named mesh via a prepared shape key (vertices near the impact point pushed
+    along the impact direction with a smooth falloff), keyed 0 -> 1 over `ease` frames at the impact frame; the object itself stays put"""
+    ob = _scene_obj(spec["object"]); me = ob.data
+    if not me.shape_keys: ob.shape_key_add(name="Basis")
+    k = ob.shape_key_add(name=spec.get("name", "dent"), from_mix=False); inv = ob.matrix_world.inverted(); P = inv @ Vector(spec["point"])
+    d = (inv.to_3x3() @ Vector(spec["direction"])).normalized(); R0 = spec.get("radius", .5); depth = spec.get("depth", .12); n = 0
+    for i, v in enumerate(me.vertices):
+        r = (v.co - P).length
+        if r < R0: w = (1 - r / R0) ** 2; k.data[i].co = v.co + d * depth * w; n += 1
+    f = spec["at_frame"]; e = spec.get("ease", 3)
+    k.value = 0; k.keyframe_insert("value", frame=f - 1); k.value = 1; k.keyframe_insert("value", frame=f + e)
+    return {"deformed_vertices": n, "object": ob.name, "frame": f}
+
+EVENTS = {"drop": drop, "topple": topple, "roll": roll, "glass_shatter": glass_shatter, "door_break": door_break, "collapse": collapse, "deform": deform}
+
+def run(scene, spec, src_fn, ground):
+    if spec["type"] == "crash": r = crash(scene, spec, src_fn(spec["target_asset"]), ground, _scene_obj(spec["striker"]["name"]))
+    else: r = EVENTS[spec["type"]](scene, spec, src_fn, ground)
+    r["type"] = spec["type"]; return r

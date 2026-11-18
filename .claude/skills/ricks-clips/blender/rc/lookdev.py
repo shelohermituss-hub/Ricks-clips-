@@ -15,6 +15,21 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from rc import fetch, library  # noqa: E402
 
 _MEAN = {}
+PRESETS = {   # material presets (deliverable 9): texture set + response + wear; a rule may say {"preset": "stone", "color": "#hex"} and override any key
+    "stone":        {"tex": "tex_rustic_stone_wall", "tile": 1.6, "contrast": .85, "normal": 1.2, "rough": [.7, 1.0], "wear": .35},
+    "wood":         {"tex": "tex_brown_planks_05", "tile": .9, "contrast": .7, "normal": .8, "rough": [.6, .9], "wear": .3},
+    "painted_metal": {"tex": "tex_rusty_painted_metal", "tile": 1.2, "contrast": .55, "normal": .5, "rough": [.45, .8], "wear": .4},
+    "rust":         {"tex": "tex_rusty_painted_metal", "tile": .8, "contrast": .9, "normal": .8, "rough": [.7, 1.0], "wear": .2},
+    "fabric":       {"proc": "grain", "contrast": .3, "rough": [.8, 1.0], "bump": .3},
+    "plaster":      {"tex": "tex_rustic_stone_wall", "tile": 3.0, "contrast": .35, "normal": .4, "rough": [.8, 1.0], "wear": .25},
+    "earth":        {"tex": "tex_brown_mud_02", "tile": 2.5, "contrast": .8, "normal": 1.0, "rough": [.6, 1.0]},
+    "grass_ground": {"tex": "tex_leafy_grass", "tile": 2.5, "contrast": .9, "normal": .8, "keep": .15, "rough": [.75, 1.0]},
+    "straw":        {"proc": "grain", "contrast": .35, "rough": [.75, 1.0], "bump": .4},
+    "rubber":       {"proc": "rubber", "contrast": .18, "rough": [.55, .85]},
+    "iron":         {"proc": "iron", "contrast": .3, "rough": [.45, .75], "metal": .6},
+    "glass":        {"proc": "grain", "contrast": .05, "rough": [.02, .08]},
+    "water":        {"proc": "grain", "contrast": .05, "rough": [.02, .06]},
+}
 def _hex(h): h = h.lstrip("#"); return tuple(((int(h[i:i + 2], 16) / 255) ** 2.2) for i in (0, 2, 4))
 
 def _maps(tex_id):
@@ -70,6 +85,14 @@ def _rebuild(m, color, rule):
         L.new(col.outputs[0], mul.inputs[6]); L.new(mr.outputs[0], mul.inputs[7]); L.new(mul.outputs[2], b.inputs["Base Color"])
         rr = N.new("ShaderNodeMapRange"); rr.inputs[3].default_value, rr.inputs[4].default_value = r0, r1; L.new(nz.outputs["Fac"], rr.inputs[0]); L.new(rr.outputs[0], b.inputs["Roughness"])
         bump = N.new("ShaderNodeBump"); bump.inputs["Strength"].default_value = rule.get("bump", .25); L.new(nz.outputs["Fac"], bump.inputs["Height"]); L.new(bump.outputs[0], b.inputs["Normal"])
+    if rule.get("wear"):                                         # WEAR & GRIME: cavities darker (AO), worn edges lighter (pointiness), a grime noise
+        src = b.inputs["Base Color"].links[0].from_socket if b.inputs["Base Color"].links else None
+        if src is not None:
+            ao = N.new("ShaderNodeAmbientOcclusion"); ao.inputs["Distance"].default_value = rule.get("wear_dist", .15); ao.only_local = True
+            gm = N.new("ShaderNodeMapRange"); gm.inputs[3].default_value, gm.inputs[4].default_value = 1 - rule["wear"], 1.0; L.new(ao.outputs["AO"], gm.inputs[0])
+            ge = N.new("ShaderNodeNewGeometry"); ed = N.new("ShaderNodeMapRange"); ed.inputs[1].default_value, ed.inputs[2].default_value = .5, .56; ed.inputs[3].default_value, ed.inputs[4].default_value = 1.0, 1 + rule["wear"] * .6
+            L.new(ge.outputs["Pointiness"], ed.inputs[0]); m1 = N.new("ShaderNodeMath"); m1.operation = "MULTIPLY"; L.new(gm.outputs[0], m1.inputs[0]); L.new(ed.outputs[0], m1.inputs[1])
+            mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs["Factor"].default_value = 1.0; L.new(src, mx.inputs[6]); L.new(m1.outputs[0], mx.inputs[7]); L.new(mx.outputs[2], b.inputs["Base Color"])
     if rule.get("metal"): b.inputs["Metallic"].default_value = rule["metal"]
     m["rc_lookdev"] = rule.get("tex") or rule.get("proc", "grain")
 
@@ -95,11 +118,83 @@ def calibrate_white(scene, ref_png, render_fn, iters=3):
         vs.white_balance_temperature = max(2500, min(12000, vs.white_balance_temperature * (r ** -.8)))   # measured 2026-11-18: in Blender 5.2 a LOWER setting renders COOLER (6500->3645 K took red/blue from .70 to .18): too cold (r<1) -> raise it
     return log
 
+def _resolve_rule(rules, base):
+    r = rules.get(base)
+    if r is None: return None
+    if "preset" in r: r = {**PRESETS[r["preset"]], **{k: v for k, v in r.items() if k != "preset"}}
+    return r
+
+def _layered(m, rules, rule):
+    """TERRAIN LAYERS: two palette rules mixed by a mesh attribute (path_mask from rc.envbuild) broken up by noise at the edge, so the
+    path is painted INTO the ground (no floating strip, no hard border)"""
+    lay = rule["layers"]; base, over = _resolve_rule(rules, lay["base"]), _resolve_rule(rules, lay["over"])
+    tmp_a = bpy.data.materials.new(m.name + "_A"); tmp_a.use_nodes = True; tmp_b = bpy.data.materials.new(m.name + "_B"); tmp_b.use_nodes = True
+    _rebuild(tmp_a, _hex(base["color"]) if base.get("color") else _base_color(m), base); _rebuild(tmp_b, _hex(over["color"]), over)
+    nt = m.node_tree; nt.nodes.clear(); N, L = nt.nodes, nt.links; out = N.new("ShaderNodeOutputMaterial")
+    def graft(src):                                              # copy a built material's nodes into this tree, return its BSDF output
+        mp = {}
+        for n in src.node_tree.nodes:
+            if n.type == "OUTPUT_MATERIAL": continue
+            c = N.new(n.bl_idname); mp[n.name] = c
+            for attr in ("operation", "blend_type", "data_type", "projection", "projection_blend", "image", "noise_dimensions", "only_local"):
+                if hasattr(n, attr):
+                    try: setattr(c, attr, getattr(n, attr))
+                    except Exception: pass
+            for i, sk in enumerate(n.inputs):
+                if hasattr(sk, "default_value") and i < len(c.inputs):
+                    try: c.inputs[i].default_value = sk.default_value
+                    except Exception: pass
+            if n.type == "RGB": c.outputs[0].default_value = n.outputs[0].default_value
+        for l in src.node_tree.links:
+            if l.to_node.type == "OUTPUT_MATERIAL": continue
+            L.new(mp[l.from_node.name].outputs[l.from_socket.identifier] if l.from_socket.identifier in mp[l.from_node.name].outputs else mp[l.from_node.name].outputs[list(l.from_node.outputs).index(l.from_socket)],
+                  mp[l.to_node.name].inputs[list(l.to_node.inputs).index(l.to_socket)])
+        return [mp[n.name] for n in src.node_tree.nodes if n.type == "BSDF_PRINCIPLED"][0].outputs[0]
+    sa, sb = graft(tmp_a), graft(tmp_b)
+    at = N.new("ShaderNodeAttribute"); at.attribute_name = lay.get("mask", "path_mask"); nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = lay.get("edge_scale", 1.6)
+    mr = N.new("ShaderNodeMapRange"); mr.inputs[3].default_value, mr.inputs[4].default_value = -lay.get("edge_noise", .35), lay.get("edge_noise", .35); L.new(nz.outputs["Fac"], mr.inputs[0])
+    ad = N.new("ShaderNodeMath"); ad.operation = "ADD"; ad.use_clamp = True; L.new(at.outputs["Fac"], ad.inputs[0]); L.new(mr.outputs[0], ad.inputs[1])
+    mix = N.new("ShaderNodeMixShader"); L.new(ad.outputs[0], mix.inputs[0]); L.new(sa, mix.inputs[1]); L.new(sb, mix.inputs[2]); L.new(mix.outputs[0], out.inputs[0])
+    bpy.data.materials.remove(tmp_a); bpy.data.materials.remove(tmp_b); m["rc_lookdev"] = "layers"
+
+def light_rig(scene, light):
+    """LIGHT RIGS (deliverable 9): a preset of the approved look library (day, morning, golden, night, interior) + view transform,
+    measured exposure and white balance, optional haze volume and the compositor grade"""
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "templates"))
+    from blender_look import look
+    look.apply_look(scene, light.get("preset", "day"), key_dir=tuple(light["key_dir"]) if light.get("key_dir") else None)
+    vs = scene.view_settings
+    if light.get("view_transform"): vs.view_transform = light["view_transform"]; vs.look = "None"
+    if "exposure" in light: vs.exposure = light["exposure"]
+    if "white_balance" in light: vs.use_white_balance = True; vs.white_balance_temperature = light["white_balance"]
+    if light.get("haze"):
+        from rc import vfx
+        vfx.haze(scene, light["haze"])
+    if light.get("grade"): grade(scene, light["grade"])
+    return {"preset": light.get("preset", "day"), "view": vs.view_transform, "exposure": vs.exposure, "white_balance": vs.white_balance_temperature if vs.use_white_balance else None}
+
+def grade(scene, g):
+    """COMPOSITOR GRADE (same controls as grade/grade.py): saturation, lift/gamma/gain, vignette; done in Blender so every frame and every
+    slice gets the identical grade"""
+    scene.use_nodes = True; nt = scene.node_tree; N, L = nt.nodes, nt.links
+    rl = N.get("Render Layers") or N.new("CompositorNodeRLayers"); comp = N.get("Composite") or N.new("CompositorNodeComposite")
+    for l in list(comp.inputs[0].links): L.remove(l)
+    hsv = N.new("CompositorNodeHueSat"); hsv.inputs["Saturation"].default_value = g.get("saturation", 1.0); hsv.inputs["Value"].default_value = g.get("value", 1.0)
+    cb = N.new("CompositorNodeColorBalance"); cb.correction_method = "LIFT_GAMMA_GAIN"
+    cb.lift = [g.get("lift", 1.0)] * 3; cb.gamma = [g.get("gamma", 1.0)] * 3; cb.gain = [g.get("gain", 1.0)] * 3
+    L.new(rl.outputs["Image"], hsv.inputs["Image"]); L.new(hsv.outputs[0], cb.inputs["Image"]); last = cb.outputs[0]
+    if g.get("vignette"):
+        ell = N.new("CompositorNodeEllipseMask"); ell.width, ell.height = .95, .95; bl = N.new("CompositorNodeBlur"); bl.filter_type = "FAST_GAUSS"; bl.use_relative = True; bl.factor_x = bl.factor_y = .25
+        L.new(ell.outputs[0], bl.inputs[0]); mx = N.new("CompositorNodeMixRGB"); mx.blend_type = "MULTIPLY"; L.new(last, mx.inputs[1]); mr = N.new("CompositorNodeMapRange")
+        mr.inputs[3].default_value, mr.inputs[4].default_value = 1 - g["vignette"], 1.0; L.new(bl.outputs[0], mr.inputs[0]); L.new(mr.outputs[0], mx.inputs[2]); last = mx.outputs[0]
+    L.new(last, comp.inputs[0])
+
 def apply(rules, materials=None):
     rep, unmatched = {}, set()
     for m in list(materials or bpy.data.materials):
         if m.library or not m.use_nodes: continue
-        base = m.name.split(".")[0]; rule = rules.get(base)
+        base = m.name.split(".")[0]; rule = _resolve_rule(rules, base)
+        if rule is not None and "layers" in rule: _layered(m, rules, rule); rep[m.name] = "layers"; continue
         if rule is None: unmatched.add(base); continue
         if "tint" in rule: _tint(m, rule); rep[m.name] = "tint"; continue
         _rebuild(m, _hex(rule["color"]) if rule.get("color") else _base_color(m), rule); rep[m.name] = rule.get("tex") or rule.get("proc", "grain")

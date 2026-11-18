@@ -118,7 +118,10 @@ def door(bm):
     for z in (.3, 1.6): box(bm, (.3, -SD / 2 - .055, z), (.8, .02, .1))
     box(bm, (.3, -SD / 2 - .055, .95), (.95, .02, .09), rot=Matrix.Rotation(1.0, 3, "Y"))
 obj("shed_door", "wood_dark", door, origin=(-.12, -SD / 2 - .03, 0))                     # origin ON the hinge line: rotate about Z to open
-for i, x in enumerate((.85, 1.05)): obj("shed_glass_%d" % i, "glass", lambda bm, x=x: box(bm, (x, -SD / 2 - .01, 1.3), (.18, .006, .76)))
+def pane(bm, x):                                                                         # a subdivided pane (6 x 10): real geometry for the shatter cuts
+    t = bmesh.new(); bmesh.ops.create_cube(t, size=1); bmesh.ops.scale(t, vec=(.18, .006, .76), verts=t.verts); bmesh.ops.subdivide_edges(t, edges=[e for e in t.edges if abs((e.verts[0].co - e.verts[1].co).y) < 1e-6], cuts=6)
+    bmesh.ops.translate(t, vec=(x, -SD / 2 - .01, 1.3), verts=t.verts); from _blender_kit import merge; merge(bm, t)
+for i, x in enumerate((.85, 1.05)): obj("shed_glass_%d" % i, "glass", lambda bm, x=x: pane(bm, x))
 for ob in [o for o in sc.objects if o.type == "MESH"]:
     bpy.context.view_layer.objects.active = ob
     for o in sc.objects: o.select_set(o == ob)
