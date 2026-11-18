@@ -1,0 +1,65 @@
+[
+ {
+  "id": "floor_tiles_06",
+  "kind": "texture",
+  "res": "2k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/floor_tiles_06"
+ },
+ {
+  "id": "painted_plaster_wall",
+  "kind": "texture",
+  "res": "2k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/painted_plaster_wall"
+ },
+ {
+  "id": "damaged_plaster",
+  "kind": "texture",
+  "res": "2k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/damaged_plaster"
+ },
+ {
+  "id": "dark_wooden_planks",
+  "kind": "texture",
+  "res": "2k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/dark_wooden_planks"
+ },
+ {
+  "id": "dark_wooden_planks",
+  "kind": "texture",
+  "res": "2k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/dark_wooden_planks"
+ },
+ {
+  "id": "metal_plate",
+  "kind": "texture",
+  "res": "2k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/metal_plate"
+ },
+ {
+  "id": "round_wooden_table_01",
+  "kind": "model",
+  "res": "1k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/round_wooden_table_01"
+ },
+ {
+  "id": "painted_wooden_chair_01",
+  "kind": "model",
+  "res": "1k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/painted_wooden_chair_01"
+ },
+ {
+  "id": "wine_bottles_01",
+  "kind": "model",
+  "res": "1k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/wine_bottles_01"
+ }
+]

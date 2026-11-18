@@ -27,7 +27,7 @@ def by_material(word, mat):
             if s.material and word in s.material.name.lower(): s.material = mat; n += 1
     return n
 def tank_rubber():   # the Blender-modelled decoys (inflatable_tank GLB inside the set): rubberised canvas, olive, wrinkled
-    m = ld.pbr("ld_rubber_canvas", "fabric_leather_02", tile=.6, tint=(.33, .38, .2), rough_mul=.8, bump=.6)
+    m = ld.simple("ld_rubber_canvas", (.11, .14, .05), rough=.62)   # olive rubberised canvas (a leather texture went brown)
     return ld.assign(r"^(hull_bladder|turret_bladder|track_bladder|cupola_bladder|mantlet_cushion|gun_segments|wheel_cushions|hatch_cushion|patch_)", m)
 
 def room_bounds():
@@ -51,9 +51,9 @@ def road_lamps():
 
 LEAVES = ld.foliage("ld_leaves", (.1, .2, .05)); GRASS = ld.foliage("ld_grass", (.16, .26, .07), .4); LEAVES_N = ld.foliage("ld_leaves_night", (.05, .09, .04), .3)
 if PLACE == "field":
-    step("hdri sky + light (kloofendal_misty_morning_puresky)", lambda: ld.world_hdri("kloofendal_misty_morning_puresky", strength=1.1, rot=2.2, visible=True) and "ok")
+    step("hdri sky + light (qwantani_morning_puresky)", lambda: ld.world_hdri("qwantani_morning_puresky", strength=1.0, rot=2.2, visible=True) and "ok")
     step("low morning sun", lambda: ld.sun("ld_sun", (.82, -.5, .24), 3.2, (1, .86, .7), .03) and "ok")
-    step("ground: leafy grass PBR + displacement", lambda: ld.assign(r"^ground$", ld.pbr("ld_ground", "leafy_grass", tile=2.5, disp=.06, tint=(.9, 1, .85))))
+    step("ground: sparse grass PBR + displacement", lambda: ld.assign(r"^ground$", ld.pbr("ld_ground", "sparse_grass", tile=3, disp=.04)))
     step("dirt road: muddy tracks + displacement", lambda: ld.assign(r"^dirt_road$", ld.pbr("ld_dirt", "muddy_tracks", tile=4, disp=.12)))
     step("farm: stone walls, clay roof tiles, painted planks", lambda: ld.assign(r"^farm_walls", ld.pbr("ld_farmstone", "plaster_stone_wall_01", tile=2)) + ld.assign(r"^farm_roof", ld.pbr("ld_roof", "clay_roof_tiles", tile=2)) + ld.assign(r"^(farm_shutter|farm_door)", ld.pbr("ld_paintwood", "distressed_painted_planks", tile=1.2)))
     step("telegraph poles: weathered wood; insulators glass; wires", lambda: ld.assign(r"^(telegraph_pole|telegraph_bar|pennant_pole)", ld.pbr("ld_polewood", "brown_planks_07", tile=1.0, rough_mul=1.1)) + ld.assign(r"^pole_insulator", ld.simple("ld_insulator", (.55, .7, .62), rough=.08, transmission=.6)) + ld.assign(r"^power_line", ld.simple("ld_wire", (.02, .02, .02), rough=.4, metal=.6)))
@@ -64,7 +64,7 @@ if PLACE == "field":
     step("copses and trees: leaf colour variation + bark", lambda: sum(1 for o in FG["copse"] for _ in [o.data.materials.clear(), o.data.materials.append(LEAVES)]) + ld.assign(r"^(tree|trunk|tree_trunk|poplar_trunk)", ld.pbr("ld_bark", "bark_brown_02", tile=.8)))
     step("meadow: modelled grass clumps near the lens (grass_medium_01, 1 in 2), colour variation for the rest", lambda: ld.replace_objs([o for o in FG["grass"] if o.matrix_world.translation.length < 26], "grass_medium_01", fit="height", every=2) + sum(1 for o in FG["grass"] if o.matrix_world.translation.length >= 26 for _ in [o.data.materials.clear(), o.data.materials.append(GRASS)]))
     step("dandelions and stones near the lens", lambda: ld.scatter(["dandelion_01", "stone_01"], 120, (-6, -6, 10, 12), KC, seed=4, scale=(.6, 1.1), near=(4, -2, 6)))
-    step("morning air (volumetric haze)", lambda: ld.fog_box((0, 30, 8), (240, 240, 30), .0035, (.95, .88, .8)) and "ok")
+    step("morning air (volumetric haze)", lambda: ld.fog_box((0, 30, 8), (240, 240, 30), .0009, (.95, .9, .85)) and "ok")
 elif PLACE == "cafe":
     step("lights: window sun + warm practicals + soft fill", lambda: cafe_lights())
     step("floor: worn tiles", lambda: ld.assign(r"^floor$", ld.pbr("ld_cafefloor", "floor_tiles_06", tile=1.2, rough_mul=.9)))

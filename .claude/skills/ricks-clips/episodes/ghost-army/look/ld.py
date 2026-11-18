@@ -106,7 +106,10 @@ def load_model(aid, res="1k"):
         col.objects.link(o)
     pts = [o.matrix_world @ Vector(c) for o in new if o.type == "MESH" for c in o.bound_box]
     lo = Vector((min(p.x for p in pts), min(p.y for p in pts), min(p.z for p in pts))); hi = Vector((max(p.x for p in pts), max(p.y for p in pts), max(p.z for p in pts)))
-    col.hide_render = True; col.hide_viewport = True
+    # the source models must stay renderable for their instances: exclude the collection from the view layer instead of hide_render
+    # (hide_render on the source collection hid every instance: the first prototype pass lost all shrubs and grass)
+    lc = next((l for l in bpy.context.view_layer.layer_collection.children if l.collection == col), None)
+    if lc: lc.exclude = True
     for o in new: o.location -= Vector(((lo.x + hi.x) / 2, (lo.y + hi.y) / 2, lo.z))   # pivot: bottom centre
     bpy.context.view_layer.update(); _LOADED[aid] = (col, hi - lo); return _LOADED[aid]
 def instance(aid, loc, rot_z=0.0, scale=1.0, name=None):
@@ -208,13 +211,17 @@ def proofs(out, tag, frames, clay_only=False):
     sc = bpy.context.scene; vl = sc.view_layers[0]; T = {}
     for f in frames:
         if not clay_only: T["look_%d" % f] = still(os.path.join(out, "%s_look_f%05d.png" % (tag, f)), f)
+    vols = [o for o in bpy.data.objects if o.type == "MESH" and o.data.materials and any(m and m.node_tree and any(n.type == "PRINCIPLED_VOLUME" for n in m.node_tree.nodes) for m in o.data.materials) and not o.hide_render]
+    for o in vols: o.hide_render = True   # an override would turn a volume box into a solid block
     clay = simple("clay", (.62, .62, .62), rough=.8); vl.material_override = clay
     for f in frames: T["clay_%d" % f] = still(os.path.join(out, "%s_clay_f%05d.png" % (tag, f)), f)
     d = bpy.data.materials.new("depth"); d.use_nodes = True; N, Lk = d.node_tree.nodes, d.node_tree.links; N.remove(N["Principled BSDF"])
-    tc = N.new("ShaderNodeTexCoord"); sep = N.new("ShaderNodeSeparateXYZ"); mr = N.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = 0; mr.inputs["From Max"].default_value = -60; em = N.new("ShaderNodeEmission")
-    Lk.new(tc.outputs["Camera"], sep.inputs["Vector"]); Lk.new(sep.outputs["Z"], mr.inputs["Value"]); Lk.new(mr.outputs["Result"], em.inputs["Strength"]); Lk.new(em.outputs["Emission"], N["Material Output"].inputs["Surface"])
+    lp = N.new("ShaderNodeLightPath"); mr = N.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = 0; mr.inputs["From Max"].default_value = 80; em = N.new("ShaderNodeEmission")
+    Lk.new(lp.outputs["Ray Length"], mr.inputs["Value"]); Lk.new(mr.outputs["Result"], em.inputs["Strength"]); Lk.new(em.outputs["Emission"], N["Material Output"].inputs["Surface"])   # near dark, far bright
     vl.material_override = d; s0 = sc.cycles.samples; sc.cycles.samples = 16
     for f in frames[:1]: T["depth_%d" % f] = still(os.path.join(out, "%s_depth_f%05d.png" % (tag, f)), f)
-    sc.cycles.samples = s0; vl.material_override = None; return T
+    sc.cycles.samples = s0; vl.material_override = None
+    for o in vols: o.hide_render = False
+    return T
 def write_credits(out):
     json.dump(CREDITS, open(os.path.join(out, "credits.json"), "w"), indent=1)
