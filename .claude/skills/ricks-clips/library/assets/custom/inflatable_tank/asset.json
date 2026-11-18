@@ -1,0 +1,35 @@
+{
+ "schema_version": 1,
+ "id": "inflatable_tank",
+ "name": "Inflatable Sherman decoy (1944)",
+ "kind": "model",
+ "category": "vehicle",
+ "tier": "hero",
+ "description": "Rubber decoy tank of the Ghost Army: bladder hull, seams, valves, patches, sag; exterior only. Hero detail.",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/inflatable_tank/build_inflatable_tank.py",
+  "output": "inflatable_tank.glb"
+ },
+ "lods": [
+  "inflatable_tank_lod"
+ ],
+ "parts": [
+  "valve",
+  "turret",
+  "gun"
+ ],
+ "episodes": [
+  "ghost-army"
+ ]
+}

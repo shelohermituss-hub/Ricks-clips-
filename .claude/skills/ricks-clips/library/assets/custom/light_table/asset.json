@@ -1,0 +1,28 @@
+{
+ "schema_version": 1,
+ "id": "light_table",
+ "name": "Photo-interpretation light table",
+ "kind": "model",
+ "category": "furniture",
+ "tier": "foreground",
+ "description": "Frame, legs, braces, lamp box, drawers, stereoscope, pencil tray.",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/signals_props/build_signals_props.py",
+  "output": "light_table.glb"
+ },
+ "parts": [],
+ "episodes": [
+  "ghost-army"
+ ]
+}

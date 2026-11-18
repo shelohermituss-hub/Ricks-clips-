@@ -1,0 +1,28 @@
+{
+ "schema_version": 1,
+ "id": "field_radio",
+ "name": "Field radio set (1944)",
+ "kind": "model",
+ "category": "equipment",
+ "tier": "foreground",
+ "description": "Radio set with dials, handset, case.",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/signals_props/build_signals_props.py",
+  "output": "field_radio.glb"
+ },
+ "parts": [],
+ "episodes": [
+  "ghost-army"
+ ]
+}

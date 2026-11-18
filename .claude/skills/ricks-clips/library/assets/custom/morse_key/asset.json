@@ -1,0 +1,30 @@
+{
+ "schema_version": 1,
+ "id": "morse_key",
+ "name": "Morse key",
+ "kind": "model",
+ "category": "equipment",
+ "tier": "foreground",
+ "description": "Telegraph key with a lever (animated part key_lever).",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/signals_props/build_signals_props.py",
+  "output": "morse_key.glb"
+ },
+ "parts": [
+  "key_lever"
+ ],
+ "episodes": [
+  "ghost-army"
+ ]
+}

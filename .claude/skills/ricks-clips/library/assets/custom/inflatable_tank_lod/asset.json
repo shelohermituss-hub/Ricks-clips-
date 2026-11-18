@@ -1,0 +1,31 @@
+{
+ "schema_version": 1,
+ "id": "inflatable_tank_lod",
+ "name": "Inflatable Sherman decoy, LOD (mid/far)",
+ "kind": "model",
+ "category": "vehicle",
+ "tier": "midground",
+ "description": "Lower-detail version of inflatable_tank for the decoy fields.",
+ "variant_of": "inflatable_tank",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/inflatable_tank/build_inflatable_tank.py",
+  "args": [
+   "--lod"
+  ],
+  "output": "inflatable_tank_lod.glb"
+ },
+ "episodes": [
+  "ghost-army"
+ ]
+}
