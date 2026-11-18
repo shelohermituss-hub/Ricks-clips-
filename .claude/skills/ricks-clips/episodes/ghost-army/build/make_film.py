@@ -184,6 +184,9 @@ film = dict(title='THE GHOST ARMY', fps=30, size=[1080, 1920], end=END, kit3d=Tr
          dict(take='t_bed', kind='dissolve', frames=6, why='place and mood change: the shelling to the quiet bedroom'),
          dict(take='t_attic', kind='dissolve', frames=6, why='decades later: the time jump to the attic')],
   tween=dict(ones=True, face_frames=0, move_blend=6), motion_polish=dict(enabled=True, head_follow=0.14, hand_follow=0.08, breath=0.55, breath_rate=2.15, auto_blink=True))
+# 2026-11-18 (audit O17): the three.js enrichment lives HERE as a named variant of the one film.json (was a hand copy, film_enrich.json, that would drift).
+# Off by default: render with `render_gpu.mjs film.json --variant enrich`. Values = the preview CB saw (look/three_enrich/compare_detail.jpg).
+film['variants'] = dict(enrich=dict(post=dict(ao=1.5, ao_r1=.5, ao_r2=3.0, shadow_follow=55, env=.2), set_detail=True))
 json.dump(film, open(os.path.join(EP, 'film.json'), 'w'), indent=1, ensure_ascii=False)
 print('film.json written: end', END, 'frames,', len(takes), 'takes,', sum(len(t['stations']) for t in takes), 'stations,', len(A), 'acts')
 

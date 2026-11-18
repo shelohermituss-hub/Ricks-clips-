@@ -406,8 +406,9 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     // ghost tanks that exist only as sound: faint silhouettes on the poplar line
     const ghosts = []; for (let i = 0; i < 5; i++) { const t = sherman('ghost_tank', { at: [rr(-14, -7), 18 + i * 10, 0], rot: Math.PI / 2, cast: false }); t.traverse(o => { if (o.isMesh) { o.material = o.material.clone(); o.material.transparent = true; o.material.opacity = 0; o.material.depthWrite = false; } }); ghosts.push(t); }
     const hz = EV.hundred || 0;
-    let CAM = null; scene.onBeforeRender = (r_, s_, c_) => { CAM = c_; };
-    ups.push((f, t) => { ht.userData.disc.rotation.y = t * 3.5; const on = sm((f - (hz - 10)) / 15);
+    /* 2026-11-18 fix (audit T13): the rings read the camera of THIS frame (R.camera, placed before the set update), not the one kept by onBeforeRender from the previous render:
+       the old way made a frame depend on the frame rendered before it, so parallel slices and single stills disagreed (f880: 4.5 % of pixels) */
+    ups.push((f, t, R) => { const CAM = R && R.camera; ht.userData.disc.rotation.y = t * 3.5; const on = sm((f - (hz - 10)) / 15);
       const hpos = ht.userData.horn.getWorldPosition(new THREE.Vector3()), ax = new THREE.Vector3(1, 0, 0).applyQuaternion(ht.quaternion).normalize();
       rings.forEach((r, i) => { const q = ((t * .45 + i / rings.length) % 1); r.position.copy(hpos).addScaledVector(ax, .9 + q * 8); r.lookAt(r.position.clone().add(ax)); r.scale.setScalar(1.05 + q * 4.2); const dc = (CAM && CAM.position) ? r.position.distanceTo(CAM.position) : 99; r.material.opacity = on * .75 * Math.pow(1 - q, 1.2) * Math.min(1, q * 10) * Math.min(1, Math.max(0, (dc - 3) / 5));   /* never a veil over the lens */ });
       ghosts.forEach((g, i) => g.traverse(o => { if (o.isMesh) o.material.opacity = on * (.12 + .08 * Math.sin(t * 2 + i)); })); });
@@ -797,6 +798,6 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     anchors = { trunk: [0, 2.0, .8] };
   }
 
-  const update = (f, t) => { for (const u of ups) u(f, t); };
+  const update = (f, t, R) => { for (const u of ups) u(f, t, R); };   /* R passed on (camera of the current frame) */
   return { update, anchors };
 }

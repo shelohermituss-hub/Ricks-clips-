@@ -2612,5 +2612,17 @@
   "breath": 0.55,
   "breath_rate": 2.15,
   "auto_blink": true
+ },
+ "variants": {
+  "enrich": {
+   "post": {
+    "ao": 1.5,
+    "ao_r1": 0.5,
+    "ao_r2": 3.0,
+    "shadow_follow": 55,
+    "env": 0.2
+   },
+   "set_detail": true
+  }
  }
 }

@@ -300,6 +300,11 @@ const getJSON = async u => { const r = await fetch(u); if (!r.ok) throw new Erro
 
 window.setup = async (cfg) => {
   const dir = cfg.film.replace(/[^/]*$/, ''), film = await getJSON(cfg.film);
+  // VARIANTS (2026-11-18, audit O17): film.json "variants": { name: { ...keys } } deep-merged over the film when render_gpu/render runs with --variant <name>.
+  // One source file: a variant can never drift from the film it varies. An unknown name stops the render (never a silent fallback).
+  if (cfg.variant) { const v = (film.variants || {})[cfg.variant]; if (!v) throw new Error('film.json has no variant "' + cfg.variant + '" (have: ' + Object.keys(film.variants || {}).join(', ') + ')');
+    const merge = (a, b) => { for (const [k, x] of Object.entries(b)) a[k] = x && typeof x === 'object' && !Array.isArray(x) && a[k] && typeof a[k] === 'object' && !Array.isArray(a[k]) ? merge({ ...a[k] }, x) : x; return a; };
+    merge(film, v); film.variant = cfg.variant; }
   const [camB, perf] = await Promise.all([getJSON(dir + 'out/plan/camera_baked.json'), getJSON(dir + 'out/plan/performance_baked.json')]);
   const words = await getJSON(dir + (film.words || 'voice/words.json')).catch(() => []);
   words.forEach(w => w._k = w.w.replace(/^[ .,?!"';:-]+|[ .,?!"';:-]+$/g, '').toLowerCase());
@@ -950,7 +955,10 @@ function dustFor(pl, cfg) {
   if (pl.dust !== undefined) return pl.dust; const night = /0b1026|27345c/.test(pl.L.top + pl.L.hor) || (pl.L.si ?? 2) < 1.2;
   const n = Math.round((night ? 260 : 520) * (cfg.dust ?? 1)); if (!n) return (pl.dust = null);
   const g = new THREE.BufferGeometry(), p0 = new Float32Array(n * 3), v = new Float32Array(n * 4);
-  for (let i = 0; i < n; i++) { p0.set([Math.random() * 14, Math.random() * 7, Math.random() * 14], i * 3); v.set([(Math.random() - .5) * .06, .015 + Math.random() * .05, (Math.random() - .5) * .06, Math.random()], i * 4); }
+  // 2026-11-18 fix (audit T14): the dust has its own seeded stream (from the place name), so a frame is the same whatever was rendered before it (was Math.random: 0.3-0.4 % of pixels changed between runs)
+  let sd = 2166136261; for (const ch of (Object.keys(R.places).find(k => R.places[k] === pl) || 'place')) sd = Math.imul(sd ^ ch.charCodeAt(0), 16777619) >>> 0;
+  const rand = () => { sd = sd + 0x6D2B79F5 | 0; let x = Math.imul(sd ^ sd >>> 15, 1 | sd); x = x + Math.imul(x ^ x >>> 7, 61 | x) ^ x; return ((x ^ x >>> 14) >>> 0) / 4294967296; };
+  for (let i = 0; i < n; i++) { p0.set([rand() * 14, rand() * 7, rand() * 14], i * 3); v.set([(rand() - .5) * .06, .015 + rand() * .05, (rand() - .5) * .06, rand()], i * 4); }
   g.setAttribute('position', new THREE.BufferAttribute(p0, 3)); g.setAttribute('vel', new THREE.BufferAttribute(v, 4));
   const col = new THREE.Color(cfg.dust_color || (night ? '#bcd2ff' : '#ffd79a'));
   const mat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false,
