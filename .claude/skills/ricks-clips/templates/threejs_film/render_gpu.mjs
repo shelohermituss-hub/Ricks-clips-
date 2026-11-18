@@ -171,7 +171,11 @@ if (has('--overlay')) {
 if (has('--export-lock')) {
   // Freeze the approved layout for the look pass. Everything is written from the same page state that drew the animatic.
   const LOCK = path.join(OUT, 'lock'), plan = path.join(OUT, 'plan'), sha = f => crypto.createHash('sha1').update(fs.readFileSync(path.join(plan, f))).digest('hex');
-  fs.rmSync(LOCK, { recursive: true, force: true }); fs.mkdirSync(path.join(LOCK, 'sets'), { recursive: true });
+  // --sets-only (kit 2026-11-18): re-export the set GLBs, motion, instances and highlights into an existing lock and keep its card drawings
+  // (the cards are the slow part: hundreds of drawings per character); lock.json keeps cards/card_info from the previous lock.
+  const SETS_ONLY = has('--sets-only') && fs.existsSync(path.join(LOCK, 'lock.json')), PREV = SETS_ONLY ? JSON.parse(fs.readFileSync(path.join(LOCK, 'lock.json'), 'utf8')) : null;
+  if (!SETS_ONLY) fs.rmSync(LOCK, { recursive: true, force: true }); else fs.rmSync(path.join(LOCK, 'sets'), { recursive: true, force: true });
+  fs.mkdirSync(path.join(LOCK, 'sets'), { recursive: true });
   const cam = JSON.parse(fs.readFileSync(path.join(plan, 'camera_baked.json'), 'utf8')).frames, places = [], cards = [], card_info = {}, cpx = +val('--card-px', 2);
   const CRC = Array.from({ length: 256 }, (_, n) => { for (let k = 0; k < 8; k++) n = n & 1 ? 0xEDB88320 ^ (n >>> 1) : n >>> 1; return n >>> 0; }), crc = zlib.crc32 || (b => { let c = ~0; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return ~c >>> 0; });
   const repng = buf => {                                                            // the browser writes fast, loose PNGs: pack the same pixels again at zlib level 9 (lossless, about half the size)
@@ -188,7 +192,7 @@ if (has('--export-lock')) {
     const mo = await page.evaluate(n => window.exportMotion(n), name); fs.writeFileSync(path.join(LOCK, 'motion', name + '.json'), JSON.stringify(mo)); console.log(`motion ${name}: ${Object.keys(mo.nodes).length} moving nodes of ${nIds}, ${mo.frames.length} frames`);
     console.log(`set ${name} -> ${file}  (${r.meshes} meshes, ${r.materials.length} materials, ${(fs.statSync(path.join(LOCK, file)).size / 1024).toFixed(0)} KB)`);
   }
-  for (const who of info.cast) {
+  for (const who of (SETS_ONLY ? [] : info.cast)) {
     const d = path.join(LOCK, 'cards', who); fs.mkdirSync(d, { recursive: true });
     const idx = await page.evaluate(([w, p]) => window.cardIndex(w, p), [who, cpx]);
     for (const im of idx.images) fs.writeFileSync(path.join(d, im.file), repng(Buffer.from(await page.evaluate(([w, n, p]) => window.cardPNG(w, n, p), [who, im.img, cpx]), 'base64')));
@@ -200,7 +204,7 @@ if (has('--export-lock')) {
   const hl = await page.evaluate(() => window.exportHighlights()); fs.writeFileSync(path.join(LOCK, 'highlights.json'), JSON.stringify(hl)); console.log(`highlights: ${hl.length}`);
   fs.writeFileSync(path.join(LOCK, 'lock.json'), JSON.stringify({ kit: 'threejs_film', lock_version: 2, lights, motion: 'motion/<place>.json', highlights: 'highlights.json', overlay: 'out/overlay/o_#####.png (render.mjs --overlay --scale 1)', title: film.title || null, fps: info.fps, frames: info.frames, size: [FW, FH],
     coords: 'plan coordinates: metres, Z up, Y away from the opening camera. The .glb files are Y up (three.js); the Blender glTF importer turns them back into plan coordinates. Frame numbers start at 0.',
-    places, cards, card_info, sha1: { 'camera_baked.json': sha('camera_baked.json'), 'performance_baked.json': sha('performance_baked.json') } }, null, 1));
+    places, cards: SETS_ONLY ? PREV.cards : cards, card_info: SETS_ONLY ? PREV.card_info : card_info, sha1: { 'camera_baked.json': sha('camera_baked.json'), 'performance_baked.json': sha('performance_baked.json') } }, null, 1));
   console.log('lock ->', LOCK);
 }
 await browser.close(); server.close();

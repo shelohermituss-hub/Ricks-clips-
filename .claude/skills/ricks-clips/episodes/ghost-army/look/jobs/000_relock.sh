@@ -3,7 +3,7 @@ cd "$SKILL"
 python3 tools/film_plan.py bake "$EP/film.json" | tail -1
 ANG=""; for a in vulkan gl-egl; do if RICKCLIPS_GPU_ANGLE=$a timeout 180 node templates/threejs_film/render_gpu.mjs "$EP/film.json" --gpu-info > "$OUT/gpuinfo_$a.txt" 2>&1 && grep -qi nvidia "$OUT/gpuinfo_$a.txt"; then ANG=$a; break; fi; done
 echo "angle: ${ANG:-software}"
-RICKCLIPS_GPU_ANGLE=$ANG node templates/threejs_film/render_gpu.mjs "$EP/film.json" --export-lock $([ -z "$ANG" ] && echo --software) --cache /tmp/pc_relock > "$OUT/lock.log" 2>&1; echo "export-lock rc=$?"
+RICKCLIPS_GPU_ANGLE=$ANG node templates/threejs_film/render_gpu.mjs "$EP/film.json" --export-lock --sets-only $([ -z "$ANG" ] && echo --software) --cache /tmp/pc_relock > "$OUT/lock.log" 2>&1; echo "export-lock rc=$?"
 grep -E "^set |^cards |highlights" "$OUT/lock.log"
 cp "$EP/out/lock/lock.json" "$OUT/lock.json"
 python3 - <<PY
