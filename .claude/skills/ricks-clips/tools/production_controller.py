@@ -308,7 +308,7 @@ def cmd_scene_gates(args):
         add("objects_bounded", "PASS" if S["objects"] <= C["max_objects"] else "FAIL", "%d objects (max %d)" % (S["objects"], C["max_objects"]))
         n, r = C["min_instance_ratio_if_over_objects"]; drawn = S["instances_drawn"] + S["mesh_objects"]
         add("repeats_instanced", "PASS" if drawn < n or S["instance_ratio"] >= r else "FAIL", "instance ratio %.3f of %d drawn" % (S["instance_ratio"], drawn))
-        add("no_primitive_stand_ins", "PASS" if S["primitive_ratio"] <= C["max_primitive_ratio"] else "FAIL", "%d primitive-like of %d meshes (ratio %.3f)" % (S["primitive_like_objects"], S["mesh_objects"] - S.get("instancer_objects", 0), S["primitive_ratio"]))
+        add("no_primitive_stand_ins", "PASS" if S["primitive_ratio"] <= C["max_primitive_ratio"] else "FAIL", "%d primitive-like of %d meshes (ratio %.3f; %d character cards counted apart)" % (S["primitive_like_objects"], S["mesh_objects"] - S.get("instancer_objects", 0) - S.get("character_card_objects", 0), S["primitive_ratio"], S.get("character_card_objects", 0)))
         tr = S["textured_materials"] / max(1, S["materials"])
         add("materials_textured", "PASS" if tr >= C["min_textured_material_ratio"] else "FAIL", "%d/%d textured (min %.0f %%)" % (S["textured_materials"], S["materials"], 100 * C["min_textured_material_ratio"]))
     else:                                                        # an asset

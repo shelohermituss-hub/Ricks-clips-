@@ -41,7 +41,7 @@ export SKILL EP BLENDER RICKCLIPS_CACHE
 st ready "waiting for jobs in look/jobs"
 while :; do
   (cd /root/repo && git fetch -q origin "$BR" && git reset -q --hard FETCH_HEAD) || true
-  for j in $(ls "$EP"/look/jobs/[0-9][0-9][0-9]_*.sh 2>/dev/null | sort); do
+  for j in $(ls "$EP"/look/jobs/[1-9][0-9][0-9]_*.sh 2>/dev/null | sort); do   # Mission 2: the Blender pod runs jobs 100+ only (000-007 are the old three.js LookDev jobs)
     id=$(basename "$j" .sh); [ -e "$PUB/jobs/$id/done" ] && continue
     mkdir -p "$PUB/jobs/$id"; st job "$id running"; t=$(date +%s)
     OUT="$PUB/jobs/$id" bash "$j" > "$PUB/jobs/$id/log.txt" 2>&1; rc=$?

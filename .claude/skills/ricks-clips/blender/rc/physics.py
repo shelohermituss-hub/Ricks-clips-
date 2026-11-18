@@ -30,7 +30,7 @@ def realize(scene, asset_col, name, at, rot_z, col):
 
 def fracture(ob, pieces, seed, col):
     """cut a mesh into `pieces` across its longest axis at seeded, slightly tilted planes; returns the pieces (the original is removed)"""
-    R = random.Random(seed); bb = [ob.matrix_world @ Vector(c) for c in ob.bound_box]; lo = Vector(map(min, *zip(*bb))); hi = Vector(map(max, *zip(*bb)))
+    R = random.Random(seed); bb = [ob.matrix_world @ Vector(c) for c in ob.bound_box]; lo = Vector([min(c) for c in zip(*bb)]); hi = Vector([max(c) for c in zip(*bb)])
     ax = max(range(3), key=lambda i: hi[i] - lo[i]); cuts = sorted(R.uniform(.2, .8) for _ in range(pieces - 1)); bounds = [0.0] + cuts + [1.0]; out = []
     for i in range(pieces):
         bm = bmesh.new(); bm.from_mesh(ob.data); bm.transform(ob.matrix_world)
@@ -53,7 +53,7 @@ def _volume(o):
     bm = bmesh.new(); bm.from_mesh(o.data); v = abs(bm.calc_volume(signed=False)); bm.free(); s = o.scale; return max(1e-5, v * s[0] * s[1] * s[2])
 
 def _aabb(o):
-    bb = [o.matrix_world @ Vector(c) for c in o.bound_box]; return Vector(map(min, *zip(*bb))), Vector(map(max, *zip(*bb)))
+    bb = [o.matrix_world @ Vector(c) for c in o.bound_box]; return Vector([min(c) for c in zip(*bb)]), Vector([max(c) for c in zip(*bb)])
 
 def crash(scene, spec, asset_col, ground, striker_empty, log=print):
     col = _col(scene, "RC_PHYSICS"); rot = math.radians(spec.get("rot", 0)); f0, f1 = spec["frames"]
@@ -76,12 +76,18 @@ def crash(scene, spec, asset_col, ground, striker_empty, log=print):
         m = o.data.materials[0].name.split(".")[0] if o.data.materials else "wood"; r = rb(o, "ACTIVE", _volume(o) * D.get(m, 600))
         r.kinematic = True; r.keyframe_insert("kinematic", frame=f0)                  # held still (as built) until the release frame: no settling jitter
         r.kinematic = False; r.keyframe_insert("kinematic", frame=spec.get("release", f0 + 1))
-    rb(ground, "PASSIVE", shape="MESH")
+    for o in parts:                                              # wheels go through their axle by design: separate collision group, so a broken
+        if any(k in o.name for k in spec.get("own_group", ["cart_wheel_"])):                 # wheel joint does not explode from an overlap
+            o.rigid_body.collision_collections[0] = False; o.rigid_body.collision_collections[1] = True
+    g = rb(ground, "PASSIVE", shape="MESH"); g.collision_collections[1] = True
     lo, hi = spec["striker"]["box"]; bpy.ops.mesh.primitive_cube_add(size=1); px = bpy.context.object; px.name = "striker_proxy"
     for c in list(px.users_collection): c.objects.unlink(px)
     col.objects.link(px); px.dimensions = [hi[i] - lo[i] for i in range(3)]; bpy.ops.object.transform_apply(scale=True)
-    px.location = [(lo[i] + hi[i]) / 2 for i in range(3)]; px.parent = striker_empty; px.hide_render = True; px.display_type = "WIRE"
-    r = rb(px, "PASSIVE", shape="BOX"); r.kinematic = True                              # follows the striker's baked path
+    off = Vector([(lo[i] + hi[i]) / 2 for i in range(3)]); px.hide_render = True; px.display_type = "WIRE"
+    from mathutils import Matrix
+    for f in range(f0, f1 + 1):                                  # the proxy gets its OWN keys copied from the striker (a parented rigid body is not reliable in Bullet)
+        scene.frame_set(f); px.matrix_world = striker_empty.matrix_world @ Matrix.Translation(off); px.keyframe_insert("location", frame=f); px.keyframe_insert("rotation_euler", frame=f)
+    r = rb(px, "PASSIVE", shape="BOX"); r.kinematic = True; r.collision_collections[1] = True
     S, W = spec.get("joint_strength", 60), spec.get("weak", {}); n = 0; bpy.context.view_layer.update(); boxes = {o.name: _aabb(o) for o in parts}
     for i, a in enumerate(parts):                                                    # breakable joints between touching pieces
         la, ha = boxes[a.name]
@@ -95,14 +101,25 @@ def crash(scene, spec, asset_col, ground, striker_empty, log=print):
     log("[physics] %d pieces, %d breakable joints" % (len(parts), n))
     bpy.ops.ptcache.free_bake_all(); scene.frame_set(f0)
     with bpy.context.temp_override(scene=scene, point_cache=rw.point_cache): bpy.ops.ptcache.bake(bake=True)
-    for o in bpy.context.view_layer.objects: o.select_set(False)
-    for o in parts: o.select_set(True)
-    bpy.context.view_layer.objects.active = parts[0]
-    bpy.ops.rigidbody.bake_to_keyframes(frame_start=f0, frame_end=f1, step=1)          # simulation -> plain keys (deterministic, slice-safe)
+    # simulation -> plain keys (deterministic, slice-safe). Own loop: bpy.ops.rigidbody.bake_to_keyframes needs a UI context (fails headless)
+    M = {o.name: [] for o in parts}
+    for f in range(f0, f1 + 1):
+        scene.frame_set(f)
+        for o in parts: M[o.name].append(o.matrix_world.copy())
+    for o in parts:
+        rw.collection.objects.unlink(o)
+        with bpy.context.temp_override(object=o, active_object=o, selected_objects=[o]): bpy.ops.rigidbody.object_remove()
+        o.rotation_mode = "QUATERNION"; prev = None
+        for i, m in enumerate(M[o.name]):
+            loc, q, sc_ = m.decompose()
+            if prev is not None and q.dot(prev) < 0: q.negate()
+            prev = q; o.location = loc; o.rotation_quaternion = q; o.keyframe_insert("location", frame=f0 + i); o.keyframe_insert("rotation_quaternion", frame=f0 + i)
     for o in [o for o in col.objects if o.name.startswith("joint_")]: bpy.data.objects.remove(o, do_unlink=True)
     with bpy.context.temp_override(scene=scene): bpy.ops.rigidbody.world_remove()        # no live simulation left in the file
-    moved = 0
-    for o in parts:
-        scene.frame_set(f0); p0 = o.matrix_world.translation.copy(); scene.frame_set(f1); p1 = o.matrix_world.translation.copy()
-        if (p1 - p0).length > .05: moved += 1
-    return {"pieces": len(parts), "joints": n, "pieces_moved": moved}
+    rel = spec.get("release", f0 + 1); moved, track = 0, {}
+    for o in parts:                                              # proof of consequence: where each piece is before the release and at the end
+        scene.frame_set(rel - 1); p0 = o.matrix_world.translation.copy(); scene.frame_set(f1); p1 = o.matrix_world.translation.copy(); d = (p1 - p0).length
+        if d > .05: moved += 1
+        nm = o.name.split(":")[-1]
+        if nm in ("cart_wheel_L", "cart_wheel_R", "cart_axle") or nm.endswith("_frag0") and "plank_03" in nm: track[nm] = {"before": [round(v, 2) for v in p0], "end": [round(v, 2) for v in p1], "moved_m": round(d, 2)}
+    return {"pieces": len(parts), "joints": n, "pieces_moved_after_release": moved, "track": track}

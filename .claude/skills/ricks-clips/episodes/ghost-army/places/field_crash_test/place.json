@@ -1,0 +1,484 @@
+{
+ "schema_version": 2,
+ "place_id": "field_crash_test",
+ "episode": "episodes/ghost-army",
+ "frames": [
+  0,
+  120
+ ],
+ "_note": "Mission 2 destruction test (not a film shot): crawler dozer at 3 m/s into the side of the farm cart; prepared fracture, breakable joints, rigid bodies baked to keys",
+ "light": {
+  "preset": "day",
+  "key_dir": [
+   0.62,
+   -0.55,
+   0.56
+  ],
+  "view_transform": "Khronos PBR Neutral"
+ },
+ "terrain": {
+  "size": [
+   160,
+   160
+  ],
+  "res": 80,
+  "height": 0.0,
+  "seed": 3,
+  "material": {
+   "name": "meadow",
+   "color": "#6f8a46"
+  }
+ },
+ "assets": [
+  {
+   "asset": "crawler_dozer",
+   "name": "dozer",
+   "at": [
+    2,
+    -2,
+    0
+   ],
+   "rot": 0
+  },
+  {
+   "asset": "farm_cart",
+   "name": "cart",
+   "at": [
+    12,
+    -2,
+    0
+   ],
+   "rot": 90,
+   "physics": true
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "oak_bg",
+   "at": [
+    18,
+    12,
+    0
+   ],
+   "rot": 40,
+   "scale": 3.2
+  }
+ ],
+ "scatter": [
+  {
+   "asset": "shrub_04",
+   "name": "hedge_bg",
+   "zone": {
+    "from": [
+     -20,
+     14
+    ],
+    "to": [
+     40,
+     14
+    ],
+    "width": 1.8
+   },
+   "count": 420,
+   "seed": 101,
+   "scale": [
+    6.5,
+    9.5
+   ],
+   "wind": 0.035
+  },
+  {
+   "asset": "grass_medium_02",
+   "name": "grass",
+   "zone": {
+    "center": [
+     10,
+     -4
+    ],
+    "radius": 14
+   },
+   "count": 5000,
+   "seed": 16,
+   "scale": [
+    1.1,
+    1.8
+   ],
+   "wind": 0.06,
+   "exclude": [
+    {
+     "from": [
+      -2,
+      -2
+     ],
+     "to": [
+      20,
+      -2
+     ],
+     "width": 3.6
+    }
+   ]
+  }
+ ],
+ "camera": {
+  "pos": [
+   11.5,
+   -10.5,
+   1.7
+  ],
+  "aim": [
+   11.5,
+   -2,
+   0.9
+  ],
+  "fov_v": 48
+ },
+ "animation": [
+  {
+   "target": "dozer",
+   "type": "path",
+   "frames": [
+    0,
+    120
+   ],
+   "points": [
+    [
+     2,
+     -2
+    ],
+    [
+     17,
+     -2
+    ]
+   ],
+   "speed": 3.0,
+   "shake": 0.012,
+   "heading_offset": 180
+  }
+ ],
+ "physics": [
+  {
+   "type": "crash",
+   "target_asset": "farm_cart",
+   "name": "cart",
+   "at": [
+    12,
+    -2,
+    0
+   ],
+   "rot": 90,
+   "frames": [
+    0,
+    120
+   ],
+   "release": 55,
+   "striker": {
+    "name": "dozer",
+    "box": [
+     [
+      -2.25,
+      -1.5,
+      0.1
+     ],
+     [
+      2.1,
+      1.5,
+      1.7
+     ]
+    ]
+   },
+   "fracture": {
+    "cart_plank_": {
+     "pieces": 3,
+     "seed": 3
+    },
+    "cart_side_": {
+     "pieces": 2,
+     "seed": 4
+    },
+    "cart_end_": {
+     "pieces": 2,
+     "seed": 5
+    }
+   },
+   "joint_strength": 40,
+   "weak": {
+    "cart_wheel_": 8,
+    "cart_shaft_": 15,
+    "cart_stake_": 10
+   }
+  }
+ ],
+ "fx": [
+  {
+   "type": "dust_burst",
+   "name": "impact",
+   "at": [
+    11,
+    -2,
+    0
+   ],
+   "frame": 68,
+   "count": 18,
+   "radius": 2.2,
+   "height": 1.0,
+   "seed": 9,
+   "life": 50
+  }
+ ],
+ "lookdev": {
+  "rules": {
+   "meadow": {
+    "tex": "tex_leafy_grass",
+    "tile": 2.5,
+    "contrast": 0.9,
+    "normal": 0.8,
+    "keep": 0.15,
+    "rough": [
+     0.75,
+     1.0
+    ]
+   },
+   "lane": {
+    "tex": "tex_brown_mud_02",
+    "tile": 2.5,
+    "contrast": 0.8,
+    "normal": 1.0,
+    "rough": [
+     0.6,
+     1.0
+    ]
+   },
+   "rubber_body": {
+    "proc": "rubber",
+    "contrast": 0.18,
+    "rough": [
+     0.55,
+     0.8
+    ],
+    "bump": 0.15
+   },
+   "rubber_dark": {
+    "proc": "rubber",
+    "contrast": 0.18,
+    "rough": [
+     0.55,
+     0.8
+    ]
+   },
+   "patch": {
+    "proc": "rubber",
+    "contrast": 0.22,
+    "rough": [
+     0.6,
+     0.85
+    ]
+   },
+   "seam": {
+    "proc": "rubber",
+    "rough": [
+     0.5,
+     0.8
+    ]
+   },
+   "rubber_track": {
+    "proc": "rubber",
+    "rough": [
+     0.7,
+     0.95
+    ]
+   },
+   "webbing": {
+    "proc": "grain",
+    "contrast": 0.3,
+    "rough": [
+     0.8,
+     1.0
+    ],
+    "bump": 0.3
+   },
+   "thread": {
+    "proc": "grain",
+    "contrast": 0.2
+   },
+   "canvas": {
+    "proc": "grain",
+    "contrast": 0.3,
+    "rough": [
+     0.8,
+     1.0
+    ],
+    "bump": 0.3
+   },
+   "brass": {
+    "proc": "iron",
+    "contrast": 0.2,
+    "rough": [
+     0.25,
+     0.45
+    ],
+    "metal": 0.9
+   },
+   "chrome": {
+    "proc": "iron",
+    "contrast": 0.1,
+    "rough": [
+     0.15,
+     0.3
+    ],
+    "metal": 1.0
+   },
+   "paint": {
+    "tex": "tex_rusty_painted_metal",
+    "tile": 1.2,
+    "contrast": 0.55,
+    "normal": 0.5,
+    "rough": [
+     0.45,
+     0.8
+    ]
+   },
+   "paint_worn": {
+    "tex": "tex_rusty_painted_metal",
+    "tile": 1.0,
+    "contrast": 0.7,
+    "normal": 0.6
+   },
+   "paint_dark": {
+    "tex": "tex_rusty_painted_metal",
+    "tile": 1.2,
+    "contrast": 0.5,
+    "normal": 0.5
+   },
+   "rust": {
+    "tex": "tex_rusty_painted_metal",
+    "tile": 0.8,
+    "contrast": 0.9
+   },
+   "steel_dark": {
+    "proc": "iron",
+    "contrast": 0.25,
+    "rough": [
+     0.4,
+     0.7
+    ],
+    "metal": 0.7
+   },
+   "iron": {
+    "proc": "iron",
+    "contrast": 0.3,
+    "rough": [
+     0.45,
+     0.75
+    ],
+    "metal": 0.6
+   },
+   "track": {
+    "proc": "iron",
+    "contrast": 0.3,
+    "rough": [
+     0.6,
+     0.9
+    ],
+    "metal": 0.5
+   },
+   "exhaust": {
+    "proc": "iron",
+    "contrast": 0.4,
+    "rough": [
+     0.7,
+     0.95
+    ],
+    "metal": 0.3
+   },
+   "rubber": {
+    "proc": "rubber",
+    "contrast": 0.15,
+    "rough": [
+     0.7,
+     0.95
+    ]
+   },
+   "glass": {
+    "proc": "grain",
+    "contrast": 0.05,
+    "rough": [
+     0.04,
+     0.12
+    ]
+   },
+   "wood": {
+    "tex": "tex_brown_planks_05",
+    "tile": 0.9,
+    "contrast": 0.7,
+    "normal": 0.8,
+    "rough": [
+     0.6,
+     0.9
+    ]
+   },
+   "wood_dark": {
+    "tex": "tex_brown_planks_05",
+    "tile": 0.9,
+    "contrast": 0.6,
+    "normal": 0.8
+   },
+   "wood_paint": {
+    "tex": "tex_brown_planks_05",
+    "tile": 0.9,
+    "contrast": 0.45,
+    "normal": 0.7
+   },
+   "stone": {
+    "tex": "tex_rustic_stone_wall",
+    "tile": 2.0,
+    "contrast": 0.9,
+    "normal": 1.3,
+    "rough": [
+     0.7,
+     1.0
+    ]
+   },
+   "quoin": {
+    "tex": "tex_rustic_stone_wall",
+    "tile": 1.4,
+    "contrast": 0.55,
+    "normal": 1.0
+   },
+   "roof": {
+    "tex": "tex_clay_roof_tiles",
+    "tile": 0.7,
+    "contrast": 0.6,
+    "normal": 0.8
+   },
+   "grass_medium_02": {
+    "tint": "#8fa850",
+    "amount": 0.55,
+    "mean": 0.2
+   },
+   "shrub_04": {
+    "tint": "#4d7a30",
+    "amount": 0.55,
+    "mean": 0.2
+   },
+   "shrub_03": {
+    "tint": "#5a8a36",
+    "amount": 0.55,
+    "mean": 0.2
+   },
+   "nettle_plant": {
+    "tint": "#3f6a2a",
+    "amount": 0.55,
+    "mean": 0.2
+   },
+   "island_tree_02_leaves": {
+    "tint": "#4d7a30",
+    "amount": 0.55,
+    "mean": 0.2
+   },
+   "dandelion_01": {
+    "tint": "#7a9a3e",
+    "amount": 0.55,
+    "mean": 0.2
+   }
+  }
+ }
+}

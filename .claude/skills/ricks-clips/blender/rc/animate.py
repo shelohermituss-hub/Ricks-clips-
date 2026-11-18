@@ -22,7 +22,7 @@ def lift_set(ob, f0, f1, at, rot_z, lift=(0, 60), set_f=103, dent=110, height=1.
         return (at[0], at[1], at[2] + z), (0, 0, rot_z), (1, 1, 1 - .45 * sag)
     _bake(ob, f0, f1, fn)
 
-def path(ob, f0, f1, pts, speed, fps=30, z=0.0, shake=0.0, start=None):
+def path(ob, f0, f1, pts, speed, fps=30, z=0.0, shake=0.0, start=None, heading_offset=0.0):
     P = [tuple(p) for p in pts]; segs = [(P[i], P[i + 1], math.dist(P[i], P[i + 1])) for i in range(len(P) - 1)]; total = sum(s[2] for s in segs); t0 = f0 if start is None else start
     def at(dist):
         dist = max(0.0, min(total, dist))
@@ -32,7 +32,7 @@ def path(ob, f0, f1, pts, speed, fps=30, z=0.0, shake=0.0, start=None):
         a, b, _ = segs[-1]; return b, math.atan2(b[1] - a[1], b[0] - a[0])
     def fn(f):
         (x, y), h = at(max(0, f - t0) * speed / fps); jit = shake * math.sin(f * 2.7) * (1 if f >= t0 else .3)
-        return (x, y, z + jit), (0, jit * .3, h), (1, 1, 1)
+        return (x, y, z + jit), (0, jit * .3, h + heading_offset), (1, 1, 1)
     _bake(ob, f0, f1, fn)
 
 def apply(scene, specs, fps=30):
@@ -41,6 +41,6 @@ def apply(scene, specs, fps=30):
         ob = bpy.data.objects.get(s["target"])
         if ob is None: rep[s["target"]] = "MISSING"; continue
         if s["type"] == "lift_set": lift_set(ob, s["frames"][0], s["frames"][1], s["at"], math.radians(s.get("rot", 0)), tuple(s.get("lift", (0, 60))), s.get("set", 103), s.get("dent", 110), s.get("height", 1.55))
-        elif s["type"] == "path": path(ob, s["frames"][0], s["frames"][1], s["points"], s["speed"], fps, s.get("z", 0.0), s.get("shake", 0.0), s.get("start"))
+        elif s["type"] == "path": path(ob, s["frames"][0], s["frames"][1], s["points"], s["speed"], fps, s.get("z", 0.0), s.get("shake", 0.0), s.get("start"), math.radians(s.get("heading_offset", 0)))
         rep[s["target"]] = s["type"]
     return rep

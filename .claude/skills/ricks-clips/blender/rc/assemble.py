@@ -67,7 +67,13 @@ def build(place_path, out_blend, light=True):
         pts, rots, scl = geo.scatter_points(s["zone"], s["count"], s["seed"], s.get("exclude", ()), tuple(s.get("scale", (1, 1))))
         var = bool(library.index().get(s["asset"], {}).get("variants"))
         geo.instancer(s.get("name", s["asset"]), pts, _source(s["asset"], cols), S, rots, scl, pick=var, seed=s["seed"], wind=s.get("wind", 0.0)); report.setdefault("scatter", {})[s.get("name", s["asset"])] = len(pts)
-    if P.get("camera"): _camera(sc, P["episode"], P["camera"]["frames"])
+    cm = P.get("camera")
+    if cm and cm.get("pos"):                                     # a fixed test camera (prototype shots that are not in the film plan)
+        d = bpy.data.cameras.new("TestCam"); d.sensor_fit = "VERTICAL"; d.sensor_height = 24; d.lens = 12 / math.tan(math.radians(cm.get("fov_v", 45)) / 2); d.clip_end = 5000
+        o = bpy.data.objects.new("TestCam", d); _col("RC_CAMERA").objects.link(o); o.location = cm["pos"]
+        sys.path.insert(0, os.path.join(SKILL, "templates")); from blender_look import from_lock
+        o.rotation_mode = "QUATERNION"; o.rotation_quaternion = from_lock._rot(cm["pos"], cm["aim"], None, 0.0); sc.camera = o
+    elif cm: _camera(sc, P["episode"], cm["frames"])
     if light and P.get("light"):
         sys.path.insert(0, os.path.join(SKILL, "templates"))
         from blender_look import look
@@ -75,6 +81,7 @@ def build(place_path, out_blend, light=True):
         vt = P["light"].get("view_transform")
         if vt: sc.view_settings.view_transform = vt; sc.view_settings.look = "None"   # the three.js preview used Neutral tone mapping: same transform = same colours
         if "exposure" in P["light"]: sc.view_settings.exposure = P["light"]["exposure"]
+        if "white_balance" in P["light"]: sc.view_settings.use_white_balance = True; sc.view_settings.white_balance_temperature = P["light"]["white_balance"]
         for o in [o for o in sc.collection.objects if o.type == "LIGHT"]: sc.collection.objects.unlink(o); _col("RC_LIGHTS").objects.link(o)
     fps = 30
     if P.get("animation"): report["animation"] = animate.apply(sc, P["animation"], fps)

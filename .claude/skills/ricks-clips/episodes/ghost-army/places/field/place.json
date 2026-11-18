@@ -18,7 +18,10 @@
    -0.55,
    0.56
   ],
-  "view_transform": "Khronos PBR Neutral"
+  "view_transform": "Khronos PBR Neutral",
+  "exposure": 0.233,
+  "white_balance": 8037.6,
+  "_calibration": "measured 2026-11-18 by rc cli calibrate on V3 frame 30 (render lum .1255 vs ref .1264; rgb ratio 1.03/1.01/.86)"
  },
  "terrain": {
   "size": [
@@ -234,7 +237,20 @@
     6.5,
     9.5
    ],
-   "wind": 0.035
+   "wind": 0.035,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "shrub_03",
@@ -256,7 +272,20 @@
     5.0,
     7.0
    ],
-   "wind": 0.04
+   "wind": 0.04,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "nettle_plant",
@@ -278,7 +307,20 @@
     2.5,
     3.6
    ],
-   "wind": 0.05
+   "wind": 0.05,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "shrub_04",
@@ -300,7 +342,20 @@
     6.5,
     9.5
    ],
-   "wind": 0.035
+   "wind": 0.035,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "shrub_03",
@@ -322,7 +377,20 @@
     5.0,
     7.0
    ],
-   "wind": 0.04
+   "wind": 0.04,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "nettle_plant",
@@ -344,7 +412,20 @@
     2.5,
     3.6
    ],
-   "wind": 0.05
+   "wind": 0.05,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "shrub_04",
@@ -366,7 +447,20 @@
     6.5,
     9.5
    ],
-   "wind": 0.035
+   "wind": 0.035,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "shrub_03",
@@ -388,7 +482,20 @@
     5.0,
     7.0
    ],
-   "wind": 0.04
+   "wind": 0.04,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "nettle_plant",
@@ -410,7 +517,20 @@
     2.5,
     3.6
    ],
-   "wind": 0.05
+   "wind": 0.05,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "shrub_04",
@@ -432,7 +552,20 @@
     6.5,
     9.5
    ],
-   "wind": 0.035
+   "wind": 0.035,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "shrub_03",
@@ -454,7 +587,20 @@
     5.0,
     7.0
    ],
-   "wind": 0.04
+   "wind": 0.04,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "nettle_plant",
@@ -476,7 +622,20 @@
     2.5,
     3.6
    ],
-   "wind": 0.05
+   "wind": 0.05,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "shrub_04",
@@ -498,7 +657,20 @@
     6.5,
     9.5
    ],
-   "wind": 0.035
+   "wind": 0.035,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "shrub_03",
@@ -520,7 +692,20 @@
     5.0,
     7.0
    ],
-   "wind": 0.04
+   "wind": 0.04,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "nettle_plant",
@@ -542,7 +727,20 @@
     2.5,
     3.6
    ],
-   "wind": 0.05
+   "wind": 0.05,
+   "exclude": [
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.4
+    }
+   ]
   },
   {
    "asset": "grass_medium_02",

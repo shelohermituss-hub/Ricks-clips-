@@ -9,6 +9,7 @@ Thresholds for the gates live in production/config/rc_gates.json (read by tools/
 import bpy
 from mathutils import Vector
 
+EXEMPT = {"RC_CHARACTERS"}   # collections whose flat meshes are intended (character cards), counted apart
 PRIM_VERTS = 40                                   # a mesh with this many vertices or fewer reads as a primitive stand-in (box 8, cylinder 2x16=32)
 TEX_NODES = {"TEX_IMAGE", "TEX_NOISE", "TEX_VORONOI", "TEX_WAVE", "TEX_MUSGRAVE", "TEX_BRICK", "TEX_CHECKER", "TEX_MAGIC", "TEX_GRADIENT"}
 
@@ -20,12 +21,13 @@ def _mesh_tris(me):
 
 def _stats(objs, depsgraph):
     mesh_objs = [o for o in objs if o.type == "MESH"]
-    tris = prim = prim_tris = pts = 0; mats = set(); lo, hi = Vector((1e9,) * 3), Vector((-1e9,) * 3); per_mesh = {}
+    tris = prim = prim_tris = pts = cards = 0; mats = set(); lo, hi = Vector((1e9,) * 3), Vector((-1e9,) * 3); per_mesh = {}
     for o in mesh_objs:
         ev = o.evaluated_get(depsgraph); me = ev.to_mesh()
         if me is None: continue
         t = _mesh_tris(me); nv = len(me.vertices); tris += t
         if len(me.polygons) == 0: ev.to_mesh_clear(); pts += 1; continue        # point clouds driving geometry-node instances: not geometry, not a primitive
+        if any(c.name in EXEMPT for c in o.users_collection): ev.to_mesh_clear(); cards += 1; continue   # 2D character cards + contact discs: flat by design
         if nv <= PRIM_VERTS: prim += 1; prim_tris += t
         for s in o.material_slots:
             if s.material: mats.add(s.material)
@@ -34,7 +36,7 @@ def _stats(objs, depsgraph):
         per_mesh[o.name] = {"verts": nv, "tris": t}; ev.to_mesh_clear()
     dims = [round(x, 3) for x in (hi - lo)] if mesh_objs else [0, 0, 0]
     return {"objects": len(objs), "mesh_objects": len(mesh_objs), "mesh_datablocks": len({o.data.name for o in mesh_objs}), "tris": tris,
-            "instancer_objects": pts, "primitive_like_objects": prim, "primitive_ratio": round(prim / max(1, len(mesh_objs) - pts), 3), "primitive_tris_ratio": round(prim_tris / max(1, tris), 4),
+            "instancer_objects": pts, "character_card_objects": cards, "primitive_like_objects": prim, "primitive_ratio": round(prim / max(1, len(mesh_objs) - pts - cards), 3), "primitive_tris_ratio": round(prim_tris / max(1, tris), 4),
             "materials": len(mats), "textured_materials": sum(1 for m in mats if textured(m)), "dims_m": dims,
             "largest_meshes": sorted(per_mesh.items(), key=lambda kv: -kv[1]["tris"])[:5]}
 
