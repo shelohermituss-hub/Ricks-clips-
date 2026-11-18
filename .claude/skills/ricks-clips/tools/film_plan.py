@@ -268,6 +268,7 @@ def bake_performance(F):
         st = dict(view="front", dir=1, pose="stand", face="standard", prop=None, hand=None, pos=list(mine[0].get("pos", [0, 0, 0])), visible=True, look=None, look_full=False, walk_pose=None, cling=None, place=next((m["place"] for m in mine if m.get("place")), None))   # a figure belongs to the place of its first placed act until an act moves it
         frames = [None] * end; talk = [False] * end; punch = [False] * end; swaps = []
         keys = []                                                                # (frame, field changes)
+        _place_now = {}
         for a in mine:
             t = fr(F, a["at"]); isword = not isinstance(a["at"], (int, float)) and not isinstance(a["at"], dict)
             lead = int(round(rnd((who, t, "lead"), 0, 3))) if isword and a.get("lead") is None else a.get("lead", 0)
@@ -276,8 +277,14 @@ def bake_performance(F):
                 keys.append((tf, dict(face=a["face"])))
                 if not first: swaps.append(tf)
             body = {k: a[k] for k in ("view", "dir", "pose", "prop", "hand", "visible", "look", "look_full", "walk_pose", "cling", "place") if k in a}   # "place" (2026-11-17): a figure shows only in that place (film.js reads st.place)
+            # 2026-11-18 (Production Intelligence lesson PI-003, Ghost Army): an act that ENTERS another place lands there at once, on the
+            # same frame as the place switch. It used to travel for move_s (0.5 s default) from its coordinates in the previous place (the figure
+            # slid into the new set after the cut), and even with a short move the place switched one frame before the position (a 1-frame pop).
+            entering = bool(a.get("place")) and a.get("place") != _place_now.get(who) and "pos" in a and not first
+            if entering: body["_land"] = list(a["pos"])
             if body: keys.append((tf + (1 if "face" in a and not first else 0), body))   # the body follows one frame later
-            if "pos" in a and not first: keys.append((tf + 1, dict(_move=(list(a["pos"]), a.get("walk", False), int(round(a.get("move_s", 0.5) * fps)), bool(a.get("linear"))))))
+            if "pos" in a and not first and not entering: keys.append((tf + 1, dict(_move=(list(a["pos"]), a.get("walk", False), int(round(a.get("move_s", 0.5) * fps)), bool(a.get("linear"))))))
+            if a.get("place"): _place_now[who] = a["place"]
             if a.get("exit"): keys.append((tf, dict(visible=False)))
             if "say" in a:                                                       # quoted line: [first word index, last word index] in words.json
                 i0, i1 = a["say"]
@@ -291,6 +298,7 @@ def bake_performance(F):
             mouth = None
             while ki < len(keys) and keys[ki][0] <= f:
                 ch = dict(keys[ki][1]); ki += 1
+                if "_land" in ch: st["pos"] = list(ch.pop("_land")); move = None   # PI-003: lands with the place switch
                 if "_move" in ch:
                     to, walk, dur, lin = ch.pop("_move")
                     if move:                                                                                 # a new move that starts before the last one has landed starts from where the figure IS (2026-11-10: it used to snap back to the old start)

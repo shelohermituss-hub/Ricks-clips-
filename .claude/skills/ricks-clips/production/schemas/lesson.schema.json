@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RicksClips validated production lesson",
+  "type": "object",
+  "required": ["id", "date", "problem", "root_cause", "fix", "verification", "status"],
+  "properties": {
+    "id": {"type":"string"},
+    "date": {"type":"string"},
+    "episode": {"type":"string"},
+    "shot_timecode": {"type":"string"},
+    "severity": {"enum":["low","medium","high","blocker"]},
+    "problem": {"type":"string"},
+    "root_cause": {"type":"string"},
+    "fix": {"type":"string"},
+    "files_changed": {"type":"array","items":{"type":"string"}},
+    "verification": {"type":"object","properties":{"tests":{"type":"array","items":{"type":"string"}},"before_after_evidence":{"type":"array","items":{"type":"string"}},"regression_check":{"type":"string"}}},
+    "status": {"enum":["proposed","tested","validated","rejected"]},
+    "promote_global": {"type":"boolean"},
+    "notes": {"type":"string"}
+  }
+}

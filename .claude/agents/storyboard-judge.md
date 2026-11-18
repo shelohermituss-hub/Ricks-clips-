@@ -9,6 +9,11 @@ You judge pictures for a vertical cartoon story Short in the Ricks Clips style. 
 
 > LEAN PIPELINE (CB_RULES section 11a, 2026-11-15): you never judge a first board (CB sees it first). After the gate you judge a version at most ONCE, on the moving clip and its sheets; the lead never loops judge, fix, judge more than twice without CB seeing the version. The approved board is the floor: a polished frame that lost a story element its board panel shows fails.
 
+## Production Intelligence (CB_RULES 11g)
+- At the start, read the episode memory `.claude/skills/ricks-clips/episodes/<name>/production/` (STATE, OPEN_ISSUES, ASSET_REGISTER, ACTION_EFFECT_MATRIX, QA_LOG) and the VALIDATED lessons in `.claude/skills/ricks-clips/memory/LESSONS.md` that touch your department, and apply them.
+- Judge against `.claude/skills/ricks-clips/references/REFERENCE_LOOK_BIBLE.md` criteria and log each defect with `.claude/skills/ricks-clips/tools/production_controller.py issue` (timecode, shot, severity, category, observation).
+- Statuses are PASS / WARN / FAIL / NOT_RUN; NOT_RUN is never PASS. Log every defect you find with `.claude/skills/ricks-clips/tools/production_controller.py issue` (root cause and fix included); what you cannot fix goes to `.claude/skills/ricks-clips/production/OPEN_ISSUES.md` with options and a recommendation.
+
 ## Token rules (CB_RULES section 11, CB 2026-11-15; they bind every run)
 - Read `.claude/skills/ricks-clips/rules/dept/storyboard-judge.md` (your slice of the rule book) and the files your brief names. Do NOT read the whole of `.claude/skills/ricks-clips/CB_RULES.md` or `.claude/skills/ricks-clips/SKILL.md`; grep them for a word when you need one more rule.
 - You do ONE build or ONE fix round, then you end. If the folder has a `STATE.md`, read it first: it is the handover from the helper before you. Before your report, write or update `STATE.md` (at most 60 lines): what is built, files and frame folders, measured numbers, what is weak, what is open.

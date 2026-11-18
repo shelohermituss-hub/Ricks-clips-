@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "statuses": ["PASS", "WARN", "FAIL", "NOT_RUN"],
+  "gates": [
+    {"id":"A_PREPRODUCTION","required":true,"checks":["script_locked","look_bible_exists","shot_list_exists","action_effect_matrix_exists"]},
+    {"id":"B_ASSETS","required":true,"checks":["hero_asset_inventory_complete","hero_assets_not_placeholder","license_and_provenance_recorded","renderer_import_test_passed","textures_verified"]},
+    {"id":"C_ENVIRONMENTS","required":true,"checks":["three_depth_planes","detail_score_minimum_3","materials_reviewed","lighting_reviewed","environment_motion_reviewed"]},
+    {"id":"D_ANIMATION","required":true,"checks":["actions_have_animation","contacts_checked","transitions_checked","micro_animation_reviewed","continuity_reviewed"]},
+    {"id":"E_VFX_AUDIO","required":true,"checks":["required_effects_rendered","aftermath_checked","audio_visual_sync_checked"]},
+    {"id":"F_PREVIEW_REVIEW","required":true,"checks":["contact_sheet_created","continuous_clips_inspected","timecoded_issues_logged","fixes_rerendered"]},
+    {"id":"G_FINAL_DELIVERY","required":true,"checks":["no_hero_placeholders","grade_applied_to_all_shots","native_resolution_render","audio_and_subtitles_verified","final_mp4_inspected","lessons_saved"]}
+  ],
+  "policy": {
+    "not_run_counts_as_pass": false,
+    "fail_blocks_final": true,
+    "warn_requires_explanation": true,
+    "user_acceptance_required_for_waiver": true
+  }
+}

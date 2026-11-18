@@ -9,6 +9,11 @@
             "type": "command",
             "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/skills/ricks-clips/scripts/cloud_session_start.sh\"",
             "timeout": 600
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/skills/ricks-clips/scripts/production_memory_brief.sh\"",
+            "timeout": 30
           }
         ]
       }

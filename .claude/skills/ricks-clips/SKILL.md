@@ -29,6 +29,8 @@ Cloud-specific rules:
 The detailed production look, hard rules, characters, storyboard, camera, motion library, Asset Hub, and quality gates below remain the authoritative RicksClips specification.
 
 
+**PRODUCTION INTELLIGENCE (v1.0, 2026-11-18):** each film opens with `tools/production_controller.py init episodes/<name>` (episode memory plus the validated global lessons), passes the quality gates A-G (`... gates --phase preview|final`, statuses PASS/WARN/FAIL/NOT_RUN), reviews continuous strips around every action, and promotes a lesson only with proof. Binding text: CB_RULES.md section 11g. How it is wired: `production/README.md`. The finish target is `references/REFERENCE_LOOK_BIBLE.md`.
+
 **READ [CB_RULES.md](CB_RULES.md) FIRST, EVERY TIME (CB 2026-11-11: "make that is rules. at one place and every new generation need to follow").** It is the single list of CB's rules, in checklist form. Read all of it before any new build, and check every shot against it by looking at the frames before CB sees anything. A new rule from CB is added there first. If it differs from anything below, CB_RULES.md wins. Copy for cloud sessions: project files `rules/CB_RULES.md`. **Since 2026-11-15: the LEAD reads all of it; a HELPER reads only its slice in `rules/dept/` (section 11).**
 
 **This is the main skill for ALL Ricks Clips animation (CB 2026-11-09).** The workflow and look below apply to every episode, whatever the story, place or time of day. Nothing in FULL WORKFLOW or MAIN LOOK is tied to one episode; Night Witches was only where it was tuned.

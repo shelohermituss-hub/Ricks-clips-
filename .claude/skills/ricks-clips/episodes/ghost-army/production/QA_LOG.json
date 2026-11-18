@@ -1,0 +1,107 @@
+{
+ "episode": "ghost-army",
+ "issues": [
+  {
+   "id": "QA-001",
+   "date": "2026-11-17",
+   "timecode": "00:00-00:03",
+   "shot": "t_hook",
+   "severity": "high",
+   "category": "animation",
+   "observation": "tank slid 3.6 m over static lifters and floated above their hands; two lifters inside the hull footprint",
+   "root_cause": "set moved the tank on x while acts kept the men still; positions not checked against the hull footprint",
+   "fix": "tank stays over its lifters; footprint measured; lifters at the long sides",
+   "status": "fixed",
+   "before": "v1/ghost_army_preview_v1.mp4 00:00-00:03",
+   "after": "production/evidence/pi_test_shot_clip_f72-129.jpg"
+  },
+  {
+   "id": "QA-002",
+   "date": "2026-11-17",
+   "timecode": "whole film",
+   "shot": "all",
+   "severity": "blocker",
+   "category": "animation",
+   "observation": "40/64 acts were static kit poses; 7 glides; 3 planner walks",
+   "root_cause": "acts authored with blocking poses; no tween; walk=True",
+   "fix": "all acts library moves, walk/run moves, tween ones + 6 f move blend",
+   "status": "fixed",
+   "before": "audit/anim_acts.txt (v1 numbers in audit/ANIMATION_VFX_AUDIT.md)",
+   "after": "production/anim_audit.json"
+  },
+  {
+   "id": "QA-003",
+   "date": "2026-11-17",
+   "timecode": "00:56",
+   "shot": "t_strike",
+   "severity": "high",
+   "category": "vfx",
+   "observation": "shell bursts invisible, then solid orange balls and white-out",
+   "root_cause": "inline // comment swallowed the burst code; opaque basic spheres",
+   "fix": "comment fixed + lint; translucent fire envelope, debris, smoke",
+   "status": "fixed",
+   "before": "git 63d3a57 sets/ghost.js",
+   "after": "tools/tests/fixtures/swallowed_comment.js"
+  },
+  {
+   "id": "QA-004",
+   "date": "2026-11-17",
+   "timecode": "00:44",
+   "shot": "t_cafe",
+   "severity": "medium",
+   "category": "framing",
+   "observation": "Lou cut by the right edge during the travel to the sergeant",
+   "root_cause": "travel swept past a standing character",
+   "fix": "clean cut on 'sergeant' (take t_sergeant)",
+   "status": "fixed",
+   "before": "v1 00:44",
+   "after": "episodes/ghost-army/out/frame_checks.md"
+  },
+  {
+   "id": "QA-005",
+   "date": "2026-11-18",
+   "timecode": "00:03",
+   "shot": "t_hook",
+   "severity": "low",
+   "category": "occlusion",
+   "observation": "carrier_stocky and carrier_short faces behind the hull f100-109",
+   "root_cause": "they stand on the far side of the tank",
+   "fix": "accepted: natural occlusion, not clipping",
+   "status": "waived"
+  },
+  {
+   "id": "QA-006",
+   "date": "2026-11-18",
+   "timecode": "00:00-00:10",
+   "shot": "t_hook",
+   "severity": "high",
+   "category": "assets",
+   "observation": "hero tank is a primitive assembly (70/73 meshes primitive generators, 5.7k tris)",
+   "root_cause": "tank models refused by the Asset Hub category filter; built in code",
+   "fix": "(open) model a detailed inflatable Sherman in Blender, or get the user's approval for a sourced model",
+   "status": "open"
+  },
+  {
+   "id": "QA-007",
+   "date": "2026-11-18",
+   "timecode": "00:03-00:06",
+   "shot": "t_hook",
+   "severity": "medium",
+   "category": "assets",
+   "observation": "bicycles are flat 2D move props",
+   "root_cause": "the 2D bike move draws its own bike; a 3D bike cannot be ridden by the 2D rig",
+   "fix": "(open) 3D bicycle exists and is render-tested; staging decision needed (ride as 2D, or 3D bike parked/pushed)",
+   "status": "open"
+  }
+ ],
+ "waivers": [
+  {
+   "key": "carrier_stocky|f100-109|face_covered",
+   "reason": "natural occlusion behind the hull, QA-005"
+  },
+  {
+   "key": "carrier_short|f100-109|face_covered",
+   "reason": "natural occlusion behind the hull, QA-005"
+  }
+ ]
+}

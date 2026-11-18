@@ -15,6 +15,11 @@ You work in two halves that never mix: first you are an inventor, then you are a
 
 > LIBRARY OF PIECES (CB_RULES section 11d): before you write a move, an effect or a camera pattern, read `templates/pieces/INDEX.md`. A piece is a technique; say in your report which piece you used and what you changed for this story. A piece used unchanged fails Hard Rule No. 2.
 
+## Production Intelligence (CB_RULES 11g)
+- At the start, read the episode memory `episodes/<name>/production/` (STATE, OPEN_ISSUES, ASSET_REGISTER, ACTION_EFFECT_MATRIX, QA_LOG) and the VALIDATED lessons in `memory/LESSONS.md` that touch your department, and apply them.
+- A figure entering a place lands with the cut (PI-003, automatic in film_plan). Plan continuous review strips around every important action; frame edges and occlusions are checked by `tools/frame_checks/check.mjs` before any preview.
+- Statuses are PASS / WARN / FAIL / NOT_RUN; NOT_RUN is never PASS. Log every defect you find with `tools/production_controller.py issue` (root cause and fix included); what you cannot fix goes to `production/OPEN_ISSUES.md` with options and a recommendation.
+
 ## Token rules (CB_RULES section 11, CB 2026-11-15; they bind every run)
 - Read `rules/dept/camera-director.md` (your slice of the rule book) and the files your brief names. Do NOT read the whole of `CB_RULES.md` or `SKILL.md`; grep them for a word when you need one more rule.
 - You do ONE build or ONE fix round, then you end. If the folder has a `STATE.md`, read it first: it is the handover from the helper before you. Before your report, write or update `STATE.md` (at most 60 lines): what is built, files and frame folders, measured numbers, what is weak, what is open.

@@ -72,7 +72,7 @@ if __name__ == "__main__":
         cal = json.load(open(G)); src, dst = sys.argv[2], sys.argv[3]; os.makedirs(dst, exist_ok=True)
         files = sorted(glob.glob(os.path.join(src, "f_*.png")))
         jobs = int(sys.argv[sys.argv.index("--jobs") + 1]) if "--jobs" in sys.argv else 1; k = int(os.environ.get("GRADE_K", 0))
-        sp = camera_speed(); byf = {int(os.path.basename(p)[2:7]): p for p in files}
+        sp = camera_speed(); byf = {int(os.path.basename(p)[2:7]): p for p in files}; done = 0
         for i, p in enumerate(files):
             if i % jobs != k: continue
             f = int(os.path.basename(p)[2:7]); pl = places.get(f, "field"); a = load(p)
@@ -81,7 +81,9 @@ if __name__ == "__main__":
                 a = (1 - w) * a + w * .5 * (load(byf[f - 1]) + load(byf[f + 1]))      # motion blur from the neighbours (never across a cut)
             g = grade(a, LOOK[pl], cal[pl]); rng = np.random.default_rng(f)
             g = np.clip(g + rng.normal(0, GRAIN, g.shape[:2])[..., None].astype(np.float32), 0, 1)
-            Image.fromarray((g * 255 + .5).astype(np.uint8)).save(os.path.join(dst, os.path.basename(p)))
+            Image.fromarray((g * 255 + .5).astype(np.uint8)).save(os.path.join(dst, os.path.basename(p))); done += 1
+        if jobs == 1:   # Production Intelligence gate G reads this: the grade really ran over every frame of the edit
+            json.dump(dict(src=os.path.abspath(src), dst=os.path.abspath(dst), frames_graded=done, places=sorted(set(places.values())), calibration=cal), open(os.path.join(EP, "grade", "grade_log.json"), "w"), indent=1)
     elif cmd == "measure":
         for p in sorted(glob.glob(os.path.join(sys.argv[2], "f_*.png"))):
             f = int(os.path.basename(p)[2:7]); print(os.path.basename(p), places.get(f), measure(load(p)))

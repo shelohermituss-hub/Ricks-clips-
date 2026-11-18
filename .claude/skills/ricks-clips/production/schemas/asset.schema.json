@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RicksClips asset registry item",
+  "type": "object",
+  "required": ["asset_id", "name", "category", "source", "license", "file", "validation_status"],
+  "properties": {
+    "asset_id": {"type":"string"},
+    "name": {"type":"string"},
+    "category": {"enum":["hero","secondary","background","procedural"]},
+    "source": {"type":"string"},
+    "source_url": {"type":"string"},
+    "creator": {"type":"string"},
+    "license": {"type":"string"},
+    "file": {"type":"string"},
+    "format": {"type":"string"},
+    "sha256": {"type":"string"},
+    "textures": {"type":"array","items":{"type":"string"}},
+    "episode_used": {"type":"array","items":{"type":"string"}},
+    "validation_status": {"enum":["not_tested","imported","render_tested","approved","rejected"]},
+    "notes": {"type":"string"}
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "note": "Cinematic visual examples only. Adapt each event to story, style, renderer capability and approved reference.",
+  "events": [
+    {
+      "action": "tracked_vehicle_drive",
+      "anticipation": ["vehicle_body_settle", "subtle_engine_idle_motion"],
+      "animation": ["visible_track_motion", "ground_contact", "subtle_body_vibration"],
+      "interaction": ["surface_compression_visual"],
+      "vfx": ["dust_or_mud_kickup_when_contextually_appropriate", "persistent_track_marks"],
+      "aftermath": ["track_marks_remain_until_scene_continuity_changes_them", "dust_settles"],
+      "audio": ["vehicle_motion_synced_to_screen_action"],
+      "qa": ["no_sliding_vehicle", "track_motion_matches_translation", "marks_follow_ground_surface"]
+    },
+    {
+      "action": "fictional_tank_fire_beat",
+      "anticipation": ["brief_compositional_pause", "subtle_vehicle_reaction_animation"],
+      "animation": ["visual_muzzle_flash"],
+      "interaction": ["nearby_light_response_if_visible"],
+      "vfx": ["short_muzzle_smoke", "dissipating_smoke_trail", "screen_directional_flash"],
+      "aftermath": ["smoke_dissipates_over_time"],
+      "audio": ["cinematic_sound_cue_synced_to_flash"],
+      "qa": ["effect_visible_in_rendered_frames", "no_static_orange_disc", "sync_verified"],
+      "safety_scope": "Purely fictional visual effect; no weapon mechanism, operating parameters, ballistics or real-world procedure."
+    },
+    {
+      "action": "fictional_impact_explosion",
+      "anticipation": ["impact_beat_or_visual_cue"],
+      "animation": ["brief_flash", "expanding_stylized_fire_envelope"],
+      "interaction": ["local_light_response", "environment_reaction_if_story_requires"],
+      "vfx": ["layered_smoke", "dust", "fictional_debris"],
+      "aftermath": ["smoke_lingers_and_moves", "dust_settles", "visible_surface_state_if_required"],
+      "audio": ["impact_and_decay_synced_to_picture"],
+      "qa": ["not_a_static_sphere", "smoke_has_temporal_motion", "aftermath_persists_consistently", "no_unintended_whiteout"],
+      "safety_scope": "Cinematic visual simulation only; do not derive real explosive construction, blast calculations or tactical effects."
+    },
+    {
+      "action": "character_lifts_object",
+      "anticipation": ["stance_adjustment", "arm_reach"],
+      "animation": ["knees_and_torso_take_load_visually", "hands_reach_contact_points", "lift_motion"],
+      "interaction": ["object_moves_with_hands"],
+      "vfx": ["optional_surface_dust_if_story_supports_it"],
+      "aftermath": ["character_and_object_settle_into_stable_pose"],
+      "audio": ["contact_or_effort_cue_if_required"],
+      "qa": ["no_object_passes_through_character", "hands_visibly_contact_object", "no_unmotivated_teleport"]
+    },
+    {
+      "action": "character_walks_on_soft_ground",
+      "anticipation": ["weight_shift"],
+      "animation": ["alternating_steps", "planted_foot_contact", "body_follow_through"],
+      "interaction": ["foot_contact_with_surface"],
+      "vfx": ["small_dust_or_ground_displacement_when_appropriate", "footprints_if_supported"],
+      "aftermath": ["footprints_persist_until_continuity_changes_them"],
+      "audio": ["footsteps_synced_to_contacts"],
+      "qa": ["no_foot_sliding", "step_sound_matches_contact", "footprints_not_floating"]
+    },
+    {
+      "action": "wind_moves_environment",
+      "anticipation": ["subtle_wind_build_if_story_requires"],
+      "animation": ["trees_grass_flags_and_loose_cloth_move_at_different_amplitudes"],
+      "interaction": ["nearby_light_foliage_reacts"],
+      "vfx": ["dust_or_leaves_only_when_contextually_appropriate"],
+      "aftermath": ["motion_returns_to_base_state_without_popping"],
+      "audio": ["ambient_wind_if_present_in_mix"],
+      "qa": ["no_identical_synchronized_wobble", "no_visible_loop_pop"]
+    }
+  ]
+}

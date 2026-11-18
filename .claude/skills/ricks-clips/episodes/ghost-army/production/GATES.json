@@ -1,0 +1,206 @@
+{
+ "episode": "ghost-army",
+ "phase": "final",
+ "date": "2026-11-18",
+ "results": [
+  {
+   "gate": "A_PREPRODUCTION",
+   "check": "script_locked",
+   "status": "PASS",
+   "evidence": "SCRIPT.md, voice/script.txt"
+  },
+  {
+   "gate": "A_PREPRODUCTION",
+   "check": "look_bible_exists",
+   "status": "WARN",
+   "evidence": "reference bible PROVISIONAL (fortress reference not available); references/REFERENCE_LOOK_BIBLE.md, episodes/ghost-army/STORY_BIBLE.md"
+  },
+  {
+   "gate": "A_PREPRODUCTION",
+   "check": "shot_list_exists",
+   "status": "PASS",
+   "evidence": "film.json takes=11"
+  },
+  {
+   "gate": "A_PREPRODUCTION",
+   "check": "action_effect_matrix_exists",
+   "status": "PASS",
+   "evidence": "9 story events in production/ACTION_EFFECT_MATRIX.json"
+  },
+  {
+   "gate": "B_ASSETS",
+   "check": "hero_asset_inventory_complete",
+   "status": "PASS",
+   "evidence": "7 hero assets registered"
+  },
+  {
+   "gate": "B_ASSETS",
+   "check": "hero_assets_not_placeholder",
+   "status": "FAIL",
+   "evidence": "Inflatable Sherman (hero decoy): 71 parts, 5616 tris, 96% primitive generators, 12 textured mats -> primitive assembly / below hero detail; Real tanks at the crossing: 73 parts, 5712 tris, 96% primitive generators, 72 textured mats -> primitive assembly / below hero detail; Sound half-track with horn speaker: 39 parts, 7080 tris, 95% primitive generators, 5 textured mats -> primitive assembly / below hero detail; Farmer's and boy's bicycles: flat 2D library prop, not a 3D asset; Field radio, Morse key, fist card: 1 parts, 12 tris, 100% primitive generators, 1 textured mats -> primitive assembly / below hero detail; Enemy light table and aerial photo: 1 parts, 12 tris, 100% primitive generators, 0 textured mats -> primitive assembly / below hero detail; Attic trunk and deflated skin: 73 parts, 5712 tris, 96% primitive generators, 14 textured mats -> primitive assembly / below hero detail"
+  },
+  {
+   "gate": "B_ASSETS",
+   "check": "license_and_provenance_recorded",
+   "status": "PASS",
+   "evidence": "10 assets with provenance"
+  },
+  {
+   "gate": "B_ASSETS",
+   "check": "renderer_import_test_passed",
+   "status": "PASS",
+   "evidence": "1/1 external assets render-tested"
+  },
+  {
+   "gate": "B_ASSETS",
+   "check": "textures_verified",
+   "status": "PASS",
+   "evidence": "field 64/73 textured materials; camp 254/319 textured materials; road 434/445 textured materials; radio 26/32 textured materials; cafe 47/80 textured materials; photo 13/31 textured materials; river 609/677 textured materials; bedroom 42/54 textured materials; attic 44/58 textured materials"
+  },
+  {
+   "gate": "C_ENVIRONMENTS",
+   "check": "detail_score_minimum_3",
+   "status": "FAIL",
+   "evidence": "below 3: field.geometry=2, camp.geometry=2, radio.geometry=2, radio.depth=2, photo.geometry=2, photo.depth=2, river.geometry=2; 9/9 places scored"
+  },
+  {
+   "gate": "C_ENVIRONMENTS",
+   "check": "three_depth_planes",
+   "status": "WARN",
+   "evidence": "7/9 places depth>=3"
+  },
+  {
+   "gate": "C_ENVIRONMENTS",
+   "check": "materials_reviewed",
+   "status": "PASS",
+   "evidence": "9/9 places reviewed"
+  },
+  {
+   "gate": "C_ENVIRONMENTS",
+   "check": "lighting_reviewed",
+   "status": "PASS",
+   "evidence": "9/9 places reviewed"
+  },
+  {
+   "gate": "C_ENVIRONMENTS",
+   "check": "environment_motion_reviewed",
+   "status": "WARN",
+   "evidence": "9/9 places reviewed"
+  },
+  {
+   "gate": "D_ANIMATION",
+   "check": "actions_have_animation",
+   "status": "PASS",
+   "evidence": "{\"STATIC\": 0, \"WALK2F\": 0, \"GLIDE\": 0, \"POP\": 0, \"LIBRARY\": 57, \"OVERLAP\": 0, \"acts\": 73, \"status\": \"PASS\"}"
+  },
+  {
+   "gate": "D_ANIMATION",
+   "check": "contacts_checked",
+   "status": "WARN",
+   "evidence": "2 frame-check FAIL groups, 2 waived with a reason (QA_LOG waivers)"
+  },
+  {
+   "gate": "D_ANIMATION",
+   "check": "transitions_checked",
+   "status": "PASS",
+   "evidence": "film.tween={'ones': True, 'face_frames': 0, 'move_blend': 6}"
+  },
+  {
+   "gate": "D_ANIMATION",
+   "check": "micro_animation_reviewed",
+   "status": "PASS",
+   "evidence": "motion_polish={'enabled': True, 'head_follow': 0.14, 'hand_follow': 0.08, 'breath': 0.55, 'breath_rate': 2.15, 'auto_blink': True}"
+  },
+  {
+   "gate": "D_ANIMATION",
+   "check": "continuity_reviewed",
+   "status": "PASS",
+   "evidence": "5 continuous-motion strips in production/REVIEW"
+  },
+  {
+   "gate": "E_VFX_AUDIO",
+   "check": "required_effects_rendered",
+   "status": "FAIL",
+   "evidence": "2/9 events with rendered evidence"
+  },
+  {
+   "gate": "E_VFX_AUDIO",
+   "check": "aftermath_checked",
+   "status": "WARN",
+   "evidence": "7 events with an aftermath, 2 PASS"
+  },
+  {
+   "gate": "E_VFX_AUDIO",
+   "check": "audio_visual_sync_checked",
+   "status": "WARN",
+   "evidence": "9 events with sound; mix_report=True"
+  },
+  {
+   "gate": "E_VFX_AUDIO",
+   "check": "set_modules_no_swallowed_code",
+   "status": "PASS",
+   "evidence": "lint_set_modules: 0 suspicious comment(s) in 1 file(s)"
+  },
+  {
+   "gate": "F_PREVIEW_REVIEW",
+   "check": "contact_sheet_created",
+   "status": "PASS",
+   "evidence": "1 sheets"
+  },
+  {
+   "gate": "F_PREVIEW_REVIEW",
+   "check": "continuous_clips_inspected",
+   "status": "PASS",
+   "evidence": "5 strips"
+  },
+  {
+   "gate": "F_PREVIEW_REVIEW",
+   "check": "timecoded_issues_logged",
+   "status": "PASS",
+   "evidence": "7 issues, 2 open"
+  },
+  {
+   "gate": "F_PREVIEW_REVIEW",
+   "check": "fixes_rerendered",
+   "status": "PASS",
+   "evidence": "4 fixed, 4 with after-render evidence"
+  },
+  {
+   "gate": "G_FINAL_DELIVERY",
+   "check": "no_hero_placeholders",
+   "status": "FAIL",
+   "evidence": "Inflatable Sherman (hero decoy): 71 parts, 5616 tris, 96% primitive generators, 12 textured mats -> primitive assembly / below hero detail; Real tanks at the crossing: 73 parts, 5712 tris, 96% primitive generators, 72 textured mats -> primitive assembly / below hero detail; Sound half-track with horn speaker: 39 parts, 7080 tris, 95% primitive generators, 5 textured mats -> primitive assembly / below hero detail; Farmer's and boy's bicycles: flat 2D library prop, not a 3D asset; Field radio, Morse key, fist card: 1 parts, 12 tris, 100% primitive generators, 1 textured mats -> primitive assembly / below hero detail; Enemy light table and aerial photo: 1 parts, 12 tris, 100% primitive generators, 0 textured mats -> primitive assembly / below hero detail; Attic trunk and deflated skin: 73 parts, 5712 tris, 96% primitive generators, 14 textured mats -> primitive assembly / below hero detail"
+  },
+  {
+   "gate": "G_FINAL_DELIVERY",
+   "check": "grade_applied_to_all_shots",
+   "status": "FAIL",
+   "evidence": "grade_log=None"
+  },
+  {
+   "gate": "G_FINAL_DELIVERY",
+   "check": "native_resolution_render",
+   "status": "NOT_RUN",
+   "evidence": "no --video"
+  },
+  {
+   "gate": "G_FINAL_DELIVERY",
+   "check": "audio_and_subtitles_verified",
+   "status": "NOT_RUN",
+   "evidence": "no --video"
+  },
+  {
+   "gate": "G_FINAL_DELIVERY",
+   "check": "final_mp4_inspected",
+   "status": "NOT_RUN",
+   "evidence": "no --video"
+  },
+  {
+   "gate": "G_FINAL_DELIVERY",
+   "check": "lessons_saved",
+   "status": "PASS",
+   "evidence": "lessons from this episode in memory/lessons_learned.json"
+  }
+ ],
+ "policy": "NOT_RUN never counts as PASS; FAIL blocks the final; WARN needs a written reason and the user's acceptance"
+}

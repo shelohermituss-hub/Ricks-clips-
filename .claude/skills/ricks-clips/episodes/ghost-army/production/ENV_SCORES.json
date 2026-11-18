@@ -1,0 +1,157 @@
+{
+ "scale": "0 absent, 1 blockout/primitive, 2 readable but poor, 3 detailed and coherent, 4 reference finish",
+ "essential": [
+  "geometry",
+  "materials",
+  "depth",
+  "lighting",
+  "coherence"
+ ],
+ "evidence_required": true,
+ "places": {
+  "field": {
+   "geometry": 2,
+   "variety": 3,
+   "materials": 3,
+   "depth": 3,
+   "lighting": 3,
+   "atmosphere": 2,
+   "coherence": 3,
+   "env_motion": 3,
+   "note": "hero tank = primitive assembly (QA-006); trees, leaf-clump hedges, grass, flowers good",
+   "evidence": [
+    "episodes/ghost-army/production/REVIEW/sheet_overview.jpg"
+   ],
+   "scored_by": "lead (Claude), against references/REFERENCE_LOOK_BIBLE.md (PROVISIONAL)",
+   "date": "2026-11-18"
+  },
+  "camp": {
+   "geometry": 2,
+   "variety": 2,
+   "materials": 3,
+   "depth": 3,
+   "lighting": 3,
+   "atmosphere": 2,
+   "coherence": 3,
+   "env_motion": 3,
+   "note": "12 decoys from one model (sag varies only); props detailed 2026-11-17",
+   "evidence": [
+    "episodes/ghost-army/production/REVIEW/sheet_overview.jpg"
+   ],
+   "scored_by": "lead (Claude), against references/REFERENCE_LOOK_BIBLE.md (PROVISIONAL)",
+   "date": "2026-11-18"
+  },
+  "road": {
+   "geometry": 3,
+   "variety": 2,
+   "materials": 3,
+   "depth": 3,
+   "lighting": 3,
+   "atmosphere": 3,
+   "coherence": 3,
+   "env_motion": 3,
+   "note": "lathe horn detailed; half-track body still boxy",
+   "evidence": [
+    "episodes/ghost-army/production/REVIEW/sheet_overview.jpg"
+   ],
+   "scored_by": "lead (Claude), against references/REFERENCE_LOOK_BIBLE.md (PROVISIONAL)",
+   "date": "2026-11-18"
+  },
+  "radio": {
+   "geometry": 2,
+   "variety": 2,
+   "materials": 3,
+   "depth": 2,
+   "lighting": 3,
+   "atmosphere": 2,
+   "coherence": 3,
+   "env_motion": 2,
+   "note": "canvas tent good; radio set is a box with dials; shallow depth",
+   "evidence": [
+    "episodes/ghost-army/production/REVIEW/sheet_overview.jpg"
+   ],
+   "scored_by": "lead (Claude), against references/REFERENCE_LOOK_BIBLE.md (PROVISIONAL)",
+   "date": "2026-11-18"
+  },
+  "cafe": {
+   "geometry": 3,
+   "variety": 3,
+   "materials": 3,
+   "depth": 3,
+   "lighting": 3,
+   "atmosphere": 2,
+   "coherence": 3,
+   "env_motion": 2,
+   "note": "wallpaper, wainscot, bar shelves, chalkboard, accordion",
+   "evidence": [
+    "episodes/ghost-army/production/REVIEW/sheet_overview.jpg"
+   ],
+   "scored_by": "lead (Claude), against references/REFERENCE_LOOK_BIBLE.md (PROVISIONAL)",
+   "date": "2026-11-18"
+  },
+  "photo": {
+   "geometry": 2,
+   "variety": 2,
+   "materials": 3,
+   "depth": 2,
+   "lighting": 3,
+   "atmosphere": 2,
+   "coherence": 3,
+   "env_motion": 1,
+   "note": "light table and cabinet simple; nothing moves",
+   "evidence": [
+    "episodes/ghost-army/production/REVIEW/sheet_overview.jpg"
+   ],
+   "scored_by": "lead (Claude), against references/REFERENCE_LOOK_BIBLE.md (PROVISIONAL)",
+   "date": "2026-11-18"
+  },
+  "river": {
+   "geometry": 2,
+   "variety": 2,
+   "materials": 3,
+   "depth": 3,
+   "lighting": 3,
+   "atmosphere": 3,
+   "coherence": 3,
+   "env_motion": 3,
+   "note": "decoys/real tanks primitive assemblies; water, banks, reeds, bursts good",
+   "evidence": [
+    "episodes/ghost-army/production/REVIEW/sheet_overview.jpg"
+   ],
+   "scored_by": "lead (Claude), against references/REFERENCE_LOOK_BIBLE.md (PROVISIONAL)",
+   "date": "2026-11-18"
+  },
+  "bedroom": {
+   "geometry": 3,
+   "variety": 3,
+   "materials": 3,
+   "depth": 3,
+   "lighting": 3,
+   "atmosphere": 2,
+   "coherence": 3,
+   "env_motion": 2,
+   "note": "quilt, bed, wardrobe, curtains; window opening",
+   "evidence": [
+    "episodes/ghost-army/production/REVIEW/sheet_overview.jpg"
+   ],
+   "scored_by": "lead (Claude), against references/REFERENCE_LOOK_BIBLE.md (PROVISIONAL)",
+   "date": "2026-11-18"
+  },
+  "attic": {
+   "geometry": 3,
+   "variety": 3,
+   "materials": 3,
+   "depth": 3,
+   "lighting": 3,
+   "atmosphere": 3,
+   "coherence": 3,
+   "env_motion": 2,
+   "note": "roof boards, boxes, light shaft, motes",
+   "evidence": [
+    "episodes/ghost-army/production/REVIEW/sheet_overview.jpg"
+   ],
+   "scored_by": "lead (Claude), against references/REFERENCE_LOOK_BIBLE.md (PROVISIONAL)",
+   "date": "2026-11-18"
+  }
+ }
+}

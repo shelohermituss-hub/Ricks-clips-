@@ -3,6 +3,12 @@
 ## Cloud runtime (Claude Code Web)
 If `CLAUDE_CODE_REMOTE=true`, read `CLOUD_MODE.md` first. Use `.venv/bin/python` for Python tools and `render_gpu.mjs --software` for cloud previews. Do not run the Windows installer. On install requests, run `scripts/cloud_session_start.sh` and `scripts/cloud_doctor.sh`, then report exact test results before creating a film.
 
+## Production Intelligence (v1.0, 2026-11-18) — runs around every step below
+0. **Phase 0, every film:** `.venv/bin/python tools/production_controller.py init episodes/<name>`. It opens the episode memory (`episodes/<name>/production/`) and prints the VALIDATED global lessons from `memory/lessons_learned.json`. Apply them, then read `library/INDEX.md`. Rules: `CB_RULES.md` section 11g. Wiring and commands: `production/README.md`.
+- Before every full preview and before the final: `tools/production_controller.py gates episodes/<name> --phase preview|final`. NOT_RUN is never PASS, and FAIL blocks the final.
+- After every preview: `production_controller.py review ... --clip a-b` (sheets plus continuous strips), then log issues and run the correction loop. Promote a lesson only with proof (`lesson-promote`).
+- The finish level is set by `references/REFERENCE_LOOK_BIBLE.md` (PROVISIONAL until the fortress reference is supplied).
+
 ## Read order
 1. `CB_RULES.md`, section 11 first. It is the lean pipeline and the token rules.
 2. `SKILL.md`: read the headings first, then the parts you need.

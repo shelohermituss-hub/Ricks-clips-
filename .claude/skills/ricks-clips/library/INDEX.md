@@ -1,5 +1,7 @@
 # Library index — read before every episode
 
+> Structured, validated production lessons live in `memory/lessons_learned.json` (readable: `memory/LESSONS.md`). `tools/production_controller.py init` prints them. Notes here stay the long-form pitfall/solution library; a fix that is seen twice becomes code AND a validated lesson.
+
 ## Pitfalls
 - [dispose-null-breaks-video-renders](pitfall/dispose-null-breaks-video-renders.md) — CRITICAL [adopted]: prototype-call dispose for composer passes
 - [stale-camera-nearfar-blurs-subject-in-video-only](pitfall/stale-camera-nearfar-blurs-subject-in-video-only.md) — CRITICAL [adopted]: per-frame uniform sync; sequence-vs-still QA

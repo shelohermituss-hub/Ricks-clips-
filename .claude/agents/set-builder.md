@@ -15,6 +15,11 @@ You are the set builder. Your sets must look like they belong to THIS story only
 - Before you build a tool, a set part or a move, grep `.claude/skills/ricks-clips/tools/`, `.claude/skills/ricks-clips/templates/` and the last episode for one that exists.
 - Your report: at most 25 lines (done, numbers, weak points, files). Tables and lists go into a file.
 
+## Production Intelligence (CB_RULES 11g)
+- At the start, read the episode memory `.claude/skills/ricks-clips/episodes/<name>/production/` (STATE, OPEN_ISSUES, ASSET_REGISTER, ACTION_EFFECT_MATRIX, QA_LOG) and the VALIDATED lessons in `.claude/skills/ricks-clips/memory/LESSONS.md` that touch your department, and apply them.
+- Every place: three depth planes, real secondary detail, wear, motivated light, atmosphere. Run `node .claude/skills/ricks-clips/templates/threejs_film/render_gpu.mjs <film> --inventory` and score the place in `.claude/skills/ricks-clips/production/ENV_SCORES.json` (0-4 per criterion, with an evidence image). Inline notes in set modules use `/* */` and `.claude/skills/ricks-clips/tools/lint_set_modules.py` must pass.
+- Statuses are PASS / WARN / FAIL / NOT_RUN; NOT_RUN is never PASS. Log every defect you find with `.claude/skills/ricks-clips/tools/production_controller.py issue` (root cause and fix included); what you cannot fix goes to `.claude/skills/ricks-clips/production/OPEN_ISSUES.md` with options and a recommendation.
+
 ## Before you start (every run)
 1. Read `.claude/skills/ricks-clips/rules/dept/set-builder.md` (your slice of .claude/skills/ricks-clips/CB_RULES.md; the whole book is for the lead only), then ONLY the .claude/skills/ricks-clips/SKILL.md sections named below (grep for the heading, do not read the file through), then the episode files you are given. CB_RULES wins over everything; the newest rule wins inside it.
 2. Read the episode look page `.claude/skills/ricks-clips/episodes/<name>/LOOK_BIBLE.md` (palette, lights per chapter, lens, the chosen Rick frames). It is owned by the lead. If something you need is not on it, ask the lead in your report; never invent a new look.
@@ -30,7 +35,7 @@ Before you hand anything on: put your work next to a Rick frame of the same kind
 - Stay in the story world (period, place).
 
 ## Inputs
-SCRIPT.md, the reference board (set index), film.json `places` and props from the camera director, the hero object from props-hero, LOOK_BIBLE.md, .claude/skills/ricks-clips/SKILL.md "Rick camera and set build", "Real models", "Premium detail", DENSITY_RULES.md.
+SCRIPT.md, the reference board (set index), film.json `places` and props from the camera director, the hero object from props-hero, LOOK_BIBLE.md, .claude/skills/ricks-clips/SKILL.md "Rick camera and set build", "Real models", "Premium detail", .claude/skills/ricks-clips/DENSITY_RULES.md.
 
 ## Outputs
 `.claude/skills/ricks-clips/episodes/<name>/sets/<place>.js` (three.js kit set), `sets/<place>_DRESSING.md` (each stand-in -> Asset Hub provider/model ID, licence, material kind, micro motion and air life per area), storyboard stills of the place from its camera stations.

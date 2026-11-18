@@ -71,3 +71,8 @@
 - Added provider setup documentation, environment-variable template, empty local catalog and example place manifest.
 - Added offline tests for provider normalization, license rules, archive safety, local Fab import evidence, material staging and asset credits.
 - Runtime integration requires `npm install` in `templates/threejs_film` to obtain the pinned Three.js GLTFLoader dependency; no package downloads or third-party assets are bundled.
+
+## 2026-11-18 — Production Intelligence v1.0
+- New: `tools/production_controller.py` (episode memory, quality gates A-G, review sheets and strips, QA log, lesson registry with proof-gated promotion), `tools/anim_audit.py`, `tools/lint_set_modules.py`, `tools/sync_project_agents.py`, `tools/tests/test_production_intelligence.py` (10 regression tests), `production/` (configs, schemas, delivered French spec, README), `memory/` (global lessons; 4 validated), `references/REFERENCE_LOOK_BIBLE.md` (PROVISIONAL), agent `production-controller`, SessionStart hook `scripts/production_memory_brief.sh`.
+- Kit: `render_gpu.mjs --inventory` + `window.sceneInventory` (what each place really builds); `film_plan.py` place entry lands with the cut on the same frame (PI-003, it fixed a 1-frame pop found by the new test); move-to-move pose blend (`film.tween.move_blend`); soft contact shadows; `lift` moves in the motion library.
+- Rules: CB_RULES section 11g (in every department slice); START_HERE, SKILL.md, WORKFLOW.md and library/INDEX.md point to it; every agent has a Production Intelligence block.

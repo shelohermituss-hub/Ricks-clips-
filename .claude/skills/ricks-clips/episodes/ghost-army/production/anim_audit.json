@@ -1,0 +1,893 @@
+{
+ "verdict": {
+  "STATIC": 0,
+  "WALK2F": 0,
+  "GLIDE": 0,
+  "POP": 0,
+  "LIBRARY": 57,
+  "OVERLAP": 0,
+  "acts": 73,
+  "status": "PASS"
+ },
+ "acts": [
+  {
+   "t": 0.0,
+   "who": "lou",
+   "at": 0,
+   "pose": "m:lift/A",
+   "face": "k:concentrate",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 0.0,
+   "who": "carrier_tall",
+   "at": 0,
+   "pose": "m:lift/A",
+   "face": "k:concentrate",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 0.0,
+   "who": "carrier_short",
+   "at": 0,
+   "pose": "m:lift/A",
+   "face": "k:concentrate",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 0.0,
+   "who": "carrier_stocky",
+   "at": 0,
+   "pose": "m:lift/A",
+   "face": "k:concentrate",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 0.0,
+   "who": "farmer",
+   "at": 0,
+   "pose": "m:bike/A+props",
+   "face": "k:standard",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 0.0,
+   "who": "boy",
+   "at": 0,
+   "pose": "m:bike/B+props",
+   "face": "k:happy",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 1.73,
+   "who": "lou",
+   "at": 52,
+   "pose": "m:lift/B",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 1.73,
+   "who": "carrier_tall",
+   "at": 52,
+   "pose": "m:lift/B",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 1.73,
+   "who": "carrier_short",
+   "at": 52,
+   "pose": "m:lift/B",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 1.73,
+   "who": "carrier_stocky",
+   "at": 52,
+   "pose": "m:lift/B",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 2.76,
+   "who": "farmer",
+   "at": [
+    "bicycles",
+    1,
+    -60
+   ],
+   "pose": null,
+   "face": null,
+   "cls": []
+  },
+  {
+   "t": 2.76,
+   "who": "boy",
+   "at": [
+    "bicycles",
+    1,
+    -60
+   ],
+   "pose": null,
+   "face": null,
+   "cls": []
+  },
+  {
+   "t": 3.33,
+   "who": "lou",
+   "at": 100,
+   "pose": "m:lift/C",
+   "face": "k:smirk",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 3.73,
+   "who": "carrier_tall",
+   "at": 112,
+   "pose": "m:idle/C",
+   "face": "k:sleepy",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 3.73,
+   "who": "carrier_short",
+   "at": 112,
+   "pose": "m:walk/C",
+   "face": "k:sleepy",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 3.73,
+   "who": "carrier_stocky",
+   "at": 112,
+   "pose": "m:walk/C",
+   "face": "k:sleepy",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 5.0,
+   "who": "lou",
+   "at": 150,
+   "pose": "m:walk/B",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 5.6,
+   "who": "farmer",
+   "at": [
+    "dead",
+    1
+   ],
+   "pose": "m:bike/C+props",
+   "face": "k:shocked",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 5.6,
+   "who": "boy",
+   "at": [
+    "dead",
+    1
+   ],
+   "pose": "m:bike/C+props",
+   "face": "k:surprised",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 6.44,
+   "who": "lou",
+   "at": [
+    "winks",
+    1
+   ],
+   "pose": "m:cheer/A",
+   "face": "k:slyWink",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 6.47,
+   "who": "lou",
+   "at": 194,
+   "pose": "m:idle/A",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 7.86,
+   "who": "boy",
+   "at": [
+    "strong",
+    1
+   ],
+   "pose": null,
+   "face": "k:excited",
+   "cls": []
+  },
+  {
+   "t": 8.5,
+   "who": "lou",
+   "at": [
+    "see",
+    1
+   ],
+   "pose": "m:run/C",
+   "face": "k:proud",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 9.47,
+   "who": "carrier_short",
+   "at": 284,
+   "pose": "m:idle/C",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 9.67,
+   "who": "lou",
+   "at": 290,
+   "pose": "m:push/B",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 10.57,
+   "who": "carrier_stocky",
+   "at": 317,
+   "pose": "m:idle/C",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 10.67,
+   "who": "lou",
+   "at": [
+    "painters",
+    1,
+    -2
+   ],
+   "pose": "m:write/A",
+   "face": "k:happy",
+   "cls": [
+    "LIBRARY",
+    "PLACE-CHANGE(hidden)"
+   ]
+  },
+  {
+   "t": 10.67,
+   "who": "carrier_short",
+   "at": [
+    "painters",
+    1,
+    -2
+   ],
+   "pose": "m:sweep/A",
+   "face": "k:concentrate",
+   "cls": [
+    "LIBRARY",
+    "PLACE-CHANGE(hidden)"
+   ]
+  },
+  {
+   "t": 10.67,
+   "who": "carrier_tall",
+   "at": [
+    "painters",
+    1,
+    -2
+   ],
+   "pose": "m:push/A",
+   "face": "k:concentrate",
+   "cls": [
+    "LIBRARY",
+    "PLACE-CHANGE(hidden)"
+   ]
+  },
+  {
+   "t": 13.42,
+   "who": "lou",
+   "at": [
+    "job",
+    1
+   ],
+   "pose": null,
+   "face": "k:smug",
+   "cls": []
+  },
+  {
+   "t": 16.28,
+   "who": "lou",
+   "at": [
+    "nobody",
+    1
+   ],
+   "pose": null,
+   "face": "k:wink",
+   "cls": []
+  },
+  {
+   "t": 17.02,
+   "who": "lou",
+   "at": [
+    "rule",
+    1
+   ],
+   "pose": "m:walk/B",
+   "face": "k:proud",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 17.99,
+   "who": "carrier_short",
+   "at": [
+    "close",
+    1,
+    -40
+   ],
+   "pose": "m:walk/C",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 20.73,
+   "who": "carrier_short",
+   "at": 622,
+   "pose": "m:sweep/B",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 21.17,
+   "who": "lou",
+   "at": 635,
+   "pose": "m:board/A",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 21.5,
+   "who": "lou",
+   "at": [
+    "army",
+    2
+   ],
+   "pose": "m:cheer/A",
+   "face": "k:cheer",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 26.43,
+   "who": "sound_op",
+   "at": [
+    "night",
+    1,
+    -4
+   ],
+   "pose": "m:idle/A",
+   "face": "k:concentrate",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 28.48,
+   "who": "sound_op",
+   "at": [
+    "hundred",
+    1,
+    -6
+   ],
+   "pose": "m:button/A",
+   "face": "k:smug",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 31.74,
+   "who": "sound_op",
+   "at": [
+    "speaker",
+    1
+   ],
+   "pose": null,
+   "face": "k:proud",
+   "cls": []
+  },
+  {
+   "t": 33.99,
+   "who": "radio_op",
+   "at": [
+    "radio",
+    1,
+    -4
+   ],
+   "pose": "m:write/A",
+   "face": "k:concentrate",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 36.64,
+   "who": "radio_op",
+   "at": [
+    "morse",
+    1
+   ],
+   "pose": "m:write/B",
+   "face": "k:frozenTongue",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 37.9,
+   "who": "radio_op",
+   "at": [
+    "signature",
+    1
+   ],
+   "pose": "m:write/A",
+   "face": "k:smug",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 38.71,
+   "who": "lou",
+   "at": [
+    "caf\u00e9",
+    1,
+    -4
+   ],
+   "pose": "m:whisper/A",
+   "face": "k:slyWink",
+   "cls": [
+    "LIBRARY",
+    "PLACE-CHANGE(hidden)"
+   ]
+  },
+  {
+   "t": 38.71,
+   "who": "waitress",
+   "at": [
+    "caf\u00e9",
+    1,
+    -4
+   ],
+   "pose": "m:carry/A",
+   "face": "k:annoyed",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 38.71,
+   "who": "spy",
+   "at": [
+    "caf\u00e9",
+    1,
+    -4
+   ],
+   "pose": "m:sit/C",
+   "face": "k:think",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 38.71,
+   "who": "sergeant",
+   "at": [
+    "caf\u00e9",
+    1,
+    -4
+   ],
+   "pose": "m:idle/B",
+   "face": "k:skeptical",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 40.08,
+   "who": "sergeant",
+   "at": [
+    "patches",
+    1
+   ],
+   "pose": null,
+   "face": "k:annoyed",
+   "cls": []
+  },
+  {
+   "t": 41.32,
+   "who": "lou",
+   "at": [
+    "secrets",
+    1
+   ],
+   "pose": null,
+   "face": "k:wink",
+   "cls": []
+  },
+  {
+   "t": 42.06,
+   "who": "waitress",
+   "at": [
+    "spies",
+    1
+   ],
+   "pose": "m:walk/A",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 42.06,
+   "who": "spy",
+   "at": [
+    "spies",
+    1
+   ],
+   "pose": null,
+   "face": "k:evil",
+   "cls": []
+  },
+  {
+   "t": 42.06,
+   "who": "sergeant",
+   "at": [
+    "spies",
+    1
+   ],
+   "pose": null,
+   "face": "k:browUp",
+   "cls": []
+  },
+  {
+   "t": 43.26,
+   "who": "spy",
+   "at": [
+    "laughs",
+    1
+   ],
+   "pose": null,
+   "face": "k:smug",
+   "cls": []
+  },
+  {
+   "t": 43.26,
+   "who": "sergeant",
+   "at": [
+    "laughs",
+    1
+   ],
+   "pose": "m:laugh/A",
+   "face": "k:laugh",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 44.1,
+   "who": "sergeant",
+   "at": [
+    "fight",
+    1
+   ],
+   "pose": null,
+   "face": "k:smug",
+   "cls": []
+  },
+  {
+   "t": 44.7,
+   "who": "spy",
+   "at": [
+    "carnival",
+    1
+   ],
+   "pose": null,
+   "face": "k:think",
+   "cls": []
+  },
+  {
+   "t": 44.7,
+   "who": "sergeant",
+   "at": [
+    "carnival",
+    1
+   ],
+   "pose": "m:laugh/B",
+   "face": "k:laugh",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 45.08,
+   "who": "sergeant",
+   "at": [
+    "balloons",
+    1
+   ],
+   "pose": "m:laugh/C",
+   "face": "k:laugh",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 45.5,
+   "who": "waitress",
+   "at": 1365,
+   "pose": "m:idle/C",
+   "face": null,
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 46.6,
+   "who": "sergeant",
+   "at": [
+    "river",
+    1,
+    -6
+   ],
+   "pose": "m:idle/B",
+   "face": "k:skeptical",
+   "cls": [
+    "LIBRARY",
+    "PLACE-CHANGE(hidden)"
+   ]
+  },
+  {
+   "t": 46.67,
+   "who": "lou",
+   "at": [
+    "river",
+    1,
+    -4
+   ],
+   "pose": "m:board/A",
+   "face": "k:concentrate",
+   "cls": [
+    "LIBRARY",
+    "PLACE-CHANGE(hidden)"
+   ]
+  },
+  {
+   "t": 50.76,
+   "who": "lou",
+   "at": [
+    "hundred",
+    2
+   ],
+   "pose": "m:thumbs/A",
+   "face": "k:proud",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 52.71,
+   "who": "interpreter",
+   "at": [
+    "photographs",
+    1,
+    -4
+   ],
+   "pose": "m:inspect/A",
+   "face": "k:smug",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 54.5,
+   "who": "interpreter",
+   "at": [
+    "spies",
+    2
+   ],
+   "pose": "m:button/A",
+   "face": "k:evil",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 57.9,
+   "who": "sergeant",
+   "at": [
+    "north",
+    1
+   ],
+   "pose": null,
+   "face": "k:think",
+   "cls": []
+  },
+  {
+   "t": 58.94,
+   "who": "sergeant",
+   "at": [
+    "crosses",
+    1
+   ],
+   "pose": null,
+   "face": "k:surprised",
+   "cls": []
+  },
+  {
+   "t": 60.52,
+   "who": "sergeant",
+   "at": [
+    "fired",
+    1
+   ],
+   "pose": "m:turn/A",
+   "face": "k:shocked",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 61.49,
+   "who": "boy",
+   "at": [
+    "pillow-under-the-blanket",
+    1,
+    -4
+   ],
+   "pose": "m:idle/A",
+   "face": "k:smirk",
+   "cls": [
+    "LIBRARY",
+    "PLACE-CHANGE(hidden)"
+   ]
+  },
+  {
+   "t": 65.02,
+   "who": "boy",
+   "at": [
+    "outside",
+    1
+   ],
+   "pose": "m:thumbs/A",
+   "face": "k:slyWink",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 66.45,
+   "who": "old_lou",
+   "at": [
+    "fooled",
+    1,
+    -4
+   ],
+   "pose": "m:idle/A",
+   "face": "k:think",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 66.45,
+   "who": "grandchild",
+   "at": [
+    "fooled",
+    1,
+    -4
+   ],
+   "pose": "m:inspect/B",
+   "face": "k:surprised",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 67.44,
+   "who": "old_lou",
+   "at": [
+    "families",
+    1
+   ],
+   "pose": null,
+   "face": "k:smirk",
+   "cls": []
+  },
+  {
+   "t": 68.98,
+   "who": "grandchild",
+   "at": [
+    "years",
+    1,
+    -30
+   ],
+   "pose": "m:lift/A",
+   "face": "k:excited",
+   "cls": [
+    "LIBRARY"
+   ]
+  },
+  {
+   "t": 69.98,
+   "who": "old_lou",
+   "at": [
+    "years",
+    1
+   ],
+   "pose": "m:whisper/A",
+   "face": "k:slyWink",
+   "cls": [
+    "LIBRARY"
+   ]
+  }
+ ],
+ "overlaps": []
+}

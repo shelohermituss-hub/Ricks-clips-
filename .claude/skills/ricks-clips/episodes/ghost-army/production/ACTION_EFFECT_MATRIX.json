@@ -1,0 +1,224 @@
+{
+ "schema_version": "1.0",
+ "episode": "ghost-army",
+ "template": "production/config/action_effect_matrix.json",
+ "events": [
+  {
+   "action": "character_lifts_object",
+   "shot": "t_hook f0-103",
+   "at": "0.0-3.4 s",
+   "anticipation": [
+    "lift/A bored hold, knees give"
+   ],
+   "animation": [
+    "lift/B set-down dip"
+   ],
+   "interaction": [
+    "tank rests on raised hands"
+   ],
+   "vfx": [],
+   "aftermath": [
+    "tank on the ground, lifters idle/walk off"
+   ],
+   "audio": [
+    "tank_set_down_rubber_thump"
+   ],
+   "evidence": [
+    "production/evidence/pi_test_shot_clip_f72-129.jpg"
+   ],
+   "status": "PASS",
+   "audio_sync": "PASS"
+  },
+  {
+   "action": "pat_like_luggage",
+   "shot": "t_hook f100",
+   "at": "3.43 s 'suitcase'",
+   "anticipation": [
+    "walk/B to the hull"
+   ],
+   "animation": [
+    "lift/C two pats"
+   ],
+   "interaction": [
+    "hull dents and pops back (set event dent)"
+   ],
+   "vfx": [],
+   "aftermath": [
+    "dent recovers"
+   ],
+   "audio": [
+    "pat_dent_boing"
+   ],
+   "evidence": [
+    "production/evidence/pi_test_shot_clip_f72-129.jpg"
+   ],
+   "status": "PASS",
+   "audio_sync": "PASS"
+  },
+  {
+   "action": "valve_deflate",
+   "shot": "t_hook f289",
+   "at": "9.62 s 'rubber'",
+   "anticipation": [
+    "run/C to the valve"
+   ],
+   "animation": [
+    "push/B"
+   ],
+   "interaction": [
+    "barrel droops, hull sags"
+   ],
+   "vfx": [
+    "steam fx"
+   ],
+   "aftermath": [
+    "tank stays sagged"
+   ],
+   "audio": [
+    "valve_air_whistle + sag"
+   ],
+   "evidence": [],
+   "status": "NOT_RUN"
+  },
+  {
+   "action": "bulldozer_draws_track_marks",
+   "shot": "t_camp",
+   "at": "25.8 s 'track'",
+   "anticipation": [],
+   "animation": [
+    "dozer drives toward camera"
+   ],
+   "interaction": [
+    "toothed beam on the ground"
+   ],
+   "vfx": [
+    "dust fx"
+   ],
+   "aftermath": [
+    "printed track marks"
+   ],
+   "audio": [
+    "dozer_engine + track rattle"
+   ],
+   "evidence": [],
+   "status": "WARN",
+   "notes": "Tracks are static strips, not drawn progressively behind the dozer."
+  },
+  {
+   "action": "speaker_plays_hundred_tanks",
+   "shot": "t_road",
+   "at": "28.7 s 'hundred'",
+   "anticipation": [
+    "button/A finger up"
+   ],
+   "animation": [
+    "disc spins"
+   ],
+   "interaction": [],
+   "vfx": [
+    "sound bands along the horn axis",
+    "ghost tank silhouettes"
+   ],
+   "aftermath": [],
+   "audio": [
+    "speaker: a hundred tanks"
+   ],
+   "evidence": [],
+   "status": "NOT_RUN"
+  },
+  {
+   "action": "decoys_inflate_wave",
+   "shot": "t_river",
+   "at": "50.8 s",
+   "anticipation": [],
+   "animation": [
+    "decoys scale up in sequence"
+   ],
+   "interaction": [],
+   "vfx": [],
+   "aftermath": [
+    "field of inflated decoys"
+   ],
+   "audio": [
+    "inflate_hiss x10"
+   ],
+   "evidence": [],
+   "status": "NOT_RUN"
+  },
+  {
+   "action": "fictional_impact_explosion",
+   "shot": "t_strike + crane",
+   "at": "55.97-58.4 s",
+   "anticipation": [
+    "shell whistle"
+   ],
+   "animation": [
+    "flash, expanding translucent fire envelope"
+   ],
+   "interaction": [
+    "burst point lights",
+    "decoys thrown and deflating"
+   ],
+   "vfx": [
+    "smoke puffs rising",
+    "earth debris thrown and falling back"
+   ],
+   "aftermath": [
+    "decoys lie deflated",
+    "smoke drifts"
+   ],
+   "audio": [
+    "shell_whistle + shell_impact x10"
+   ],
+   "evidence": [],
+   "status": "WARN",
+   "notes": "Inspected in frame crops 2026-11-17; scorch marks on the ground not implemented."
+  },
+  {
+   "action": "silent_crossing",
+   "shot": "t_strike crane -> t_cross",
+   "at": "58.9-61.5 s",
+   "anticipation": [],
+   "animation": [
+    "real tanks roll over the pontoons"
+   ],
+   "interaction": [
+    "ripples round boat and pontoons"
+   ],
+   "vfx": [],
+   "aftermath": [],
+   "audio": [
+    "paddle splashes, pontoon creak"
+   ],
+   "evidence": [],
+   "status": "WARN",
+   "notes": "Real tanks translate without track animation (vehicle_drive contract not met)."
+  },
+  {
+   "action": "skin_lift_attic",
+   "shot": "t_attic",
+   "at": "68.9 s",
+   "anticipation": [
+    "inspect/B over the trunk"
+   ],
+   "animation": [
+    "lift/A arms up"
+   ],
+   "interaction": [
+    "skin rises above her hands"
+   ],
+   "vfx": [
+    "light shaft and dust motes"
+   ],
+   "aftermath": [
+    "skin held up"
+   ],
+   "audio": [
+    "rubber_skin_unfold"
+   ],
+   "evidence": [],
+   "status": "WARN",
+   "notes": "Skin hovers just above the hands (not gripped)."
+  }
+ ]
+}

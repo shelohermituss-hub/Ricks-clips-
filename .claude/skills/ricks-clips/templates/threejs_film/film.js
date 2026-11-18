@@ -803,6 +803,23 @@ window.cardPNG = async (who, n, px = 2) => {
 // update() moves with their local position / rotation / scale / opacity on every frame of the place (three.js axes, Y up: the Blender side
 // converts like its glTF importer), exportHighlights lists every highlight with its meshes, colour, strength and bloom points per frame.
 const T2B = v => [+v.x.toFixed(4), +(-v.z).toFixed(4), +v.y.toFixed(4)];
+// PRODUCTION INTELLIGENCE (2026-11-18): an inventory of what each place really built, for gate B (no hero placeholders in the final).
+// One row per top-level object of the place scene: meshes, triangles, how many meshes are bare primitive generators
+// (box/sphere/cylinder/plane/circle/ring/torus/icosahedron/cone), how many materials carry texture maps, instancing.
+window.sceneInventory = (place) => {
+  const PRIM = /^(Box|Sphere|Cylinder|Plane|Circle|Ring|Torus|Icosahedron|Cone|Octahedron|Dodecahedron|Tetrahedron|Capsule)Geometry$/, rows = [];
+  const pl = R.places[place]; if (!pl) return null;
+  const tri = g => { if (!g) return 0; const n = g.index ? g.index.count : (g.attributes.position ? g.attributes.position.count : 0); return Math.round(n / 3); };
+  for (const top of pl.scene.children) {
+    if (top.isLight || top.isCamera || top.userData.noExport) continue; const r = { name: top.name || top.type, role: top.userData.role || '', meshes: 0, tris: 0, prim: 0, instanced: 0, textured: 0, mats: 0 };
+    const seen = new Set();
+    top.traverse(o => { if (!o.isMesh || o.userData.noExport) return; r.meshes++; const k = o.isInstancedMesh ? o.count : 1; r.tris += tri(o.geometry) * k; if (o.isInstancedMesh) r.instanced += o.count;
+      if (PRIM.test(o.geometry && o.geometry.type || '')) r.prim++;
+      for (const m of [].concat(o.material || [])) { if (seen.has(m)) continue; seen.add(m); r.mats++; if (m.map || m.normalMap || m.bumpMap || m.roughnessMap) r.textured++; } });
+    if (r.meshes) rows.push(r);
+  }
+  return { place, rows };
+};
 window.lockIds = (place) => { const pl = R.places[place]; let n = 0; pl.scene.traverse(o => { if (o.isLight || o.isCamera || o.isSprite || o.userData.noExport) return; o.userData.lock_id = ++n; }); return n; };
 window.exportMotion = (place) => {
   const pl = R.places[place], nodes = []; pl.scene.traverse(o => { if (o.userData.lock_id) nodes.push(o); });

@@ -1,0 +1,151 @@
+{
+ "schema_version": "1.0",
+ "episode": "ghost-army",
+ "assets": [
+  {
+   "asset_id": "ga-hero-inflatable-sherman",
+   "name": "Inflatable Sherman (hero decoy)",
+   "category": "hero",
+   "scene_name": "inflatable_sherman",
+   "place": "field",
+   "validation_status": "render_tested",
+   "notes": "Hero of the hook and the story. Asset Hub refused tank models (weapon/military category: respected, not bypassed). Procedural, 73 parts.",
+   "source": "procedural",
+   "license": "own work (procedural code in this repo)",
+   "source_url": "",
+   "creator": "RicksClips crew",
+   "file": "episodes/ghost-army/sets/ghost.js"
+  },
+  {
+   "asset_id": "ga-hero-real-tank",
+   "name": "Real tanks at the crossing",
+   "category": "hero",
+   "scene_name": "real_tank",
+   "place": "river",
+   "validation_status": "render_tested",
+   "notes": "Same procedural model, metal material.",
+   "source": "procedural",
+   "license": "own work (procedural code in this repo)",
+   "source_url": "",
+   "creator": "RicksClips crew",
+   "file": "episodes/ghost-army/sets/ghost.js"
+  },
+  {
+   "asset_id": "ga-hero-sound-halftrack",
+   "name": "Sound half-track with horn speaker",
+   "category": "hero",
+   "scene_name": "sound_halftrack",
+   "place": "road",
+   "validation_status": "render_tested",
+   "notes": "Lathe horn rebuilt 2026-11-17.",
+   "source": "procedural",
+   "license": "own work (procedural code in this repo)",
+   "source_url": "",
+   "creator": "RicksClips crew",
+   "file": "episodes/ghost-army/sets/ghost.js"
+  },
+  {
+   "asset_id": "ga-hero-bicycles-2d",
+   "name": "Farmer's and boy's bicycles",
+   "category": "hero",
+   "scene_name": null,
+   "place": "field",
+   "render_kind": "flat_2d_prop",
+   "source": "motion-library flat prop (m:bike/* +props)",
+   "license": "own work",
+   "source_url": "",
+   "creator": "RicksClips motion library",
+   "file": "templates/motion_styles/moves/act_bike.mjs",
+   "validation_status": "render_tested",
+   "notes": "Drawn by the 2D bike move. A real 3D bicycle exists (ga-ext-vintage-bicycle) but the 2D rig cannot ride a 3D bike."
+  },
+  {
+   "asset_id": "ga-ext-vintage-bicycle",
+   "name": "Vintage Bicycle (Sketchfab)",
+   "category": "secondary",
+   "scene_name": "vintage_bicycle",
+   "place": "field",
+   "source": "sketchfab",
+   "source_url": "https://sketchfab.com/3d-models/vintage-bicycle-1795f6e907634afda88fdaf45f67b279",
+   "creator": "VladNeko",
+   "license": "CC BY 4.0 (credit required)",
+   "file": "library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/glb/vintage_bicycle_1k.glb",
+   "format": "glb",
+   "sha256": "b16115618c2f1d4e6f2583688842c3fbf49e1c9d33c1b0200d148ab1d29999cc",
+   "textures": [
+    "baseColor+normal x7, JPEG 1k (converted from 4k PNG)"
+   ],
+   "episode_used": [
+    "_pi_test"
+   ],
+   "validation_status": "render_tested",
+   "notes": "49,483 tris. Render-tested 2026-11-18 in episodes/_pi_test (production/evidence/pi_test_external_asset_bicycle_f00104.png)."
+  },
+  {
+   "asset_id": "ga-hero-field-radio",
+   "name": "Field radio, Morse key, fist card",
+   "category": "hero",
+   "scene_name": "field_radio",
+   "place": "radio",
+   "validation_status": "render_tested",
+   "notes": "Box with dials: below hero detail.",
+   "source": "procedural",
+   "license": "own work (procedural code in this repo)",
+   "source_url": "",
+   "creator": "RicksClips crew",
+   "file": "episodes/ghost-army/sets/ghost.js"
+  },
+  {
+   "asset_id": "ga-hero-light-table",
+   "name": "Enemy light table and aerial photo",
+   "category": "hero",
+   "scene_name": "light_table",
+   "place": "photo",
+   "validation_status": "render_tested",
+   "source": "procedural",
+   "license": "own work (procedural code in this repo)",
+   "source_url": "",
+   "creator": "RicksClips crew",
+   "file": "episodes/ghost-army/sets/ghost.js"
+  },
+  {
+   "asset_id": "ga-hero-trunk-skin",
+   "name": "Attic trunk and deflated skin",
+   "category": "hero",
+   "scene_name": "deflated_skin",
+   "place": "attic",
+   "validation_status": "render_tested",
+   "source": "procedural",
+   "license": "own work (procedural code in this repo)",
+   "source_url": "",
+   "creator": "RicksClips crew",
+   "file": "episodes/ghost-army/sets/ghost.js"
+  },
+  {
+   "asset_id": "ga-sec-cargo-truck",
+   "name": "Cargo truck",
+   "category": "secondary",
+   "scene_name": "cargo_truck",
+   "place": "field",
+   "validation_status": "render_tested",
+   "source": "procedural",
+   "license": "own work (procedural code in this repo)",
+   "source_url": "",
+   "creator": "RicksClips crew",
+   "file": "episodes/ghost-army/sets/ghost.js"
+  },
+  {
+   "asset_id": "ga-sec-bulldozer",
+   "name": "Bulldozer with toothed beam",
+   "category": "secondary",
+   "scene_name": "bulldozer",
+   "place": "camp",
+   "validation_status": "render_tested",
+   "source": "procedural",
+   "license": "own work (procedural code in this repo)",
+   "source_url": "",
+   "creator": "RicksClips crew",
+   "file": "episodes/ghost-army/sets/ghost.js"
+  }
+ ]
+}

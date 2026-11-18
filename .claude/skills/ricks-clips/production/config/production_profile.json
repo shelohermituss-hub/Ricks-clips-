@@ -1,0 +1,54 @@
+{
+  "profile_name": "fortress_reference_quality",
+  "version": "1.0",
+  "target": {
+    "resolution": [1080, 1920],
+    "fps": 30,
+    "final_requires_native_resolution": true
+  },
+  "art_direction": {
+    "reference_name": "fortress_video_reference",
+    "require_reference_look_bible": true,
+    "preserve_approved_character_style": true,
+    "environment_detail_target": 4,
+    "no_hero_primitive_placeholders_in_final": true,
+    "three_depth_planes_required": true,
+    "pbr_materials_preferred": true
+  },
+  "assets": {
+    "search_local_first": true,
+    "providers_priority": ["BlenderKit", "Sketchfab", "Poly Haven", "ambientCG", "Fab", "other_supported_sources", "custom_blender_model"],
+    "require_license_and_provenance": true,
+    "require_renderer_import_test": true,
+    "paid_asset_requires_approval": true,
+    "hero_asset_requires_closeup_review": true
+  },
+  "animation": {
+    "action_contract_required": true,
+    "anticipation_action_follow_through_settle": true,
+    "check_foot_contacts": true,
+    "check_move_transitions": true,
+    "micro_animation_review": true,
+    "environmental_motion_review": true
+  },
+  "vfx": {
+    "action_effect_coverage_required": true,
+    "check_persistent_aftermath": true,
+    "check_audio_visual_sync": true,
+    "visual_only_fictional_effects": true
+  },
+  "quality": {
+    "required_statuses": ["PASS", "WARN", "FAIL", "NOT_RUN"],
+    "not_run_is_not_pass": true,
+    "require_continuous_motion_inspection": true,
+    "require_before_after_for_fixes": true,
+    "require_final_visual_and_audio_review": true
+  },
+  "memory": {
+    "global_lessons_path": "memory/lessons_learned.json",
+    "asset_registry_path": "memory/asset_registry.json",
+    "episode_memory_required": true,
+    "promote_only_after_validation": true,
+    "preserve_history": true
+  }
+}

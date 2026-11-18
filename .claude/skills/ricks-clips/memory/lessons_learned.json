@@ -1,0 +1,169 @@
+{
+ "schema_version": "1.0",
+ "description": "Validated reusable production lessons only. Do not store unverified assumptions as lessons.",
+ "lessons": [
+  {
+   "id": "PI-001",
+   "date": "2026-11-17",
+   "episode": "ghost-army",
+   "shot_timecode": "whole film",
+   "severity": "blocker",
+   "problem": "Characters animated with static kit poses (40/64 acts), planner 2-frame walks and glides: mechanical, rigid, sliding.",
+   "root_cause": "acts authored with blocking poses (stand, knock, hold_up...) and walk=True; film.json had no tween, so poses snapped; motion polish (breath/blink) only runs on library moves",
+   "fix": "every act is a registered m:<id> library move; position changes use m:walk/run/bike with linear travel at real speeds; tween {ones:true, face_frames:0, move_blend:6}; new moves are registered in templates/motion_styles/library.mjs; gate D runs tools/anim_audit.py",
+   "files_changed": [
+    "tools/anim_audit.py",
+    "templates/motion_styles/moves/act_lift.mjs",
+    "templates/motion_styles/library.mjs",
+    "templates/threejs_film/puppets.mjs",
+    "templates/threejs_film/film.js",
+    "episodes/ghost-army/build/make_film.py"
+   ],
+   "verification": {
+    "tests": [
+     "tools/tests/test_production_intelligence.py :: PI-001 anim_audit FAILs the v1 film",
+     "tools/tests/test_production_intelligence.py :: PI-001 anim_audit PASSes the current film"
+    ],
+    "before_after_evidence": [
+     "episodes/ghost-army/audit/ANIMATION_VFX_AUDIT.md",
+     "episodes/ghost-army/production/REVIEW/clip_00000_00150.jpg"
+    ],
+    "regression_check": "anim_audit on the v1 film.json (git c3937a0) reports STATIC 37 -> FAIL; current film PASS"
+   },
+   "status": "validated",
+   "history": [
+    "2026-11-18: tested -> validated"
+   ],
+   "promote_global": true
+  },
+  {
+   "id": "PI-002",
+   "date": "2026-11-17",
+   "episode": "ghost-army",
+   "shot_timecode": "00:56, 01:00",
+   "severity": "high",
+   "problem": "Effects silently disappeared (shell bursts, river moonlight, a fade) although node --check passed and the film rendered.",
+   "root_cause": "an inline // note written after code on a long one-line statement swallowed the rest of the line",
+   "fix": "inline notes use /* */; tools/lint_set_modules.py flags a // that follows code and is followed by code; gate E runs it on every episode set module",
+   "files_changed": [
+    "tools/lint_set_modules.py",
+    "tools/tests/fixtures/swallowed_comment.js"
+   ],
+   "verification": {
+    "tests": [
+     "tools/tests/test_production_intelligence.py :: PI-002 lint catches swallowed code (fixture)",
+     "tools/tests/test_production_intelligence.py :: PI-002 Ghost Army set module is clean"
+    ],
+    "before_after_evidence": [
+     "tools/tests/fixtures/swallowed_comment.js",
+     "episodes/ghost-army/sets/ghost.js"
+    ],
+    "regression_check": "the lint flags the bug in git history (commits 63d3a57, 6759b96) and 3/3 fixture lines, 0 false positives on the 2 clean fixture lines and on the current set"
+   },
+   "status": "validated",
+   "history": [
+    "2026-11-18: tested -> validated"
+   ],
+   "promote_global": true
+  },
+  {
+   "id": "PI-003",
+   "date": "2026-11-18",
+   "episode": "ghost-army",
+   "shot_timecode": "00:10.6 (camp), 01:01.5 (bedroom)",
+   "severity": "high",
+   "problem": "A character entering a new place slid for 0.5 s from its old coordinates after the cut, and the place switched one frame before the position (a 1-frame pop).",
+   "root_cause": "film_plan baked a place-entering act as a normal move (default move_s 0.5) keyed one frame after the body/place key",
+   "fix": "film_plan.py: an act that enters another place lands on the same frame as the place switch (_land), no move",
+   "files_changed": [
+    "tools/film_plan.py"
+   ],
+   "verification": {
+    "tests": [
+     "tools/tests/test_production_intelligence.py :: PI-003 entering a place never slides"
+    ],
+    "before_after_evidence": [
+     "tools/tests/test_production_intelligence.py",
+     "episodes/ghost-army/production/REVIEW/clip_02040_02136.jpg"
+    ],
+    "regression_check": "the test strips every move_s from place-entering acts and bakes: before the fix 4.52 m one-frame pop (lou f319) and 0.5 s slides; after 0.00 m"
+   },
+   "status": "validated",
+   "history": [
+    "2026-11-18: tested -> validated"
+   ],
+   "promote_global": true
+  },
+  {
+   "id": "PI-004",
+   "date": "2026-11-17",
+   "episode": "ghost-army",
+   "severity": "medium",
+   "problem": "Framing gates (head cut, figure size) measured figures that are not in the shot's place.",
+   "root_cause": "the plan checker's framing loop ignored st.place while the renderer hides off-place figures",
+   "fix": "film_plan.py framing loop skips a figure whose place differs from the camera's place",
+   "files_changed": [
+    "tools/film_plan.py"
+   ],
+   "verification": {
+    "tests": [
+     "tools/film_plan.py check episodes/ghost-army/film.json"
+    ],
+    "before_after_evidence": [
+     "episodes/ghost-army/out/plan/plan_report.md"
+    ],
+    "regression_check": ""
+   },
+   "status": "tested"
+  },
+  {
+   "id": "PI-005",
+   "date": "2026-11-17",
+   "episode": "ghost-army",
+   "shot_timecode": "00:58-01:01",
+   "severity": "medium",
+   "problem": "A wide white haze over the night river.",
+   "root_cause": "the moon key light glinted on the reflective water toward the camera and the bloom spread it (found by zeroing light groups one by one)",
+   "fix": "night key light placed on the camera side; water specularIntensity lowered; reflection kept through the env map",
+   "files_changed": [
+    "episodes/ghost-army/sets/ghost.js"
+   ],
+   "verification": {
+    "tests": [],
+    "before_after_evidence": [],
+    "regression_check": ""
+   },
+   "status": "tested",
+   "notes": "scene-specific; promote only when seen in a second film"
+  },
+  {
+   "id": "PI-006",
+   "date": "2026-11-18",
+   "episode": "ghost-army",
+   "shot_timecode": "00:00-00:03",
+   "severity": "high",
+   "problem": "Characters placed inside a hero object's footprint (lifters inside the hull) and the object floating above their hands.",
+   "root_cause": "positions chosen by eye in plan space without the object's measured footprint and contact height",
+   "fix": "compute the object's footprint in plan space (rotation included) and stage contacts on its sides; check with tools/frame_checks/check.mjs body_in_mesh",
+   "files_changed": [
+    "episodes/ghost-army/build/make_film.py",
+    "episodes/ghost-army/sets/ghost.js"
+   ],
+   "verification": {
+    "tests": [
+     "node tools/frame_checks/check.mjs episodes/ghost-army/film.json (0 body_in_mesh FAIL in the hook)"
+    ],
+    "before_after_evidence": [
+     "episodes/ghost-army/production/REVIEW/clip_00000_00150.jpg",
+     "production/evidence/pi_test_shot_clip_f72-129.jpg"
+    ],
+    "regression_check": "frame checks report the old staging as body_in_mesh FAIL (tank_track) and the new one clean"
+   },
+   "status": "validated",
+   "history": [
+    "2026-11-18: tested -> validated"
+   ],
+   "promote_global": true
+  }
+ ]
+}

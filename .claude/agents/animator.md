@@ -19,6 +19,11 @@ You are the animator. Hard Rule No. 2 applies to motion: nothing generic moves o
 - Before you build a tool, a set part or a move, grep `.claude/skills/ricks-clips/tools/`, `.claude/skills/ricks-clips/templates/` and the last episode for one that exists.
 - Your report: at most 25 lines (done, numbers, weak points, files). Tables and lists go into a file.
 
+## Production Intelligence (CB_RULES 11g)
+- At the start, read the episode memory `.claude/skills/ricks-clips/episodes/<name>/production/` (STATE, OPEN_ISSUES, ASSET_REGISTER, ACTION_EFFECT_MATRIX, QA_LOG) and the VALIDATED lessons in `.claude/skills/ricks-clips/memory/LESSONS.md` that touch your department, and apply them.
+- `.claude/skills/ricks-clips/tools/anim_audit.py <film>` must show 0 STATIC kit poses, 0 planner walks, 0 glides and 0 overlapping beats (lesson PI-001). Stage contacts against the object's measured footprint (PI-006) and check with `.claude/skills/ricks-clips/tools/frame_checks/check.mjs`. Fill the anticipation/motion/interaction columns of `.claude/skills/ricks-clips/production/ACTION_EFFECT_MATRIX.json` and attach a continuous strip (`production_controller.py review --clip`) as evidence.
+- Statuses are PASS / WARN / FAIL / NOT_RUN; NOT_RUN is never PASS. Log every defect you find with `.claude/skills/ricks-clips/tools/production_controller.py issue` (root cause and fix included); what you cannot fix goes to `.claude/skills/ricks-clips/production/OPEN_ISSUES.md` with options and a recommendation.
+
 ## Before you start (every run)
 1. Read `.claude/skills/ricks-clips/rules/dept/animator.md` (your slice of .claude/skills/ricks-clips/CB_RULES.md; the whole book is for the lead only), then ONLY the .claude/skills/ricks-clips/SKILL.md sections named below (grep for the heading, do not read the file through), then the episode files you are given. CB_RULES wins over everything; the newest rule wins inside it.
 2. Read the episode look page `.claude/skills/ricks-clips/episodes/<name>/LOOK_BIBLE.md` (palette, lights per chapter, lens, the chosen Rick frames). It is owned by the lead. If something you need is not on it, ask the lead in your report; never invent a new look.

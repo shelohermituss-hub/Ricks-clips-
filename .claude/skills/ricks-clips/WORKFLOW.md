@@ -2,6 +2,8 @@
 
 # Ricks Clips workflow
 
+> **Production Intelligence (2026-11-18):** the controller, quality gates and lesson memory of CB_RULES section 11g wrap every step below. See `production/README.md`.
+
 The main pipeline for every Ricks Clips style video, whatever the story, place, era or time of day. The binding version is "THE PIPELINE" in [SKILL.md](SKILL.md) (audit 2026-11-09); this page says the same thing in plain words. Density numbers: [DENSITY_RULES.md](DENSITY_RULES.md). Camera and action shots: [CINEMATOGRAPHY.md](CINEMATOGRAPHY.md).
 
 ## How to work (full text: SKILL.md, WORKING RULES)

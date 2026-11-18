@@ -119,6 +119,10 @@ if (has('--hands')) {   // kit_patch (animator): where each card's move hands ar
   for (let f = a; f <= b; f++) rows.push(await page.evaluate(([w, f]) => window.handWorld ? { ...window.handWorld(w, f), held3d: window.held3dWorld ? window.held3dWorld(w, f) : null } : null, [w, f]));
   fs.writeFileSync(path.join(OUT, 'plan', 'hands.json'), JSON.stringify(rows)); console.log('hands', rows.length, JSON.stringify(rows[Math.min(rows.length - 1, +val('--show', 0))]));
 }
+if (has('--inventory')) {   // Production Intelligence gate B: what each place really built (no frames rendered) -> out/plan/inventory.json
+  const inv = {}; for (const place of info.places) inv[place] = await page.evaluate(p => window.sceneInventory(p), place);
+  fs.writeFileSync(path.join(OUT, 'plan', 'inventory.json'), JSON.stringify(inv, null, 1)); console.log('inventory ->', path.join(OUT, 'plan', 'inventory.json'), Object.values(inv).reduce((a, p) => a + (p ? p.rows.length : 0), 0), 'objects');
+}
 if (has('--visibility')) {
   const vis = []; for (let f = 0; f < info.frames; f++) vis.push(await page.evaluate(f => window.visibility(f), f));
   fs.writeFileSync(path.join(OUT, 'plan', 'visibility.json'), JSON.stringify({ note: 'projection only, no occlusion test: x, y = fractions of the frame (0,0 top-left), h = height fraction', frames: vis }));
