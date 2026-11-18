@@ -36,7 +36,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
      webbing straps, lift loops, a sausage-segment gun. A fictional film prop. The procedural build below stays for the REAL tanks only. */
   const GLB = {};
   { const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js'), L = new GLTFLoader();
-    for (const k of ['inflatable_tank', 'inflatable_tank_lod']) GLB[k] = (await L.loadAsync(new URL('../assets/' + k + '.glb', import.meta.url).href)).scene; }
+    for (const k of ['inflatable_tank', 'inflatable_tank_lod', 'crawler_dozer']) GLB[k] = (await L.loadAsync(new URL('../assets/' + k + '.glb', import.meta.url).href)).scene; }
   const TRK = new THREE.MeshStandardMaterial({ name: 'rubber_canvas', color: '#34352e', roughness: .8, bumpMap: treadTex, bumpScale: 1.2 });
   const ray = new THREE.Raycaster();
   function inflatable(name, opts = {}) {
@@ -190,20 +190,15 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     for (const s of [-1, 1]) { p('truck_side', new THREE.BoxGeometry(4.6, .5, .08), WOOD, -.9, 1.55, s * 1.15); for (const x of [3.2, -.2, -1.6, -3.0]) p('truck_wheel', new THREE.CylinderGeometry(.5, .5, .35, 22), TYRE, x, .5, s * 1.0, { rx: Math.PI / 2 }); }
     return g;
   }
+  /* V3 (user request 2026-11-18): the bulldozer is a custom Blender model (library/assets/custom/crawler_dozer/build_crawler_dozer.py):
+     a 1940s crawler with real track chains, rollers, louvred hood, radiator, exhaust and air cleaner, open seat and levers, canopy,
+     cable-lift A-frame, curved blade, and the toothed beam dragged behind to draw fake tank tracks. Worn olive paint, metal with the sky env. */
   function bulldozer(name, at, rot = 0) {
     const g = new THREE.Group(); g.name = name; g.position.copy(V(...at)); g.rotation.y = rot; scene.add(g);
-    const Y = metal('iron', '#8a7a3a', { rough: .6 }), D = std('#2a2a26', { rough: .9 });
-    const p = (nm, geo, mat, x, y, z) => { const m = add(new THREE.Mesh(geo, mat), nm, 'metal', { parent: g }); m.position.set(x, y, z); return m; };
-    p('dozer_body', new THREE.BoxGeometry(2.4, 1.3, 1.8), Y, 0, 1.2, 0); p('dozer_cab', new THREE.BoxGeometry(1.0, 1.0, 1.4), Y, -.5, 2.3, 0); p('dozer_blade', new THREE.BoxGeometry(.15, 1.0, 2.6), D, 1.6, .6, 0);
-    for (const s of [-1, 1]) p('dozer_track', new THREE.BoxGeometry(2.8, .7, .5), D, 0, .35, s * 1.0);
-    // the toothed beam it drags: it draws two lines of track marks behind it
-    p('dozer_beam', new THREE.BoxGeometry(.25, .2, 2.4), D, -1.8, .15, 0);
-    for (let i = 0; i < 8; i++) p('dozer_beam_tooth', new THREE.BoxGeometry(.08, .22, .14), D, -1.8, .02, -1.05 + i * .3);   // the teeth that draw the tread marks
-    p('dozer_exhaust', new THREE.CylinderGeometry(.07, .07, 1.0, 10), D, .7, 2.3, .5); p('dozer_grille', new THREE.BoxGeometry(.05, .9, 1.4), D, 1.22, 1.25, 0);
-    for (let i = 0; i < 6; i++) p('dozer_grille_bar', new THREE.BoxGeometry(.06, .05, 1.3), Y, 1.25, .85 + i * .15, 0);
-    for (const s of [-1, 1]) { p('dozer_arm', new THREE.BoxGeometry(1.4, .14, .14), D, 1.0, .7, s * 1.15); for (let i = 0; i < 5; i++) p('dozer_roller', new THREE.CylinderGeometry(.2, .2, .1, 12), Y, -1.0 + i * .5, .3, s * 1.27).rotation.x = Math.PI / 2;
-      for (let i = 0; i < 14; i++) p('dozer_track_shoe', new THREE.BoxGeometry(.08, .06, .52), D, -1.3 + i * .2, .72, s * 1.0); }
-    p('dozer_seat', new THREE.BoxGeometry(.4, .1, .45), std('#3a2a1e'), -.6, 1.9, 0); p('dozer_roof', new THREE.BoxGeometry(1.2, .06, 1.6), Y, -.5, 2.85, 0);
+    const body = GLB.crawler_dozer.clone(true); body.name = name + '_model'; g.add(body);
+    const MAT = { paint: metal('iron', '#7d7440', { rough: .62, rust: .12 }), paint_worn: metal('iron', '#6a6236', { rough: .72, rust: .25 }), steel_dark: metal('iron', '#3a3a36', { rough: .5 }),
+      track: metal('iron', '#2c2b28', { rough: .7, rust: .3 }), exhaust: metal('iron', '#22201e', { rough: .6, rust: .4 }), rust: metal('iron', '#6a3e24', { rough: .85, rust: .8 }) };
+    body.traverse(o => { if (!o.isMesh) return; const m = MAT[o.material.name]; if (m) o.material = m; o.userData.role = 'metal'; o.userData.mat = 'painted_metal'; o.castShadow = true; o.receiveShadow = true; });
     return g;
   }
   // a printed track-mark strip on the ground (the fake tracks that fool the photos)
@@ -305,6 +300,12 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     for (const [x, y, h, s] of [[-14, 18, 9, 3], [8, 20, 11, 4], [22, 30, 10, 5], [-26, 34, 12, 6], [4, 46, 9, 7], [-40, 10, 10, 8], [30, 8, 9, 9]]) tree([x, y, 0], h, 'oak', s);
     for (const [x, y] of [[16, 10], [19, 6], [24, 11]]) tree([x, y, 0], 4.5, 'olive', Math.round(x));   // apple orchard stand-ins
     farmhouse([24, 34, 0], -.4); for (let i = 0; i < 6; i++) pole([-4.2, -10 + i * 22, 0]);
+    /* V3 (user request): the poles carry their wires - porcelain insulators on each crossarm and three sagging lines from pole to pole, running on past both ends */
+    { const INS = std('#e8e4da', { rough: .25 }), WIRE = std('#1c1c1a', { rough: .5 }), xs = [-.55, 0, .55], ys = [-32, -10, 12, 34, 56, 78, 100, 122];
+      for (let i = 0; i < 6; i++) for (const dx of xs) cyl('pole_insulator', 'glass', .045, .16, [-4.2 + dx, -10 + i * 22, 6.45], INS, { r2: .03 });
+      for (const dx of xs) for (let i = 0; i < ys.length - 1; i++) { const a = V(-4.2 + dx, ys[i], 6.6), c = V(-4.2 + dx, ys[i + 1], 6.6), pts = [];
+        for (let k = 0; k <= 24; k++) { const u = k / 24, q = a.clone().lerp(c, u); q.y -= .55 * 4 * u * (1 - u); pts.push(q); }
+        add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 48, .012, 5), WIRE), 'power_line', 'metal', { cast: false }); } }
     const offRoad = (x, y) => Math.abs(x + 7) < 2.8 || Math.hypot(x - 5, y + 3.6) < 4.5 || Math.hypot(x + 3.4, y + 6.6) < 3;   // the dirt road and the lens of the low hook camera stay clear
     const clearBand = (im) => { if (!im || !im.isInstancedMesh) return; const M4 = new THREE.Matrix4(), Z0 = new THREE.Matrix4().makeScale(0, 0, 0), q = new THREE.Vector3();
       for (let i = 0; i < im.count; i++) { im.getMatrixAt(i, M4); q.setFromMatrixPosition(M4); const x = im.position.x + q.x, y = -(im.position.z + q.z); if (offRoad(x, y)) im.setMatrixAt(i, Z0); } im.instanceMatrix.needsUpdate = true; };
