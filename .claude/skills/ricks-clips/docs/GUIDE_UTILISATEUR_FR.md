@@ -124,6 +124,7 @@ Chaque phase écrit ses contrôles et ses preuves dans `production/PIPELINE_STAT
    - le rendu par tranches avec `gpu_usage.csv` ;
    - l'encodage.
 4. Suivre : `pod.py status <id>` ; la page `status.json` publiée par le pod.
+   - **Claude Code Web.** Chaque pod a sa propre adresse `<id>-8000.proxy.runpod.net`. Il faut l'ajouter aux hôtes autorisés de l'environnement, sinon le proxy répond 403 et la récupération est impossible. Les jokers sont refusés : l'adresse exacte est demandée à chaque nouveau pod.
 5. Récupérer **puis** supprimer : `pod.py fetch <id>` vérifie le manifeste sha256, puis `pod.py delete <id>`. La suppression est refusée tant que la récupération n'est pas vérifiée.
 
 Le gestionnaire de rendu fonctionne aussi en local :
