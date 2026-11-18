@@ -3,7 +3,8 @@
 import bpy, sys, os, time, json
 a = sys.argv[sys.argv.index("--") + 1:]; place, preset, frame, engine, out = a[0], a[1], int(a[2]), a[3], a[4]; samples = int(a[5]) if len(a) > 5 else 64
 SK = os.environ["SKILL"]; sys.path.insert(0, os.path.join(SK, "templates")); from blender_look import from_lock as FL
-t0 = time.time(); K = FL.build(bpy.context.scene, os.environ["EP"], place=place, preset=preset, samples=samples, res=37.5, motion_blur=False); tb = time.time() - t0
+t0 = time.time(); K = FL.build(bpy.context.scene, os.environ["EP"], place=place, preset=preset, samples=samples, res=100, motion_blur=False); tb = time.time() - t0
+bpy.context.scene.render.resolution_x, bpy.context.scene.render.resolution_y = 540, 960
 sc = bpy.context.scene
 if engine == "CYCLES":
     p = bpy.context.preferences.addons["cycles"].preferences; p.compute_device_type = "OPTIX"; p.get_devices()

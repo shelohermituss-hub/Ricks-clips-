@@ -14,7 +14,7 @@ def step(name, fn):
     except Exception as e: LOG.append(dict(step=name, status="SKIPPED", error=repr(e)[:300])); print("STEP SKIPPED", name, repr(e)[:300]); traceback.print_exc()
 PRESET = dict(field="morning", cafe="interior", road="night")[PLACE]
 FRAMES = dict(field=[30, 150, 285], cafe=[1185, 1245, 1305], road=[800, 880, 960])[PLACE]
-t0 = time.time(); K = FL.build(bpy.context.scene, EP, place=PLACE, preset=PRESET, samples=SAMPLES, res=37.5, motion_blur=False)
+t0 = time.time(); K = FL.build(bpy.context.scene, EP, place=PLACE, preset=PRESET, samples=SAMPLES, res=100, motion_blur=False)
 LOG.append(dict(step="from_lock.build", status="APPLIED", result=dict(set_objects=len(K["set"]), cards=len(K["cards"]), keep_clear=len(K["keep_clear"])), s=round(time.time() - t0, 1)))
 KC = [(x, y, r) for x, y, r in K["keep_clear"]]
 ld.cycles(SAMPLES)
