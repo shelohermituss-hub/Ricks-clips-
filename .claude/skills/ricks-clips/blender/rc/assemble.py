@@ -119,7 +119,7 @@ def build(place_path, out_blend, upto=9, light=True):
         report["phases"].append(3)
     # ---- 4 CHARACTERS
     if upto >= 4 and P.get("characters") and sc.camera:
-        ch = P["characters"]; lock = os.path.join(root, ch["cards"]) if "cards" in ch else os.path.join(SKILL, P["episode"], ch["lock"])
+        ch = P["characters"]; lock = os.path.dirname(os.path.normpath(os.path.join(root, ch["cards"]))) if "cards" in ch else os.path.join(SKILL, P["episode"], ch["lock"])
         placed = characters.place_cards(sc, lock, ch["who"], sc.camera, ch.get("self_lit", .55), ground=ground)
         for pr in ch.get("props", []): characters.hold_prop(sc, placed[pr["who"]], _source(pr["asset"], cols), pr)
         report["characters"] = sorted(placed); report["phases"].append(4)

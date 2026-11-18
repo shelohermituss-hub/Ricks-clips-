@@ -85,12 +85,44 @@ def test_card_cache(tmp):
     same = all(open(os.path.join(tmp, "l1", "cards", "radio_op", f), "rb").read() == open(os.path.join(tmp, "l2", "cards", "radio_op", f), "rb").read() for f in os.listdir(os.path.join(tmp, "l1", "cards", "radio_op")) if f.endswith(".png"))
     t("cards: cached drawings are byte-identical to fresh ones", same)
 
+def test_modules():
+    """WP-3..8 modules on tiny scenes built inside Blender (blender/tests/wp_modules.py)"""
+    r = subprocess.run([BL, "-b", "--factory-startup", "--python-exit-code", "3", "--python", os.path.join(SKILL, "blender", "tests", "wp_modules.py")], capture_output=True, text=True, timeout=900)
+    L = [l[4:] for l in r.stdout.splitlines() if l.startswith("WPT ")]
+    if not L: t("modules: script ran", False, (r.stdout + r.stderr)[-600:]); return
+    W = json.loads(L[-1]); g = W["glass"]
+    t("glass: shards start at the pane, all land, none flies > 5 m", g["start_at_pane"] and g["on_ground"] and g["max_travel_m"] < 5, json.dumps(g))
+    t("collapse: a multi-part asset (overlapping latch) is one body, no explosion (< 1 m)", W["collapse"]["max_moved_m"] < 1.0, json.dumps(W["collapse"]))
+    d = W["deform"]; t("deform: vertices dented, object not moved", d["vertices"] > 0 and d["object_still"] and d["key_value_after"] == 1.0, json.dumps(d))
+    t("lookdev: compositor grade on the Blender 5 API (group + output)", W["grade"]["group"] and W["grade"]["has_output"], json.dumps(W["grade"]))
+    pe = W["penetration"]; t("qa: ground penetration gate measures a 20 cm sink", abs(pe["max_depth_m"] - .2) < .02 and pe["over_5cm"], json.dumps(pe))
+    t("vfx: sparks + stylised explosion build objects", W["vfx"]["sparks"] > 0 and W["vfx"]["explosion"] > 0, json.dumps(W["vfx"]))
+
+def test_place_schema():
+    from rc import place
+    P = json.load(open(os.path.join(SKILL, "demos", "farmyard", "places", "farmyard", "place.json"))); errs = place.validate(P)
+    t("place v3: the farmyard demo validates", not errs, "; ".join(errs[:3]))
+    bad = dict(P, physics=[{"type": "explode_everything"}], shots=[{"name": "x"}]); e2 = place.validate(bad)
+    t("place v3: an unknown event and a shot without frames are rejected", len(e2) >= 2, "; ".join(e2[:3]))
+
+def test_sound(tmp):
+    vpy = os.path.join(SKILL, ".venv", "bin", "python")
+    if not os.path.exists(vpy): t("sound: .venv python present", False, "NOT_RUN: no .venv"); return
+    P = {"fps": 30, "frames": [0, 89], "physics": [{"type": "crash", "name": "c"}], "fx": [{"type": "sparks", "name": "s", "frame": 40}], "animation": [{"type": "hinge", "open": 20}]}
+    json.dump(P, open(os.path.join(tmp, "p.json"), "w")); json.dump({"physics": [{"release": 30}]}, open(os.path.join(tmp, "r.json"), "w"))
+    r = subprocess.run([vpy, "-m", "rc.sound", os.path.join(tmp, "p.json"), os.path.join(tmp, "r.json"), os.path.join(tmp, "s.wav")], cwd=os.path.join(SKILL, "blender"), capture_output=True, text=True)
+    ok = r.returncode == 0 and os.path.exists(os.path.join(tmp, "s.wav"))
+    if ok:
+        import wave
+        w = wave.open(os.path.join(tmp, "s.wav")); dur = w.getnframes() / w.getframerate(); ok = abs(dur - 3.0) < .05 and w.getnchannels() == 2
+    t("sound: event track built (3 s, stereo, crash + sparks + door)", ok, r.stdout[-300:] if ok else r.stderr[-400:])
+
 if __name__ == "__main__":
     tmp = tempfile.mkdtemp(prefix="rc_test_")
     try:
         test_cache(); test_library(); b = test_blender_scene(tmp)
         if b: test_determinism(b, tmp); test_gpu_required(b, tmp); test_scene_gates(b, tmp)
-        test_physics(tmp)
+        test_physics(tmp); test_modules(); test_place_schema(); test_sound(tmp)
         if "--no-cards" not in sys.argv: test_card_cache(tmp)
     finally: shutil.rmtree(tmp, ignore_errors=True)
     n = sum(ok for _, ok in RES); print("%d/%d PASS" % (n, len(RES))); sys.exit(0 if n == len(RES) else 1)

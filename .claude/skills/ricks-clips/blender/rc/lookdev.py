@@ -174,20 +174,27 @@ def light_rig(scene, light):
     return {"preset": light.get("preset", "day"), "view": vs.view_transform, "exposure": vs.exposure, "white_balance": vs.white_balance_temperature if vs.use_white_balance else None}
 
 def grade(scene, g):
-    """COMPOSITOR GRADE (same controls as grade/grade.py): saturation, lift/gamma/gain, vignette; done in Blender so every frame and every
-    slice gets the identical grade"""
-    scene.use_nodes = True; nt = scene.node_tree; N, L = nt.nodes, nt.links
-    rl = N.get("Render Layers") or N.new("CompositorNodeRLayers"); comp = N.get("Composite") or N.new("CompositorNodeComposite")
-    for l in list(comp.inputs[0].links): L.remove(l)
+    """COMPOSITOR GRADE (same controls as grade/grade.py): saturation, value, lift/gamma/gain, vignette; done in Blender so every frame and every
+    slice gets the identical grade. Blender 5 API: the compositor is a CompositorNodeTree node group set on scene.compositing_node_group,
+    ending in a Group Output (measured on 5.2.2: scene.node_tree no longer exists; Lift/Gamma/Gain are colour input sockets)."""
+    ng = bpy.data.node_groups.new("rc_grade", "CompositorNodeTree"); scene.compositing_node_group = ng; N, L = ng.nodes, ng.links
+    ng.interface.new_socket("Image", in_out="OUTPUT", socket_type="NodeSocketColor"); out = N.new("NodeGroupOutput")
+    rl = N.new("CompositorNodeRLayers"); rl.scene = scene
     hsv = N.new("CompositorNodeHueSat"); hsv.inputs["Saturation"].default_value = g.get("saturation", 1.0); hsv.inputs["Value"].default_value = g.get("value", 1.0)
-    cb = N.new("CompositorNodeColorBalance"); cb.correction_method = "LIFT_GAMMA_GAIN"
-    cb.lift = [g.get("lift", 1.0)] * 3; cb.gamma = [g.get("gamma", 1.0)] * 3; cb.gain = [g.get("gain", 1.0)] * 3
+    cb = N.new("CompositorNodeColorBalance"); cs = [i for i in cb.inputs if i.bl_idname == "NodeSocketColor"]   # Image, Lift, Gamma, Gain, ...
+    for sock, k in zip(cs[1:4], ("lift", "gamma", "gain")):
+        v = g.get(k, 1.0); sock.default_value = (*(v if isinstance(v, (list, tuple)) else [v] * 3), 1.0)
     L.new(rl.outputs["Image"], hsv.inputs["Image"]); L.new(hsv.outputs[0], cb.inputs["Image"]); last = cb.outputs[0]
     if g.get("vignette"):
-        ell = N.new("CompositorNodeEllipseMask"); ell.width, ell.height = .95, .95; bl = N.new("CompositorNodeBlur"); bl.filter_type = "FAST_GAUSS"; bl.use_relative = True; bl.factor_x = bl.factor_y = .25
-        L.new(ell.outputs[0], bl.inputs[0]); mx = N.new("CompositorNodeMixRGB"); mx.blend_type = "MULTIPLY"; L.new(last, mx.inputs[1]); mr = N.new("CompositorNodeMapRange")
-        mr.inputs[3].default_value, mr.inputs[4].default_value = 1 - g["vignette"], 1.0; L.new(bl.outputs[0], mr.inputs[0]); L.new(mr.outputs[0], mx.inputs[2]); last = mx.outputs[0]
-    L.new(last, comp.inputs[0])
+        ell = N.new("CompositorNodeEllipseMask"); ell.inputs["Size"].default_value = (.95, .95); ell.inputs["Value"].default_value = 1.0
+        bl = N.new("CompositorNodeBlur"); px = int(scene.render.resolution_x * scene.render.resolution_percentage / 100 * .2); bl.inputs["Size"].default_value = (px, px)
+        mr = N.new("ShaderNodeMapRange"); mr.inputs["To Min"].default_value = 1 - g["vignette"]; mr.inputs["To Max"].default_value = 1.0
+        mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs[0].default_value = 1.0
+        ca = [i for i in mx.inputs if i.bl_idname == "NodeSocketColor"]
+        L.new(ell.outputs[0], bl.inputs["Image"]); L.new(bl.outputs[0], mr.inputs["Value"]); L.new(last, ca[0]); L.new(mr.outputs[0], ca[1])
+        last = [o for o in mx.outputs if o.bl_idname == "NodeSocketColor"][0]
+    L.new(last, out.inputs[0]); scene.render.use_compositing = True
+    return ng
 
 def apply(rules, materials=None):
     rep, unmatched = {}, set()

@@ -83,3 +83,27 @@ def animation_keys(names):
         o = bpy.data.objects.get(nm); ad = o.animation_data if o else None
         out[nm] = {"exists": o is not None, "keyed": bool(ad and ad.action)}
     return out
+
+def ground_penetration(scene=None, prefixes=("RC_PHYSICS",), frames=None, terrain="terrain", max_verts=300):
+    """INTERACTION GATE: how deep any simulated piece sinks into the terrain. For each animated mesh of the physics collection, sampled vertices
+    are compared with the terrain height under each vertex (ray cast on the terrain only). Returns the worst depth per object (m) at the
+    worst sampled frame; a piece more than 5 cm under the ground is a visible defect."""
+    import bpy
+    from mathutils import Vector
+    sc = scene or bpy.context.scene; T = bpy.data.objects.get(terrain)
+    if T is None: return {"error": "no terrain"}
+    Ti = T.matrix_world.inverted(); down = Ti.to_3x3() @ Vector((0, 0, -1))
+    objs = [o for c in prefixes if c in bpy.data.collections for o in bpy.data.collections[c].all_objects
+            if o.type == "MESH" and o.animation_data and o.animation_data.action and not o.hide_render]
+    frames = frames or list(range(sc.frame_start, sc.frame_end + 1, 15)) + [sc.frame_end]; worst = {}
+    for f in frames:
+        sc.frame_set(f)
+        for o in objs:
+            vs = o.data.vertices; step = max(1, len(vs) // max_verts); M = o.matrix_world
+            for v in list(vs)[::step]:
+                p = M @ v.co; hit, gp, *_ = T.ray_cast(Ti @ Vector((p.x, p.y, 100)), down)
+                if not hit: continue
+                d = (T.matrix_world @ gp).z - p.z
+                if d > worst.get(o.name, (0, 0))[0]: worst[o.name] = (round(d, 3), f)
+    deep = {k: v for k, v in worst.items() if v[0] > .05}
+    return {"objects": len(objs), "max_depth_m": max([v[0] for v in worst.values()] or [0]), "over_5cm": deep}

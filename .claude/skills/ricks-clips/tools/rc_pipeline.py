@@ -89,13 +89,15 @@ class Run:
             if p["type"] == "deform": chk.append(("deform %s: vertices moved" % p.get("object"), p["deformed_vertices"] > 0, p["deformed_vertices"])); continue
             chk.append(("%s: pieces moved after release" % p["type"], p.get("pieces_moved", 0) > 0, {k: p.get(k) for k in ("pieces", "joints", "pieces_moved", "release")}))
             chk.append(("%s: nothing thrown absurdly far (< 12 m)" % p["type"], p.get("max_moved_m", 0) < 12, p.get("max_moved_m")))
-        return chk or [("physics events", False, "none")], [os.path.join(self.E, "scene_report.json")]
+        pen = self.Q.get("penetration", {}); chk.append(("no simulated piece sunk > 5 cm into the ground (vertex check every 15 frames)", not pen.get("over_5cm") and "error" not in pen, {"max_depth_m": pen.get("max_depth_m"), "over_5cm": pen.get("over_5cm")}))
+        return chk or [("physics events", False, "none")], [os.path.join(self.E, "scene_report.json"), os.path.join(self.E, "scene_qa.json")]
     def p7(self):
         cl = self.R.get("cloth", []); span = self.P["frames"][1] - self.P["frames"][0] + 1; winds = [s for s in self.P.get("scatter", []) if s.get("wind") or s.get("biome")]
         return [("cloth baked on every frame", bool(cl) and all(c["frames"] == span for c in cl), cl), ("wind on vegetation", bool(winds), len(winds))], [os.path.join(self.E, "scene_report.json")]
     def p8(self):
-        fx = self.R.get("fx_objects", {}); fr = self.R.get("fx_frames", {})
-        return [("every effect built", bool(fx) and all(v > 0 for v in fx.values()), fx), ("event-tied effects resolved to the impact frame", all((v or 0) > 0 for v in fr.values()), fr)], [os.path.join(self.E, "scene_report.json")]
+        fx = self.R.get("fx_objects", {}); fr = self.R.get("fx_frames", {}); tied = {e.get("name", e["type"]): fr.get(e.get("name", e["type"])) for e in self.P.get("fx", []) if isinstance(e.get("frame"), str)}
+        return [("every effect built", bool(fx) and all(v > 0 for v in fx.values()), fx),
+                ("event-tied effects (@event) resolved to the computed impact frame", all(isinstance(v, int) and v > 0 for v in tied.values()), tied)], [os.path.join(self.E, "scene_report.json")]
     def p9(self):
         cal = self.P.get("lookdev", {}).get("calibrate"); ev = []
         if cal:

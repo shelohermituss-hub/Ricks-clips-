@@ -18,6 +18,8 @@ def _col(scene, name):
     if c.name not in scene.collection.children: scene.collection.children.link(c)
     return c
 
+def _centre(o): return sum((o.matrix_world @ Vector(c) for c in o.bound_box), Vector()) / 8
+
 def realize(scene, asset_col, name, at, rot_z, col):
     """copy the asset's objects as real, independent objects at the placement (meshes copied: each piece may be cut)"""
     from mathutils import Matrix
@@ -27,6 +29,14 @@ def realize(scene, asset_col, name, at, rot_z, col):
         c = o.copy(); c.data = o.data.copy(); c.parent = None; c.matrix_world = M @ o.matrix_world; c.name = name + ":" + o.name.split(".")[0]
         col.objects.link(c); out.append(c)
     return out
+
+def join(parts, name):
+    """merge an asset's parts (body, lid, latch...) into ONE rigid body: small interpenetrating parts simulated separately explode apart
+    (measured 2026-11-18: crate latches thrown 33 m)"""
+    if len(parts) == 1: return parts[0]
+    main = max(parts, key=_volume)
+    with bpy.context.temp_override(active_object=main, object=main, selected_objects=parts, selected_editable_objects=parts): bpy.ops.object.join()
+    main.name = name; return main
 
 def fracture(ob, pieces, seed, col):
     """cut a mesh into `pieces` across its longest axis at seeded, slightly tilted planes; returns the pieces (the original is removed)"""
@@ -76,14 +86,17 @@ class Sim:
         if kind == "ACTIVE": r.mass = max(.05, mass)
         for g in range(20): r.collision_collections[g] = (g == group) or (kind == "PASSIVE" and g < 2)
         return r
-    def piece(self, o, release, density=None, group=0, shape="CONVEX_HULL", bounce=.12):
+    def piece(self, o, release, density=None, group=0, shape="CONVEX_HULL", bounce=.12, friction=.75, damping=None):
         m = o.data.materials[0].name.split(".")[0] if o.type == "MESH" and o.data.materials else "wood"
-        r = self.rb(o, "ACTIVE", _volume(o) * (density or DENS.get(m, 600)), shape=shape, group=group, bounce=bounce)
+        r = self.rb(o, "ACTIVE", _volume(o) * (density or DENS.get(m, 600)), shape=shape, group=group, bounce=bounce, friction=friction)
+        if damping is not None: r.linear_damping = r.angular_damping = damping
         if release > self.f0:
             r.kinematic = True; r.keyframe_insert("kinematic", frame=self.f0); r.kinematic = True; r.keyframe_insert("kinematic", frame=release - 1)
             r.kinematic = False; r.keyframe_insert("kinematic", frame=release)
         self.parts.append(o); return r
-    def collider(self, o, shape="MESH"): self.rb(o, "PASSIVE", shape=shape); self.passive.append(o)
+    def collider(self, o, shape="MESH"):
+        r = self.rb(o, "PASSIVE", shape=shape); self.passive.append(o)
+        if shape == "MESH": r.mesh_source = "FINAL"; r.collision_margin = .01      # a triangle-mesh ground is paper-thin: a small margin stops pieces pressed through it
     def striker(self, follow, box, name="striker"):
         """an animated box (in `follow`'s local metres) keyed from `follow` every frame (a parented rigid body is unreliable in Bullet)"""
         from mathutils import Matrix
@@ -142,7 +155,7 @@ class Sim:
         with bpy.context.temp_override(scene=sc): bpy.ops.rigidbody.world_remove()
         b = before if before is not None else self.f0; moved, far, track = 0, 0.0, {}
         for o in self.parts:
-            sc.frame_set(b); p0 = o.matrix_world.translation.copy(); sc.frame_set(self.f1); p1 = o.matrix_world.translation.copy(); d = (p1 - p0).length
+            sc.frame_set(b); p0 = _centre(o); sc.frame_set(self.f1); p1 = _centre(o); d = (p1 - p0).length   # world bbox centre (origins can sit anywhere)
             moved += d > .05; far = max(far, d)
             nm = o.name.split(":")[-1]
             if any(t in nm for t in track_names): track[nm] = {"before": [round(v, 2) for v in p0], "end": [round(v, 2) for v in p1], "moved_m": round(d, 2)}
@@ -160,7 +173,7 @@ def _scene_obj(name):
 
 def crash(scene, spec, asset_col, ground, striker_empty, log=print):
     """tier 3: a striker (vehicle) drives into a prepared, fractured target; released at the computed contact frame"""
-    f0, f1 = spec["frames"]; S = Sim(scene, f0, f1); parts = realize(scene, asset_col, spec.get("name", "target"), spec["at"], math.radians(spec.get("rot", 0)), S.col)
+    f0, f1 = spec["frames"]; S = Sim(scene, f0, f1, substeps=spec.get("substeps", 40)); parts = realize(scene, asset_col, spec.get("name", "target"), spec["at"], math.radians(spec.get("rot", 0)), S.col)
     for pre, fr in (spec.get("fracture") or {}).items():
         for o in [o for o in parts if o.name.split(":")[-1].startswith(pre)]:
             parts.remove(o); parts += fracture(o, fr.get("pieces", 3), fr.get("seed", spec.get("seed", 1)), S.col)
@@ -217,7 +230,7 @@ def glass_pieces(ob, cuts, seed, col):
     """a pane cut into shards by seeded random plane cuts in its own plane (Voronoi-like), real cut faces"""
     pieces = [ob]; R = random.Random(seed)
     for c in range(cuts):
-        nxt = []
+        nxt = []; bpy.context.view_layer.update()                      # new shards: matrix_world is stale until the depsgraph updates (shards were born at the origin)
         for p in pieces:
             lo, hi = _aabb(p); mid = Vector([R.uniform(lo[k] + (hi[k] - lo[k]) * .3, lo[k] + (hi[k] - lo[k]) * .7) for k in range(3)])
             a = R.uniform(0, math.pi); n = Vector((math.cos(a), 0, math.sin(a))) if (hi - lo).y < (hi - lo).x else Vector((0, math.cos(a), math.sin(a)))
@@ -246,14 +259,20 @@ def glass_shatter(scene, spec, src_fn, ground):
     for c in spec.get("colliders", []): S.collider(_scene_obj(c), "CONVEX_HULL")
     if spec.get("striker"): px = S.striker(_scene_obj(spec["striker"]["name"]), spec["striker"]["box"]); rel = S.contact_frame(px, shards)
     else: rel = spec["at_frame"]
-    for o in shards: S.piece(o, rel, density=2500, bounce=.25)
-    S.joints_between(shards, spec.get("strength", 4), tol=.01)
-    if spec.get("impulse"):                                               # a thrown stone: a small fast drop object aimed at the pane
+    for o in shards: S.piece(o, rel, density=2500, bounce=.2, friction=1.0, damping=.4)   # thin shards: high friction, they skid a little, not metres
+    if not spec.get("impulse"): S.joints_between(shards, spec.get("strength", 4), tol=.01)   # a striker cracks it progressively
+    if spec.get("impulse"):                                               # a thrown stone: glass is brittle, the pane breaks all at once on the hit                                               # a thrown stone: a small fast drop object aimed at the pane
         st = spec["impulse"]; bpy.ops.mesh.primitive_ico_sphere_add(radius=.05, location=st["from"]); stone = bpy.context.object; stone.name = "thrown_stone"
         for c in list(stone.users_collection): c.objects.unlink(stone)
         S.col.objects.link(stone); tgt = Vector(st["to"]) if isinstance(st["to"], list) else sum(((pane_copy.matrix_world @ Vector(c)) for c in pane_copy.bound_box), Vector()) / 8 if False else (Vector(st["to"]) if isinstance(st["to"], list) else _scene_obj(st["to"]).matrix_world @ (sum((Vector(c) for c in _scene_obj(st["to"]).bound_box), Vector()) / 8)); p0 = Vector(st["from"]); n = st.get("frames", 8)
         for k in range(n + 1): stone.location = p0.lerp(tgt, k / n); stone.keyframe_insert("location", frame=rel - n + k)
-        S.piece(stone, rel, density=2400)
+        v = (tgt - p0).normalized() * .03; p = tgt.copy(); dg = bpy.context.evaluated_depsgraph_get()   # after the hit: slowed, falls on keys (stays kinematic)
+        Gi = ground.matrix_world.inverted(); hit, gp, *_ = ground.ray_cast(Gi @ (tgt + Vector((0, 0, 50))), Gi.to_3x3() @ Vector((0, 0, -1)))   # the ground only
+        gz = ((ground.matrix_world @ gp).z if hit else tgt.z - 1.5) + .05; vz = 0.0
+        for k in range(1, 40):
+            vz -= 9.81 / 900; p = Vector((p.x + v.x, p.y + v.y, max(gz, p.z + vz))); v *= .3 if p.z <= gz else .95
+            stone.location = p; stone.keyframe_insert("location", frame=rel + k)
+        S.piece(stone, f1 + 1, density=2400)                                # kinematic for the whole simulation: it pushes the shards, nothing pushes it
     r = S.bake(("shed_glass",), before=rel - 1); r["release"] = rel; r["shards"] = len(shards); return r
 
 def door_break(scene, spec, src_fn, ground):
@@ -269,7 +288,7 @@ def collapse(scene, spec, src_fn, ground):
     """tier 3: a stack/structure of placed assets joined by breakable joints; a support is pulled out (keyed) or a striker hits it"""
     f0, f1 = spec["frames"]; S = Sim(scene, f0, f1); parts = []
     for i, it in enumerate(spec["items"]):
-        parts += realize(scene, src_fn(it["asset"]), "%s_%d" % (spec.get("name", "stack"), i), it["at"], math.radians(it.get("rot", 0)), S.col)
+        nm = "%s_%d" % (spec.get("name", "stack"), i); parts.append(join(realize(scene, src_fn(it["asset"]), nm, it["at"], math.radians(it.get("rot", 0)), S.col), nm + ":" + it["asset"]))
     for o in parts: _shrink(o, .995)
     S.collider(ground)
     if spec.get("striker"): px = S.striker(_scene_obj(spec["striker"]["name"]), spec["striker"]["box"]); rel = S.contact_frame(px, parts)
@@ -297,4 +316,6 @@ EVENTS = {"drop": drop, "topple": topple, "roll": roll, "glass_shatter": glass_s
 def run(scene, spec, src_fn, ground):
     if spec["type"] == "crash": r = crash(scene, spec, src_fn(spec["target_asset"]), ground, _scene_obj(spec["striker"]["name"]))
     else: r = EVENTS[spec["type"]](scene, spec, src_fn, ground)
-    r["type"] = spec["type"]; return r
+    r["type"] = spec["type"]
+    if r.get("release") is None and (spec.get("release") or spec.get("at_frame")): r["release"] = spec.get("release") or spec.get("at_frame")   # fx "@name" refs need it
+    return r

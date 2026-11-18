@@ -57,7 +57,7 @@ def _puffs(scene, name, at, frame, count, seed, life, color, rise, spread, size,
             k = max(0.0, (f - t0) / L); r = spread * sp * k ** .7; s_ = size * (.3 + 1.2 * k ** .5) * sp
             o.location = (at[0] + math.cos(a) * r + drift[0] * k, at[1] + math.sin(a) * r + drift[1] * k, at[2] + rise * k * sp); o.scale = (s_, s_, s_)
             o.keyframe_insert("location", frame=f); o.keyframe_insert("scale", frame=f); o.hide_render = f < t0 or k >= 1; o.keyframe_insert("hide_render", frame=f)
-            dn.default_value = density * (1 - k) ** 1.3 if f >= t0 else 0; dn.keyframe_insert("default_value", frame=f)
+            dn.default_value = density * (1 - min(k, 1.0)) ** 1.3 if f >= t0 else 0; dn.keyframe_insert("default_value", frame=f)
         n += 1
     return n
 

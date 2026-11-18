@@ -51,7 +51,7 @@ def main(a):
         print("RC_RESULT " + json.dumps({"white_balance": wb, "calibration": log, "exposure": sc.view_settings.exposure, "temperature": sc.view_settings.white_balance_temperature})); return
     if a[0] == "qa":                                            # qa <blend> <out.json> [--anim name,name]: character contact + animation keys
         from rc import qa
-        bpy.ops.wm.open_mainfile(filepath=a[1]); r = {"contact": qa.character_contact(), "stats": qa.scene_stats()}
+        bpy.ops.wm.open_mainfile(filepath=a[1]); r = {"contact": qa.character_contact(), "penetration": qa.ground_penetration(), "stats": qa.scene_stats()}
         if "--anim" in a: r["animation"] = qa.animation_keys(opt("--anim", "").split(","))
         json.dump(r, open(a[2], "w"), indent=1); print("RC_RESULT " + json.dumps({k: r[k] for k in r if k != "stats"})); return
     raise SystemExit("unknown rc command: %s" % a[0])
