@@ -1,0 +1,59 @@
+libEGL_nvidia=/lib/x86_64-linux-gnu/libEGL_nvidia.so.0 libGLX_nvidia=/lib/x86_64-linux-gnu/libGLX_nvidia.so.0
+/etc/vulkan/icd.d:
+total 4
+drwxr-xr-x 2 root   root     29 Nov 18 05:03 .
+drwxr-xr-x 5 root   root     83 Nov 18 05:04 ..
+-rw-r--r-- 1 nobody nogroup 140 Jul  7 12:00 nvidia_icd.json
+
+/usr/share/glvnd/egl_vendor.d:
+total 4
+drwxr-xr-x 2 root   root     36 Nov 18 05:03 .
+drwxr-xr-x 3 root   root     26 Nov 18 05:03 ..
+-rw-r--r-- 1 nobody nogroup 107 Jul  7 11:58 10_nvidia.json
+
+/usr/share/vulkan/icd.d:
+total 20
+drwxr-xr-x 2 root root 181 Nov 18 05:04 .
+drwxr-xr-x 5 root root  83 Nov 18 05:04 ..
+-rw-r--r-- 1 root root 169 May 13  2026 intel_hasvk_icd.x86_64.json
+-rw-r--r-- 1 root root 163 May 13  2026 intel_icd.x86_64.json
+-rw-r--r-- 1 root root 161 May 13  2026 lvp_icd.x86_64.json
+-rw-r--r-- 1 root root 164 May 13  2026 radeon_icd.x86_64.json
+-rw-r--r-- 1 root root 164 May 13  2026 virtio_icd.x86_64.json
+	libEGL_nvidia.so.0 (libc6,x86-64) => /lib/x86_64-linux-gnu/libEGL_nvidia.so.0
+	libGLESv1_CM_nvidia.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLESv1_CM_nvidia.so.1
+	libGLESv2_nvidia.so.2 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLESv2_nvidia.so.2
+	libGLX_nvidia.so.0 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLX_nvidia.so.0
+	libnvidia-allocator.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-allocator.so.1
+	libnvidia-cfg.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-cfg.so.1
+	libnvidia-egl-gbm.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-egl-gbm.so.1
+	libnvidia-egl-wayland.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-egl-wayland.so.1
+	libnvidia-eglcore.so.580.178.04 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-eglcore.so.580.178.04
+	libnvidia-encode.so (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-encode.so
+	libnvidia-encode.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-encode.so.1
+	libnvidia-fbc.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-fbc.so.1
+	libnvidia-glcore.so.580.178.04 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-glcore.so.580.178.04
+	libnvidia-glsi.so.580.178.04 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-glsi.so.580.178.04
+	libnvidia-glvkspirv.so.580.178.04 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-glvkspirv.so.580.178.04
+	libnvidia-gpucomp.so.580.178.04 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-gpucomp.so.580.178.04
+	libnvidia-ml.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-ml.so.1
+	libnvidia-ngx.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-ngx.so.1
+	libnvidia-nvvm.so.4 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-nvvm.so.4
+	libnvidia-opencl.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-opencl.so.1
+	libnvidia-opticalflow.so (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-opticalflow.so
+	libnvidia-opticalflow.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-opticalflow.so.1
+	libnvidia-pkcs11-openssl3.so.580.178.04 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-pkcs11-openssl3.so.580.178.04
+	libnvidia-present.so.580.178.04 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-present.so.580.178.04
+	libnvidia-ptxjitcompiler.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1
+	libnvidia-rtcore.so.580.178.04 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-rtcore.so.580.178.04
+	libnvidia-sandboxutils.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-sandboxutils.so.1
+	libnvidia-tls.so.580.178.04 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-tls.so.580.178.04
+	libnvidia-vksc-core.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-vksc-core.so.1
+	libvdpau_nvidia.so (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/vdpau/libvdpau_nvidia.so
+	libvdpau_nvidia.so.1 (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/vdpau/libvdpau_nvidia.so.1
+ERROR: [Loader Message] Code 0 : loader_scanned_icd_add: Could not get 'vkCreateInstance' via 'vk_icdGetInstanceProcAddr' for ICD libGLX_nvidia.so.0
+error: XDG_RUNTIME_DIR not set in the environment.
+error: XDG_RUNTIME_DIR not set in the environment.
+error: XDG_RUNTIME_DIR not set in the environment.
+error: XDG_RUNTIME_DIR not set in the environment.
+error: XDG_RUNTIME_DIR not set in the environment.

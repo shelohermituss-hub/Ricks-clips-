@@ -1,0 +1,31 @@
+render_gpu: film.js patch did not find its place: void main(){ vec3 c = texture2D(tC, vUv).rgb; float l = dot(
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] Failed to load resource: the server responded with a status of 404 (Not Found)
+[page] THREE.WebGLRenderer: A WebGL context could not be created. Reason:  Could not create a WebGL context, VENDOR = 0xffff, DEVICE = 0xffff, GL_VENDOR = Google Inc. (Mesa), GL_RENDERER = ANGLE (Mesa, Vulkan 1.3.255 (llvmpipe (LLVM 15.0.7 256 bits) (0x00000000)), llvmpipe-0.0.1), GL_VERSION = 0.0.1, Sandboxed = no, Optimus = no, AMD switchable = no, Reset notification strategy = 0x8252, ErrorMessage = BindToCurrentSequence failed: .
+[page] THREE.WebGLRenderer: A WebGL context could not be created. Reason:  Failed to create a WebGL2 context.
+[page] THREE.WebGLRenderer: A WebGL context could not be created. Reason:  Could not create a WebGL context, VENDOR = 0xffff, DEVICE = 0xffff, GL_VENDOR = Google Inc. (Mesa), GL_RENDERER = ANGLE (Mesa, Vulkan 1.3.255 (llvmpipe (LLVM 15.0.7 256 bits) (0x00000000)), llvmpipe-0.0.1), GL_VERSION = 0.0.1, Sandboxed = no, Optimus = no, AMD switchable = no, Reset notification strategy = 0x8252, ErrorMessage = BindToCurrentSequence failed: .
+[page] THREE.WebGLRenderer: A WebGL context could not be created. Reason:  Failed to create a WebGL2 context.
+[page] THREE.WebGLRenderer: Error creating WebGL context.
+node:internal/modules/run_main:122
+    triggerUncaughtException(
+    ^
+
+page.evaluate: Error: Error creating WebGL context.
+    at new Ql (http://127.0.0.1:43999/kit/vendor/three.module.js:6:432372)
+    at window.setup (http://127.0.0.1:43999/kit/film.js:325:20)
+    at async <anonymous>:260:30
+    at /root/repo/.claude/skills/ricks-clips/templates/threejs_film/render_gpu.mjs:82:25
+
+Node.js v22.11.0

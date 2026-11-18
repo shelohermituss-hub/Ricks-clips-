@@ -1,0 +1,9 @@
+field 156 gamma 0.5677 {'mean': 0.28, 'sat': 0.756, 'crushed': 0.0033, 'burned': 0.0012} -> {'mean': 0.44, 'sat': 0.592, 'crushed': 0.0012, 'burned': 0.0}
+camp 553 gamma 0.7169 {'mean': 0.356, 'sat': 0.666, 'crushed': 0.0108, 'burned': 0.0131} -> {'mean': 0.45, 'sat': 0.495, 'crushed': 0.0029, 'burned': 0.0}
+road 904 gamma 0.5326 {'mean': 0.111, 'sat': 0.845, 'crushed': 0.0706, 'burned': 0.0018} -> {'mean': 0.28, 'sat': 0.626, 'crushed': 0.0096, 'burned': 0.0}
+radio 1085 gamma 0.675 {'mean': 0.297, 'sat': 0.854, 'crushed': 0.0025, 'burned': 0.0023} -> {'mean': 0.4, 'sat': 0.556, 'crushed': 0.0022, 'burned': 0.0}
+cafe 1278 gamma 1.0361 {'mean': 0.469, 'sat': 0.706, 'crushed': 0.0056, 'burned': 0.0016} -> {'mean': 0.44, 'sat': 0.485, 'crushed': 0.0043, 'burned': 0.0}
+river 1575 gamma 0.7622 {'mean': 0.215, 'sat': 0.59, 'crushed': 0.0146, 'burned': 0.0029} -> {'mean': 0.29, 'sat': 0.431, 'crushed': 0.0027, 'burned': 0.0}
+photo 1623 gamma 0.7668 {'mean': 0.273, 'sat': 0.362, 'crushed': 0.0374, 'burned': 0.0021} -> {'mean': 0.34, 'sat': 0.303, 'crushed': 0.018, 'burned': 0.0}
+bedroom 1919 gamma 0.9329 {'mean': 0.311, 'sat': 0.326, 'crushed': 0.0054, 'burned': 0.0021} -> {'mean': 0.32, 'sat': 0.304, 'crushed': 0.002, 'burned': 0.0}
+attic 2065 gamma 0.6615 {'mean': 0.258, 'sat': 0.796, 'crushed': 0.0087, 'burned': 0.0018} -> {'mean': 0.38, 'sat': 0.524, 'crushed': 0.0017, 'burned': 0.0}

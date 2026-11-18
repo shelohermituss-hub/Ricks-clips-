@@ -1,0 +1,74 @@
+{
+ "src": "/root/frames",
+ "dst": "/root/fj",
+ "joins": [
+  {
+   "take": "t_camp",
+   "at": 313,
+   "kind": "dissolve",
+   "frames": 4,
+   "why": "push-through from the deflating valve into the camp"
+  },
+  {
+   "take": "t_road",
+   "at": 793,
+   "kind": "dissolve",
+   "frames": 6,
+   "why": "day to night: a slower blend marks the time jump"
+  },
+  {
+   "take": "t_radio",
+   "at": 1015,
+   "kind": "dissolve",
+   "frames": 3,
+   "why": "push into the horn, push out of the radio: the sound carries the join"
+  },
+  {
+   "take": "t_cafe",
+   "at": 1156,
+   "kind": "dissolve",
+   "frames": 4,
+   "why": "push-through from the radio to the cafe"
+  },
+  {
+   "take": "t_sergeant",
+   "at": 1284,
+   "kind": "cut",
+   "why": "deliberate comic cut on \"sergeant\" (v1 note 3: the travel cut Lou by the edge); same room"
+  },
+  {
+   "take": "t_river",
+   "at": 1400,
+   "kind": "dissolve",
+   "frames": 5,
+   "why": "cafe to the river at night"
+  },
+  {
+   "take": "t_photo",
+   "at": 1576,
+   "kind": "dissolve",
+   "frames": 3,
+   "why": "push-through: the decoy field becomes the enemy photograph"
+  },
+  {
+   "take": "t_strike",
+   "at": 1670,
+   "kind": "cut",
+   "why": "deliberate shock cut: \"every gun\" lands on the shelling"
+  },
+  {
+   "take": "t_bed",
+   "at": 1845,
+   "kind": "dissolve",
+   "frames": 6,
+   "why": "place and mood change: the shelling to the quiet bedroom"
+  },
+  {
+   "take": "t_attic",
+   "at": 1993,
+   "kind": "dissolve",
+   "frames": 6,
+   "why": "decades later: the time jump to the attic"
+  }
+ ]
+}

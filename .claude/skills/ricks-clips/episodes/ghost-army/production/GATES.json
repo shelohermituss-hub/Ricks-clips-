@@ -1,6 +1,6 @@
 {
  "episode": "ghost-army",
- "phase": "preview",
+ "phase": "final",
  "date": "2026-11-18",
  "results": [
   {
@@ -36,7 +36,7 @@
   {
    "gate": "B_ASSETS",
    "check": "hero_assets_not_placeholder",
-   "status": "WARN",
+   "status": "FAIL",
    "evidence": "Real tanks at the crossing: 73 parts, 5712 tris, 96% primitive generators, 72 textured mats -> primitive assembly / below hero detail; Farmer's and boy's bicycles: flat 2D library prop, not a 3D asset; Inflatable Sherman (hero decoy): 35 parts, 85548 tris, 6% primitive generators, 6 textured mats [modelled asset]; Sound half-track with horn speaker: 22 parts, 17460 tris, 59% primitive generators, 7 textured mats [modelled asset]; Field radio, Morse key, fist card: 8 parts, 2776 tris, 0% primitive generators, 3 textured mats [modelled asset]; Enemy light table and aerial photo: 6 parts, 2172 tris, 0% primitive generators, 0 textured mats [modelled asset]; Attic trunk and deflated skin: 35 parts, 85548 tris, 6% primitive generators, 6 textured mats"
   },
   {
@@ -60,7 +60,7 @@
   {
    "gate": "C_ENVIRONMENTS",
    "check": "detail_score_minimum_3",
-   "status": "WARN",
+   "status": "FAIL",
    "evidence": "below 3: field.geometry=2, camp.geometry=2, radio.geometry=2, radio.depth=2, photo.geometry=2, photo.depth=2, river.geometry=2; 9/9 places scored"
   },
   {
@@ -120,7 +120,7 @@
   {
    "gate": "E_VFX_AUDIO",
    "check": "required_effects_rendered",
-   "status": "WARN",
+   "status": "FAIL",
    "evidence": "2/9 events with rendered evidence"
   },
   {
@@ -162,8 +162,8 @@
   {
    "gate": "F_PREVIEW_REVIEW",
    "check": "reference_standard_compared",
-   "status": "WARN",
-   "evidence": "ghost_army_preview_v2_graded.mp4 (2026-11-18): FAIL ['edge_detail', 'saturation', 'saturation_seconds_over_max', 'motion_median_x1000', 'peaks_per_10s']; WARN ['hard_cuts']"
+   "status": "FAIL",
+   "evidence": "ghost_army_preview_v3_graded.mp4 (2026-11-18): FAIL ['edge_detail', 'saturation_seconds_over_max', 'motion_median_x1000', 'peaks_per_10s']; WARN ['hard_cuts']"
   },
   {
    "gate": "F_PREVIEW_REVIEW",
@@ -174,38 +174,38 @@
   {
    "gate": "G_FINAL_DELIVERY",
    "check": "no_hero_placeholders",
-   "status": "NOT_RUN",
-   "evidence": "final phase only"
+   "status": "FAIL",
+   "evidence": "Real tanks at the crossing: 73 parts, 5712 tris, 96% primitive generators, 72 textured mats -> primitive assembly / below hero detail; Farmer's and boy's bicycles: flat 2D library prop, not a 3D asset; Inflatable Sherman (hero decoy): 35 parts, 85548 tris, 6% primitive generators, 6 textured mats [modelled asset]; Sound half-track with horn speaker: 22 parts, 17460 tris, 59% primitive generators, 7 textured mats [modelled asset]; Field radio, Morse key, fist card: 8 parts, 2776 tris, 0% primitive generators, 3 textured mats [modelled asset]; Enemy light table and aerial photo: 6 parts, 2172 tris, 0% primitive generators, 0 textured mats [modelled asset]; Attic trunk and deflated skin: 35 parts, 85548 tris, 6% primitive generators, 6 textured mats"
   },
   {
    "gate": "G_FINAL_DELIVERY",
    "check": "grade_applied_to_all_shots",
-   "status": "NOT_RUN",
-   "evidence": "final phase only"
+   "status": "PASS",
+   "evidence": "grade_log={'frames_graded': 2137, 'src': '/tmp/claude-0/-home-user-Ricks-clips-/c2e4e0a8-fcc3-5126-ae4d-aec5b0cb3372/scratchpad/v2raw', 'dst': '/tmp/claude-0/-home-user-Ricks-clips-/c2e4e0a8-fcc3-5126-ae4d-aec5b0cb3372/scratchpad/v2graded'}"
   },
   {
    "gate": "G_FINAL_DELIVERY",
    "check": "native_resolution_render",
    "status": "NOT_RUN",
-   "evidence": "final phase only"
+   "evidence": "no --video"
   },
   {
    "gate": "G_FINAL_DELIVERY",
    "check": "audio_and_subtitles_verified",
    "status": "NOT_RUN",
-   "evidence": "final phase only"
+   "evidence": "no --video"
   },
   {
    "gate": "G_FINAL_DELIVERY",
    "check": "final_mp4_inspected",
    "status": "NOT_RUN",
-   "evidence": "final phase only"
+   "evidence": "no --video"
   },
   {
    "gate": "G_FINAL_DELIVERY",
    "check": "lessons_saved",
-   "status": "NOT_RUN",
-   "evidence": "final phase only"
+   "status": "PASS",
+   "evidence": "lessons from this episode in memory/lessons_learned.json"
   }
  ],
  "policy": "NOT_RUN never counts as PASS; FAIL blocks the final; WARN needs a written reason and the user's acceptance"

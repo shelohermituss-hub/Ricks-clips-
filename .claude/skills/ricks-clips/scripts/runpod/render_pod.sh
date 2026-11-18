@@ -75,12 +75,14 @@ if [ "${RICKCLIPS_POST:-}" = v3 ]; then
 import json, shutil
 c = json.load(open("$EP/out/plan/camera_baked.json"))["frames"]; by = {}
 for x in c: by.setdefault(x["place"], []).append(x["f"])
-for pl, fs in by.items(): f = fs[len(fs) // 2]; shutil.copy("/root/fj/f_%05d.png" % f, "/root/calib/f_%05d.png" % f); print(pl, f)
+for pl, fs in by.items(): f = fs[len(fs) // 2]; shutil.copy("$FR/f_%05d.png" % f, "/root/calib/f_%05d.png" % f); print(pl, f)
 PYEOF
   python3 "$EP/grade/grade.py" calibrate /root/calib | tee "$PUB/grade_calibrate.txt" || fail "grade calibrate"
-  pids=(); for k in 0 1 2 3 4 5 6 7; do GRADE_K=$k python3 "$EP/grade/grade.py" apply /root/fj /root/fg --jobs 8 & pids+=($!); done; for p in "${pids[@]}"; do wait $p; done
+  # grade BEFORE the joins (2026-11-18): each place keeps its own look up to the join and the dissolve blends two graded pictures (grading a blend with the incoming place look made the bedroom->attic dissolve read as a jump)
+  pids=(); for k in 0 1 2 3 4 5 6 7; do GRADE_K=$k python3 "$EP/grade/grade.py" apply "$FR" /root/fg0 --jobs 8 & pids+=($!); done; for p in "${pids[@]}"; do wait $p; done
+  python3 "$EP/edit/joins.py" /root/fg0 /root/fg || fail "joins graded"
   ng=$(ls /root/fg | wc -l); [ "$ng" -eq "$N" ] || fail "graded $ng of $N"
-  printf '{"src":"/root/fj","dst":"/root/fg","frames_graded":%d,"note":"8 parallel slices, calibration from this render (grade.json)"}\n' "$ng" > "$PUB/grade_log.json"; cp "$EP/grade/grade.json" "$PUB/grade.json"; cp "$EP/edit/joins_log.json" "$PUB/joins_log.json"
+  printf '{"src":"raw frames","dst":"/root/fg0 then joins -> /root/fg","frames_graded":%d,"note":"8 parallel slices, calibration from this render (grade.json)"}\n' "$ng" > "$PUB/grade_log.json"; cp "$EP/grade/grade.json" "$PUB/grade.json"; cp "$EP/edit/joins_log.json" "$PUB/joins_log.json"
   for v in raw:fj graded:fg; do nm=${v%%:*}; d=/root/${v##*:}
     ffmpeg -nostdin -loglevel error -y -framerate 30 -i "$d/f_%05d.png" -i "$EP/sound/mix.flac" -map 0:v -map 1:a -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p -r 30 -c:a aac -b:a 192k -ar 48000 -shortest -movflags +faststart "$PUB/ghost_army_preview_v3_$nm.mp4" || fail "encode $nm"; done
   sha256sum "$PUB"/ghost_army_preview_v3_*.mp4 > "$PUB/v3.sha256"; cp "$PUB/ghost_army_preview_v3_graded.mp4" "$PUB/final.mp4"

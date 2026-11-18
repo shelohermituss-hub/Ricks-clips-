@@ -1,0 +1,214 @@
+
+===== env
+CUDA_VERSION=12.4.1
+LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+LIBRARY_PATH=/usr/local/cuda/lib64/stubs
+NVIDIA_CTK_LIBCUDA_DIR=/usr/lib/x86_64-linux-gnu
+NVIDIA_DRIVER_CAPABILITIES=all
+NVIDIA_PRODUCT_NAME=CUDA
+NVIDIA_REQUIRE_CUDA=cuda>=12.4 brand=tesla,driver>=470,driver<471 brand=unknown,driver>=470,driver<471 brand=nvidia,driver>=470,driver<471 brand=nvidiartx,driver>=470,driver<471 brand=geforce,driver>=470,driver<471 brand=geforcertx,driver>=470,driver<471 brand=quadro,driver>=470,driver<471 brand=quadrortx,driver>=470,driver<471 brand=titan,driver>=470,driver<471 brand=titanrtx,driver>=470,driver<471 brand=tesla,driver>=525,driver<526 brand=unknown,driver>=525,driver<526 brand=nvidia,driver>=525,driver<526 brand=nvidiartx,driver>=525,driver<526 brand=geforce,driver>=525,driver<526 brand=geforcertx,driver>=525,driver<526 brand=quadro,driver>=525,driver<526 brand=quadrortx,driver>=525,driver<526 brand=titan,driver>=525,driver<526 brand=titanrtx,driver>=525,driver<526 brand=tesla,driver>=535,driver<536 brand=unknown,driver>=535,driver<536 brand=nvidia,driver>=535,driver<536 brand=nvidiartx,driver>=535,driver<536 brand=geforce,driver>=535,driver<536 brand=geforcertx,driver>=535,driver<536 brand=quadro,driver>=535,driver<536 brand=quadrortx,driver>=535,driver<536 brand=titan,driver>=535,driver<536 brand=titanrtx,driver>=535,driver<536
+NVIDIA_VISIBLE_DEVICES=void
+NV_CUDA_COMPAT_PACKAGE=cuda-compat-12-4
+NV_CUDA_CUDART_DEV_VERSION=12.4.127-1
+NV_CUDA_CUDART_VERSION=12.4.127-1
+NV_CUDA_LIB_VERSION=12.4.1-1
+NV_CUDA_NSIGHT_COMPUTE_DEV_PACKAGE=cuda-nsight-compute-12-4=12.4.1-1
+NV_CUDA_NSIGHT_COMPUTE_VERSION=12.4.1-1
+NV_LIBNCCL_DEV_PACKAGE=libnccl-dev=2.21.5-1+cuda12.4
+NV_LIBNCCL_PACKAGE=libnccl2=2.21.5-1+cuda12.4
+NV_NVPROF_DEV_PACKAGE=cuda-nvprof-12-4=12.4.127-1
+PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUNPOD_GPU_NAME=NVIDIA+GeForce+RTX+4090
+
+===== nvidia-smi
+name, driver_version
+NVIDIA GeForce RTX 4090, 595.112.07
+
+===== icd/egl files
+ls: cannot access '/usr/share/vulkan/icd.d': No such file or directory
+ls: cannot access '/etc/glvnd/egl_vendor.d': No such file or directory
+/etc/vulkan/icd.d:
+total 4
+drwxr-xr-x 2 root   root     37 Nov 18 05:25 .
+drwxr-xr-x 4 root   root     55 Nov 18 05:25 ..
+-rw-r--r-- 1 nobody nogroup 140 Oct 20 08:50 nvidia_icd.json
+
+/usr/share/glvnd/egl_vendor.d:
+total 4
+drwxr-xr-x 2 root   root     36 Nov 18 05:25 .
+drwxr-xr-x 3 root   root     34 Nov 18 05:25 ..
+-rw-r--r-- 1 nobody nogroup 107 Oct 20 08:17 10_nvidia.json
+{
+    "file_format_version" : "1.0.1",
+    "ICD": {
+        "library_path": "libGLX_nvidia.so.0",
+        "api_version" : "1.4.329"
+    }
+}
+
+===== nvidia libs
+	libEGL_nvidia.so.0 (libc6,x86-64) => /lib/x86_64-linux-gnu/libEGL_nvidia.so.0
+	libGLESv1_CM_nvidia.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLESv1_CM_nvidia.so.1
+	libGLESv2_nvidia.so.2 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLESv2_nvidia.so.2
+	libGLX.so.0 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLX.so.0
+	libGLX_mesa.so.0 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLX_mesa.so.0
+	libGLX_nvidia.so.0 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLX_nvidia.so.0
+	libnvidia-allocator.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-allocator.so.1
+	libnvidia-cfg.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-cfg.so.1
+	libnvidia-egl-gbm.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-egl-gbm.so.1
+	libnvidia-egl-wayland2.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-egl-wayland2.so.1
+	libnvidia-egl-xcb.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-egl-xcb.so.1
+	libnvidia-egl-xlib.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-egl-xlib.so.1
+	libnvidia-eglcore.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-eglcore.so.595.112.07
+	libnvidia-encode.so (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-encode.so
+	libnvidia-encode.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-encode.so.1
+	libnvidia-glcore.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-glcore.so.595.112.07
+	libnvidia-glsi.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-glsi.so.595.112.07
+	libnvidia-glvkspirv.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-glvkspirv.so.595.112.07
+	libnvidia-gpucomp.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-gpucomp.so.595.112.07
+	libnvidia-ml.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-ml.so.1
+	libnvidia-ngx.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-ngx.so.1
+	libnvidia-nvvm.so.4 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-nvvm.so.4
+	libnvidia-nvvm70.so.4 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-nvvm70.so.4
+	libnvidia-opencl.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-opencl.so.1
+	libnvidia-opticalflow.so (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-opticalflow.so
+	libnvidia-opticalflow.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-opticalflow.so.1
+	libnvidia-pkcs11-openssl3.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-pkcs11-openssl3.so.595.112.07
+	libnvidia-present.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-present.so.595.112.07
+	libnvidia-ptxjitcompiler.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1
+	libnvidia-rtcore.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-rtcore.so.595.112.07
+	libnvidia-sandboxutils.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-sandboxutils.so.1
+	libnvidia-tileiras.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-tileiras.so.595.112.07
+	libnvidia-tls.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-tls.so.595.112.07
+	libnvidia-vksc-core.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-vksc-core.so.1
+	libvdpau_nvidia.so (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/vdpau/libvdpau_nvidia.so
+	libvdpau_nvidia.so.1 (libc6,x86-64) => /usr/lib/x86_64-linux-gnu/vdpau/libvdpau_nvidia.so.1
+
+===== vulkaninfo before
+	apiVersion         = 4211017 (1.4.329)
+	deviceName         = NVIDIA GeForce RTX 4090
+	driverName         = NVIDIA
+	apiVersion         = 4206847 (1.3.255)
+	deviceName         = llvmpipe (LLVM 15.0.7, 256 bits)
+	driverName         = llvmpipe
+
+===== chrome probes before driver install
+vulkan [chromium-channel]: NO WEBGL2
+vulkan [headless-shell]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+vulkan_nosurface [chromium-channel]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+vulkan_nosurface [headless-shell]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+vulkan_nosurface_ozone [chromium-channel]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+vulkan_nosurface_ozone [headless-shell]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+gl_egl [chromium-channel]: ANGLE (NVIDIA Corporation, NVIDIA GeForce RTX 4090/PCIe/SSE2, OpenGL ES 3.2)
+gl_egl [headless-shell]: ANGLE (NVIDIA Corporation, NVIDIA GeForce RTX 4090/PCIe/SSE2, OpenGL ES 3.2)
+egl [chromium-channel]: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)
+egl [headless-shell]: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)
+
+===== fix A: write missing EGL vendor / Vulkan ICD files for the NVIDIA libs already mounted
+libEGL_nvidia=/lib/x86_64-linux-gnu/libEGL_nvidia.so.0 libGLX_nvidia=/lib/x86_64-linux-gnu/libGLX_nvidia.so.0
+wrote nvidia_icd.json
+
+===== vulkaninfo after fix A
+	deviceName         = NVIDIA GeForce RTX 4090
+	driverName         = NVIDIA
+	deviceName         = llvmpipe (LLVM 15.0.7, 256 bits)
+	driverName         = llvmpipe
+	deviceName         = NVIDIA GeForce RTX 4090
+	driverName         = NVIDIA
+
+===== chrome probes after fix A
+vulkan [chromium-channel]: NO WEBGL2
+vulkan [headless-shell]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+vulkan_nosurface [chromium-channel]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+vulkan_nosurface [headless-shell]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+vulkan_nosurface_ozone [chromium-channel]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+vulkan_nosurface_ozone [headless-shell]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+gl_egl [chromium-channel]: ANGLE (NVIDIA Corporation, NVIDIA GeForce RTX 4090/PCIe/SSE2, OpenGL ES 3.2)
+gl_egl [headless-shell]: ANGLE (NVIDIA Corporation, NVIDIA GeForce RTX 4090/PCIe/SSE2, OpenGL ES 3.2)
+egl [chromium-channel]: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)
+egl [headless-shell]: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)
+
+===== fix B: install NVIDIA user-space 595.112.07
+got https://us.download.nvidia.com/XFree86/Linux-x86_64/595.112.07/NVIDIA-Linux-x86_64-595.112.07.run
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-sandboxutils.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+
+
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-tileiras.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-sandboxutils.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+
+
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-tileiras.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libGLESv1_CM_nvidia.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-cfg.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/vdpau/libvdpau_nvidia.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-allocator.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-rtcore.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvoptix.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/share/nvidia/nvoptix.bin' has permissions 0644, but it was installed with permissions 0444.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-ngx.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvcuvid.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-encode.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-opticalflow.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-pkcs11-openssl3.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-present.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-vksc-core.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-sandboxutils.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+WARNING: The installed file '/usr/lib/x86_64-linux-gnu/libnvidia-tileiras.so.595.112.07' has permissions 0644, but it was installed with permissions 0755.
+-> done.
+-> Post-install sanity check failed.
+-> Would you like to run the nvidia-xconfig utility to automatically update your X configuration file so that the NVIDIA X driver will be used when you restart X?  Any pre-existing X configuration file will be backed up. (Answer: No)
+-> Installation of the NVIDIA Accelerated Graphics Driver for Linux-x86_64 (version: 595.112.07) is now complete.  Please update your xorg.conf file as appropriate; see the file /usr/share/doc/NVIDIA_GLX-1.0/README.txt for details.
+
+===== nvidia libs after
+	libEGL_nvidia.so.0 (libc6,x86-64) => /lib/x86_64-linux-gnu/libEGL_nvidia.so.0
+	libGLESv1_CM_nvidia.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLESv1_CM_nvidia.so.1
+	libGLESv2_nvidia.so.2 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLESv2_nvidia.so.2
+	libGLX_nvidia.so.0 (libc6,x86-64) => /lib/x86_64-linux-gnu/libGLX_nvidia.so.0
+	libnvidia-allocator.so (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-allocator.so
+	libnvidia-allocator.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-allocator.so.1
+	libnvidia-api.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-api.so.1
+	libnvidia-cfg.so (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-cfg.so
+	libnvidia-cfg.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-cfg.so.1
+	libnvidia-egl-gbm.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-egl-gbm.so.1
+	libnvidia-egl-wayland.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-egl-wayland.so.1
+	libnvidia-egl-wayland2.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-egl-wayland2.so.1
+	libnvidia-egl-xcb.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-egl-xcb.so.1
+	libnvidia-egl-xlib.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-egl-xlib.so.1
+	libnvidia-eglcore.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-eglcore.so.595.112.07
+	libnvidia-encode.so (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-encode.so
+	libnvidia-encode.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-encode.so.1
+	libnvidia-fbc.so (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-fbc.so
+	libnvidia-fbc.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-fbc.so.1
+	libnvidia-glcore.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-glcore.so.595.112.07
+	libnvidia-glsi.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-glsi.so.595.112.07
+	libnvidia-glvkspirv.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-glvkspirv.so.595.112.07
+	libnvidia-gpucomp.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-gpucomp.so.595.112.07
+	libnvidia-gtk2.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-gtk2.so.595.112.07
+	libnvidia-gtk3.so.595.112.07 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-gtk3.so.595.112.07
+	libnvidia-ml.so (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-ml.so
+	libnvidia-ml.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-ml.so.1
+	libnvidia-ngx.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-ngx.so.1
+	libnvidia-nvvm.so (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-nvvm.so
+	libnvidia-nvvm.so.4 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnvidia-nvvm.so.4
+
+===== vulkaninfo after
+	deviceName         = NVIDIA GeForce RTX 4090
+	driverName         = NVIDIA
+	deviceName         = llvmpipe (LLVM 15.0.7, 256 bits)
+	driverName         = llvmpipe
+	deviceName         = NVIDIA GeForce RTX 4090
+	driverName         = NVIDIA
+
+===== chrome probes after driver install
+vulkan [chromium-channel]: NO WEBGL2
+vulkan [headless-shell]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+vulkan_nosurface [chromium-channel]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+vulkan_nosurface [headless-shell]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+vulkan_nosurface_ozone [chromium-channel]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+vulkan_nosurface_ozone [headless-shell]: ANGLE (NVIDIA, Vulkan 1.4.329 (NVIDIA NVIDIA GeForce RTX 4090 (0x00002684)), NVIDIA)
+gl_egl [chromium-channel]: ANGLE (NVIDIA Corporation, NVIDIA GeForce RTX 4090/PCIe/SSE2, OpenGL ES 3.2)
+gl_egl [headless-shell]: ANGLE (NVIDIA Corporation, NVIDIA GeForce RTX 4090/PCIe/SSE2, OpenGL ES 3.2)
+egl [chromium-channel]: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)
+egl [headless-shell]: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)

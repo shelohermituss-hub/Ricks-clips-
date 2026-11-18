@@ -88,10 +88,12 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     fl.position.copy(V(at[0], at[1], 3.95)); fl.userData.b = geo.attributes.position.array.slice(); pennants.push(fl); return fl; }
   ups.push((f) => { for (const fl of pennants) { const q = fl.geometry.attributes.position, b = fl.userData.b; for (let i = 0; i < q.count; i++) { const x = b[i * 3]; q.setZ(i, .09 * x * Math.sin(x * 4 - f * .32 + fl.id)); } q.needsUpdate = true; } });
   function decoyField(name, x0, y0, cols, rowsN, dx, dy, opts = {}) {
-    const out = [];
+    const out = [], fixed = opts.fixed || [];   /* fixed: [x, y, rot] decoys a camera station is built on (e.g. the 'up close' insert) */
+    for (const [fx, fy, fr] of fixed) { const t = sherman(name, { at: [fx, fy, 0], rot: fr, col: DECOY_TINTS[0], vary: .5 }); t.userData.s0 = 1; t.userData.sagV = 0; out.push(t); }
     for (let r = 0; r < rowsN; r++) { const bend = rr(-1.2, 1.2), shift = rr(-2, 2);
       for (let c = 0; c < cols; c++) { if (rnd() < (opts.gaps ?? .08)) continue;
         const x = x0 + c * dx + shift + rr(-1.1, 1.1), y = y0 + r * dy + bend * Math.sin(c * .9 + r) + rr(-1.3, 1.3);
+        if (fixed.some(([fx, fy]) => Math.hypot(x - fx, y - fy) < 5.5)) continue;
         const odd = rnd() < .12, k = rnd();
         const t = sherman(name, { at: [x, y, 0], rot: (odd ? Math.PI / 2 + rr(-.3, .3) : rr(-.45, .45)) + (opts.rot0 || 0), col: DECOY_TINTS[Math.floor(rnd() * DECOY_TINTS.length)], vary: rnd() });
         const s0 = rr(.9, 1.07); t.scale.setScalar(s0); t.userData.s0 = s0;
@@ -322,7 +324,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
       anchors = { tank: [0, 4, 1.2], truck: [-7, 6, 1.5] };
     } else {
       // the camp: rows of tanks in every state of inflation, compressors, paint pots, the bulldozer drawing track marks
-      const rows = decoyField('camp_tank', -13, 12, 4, 3, 8.2, 9, { nets: 2, gaps: .04 });   /* V3 step 2 (was a 3x4 grid of clones) */
+      const rows = decoyField('camp_tank', -13, 12, 4, 3, 8.2, 9, { nets: 2, gaps: .04, fixed: [[-4, 12, .06]] });   /* the 'up close' station is built on the decoy at (-4, 12) */   /* V3 step 2 (was a 3x4 grid of clones) */
       const dz = bulldozer('bulldozer', [12, 2, 0], Math.PI / 2); trackMarks('fake_track_marks', [12, -6], [12, 1]);
       // air compressors (v1 note: plain blocks): a wheeled cart, the tank on top, a motor, a gauge, a hose running to the nearest decoy
       const OD = metal('iron', '#4f5a36', { rough: .6, rust: .2 }), DK = std('#23241f', { rough: .9 }), ST = metal('steel', '#9a9f96', { rough: .35 });
@@ -511,7 +513,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     const lt = prop('light_table', 'light_table', 'lamp', [0, 1.6, 0], 0, { table_glass: basic('#c8d6e8') });   /* V3: Blender table (frame, legs, braces, lamp box, drawers, stereoscope, pencil tray); the frosted top glows */
     const photoTex = canvasTex(512, 384, (g, w, h) => { g.fillStyle = '#8a8a80'; g.fillRect(0, 0, w, h); for (let i = 0; i < 9000; i++) { g.fillStyle = `rgba(${rnd() * 60 | 0},${rnd() * 60 | 0},${rnd() * 50 | 0},.08)`; g.fillRect(rnd() * w, rnd() * h, 3, 3); } g.fillStyle = '#3a3a34'; for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) { const x = 40 + c * 75, y = 60 + r * 80; g.fillRect(x, y, 36, 22); g.fillRect(x + 30, y + 9, 20, 4); g.fillStyle = 'rgba(30,25,20,.5)'; g.fillRect(x + 4, y + 24, 4, 50); g.fillRect(x + 26, y + 24, 4, 50); g.fillStyle = '#3a3a34'; } });
     const ph = add(new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.0), basic('#d8d8d0', { map: photoTex })), 'aerial_photo', 'cloth', { cast: false }); ph.rotation.x = -Math.PI / 2; ph.position.copy(V(0, 1.6, .925));
-    const loupe = cyl('loupe', 'glass', .09, .08, [.25, 1.5, .93], std('#cfe6ff', { rough: .05, extra: { transparent: true, opacity: .5 } }));
+    const loupe = cyl('loupe', 'glass', .09, .015, [.25, 1.5, .93], std('#9fb0bc', { rough: .05, metal: .1, extra: { transparent: true, opacity: .22, depthWrite: false } })); add(new THREE.Mesh(new THREE.TorusGeometry(.09, .012, 8, 32), metal('iron', '#2a2a26', { rough: .4 })), 'loupe_rim', 'metal').position.copy(V(.25, 1.5, .945)); scene.children[scene.children.length - 1].rotation.x = Math.PI / 2;   /* V3: a thin lens in a dark rim (a solid pale cylinder read as a white blob on the lit table) */
     const tl = new THREE.PointLight('#dfeaff', 5, 6, 1.4); tl.position.copy(V(0, 1.6, 1.3)); scene.add(tl); lamp([2.6, 3.4, 2.8], '#9fb0c8', 6, 8);
     box('river_map', 'cloth', 2.4, .04, 1.4, [0, 3.95, 1.4], basic('#ffffff', { map: canvasTex(480, 280, (g, w, h) => { g.fillStyle = '#d8d0b4'; g.fillRect(0, 0, w, h); g.strokeStyle = '#4a6ab0'; g.lineWidth = 16; g.beginPath(); g.moveTo(w * .55, 0); g.bezierCurveTo(w * .4, h * .3, w * .7, h * .6, w * .5, h); g.stroke(); g.fillStyle = '#b02a2a'; for (let i = 0; i < 12; i++) g.fillRect(w * .62 + (i % 4) * 14, h * .72 + Math.floor(i / 4) * 14, 9, 9); }) }));
     anchors = { photo: [0, 1.6, .93], loupe: [.25, 1.5, .95] };

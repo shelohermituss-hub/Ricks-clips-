@@ -1,0 +1,798 @@
+{
+ "video": "episodes/ghost-army/v3/ghost_army_preview_v3_raw.mp4",
+ "frames": 2137,
+ "seconds": 71.23,
+ "per_second": [
+  {
+   "t": 0,
+   "luma": 0.299,
+   "sat": 0.798,
+   "crushed": 0.0347,
+   "burned": 0.001,
+   "motion": 7.3,
+   "edge": 0.0533
+  },
+  {
+   "t": 1,
+   "luma": 0.298,
+   "sat": 0.785,
+   "crushed": 0.0366,
+   "burned": 0.0012,
+   "motion": 8.34,
+   "edge": 0.0524
+  },
+  {
+   "t": 2,
+   "luma": 0.299,
+   "sat": 0.783,
+   "crushed": 0.0371,
+   "burned": 0.0013,
+   "motion": 18.71,
+   "edge": 0.0539
+  },
+  {
+   "t": 3,
+   "luma": 0.316,
+   "sat": 0.761,
+   "crushed": 0.0238,
+   "burned": 0.0013,
+   "motion": 16.72,
+   "edge": 0.0554
+  },
+  {
+   "t": 4,
+   "luma": 0.29,
+   "sat": 0.772,
+   "crushed": 0.0173,
+   "burned": 0.0014,
+   "motion": 34.03,
+   "edge": 0.0409
+  },
+  {
+   "t": 5,
+   "luma": 0.283,
+   "sat": 0.77,
+   "crushed": 0.0188,
+   "burned": 0.0017,
+   "motion": 31.34,
+   "edge": 0.0413
+  },
+  {
+   "t": 6,
+   "luma": 0.306,
+   "sat": 0.727,
+   "crushed": 0.0405,
+   "burned": 0.0017,
+   "motion": 26.69,
+   "edge": 0.0661
+  },
+  {
+   "t": 7,
+   "luma": 0.305,
+   "sat": 0.721,
+   "crushed": 0.0475,
+   "burned": 0.0021,
+   "motion": 3.11,
+   "edge": 0.0662
+  },
+  {
+   "t": 8,
+   "luma": 0.288,
+   "sat": 0.737,
+   "crushed": 0.0594,
+   "burned": 0.0013,
+   "motion": 23.69,
+   "edge": 0.0611
+  },
+  {
+   "t": 9,
+   "luma": 0.207,
+   "sat": 0.849,
+   "crushed": 0.0048,
+   "burned": 0.0,
+   "motion": 30.42,
+   "edge": 0.0282
+  },
+  {
+   "t": 10,
+   "luma": 0.275,
+   "sat": 0.753,
+   "crushed": 0.0045,
+   "burned": 0.0,
+   "motion": 19.32,
+   "edge": 0.0507
+  },
+  {
+   "t": 11,
+   "luma": 0.36,
+   "sat": 0.655,
+   "crushed": 0.0014,
+   "burned": 0.0001,
+   "motion": 16.94,
+   "edge": 0.0664
+  },
+  {
+   "t": 12,
+   "luma": 0.376,
+   "sat": 0.651,
+   "crushed": 0.0012,
+   "burned": 0.0013,
+   "motion": 40.7,
+   "edge": 0.0742
+  },
+  {
+   "t": 13,
+   "luma": 0.378,
+   "sat": 0.683,
+   "crushed": 0.0004,
+   "burned": 0.0043,
+   "motion": 15.29,
+   "edge": 0.0701
+  },
+  {
+   "t": 14,
+   "luma": 0.375,
+   "sat": 0.682,
+   "crushed": 0.0002,
+   "burned": 0.0047,
+   "motion": 5.61,
+   "edge": 0.0714
+  },
+  {
+   "t": 15,
+   "luma": 0.375,
+   "sat": 0.675,
+   "crushed": 0.0002,
+   "burned": 0.005,
+   "motion": 8.41,
+   "edge": 0.0713
+  },
+  {
+   "t": 16,
+   "luma": 0.345,
+   "sat": 0.671,
+   "crushed": 0.0019,
+   "burned": 0.0083,
+   "motion": 49.31,
+   "edge": 0.0794
+  },
+  {
+   "t": 17,
+   "luma": 0.344,
+   "sat": 0.664,
+   "crushed": 0.0031,
+   "burned": 0.0082,
+   "motion": 8.07,
+   "edge": 0.0786
+  },
+  {
+   "t": 18,
+   "luma": 0.351,
+   "sat": 0.662,
+   "crushed": 0.0024,
+   "burned": 0.0105,
+   "motion": 39.6,
+   "edge": 0.0736
+  },
+  {
+   "t": 19,
+   "luma": 0.278,
+   "sat": 0.781,
+   "crushed": 0.0001,
+   "burned": 0.0,
+   "motion": 13.01,
+   "edge": 0.0482
+  },
+  {
+   "t": 20,
+   "luma": 0.325,
+   "sat": 0.701,
+   "crushed": 0.001,
+   "burned": 0.0001,
+   "motion": 43.87,
+   "edge": 0.0563
+  },
+  {
+   "t": 21,
+   "luma": 0.368,
+   "sat": 0.66,
+   "crushed": 0.0002,
+   "burned": 0.0,
+   "motion": 9.31,
+   "edge": 0.0594
+  },
+  {
+   "t": 22,
+   "luma": 0.365,
+   "sat": 0.661,
+   "crushed": 0.0003,
+   "burned": 0.0,
+   "motion": 3.98,
+   "edge": 0.0593
+  },
+  {
+   "t": 23,
+   "luma": 0.366,
+   "sat": 0.667,
+   "crushed": 0.0003,
+   "burned": 0.0,
+   "motion": 22.3,
+   "edge": 0.0597
+  },
+  {
+   "t": 24,
+   "luma": 0.36,
+   "sat": 0.684,
+   "crushed": 0.0006,
+   "burned": 0.0,
+   "motion": 31.63,
+   "edge": 0.0673
+  },
+  {
+   "t": 25,
+   "luma": 0.368,
+   "sat": 0.667,
+   "crushed": 0.0009,
+   "burned": 0.0,
+   "motion": 14.03,
+   "edge": 0.0672
+  },
+  {
+   "t": 26,
+   "luma": 0.268,
+   "sat": 0.643,
+   "crushed": 0.0213,
+   "burned": 0.0,
+   "motion": 18.02,
+   "edge": 0.0615
+  },
+  {
+   "t": 27,
+   "luma": 0.141,
+   "sat": 0.663,
+   "crushed": 0.067,
+   "burned": 0.0,
+   "motion": 24.26,
+   "edge": 0.0607
+  },
+  {
+   "t": 28,
+   "luma": 0.123,
+   "sat": 0.804,
+   "crushed": 0.0293,
+   "burned": 0.0,
+   "motion": 25.26,
+   "edge": 0.0443
+  },
+  {
+   "t": 29,
+   "luma": 0.115,
+   "sat": 0.827,
+   "crushed": 0.0339,
+   "burned": 0.0001,
+   "motion": 8.6,
+   "edge": 0.0421
+  },
+  {
+   "t": 30,
+   "luma": 0.106,
+   "sat": 0.824,
+   "crushed": 0.0663,
+   "burned": 0.0,
+   "motion": 15.42,
+   "edge": 0.0421
+  },
+  {
+   "t": 31,
+   "luma": 0.152,
+   "sat": 0.673,
+   "crushed": 0.049,
+   "burned": 0.0,
+   "motion": 49.13,
+   "edge": 0.0541
+  },
+  {
+   "t": 32,
+   "luma": 0.132,
+   "sat": 0.718,
+   "crushed": 0.0474,
+   "burned": 0.0,
+   "motion": 11.26,
+   "edge": 0.0504
+  },
+  {
+   "t": 33,
+   "luma": 0.142,
+   "sat": 0.759,
+   "crushed": 0.044,
+   "burned": 0.0,
+   "motion": 22.83,
+   "edge": 0.0472
+  },
+  {
+   "t": 34,
+   "luma": 0.248,
+   "sat": 0.894,
+   "crushed": 0.0001,
+   "burned": 0.0001,
+   "motion": 7.51,
+   "edge": 0.0555
+  },
+  {
+   "t": 35,
+   "luma": 0.245,
+   "sat": 0.899,
+   "crushed": 0.0003,
+   "burned": 0.0001,
+   "motion": 11.49,
+   "edge": 0.0598
+  },
+  {
+   "t": 36,
+   "luma": 0.265,
+   "sat": 0.88,
+   "crushed": 0.0015,
+   "burned": 0.0001,
+   "motion": 28.95,
+   "edge": 0.0626
+  },
+  {
+   "t": 37,
+   "luma": 0.256,
+   "sat": 0.89,
+   "crushed": 0.0022,
+   "burned": 0.0001,
+   "motion": 7.29,
+   "edge": 0.0634
+  },
+  {
+   "t": 38,
+   "luma": 0.337,
+   "sat": 0.812,
+   "crushed": 0.0011,
+   "burned": 0.0001,
+   "motion": 32.55,
+   "edge": 0.0694
+  },
+  {
+   "t": 39,
+   "luma": 0.438,
+   "sat": 0.706,
+   "crushed": 0.0,
+   "burned": 0.0001,
+   "motion": 35.53,
+   "edge": 0.0704
+  },
+  {
+   "t": 40,
+   "luma": 0.433,
+   "sat": 0.677,
+   "crushed": 0.0002,
+   "burned": 0.0004,
+   "motion": 22.37,
+   "edge": 0.0752
+  },
+  {
+   "t": 41,
+   "luma": 0.463,
+   "sat": 0.712,
+   "crushed": 0.0017,
+   "burned": 0.0001,
+   "motion": 74.99,
+   "edge": 0.0733
+  },
+  {
+   "t": 42,
+   "luma": 0.459,
+   "sat": 0.708,
+   "crushed": 0.0026,
+   "burned": 0.0004,
+   "motion": 14.51,
+   "edge": 0.0854
+  },
+  {
+   "t": 43,
+   "luma": 0.429,
+   "sat": 0.714,
+   "crushed": 0.0,
+   "burned": 0.0002,
+   "motion": 14.58,
+   "edge": 0.069
+  },
+  {
+   "t": 44,
+   "luma": 0.417,
+   "sat": 0.712,
+   "crushed": 0.0,
+   "burned": 0.0003,
+   "motion": 18.93,
+   "edge": 0.0679
+  },
+  {
+   "t": 45,
+   "luma": 0.423,
+   "sat": 0.704,
+   "crushed": 0.0001,
+   "burned": 0.0004,
+   "motion": 18.7,
+   "edge": 0.0737
+  },
+  {
+   "t": 46,
+   "luma": 0.362,
+   "sat": 0.667,
+   "crushed": 0.0,
+   "burned": 0.0002,
+   "motion": 22.12,
+   "edge": 0.0652
+  },
+  {
+   "t": 47,
+   "luma": 0.188,
+   "sat": 0.663,
+   "crushed": 0.0001,
+   "burned": 0.0,
+   "motion": 7.11,
+   "edge": 0.057
+  },
+  {
+   "t": 48,
+   "luma": 0.189,
+   "sat": 0.655,
+   "crushed": 0.0001,
+   "burned": 0.0,
+   "motion": 7.17,
+   "edge": 0.057
+  },
+  {
+   "t": 49,
+   "luma": 0.181,
+   "sat": 0.66,
+   "crushed": 0.0003,
+   "burned": 0.0,
+   "motion": 34.99,
+   "edge": 0.0562
+  },
+  {
+   "t": 50,
+   "luma": 0.19,
+   "sat": 0.62,
+   "crushed": 0.0014,
+   "burned": 0.0,
+   "motion": 23.6,
+   "edge": 0.0509
+  },
+  {
+   "t": 51,
+   "luma": 0.217,
+   "sat": 0.583,
+   "crushed": 0.0132,
+   "burned": 0.0,
+   "motion": 25.97,
+   "edge": 0.0536
+  },
+  {
+   "t": 52,
+   "luma": 0.274,
+   "sat": 0.434,
+   "crushed": 0.017,
+   "burned": 0.0,
+   "motion": 31.84,
+   "edge": 0.0598
+  },
+  {
+   "t": 53,
+   "luma": 0.36,
+   "sat": 0.232,
+   "crushed": 0.028,
+   "burned": 0.0005,
+   "motion": 39.88,
+   "edge": 0.0677
+  },
+  {
+   "t": 54,
+   "luma": 0.229,
+   "sat": 0.401,
+   "crushed": 0.0226,
+   "burned": 0.0,
+   "motion": 30.7,
+   "edge": 0.0619
+  },
+  {
+   "t": 55,
+   "luma": 0.215,
+   "sat": 0.468,
+   "crushed": 0.0144,
+   "burned": 0.0,
+   "motion": 11.32,
+   "edge": 0.0591
+  },
+  {
+   "t": 56,
+   "luma": 0.223,
+   "sat": 0.566,
+   "crushed": 0.0006,
+   "burned": 0.0,
+   "motion": 50.2,
+   "edge": 0.0602
+  },
+  {
+   "t": 57,
+   "luma": 0.165,
+   "sat": 0.734,
+   "crushed": 0.0003,
+   "burned": 0.0,
+   "motion": 30.41,
+   "edge": 0.0392
+  },
+  {
+   "t": 58,
+   "luma": 0.138,
+   "sat": 0.789,
+   "crushed": 0.0031,
+   "burned": 0.0,
+   "motion": 17.22,
+   "edge": 0.0346
+  },
+  {
+   "t": 59,
+   "luma": 0.137,
+   "sat": 0.783,
+   "crushed": 0.011,
+   "burned": 0.0,
+   "motion": 12.72,
+   "edge": 0.034
+  },
+  {
+   "t": 60,
+   "luma": 0.147,
+   "sat": 0.759,
+   "crushed": 0.019,
+   "burned": 0.0,
+   "motion": 18.93,
+   "edge": 0.035
+  },
+  {
+   "t": 61,
+   "luma": 0.208,
+   "sat": 0.561,
+   "crushed": 0.0106,
+   "burned": 0.0,
+   "motion": 10.21,
+   "edge": 0.0438
+  },
+  {
+   "t": 62,
+   "luma": 0.302,
+   "sat": 0.318,
+   "crushed": 0.0009,
+   "burned": 0.0,
+   "motion": 4.34,
+   "edge": 0.0564
+  },
+  {
+   "t": 63,
+   "luma": 0.305,
+   "sat": 0.32,
+   "crushed": 0.0005,
+   "burned": 0.0,
+   "motion": 3.97,
+   "edge": 0.0548
+  },
+  {
+   "t": 64,
+   "luma": 0.288,
+   "sat": 0.343,
+   "crushed": 0.0004,
+   "burned": 0.0,
+   "motion": 42.23,
+   "edge": 0.0537
+  },
+  {
+   "t": 65,
+   "luma": 0.283,
+   "sat": 0.344,
+   "crushed": 0.0003,
+   "burned": 0.0,
+   "motion": 6.15,
+   "edge": 0.0541
+  },
+  {
+   "t": 66,
+   "luma": 0.256,
+   "sat": 0.549,
+   "crushed": 0.0094,
+   "burned": 0.0,
+   "motion": 14.66,
+   "edge": 0.05
+  },
+  {
+   "t": 67,
+   "luma": 0.265,
+   "sat": 0.79,
+   "crushed": 0.0071,
+   "burned": 0.0,
+   "motion": 15.99,
+   "edge": 0.0385
+  },
+  {
+   "t": 68,
+   "luma": 0.256,
+   "sat": 0.795,
+   "crushed": 0.0097,
+   "burned": 0.0,
+   "motion": 3.21,
+   "edge": 0.0409
+  },
+  {
+   "t": 69,
+   "luma": 0.217,
+   "sat": 0.857,
+   "crushed": 0.0214,
+   "burned": 0.0,
+   "motion": 25.06,
+   "edge": 0.0407
+  },
+  {
+   "t": 70,
+   "luma": 0.205,
+   "sat": 0.877,
+   "crushed": 0.0158,
+   "burned": 0.0,
+   "motion": 5.48,
+   "edge": 0.0428
+  },
+  {
+   "t": 71,
+   "luma": 0.198,
+   "sat": 0.888,
+   "crushed": 0.0218,
+   "burned": 0.0,
+   "motion": 3.44,
+   "edge": 0.0416
+  }
+ ],
+ "hard_cuts": [
+  42.8,
+  55.67
+ ],
+ "peaks": [
+  4.0,
+  4.6,
+  5.57,
+  6.2,
+  8.97,
+  10.67,
+  13.0,
+  16.3,
+  18.73,
+  20.37,
+  20.97,
+  23.87,
+  24.5,
+  26.67,
+  27.9,
+  31.07,
+  31.57,
+  33.8,
+  36.17,
+  38.5,
+  39.6,
+  41.37,
+  42.0,
+  42.8,
+  45.13,
+  46.87,
+  49.43,
+  52.17,
+  52.7,
+  53.87,
+  55.7,
+  56.67,
+  60.27,
+  61.7,
+  64.6,
+  66.67,
+  67.2,
+  69.4
+ ],
+ "overall": {
+  "luma": 0.28,
+  "saturation": 0.685,
+  "contrast": 0.153,
+  "crushed": 0.0129,
+  "burned": 0.0008,
+  "motion_median_x1000": 10.56,
+  "still_frames_pct": 0.6,
+  "edge_detail": 0.0572,
+  "hard_cuts": 2,
+  "peaks_per_10s": 5.33
+ },
+ "compare": [
+  {
+   "metric": "edge_detail",
+   "value": 0.0572,
+   "target": ">= 0.075 (ref 0.095)",
+   "status": "FAIL"
+  },
+  {
+   "metric": "luma_day",
+   "value": 0.323,
+   "target": "0.36-0.5",
+   "status": "FAIL"
+  },
+  {
+   "metric": "luma_night",
+   "value": 0.192,
+   "target": ">= 0.25",
+   "status": "FAIL"
+  },
+  {
+   "metric": "crushed",
+   "value": 0.0129,
+   "target": "<= 0.01",
+   "status": "FAIL"
+  },
+  {
+   "metric": "burned",
+   "value": 0.0008,
+   "target": "<= 0.015",
+   "status": "PASS"
+  },
+  {
+   "metric": "saturation",
+   "value": 0.685,
+   "target": "0.32-0.52 (ref 0.4)",
+   "status": "FAIL"
+  },
+  {
+   "metric": "saturation_seconds_over_max",
+   "value": 60,
+   "target": "0 s above 0.6 (seconds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])",
+   "status": "FAIL"
+  },
+  {
+   "metric": "still_frames_pct",
+   "value": 0.6,
+   "target": "<= 2.0",
+   "status": "PASS"
+  },
+  {
+   "metric": "motion_median_x1000",
+   "value": 10.56,
+   "target": ">= 18.0 (ref 35.8)",
+   "status": "FAIL"
+  },
+  {
+   "metric": "peaks_per_10s",
+   "value": 5.33,
+   "target": ">= 6.0 (ref 10.47)",
+   "status": "FAIL"
+  },
+  {
+   "metric": "hard_cuts",
+   "value": 2,
+   "target": "0 unless listed as deliberate in DECISIONS.md (at [42.8, 55.67] s)",
+   "status": "WARN"
+  }
+ ],
+ "night": [
+  [
+   26.43,
+   33.83
+  ],
+  [
+   46.67,
+   52.53
+  ],
+  [
+   55.67,
+   61.5
+  ],
+  [
+   61.5,
+   66.43
+  ]
+ ],
+ "date": "2026-11-18"
+}
