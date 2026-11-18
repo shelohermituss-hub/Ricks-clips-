@@ -1,0 +1,40 @@
+{
+ "white_balance": [
+  {
+   "iter": 0,
+   "temperature": 7600.0,
+   "rb_ratio_vs_ref": 0.63
+  },
+  {
+   "iter": 1,
+   "temperature": 11000.3,
+   "rb_ratio_vs_ref": 0.994
+  }
+ ],
+ "calibration": [
+  {
+   "iter": 0,
+   "exposure": 0.2,
+   "render_lum": 0.1562,
+   "ref_lum": 0.2703,
+   "rgb_ratio": [
+    0.545,
+    0.59,
+    0.548
+   ]
+  },
+  {
+   "iter": 1,
+   "exposure": 0.991,
+   "render_lum": 0.2757,
+   "ref_lum": 0.2703,
+   "rgb_ratio": [
+    0.931,
+    1.048,
+    1.012
+   ]
+  }
+ ],
+ "exposure": 0.991121232509613,
+ "temperature": 11000.255859375
+}

@@ -1,0 +1,136 @@
+{
+ "place": "farmyard",
+ "upto": 1,
+ "phases": [
+  1
+ ],
+ "lines": [
+  "fence_back",
+  "fence_side"
+ ],
+ "scatter": {
+  "yard_grass_medium_02_0": 30,
+  "meadow_grass_medium_02_0": {
+   "near": 872,
+   "far_lod1": 5068
+  },
+  "meadow_dandelion_01_1": 264,
+  "hedge_back_shrub_04_0": 560,
+  "hedge_back_shrub_03_1": 240,
+  "hedge_back_nettle_plant_2": 240,
+  "lane_edge_grass_medium_02_0": 485,
+  "lane_edge_nettle_plant_1": 76
+ },
+ "assets_used": [
+  "barrel_01",
+  "barrel_stove",
+  "crawler_dozer",
+  "dandelion_01",
+  "garden_shed",
+  "grass_medium_02",
+  "grass_medium_02__lod1",
+  "hay_bale",
+  "island_tree_02",
+  "lantern_01",
+  "metal_jerrycan",
+  "nettle_plant",
+  "normandy_farmhouse",
+  "old_tyre",
+  "painted_wooden_bench",
+  "rail_fence",
+  "shrub_03",
+  "shrub_04",
+  "stone_well",
+  "washing_posts",
+  "water_trough",
+  "wicker_basket_01",
+  "wooden_axe",
+  "wooden_bucket_01",
+  "wooden_ladder"
+ ],
+ "stats": {
+  "objects": 44,
+  "mesh_objects": 18,
+  "mesh_datablocks": 18,
+  "tris": 42854,
+  "instancer_objects": 11,
+  "character_card_objects": 0,
+  "primitive_like_objects": 0,
+  "primitive_ratio": 0.0,
+  "primitive_tris_ratio": 0.0,
+  "materials": 51,
+  "textured_materials": 19,
+  "dims_m": [
+   220.0,
+   220.0,
+   4.582
+  ],
+  "largest_meshes": [
+   [
+    "terrain",
+    {
+     "verts": 19881,
+     "tris": 39200
+    }
+   ],
+   [
+    "oil_barrel:Barrel_01",
+    {
+     "verts": 2052,
+     "tris": 2682
+    }
+   ],
+   [
+    "shed:shed_walls",
+    {
+     "verts": 1176,
+     "tris": 588
+    }
+   ],
+   [
+    "shed:shed_glass_0",
+    {
+     "verts": 120,
+     "tris": 108
+    }
+   ],
+   [
+    "shed:shed_glass_1",
+    {
+     "verts": 120,
+     "tris": 108
+    }
+   ]
+  ],
+  "untextured_material_names": [
+   "exhaust",
+   "glass",
+   "glass.001",
+   "glass.002",
+   "ground",
+   "iron",
+   "iron.001",
+   "paint",
+   "paint_worn",
+   "quoin",
+   "roof",
+   "rope",
+   "rope.001",
+   "rubber",
+   "rust",
+   "steel_dark",
+   "stone",
+   "stone.001",
+   "stone.002",
+   "straw"
+  ],
+  "instances_drawn": 7923,
+  "instanced_tris": 34837712,
+  "total_tris_drawn": 34880566,
+  "by_type": {
+   "MESH": 18,
+   "EMPTY": 26
+  },
+  "instance_ratio": 0.9977
+ }
+}

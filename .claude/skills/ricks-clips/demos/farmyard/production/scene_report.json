@@ -1,0 +1,903 @@
+{
+ "place": "farmyard",
+ "upto": 9,
+ "phases": [
+  1,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "lines": [
+  "fence_back",
+  "fence_side"
+ ],
+ "scatter": {
+  "yard_grass_medium_02_0": 30,
+  "meadow_grass_medium_02_0": {
+   "near": 872,
+   "far_lod1": 5068
+  },
+  "meadow_dandelion_01_1": 264,
+  "hedge_back_shrub_04_0": 560,
+  "hedge_back_shrub_03_1": 240,
+  "hedge_back_nettle_plant_2": 240,
+  "lane_edge_grass_medium_02_0": 485,
+  "lane_edge_nettle_plant_1": 76
+ },
+ "cameras": [
+  "Cam_s1_wide",
+  "Cam_s2_shed",
+  "Cam_s3_hay",
+  "Cam_s4_dozer",
+  "Cam_s5_end"
+ ],
+ "characters": [
+  "farmer",
+  "smith"
+ ],
+ "animation": {
+  "shed:shed_door": "hinge",
+  "lantern": "bob",
+  "dozer_m": 28.5,
+  "dozer": "vehicle_drive"
+ },
+ "physics": [
+  {
+   "pieces": 17,
+   "joints": 0,
+   "pieces_moved": 17,
+   "max_moved_m": 5.74,
+   "max_speed_ms": 8.37,
+   "fastest": "shed:shed_glass_0.001abbb",
+   "max_rise_m": 0.0,
+   "highest": null,
+   "track": {
+    "shed_glass_0.001aaaa": {
+     "before": [
+      -5.99,
+      8.33,
+      1.56
+     ],
+     "end": [
+      -6.19,
+      8.14,
+      -0.01
+     ],
+     "moved_m": 1.59
+    },
+    "shed_glass_0.001aaab": {
+     "before": [
+      -5.99,
+      8.33,
+      1.45
+     ],
+     "end": [
+      -6.16,
+      8.26,
+      -0.01
+     ],
+     "moved_m": 1.47
+    },
+    "shed_glass_0.001aaba": {
+     "before": [
+      -5.9,
+      8.35,
+      1.56
+     ],
+     "end": [
+      -5.81,
+      8.36,
+      0.0
+     ],
+     "moved_m": 1.56
+    },
+    "shed_glass_0.001aabb": {
+     "before": [
+      -5.9,
+      8.35,
+      1.48
+     ],
+     "end": [
+      -5.87,
+      8.32,
+      -0.0
+     ],
+     "moved_m": 1.48
+    },
+    "shed_glass_0.001abaa": {
+     "before": [
+      -5.9,
+      8.35,
+      1.46
+     ],
+     "end": [
+      -5.66,
+      8.31,
+      -0.0
+     ],
+     "moved_m": 1.48
+    },
+    "shed_glass_0.001abab": {
+     "before": [
+      -5.88,
+      8.36,
+      1.43
+     ],
+     "end": [
+      -5.64,
+      8.41,
+      0.0
+     ],
+     "moved_m": 1.45
+    },
+    "shed_glass_0.001abba": {
+     "before": [
+      -5.92,
+      8.35,
+      1.36
+     ],
+     "end": [
+      -7.39,
+      10.7,
+      0.01
+     ],
+     "moved_m": 3.08
+    },
+    "shed_glass_0.001abbb": {
+     "before": [
+      -5.97,
+      8.33,
+      1.3
+     ],
+     "end": [
+      -10.6,
+      11.48,
+      0.01
+     ],
+     "moved_m": 5.74
+    },
+    "shed_glass_0.001baaa": {
+     "before": [
+      -5.97,
+      8.34,
+      1.23
+     ],
+     "end": [
+      -7.49,
+      8.97,
+      0.01
+     ],
+     "moved_m": 2.06
+    },
+    "shed_glass_0.001baab": {
+     "before": [
+      -5.96,
+      8.34,
+      1.15
+     ],
+     "end": [
+      -6.53,
+      8.59,
+      -0.01
+     ],
+     "moved_m": 1.31
+    },
+    "shed_glass_0.001baba": {
+     "before": [
+      -5.92,
+      8.35,
+      1.17
+     ],
+     "end": [
+      -7.47,
+      10.75,
+      0.01
+     ],
+     "moved_m": 3.09
+    },
+    "shed_glass_0.001babb": {
+     "before": [
+      -5.88,
+      8.36,
+      1.12
+     ],
+     "end": [
+      -5.57,
+      8.33,
+      -0.0
+     ],
+     "moved_m": 1.17
+    },
+    "shed_glass_0.001bbaa": {
+     "before": [
+      -5.99,
+      8.33,
+      1.18
+     ],
+     "end": [
+      -6.15,
+      8.3,
+      -0.01
+     ],
+     "moved_m": 1.2
+    },
+    "shed_glass_0.001bbab": {
+     "before": [
+      -5.99,
+      8.33,
+      1.15
+     ],
+     "end": [
+      -6.36,
+      8.32,
+      -0.01
+     ],
+     "moved_m": 1.22
+    },
+    "shed_glass_0.001bbba": {
+     "before": [
+      -5.91,
+      8.35,
+      1.0
+     ],
+     "end": [
+      -5.92,
+      8.29,
+      -0.01
+     ],
+     "moved_m": 1.01
+    },
+    "shed_glass_0.001bbbb": {
+     "before": [
+      -5.97,
+      8.33,
+      1.0
+     ],
+     "end": [
+      -5.97,
+      8.19,
+      -0.0
+     ],
+     "moved_m": 1.01
+    }
+   },
+   "release": 166,
+   "shards": 16,
+   "type": "glass_shatter"
+  },
+  {
+   "pieces": 2,
+   "joints": 1,
+   "pieces_moved": 2,
+   "max_moved_m": 1.26,
+   "max_speed_ms": 4.66,
+   "fastest": "crate_drop:wooden_crate_02_crate",
+   "max_rise_m": 0.0,
+   "highest": null,
+   "track": {
+    "wooden_crate_02_crate": {
+     "before": [
+      -9.3,
+      4.6,
+      1.51
+     ],
+     "end": [
+      -9.3,
+      4.6,
+      0.26
+     ],
+     "moved_m": 1.26
+    },
+    "wooden_crate_02_lid": {
+     "before": [
+      -9.3,
+      4.6,
+      1.3
+     ],
+     "end": [
+      -9.3,
+      4.6,
+      0.04
+     ],
+     "moved_m": 1.26
+    }
+   },
+   "type": "drop",
+   "release": 205
+  },
+  {
+   "pieces": 1,
+   "joints": 0,
+   "pieces_moved": 1,
+   "max_moved_m": 8.09,
+   "max_speed_ms": 2.71,
+   "fastest": "barrel_roll:wine_barrel_01",
+   "max_rise_m": 0.04,
+   "highest": "barrel_roll:wine_barrel_01",
+   "track": {
+    "wine_barrel_01": {
+     "before": [
+      -13.0,
+      2.2,
+      0.38
+     ],
+     "end": [
+      -5.0,
+      3.4,
+      0.38
+     ],
+     "moved_m": 8.09
+    }
+   },
+   "radius_m": 0.378,
+   "type": "roll",
+   "release": 232
+  },
+  {
+   "pieces": 4,
+   "joints": 4,
+   "pieces_moved": 2,
+   "max_moved_m": 3.21,
+   "max_speed_ms": 5.61,
+   "fastest": "crates_3:wooden_crate_01",
+   "max_rise_m": 0.01,
+   "highest": "crates_0:wooden_crate_01",
+   "track": {},
+   "release": 336,
+   "type": "collapse"
+  },
+  {
+   "deformed_vertices": 261,
+   "object": "oil_barrel:Barrel_01",
+   "frame": 342,
+   "type": "deform",
+   "release": 342
+  },
+  {
+   "pieces": 55,
+   "joints": 190,
+   "pieces_moved": 55,
+   "max_moved_m": 12.11,
+   "max_speed_ms": 9.79,
+   "fastest": "cart:cart_side_R_1_frag1",
+   "max_rise_m": 0.94,
+   "highest": "cart:cart_wheel_R",
+   "track": {
+    "cart_axle": {
+     "before": [
+      8.5,
+      2.0,
+      0.65
+     ],
+     "end": [
+      12.64,
+      2.7,
+      0.06
+     ],
+     "moved_m": 4.24
+    },
+    "cart_wheel_L": {
+     "before": [
+      7.65,
+      2.0,
+      0.65
+     ],
+     "end": [
+      13.33,
+      1.38,
+      0.25
+     ],
+     "moved_m": 5.73
+    },
+    "cart_wheel_R": {
+     "before": [
+      9.35,
+      2.0,
+      0.65
+     ],
+     "end": [
+      12.48,
+      2.13,
+      0.12
+     ],
+     "moved_m": 3.18
+    },
+    "cart_plank_03_frag0": {
+     "before": [
+      8.58,
+      1.21,
+      0.97
+     ],
+     "end": [
+      20.52,
+      1.79,
+      1.12
+     ],
+     "moved_m": 11.96
+    }
+   },
+   "release": 377,
+   "type": "crash"
+  }
+ ],
+ "cloth": [
+  {
+   "cloth": "sheet_white",
+   "frames": 450,
+   "verts": 266
+  },
+  {
+   "cloth": "sheet_red",
+   "frames": 450,
+   "verts": 285
+  }
+ ],
+ "fx_objects": {
+  "drum_fire": 119,
+  "drum_smoke": 50,
+  "chimney": 36,
+  "crate_dust": 8,
+  "crates_dust": 12,
+  "cart_sparks": 45,
+  "cart_dust": 18,
+  "can_burst": 78
+ },
+ "fx_frames": {
+  "drum_fire": null,
+  "drum_smoke": null,
+  "chimney": null,
+  "crate_dust": 213,
+  "crates_dust": 336,
+  "cart_sparks": 377,
+  "cart_dust": 377,
+  "can_burst": 405
+ },
+ "light": {
+  "preset": "day",
+  "view": "Khronos PBR Neutral",
+  "exposure": 0.20000000298023224,
+  "white_balance": 7600.0
+ },
+ "lookdev": {
+  "applied": {
+   "exhaust": "iron",
+   "glass": "grain",
+   "glass.001": "grain",
+   "glass.002": "grain",
+   "grass_medium_02": "tint",
+   "grass_medium_02.001": "tint",
+   "ground": "layers",
+   "iron": "iron",
+   "iron.001": "iron",
+   "iron.002": "iron",
+   "island_tree_02_leaves": "tint",
+   "linen": "grain",
+   "linen_red": "grain",
+   "nettle_plant": "tint",
+   "paint": "tex_rusty_painted_metal",
+   "paint_worn": "tex_rusty_painted_metal",
+   "quoin": "tex_rustic_stone_wall",
+   "roof": "tex_clay_roof_tiles",
+   "rope": "grain",
+   "rope.001": "grain",
+   "rubber": "rubber",
+   "rust": "tex_rusty_painted_metal",
+   "shrub_03": "tint",
+   "shrub_04": "tint",
+   "steel_dark": "iron",
+   "stone": "tex_rustic_stone_wall",
+   "stone.001": "tex_rustic_stone_wall",
+   "stone.002": "tex_rustic_stone_wall",
+   "straw": "grain",
+   "track": "iron",
+   "twine": "grain",
+   "water": "grain",
+   "wood": "tex_brown_planks_05",
+   "wood.001": "tex_brown_planks_05",
+   "wood.002": "tex_brown_planks_05",
+   "wood.003": "tex_brown_planks_05",
+   "wood.004": "tex_brown_planks_05",
+   "wood_dark": "tex_brown_planks_05",
+   "wood_dark.001": "tex_brown_planks_05",
+   "wood_dark.002": "tex_brown_planks_05",
+   "wood_dark.003": "tex_brown_planks_05",
+   "wood_dark.004": "tex_brown_planks_05",
+   "wood_paint": "tex_brown_planks_05"
+  },
+  "unmatched": [
+   "Barrel_01",
+   "Card_farmer",
+   "Card_smith",
+   "Lantern_01_brass",
+   "Lantern_01_glass",
+   "barrel_stove",
+   "blast_fireball_m00",
+   "blast_fireball_m01",
+   "blast_fireball_m02",
+   "blast_fireball_m03",
+   "blast_fireball_m04",
+   "blast_fireball_m05",
+   "blast_fireball_m06",
+   "blast_fireball_m07",
+   "blast_fireball_m08",
+   "blast_fireball_m09",
+   "blast_ring_m",
+   "blast_smoke_m00",
+   "blast_smoke_m01",
+   "blast_smoke_m02",
+   "blast_smoke_m03",
+   "blast_smoke_m04",
+   "blast_smoke_m05",
+   "blast_smoke_m06",
+   "blast_smoke_m07",
+   "blast_smoke_m08",
+   "blast_smoke_m09",
+   "blast_smoke_m10",
+   "blast_smoke_m11",
+   "blast_smoke_m12",
+   "blast_smoke_m13",
+   "blast_smoke_m14",
+   "blast_smoke_m15",
+   "blast_sparks_m",
+   "cart_dust_dust_00",
+   "cart_dust_dust_01",
+   "cart_dust_dust_02",
+   "cart_dust_dust_03",
+   "cart_dust_dust_04",
+   "cart_dust_dust_05",
+   "cart_dust_dust_06",
+   "cart_dust_dust_07",
+   "cart_dust_dust_08",
+   "cart_dust_dust_09",
+   "cart_dust_dust_10",
+   "cart_dust_dust_11",
+   "cart_dust_dust_12",
+   "cart_dust_dust_13",
+   "cart_dust_dust_14",
+   "cart_dust_dust_15",
+   "cart_dust_dust_16",
+   "cart_dust_dust_17",
+   "cart_sparks_m",
+   "chimney_000_m00",
+   "chimney_000_m01",
+   "chimney_001_m00",
+   "chimney_001_m01",
+   "chimney_002_m00",
+   "chimney_002_m01",
+   "chimney_003_m00",
+   "chimney_003_m01",
+   "chimney_004_m00",
+   "chimney_004_m01",
+   "chimney_005_m00",
+   "chimney_005_m01",
+   "chimney_006_m00",
+   "chimney_006_m01",
+   "chimney_007_m00",
+   "chimney_007_m01",
+   "chimney_008_m00",
+   "chimney_008_m01",
+   "chimney_009_m00",
+   "chimney_009_m01",
+   "chimney_010_m00",
+   "chimney_010_m01",
+   "chimney_011_m00",
+   "chimney_011_m01",
+   "chimney_012_m00",
+   "chimney_012_m01",
+   "chimney_013_m00",
+   "chimney_013_m01",
+   "chimney_014_m00",
+   "chimney_014_m01",
+   "chimney_015_m00",
+   "chimney_015_m01",
+   "chimney_016_m00",
+   "chimney_016_m01",
+   "chimney_017_m00",
+   "chimney_017_m01",
+   "crate_dust_dust_00",
+   "crate_dust_dust_01",
+   "crate_dust_dust_02",
+   "crate_dust_dust_03",
+   "crate_dust_dust_04",
+   "crate_dust_dust_05",
+   "crate_dust_dust_06",
+   "crate_dust_dust_07",
+   "crates_dust_dust_00",
+   "crates_dust_dust_01",
+   "crates_dust_dust_02",
+   "crates_dust_dust_03",
+   "crates_dust_dust_04",
+   "crates_dust_dust_05",
+   "crates_dust_dust_06",
+   "crates_dust_dust_07",
+   "crates_dust_dust_08",
+   "crates_dust_dust_09",
+   "crates_dust_dust_10",
+   "crates_dust_dust_11",
+   "dandelion_01",
+   "drum_fire_ember_000_m00",
+   "drum_fire_ember_001_m00",
+   "drum_fire_ember_002_m00",
+   "drum_fire_ember_003_m00",
+   "drum_fire_ember_004_m00",
+   "drum_fire_ember_005_m00",
+   "drum_fire_ember_006_m00",
+   "drum_fire_ember_007_m00",
+   "drum_fire_ember_008_m00",
+   "drum_fire_ember_009_m00",
+   "drum_fire_ember_010_m00",
+   "drum_fire_ember_011_m00",
+   "drum_fire_ember_012_m00",
+   "drum_fire_ember_013_m00",
+   "drum_fire_ember_014_m00",
+   "drum_fire_ember_015_m00",
+   "drum_fire_ember_016_m00",
+   "drum_fire_ember_017_m00",
+   "drum_fire_ember_018_m00",
+   "drum_fire_ember_019_m00",
+   "drum_fire_ember_020_m00",
+   "drum_fire_ember_021_m00",
+   "drum_fire_ember_022_m00",
+   "drum_fire_ember_023_m00",
+   "drum_fire_ember_024_m00",
+   "drum_fire_ember_025_m00",
+   "drum_fire_ember_026_m00",
+   "drum_fire_ember_027_m00",
+   "drum_fire_ember_028_m00",
+   "drum_fire_ember_029_m00",
+   "drum_fire_ember_030_m00",
+   "drum_fire_ember_031_m00",
+   "drum_fire_ember_032_m00",
+   "drum_fire_ember_033_m00",
+   "drum_fire_ember_034_m00",
+   "drum_fire_ember_035_m00",
+   "drum_fire_ember_036_m00",
+   "drum_fire_ember_037_m00",
+   "drum_fire_ember_038_m00",
+   "drum_fire_ember_039_m00",
+   "drum_fire_ember_040_m00",
+   "drum_fire_ember_041_m00",
+   "drum_fire_ember_042_m00",
+   "drum_fire_ember_043_m00",
+   "drum_fire_ember_044_m00",
+   "drum_fire_ember_045_m00",
+   "drum_fire_ember_046_m00",
+   "drum_fire_ember_047_m00",
+   "drum_fire_ember_048_m00",
+   "drum_fire_ember_049_m00",
+   "drum_fire_ember_050_m00",
+   "drum_fire_ember_051_m00",
+   "drum_fire_ember_052_m00",
+   "drum_fire_ember_053_m00",
+   "drum_fire_ember_054_m00",
+   "drum_fire_ember_055_m00",
+   "drum_fire_ember_056_m00",
+   "drum_fire_ember_057_m00",
+   "drum_fire_ember_058_m00",
+   "drum_fire_ember_059_m00",
+   "drum_fire_ember_060_m00",
+   "drum_fire_ember_061_m00",
+   "drum_fire_ember_062_m00",
+   "drum_fire_ember_063_m00",
+   "drum_fire_ember_064_m00",
+   "drum_fire_ember_065_m00",
+   "drum_fire_ember_066_m00",
+   "drum_fire_ember_067_m00",
+   "drum_fire_ember_068_m00",
+   "drum_fire_ember_069_m00",
+   "drum_fire_ember_070_m00",
+   "drum_fire_ember_071_m00",
+   "drum_fire_ember_072_m00",
+   "drum_fire_ember_073_m00",
+   "drum_fire_ember_074_m00",
+   "drum_fire_ember_075_m00",
+   "drum_fire_ember_076_m00",
+   "drum_fire_ember_077_m00",
+   "drum_fire_ember_078_m00",
+   "drum_fire_ember_079_m00",
+   "drum_fire_ember_080_m00",
+   "drum_fire_ember_081_m00",
+   "drum_fire_ember_082_m00",
+   "drum_fire_ember_083_m00",
+   "drum_fire_ember_084_m00",
+   "drum_fire_ember_085_m00",
+   "drum_fire_ember_086_m00",
+   "drum_fire_ember_087_m00",
+   "drum_fire_ember_088_m00",
+   "drum_fire_ember_089_m00",
+   "drum_fire_ember_090_m00",
+   "drum_fire_ember_091_m00",
+   "drum_fire_ember_092_m00",
+   "drum_fire_ember_093_m00",
+   "drum_fire_ember_094_m00",
+   "drum_fire_ember_095_m00",
+   "drum_fire_ember_096_m00",
+   "drum_fire_ember_097_m00",
+   "drum_fire_ember_098_m00",
+   "drum_fire_ember_099_m00",
+   "drum_fire_ember_100_m00",
+   "drum_fire_ember_101_m00",
+   "drum_fire_ember_102_m00",
+   "drum_fire_ember_103_m00",
+   "drum_fire_ember_104_m00",
+   "drum_fire_ember_105_m00",
+   "drum_fire_ember_106_m00",
+   "drum_fire_ember_107_m00",
+   "drum_fire_ember_108_m00",
+   "drum_fire_ember_109_m00",
+   "drum_fire_ember_110_m00",
+   "drum_fire_ember_111_m00",
+   "drum_fire_ember_112_m00",
+   "drum_fire_flame_m",
+   "drum_smoke_000_m00",
+   "drum_smoke_000_m01",
+   "drum_smoke_001_m00",
+   "drum_smoke_001_m01",
+   "drum_smoke_002_m00",
+   "drum_smoke_002_m01",
+   "drum_smoke_003_m00",
+   "drum_smoke_003_m01",
+   "drum_smoke_004_m00",
+   "drum_smoke_004_m01",
+   "drum_smoke_005_m00",
+   "drum_smoke_005_m01",
+   "drum_smoke_006_m00",
+   "drum_smoke_006_m01",
+   "drum_smoke_007_m00",
+   "drum_smoke_007_m01",
+   "drum_smoke_008_m00",
+   "drum_smoke_008_m01",
+   "drum_smoke_009_m00",
+   "drum_smoke_009_m01",
+   "drum_smoke_010_m00",
+   "drum_smoke_010_m01",
+   "drum_smoke_011_m00",
+   "drum_smoke_011_m01",
+   "drum_smoke_012_m00",
+   "drum_smoke_012_m01",
+   "drum_smoke_013_m00",
+   "drum_smoke_013_m01",
+   "drum_smoke_014_m00",
+   "drum_smoke_014_m01",
+   "drum_smoke_015_m00",
+   "drum_smoke_015_m01",
+   "drum_smoke_016_m00",
+   "drum_smoke_016_m01",
+   "drum_smoke_017_m00",
+   "drum_smoke_017_m01",
+   "drum_smoke_018_m00",
+   "drum_smoke_018_m01",
+   "drum_smoke_019_m00",
+   "drum_smoke_019_m01",
+   "drum_smoke_020_m00",
+   "drum_smoke_020_m01",
+   "drum_smoke_021_m00",
+   "drum_smoke_021_m01",
+   "drum_smoke_022_m00",
+   "drum_smoke_022_m01",
+   "drum_smoke_023_m00",
+   "drum_smoke_023_m01",
+   "drum_smoke_024_m00",
+   "drum_smoke_024_m01",
+   "island_tree_02",
+   "island_tree_02_branches",
+   "metal_jerrycan",
+   "old_tyre",
+   "painted_wooden_bench",
+   "rc_contact",
+   "wicker_basket_01",
+   "wine_barrel_01",
+   "wooden_axe",
+   "wooden_bucket_01",
+   "wooden_crate_01",
+   "wooden_crate_02",
+   "wooden_ladder"
+  ]
+ },
+ "assets_used": [
+  "barrel_01",
+  "barrel_stove",
+  "crawler_dozer",
+  "dandelion_01",
+  "farm_cart",
+  "garden_shed",
+  "grass_medium_02",
+  "grass_medium_02__lod1",
+  "hay_bale",
+  "island_tree_02",
+  "lantern_01",
+  "metal_jerrycan",
+  "nettle_plant",
+  "normandy_farmhouse",
+  "old_tyre",
+  "painted_wooden_bench",
+  "rail_fence",
+  "shrub_03",
+  "shrub_04",
+  "stone_well",
+  "washing_posts",
+  "water_trough",
+  "wicker_basket_01",
+  "wine_barrel_01",
+  "wooden_axe",
+  "wooden_bucket_01",
+  "wooden_crate_01",
+  "wooden_crate_02",
+  "wooden_ladder"
+ ],
+ "build_key": "7516340dc764e6dddc148e4f8a5a56b920d57b72b02032f5e23811ea5f2acea1",
+ "stats": {
+  "objects": 506,
+  "mesh_objects": 469,
+  "mesh_datablocks": 469,
+  "tris": 119926,
+  "instancer_objects": 11,
+  "character_card_objects": 4,
+  "primitive_like_objects": 104,
+  "primitive_ratio": 0.229,
+  "primitive_tris_ratio": 0.0109,
+  "materials": 329,
+  "textured_materials": 326,
+  "dims_m": [
+   220.0,
+   220.0,
+   17.382
+  ],
+  "largest_meshes": [
+   [
+    "terrain",
+    {
+     "verts": 19881,
+     "tris": 39200
+    }
+   ],
+   [
+    "barrel_roll:wine_barrel_01",
+    {
+     "verts": 10031,
+     "tris": 10820
+    }
+   ],
+   [
+    "crates_0:wooden_crate_01",
+    {
+     "verts": 4686,
+     "tris": 6576
+    }
+   ],
+   [
+    "crates_1:wooden_crate_01",
+    {
+     "verts": 4686,
+     "tris": 6576
+    }
+   ],
+   [
+    "crates_2:wooden_crate_01",
+    {
+     "verts": 4686,
+     "tris": 6576
+    }
+   ]
+  ],
+  "untextured_material_names": [
+   "blast_sparks_m",
+   "cart_sparks_m",
+   "drum_fire_flame_m"
+  ],
+  "instances_drawn": 7924,
+  "instanced_tris": 34841060,
+  "total_tris_drawn": 34960986,
+  "by_type": {
+   "EMPTY": 28,
+   "MESH": 469,
+   "CAMERA": 5,
+   "LIGHT": 4
+  },
+  "instance_ratio": 0.9441
+ }
+}

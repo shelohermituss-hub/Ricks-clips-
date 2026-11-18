@@ -1,0 +1,105 @@
+{
+ "contact": {
+  "farmer": {
+   "frames_checked": 30,
+   "max_gap_m": 0.0,
+   "ok": true,
+   "casts_shadow": true
+  },
+  "smith": {
+   "frames_checked": 30,
+   "max_gap_m": 0.0,
+   "ok": true,
+   "casts_shadow": true
+  }
+ },
+ "penetration": {
+  "objects": 79,
+  "max_depth_m": 0.015,
+  "over_5cm": {}
+ },
+ "stats": {
+  "objects": 506,
+  "mesh_objects": 469,
+  "mesh_datablocks": 469,
+  "tris": 119926,
+  "instancer_objects": 11,
+  "character_card_objects": 4,
+  "primitive_like_objects": 104,
+  "primitive_ratio": 0.229,
+  "primitive_tris_ratio": 0.0109,
+  "materials": 329,
+  "textured_materials": 326,
+  "dims_m": [
+   220.0,
+   220.0,
+   17.382
+  ],
+  "largest_meshes": [
+   [
+    "terrain",
+    {
+     "verts": 19881,
+     "tris": 39200
+    }
+   ],
+   [
+    "barrel_roll:wine_barrel_01",
+    {
+     "verts": 10031,
+     "tris": 10820
+    }
+   ],
+   [
+    "crates_0:wooden_crate_01",
+    {
+     "verts": 4686,
+     "tris": 6576
+    }
+   ],
+   [
+    "crates_1:wooden_crate_01",
+    {
+     "verts": 4686,
+     "tris": 6576
+    }
+   ],
+   [
+    "crates_2:wooden_crate_01",
+    {
+     "verts": 4686,
+     "tris": 6576
+    }
+   ]
+  ],
+  "untextured_material_names": [
+   "blast_sparks_m",
+   "cart_sparks_m",
+   "drum_fire_flame_m"
+  ],
+  "instances_drawn": 7924,
+  "instanced_tris": 34841060,
+  "total_tris_drawn": 34960986,
+  "by_type": {
+   "EMPTY": 28,
+   "MESH": 469,
+   "CAMERA": 5,
+   "LIGHT": 4
+  },
+  "instance_ratio": 0.9441
+ },
+ "animation": {
+  "shed:shed_door": {
+   "exists": true,
+   "keyed": true
+  },
+  "lantern": {
+   "exists": true,
+   "keyed": true
+  },
+  "dozer": {
+   "exists": true,
+   "keyed": true
+  }
+ }
+}

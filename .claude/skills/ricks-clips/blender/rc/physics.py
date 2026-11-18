@@ -231,7 +231,7 @@ def roll(scene, spec, src_fn, ground):
     parts = realize(scene, src_fn(spec["asset"]), spec.get("name", spec["asset"]), spec["at"], 0.0, col) if "asset" in spec else [_scene_obj(spec["object"])]
     o = join(parts, "%s:%s" % (spec.get("name", "roll"), spec.get("asset", parts[0].name.split(":")[-1])))
     with bpy.context.temp_override(object=o, active_object=o, selected_objects=[o], selected_editable_objects=[o]): bpy.ops.object.origin_set(type="ORIGIN_GEOMETRY", center="BOUNDS")
-    bpy.context.view_layer.update(); dims = o.dimensions.copy(); r0 = spec.get("radius") or max(dims.x, dims.y) / 2
+    bpy.context.view_layer.update(); dims = o.dimensions.copy(); r0 = max(spec.get("radius", 0), max(dims.x, dims.y) / 2)   # measured radius wins: a smaller authored radius sank the barrel 2.8 cm and Bullet threw it 1 m up
     lay = Matrix.Rotation(math.pi / 2, 4, "X") if spec.get("lay", True) else Matrix.Identity(4)     # cylinder axis Z -> across the travel
     rel = spec["release"]; d = Vector((*spec["direction"], 0)).normalized(); v = spec.get("speed", 2.0); h = math.atan2(d.y, d.x)
     x0, y0 = spec["at"][0], spec["at"][1]; o.rotation_mode = "QUATERNION"; prev = None

@@ -1100,7 +1100,6 @@
    "speed": 2.6,
    "push_from": 215,
    "release": 232,
-   "radius": 0.35,
    "frames": [
     180,
     320

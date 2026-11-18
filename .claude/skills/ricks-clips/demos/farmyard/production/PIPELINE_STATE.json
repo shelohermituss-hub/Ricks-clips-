@@ -1,0 +1,477 @@
+{
+ "1": {
+  "name": "ENVIRONMENT BUILD",
+  "status": "PASS",
+  "checks": [
+   {
+    "check": "repeats are instances (objects <= 3000)",
+    "pass": true,
+    "evidence": "44 objects, 7923 instances"
+   },
+   {
+    "check": "instance ratio >= 0.5",
+    "pass": true,
+    "evidence": 0.9977
+   },
+   {
+    "check": "no primitive stand-ins (ratio <= 0.10)",
+    "pass": true,
+    "evidence": 0.0
+   },
+   {
+    "check": "terrain has relief",
+    "pass": true,
+    "evidence": "4.58 m"
+   }
+  ],
+  "evidence": [
+   "production/p1_report.json"
+  ],
+  "seconds": 13.3,
+  "date": "2026-11-18T19:33:39Z"
+ },
+ "2": {
+  "name": "SET DRESSING",
+  "status": "PASS",
+  "checks": [
+   {
+    "check": "every scatter rule placed something",
+    "pass": true,
+    "evidence": {
+     "yard_grass_medium_02_0": 30,
+     "meadow_grass_medium_02_0": 5940,
+     "meadow_dandelion_01_1": 264,
+     "hedge_back_shrub_04_0": 560,
+     "hedge_back_shrub_03_1": 240,
+     "hedge_back_nettle_plant_2": 240,
+     "lane_edge_grass_medium_02_0": 485,
+     "lane_edge_nettle_plant_1": 76
+    }
+   },
+   {
+    "check": "lines placed",
+    "pass": true,
+    "evidence": [
+     "fence_back",
+     "fence_side"
+    ]
+   },
+   {
+    "check": "assets resolved from the library",
+    "pass": true,
+    "evidence": 25
+   }
+  ],
+  "evidence": [
+   "production/p1_report.json"
+  ],
+  "seconds": 0.0,
+  "date": "2026-11-18T19:33:39Z"
+ },
+ "3": {
+  "name": "CAMERA BLOCKING",
+  "status": "PASS",
+  "checks": [
+   {
+    "check": "one camera per shot",
+    "pass": true,
+    "evidence": [
+     "Cam_s1_wide",
+     "Cam_s2_shed",
+     "Cam_s3_hay",
+     "Cam_s4_dozer",
+     "Cam_s5_end"
+    ]
+   },
+   {
+    "check": "shots cover the frames without gaps",
+    "pass": true,
+    "evidence": [
+     [
+      0,
+      89
+     ],
+     [
+      90,
+      179
+     ],
+     [
+      180,
+      269
+     ],
+     [
+      270,
+      389
+     ],
+     [
+      390,
+      449
+     ]
+    ]
+   },
+   {
+    "check": "animatic rendered",
+    "pass": true,
+    "evidence": "p3_animatic_workbench.mp4"
+   }
+  ],
+  "evidence": [
+   "production/p3_animatic_workbench.mp4",
+   "production/p3_shots_first_frames.jpg"
+  ],
+  "seconds": 950.5,
+  "date": "2026-11-18T21:33:37Z"
+ },
+ "4": {
+  "name": "CHARACTER INTEGRATION",
+  "status": "PASS",
+  "checks": [
+   {
+    "check": "all characters placed",
+    "pass": true,
+    "evidence": [
+     "farmer",
+     "smith"
+    ]
+   },
+   {
+    "check": "feet on the ground (<= 2 cm on sampled frames)",
+    "pass": true,
+    "evidence": {
+     "farmer": 0.0,
+     "smith": 0.0
+    }
+   },
+   {
+    "check": "cards cast shadows",
+    "pass": true,
+    "evidence": true
+   }
+  ],
+  "evidence": [
+   "production/p4_cards.log",
+   "production/scene_qa.json"
+  ],
+  "seconds": 141.1,
+  "date": "2026-11-18T22:34:27Z"
+ },
+ "5": {
+  "name": "ANIMATION BLOCKING",
+  "status": "PASS",
+  "checks": [
+   {
+    "check": "every animation target exists and is keyed",
+    "pass": true,
+    "evidence": {
+     "shed:shed_door": {
+      "exists": true,
+      "keyed": true
+     },
+     "lantern": {
+      "exists": true,
+      "keyed": true
+     },
+     "dozer": {
+      "exists": true,
+      "keyed": true
+     }
+    }
+   }
+  ],
+  "evidence": [
+   "production/scene_qa.json"
+  ],
+  "seconds": 0.0,
+  "date": "2026-11-18T22:34:27Z"
+ },
+ "6": {
+  "name": "INTERACTION SYSTEM",
+  "status": "PASS",
+  "checks": [
+   {
+    "check": "glass_shatter: pieces moved after release",
+    "pass": true,
+    "evidence": {
+     "pieces": 17,
+     "joints": 0,
+     "pieces_moved": 17,
+     "release": 166
+    }
+   },
+   {
+    "check": "glass_shatter: no piece launched upward (rise above release height < 1.5 m)",
+    "pass": true,
+    "evidence": {
+     "max_rise_m": 0.0,
+     "highest": null
+    }
+   },
+   {
+    "check": "glass_shatter: nothing thrown absurdly far (< 12 m) and no projection (< 15 m/s)",
+    "pass": true,
+    "evidence": {
+     "max_moved_m": 5.74,
+     "max_speed_ms": 8.37
+    }
+   },
+   {
+    "check": "drop: pieces moved after release",
+    "pass": true,
+    "evidence": {
+     "pieces": 2,
+     "joints": 1,
+     "pieces_moved": 2,
+     "release": 205
+    }
+   },
+   {
+    "check": "drop: no piece launched upward (rise above release height < 1.5 m)",
+    "pass": true,
+    "evidence": {
+     "max_rise_m": 0.0,
+     "highest": null
+    }
+   },
+   {
+    "check": "drop: nothing thrown absurdly far (< 12 m) and no projection (< 15 m/s)",
+    "pass": true,
+    "evidence": {
+     "max_moved_m": 1.26,
+     "max_speed_ms": 4.66
+    }
+   },
+   {
+    "check": "roll: pieces moved after release",
+    "pass": true,
+    "evidence": {
+     "pieces": 1,
+     "joints": 0,
+     "pieces_moved": 1,
+     "release": 232
+    }
+   },
+   {
+    "check": "roll: no piece launched upward (rise above release height < 1.5 m)",
+    "pass": true,
+    "evidence": {
+     "max_rise_m": 0.04,
+     "highest": "barrel_roll:wine_barrel_01"
+    }
+   },
+   {
+    "check": "roll: nothing thrown absurdly far (< 12 m) and no projection (< 15 m/s)",
+    "pass": true,
+    "evidence": {
+     "max_moved_m": 8.09,
+     "max_speed_ms": 2.71
+    }
+   },
+   {
+    "check": "collapse: pieces moved after release",
+    "pass": true,
+    "evidence": {
+     "pieces": 4,
+     "joints": 4,
+     "pieces_moved": 2,
+     "release": 336
+    }
+   },
+   {
+    "check": "collapse: no piece launched upward (rise above release height < 1.5 m)",
+    "pass": true,
+    "evidence": {
+     "max_rise_m": 0.01,
+     "highest": "crates_0:wooden_crate_01"
+    }
+   },
+   {
+    "check": "collapse: no piece projected (peak free speed < 15 m/s)",
+    "pass": true,
+    "evidence": {
+     "max_speed_ms": 5.61,
+     "fastest": "crates_3:wooden_crate_01",
+     "max_moved_m": 3.21
+    }
+   },
+   {
+    "check": "deform oil_barrel:Barrel_01: vertices moved",
+    "pass": true,
+    "evidence": 261
+   },
+   {
+    "check": "crash: pieces moved after release",
+    "pass": true,
+    "evidence": {
+     "pieces": 55,
+     "joints": 190,
+     "pieces_moved": 55,
+     "release": 377
+    }
+   },
+   {
+    "check": "crash: no piece launched upward (rise above release height < 1.5 m)",
+    "pass": true,
+    "evidence": {
+     "max_rise_m": 0.94,
+     "highest": "cart:cart_wheel_R"
+    }
+   },
+   {
+    "check": "crash: no piece projected (peak free speed < 15 m/s)",
+    "pass": true,
+    "evidence": {
+     "max_speed_ms": 9.79,
+     "fastest": "cart:cart_side_R_1_frag1",
+     "max_moved_m": 12.11
+    }
+   },
+   {
+    "check": "no simulated piece sunk > 5 cm into the ground (vertex check every 15 frames)",
+    "pass": true,
+    "evidence": {
+     "max_depth_m": 0.015,
+     "over_5cm": {}
+    }
+   }
+  ],
+  "evidence": [
+   "production/scene_report.json",
+   "production/scene_qa.json"
+  ],
+  "seconds": 0.0,
+  "date": "2026-11-18T22:34:27Z"
+ },
+ "7": {
+  "name": "ANIMATION POLISH",
+  "status": "PASS",
+  "checks": [
+   {
+    "check": "cloth baked on every frame",
+    "pass": true,
+    "evidence": [
+     {
+      "cloth": "sheet_white",
+      "frames": 450,
+      "verts": 266
+     },
+     {
+      "cloth": "sheet_red",
+      "frames": 450,
+      "verts": 285
+     }
+    ]
+   },
+   {
+    "check": "wind on vegetation",
+    "pass": true,
+    "evidence": 4
+   }
+  ],
+  "evidence": [
+   "production/scene_report.json"
+  ],
+  "seconds": 0.0,
+  "date": "2026-11-18T22:34:27Z"
+ },
+ "8": {
+  "name": "VFX",
+  "status": "PASS",
+  "checks": [
+   {
+    "check": "every effect built",
+    "pass": true,
+    "evidence": {
+     "drum_fire": 119,
+     "drum_smoke": 50,
+     "chimney": 36,
+     "crate_dust": 8,
+     "crates_dust": 12,
+     "cart_sparks": 45,
+     "cart_dust": 18,
+     "can_burst": 78
+    }
+   },
+   {
+    "check": "event-tied effects (@event) resolved to the computed impact frame",
+    "pass": true,
+    "evidence": {
+     "crate_dust": 213,
+     "crates_dust": 336,
+     "cart_sparks": 377,
+     "cart_dust": 377
+    }
+   }
+  ],
+  "evidence": [
+   "production/scene_report.json"
+  ],
+  "seconds": 0.0,
+  "date": "2026-11-18T22:34:27Z"
+ },
+ "9": {
+  "name": "LOOKDEV",
+  "status": "PASS",
+  "checks": [
+   {
+    "check": "materials textured >= 85 %",
+    "pass": true,
+    "evidence": "326/329"
+   },
+   {
+    "check": "exposure calibrated on the reference (luminance within 10 %)",
+    "pass": true,
+    "evidence": {
+     "iter": 1,
+     "exposure": 0.991,
+     "render_lum": 0.2757,
+     "ref_lum": 0.2703,
+     "rgb_ratio": [
+      0.931,
+      1.048,
+      1.012
+     ]
+    }
+   },
+   {
+    "check": "untextured materials listed",
+    "pass": true,
+    "evidence": [
+     "blast_sparks_m",
+     "cart_sparks_m",
+     "drum_fire_flame_m"
+    ]
+   }
+  ],
+  "evidence": [
+   "production/p9_calibration.json",
+   "production/scene_qa.json"
+  ],
+  "seconds": 209.6,
+  "date": "2026-11-18T22:37:56Z"
+ },
+ "10": {
+  "name": "FINAL CAMERA AND LIGHTING VALIDATION",
+  "status": "PASS",
+  "checks": [
+   {
+    "check": "validation stills of every shot",
+    "pass": true,
+    "evidence": 15
+   },
+   {
+    "check": "frame-order independence (frame alone vs inside a batch, <= 1/255)",
+    "pass": true,
+    "evidence": {
+     "frame": 134,
+     "max_diff": 0.0,
+     "bytes_equal": true
+    }
+   }
+  ],
+  "evidence": [
+   "production/p10_validation_sheet.jpg"
+  ],
+  "seconds": 419.6,
+  "date": "2026-11-18T22:44:56Z"
+ }
+}
