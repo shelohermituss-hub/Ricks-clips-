@@ -52,13 +52,33 @@ if [ "$MODE" = gpu ]; then K=${RICKCLIPS_PROCS:-3}; EXTRA=""; else K=${RICKCLIPS
 FR=/root/frames; rm -rf "$FR"; mkdir -p "$FR"; echo "cpus: $(nproc)"; st render "mode=$MODE angle=$ANG procs=$K frames=$N"
 TR0=$(date +%s); pids=()
 for i in $(seq 0 $((K-1))); do a=$(( N * i / K )); b=$(( N * (i+1) / K - 1 ))
-  RICKCLIPS_GPU_ANGLE=$ANG node render_gpu.mjs "$EP/film.json" --frames $a-$b --scale 1 --seed 7 --stills-dir "$FR" --cache /tmp/pc_$i $EXTRA > "$PUB/render_part$i.log" 2>&1 & pids+=($!); done
+  RICKCLIPS_GPU_ANGLE=$ANG node render_gpu.mjs "$EP/film.json" --frames $a-$b --scale ${RICKCLIPS_SCALE:-1} --seed 7 --stills-dir "$FR" --cache /tmp/pc_$i $EXTRA > "$PUB/render_part$i.log" 2>&1 & pids+=($!); done
 while :; do n=$(ls "$FR" | wc -l); st render "mode=$MODE angle=$ANG procs=$K frames $n/$N"; alive=0; for p in "${pids[@]}"; do kill -0 $p 2>/dev/null && alive=1; done; [ $alive = 0 ] && break; sleep 20; done
 TR=$(( $(date +%s) - TR0 )); n=$(ls "$FR" | wc -l); [ "$n" -eq "$N" ] || fail "only $n of $N frames rendered (see render_part*.log)"
 st encode "render ${TR}s for $N frames"
 ffmpeg -nostdin -loglevel error -y -framerate 30 -i "$FR/f_%05d.png" -i "$EP/sound/mix.flac" -map 0:v -map 1:a -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p -r 30 \
   -c:a aac -b:a 192k -ar 48000 -shortest -movflags +faststart "$PUB/final.mp4" || fail "ffmpeg"
 ffprobe -v error -show_entries stream=codec_name,width,height,avg_frame_rate,nb_frames:format=duration,size -of json "$PUB/final.mp4" > "$PUB/probe.json"
+# Optional episode post (RICKCLIPS_POST=v3, Ghost Army preview V3, 2026-11-18): the joins (edit/joins.py dissolves), the grade calibrated on one
+# middle frame per place of THIS render (grade/grade.py calibrate + apply, 8 parallel slices), and two MP4s: raw (joins only) and graded.
+if [ "${RICKCLIPS_POST:-}" = v3 ]; then
+  st post "joins + grade"
+  python3 -m pip install -q numpy pillow >/dev/null 2>&1 || true
+  python3 "$EP/edit/joins.py" "$FR" /root/fj || fail "joins"
+  mkdir -p /root/calib && python3 - <<PYEOF || fail "calib pick"
+import json, shutil
+c = json.load(open("$EP/out/plan/camera_baked.json"))["frames"]; by = {}
+for x in c: by.setdefault(x["place"], []).append(x["f"])
+for pl, fs in by.items(): f = fs[len(fs) // 2]; shutil.copy("/root/fj/f_%05d.png" % f, "/root/calib/f_%05d.png" % f); print(pl, f)
+PYEOF
+  python3 "$EP/grade/grade.py" calibrate /root/calib | tee "$PUB/grade_calibrate.txt" || fail "grade calibrate"
+  pids=(); for k in 0 1 2 3 4 5 6 7; do GRADE_K=$k python3 "$EP/grade/grade.py" apply /root/fj /root/fg --jobs 8 & pids+=($!); done; for p in "${pids[@]}"; do wait $p; done
+  ng=$(ls /root/fg | wc -l); [ "$ng" -eq "$N" ] || fail "graded $ng of $N"
+  printf '{"src":"/root/fj","dst":"/root/fg","frames_graded":%d,"note":"8 parallel slices, calibration from this render (grade.json)"}\n' "$ng" > "$PUB/grade_log.json"; cp "$EP/grade/grade.json" "$PUB/grade.json"; cp "$EP/edit/joins_log.json" "$PUB/joins_log.json"
+  for v in raw:fj graded:fg; do nm=${v%%:*}; d=/root/${v##*:}
+    ffmpeg -nostdin -loglevel error -y -framerate 30 -i "$d/f_%05d.png" -i "$EP/sound/mix.flac" -map 0:v -map 1:a -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p -r 30 -c:a aac -b:a 192k -ar 48000 -shortest -movflags +faststart "$PUB/ghost_army_preview_v3_$nm.mp4" || fail "encode $nm"; done
+  sha256sum "$PUB"/ghost_army_preview_v3_*.mp4 > "$PUB/v3.sha256"; cp "$PUB/ghost_army_preview_v3_graded.mp4" "$PUB/final.mp4"
+fi
 printf '{"mode":"%s","angle":"%s","procs":%d,"frames":%d,"render_s":%d,"s_per_frame":%.3f}\n' "$MODE" "$ANG" "$K" "$N" "$TR" "$(echo "$TR / $N" | bc -l 2>/dev/null || echo 0)" > "$PUB/render.json"
 sha256sum "$PUB/final.mp4" | cut -d' ' -f1 > "$PUB/final.sha256"
 st upload "GoFile"
