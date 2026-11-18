@@ -1,0 +1,44 @@
+[
+ {
+  "id": "cobblestone_street_night",
+  "kind": "hdri",
+  "res": "2k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/cobblestone_street_night"
+ },
+ {
+  "id": "cobblestone_floor_04",
+  "kind": "texture",
+  "res": "2k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/cobblestone_floor_04"
+ },
+ {
+  "id": "brown_mud_leaves_01",
+  "kind": "texture",
+  "res": "2k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/brown_mud_leaves_01"
+ },
+ {
+  "id": "bark_willow",
+  "kind": "texture",
+  "res": "2k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/bark_willow"
+ },
+ {
+  "id": "grass_medium_02",
+  "kind": "model",
+  "res": "1k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/grass_medium_02"
+ },
+ {
+  "id": "rusty_painted_metal",
+  "kind": "texture",
+  "res": "2k",
+  "license": "CC0",
+  "source": "https://polyhaven.com/a/rusty_painted_metal"
+ }
+]

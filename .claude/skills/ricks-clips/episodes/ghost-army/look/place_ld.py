@@ -18,6 +18,8 @@ t0 = time.time(); K = FL.build(bpy.context.scene, EP, place=PLACE, preset=PRESET
 LOG.append(dict(step="from_lock.build", status="APPLIED", result=dict(set_objects=len(K["set"]), cards=len(K["cards"]), keep_clear=len(K["keep_clear"])), s=round(time.time() - t0, 1)))
 KC = [(x, y, r) for x, y, r in K["keep_clear"]]
 ld.cycles(SAMPLES)
+try: bpy.context.scene.view_settings.look = "AgX - Punchy"
+except Exception as e: print("look", e)
 def mats_with(word): return [m for m in bpy.data.materials if word in m.name.lower()]
 def by_material(word, mat):
     n = 0
@@ -49,9 +51,9 @@ def road_lamps():
     ld.assign(r"^(road_lamp_post|road_lamp_arm|ht_lamp_post)", ld.simple("ld_iron", (.05, .05, .05), rough=.5, metal=.8)); return n
 
 
-LEAVES = ld.foliage("ld_leaves", (.1, .2, .05)); GRASS = ld.foliage("ld_grass", (.16, .26, .07), .4); LEAVES_N = ld.foliage("ld_leaves_night", (.05, .09, .04), .3)
+LEAVES = ld.foliage("ld_leaves", (.1, .2, .05)); GRASS = ld.foliage("ld_grass", (.16, .26, .07), .4); LEAVES_N = ld.foliage("ld_leaves_night", (.03, .07, .03), .3)
 if PLACE == "field":
-    step("hdri sky + light (qwantani_morning_puresky)", lambda: ld.world_hdri("qwantani_morning_puresky", strength=1.0, rot=2.2, visible=True) and "ok")
+    step("hdri sky + light (qwantani_morning_puresky)", lambda: ld.world_hdri("kloofendal_48d_partly_cloudy_puresky", strength=.9, rot=2.2, visible=True) and "ok")
     step("low morning sun", lambda: ld.sun("ld_sun", (.82, -.5, .24), 3.2, (1, .86, .7), .03) and "ok")
     step("ground: sparse grass PBR + displacement", lambda: ld.assign(r"^ground$", ld.pbr("ld_ground", "sparse_grass", tile=3, disp=.04)))
     step("dirt road: muddy tracks + displacement", lambda: ld.assign(r"^dirt_road$", ld.pbr("ld_dirt", "muddy_tracks", tile=4, disp=.12)))
@@ -60,7 +62,7 @@ if PLACE == "field":
     step("cargo truck: chipped olive paint, plank bed", lambda: ld.assign(r"^truck_(cab|hood|fender|side|bumper|tank)", ld.pbr("ld_truckpaint", "rusty_painted_metal", tile=1.2, tint=(.42, .45, .3), rough_mul=.9)) + ld.assign(r"^truck_(bed|board)", ld.pbr("ld_truckwood", "brown_planks_04", tile=1.0)))
     step("decoy tanks: rubberised canvas", tank_rubber)
     FG = ld.foliage_groups(); LOG.append(dict(step="foliage groups (instances imported as single objects)", status="APPLIED", result={k: len(v) for k, v in FG.items()}))
-    step("hedges: real shrubs (shrub_02) in place of leaf clumps", lambda: ld.replace_objs(FG["hedge"], "shrub_02", fit="height"))
+    step("hedges: leafy hedge clumps kept, real leaf material with colour variation (shrub_02 read as dry stalks in pass 2)", lambda: sum(1 for o in FG["hedge"] for _ in [o.data.materials.clear(), o.data.materials.append(LEAVES)]))
     step("copses and trees: leaf colour variation + bark", lambda: sum(1 for o in FG["copse"] for _ in [o.data.materials.clear(), o.data.materials.append(LEAVES)]) + ld.assign(r"^(tree|trunk|tree_trunk|poplar_trunk)", ld.pbr("ld_bark", "bark_brown_02", tile=.8)))
     step("meadow: modelled grass clumps near the lens (grass_medium_01, 1 in 2), colour variation for the rest", lambda: ld.replace_objs([o for o in FG["grass"] if o.matrix_world.translation.length < 26], "grass_medium_01", fit="height", every=2) + sum(1 for o in FG["grass"] if o.matrix_world.translation.length >= 26 for _ in [o.data.materials.clear(), o.data.materials.append(GRASS)]))
     step("dandelions and stones near the lens", lambda: ld.scatter(["dandelion_01", "stone_01"], 120, (-6, -6, 10, 12), KC, seed=4, scale=(.6, 1.1), near=(4, -2, 6)))
@@ -80,7 +82,7 @@ elif PLACE == "cafe":
     step("window: glass + frame light", lambda: ld.assign(r"^cafe_window", ld.simple("ld_glass", (.9, .95, 1), rough=.02, transmission=1.0)))
     step("cigarette haze in the room (volumetric)", lambda: ld.fog_box(room_center(), room_size(.95), .02, (1, .93, .82), .4) and "ok")
 elif PLACE == "road":
-    step("night HDRI for light/reflections only (cobblestone_street_night)", lambda: ld.world_hdri("cobblestone_street_night", strength=.35, visible=False, bg=(.012, .02, .05)) and "ok")
+    step("night HDRI for light/reflections only (cobblestone_street_night)", lambda: ld.world_hdri("cobblestone_street_night", strength=.12, visible=False, bg=(.008, .015, .045)) and "ok")
     step("moon (cold key)", lambda: ld.sun("ld_moon", (-.3, .6, .5), .35, (.62, .72, 1.0), .01) and "ok")
     step("cobbles: real displacement, wet", lambda: ld.assign(r"^road$", ld.pbr("ld_cobble", "cobblestone_floor_04", tile=1.6, disp=.05, wet=.75)))
     step("verges: wet mud and grass", lambda: ld.assign(r"^ground$", ld.pbr("ld_verge", "brown_mud_leaves_01", tile=3, disp=.04, wet=.5)))
@@ -88,11 +90,16 @@ elif PLACE == "road":
     FG = ld.foliage_groups(); LOG.append(dict(step="foliage groups (instances imported as single objects)", status="APPLIED", result={k: len(v) for k, v in FG.items()}))
     step("poplars: bark + dark wet leaves", lambda: ld.assign(r"^poplar_trunk", ld.pbr("ld_bark", "bark_willow", tile=.7, wet=.4)) + sum(1 for o in FG["hedge"] + FG["copse"] for _ in [o.data.materials.clear(), o.data.materials.append(LEAVES_N)]))
     step("verge grass: modelled wet grass near the lens (grass_medium_02, 1 in 3)", lambda: ld.replace_objs([o for o in FG["grass"] if abs(o.matrix_world.translation.x) < 12 and o.matrix_world.translation.y < 30], "grass_medium_02", fit="height", every=3))
-    step("half-track: chipped olive paint, wet", lambda: ld.assign(r"^(sound_halftrack_paint|ht_speaker_(frame|cradle|driver)|ht_driver_cap|ht_horn_(rib|rim))", ld.pbr("ld_htpaint", "rusty_painted_metal", tile=1.0, tint=(.36, .4, .26), rough_mul=.8, wet=.3)) + ld.assign(r"^(ht_speaker_horn|ht_horn)", ld.simple("ld_horn", (.62, .64, .6), rough=.25, metal=1.0)))
+    step("half-track: chipped olive paint, wet", lambda: ld.assign(r"^(sound_halftrack_paint|ht_speaker_(frame|cradle|driver)|ht_driver_cap|ht_horn_(rib|rim))", ld.simple("ld_htpaint", (.09, .11, .05), rough=.45, metal=.3)) + ld.assign(r"^(ht_speaker_horn|ht_horn)", ld.simple("ld_horn", (.62, .64, .6), rough=.25, metal=1.0)))
     step("street lamps: iron + warm bulbs with halos", lambda: road_lamps())
     step("ghost tanks hidden (in the film they are faint sound ghosts, opacity ~0 at these frames)", lambda: ld.assign(r"^(hull_bladder|turret_bladder|track_bladder|cupola_bladder|mantlet_cushion|gun_segments|gun_bands|wheel_cushions|hatch_cushion|patch_|hull_seams|turret_seams|straps|d_rings|valve_|tank_star|tank_stencil)", None, hide=True))
-    step("rainy night air (volumetric, lamp halos)", lambda: ld.fog_box((0, 30, 6), (60, 120, 14), .012, (.7, .78, 1.0), .5) and "ok")
+    step("rainy night air (volumetric, lamp halos)", lambda: ld.fog_box((0, 30, 6), (60, 120, 14), .0025, (.35, .45, .8), .5) and "ok")
 
+if PLACE == "field":   # diagnostic: why is the valve macro (frame 285) black in Cycles?
+    sc = bpy.context.scene; sc.frame_set(285); cam = sc.camera; o = cam.matrix_world.translation; d = cam.matrix_world.to_quaternion() @ Vector((0, 0, -1)); dg = bpy.context.evaluated_depsgraph_get()
+    hit = sc.ray_cast(dg, o, d); near = [(ob.name, round((ob.matrix_world.translation - o).length, 2)) for ob in bpy.data.objects if ob.type == "MESH" and not ob.hide_render and (ob.matrix_world.translation - o).length < 1.5][:12]
+    LOG.append(dict(step="diag f285", status="APPLIED", result=dict(cam=list(map(lambda v: round(v, 3), o)), dir=list(map(lambda v: round(v, 3), d)), clip=[cam.data.clip_start, cam.data.clip_end], lens=cam.data.lens, hit=[hit[0], list(map(lambda v: round(v, 2), hit[1])), hit[4].name if hit[4] else None], near=near)))
+    print("DIAG", LOG[-1])
 json.dump(LOG, open(os.path.join(OUT, PLACE + "_steps.json"), "w"), indent=1)
 T = ld.proofs(OUT, PLACE, FRAMES); ld.write_credits(OUT)
 json.dump(dict(place=PLACE, frames=FRAMES, samples=SAMPLES, timings=T, steps=LOG), open(os.path.join(OUT, PLACE + "_report.json"), "w"), indent=1)

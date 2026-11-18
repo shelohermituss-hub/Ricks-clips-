@@ -1,0 +1,72 @@
+01:02.941  cycles           | WARNING HIPEW initialization failed: Error opening HIP dynamic library
+STEP APPLIED hdri sky + light (qwantani_morning_puresky) ok
+STEP APPLIED low morning sun ok
+STEP APPLIED ground: sparse grass PBR + displacement 1
+STEP APPLIED dirt road: muddy tracks + displacement 1
+STEP APPLIED farm: stone walls, clay roof tiles, painted planks 6
+STEP APPLIED telegraph poles: weathered wood; insulators glass; wires 51
+STEP APPLIED cargo truck: chipped olive paint, plank bed 5
+STEP APPLIED decoy tanks: rubberised canvas 16
+STEP APPLIED hedges: real shrubs (shrub_02) in place of leaf clumps 816
+STEP APPLIED copses and trees: leaf colour variation + bark 1810
+STEP APPLIED meadow: modelled grass clumps near the lens (grass_medium_01, 1 in 2), colour variation for the rest 65045
+STEP APPLIED dandelions and stones near the lens 120
+STEP APPLIED morning air (volumetric haze) ok
+PLACE DONE field {"look_30": 9.1, "look_150": 8.8, "look_285": 7.8, "clay_30": 6.5, "clay_150": 6.5, "clay_285": 6.6, "depth_30": 7.1}
+00:05.551  cycles           | WARNING HIPEW initialization failed: Error opening HIP dynamic library
+STEP APPLIED lights: window sun + warm practicals + soft fill 5
+STEP APPLIED floor: worn tiles 1
+STEP APPLIED walls: painted plaster 3
+STEP APPLIED ceiling + beams: plaster, dark planks 6
+STEP APPLIED wainscot, chair rail, shelves: dark varnished wood 6
+STEP APPLIED zinc bar top: brushed metal 2
+STEP APPLIED bar mirror: real mirror 1
+STEP APPLIED bistro tables (round_wooden_table_01) 4
+STEP APPLIED chairs (wooden_stool_02 / painted_wooden_chair_01) 19
+STEP APPLIED bottles (wine_bottles_01) 2
+STEP APPLIED cups and saucers: glazed china 4
+STEP APPLIED window: glass + frame light 1
+STEP APPLIED cigarette haze in the room (volumetric) ok
+PLACE DONE cafe {"look_1185": 3.6, "look_1245": 3.1, "look_1305": 3.2, "clay_1185": 2.0, "clay_1245": 2.1, "clay_1305": 2.0, "depth_1185": 1.5}
+00:15.960  cycles           | WARNING HIPEW initialization failed: Error opening HIP dynamic library
+STEP APPLIED night HDRI for light/reflections only (cobblestone_street_night) ok
+STEP APPLIED moon (cold key) ok
+STEP APPLIED cobbles: real displacement, wet 1
+STEP APPLIED verges: wet mud and grass 1
+STEP APPLIED puddles: dark mirror water 16
+STEP APPLIED poplars: bark + dark wet leaves 1476
+STEP APPLIED verge grass: modelled wet grass near the lens (grass_medium_02, 1 in 3) 533
+STEP APPLIED half-track: chipped olive paint, wet 17
+STEP APPLIED street lamps: iron + warm bulbs with halos 3
+STEP APPLIED ghost tanks hidden (in the film they are faint sound ghosts, opacity ~0 at these frames) 160
+STEP APPLIED rainy night air (volumetric, lamp halos) ok
+PLACE DONE road {"look_800": 3.8, "look_880": 3.2, "look_960": 3.3, "clay_800": 2.3, "clay_880": 2.2, "clay_960": 2.3, "depth_800": 2.1}
+cafe_clay_f01185.png
+cafe_clay_f01245.png
+cafe_clay_f01305.png
+cafe_depth_f01185.png
+cafe_look_f01185.png
+cafe_look_f01245.png
+cafe_look_f01305.png
+cafe_report.json
+cafe_steps.json
+credits.json
+field_clay_f00030.png
+field_clay_f00150.png
+field_clay_f00285.png
+field_depth_f00030.png
+field_look_f00030.png
+field_look_f00150.png
+field_look_f00285.png
+field_report.json
+field_steps.json
+log.txt
+road_clay_f00800.png
+road_clay_f00880.png
+road_clay_f00960.png
+road_depth_f00800.png
+road_look_f00800.png
+road_look_f00880.png
+road_look_f00960.png
+road_report.json
+road_steps.json

@@ -1,0 +1,100 @@
+[
+ {
+  "step": "from_lock.build",
+  "status": "APPLIED",
+  "result": {
+   "set_objects": 50720,
+   "cards": 14,
+   "keep_clear": 562
+  },
+  "s": 62.3
+ },
+ {
+  "step": "hdri sky + light (qwantani_morning_puresky)",
+  "status": "APPLIED",
+  "result": "ok",
+  "s": 0.3
+ },
+ {
+  "step": "low morning sun",
+  "status": "APPLIED",
+  "result": "ok",
+  "s": 0.0
+ },
+ {
+  "step": "ground: sparse grass PBR + displacement",
+  "status": "APPLIED",
+  "result": 1,
+  "s": 0.9
+ },
+ {
+  "step": "dirt road: muddy tracks + displacement",
+  "status": "APPLIED",
+  "result": 1,
+  "s": 0.1
+ },
+ {
+  "step": "farm: stone walls, clay roof tiles, painted planks",
+  "status": "APPLIED",
+  "result": 6,
+  "s": 0.4
+ },
+ {
+  "step": "telegraph poles: weathered wood; insulators glass; wires",
+  "status": "APPLIED",
+  "result": 51,
+  "s": 0.5
+ },
+ {
+  "step": "cargo truck: chipped olive paint, plank bed",
+  "status": "APPLIED",
+  "result": 5,
+  "s": 0.2
+ },
+ {
+  "step": "decoy tanks: rubberised canvas",
+  "status": "APPLIED",
+  "result": 16,
+  "s": 0.1
+ },
+ {
+  "step": "foliage groups (instances imported as single objects)",
+  "status": "APPLIED",
+  "result": {
+   "grass": 48237,
+   "flowers": 500,
+   "hedge": 816,
+   "copse": 900
+  }
+ },
+ {
+  "step": "hedges: real shrubs (shrub_02) in place of leaf clumps",
+  "status": "APPLIED",
+  "result": 816,
+  "s": 12.7
+ },
+ {
+  "step": "copses and trees: leaf colour variation + bark",
+  "status": "APPLIED",
+  "result": 1810,
+  "s": 1.5
+ },
+ {
+  "step": "meadow: modelled grass clumps near the lens (grass_medium_01, 1 in 2), colour variation for the rest",
+  "status": "APPLIED",
+  "result": 65045,
+  "s": 641.8
+ },
+ {
+  "step": "dandelions and stones near the lens",
+  "status": "APPLIED",
+  "result": 120,
+  "s": 15.8
+ },
+ {
+  "step": "morning air (volumetric haze)",
+  "status": "APPLIED",
+  "result": "ok",
+  "s": 4.5
+ }
+]

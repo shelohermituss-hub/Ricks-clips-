@@ -1,0 +1,108 @@
+{
+ "place": "cafe",
+ "frames": [
+  1185,
+  1245,
+  1305
+ ],
+ "samples": 128,
+ "timings": {
+  "look_1185": 3.6,
+  "look_1245": 3.1,
+  "look_1305": 3.2,
+  "clay_1185": 2.0,
+  "clay_1245": 2.1,
+  "clay_1305": 2.0,
+  "depth_1185": 1.5
+ },
+ "steps": [
+  {
+   "step": "from_lock.build",
+   "status": "APPLIED",
+   "result": {
+    "set_objects": 81,
+    "cards": 14,
+    "keep_clear": 550
+   },
+   "s": 4.9
+  },
+  {
+   "step": "lights: window sun + warm practicals + soft fill",
+   "status": "APPLIED",
+   "result": 5,
+   "s": 0.0
+  },
+  {
+   "step": "floor: worn tiles",
+   "status": "APPLIED",
+   "result": 1,
+   "s": 0.1
+  },
+  {
+   "step": "walls: painted plaster",
+   "status": "APPLIED",
+   "result": 3,
+   "s": 0.1
+  },
+  {
+   "step": "ceiling + beams: plaster, dark planks",
+   "status": "APPLIED",
+   "result": 6,
+   "s": 0.2
+  },
+  {
+   "step": "wainscot, chair rail, shelves: dark varnished wood",
+   "status": "APPLIED",
+   "result": 6,
+   "s": 0.1
+  },
+  {
+   "step": "zinc bar top: brushed metal",
+   "status": "APPLIED",
+   "result": 2,
+   "s": 0.1
+  },
+  {
+   "step": "bar mirror: real mirror",
+   "status": "APPLIED",
+   "result": 1,
+   "s": 0.0
+  },
+  {
+   "step": "bistro tables (round_wooden_table_01)",
+   "status": "APPLIED",
+   "result": 4,
+   "s": 0.1
+  },
+  {
+   "step": "chairs (wooden_stool_02 / painted_wooden_chair_01)",
+   "status": "APPLIED",
+   "result": 19,
+   "s": 0.1
+  },
+  {
+   "step": "bottles (wine_bottles_01)",
+   "status": "APPLIED",
+   "result": 2,
+   "s": 0.2
+  },
+  {
+   "step": "cups and saucers: glazed china",
+   "status": "APPLIED",
+   "result": 4,
+   "s": 0.0
+  },
+  {
+   "step": "window: glass + frame light",
+   "status": "APPLIED",
+   "result": 1,
+   "s": 0.0
+  },
+  {
+   "step": "cigarette haze in the room (volumetric)",
+   "status": "APPLIED",
+   "result": "ok",
+   "s": 0.0
+  }
+ ]
+}

@@ -1,0 +1,106 @@
+{
+ "place": "road",
+ "frames": [
+  800,
+  880,
+  960
+ ],
+ "samples": 128,
+ "timings": {
+  "look_800": 3.8,
+  "look_880": 3.2,
+  "look_960": 3.3,
+  "clay_800": 2.3,
+  "clay_880": 2.2,
+  "clay_960": 2.3,
+  "depth_800": 2.1
+ },
+ "steps": [
+  {
+   "step": "from_lock.build",
+   "status": "APPLIED",
+   "result": {
+    "set_objects": 6285,
+    "cards": 14,
+    "keep_clear": 546
+   },
+   "s": 15.3
+  },
+  {
+   "step": "night HDRI for light/reflections only (cobblestone_street_night)",
+   "status": "APPLIED",
+   "result": "ok",
+   "s": 0.1
+  },
+  {
+   "step": "moon (cold key)",
+   "status": "APPLIED",
+   "result": "ok",
+   "s": 0.0
+  },
+  {
+   "step": "cobbles: real displacement, wet",
+   "status": "APPLIED",
+   "result": 1,
+   "s": 0.1
+  },
+  {
+   "step": "verges: wet mud and grass",
+   "status": "APPLIED",
+   "result": 1,
+   "s": 0.1
+  },
+  {
+   "step": "puddles: dark mirror water",
+   "status": "APPLIED",
+   "result": 16,
+   "s": 0.0
+  },
+  {
+   "step": "foliage groups (instances imported as single objects)",
+   "status": "APPLIED",
+   "result": {
+    "grass": 5289,
+    "flowers": 0,
+    "hedge": 720,
+    "copse": 0
+   }
+  },
+  {
+   "step": "poplars: bark + dark wet leaves",
+   "status": "APPLIED",
+   "result": 1476,
+   "s": 0.8
+  },
+  {
+   "step": "verge grass: modelled wet grass near the lens (grass_medium_02, 1 in 3)",
+   "status": "APPLIED",
+   "result": 533,
+   "s": 2.0
+  },
+  {
+   "step": "half-track: chipped olive paint, wet",
+   "status": "APPLIED",
+   "result": 17,
+   "s": 0.1
+  },
+  {
+   "step": "street lamps: iron + warm bulbs with halos",
+   "status": "APPLIED",
+   "result": 3,
+   "s": 0.0
+  },
+  {
+   "step": "ghost tanks hidden (in the film they are faint sound ghosts, opacity ~0 at these frames)",
+   "status": "APPLIED",
+   "result": 160,
+   "s": 0.1
+  },
+  {
+   "step": "rainy night air (volumetric, lamp halos)",
+   "status": "APPLIED",
+   "result": "ok",
+   "s": 0.6
+  }
+ ]
+}
