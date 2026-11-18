@@ -6,7 +6,7 @@
   "POP": 0,
   "LIBRARY": 57,
   "OVERLAP": 0,
-  "acts": 73,
+  "acts": 84,
   "status": "PASS"
  },
  "acts": [
@@ -211,6 +211,17 @@
    ]
   },
   {
+   "t": 5.6,
+   "who": "carrier_tall",
+   "at": [
+    "dead",
+    1
+   ],
+   "pose": null,
+   "face": "k:surprised",
+   "cls": []
+  },
+  {
    "t": 6.44,
    "who": "lou",
    "at": [
@@ -268,6 +279,17 @@
    ]
   },
   {
+   "t": 9.62,
+   "who": "carrier_tall",
+   "at": [
+    "rubber",
+    1
+   ],
+   "pose": null,
+   "face": "k:shocked",
+   "cls": []
+  },
+  {
    "t": 9.67,
    "who": "lou",
    "at": 290,
@@ -276,6 +298,18 @@
    "cls": [
     "LIBRARY"
    ]
+  },
+  {
+   "t": 10.45,
+   "who": "carrier_tall",
+   "at": [
+    "rubber",
+    1,
+    25
+   ],
+   "pose": null,
+   "face": "k:sleepy",
+   "cls": []
   },
   {
    "t": 10.57,
@@ -413,6 +447,50 @@
    "cls": [
     "LIBRARY"
    ]
+  },
+  {
+   "t": 21.5,
+   "who": "carrier_tall",
+   "at": [
+    "army",
+    2
+   ],
+   "pose": null,
+   "face": "k:proud",
+   "cls": []
+  },
+  {
+   "t": 21.5,
+   "who": "carrier_short",
+   "at": [
+    "army",
+    2
+   ],
+   "pose": null,
+   "face": "k:cheer",
+   "cls": []
+  },
+  {
+   "t": 24.74,
+   "who": "carrier_short",
+   "at": [
+    "bulldozer",
+    1
+   ],
+   "pose": null,
+   "face": "k:surprised",
+   "cls": []
+  },
+  {
+   "t": 24.74,
+   "who": "carrier_tall",
+   "at": [
+    "bulldozer",
+    1
+   ],
+   "pose": null,
+   "face": "k:browUp",
+   "cls": []
   },
   {
    "t": 26.43,
@@ -632,6 +710,17 @@
    ]
   },
   {
+   "t": 43.26,
+   "who": "lou",
+   "at": [
+    "laughs",
+    1
+   ],
+   "pose": null,
+   "face": "k:smirk",
+   "cls": []
+  },
+  {
    "t": 44.1,
    "who": "sergeant",
    "at": [
@@ -665,6 +754,17 @@
    "cls": [
     "LIBRARY"
    ]
+  },
+  {
+   "t": 44.7,
+   "who": "lou",
+   "at": [
+    "carnival",
+    1
+   ],
+   "pose": null,
+   "face": "k:wink",
+   "cls": []
   },
   {
    "t": 45.08,
@@ -851,6 +951,18 @@
    ]
   },
   {
+   "t": 67.25,
+   "who": "old_lou",
+   "at": [
+    "fooled",
+    1,
+    20
+   ],
+   "pose": null,
+   "face": "k:smirk",
+   "cls": []
+  },
+  {
    "t": 67.44,
    "who": "old_lou",
    "at": [
@@ -859,6 +971,17 @@
    ],
    "pose": null,
    "face": "k:smirk",
+   "cls": []
+  },
+  {
+   "t": 67.44,
+   "who": "grandchild",
+   "at": [
+    "families",
+    1
+   ],
+   "pose": null,
+   "face": "k:happy",
    "cls": []
   },
   {

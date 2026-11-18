@@ -1876,6 +1876,96 @@
    ],
    "pose": "m:lift/A",
    "face": "k:excited"
+  },
+  {
+   "who": "carrier_tall",
+   "at": [
+    "dead",
+    1
+   ],
+   "face": "k:surprised"
+  },
+  {
+   "who": "carrier_tall",
+   "at": [
+    "rubber",
+    1
+   ],
+   "face": "k:shocked"
+  },
+  {
+   "who": "carrier_tall",
+   "at": [
+    "rubber",
+    1,
+    25
+   ],
+   "face": "k:sleepy"
+  },
+  {
+   "who": "carrier_tall",
+   "at": [
+    "army",
+    2
+   ],
+   "face": "k:proud"
+  },
+  {
+   "who": "carrier_short",
+   "at": [
+    "army",
+    2
+   ],
+   "face": "k:cheer"
+  },
+  {
+   "who": "carrier_short",
+   "at": [
+    "bulldozer",
+    1
+   ],
+   "face": "k:surprised"
+  },
+  {
+   "who": "carrier_tall",
+   "at": [
+    "bulldozer",
+    1
+   ],
+   "face": "k:browUp"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "laughs",
+    1
+   ],
+   "face": "k:smirk"
+  },
+  {
+   "who": "lou",
+   "at": [
+    "carnival",
+    1
+   ],
+   "face": "k:wink"
+  },
+  {
+   "who": "grandchild",
+   "at": [
+    "families",
+    1
+   ],
+   "face": "k:happy"
+  },
+  {
+   "who": "old_lou",
+   "at": [
+    "fooled",
+    1,
+    20
+   ],
+   "face": "k:smirk"
   }
  ],
  "sentences": [

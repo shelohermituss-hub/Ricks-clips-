@@ -7,16 +7,16 @@
 | A_PREPRODUCTION | shot_list_exists | **PASS** | film.json takes=11 |
 | A_PREPRODUCTION | action_effect_matrix_exists | **PASS** | 9 story events in production/ACTION_EFFECT_MATRIX.json |
 | B_ASSETS | hero_asset_inventory_complete | **PASS** | 7 hero assets registered |
-| B_ASSETS | hero_assets_not_placeholder | **WARN** | Real tanks at the crossing: 73 parts, 5712 tris, 96% primitive generators, 72 textured mats -> primitive assembly / below hero detail; Sound half-track with horn speaker: 39 parts, 7080 tris, 95% primitive generators, 5 textured mats -> primitive assembly / below hero detail; Farmer's and boy's bicycles: flat 2D library prop, not a 3D asset; Field radio, Morse key, fist card: 1 parts, 12 tris, 100 |
-| B_ASSETS | license_and_provenance_recorded | **PASS** | 10 assets with provenance |
+| B_ASSETS | hero_assets_not_placeholder | **WARN** | Real tanks at the crossing: 73 parts, 5712 tris, 96% primitive generators, 72 textured mats -> primitive assembly / below hero detail; Farmer's and boy's bicycles: flat 2D library prop, not a 3D asset; Inflatable Sherman (hero decoy): 35 parts, 85548 tris, 6% primitive generators, 6 textured mats [modelled asset]; Sound half-track with horn speaker: 22 parts, 17460 tris, 59% primitive generators,  |
+| B_ASSETS | license_and_provenance_recorded | **PASS** | 11 assets with provenance |
 | B_ASSETS | renderer_import_test_passed | **PASS** | 1/1 external assets render-tested |
-| B_ASSETS | textures_verified | **PASS** | field 58/70 textured materials; camp 170/259 textured materials; road 190/246 textured materials; radio 26/32 textured materials; cafe 47/80 textured materials; photo 13/31 textured materials; river 405/529 textured materials; bedroom 34/48 textured materials; attic 36/53 textured materials |
+| B_ASSETS | textures_verified | **PASS** | field 58/165 textured materials; camp 173/356 textured materials; road 179/237 textured materials; radio 81/105 textured materials; cafe 47/80 textured materials; photo 13/35 textured materials; river 377/546 textured materials; bedroom 45/74 textured materials; attic 36/53 textured materials |
 | C_ENVIRONMENTS | detail_score_minimum_3 | **WARN** | below 3: field.geometry=2, camp.geometry=2, radio.geometry=2, radio.depth=2, photo.geometry=2, photo.depth=2, river.geometry=2; 9/9 places scored |
 | C_ENVIRONMENTS | three_depth_planes | **WARN** | 7/9 places depth>=3 |
 | C_ENVIRONMENTS | materials_reviewed | **PASS** | 9/9 places reviewed |
 | C_ENVIRONMENTS | lighting_reviewed | **PASS** | 9/9 places reviewed |
 | C_ENVIRONMENTS | environment_motion_reviewed | **WARN** | 9/9 places reviewed |
-| D_ANIMATION | actions_have_animation | **PASS** | {"STATIC": 0, "WALK2F": 0, "GLIDE": 0, "POP": 0, "LIBRARY": 57, "OVERLAP": 0, "acts": 73, "status": "PASS"} |
+| D_ANIMATION | actions_have_animation | **PASS** | {"STATIC": 0, "WALK2F": 0, "GLIDE": 0, "POP": 0, "LIBRARY": 57, "OVERLAP": 0, "acts": 84, "status": "PASS"} |
 | D_ANIMATION | contacts_checked | **WARN** | 2 frame-check FAIL groups, 2 waived with a reason (QA_LOG waivers) |
 | D_ANIMATION | transitions_checked | **PASS** | film.tween={'ones': True, 'face_frames': 0, 'move_blend': 6} |
 | D_ANIMATION | micro_animation_reviewed | **PASS** | motion_polish={'enabled': True, 'head_follow': 0.14, 'hand_follow': 0.08, 'breath': 0.55, 'breath_rate': 2.15, 'auto_blink': True} |

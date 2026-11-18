@@ -36,7 +36,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
      webbing straps, lift loops, a sausage-segment gun. A fictional film prop. The procedural build below stays for the REAL tanks only. */
   const GLB = {};
   { const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js'), L = new GLTFLoader();
-    for (const k of ['inflatable_tank', 'inflatable_tank_lod', 'crawler_dozer']) GLB[k] = (await L.loadAsync(new URL('../assets/' + k + '.glb', import.meta.url).href)).scene; }
+    for (const k of ['inflatable_tank', 'inflatable_tank_lod', 'crawler_dozer', 'sound_halftrack', 'field_radio', 'morse_key', 'light_table']) GLB[k] = (await L.loadAsync(new URL('../assets/' + k + '.glb', import.meta.url).href)).scene; }
   const TRK = new THREE.MeshStandardMaterial({ name: 'rubber_canvas', color: '#34352e', roughness: .8, bumpMap: treadTex, bumpScale: 1.2 });
   const ray = new THREE.Raycaster();
   function inflatable(name, opts = {}) {
@@ -159,10 +159,12 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     const g = new THREE.Group(); g.name = name; g.position.copy(V(...at)); g.rotation.y = rot; scene.add(g);
     const OD = metal('iron', '#4d5634', { rough: .7, rust: .15 }), DARK = std('#22241e', { rough: .9 }), TYRE = std('#1c1c1c', { rough: .95 });
     const p = (nm, geo, mat, x, y, z, o = {}) => { const m = add(new THREE.Mesh(geo, mat), nm, 'metal', { parent: g, mat: 'painted_metal_chipped' }); m.position.set(x, y, z); if (o.rx) m.rotation.x = o.rx; if (o.rz) m.rotation.z = o.rz; return m; };
-    p('ht_bed', new THREE.BoxGeometry(3.2, 1.0, 2.1), OD, -1.0, 1.25, 0); p('ht_hood', new THREE.BoxGeometry(1.7, .8, 1.6), OD, 1.6, 1.2, 0);
-    p('ht_cab', new THREE.BoxGeometry(1.1, .6, 2.0), OD, .5, 1.55, 0); p('ht_windshield', new THREE.BoxGeometry(.06, .5, 1.8), std('#7f93a3', { rough: .2 }), 1.0, 2.05, 0);
-    p('ht_bumper', new THREE.BoxGeometry(.2, .25, 2.2), DARK, 2.5, .8, 0);
-    for (const s of [-1, 1]) { p('ht_front_wheel', new THREE.CylinderGeometry(.48, .48, .3, 22), TYRE, 1.7, .48, s * .95, { rx: Math.PI / 2 }); p('ht_track', new THREE.BoxGeometry(2.6, .8, .4), TYRE, -1.0, .45, s * .9); for (let i = 0; i < 4; i++) p('ht_bogie', new THREE.CylinderGeometry(.28, .28, .1, 16), DARK, -2.0 + i * .66, .42, s * 1.12, { rx: Math.PI / 2 }); }
+    /* V3 (2026-11-18): the vehicle itself is a custom Blender model (library/assets/custom/sound_halftrack/build_sound_halftrack.py): treaded front tyres,
+       armoured radiator shutters, panelled hood, fenders with headlights and brush guards, open armoured cab, windshield armour with vision slits,
+       bed with racks and jerry cans, rubber band tracks with chevron cleats on two bogies. A sound truck: no weapon. The horn rig below stays in code (animated). */
+    { const body = GLB.sound_halftrack.clone(true); body.name = name + '_model'; g.add(body);
+      const MAT = { paint: OD, paint_dark: metal('iron', '#3e452a', { rough: .75, rust: .2 }), steel_dark: metal('iron', '#2e302a', { rough: .5 }), rubber: TYRE, chrome: metal('steel', '#c8c8c0', { rough: .3 }), wood: relief('wood', '#7a6444', { seed: 14 }) };
+      body.traverse(o => { if (!o.isMesh) return; const m = MAT[o.material.name]; if (m) o.material = m; o.userData.role = 'metal'; o.userData.mat = 'painted_metal_chipped'; o.castShadow = true; o.receiveShadow = true; }); }
     // the giant speaker: a horn on a frame over the bed + the disc turntable and cables
     const prof = []; for (let i = 0; i <= 24; i++) { const y = i / 24 * 1.7; prof.push(new THREE.Vector2(.2 + .82 * Math.pow(y / 1.7, 2.6), y - .85)); }
     const HM = metal('steel', '#a3a99c', { rough: .42, finish: 'brushed' }); HM.side = THREE.DoubleSide;
@@ -171,13 +173,11 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     p('ht_horn_rim', new THREE.TorusGeometry(1.03, .05, 10, 48), OD, -1.15 + .85, 2.8, 0).rotation.y = Math.PI / 2;
     const throat = p('ht_horn_throat', new THREE.CircleGeometry(.95, 40), std('#121410', { rough: 1 }), -1.15 + .5, 2.8, 0); throat.rotation.y = Math.PI / 2;   // dark inside of the bell
     p('ht_speaker_driver', new THREE.CylinderGeometry(.3, .34, .55, 20), OD, -2.25, 2.8, 0, { rz: -Math.PI / 2 }); p('ht_driver_cap', new THREE.SphereGeometry(.3, 16, 10, 0, Math.PI * 2, 0, Math.PI / 2), OD, -2.52, 2.8, 0, { rz: Math.PI / 2 });
-    for (const z of [-.45, .45]) p('ht_speaker_frame', new THREE.BoxGeometry(.1, 1.1, .1), OD, -1.7, 2.15, z); p('ht_speaker_cradle', new THREE.BoxGeometry(1.4, .1, 1.0), OD, -1.6, 2.4, 0);
-    const cab = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(-2.5, 2.8, .2), new THREE.Vector3(-2.6, 2.0, .6), new THREE.Vector3(-1.4, 1.8, .7), new THREE.Vector3(-.4, 1.85, -.4)]), 24, .03, 6), DARK); add(cab, 'ht_speaker_cable', 'rubber', { parent: g });
+    for (const z of [-.45, .45]) p('ht_speaker_frame', new THREE.BoxGeometry(.1, 1.35, .1), OD, -1.7, 1.73, z);   /* V3: posts stand on the new bed floor (z 1.05) */ p('ht_speaker_cradle', new THREE.BoxGeometry(1.4, .1, 1.0), OD, -1.6, 2.4, 0);
+    const cab = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(-2.5, 2.8, .2), new THREE.Vector3(-2.6, 2.0, .6), new THREE.Vector3(-1.4, 1.8, .7), new THREE.Vector3(-.4, 1.25, -.4)]), 24, .03, 6), DARK); add(cab, 'ht_speaker_cable', 'rubber', { parent: g });
     // armoured body detail: bed sides, fenders, headlights, winch roller, a "SONIC" crate
-    for (const s of [-1, 1]) { p('ht_bed_side', new THREE.BoxGeometry(3.2, .5, .06), OD, -1.0, 2.0, s * 1.08); p('ht_fender', new THREE.BoxGeometry(1.1, .06, .5), OD, 1.7, 1.02, s * .95); p('ht_headlight', new THREE.CylinderGeometry(.11, .12, .16, 14), metal('steel', '#c8c8c0', { rough: .3 }), 2.25, 1.35, s * .6, { rz: Math.PI / 2 }); }
-    p('ht_winch', new THREE.CylinderGeometry(.16, .16, 1.4, 16), DARK, 2.6, .95, 0, { rx: Math.PI / 2 });
-    const sc = p('ht_sonic_crate', new THREE.BoxGeometry(.8, .5, .6), relief('wood', '#7a6444', { seed: 13 }), -2.0, 2.0, .55);
-    const disc = p('ht_disc', new THREE.CylinderGeometry(.42, .42, .02, 32), std('#111111', { rough: .3 }), -.2, 1.78, -.6); p('ht_turntable', new THREE.BoxGeometry(1.0, .12, 1.0), std('#5a4636'), -.2, 1.7, -.6);
+    const sc = p('ht_sonic_crate', new THREE.BoxGeometry(.8, .5, .6), relief('wood', '#7a6444', { seed: 13 }), -2.0, 1.3, .55);
+    const disc = p('ht_disc', new THREE.CylinderGeometry(.42, .42, .02, 32), std('#111111', { rough: .3 }), -.6, 1.6, -.5); p('ht_turntable', new THREE.BoxGeometry(.9, .5, .8), relief('wood', '#5a4636', { seed: 15 }), -.6, 1.3, -.5);   /* V3: a turntable cabinet on the bed floor */
     g.userData.disc = disc; g.userData.horn = horn; return g;
   }
 
@@ -417,6 +417,9 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
   const roomPaper = surf((g, w, h) => { g.fillStyle = '#d6cdb2'; g.fillRect(0, 0, w, h); for (let y = 24; y < h; y += 48) for (let x = (y / 48 % 2) * 24 + 12; x < w; x += 48) { g.fillStyle = 'rgba(90,110,160,.45)'; for (let k = 0; k < 5; k++) { const a = k * 1.2566; g.beginPath(); g.ellipse(x + Math.cos(a) * 5, y + Math.sin(a) * 5, 4, 2.4, a, 0, 6.3); g.fill(); } g.fillStyle = 'rgba(240,200,90,.8)'; g.beginPath(); g.arc(x, y, 2.2, 0, 6.3); g.fill(); }
       noiseFill(g, w, h, 3000, .04); }, [4, 1.4]);
   const lamp = (at, col = '#ffcf8a', I = 14, R = 9) => { const l = new THREE.PointLight(col, I, R, 1.5); l.position.copy(V(...at)); scene.add(l); glow(col, .9, .8, V(...at)); return l; };
+  /* V3: place a Blender prop (GLB) at plan coordinates; materials are kept, metals get the place's env map through ctx.pbr when it exists */
+  const prop = (key, name, role, at, rotY = 0, remap = {}) => { const g = GLB[key].clone(true); g.name = name; g.position.copy(V(...at)); g.rotation.y = rotY;
+    g.traverse(o => { if (!o.isMesh) return; const m = remap[o.material.name]; if (m) o.material = m; o.userData.role = role; o.castShadow = true; o.receiveShadow = true; }); scene.add(g); return g; };
   /* V3 step 4 helpers: soft, irregular shapes for dressing (sandbags, duffels, cushions), built as real deformed meshes */
   const lumpGeo = (sx, sy, sz, k = .12, sd = 1) => { const g = new THREE.SphereGeometry(1, 18, 12).toNonIndexed(), q = g.attributes.position;
     for (let i = 0; i < q.count; i++) { const x = q.getX(i), y = q.getY(i), z = q.getZ(i), n = 1 + k * Math.sin(x * 4.1 + sd) * Math.cos(z * 3.3 + sd * 2) + k * .5 * Math.sin(y * 7 + sd);
@@ -440,8 +443,8 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     { const hp = new THREE.Mesh(new THREE.TorusGeometry(.1, .012, 6, 20, Math.PI), std('#2a2a24')); hp.position.copy(V(.6, 1.7, .9)); add(hp, 'headphones', 'metal'); for (const sx of [-.1, .1]) cyl('earcup', 'metal', .04, .03, [.6 + sx, 1.7, .8], std('#1e1e1a')); }
     box('chair_seat', 'wood', .45, .45, .04, [-1.5, .9, .45], relief('wood', '#7a5a3a', { seed: 106 })); for (const sx of [-.2, .2]) for (const sy of [-.2, .2]) box('chair_leg', 'metal', .03, .03, .45, [-1.5 + sx, .9 + sy, 0], metal('iron', '#3a3a34'));
     box('radio_table', 'wood', 2.4, 1.0, .8, [0, 1.6, 0], relief('wood', '#7a5a3a', { seed: 101 }));
-    box('field_radio', 'metal', .9, .5, .6, [.3, 1.7, .8], metal('iron', '#4d5634', { rough: .6 })); for (let i = 0; i < 4; i++) cyl('radio_dial', 'metal', .06, .04, [.0 + i * .2, 1.44, 1.2], metal('steel', '#c8c8c0'));
-    const key = box('morse_key', 'metal', .26, .12, .05, [-.5, 1.4, .8], metal('brass', '#c8a24a')); box('morse_base', 'wood', .3, .16, .03, [-.5, 1.4, .79], relief('wood', '#3a2a1e', { seed: 102 }));
+    prop('field_radio', 'field_radio', 'metal', [.3, 1.7, .8], -Math.PI / 2, { case: metal('iron', '#4d5634', { rough: .55 }), chrome: metal('steel', '#c8c8c0', { rough: .25 }), brass: metal('brass', '#c8a24a') });   /* V3: Blender model (meters, tuning window, knobs, toggles, handles, vents) */
+    const mk = prop('morse_key', 'morse_key', 'metal', [-.5, 1.4, .8], 0, { brass: metal('brass', '#c8a24a', { rough: .3 }) }), key = mk.getObjectByName('key_lever');   /* V3: Blender key, the lever pivots */
     const card = add(new THREE.Mesh(new THREE.PlaneGeometry(.8, .5), basic('#ffffff', { map: canvasTex(320, 200, (g, w, h) => { g.fillStyle = '#efe6d0'; g.fillRect(0, 0, w, h); g.fillStyle = '#2a2420'; g.font = 'bold 20px serif'; g.fillText('FIST: OP. 4th ARMD', 14, 30); for (let r = 0; r < 4; r++) { let x = 14; for (let i = 0; i < 14; i++) { const dash = rnd() < .45; g.fillRect(x, 60 + r * 34, dash ? 22 : 8, 8); x += dash ? 30 : 16; } } }) })), 'fist_card', 'cloth', { cast: false }); card.position.copy(V(-.2, 3.85, 1.6));
     lamp([.8, 1.4, 2.4], '#ffd08a', 16, 8);
     box('map_board', 'wood', 1.6, .05, 1.0, [1.4, 3.86, 1.2], std('#ffffff', { extra: { map: canvasTex(320, 200, (g, w, h) => { g.fillStyle = '#d8ccA0'; g.fillRect(0, 0, w, h); g.strokeStyle = 'rgba(90,120,80,.6)'; for (let i = 0; i < 14; i++) { g.beginPath(); g.moveTo(0, rr(0, h)); g.bezierCurveTo(w * .3, rr(0, h), w * .6, rr(0, h), w, rr(0, h)); g.stroke(); }
@@ -505,7 +508,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
       box('pinboard', 'wood', 1.4, .04, .9, [-1.8, 3.97, 1.5], relief('wood', '#a88a5a', { seed: 121 })); for (let i = 0; i < 8; i++) box('pinned_photo', 'cloth', .22, .01, .17, [-2.35 + (i % 4) * .36, 3.94, 1.25 + (i >> 2) * .4], std(i % 3 ? '#9a9a90' : '#7a7a72'));
       for (let i = 0; i < 5; i++) box('print_stack', 'cloth', .3, .24, .015, [.85 + i * .01, 1.25, .93 + i * .016], std('#c8c8c0'), { rot: rr(-.2, .2) });
       cyl('lamp_shade', 'metal', .3, .25, [0, 1.6, 2.4], GM, { r2: .08 }); cyl('lamp_cord', 'metal', .01, .4, [0, 1.6, 2.65], std('#1a1a1a')); }
-    const lt = box('light_table', 'lamp', 2.2, 1.3, .9, [0, 1.6, 0], std('#2a2c2e')); const top = box('light_table_glass', 'lamp', 2.0, 1.1, .03, [0, 1.6, .9], basic('#9fb2c8'));
+    const lt = prop('light_table', 'light_table', 'lamp', [0, 1.6, 0], 0, { table_glass: basic('#c8d6e8') });   /* V3: Blender table (frame, legs, braces, lamp box, drawers, stereoscope, pencil tray); the frosted top glows */
     const photoTex = canvasTex(512, 384, (g, w, h) => { g.fillStyle = '#8a8a80'; g.fillRect(0, 0, w, h); for (let i = 0; i < 9000; i++) { g.fillStyle = `rgba(${rnd() * 60 | 0},${rnd() * 60 | 0},${rnd() * 50 | 0},.08)`; g.fillRect(rnd() * w, rnd() * h, 3, 3); } g.fillStyle = '#3a3a34'; for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) { const x = 40 + c * 75, y = 60 + r * 80; g.fillRect(x, y, 36, 22); g.fillRect(x + 30, y + 9, 20, 4); g.fillStyle = 'rgba(30,25,20,.5)'; g.fillRect(x + 4, y + 24, 4, 50); g.fillRect(x + 26, y + 24, 4, 50); g.fillStyle = '#3a3a34'; } });
     const ph = add(new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.0), basic('#d8d8d0', { map: photoTex })), 'aerial_photo', 'cloth', { cast: false }); ph.rotation.x = -Math.PI / 2; ph.position.copy(V(0, 1.6, .925));
     const loupe = cyl('loupe', 'glass', .09, .08, [.25, 1.5, .93], std('#cfe6ff', { rough: .05, extra: { transparent: true, opacity: .5 } }));

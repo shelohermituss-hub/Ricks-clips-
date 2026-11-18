@@ -151,7 +151,7 @@ for x in (-1.45, -.2, 1.05):                              # panel joins on the d
 TRK = [(-2.85, .06), (2.62, .06), (2.98, .5), (2.62, .98), (-2.85, .98), (-3.1, .5)]
 tracks = []
 for s in (-1, 1):
-    y0, y1 = (s * 1.08, s * 1.66) if s > 0 else (s * 1.66, s * 1.08)
+    y0, y1 = (s * .98, s * 1.42) if s > 0 else (s * 1.42, s * .98)   # V3 fix: the footprint of the staged lifters (PI-006)
     t = blob("track_bladder_%s" % ("L" if s < 0 else "R"), TRK, y0, y1, "rubber_track", .24, .05); tracks.append(t)
     TT = bvh(t)
     for i in range(14):                                   # tread ribs: tie seams round the bladder every 0.42 m
@@ -160,13 +160,13 @@ for s in (-1, 1):
         tube(seams, project(TT, resample(ring, .07, True), .008), .016, 6, True)
     wheels = bmesh.new()
     for i in range(5):                                    # five road-wheel cushions, a painted-hub disc and a cap each
-        x = -2.05 + i * 1.02; yo = s * 1.72
+        x = -2.05 + i * 1.02; yo = s * 1.48
         bm = bmesh.new(); bmesh.ops.create_uvsphere(bm, u_segments=24, v_segments=12, radius=.36)
         bmesh.ops.scale(bm, vec=(1, .3, 1), verts=bm.verts); bmesh.ops.translate(bm, vec=(x, yo, .46), verts=bm.verts); merge(wheels, bm)
         torus(seams, (x, yo + s * .1, .46), (0, 1, 0), .3, .016, 32, 6)          # the seam round each cushion
         cyl(wheels, (x, yo + s * .09, .46), (0, s, 0), .11, .04, 18)              # hub
     for x in (2.55, -2.72):                               # front sprocket and rear idler cushions
-        torus(wheels, (x, s * 1.66, .52), (0, 1, 0), .27, .1, 24, 10)
+        torus(wheels, (x, s * 1.42, .52), (0, 1, 0), .27, .1, 24, 10)
     w = mesh_obj("wheel_cushions_%s" % ("L" if s < 0 else "R"), wheels, "rubber_dark")
 # ---------------------------------------------------------------- turret (own node: ghost.js turns and squashes it)
 TUR = bpy.data.objects.new("turret", None); link(TUR); TUR.location = (-.35, 0, 2.02)
@@ -209,7 +209,7 @@ def valve(name, at, nor, parent=ROOT, big=False):
 v_main = valve("valve_main", *project(HT, [(-2.25, .45, 2.1)], 0)[0], big=True)
 valve("valve_side_L", *project(HT, [(-2.0, -1.2, 1.3)], 0)[0]); valve("valve_side_R", *project(HT, [(-2.0, 1.2, 1.3)], 0)[0])
 for t in tracks:
-    TT = bvh(t); s = 1 if t.name.endswith("R") else -1; valve("valve_track_" + t.name[-1], *project(TT, [(-2.7, s * 1.37, 1.0)], 0)[0])
+    TT = bvh(t); s = 1 if t.name.endswith("R") else -1; valve("valve_track_" + t.name[-1], *project(TT, [(-2.7, s * 1.2, 1.0)], 0)[0])
 tv = valve("valve_turret", *project(TT, [(-1.3, -.3, 2.4)], 0)[0]); child(tv, TUR); child(bpy.data.objects["valve_turret_pad"], TUR)
 def patch(name, cx, cz, side, w, h):
     y = side * 1.3; grid = []

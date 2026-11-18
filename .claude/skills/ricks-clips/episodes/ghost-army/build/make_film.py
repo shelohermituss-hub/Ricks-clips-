@@ -132,6 +132,11 @@ act('old_lou', ['fooled', 1, -4], pos=[-1.0, 1.2, 0], place='attic', view='34', 
 act('grandchild', ['fooled', 1, -4], pos=[0.7, 1.3, 0], place='attic', view='34', dir=-1, pose='m:inspect/B', face='k:surprised')
 act('old_lou', ['families', 1], face='k:smirk'); act('old_lou', ['years', 1], face='k:slyWink', pose='m:whisper/A')   # finger to the lips: shh
 act('grandchild', ['years', 1, -30], pose='m:lift/A', face='k:excited')                               # lifts the deflated skin overhead (rhymes with frame 0)
+# --- V3 step 11 (2026-11-18): group reactions - the people around an event react to it (faces on the word), so no one stands blank while something happens
+act('carrier_tall', ['dead', 1], face='k:surprised'); act('carrier_tall', ['rubber', 1], face='k:shocked'); act('carrier_tall', ['rubber', 1, 25], face='k:sleepy')   # the bikes brake; the tank sighs down beside him
+act('carrier_tall', ['army', 2], face='k:proud'); act('carrier_short', ['army', 2], face='k:cheer'); act('carrier_short', ['bulldozer', 1], face='k:surprised'); act('carrier_tall', ['bulldozer', 1], face='k:browUp')
+act('lou', ['laughs', 1], face='k:smirk'); act('lou', ['carnival', 1], face='k:wink')                    # Lou enjoys the sergeant's laugh at the table
+act('grandchild', ['families', 1], face='k:happy'); act('old_lou', ['fooled', 1, 20], face='k:smirk')
 sents, i = [], 0
 for line in open(os.path.join(EP, 'voice', 'script.txt'), encoding='utf-8').read().replace('!', '!|').replace('? ', '?| ').replace('. ', '.| ').split('|'):
     nw = len(line.split());
