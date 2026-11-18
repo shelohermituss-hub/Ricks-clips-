@@ -52,11 +52,12 @@ def material(aid, maps, params, out):
     json.dump({"id": aid, "kind": "material", "maps": sorted(maps), "tile": params.get("tile", 1.0)}, open(os.path.join(out, "ingest.json"), "w"), indent=1)
     bpy.ops.wm.save_as_mainfile(filepath=os.path.join(out, aid + ".blend"), compress=True); print("MATERIAL", aid, sorted(maps))
 
-def link_asset(blend, aid, parent_col):
-    """link the asset collection once per scene, return it (instance it with an empty: obj.instance_type='COLLECTION')"""
+def link_asset(blend, aid, parent_col, link=False):
+    """bring the asset collection into this file once and return it; it stays OUT of the scene tree and is drawn only through instances.
+    Default APPEND (link=False): the scene .blend is self-contained, so a render pod needs no access to this machine's cache paths."""
     col = bpy.data.collections.get(aid)
-    if col is None or col.library is None:
-        with bpy.data.libraries.load(blend, link=True) as (src, dst): dst.collections = [aid]
+    if col is None:
+        with bpy.data.libraries.load(blend, link=link) as (src, dst): dst.collections = [aid]
         col = dst.collections[0]
     return col
 

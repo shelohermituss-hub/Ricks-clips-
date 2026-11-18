@@ -1,0 +1,11 @@
+{
+ "_doc": "Blender scene gates (Mission 1, 2026-11-18). Read by production_controller.py scene-gates <stats.json> (stats from blender/rc/cli.py stats). Phase 1 ENVIRONMENT BUILD.",
+ "max_objects": 3000,
+ "min_instance_ratio_if_over_objects": [500, 0.5],
+ "max_primitive_ratio": 0.10,
+ "max_primitive_tris_ratio": 0.02,
+ "min_textured_material_ratio": 0.85,
+ "asset_hero_max_primitive_ratio": 0.05,
+ "asset_hero_min_tris": 10000,
+ "asset_min_textured_ratio_warn": 0.5
+}

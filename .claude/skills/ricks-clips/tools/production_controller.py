@@ -10,6 +10,7 @@ manages the lessons registry (a fix only becomes a global lesson after it is tes
     .venv/bin/python tools/production_controller.py compare-reference episodes/<name> <video.mp4> [--night 27-35 ...]   # vs the fortress standard
     .venv/bin/python tools/production_controller.py lessons [--all]                       # list validated (or all) global lessons
     .venv/bin/python tools/production_controller.py lesson-add  <lesson.json>              # add as 'proposed' (schema-checked)
+    .venv/bin/python tools/production_controller.py scene-gates <stats.json> [out.json]       # phase-1 gates on rc.qa stats (scene or asset ingest)
     .venv/bin/python tools/production_controller.py lesson-promote <id>                     # only with tests + evidence + regression check
 
 Spec: production/spec_fr/*.md (the package as delivered), production/README.md (how it is wired), CB_RULES.md section 11g.
@@ -299,10 +300,32 @@ def cmd_issue(args):
               observation=g("--obs"), root_cause=g("--cause"), fix=g("--fix"), status=g("--status", "open"), before=g("--before"), after=g("--after"))
     D["issues"].append(it); jsave(F["QA_LOG.json"], D); print("logged", it["id"]); return 0
 
+def cmd_scene_gates(args):
+    """phase-1 gates on a Blender scene (or an asset ingest.json): honest PASS/WARN/FAIL from measured stats only (rc.qa)."""
+    S = jload(args[0]); C = jload(os.path.join(CFG, "rc_gates.json")); out = []
+    add = lambda k, st, ev: out.append((k, st, ev))
+    if "instances_drawn" in S:                                   # a scene
+        add("objects_bounded", "PASS" if S["objects"] <= C["max_objects"] else "FAIL", "%d objects (max %d)" % (S["objects"], C["max_objects"]))
+        n, r = C["min_instance_ratio_if_over_objects"]; drawn = S["instances_drawn"] + S["mesh_objects"]
+        add("repeats_instanced", "PASS" if drawn < n or S["instance_ratio"] >= r else "FAIL", "instance ratio %.3f of %d drawn" % (S["instance_ratio"], drawn))
+        add("no_primitive_stand_ins", "PASS" if S["primitive_ratio"] <= C["max_primitive_ratio"] else "FAIL", "%d primitive-like of %d meshes (ratio %.3f)" % (S["primitive_like_objects"], S["mesh_objects"] - S.get("instancer_objects", 0), S["primitive_ratio"]))
+        tr = S["textured_materials"] / max(1, S["materials"])
+        add("materials_textured", "PASS" if tr >= C["min_textured_material_ratio"] else "FAIL", "%d/%d textured (min %.0f %%)" % (S["textured_materials"], S["materials"], 100 * C["min_textured_material_ratio"]))
+    else:                                                        # an asset
+        hero = S.get("tier") == "hero"
+        add("asset_not_primitive", "PASS" if S["primitive_ratio"] <= (C["asset_hero_max_primitive_ratio"] if hero else C["max_primitive_ratio"]) else "FAIL", "primitive ratio %.3f (%s)" % (S["primitive_ratio"], S.get("tier")))
+        if hero: add("hero_detail", "PASS" if S["tris"] >= C["asset_hero_min_tris"] else "FAIL", "%d tris (min %d)" % (S["tris"], C["asset_hero_min_tris"]))
+        tr = S["textured_materials"] / max(1, S["materials"])
+        add("asset_textured", "PASS" if tr >= C["asset_min_textured_ratio_warn"] else "WARN", "%d/%d textured materials" % (S["textured_materials"], S["materials"]))
+    for k, st, ev in out: print("%-8s %-24s %s" % (st, k, ev))
+    tot = {s: sum(1 for _, x, _ in out if x == s) for s in STAT}; print("TOTALS", tot)
+    if len(args) > 1: jsave(args[1], {"stats_file": args[0], "gates": [dict(check=k, status=st, evidence=ev) for k, st, ev in out], "totals": tot})
+    return 1 if tot["FAIL"] else 0
+
 def main():
     if len(sys.argv) < 2: print(__doc__); return 2
     c, a = sys.argv[1], sys.argv[2:]
-    fn = {"init": cmd_init, "gates": cmd_gates, "review": cmd_review, "issue": cmd_issue, "compare-reference": cmd_compare_reference, "lessons": cmd_lessons, "lesson-add": cmd_lesson_add, "lesson-promote": cmd_lesson_promote}.get(c)
+    fn = {"init": cmd_init, "gates": cmd_gates, "review": cmd_review, "issue": cmd_issue, "compare-reference": cmd_compare_reference, "lessons": cmd_lessons, "lesson-add": cmd_lesson_add, "lesson-promote": cmd_lesson_promote, "scene-gates": cmd_scene_gates}.get(c)
     if not fn: print(__doc__); return 2
     return fn(a) or 0
 

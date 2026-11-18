@@ -20,11 +20,12 @@ def _mesh_tris(me):
 
 def _stats(objs, depsgraph):
     mesh_objs = [o for o in objs if o.type == "MESH"]
-    tris = prim = prim_tris = 0; mats = set(); lo, hi = Vector((1e9,) * 3), Vector((-1e9,) * 3); per_mesh = {}
+    tris = prim = prim_tris = pts = 0; mats = set(); lo, hi = Vector((1e9,) * 3), Vector((-1e9,) * 3); per_mesh = {}
     for o in mesh_objs:
         ev = o.evaluated_get(depsgraph); me = ev.to_mesh()
         if me is None: continue
         t = _mesh_tris(me); nv = len(me.vertices); tris += t
+        if len(me.polygons) == 0: ev.to_mesh_clear(); pts += 1; continue        # point clouds driving geometry-node instances: not geometry, not a primitive
         if nv <= PRIM_VERTS: prim += 1; prim_tris += t
         for s in o.material_slots:
             if s.material: mats.add(s.material)
@@ -33,7 +34,7 @@ def _stats(objs, depsgraph):
         per_mesh[o.name] = {"verts": nv, "tris": t}; ev.to_mesh_clear()
     dims = [round(x, 3) for x in (hi - lo)] if mesh_objs else [0, 0, 0]
     return {"objects": len(objs), "mesh_objects": len(mesh_objs), "mesh_datablocks": len({o.data.name for o in mesh_objs}), "tris": tris,
-            "primitive_like_objects": prim, "primitive_ratio": round(prim / max(1, len(mesh_objs)), 3), "primitive_tris_ratio": round(prim_tris / max(1, tris), 4),
+            "instancer_objects": pts, "primitive_like_objects": prim, "primitive_ratio": round(prim / max(1, len(mesh_objs) - pts), 3), "primitive_tris_ratio": round(prim_tris / max(1, tris), 4),
             "materials": len(mats), "textured_materials": sum(1 for m in mats if textured(m)), "dims_m": dims,
             "largest_meshes": sorted(per_mesh.items(), key=lambda kv: -kv[1]["tris"])[:5]}
 
@@ -43,14 +44,19 @@ def collection_stats(col):
 def scene_stats(scene=None):
     scene = scene or bpy.context.scene; dg = bpy.context.evaluated_depsgraph_get()
     s = _stats(list(scene.objects), dg)
-    inst = 0; inst_tris = 0
+    inst = 0; inst_tris = 0; imats = set()
     for i in dg.object_instances:                               # what the renderer really draws (geometry-node and collection instances)
         if i.is_instance and i.object.type == "MESH":
             inst += 1
+            for sl in i.object.material_slots:
+                if sl.material: imats.add(sl.material.original)
             me = i.object.data if hasattr(i.object, "data") else None
             if me is not None and hasattr(me, "polygons"): inst_tris += sum(len(p.vertices) - 2 for p in me.polygons)
     by_type = {}
     for o in scene.objects: by_type[o.type] = by_type.get(o.type, 0) + 1
+    smats = {sl.material for o in scene.objects if o.type == "MESH" for sl in o.material_slots if sl.material}
+    allm = smats | imats                                         # materials of everything drawn, instanced assets included (a scene gate must see them)
+    s["materials"] = len(allm); s["textured_materials"] = sum(1 for m in allm if textured(m)); s["untextured_material_names"] = sorted(m.name for m in allm if not textured(m))[:20]
     s.update({"instances_drawn": inst, "instanced_tris": inst_tris, "total_tris_drawn": s["tris"] + inst_tris, "by_type": by_type,
               "instance_ratio": round(inst / max(1, inst + s["mesh_objects"]), 4)})
     return s

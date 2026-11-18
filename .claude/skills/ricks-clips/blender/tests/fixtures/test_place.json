@@ -1,0 +1,8 @@
+{"schema_version": 2, "place_id": "rc_test_field", "episode": "episodes/ghost-army",
+ "light": {"preset": "morning"},
+ "terrain": {"size": [120, 120], "res": 80, "height": 2.0, "seed": 3, "material": "coast_land_rocks_01"},
+ "assets": [{"asset": "inflatable_tank", "name": "hero_tank", "at": [0, 4, 0], "rot": 90, "scale": 1},
+            {"asset": "crawler_dozer", "name": "dozer", "at": [9, 2, 0], "rot": 200, "scale": 1}],
+ "scatter": [{"asset": "inflatable_tank_lod", "name": "decoys", "zone": {"center": [0, 45], "radius": 28}, "count": 30, "seed": 7, "scale": [0.95, 1.05], "exclude": [{"center": [0, 4], "radius": 10}]},
+             {"asset": "vintage_bicycle", "name": "bikes_stress", "zone": {"polygon": [[-40, 10], [40, 10], [40, 70], [-40, 70]]}, "count": 2000, "seed": 11, "scale": [0.9, 1.1]}],
+ "camera": {"frames": [0, 30]}}

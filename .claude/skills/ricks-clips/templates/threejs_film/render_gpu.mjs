@@ -170,7 +170,7 @@ if (has('--overlay')) {
 }
 if (has('--export-lock')) {
   // Freeze the approved layout for the look pass. Everything is written from the same page state that drew the animatic.
-  const LOCK = path.join(OUT, 'lock'), plan = path.join(OUT, 'plan'), sha = f => crypto.createHash('sha1').update(fs.readFileSync(path.join(plan, f))).digest('hex');
+  const LOCK = val('--lock-dir') ? path.resolve(val('--lock-dir')) : path.join(OUT, 'lock'), CARDS_ONLY = has('--cards-only'), plan = path.join(OUT, 'plan'), sha = f => crypto.createHash('sha1').update(fs.readFileSync(path.join(plan, f))).digest('hex');
   // --sets-only (kit 2026-11-18): re-export the set GLBs, motion, instances and highlights into an existing lock and keep its card drawings
   // (the cards are the slow part: hundreds of drawings per character); lock.json keeps cards/card_info from the previous lock.
   const SETS_ONLY = has('--sets-only') && fs.existsSync(path.join(LOCK, 'lock.json')), PREV = SETS_ONLY ? JSON.parse(fs.readFileSync(path.join(LOCK, 'lock.json'), 'utf8')) : null;
@@ -184,7 +184,7 @@ if (has('--export-lock')) {
     return Buffer.concat([...head, n, body, c, ...tail]);
   };
   fs.mkdirSync(path.join(LOCK, 'motion'), { recursive: true }); const lights = {};
-  for (const name of info.places) {
+  for (const name of (CARDS_ONLY ? [] : info.places)) {
     const nIds = await page.evaluate(n => window.lockIds(n), name); lights[name] = await page.evaluate(n => window.placeLight(n), name);
     const r = await page.evaluate(n => window.exportSet(n), name), file = `sets/${name}.glb`; fs.writeFileSync(path.join(LOCK, file), Buffer.from(r.b64, 'base64'));
     const takes = []; for (const c of cam) if ((c.place || info.places[0]) === name) { const l = takes[takes.length - 1]; if (l && l.take === c.take && l.f1 === c.f - 1) l.f1 = c.f; else takes.push({ take: c.take, f0: c.f, f1: c.f }); }
@@ -192,15 +192,23 @@ if (has('--export-lock')) {
     const mo = await page.evaluate(n => window.exportMotion(n), name); fs.writeFileSync(path.join(LOCK, 'motion', name + '.json'), JSON.stringify(mo)); console.log(`motion ${name}: ${Object.keys(mo.nodes).length} moving nodes of ${nIds}, ${mo.frames.length} frames`);
     console.log(`set ${name} -> ${file}  (${r.meshes} meshes, ${r.materials.length} materials, ${(fs.statSync(path.join(LOCK, file)).size / 1024).toFixed(0)} KB)`);
   }
-  for (const who of (SETS_ONLY ? [] : info.cast)) {
-    const d = path.join(LOCK, 'cards', who); fs.mkdirSync(d, { recursive: true });
-    const idx = await page.evaluate(([w, p]) => window.cardIndex(w, p), [who, cpx]);
-    for (const im of idx.images) fs.writeFileSync(path.join(d, im.file), repng(Buffer.from(await page.evaluate(([w, n, p]) => window.cardPNG(w, n, p), [who, im.img, cpx]), 'base64')));
+  // CARD CACHE (Mission 1, 2026-11-18): every drawing is stored once in $RICKCLIPS_CACHE/cards/<key>.png under the sha256 of what it is drawn
+  // from (window.cardKeys); a later lock copies the unchanged drawings and rasterises only new ones (the cards took 92 min on the pod every time).
+  // --who a,b limits the characters; --cards-only skips the sets (with an existing lock.json, like --sets-only keeps the cards).
+  const CCACHE = path.join(process.env.RICKCLIPS_CACHE || path.join(os.homedir(), '.ricksclips', 'cache'), 'cards'), WHO = val('--who') ? val('--who').split(',') : null; const cstat = { hit: 0, miss: 0 };
+  for (const who of (SETS_ONLY ? [] : info.cast.filter(w => !WHO || WHO.includes(w)))) {
+    const d = path.join(LOCK, 'cards', who); fs.mkdirSync(d, { recursive: true }); const t0 = Date.now(); let hit = 0, miss = 0;
+    const idx = await page.evaluate(([w, p]) => window.cardIndex(w, p), [who, cpx]), keys = await page.evaluate(([w, p]) => window.cardKeys(w, p), [who, cpx]);
+    for (const im of idx.images) { const k = keys[im.img - 1], cf = path.join(CCACHE, k.slice(0, 2), k + '.png'); im.key = k;
+      if (fs.existsSync(cf)) { fs.copyFileSync(cf, path.join(d, im.file)); hit++; continue; }
+      const png = repng(Buffer.from(await page.evaluate(([w, n, p]) => window.cardPNG(w, n, p), [who, im.img, cpx]), 'base64')); fs.writeFileSync(path.join(d, im.file), png);
+      fs.mkdirSync(path.dirname(cf), { recursive: true }); fs.writeFileSync(cf + '.tmp', png); fs.renameSync(cf + '.tmp', cf); miss++; }
+    cstat.hit += hit; cstat.miss += miss; console.log(`cards ${who}: cache ${hit} hit / ${miss} drawn in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
     fs.writeFileSync(path.join(d, 'index.json'), JSON.stringify(idx)); cards.push(who);
     card_info[who] = { puppet: idx.puppet, index: `cards/${who}/index.json`, images: idx.images.length, runs: idx.runs.length, height_m: idx.height_m };
     console.log(`cards ${who} -> ${idx.images.length} drawings, ${idx.runs.length} runs`);
   }
-  { const inst = {}; for (const name of info.places) inst[name] = await page.evaluate(n => window.exportInstances(n), name); fs.writeFileSync(path.join(LOCK, 'instances.json'), JSON.stringify(inst)); }
+  { const inst = {}; for (const name of (CARDS_ONLY ? [] : info.places)) inst[name] = await page.evaluate(n => window.exportInstances(n), name); fs.writeFileSync(path.join(LOCK, 'instances.json'), JSON.stringify(inst)); }
   const hl = await page.evaluate(() => window.exportHighlights()); fs.writeFileSync(path.join(LOCK, 'highlights.json'), JSON.stringify(hl)); console.log(`highlights: ${hl.length}`);
   fs.writeFileSync(path.join(LOCK, 'lock.json'), JSON.stringify({ kit: 'threejs_film', lock_version: 2, lights, motion: 'motion/<place>.json', highlights: 'highlights.json', overlay: 'out/overlay/o_#####.png (render.mjs --overlay --scale 1)', title: film.title || null, fps: info.fps, frames: info.frames, size: [FW, FH],
     coords: 'plan coordinates: metres, Z up, Y away from the opening camera. The .glb files are Y up (three.js); the Blender glTF importer turns them back into plan coordinates. Frame numbers start at 0.',

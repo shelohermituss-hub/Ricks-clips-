@@ -793,6 +793,13 @@ window.cardIndex = (who, px = 2) => {
     tip: { head_k: .55, note: 'the card turns to the lens about the vertical axis AND tips to it: yaw = atan2(cam - pos), tilt = atan2(cam height - (pos height + head_k * height_m), ground distance)' },
     images: states.map(s => ({ img: s.img, file: 's' + String(s.img).padStart(4, '0') + '.png', keys: s.keys })), runs };
 };
+// CARD CACHE (Mission 1, 2026-11-18): one content key per drawing = sha256 of exactly what cardPNG draws from (SVG, head tint, lock shade,
+// pixel scale, and CARDPNG_V, bumped whenever cardPNG's own drawing code changes). Same key = same pixels, so render_gpu reuses the PNG.
+const CARDPNG_V = 'cardpng-1';
+window.cardKeys = async (who, px = 2) => { const card = R.cards[who], out = [];
+  for (const S of card.lock) { const b = new TextEncoder().encode(CARDPNG_V + '|' + px + '|' + JSON.stringify(S.tint || null) + '|' + JSON.stringify(S.shade || null) + '|' + S.svg);
+    out.push([...new Uint8Array(await crypto.subtle.digest('SHA-256', b))].map(x => x.toString(16).padStart(2, '0')).join('')); }
+  return out; };
 window.cardPNG = async (who, n, px = 2) => {
   const card = R.cards[who], S = card.lock[n - 1], img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(S.svg); await img.decode();
   const c = document.createElement('canvas'); c.width = CARD.W * px; c.height = CARD.H * px; const g = c.getContext('2d'); g.drawImage(img, 0, 0, c.width, c.height);
