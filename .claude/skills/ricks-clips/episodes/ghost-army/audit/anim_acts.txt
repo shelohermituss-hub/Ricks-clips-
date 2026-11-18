@@ -1,0 +1,77 @@
+   0.0  lou             m:lift/A                     k:concentrate          LIBRARY
+   0.0  carrier_tall    m:lift/A                     k:concentrate          LIBRARY
+   0.0  carrier_short   m:lift/A                     k:concentrate          LIBRARY
+   0.0  carrier_stocky  m:lift/A                     k:concentrate          LIBRARY
+   0.0  farmer          m:bike/A+props               k:standard             LIBRARY
+   0.0  boy             m:bike/B+props               k:happy                LIBRARY
+  1.73  lou             m:lift/B                                            LIBRARY
+  1.73  carrier_tall    m:lift/B                                            LIBRARY
+  1.73  carrier_short   m:lift/B                                            LIBRARY
+  1.73  carrier_stocky  m:lift/B                                            LIBRARY
+  2.76  farmer                                                              
+  2.76  boy                                                                 
+  3.33  lou             m:lift/C                     k:smirk                LIBRARY
+  3.73  carrier_tall    m:idle/C                     k:sleepy               LIBRARY
+  3.73  carrier_short   m:walk/C                     k:sleepy               LIBRARY
+  3.73  carrier_stocky  m:walk/C                     k:sleepy               LIBRARY
+   5.0  lou             m:walk/B                                            LIBRARY
+   5.6  farmer          m:bike/C+props               k:shocked              LIBRARY
+   5.6  boy             m:bike/C+props               k:surprised            LIBRARY
+  6.44  lou             m:cheer/A                    k:slyWink              LIBRARY
+  6.47  lou             m:idle/A                                            LIBRARY
+  7.86  boy                                          k:excited              
+   8.5  lou             m:run/C                      k:proud                LIBRARY
+  9.47  carrier_short   m:idle/C                                            LIBRARY
+  9.67  lou             m:push/B                                            LIBRARY
+ 10.57  carrier_stocky  m:idle/C                                            LIBRARY
+ 10.67  lou             m:write/A                    k:happy                LIBRARY PLACE-CHANGE(hidden)
+ 10.67  carrier_short   m:sweep/A                    k:concentrate          LIBRARY PLACE-CHANGE(hidden)
+ 10.67  carrier_tall    m:push/A                     k:concentrate          LIBRARY PLACE-CHANGE(hidden)
+ 13.42  lou                                          k:smug                 
+ 16.28  lou                                          k:wink                 
+ 17.02  lou             m:walk/B                     k:proud                LIBRARY
+ 17.99  carrier_short   m:walk/C                                            LIBRARY
+ 20.73  carrier_short   m:sweep/B                                           LIBRARY
+ 21.17  lou             m:board/A                                           LIBRARY
+  21.5  lou             m:cheer/A                    k:cheer                LIBRARY
+ 26.43  sound_op        m:idle/A                     k:concentrate          LIBRARY
+ 28.48  sound_op        m:button/A                   k:smug                 LIBRARY
+ 31.74  sound_op                                     k:proud                
+ 33.99  radio_op        m:write/A                    k:concentrate          LIBRARY
+ 36.64  radio_op        m:write/B                    k:frozenTongue         LIBRARY
+  37.9  radio_op        m:write/A                    k:smug                 LIBRARY
+ 38.71  lou             m:whisper/A                  k:slyWink              LIBRARY PLACE-CHANGE(hidden)
+ 38.71  waitress        m:carry/A                    k:annoyed              LIBRARY
+ 38.71  spy             m:sit/C                      k:think                LIBRARY
+ 38.71  sergeant        m:idle/B                     k:skeptical            LIBRARY
+ 40.08  sergeant                                     k:annoyed              
+ 41.32  lou                                          k:wink                 
+ 42.06  waitress        m:walk/A                                            LIBRARY
+ 42.06  spy                                          k:evil                 
+ 42.06  sergeant                                     k:browUp               
+ 43.26  spy                                          k:smug                 
+ 43.26  sergeant        m:laugh/A                    k:laugh                LIBRARY
+  44.1  sergeant                                     k:smug                 
+  44.7  spy                                          k:think                
+  44.7  sergeant        m:laugh/B                    k:laugh                LIBRARY
+ 45.08  sergeant        m:laugh/C                    k:laugh                LIBRARY
+  45.5  waitress        m:idle/C                                            LIBRARY
+  46.6  sergeant        m:idle/B                     k:skeptical            LIBRARY PLACE-CHANGE(hidden)
+ 46.67  lou             m:board/A                    k:concentrate          LIBRARY PLACE-CHANGE(hidden)
+ 50.76  lou             m:thumbs/A                   k:proud                LIBRARY
+ 52.71  interpreter     m:inspect/A                  k:smug                 LIBRARY
+  54.5  interpreter     m:button/A                   k:evil                 LIBRARY
+  57.9  sergeant                                     k:think                
+ 58.94  sergeant                                     k:surprised            
+ 60.52  sergeant        m:turn/A                     k:shocked              LIBRARY
+ 61.49  boy             m:idle/A                     k:smirk                LIBRARY PLACE-CHANGE(hidden)
+ 65.02  boy             m:thumbs/A                   k:slyWink              LIBRARY
+ 66.45  old_lou         m:idle/A                     k:think                LIBRARY
+ 66.45  grandchild      m:inspect/B                  k:surprised            LIBRARY
+ 67.44  old_lou                                      k:smirk                
+ 68.98  grandchild      m:lift/A                     k:excited              LIBRARY
+ 69.98  old_lou         m:whisper/A                  k:slyWink              LIBRARY
+
+TOTALS {'LIBRARY': 57, 'PLACE-CHANGE(hidden)': 7} acts 73 | film.tween: {'ones': True, 'face_frames': 0, 'move_blend': 6} | motion_polish: {'enabled': True, 'head_follow': 0.14, 'hand_follow': 0.08, 'breath': 0.55, 'breath_rate': 2.15, 'auto_blink': True}
+
+OVERLAPS 0

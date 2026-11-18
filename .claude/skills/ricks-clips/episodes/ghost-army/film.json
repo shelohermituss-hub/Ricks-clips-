@@ -1021,15 +1021,16 @@
    "who": "lou",
    "at": 0,
    "pos": [
-    1.9,
-    2.6,
+    0.99,
+    1.45,
     0
    ],
    "place": "field",
    "view": "34",
    "dir": -1,
    "pose": "m:lift/A",
-   "face": "k:concentrate"
+   "face": "k:concentrate",
+   "move_s": 0.01
   },
   {
    "who": "lou",
@@ -1048,7 +1049,8 @@
    "view": "34",
    "dir": 1,
    "pose": "m:lift/A",
-   "face": "k:concentrate"
+   "face": "k:concentrate",
+   "move_s": 0.01
   },
   {
    "who": "carrier_tall",
@@ -1067,7 +1069,8 @@
    "view": "34",
    "dir": -1,
    "pose": "m:lift/A",
-   "face": "k:concentrate"
+   "face": "k:concentrate",
+   "move_s": 0.01
   },
   {
    "who": "carrier_short",
@@ -1078,15 +1081,16 @@
    "who": "carrier_stocky",
    "at": 0,
    "pos": [
-    -1.8,
-    6.0,
+    -1.06,
+    6.36,
     0
    ],
    "place": "field",
    "view": "34",
    "dir": 1,
    "pose": "m:lift/A",
-   "face": "k:concentrate"
+   "face": "k:concentrate",
+   "move_s": 0.01
   },
   {
    "who": "carrier_stocky",
@@ -1095,100 +1099,68 @@
   },
   {
    "who": "carrier_tall",
-   "at": 84,
-   "pos": [
-    -2.6,
-    0.2,
-    0
-   ],
-   "move_s": 2.12,
-   "linear": true,
-   "pose": "m:walk/C",
+   "at": 112,
+   "pose": "m:idle/C",
    "face": "k:sleepy"
   },
   {
-   "who": "carrier_tall",
-   "at": 148,
-   "pose": "m:idle/C"
-  },
-  {
    "who": "carrier_short",
-   "at": 84,
+   "at": 112,
    "pos": [
-    2.9,
-    7.6,
+    6.5,
+    9.5,
     0
    ],
-   "move_s": 2.13,
+   "move_s": 5.73,
    "linear": true,
    "pose": "m:walk/C",
    "face": "k:sleepy"
   },
   {
    "who": "carrier_short",
-   "at": 148,
+   "at": 284,
    "pose": "m:idle/C"
   },
   {
    "who": "carrier_stocky",
-   "at": 84,
+   "at": 112,
    "pos": [
-    -3.6,
-    7.4,
+    -6.5,
+    11.5,
     0
    ],
-   "move_s": 2.07,
+   "move_s": 6.8,
    "linear": true,
    "pose": "m:walk/C",
    "face": "k:sleepy"
   },
   {
    "who": "carrier_stocky",
-   "at": 147,
+   "at": 317,
    "pose": "m:idle/C"
   },
   {
    "who": "lou",
-   "at": 70,
+   "at": 100,
+   "pose": "m:lift/C",
    "face": "k:smirk"
   },
   {
    "who": "lou",
-   "at": 70,
-   "pos": [
-    2.3,
-    1.0,
-    0
-   ],
-   "move_s": 0.92,
-   "linear": true,
-   "pose": "m:walk/B"
-  },
-  {
-   "who": "lou",
-   "at": 98,
-   "pose": "m:lift/C"
-  },
-  {
-   "who": "lou",
-   "at": [
-    "soldier",
-    1,
-    -14
-   ],
+   "at": 150,
    "pos": [
     3.0,
     1.3,
     0
    ],
-   "move_s": 0.54,
+   "move_s": 1.44,
    "linear": true,
    "pose": "m:walk/B",
    "view": "front"
   },
   {
    "who": "lou",
-   "at": 188,
+   "at": 194,
    "pose": "m:idle/A"
   },
   {
@@ -1235,7 +1207,8 @@
    "view": "side",
    "dir": 1,
    "pose": "m:bike/A+props",
-   "face": "k:standard"
+   "face": "k:standard",
+   "move_s": 0.01
   },
   {
    "who": "boy",
@@ -1249,7 +1222,8 @@
    "view": "side",
    "dir": 1,
    "pose": "m:bike/B+props",
-   "face": "k:happy"
+   "face": "k:happy",
+   "move_s": 0.01
   },
   {
    "who": "farmer",
@@ -1335,7 +1309,8 @@
    "view": "34",
    "dir": -1,
    "pose": "m:write/A",
-   "face": "k:happy"
+   "face": "k:happy",
+   "move_s": 0.01
   },
   {
    "who": "carrier_short",
@@ -1354,7 +1329,8 @@
    "view": "34",
    "dir": 1,
    "pose": "m:sweep/A",
-   "face": "k:concentrate"
+   "face": "k:concentrate",
+   "move_s": 0.01
   },
   {
    "who": "carrier_short",
@@ -1393,7 +1369,8 @@
    "view": "side",
    "dir": 1,
    "pose": "m:push/A",
-   "face": "k:concentrate"
+   "face": "k:concentrate",
+   "move_s": 0.01
   },
   {
    "who": "lou",
@@ -1458,7 +1435,8 @@
    "view": "34",
    "dir": -1,
    "pose": "m:idle/A",
-   "face": "k:concentrate"
+   "face": "k:concentrate",
+   "move_s": 0.01
   },
   {
    "who": "sound_op",
@@ -1494,7 +1472,8 @@
    "view": "34",
    "dir": 1,
    "pose": "m:write/A",
-   "face": "k:concentrate"
+   "face": "k:concentrate",
+   "move_s": 0.01
   },
   {
    "who": "radio_op",
@@ -1530,7 +1509,8 @@
    "view": "34",
    "dir": 1,
    "pose": "m:whisper/A",
-   "face": "k:slyWink"
+   "face": "k:slyWink",
+   "move_s": 0.01
   },
   {
    "who": "waitress",
@@ -1548,7 +1528,8 @@
    "view": "34",
    "dir": -1,
    "pose": "m:carry/A",
-   "face": "k:annoyed"
+   "face": "k:annoyed",
+   "move_s": 0.01
   },
   {
    "who": "waitress",
@@ -1586,7 +1567,8 @@
    "view": "34",
    "dir": 1,
    "pose": "m:sit/C",
-   "face": "k:think"
+   "face": "k:think",
+   "move_s": 0.01
   },
   {
    "who": "sergeant",
@@ -1604,7 +1586,8 @@
    "view": "34",
    "dir": -1,
    "pose": "m:idle/B",
-   "face": "k:skeptical"
+   "face": "k:skeptical",
+   "move_s": 0.01
   },
   {
    "who": "lou",
@@ -1705,7 +1688,8 @@
    "view": "34",
    "dir": 1,
    "pose": "m:board/A",
-   "face": "k:concentrate"
+   "face": "k:concentrate",
+   "move_s": 0.01
   },
   {
    "who": "lou",
@@ -1776,7 +1760,8 @@
    "view": "34",
    "dir": 1,
    "pose": "m:inspect/A",
-   "face": "k:smug"
+   "face": "k:smug",
+   "move_s": 0.01
   },
   {
    "who": "interpreter",
@@ -1803,7 +1788,8 @@
    "view": "front",
    "dir": 1,
    "pose": "m:idle/A",
-   "face": "k:smirk"
+   "face": "k:smirk",
+   "move_s": 0.01
   },
   {
    "who": "boy",
@@ -1830,7 +1816,8 @@
    "view": "34",
    "dir": 1,
    "pose": "m:idle/A",
-   "face": "k:think"
+   "face": "k:think",
+   "move_s": 0.01
   },
   {
    "who": "grandchild",
@@ -1848,7 +1835,8 @@
    "view": "34",
    "dir": -1,
    "pose": "m:inspect/B",
-   "face": "k:surprised"
+   "face": "k:surprised",
+   "move_s": 0.01
   },
   {
    "who": "old_lou",
@@ -2203,19 +2191,6 @@
     1.4,
     1.6
    ]
-  },
-  {
-   "at": [
-    "hundred",
-    2
-   ],
-   "kind": "puff",
-   "pos": [
-    -25.0,
-    28.0,
-    1.0
-   ],
-   "size": 2
   },
   {
    "at": [

@@ -100,24 +100,6 @@
   ]
  },
  {
-  "t": 2.33,
-  "who": "lou",
-  "at": 70,
-  "pose": null,
-  "face": "k:smirk",
-  "cls": []
- },
- {
-  "t": 2.33,
-  "who": "lou",
-  "at": 70,
-  "pose": "m:walk/B",
-  "face": null,
-  "cls": [
-   "LIBRARY"
-  ]
- },
- {
   "t": 2.76,
   "who": "farmer",
   "at": [
@@ -142,70 +124,50 @@
   "cls": []
  },
  {
-  "t": 2.8,
-  "who": "carrier_tall",
-  "at": 84,
-  "pose": "m:walk/C",
-  "face": "k:sleepy",
-  "cls": [
-   "LIBRARY"
-  ]
- },
- {
-  "t": 2.8,
-  "who": "carrier_short",
-  "at": 84,
-  "pose": "m:walk/C",
-  "face": "k:sleepy",
-  "cls": [
-   "LIBRARY"
-  ]
- },
- {
-  "t": 2.8,
-  "who": "carrier_stocky",
-  "at": 84,
-  "pose": "m:walk/C",
-  "face": "k:sleepy",
-  "cls": [
-   "LIBRARY"
-  ]
- },
- {
-  "t": 3.27,
+  "t": 3.33,
   "who": "lou",
-  "at": 98,
+  "at": 100,
   "pose": "m:lift/C",
-  "face": null,
+  "face": "k:smirk",
   "cls": [
    "LIBRARY"
   ]
  },
  {
-  "t": 4.9,
-  "who": "carrier_stocky",
-  "at": 147,
-  "pose": "m:idle/C",
-  "face": null,
-  "cls": [
-   "LIBRARY"
-  ]
- },
- {
-  "t": 4.93,
+  "t": 3.73,
   "who": "carrier_tall",
-  "at": 148,
+  "at": 112,
   "pose": "m:idle/C",
-  "face": null,
+  "face": "k:sleepy",
   "cls": [
    "LIBRARY"
   ]
  },
  {
-  "t": 4.93,
+  "t": 3.73,
   "who": "carrier_short",
-  "at": 148,
-  "pose": "m:idle/C",
+  "at": 112,
+  "pose": "m:walk/C",
+  "face": "k:sleepy",
+  "cls": [
+   "LIBRARY"
+  ]
+ },
+ {
+  "t": 3.73,
+  "who": "carrier_stocky",
+  "at": 112,
+  "pose": "m:walk/C",
+  "face": "k:sleepy",
+  "cls": [
+   "LIBRARY"
+  ]
+ },
+ {
+  "t": 5.0,
+  "who": "lou",
+  "at": 150,
+  "pose": "m:walk/B",
   "face": null,
   "cls": [
    "LIBRARY"
@@ -238,30 +200,6 @@
   ]
  },
  {
-  "t": 5.71,
-  "who": "lou",
-  "at": [
-   "soldier",
-   1,
-   -14
-  ],
-  "pose": "m:walk/B",
-  "face": null,
-  "cls": [
-   "LIBRARY"
-  ]
- },
- {
-  "t": 6.27,
-  "who": "lou",
-  "at": 188,
-  "pose": "m:idle/A",
-  "face": null,
-  "cls": [
-   "LIBRARY"
-  ]
- },
- {
   "t": 6.44,
   "who": "lou",
   "at": [
@@ -270,6 +208,16 @@
   ],
   "pose": "m:cheer/A",
   "face": "k:slyWink",
+  "cls": [
+   "LIBRARY"
+  ]
+ },
+ {
+  "t": 6.47,
+  "who": "lou",
+  "at": 194,
+  "pose": "m:idle/A",
+  "face": null,
   "cls": [
    "LIBRARY"
   ]
@@ -299,10 +247,30 @@
   ]
  },
  {
+  "t": 9.47,
+  "who": "carrier_short",
+  "at": 284,
+  "pose": "m:idle/C",
+  "face": null,
+  "cls": [
+   "LIBRARY"
+  ]
+ },
+ {
   "t": 9.67,
   "who": "lou",
   "at": 290,
   "pose": "m:push/B",
+  "face": null,
+  "cls": [
+   "LIBRARY"
+  ]
+ },
+ {
+  "t": 10.57,
+  "who": "carrier_stocky",
+  "at": 317,
+  "pose": "m:idle/C",
   "face": null,
   "cls": [
    "LIBRARY"

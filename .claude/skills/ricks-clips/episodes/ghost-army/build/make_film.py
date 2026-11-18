@@ -60,7 +60,9 @@ takes = [
    St(['families', 1], [-0.4, -0.8, 1.3], [-1.0, 1.3, 1.3], subj='old_lou', framing='M', lead=3, hold=0.3, travel=1.0),
    St(['years', 1], [-0.1, -2.7, 1.25], [-0.1, 1.5, 1.2], subj='grandchild', framing='M', lead=3, travel=1.0)])]
 A = []
-def act(who, at, **o): A.append(dict(who=who, at=at, **o))
+def act(who, at, **o):
+    if 'place' in o and 'pos' in o and 'move_s' not in o: o['move_s'] = 0.01   # animation audit: entering a new place is a cut, never a slide from the old place's coordinates
+    A.append(dict(who=who, at=at, **o))
 # ANIMATION AUDIT 2026-11-17: every act is a registered motion-library move (m:<id>), every change of place a visible walk/run at a
 # believable speed (WALK m/s ~1.1, run ~3-4), no static kit pose, no planner 2-frame walk, no glide. Reasons per beat in audit/ANIMATION_AUDIT.md.
 WALK = 1.1
@@ -72,13 +74,15 @@ def go(who, at, to, frm, speed=WALK, pose='m:walk/A', then=None, **o):
     if then: act(who, f0 + int(s_ * 30) + 1, pose=then)
     return s_
 # --- field (hook): the four lift the tank (it stays above them and comes down), step out, Lou pats it, the cyclists roll in
-for who, pos, d in (('lou', [1.9, 2.6, 0], -1), ('carrier_tall', [-1.4, 2.2, 0], 1), ('carrier_short', [1.4, 5.8, 0], -1), ('carrier_stocky', [-1.8, 6.0, 0], 1)):
+# all four hold the hull by its long sides (measured footprint: none stands inside it, so nobody has to step out from under it)
+for who, pos, d in (('lou', [0.99, 1.45, 0], -1), ('carrier_tall', [-1.4, 2.2, 0], 1), ('carrier_short', [1.4, 5.8, 0], -1), ('carrier_stocky', [-1.06, 6.36, 0], 1)):
     act(who, 0, pos=pos, place='field', view='34', dir=d, pose='m:lift/A', face='k:concentrate')     # bored hold under the load
     act(who, 52, pose='m:lift/B')                                                                       # the set-down (tank lowers f52-103)
-for who, frm, to in (('carrier_tall', [-1.4, 2.2, 0], [-2.6, 0.2, 0]), ('carrier_short', [1.4, 5.8, 0], [2.9, 7.6, 0]), ('carrier_stocky', [-1.8, 6.0, 0], [-3.6, 7.4, 0])):
-    go(who, 84, to, frm, pose='m:walk/C', face='k:sleepy', then='m:idle/C')                            # step out from under the hull, bored, then sway
-act('lou', 70, face='k:smirk'); go('lou', 70, [2.3, 1.0, 0], [1.9, 2.6, 0], speed=1.8, pose='m:walk/B', then='m:lift/C')   # lets go first, arrives f97, pats on 'suitcase' (f103)   # strolls to the side and pats it like luggage
-go('lou', ['soldier', 1, -14], [3.0, 1.3, 0], [2.3, 1.0, 0], speed=1.4, pose='m:walk/B', view='front', then='m:idle/A')   # arrives before 'winks'
+act('carrier_tall', 112, pose='m:idle/C', face='k:sleepy')
+for who, frm, to in (('carrier_short', [1.4, 5.8, 0], [6.5, 9.5, 0]), ('carrier_stocky', [-1.06, 6.36, 0], [-6.5, 11.5, 0])):
+    go(who, 112, to, frm, pose='m:walk/C', face='k:sleepy', then='m:idle/C')                           # bored, they wander off behind the tank
+act('lou', 100, pose='m:lift/C', face='k:smirk')                                                        # pats it like luggage on 'suitcase' (f103), where he stands
+go('lou', 150, [3.0, 1.3, 0], [0.99, 1.45, 0], speed=1.4, pose='m:walk/B', view='front', then='m:idle/A')   # strolls round to the front; arrives before 'winks'
 act('lou', ['winks', 1], face='k:slyWink', pose='m:cheer/A')   # "very strong": both fists up beside the head (the close-up crops anything lower)
 go('lou', ['see', 1], [-1.8, 2.15, 0], [3.0, 1.3, 0], speed=4.2, pose='m:run/C', view='side', dir=-1, then='m:push/B', face='k:proud')   # sprints to the valve, one smug push
 act('farmer', 0, pos=[-7.8, -12.0, 0], place='field', view='side', dir=1, pose='m:bike/A+props', face='k:standard')
@@ -148,7 +152,7 @@ film = dict(title='THE GHOST ARMY', fps=30, size=[1080, 1920], end=END, kit3d=Tr
   kicks=[dict(at=['balloons', 2, 3], amp=0.3)],
   fx=[dict(at=['suitcase', 1], kind='knock', pos=[0.3, 3.6, 2.4]), dict(at=['strong', 1], kind='glint', pos=[3.0, 1.3, 1.6]), dict(at=['rubber', 1, 4], kind='steam', pos=[-1.9, 3.2, 2.2]),
       dict(at=['track', 1], kind='dust', pos=[12.0, 0.0, 0.3]), dict(at=['hundred', 1], kind='ring', pos=[0.0, 7.2, 2.75]), dict(at=['morse', 1], kind='spark', pos=[-0.5, 1.4, 0.9]),
-      dict(at=['patches', 1], kind='glint', pos=[1.15, 3.45, 0.95]), dict(at=['spies', 1], kind='glint', pos=[-2.6, 1.4, 1.6]), dict(at=['hundred', 2], kind='puff', pos=[-25.0, 28.0, 1.0], size=2),
+      dict(at=['patches', 1], kind='glint', pos=[1.15, 3.45, 0.95]), dict(at=['spies', 1], kind='glint', pos=[-2.6, 1.4, 1.6]), 
       dict(at=['photographs', 1], kind='glint', pos=[0.25, 1.5, 0.95]), dict(at=['balloons', 2], kind='hit', pos=[-30.0, 26.0, 2.0], size=2), dict(at=['years', 1], kind='glint', pos=[0.4, 1.6, 1.8])],
   moods=[dict(at=['tank', 1], look='warm_gold'), dict(at=['rubber', 1], look='spot_dark'), dict(at=['painters', 1], look='warm_up'), dict(at=['nobody', 1], look='dark'), dict(at=['far', 1], look='warm_gold'),
          dict(at=['night', 1], look='cold_blue'), dict(at=['hundred', 1], look='cold_blue'), dict(at=['radio', 1], look='warm_up'), dict(at=['café', 1], look='warm_gold'), dict(at=['carnival', 1], look='spot_dark'),
