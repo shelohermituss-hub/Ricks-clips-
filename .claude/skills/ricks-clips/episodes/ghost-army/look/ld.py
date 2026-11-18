@@ -121,6 +121,34 @@ def replace(pattern, aid, fit="height", extra_rot=0.0, keep_original=False):
         n += 1
     return n
 
+# ---------------------------------------------------------------- the lock's instanced foliage
+def foliage_groups():
+    """the glTF importer turns every three.js InstancedMesh into one object per instance, all named 'Mesh' (the field has ~50k).
+    Group them by shared mesh data and sort each group by size and distance:
+      grass  - small blade clumps (<= 1 m tall, few vertices)     flowers - tiny (< .12 m)
+      hedge  - leaf clumps .4-3 m within 120 m                     copse   - big blobs or anything beyond 120 m
+    Returns {kind: [objects]} for the foliage-material objects only."""
+    by = {}
+    for o in bpy.data.objects:
+        if o.type != "MESH" or not any(s.material and "foliage" in s.material.name.lower() for s in o.material_slots): continue
+        by.setdefault(o.data.name, []).append(o)
+    out = {"grass": [], "flowers": [], "hedge": [], "copse": []}
+    for key, objs in by.items():
+        o0 = objs[0]; nv = len(o0.data.vertices); dims = sorted(o.dimensions.z for o in objs)[len(objs) // 2]; dist = sorted(o.matrix_world.translation.length for o in objs)[len(objs) // 2]
+        kind = "flowers" if dims < .12 else "grass" if (dims <= 1.0 and nv <= 80) else "copse" if (dist > 120 or dims > 3.0) else "hedge"
+        out[kind] += objs
+    return out
+def replace_objs(objs, aid, fit="height", every=1):
+    """replace a list of objects by instances of a model (bottom centre, scaled); every=k keeps one in k (the others hidden)"""
+    col, size = load_model(aid); n = 0
+    for i, o in enumerate(objs):
+        o.hide_render = True; o.hide_viewport = True
+        if i % every: continue
+        pts = [o.matrix_world @ Vector(c) for c in o.bound_box]; lo = Vector((min(p.x for p in pts), min(p.y for p in pts), min(p.z for p in pts))); hi = Vector((max(p.x for p in pts), max(p.y for p in pts), max(p.z for p in pts)))
+        d = hi - lo; s = (d.z / max(size.z, 1e-4)) if fit == "height" else (max(d.x, d.y) / max(size.x, size.y, 1e-4))
+        instance(aid, Vector(((lo.x + hi.x) / 2, (lo.y + hi.y) / 2, lo.z)), (i * 2.399) % 6.283, s, "rep_" + aid); n += 1
+    return n
+
 # ---------------------------------------------------------------- dressing
 def scatter(aids, count, area, keep_clear, seed=1, scale=(.8, 1.3), ground_z=0.0, avoid=None, near=None, name="scatter"):
     """instances of the models in `aids` over area (x0, y0, x1, y1), never inside a keep-clear disc (camera path, characters)

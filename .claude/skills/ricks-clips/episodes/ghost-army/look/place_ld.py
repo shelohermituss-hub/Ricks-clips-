@@ -49,6 +49,7 @@ def road_lamps():
     ld.assign(r"^(road_lamp_post|road_lamp_arm|ht_lamp_post)", ld.simple("ld_iron", (.05, .05, .05), rough=.5, metal=.8)); return n
 
 
+LEAVES = ld.foliage("ld_leaves", (.1, .2, .05)); GRASS = ld.foliage("ld_grass", (.16, .26, .07), .4); LEAVES_N = ld.foliage("ld_leaves_night", (.05, .09, .04), .3)
 if PLACE == "field":
     step("hdri sky + light (kloofendal_misty_morning_puresky)", lambda: ld.world_hdri("kloofendal_misty_morning_puresky", strength=1.1, rot=2.2, visible=True) and "ok")
     step("low morning sun", lambda: ld.sun("ld_sun", (.82, -.5, .24), 3.2, (1, .86, .7), .03) and "ok")
@@ -58,10 +59,10 @@ if PLACE == "field":
     step("telegraph poles: weathered wood; insulators glass; wires", lambda: ld.assign(r"^(telegraph_pole|telegraph_bar|pennant_pole)", ld.pbr("ld_polewood", "brown_planks_07", tile=1.0, rough_mul=1.1)) + ld.assign(r"^pole_insulator", ld.simple("ld_insulator", (.55, .7, .62), rough=.08, transmission=.6)) + ld.assign(r"^power_line", ld.simple("ld_wire", (.02, .02, .02), rough=.4, metal=.6)))
     step("cargo truck: chipped olive paint, plank bed", lambda: ld.assign(r"^truck_(cab|hood|fender|side|bumper|tank)", ld.pbr("ld_truckpaint", "rusty_painted_metal", tile=1.2, tint=(.42, .45, .3), rough_mul=.9)) + ld.assign(r"^truck_(bed|board)", ld.pbr("ld_truckwood", "brown_planks_04", tile=1.0)))
     step("decoy tanks: rubberised canvas", tank_rubber)
-    step("hedges: real shrubs in place of leaf clumps", lambda: ld.replace(r"^hedge_clumps", "shrub_02", fit="height"))
-    step("trees/copses: foliage + bark", lambda: by_material("foliage", ld.foliage("ld_leaves", (.1, .2, .05))) + ld.assign(r"^(tree|trunk|poplar_trunk)", ld.pbr("ld_bark", "bark_brown_02", tile=.8)))
-    step("near meadow: modelled grass clumps", lambda: ld.replace(r"^meadow_near", "grass_medium_01", fit="height"))
-    step("mid meadow: grass colour variation", lambda: ld.assign(r"^meadow_mid", ld.foliage("ld_grass", (.16, .26, .07), .4)))
+    FG = ld.foliage_groups(); LOG.append(dict(step="foliage groups (instances imported as single objects)", status="APPLIED", result={k: len(v) for k, v in FG.items()}))
+    step("hedges: real shrubs (shrub_02) in place of leaf clumps", lambda: ld.replace_objs(FG["hedge"], "shrub_02", fit="height"))
+    step("copses and trees: leaf colour variation + bark", lambda: sum(1 for o in FG["copse"] for _ in [o.data.materials.clear(), o.data.materials.append(LEAVES)]) + ld.assign(r"^(tree|trunk|tree_trunk|poplar_trunk)", ld.pbr("ld_bark", "bark_brown_02", tile=.8)))
+    step("meadow: modelled grass clumps near the lens (grass_medium_01, 1 in 2), colour variation for the rest", lambda: ld.replace_objs([o for o in FG["grass"] if o.matrix_world.translation.length < 26], "grass_medium_01", fit="height", every=2) + sum(1 for o in FG["grass"] if o.matrix_world.translation.length >= 26 for _ in [o.data.materials.clear(), o.data.materials.append(GRASS)]))
     step("dandelions and stones near the lens", lambda: ld.scatter(["dandelion_01", "stone_01"], 120, (-6, -6, 10, 12), KC, seed=4, scale=(.6, 1.1), near=(4, -2, 6)))
     step("morning air (volumetric haze)", lambda: ld.fog_box((0, 30, 8), (240, 240, 30), .0035, (.95, .88, .8)) and "ok")
 elif PLACE == "cafe":
@@ -84,10 +85,12 @@ elif PLACE == "road":
     step("cobbles: real displacement, wet", lambda: ld.assign(r"^road$", ld.pbr("ld_cobble", "cobblestone_floor_04", tile=1.6, disp=.05, wet=.75)))
     step("verges: wet mud and grass", lambda: ld.assign(r"^ground$", ld.pbr("ld_verge", "brown_mud_leaves_01", tile=3, disp=.04, wet=.5)))
     step("puddles: dark mirror water", lambda: ld.assign(r"^puddle", ld.simple("ld_puddle", (.02, .025, .03), rough=.02)))
-    step("poplars: bark + dark wet leaves", lambda: ld.assign(r"^poplar_trunk", ld.pbr("ld_bark", "bark_willow", tile=.7, wet=.4)) + by_material("foliage", ld.foliage("ld_leaves_night", (.05, .09, .04), .3)))
-    step("verge grass: grass colour", lambda: ld.assign(r"^verge_grass", ld.foliage("ld_grass_night", (.08, .13, .05), .35)))
-    step("half-track: chipped olive paint, wet", lambda: ld.assign(r"^(sound_halftrack|ht_)", ld.pbr("ld_htpaint", "rusty_painted_metal", tile=1.0, tint=(.36, .4, .26), rough_mul=.8, wet=.3)) + ld.assign(r"^(ht_speaker_horn|ht_horn)", ld.simple("ld_horn", (.62, .64, .6), rough=.25, metal=1.0)))
+    FG = ld.foliage_groups(); LOG.append(dict(step="foliage groups (instances imported as single objects)", status="APPLIED", result={k: len(v) for k, v in FG.items()}))
+    step("poplars: bark + dark wet leaves", lambda: ld.assign(r"^poplar_trunk", ld.pbr("ld_bark", "bark_willow", tile=.7, wet=.4)) + sum(1 for o in FG["hedge"] + FG["copse"] for _ in [o.data.materials.clear(), o.data.materials.append(LEAVES_N)]))
+    step("verge grass: modelled wet grass near the lens (grass_medium_02, 1 in 3)", lambda: ld.replace_objs([o for o in FG["grass"] if abs(o.matrix_world.translation.x) < 12 and o.matrix_world.translation.y < 30], "grass_medium_02", fit="height", every=3))
+    step("half-track: chipped olive paint, wet", lambda: ld.assign(r"^(sound_halftrack_paint|ht_speaker_(frame|cradle|driver)|ht_driver_cap|ht_horn_(rib|rim))", ld.pbr("ld_htpaint", "rusty_painted_metal", tile=1.0, tint=(.36, .4, .26), rough_mul=.8, wet=.3)) + ld.assign(r"^(ht_speaker_horn|ht_horn)", ld.simple("ld_horn", (.62, .64, .6), rough=.25, metal=1.0)))
     step("street lamps: iron + warm bulbs with halos", lambda: road_lamps())
+    step("ghost tanks hidden (in the film they are faint sound ghosts, opacity ~0 at these frames)", lambda: ld.assign(r"^(hull_bladder|turret_bladder|track_bladder|cupola_bladder|mantlet_cushion|gun_segments|gun_bands|wheel_cushions|hatch_cushion|patch_|hull_seams|turret_seams|straps|d_rings|valve_|tank_star|tank_stencil)", None, hide=True))
     step("rainy night air (volumetric, lamp halos)", lambda: ld.fog_box((0, 30, 6), (60, 120, 14), .012, (.7, .78, 1.0), .5) and "ok")
 
 json.dump(LOG, open(os.path.join(OUT, PLACE + "_steps.json"), "w"), indent=1)
