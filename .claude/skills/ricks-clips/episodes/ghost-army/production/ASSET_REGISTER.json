@@ -168,7 +168,8 @@
    "source": "procedural",
    "license": "own work",
    "validation_status": "render_tested",
-   "notes": "V3 2026-11-18 (user request): 3 insulators per crossarm, catenary wires pole to pole"
+   "notes": "V3 2026-11-18 (user request): 3 insulators per crossarm, catenary wires pole to pole",
+   "file": "episodes/ghost-army/sets/ghost.js (procedural: insulators + catenary TubeGeometry)"
   }
  ]
 }

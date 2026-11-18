@@ -68,8 +68,11 @@ def promote_refuses_without_proof():
 
 # Asset gate: the renderer inventory sees the hero and measures it
 def inventory_measures_hero():
+    # V3 (2026-11-18): the hero is now a Blender model; the inventory must see it as modelled AND still flag a real primitive assembly (the distant real tanks)
     inv = json.load(open(GA + "/out/plan/inventory.json")); rows = [r for r in inv["field"]["rows"] if r["name"] == "inflatable_sherman"]
-    return bool(rows) and rows[0]["meshes"] > 50 and rows[0]["prim"] / rows[0]["meshes"] > .6, "inflatable_sherman %s" % rows[:1]
+    prim = [r for r in inv["river"]["rows"] if r["name"].startswith("real_tank")]
+    ok = bool(rows) and rows[0]["meshes"] >= 20 and rows[0]["tris"] >= 12000 and rows[0]["prim"] / rows[0]["meshes"] < .6 and bool(prim) and prim[0]["prim"] / prim[0]["meshes"] > .6
+    return ok, "hero %s; primitive control %s" % (rows[:1], prim[:1])
 
 # Memory files follow the schemas' required fields
 def memory_schema():
