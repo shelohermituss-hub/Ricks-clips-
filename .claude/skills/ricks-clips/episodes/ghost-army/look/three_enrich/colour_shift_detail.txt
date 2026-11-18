@@ -1,0 +1,12 @@
+f30: mean RGB shift [-1.0, -0.2, 0.5] /255
+f150: mean RGB shift [-2.4, -0.5, -0.2] /255
+f160: mean RGB shift [-2.5, -0.4, -0.2] /255
+f200: mean RGB shift [-2.4, -1.5, 1.0] /255
+f285: mean RGB shift [-3.2, -1.7, 3.3] /255
+f800: mean RGB shift [-1.1, -2.1, -1.3] /255
+f880: mean RGB shift [-0.5, -1.2, -0.9] /255
+f960: mean RGB shift [-3.7, -3.9, -3.2] /255
+f1000: mean RGB shift [-2.8, -3.0, -2.0] /255
+f1185: mean RGB shift [-8.0, -6.0, -5.5] /255
+f1245: mean RGB shift [-11.6, -8.8, -5.9] /255
+f1305: mean RGB shift [-11.3, -8.5, -5.7] /255

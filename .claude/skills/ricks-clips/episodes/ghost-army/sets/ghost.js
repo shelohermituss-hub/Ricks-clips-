@@ -520,6 +520,107 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     lamp([-2, 3, 3.2], '#ffc884', 20, 10); lamp([2.4, 4, 3.2], '#ffc884', 14, 8);
     anchors = { bar: [2.4, 4.4, 1.2], spy_table: [-2.6, 2.0, .8] };
   }
+  /* SET DETAIL (2026-11-18, stage 9 three.js enrichment, CB choice "2"): more real things in the three test places, in each place's own palette.
+     Off unless film.json "set_detail": true, so V3 renders as before. Own random stream (rr2), so nothing placed above moves. */
+  if (film.set_detail) {
+    let s2 = 90001 + Z.length * 7; const r2 = () => (s2 = (s2 * 48271) % 2147483647) / 2147483647, rr2 = (a, b) => a + r2() * (b - a);
+    const tube = (name, role, pts, r, mat, o = {}) => add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map(p => V(...p))), o.seg ?? 24, r, 8, !!o.closed), mat), name, role, o);
+    const inst = (name, role, geo, mat, list, o = {}) => { const im = new THREE.InstancedMesh(geo, mat, list.length), M4 = new THREE.Matrix4(), Q = new THREE.Quaternion(), C = new THREE.Color();
+      list.forEach((e, i) => { Q.setFromEuler(new THREE.Euler(e.rx || 0, e.ry || 0, e.rz || 0)); M4.compose(V(...e.at), Q, new THREE.Vector3(...(e.s || [1, 1, 1]))); im.setMatrixAt(i, M4); if (e.c) im.setColorAt(i, C.set(e.c)); });
+      return add(im, name, role, o); };
+    if (Z === 'cafe') {
+      const BW = std('#2e1e14', { rough: .55 }), BRASS = metal('brass', '#c8a24a', { rough: .3 }), GL = std('#cfe0e4', { rough: .05, extra: { transparent: true, opacity: .35, depthWrite: false } }), PAPER = std('#efe6cc', { rough: .7 });
+      // bistro chairs: the floating round seats get three bentwood legs, a ring brace and a looped back (not the spy's stool side: a back there would sit between the lens and him)
+      for (const [x, y] of [[-2.6, 2.0], [-1.0, 3.6], [-3.4, 4.6]]) for (const a of [0, 2.2, 4.2]) { const cx = x + Math.cos(a) * .75, cy = y + Math.sin(a) * .75;
+        for (let k = 0; k < 3; k++) { const b = a + k * 2.094 + .5; cyl('chair_leg_bentwood', 'wood', .014, .45, [cx + Math.cos(b) * .14, cy + Math.sin(b) * .14, 0], BW, { r2: .016 }); }
+        tube('chair_ring', 'wood', Array.from({ length: 13 }, (_, i) => [cx + Math.cos(i / 12 * 6.283) * .13, cy + Math.sin(i / 12 * 6.283) * .13, .16]), .008, BW, { closed: true, cast: false });
+        if (Math.hypot(cx + 2.6, cy - 1.1) < .9) continue;
+        const ox = Math.cos(a), oy = Math.sin(a), px = -oy, py = ox, pts = []; for (let i = 0; i <= 16; i++) { const u = i / 16, ang = Math.PI * u; pts.push([cx + ox * .17 + px * Math.cos(ang) * .17, cy + oy * .17 + py * Math.cos(ang) * .17, .47 + Math.sin(ang) * .42]); }
+        tube('chair_back_loop', 'wood', pts, .012, BW); }
+      // pendant lamps: cord, green enamel shade, bulb (the glows already sit at the bulbs)
+      for (const [x, y] of [[-2, 3], [2.4, 4]]) { cyl('lamp_cord', 'metal', .006, .34, [x, y, 3.26], std('#1a1a1a'), { cast: false });
+        const sh = cyl('lamp_shade', 'metal', .26, .16, [x, y, 3.16], std('#2f4a36', { rough: .4, extra: { side: THREE.DoubleSide } }), { r2: .05, cast: false }); sh.geometry = new THREE.CylinderGeometry(.05, .26, .16, 28, 1, true);
+        add(new THREE.Mesh(new THREE.SphereGeometry(.05, 12, 8), basic('#fff0c8')), 'lamp_bulb', 'lamp', { cast: false }).position.copy(V(x, y, 3.17)); }
+      // the bar: a brass foot rail, beer pumps, a cash register, glasses, a soda siphon; crown moulding all round
+      tube('bar_foot_rail', 'metal', [[0.3, 3.93, .2], [4.5, 3.93, .2]], .025, BRASS, { seg: 4 });
+      for (const x of [.6, 4.2]) cyl('rail_bracket', 'metal', .015, .2, [x, 3.97, 0], BRASS);
+      for (let i = 0; i < 3; i++) { cyl('beer_pump', 'metal', .03, .32, [1.7 + i * .16, 4.25, 1.16], BRASS); cyl('pump_handle', 'wood', .018, .2, [1.7 + i * .16, 4.22, 1.48], std('#e8e0cc', { rough: .4 })); }
+      box('cash_register', 'metal', .38, .34, .26, [3.95, 4.5, 1.16], metal('brass', '#9a7a3a', { rough: .45 })); box('register_top', 'metal', .34, .14, .12, [3.95, 4.58, 1.42], metal('brass', '#9a7a3a', { rough: .45 }));
+      for (let i = 0; i < 6; i++) cyl('bar_glass', 'glass', .035, .1, [2.6 + (i % 3) * .09, 4.12 + (i >> 1 & 1) * .09, 1.16], GL, { r2: .042, cast: false });
+      cyl('siphon', 'glass', .05, .26, [3.2, 4.2, 1.16], std('#5a8a9a', { rough: .1, metal: .2 })); cyl('siphon_head', 'metal', .03, .08, [3.2, 4.2, 1.42], metal('steel', '#c8c8c0'));
+      for (const [w, d, at] of [[9.8, .1, [0, 5.85, 3.48]], [.1, 7.8, [-4.85, 2, 3.48]], [.1, 7.8, [4.85, 2, 3.48]]]) box('crown_moulding', 'wood', w, d, .12, at, relief('wood', '#5a3a24', { seed: 113 }), { cast: false });
+      // the bottles become bottles: neck, shoulder and a paper label on every shelf and back-bar cylinder
+      const bt = []; scene.traverse(o => { if (o.isMesh && /^(shelf_)?bottle/.test(o.name)) bt.push(o); });
+      for (const o of bt) { const h = o.geometry.parameters.height, r = o.geometry.parameters.radiusTop, p = o.position;
+        const sh = add(new THREE.Mesh(new THREE.CylinderGeometry(r * .32, r, h * .18, 16), o.material), 'bottle_shoulder', 'glass', { cast: false }); sh.position.set(p.x, p.y + h / 2 + h * .09, p.z);
+        const nk = add(new THREE.Mesh(new THREE.CylinderGeometry(r * .3, r * .32, h * .3, 12), o.material), 'bottle_neck', 'glass', { cast: false }); nk.position.set(p.x, p.y + h / 2 + h * .33, p.z);
+        const lb = add(new THREE.Mesh(new THREE.CylinderGeometry(r * 1.02, r * 1.02, h * .34, 16, 1, true), std(['#efe6cc', '#e8c45a', '#d8d0b8'][Math.floor(rr2(0, 3))], { rough: .7 })), 'bottle_label', 'cloth', { cast: false }); lb.position.set(p.x, p.y - h * .05, p.z); }
+      // tables: wine, glasses, an ashtray; a coat stand with a hat in the far corner; two framed pictures on the left wall
+      cyl('wine_bottle', 'glass', .038, .24, [-.88, 3.66, .76], std('#2a3a22', { rough: .1 })); cyl('wine_neck', 'glass', .014, .1, [-.88, 3.66, 1.0], std('#2a3a22', { rough: .1 }));
+      for (const [dx, dy] of [[-.25, .12], [.1, -.2]]) { cyl('wine_glass_stem', 'glass', .005, .09, [-1.0 + dx, 3.6 + dy, .76], GL, { cast: false }); cyl('wine_glass_bowl', 'glass', .03, .07, [-1.0 + dx, 3.6 + dy, .85], std('#7a1e2a', { rough: .1, extra: { transparent: true, opacity: .6 } }), { r2: .038, cast: false }); }
+      cyl('ashtray', 'glass', .06, .025, [-3.3, 4.5, .76], std('#8a8a80', { rough: .3 }));
+      cyl('coat_stand', 'wood', .025, 1.8, [-4.5, 5.5, 0], BW); cyl('coat_stand_foot', 'wood', .18, .04, [-4.5, 5.5, 0], BW);
+      for (let k = 0; k < 4; k++) { const a = k * 1.57; cyl('coat_hook', 'metal', .008, .14, [-4.5 + Math.cos(a) * .06, 5.5 + Math.sin(a) * .06, 1.72], BRASS); }
+      add(new THREE.Mesh(lumpGeo(.2, .5, .14, .1, 3), std('#3a3a44', { rough: .9 })), 'coat_hanging', 'cloth').position.copy(V(-4.42, 5.45, 1.25));
+      cyl('hat_crown', 'cloth', .1, .11, [-4.5, 5.5, 1.8], std('#2a2420', { rough: .85 })); cyl('hat_brim', 'cloth', .17, .015, [-4.5, 5.5, 1.8], std('#2a2420', { rough: .85 }));
+      for (const [y, w, h, c] of [[1.6, .5, .4, '#6a7a5a'], [3.4, .4, .55, '#8a6a4a']]) { box('picture_frame', 'wood', .04, w + .08, h + .08, [-4.86, y, 1.6], metal('brass', '#8a6a2a', { rough: .5 }));
+        box('picture', 'cloth', .02, w, h, [-4.84, y, 1.64], std(c, { rough: .8 })); }
+    }
+    if (Z === 'field') {
+      const GRAN = relief('stone', '#9a958a', { seed: 141, size: .8 }), OAK = relief('wood', '#7a6a4e', { seed: 142 }), MUD = relief('mud', '#4e4030', { seed: 143, size: 2 });
+      // granite gateposts where the lane passes the hedge, and an old five-bar gate swung open against it
+      for (const x of [-9.4, -4.6]) { box('gatepost', 'stone', .4, .4, 1.6, [x, 14, 0], GRAN); box('gatepost_cap', 'stone', .48, .48, .1, [x, 14, 1.6], GRAN); }
+      { const g = new THREE.Group(); g.position.copy(V(-9.2, 13.6, 0)); g.rotation.y = 2.6; scene.add(g);
+        for (let i = 0; i < 5; i++) { const b = add(new THREE.Mesh(new THREE.BoxGeometry(3.0, .09, .05), OAK), 'gate_bar', 'wood', { parent: g }); b.position.set(1.5, .25 + i * .26, 0); }
+        for (const x of [.05, 1.5, 2.95]) { const s = add(new THREE.Mesh(new THREE.BoxGeometry(.1, 1.3, .06), OAK), 'gate_stile', 'wood', { parent: g }); s.position.set(x, .7, 0); }
+        const br = add(new THREE.Mesh(new THREE.BoxGeometry(3.2, .08, .05), OAK), 'gate_brace', 'wood', { parent: g }); br.position.set(1.5, .75, .01); br.rotation.z = .36; }
+      // wheel ruts down the lane, with rain left in them
+      for (const x of [-7.75, -6.25]) { const r = add(new THREE.Mesh(new THREE.PlaneGeometry(.46, 130), MUD), 'lane_rut', 'ground', { cast: false, mat: 'mud' }); r.rotation.x = -Math.PI / 2; r.position.copy(V(x, 35, .015)); }
+      /* (no rut puddles: in daylight they mirrored the blue sky and read as a blue plank on the lane) */
+      // the grass crown between the ruts (a Normandy lane), clear of the riders' line only where the bikes cross it
+      { const sv = seed; for (const y of [-14, 2, 18, 34]) dropInstances(meadow({ name: 'lane_crown', at: [-7, y], radius: 8.5, count: 2600, height: .22, tints: ['#8a9a50', '#7a8c48', '#9aa85a'] }), (x) => Math.abs(x + 7) > .3); seed = sv; }   /* meadow draws from the main stream: restored so nothing else moves */
+      // leaf skin on the hedge clumps: sprig cards over each clump's outer surface, so the bocage silhouette breaks into leaves instead of smooth balls
+      { const tex = (() => { const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d');
+          for (let i = 0; i < 9; i++) { const a = i / 9 * 6.283 + rr2(-.2, .2), d = rr2(14, 40), x = 64 + Math.cos(a) * d, y = 64 + Math.sin(a) * d, v = rr2(170, 255) | 0;
+            g.save(); g.translate(x, y); g.rotate(a); g.fillStyle = `rgb(${v},${v},${v})`; g.beginPath(); g.ellipse(0, 0, 20, 10, 0, 0, 6.283); g.fill(); g.strokeStyle = `rgba(0,0,0,.25)`; g.lineWidth = 1.5; g.beginPath(); g.moveTo(-18, 0); g.lineTo(18, 0); g.stroke(); g.restore(); }
+          const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; })();
+        const cg = new THREE.PlaneGeometry(1, 1), cm = new THREE.MeshStandardMaterial({ map: tex, alphaTest: .5, side: THREE.DoubleSide, roughness: .85 });
+        const src = []; scene.traverse(o => { if (o.isInstancedMesh && /^hedge_clumps/.test(o.name)) src.push(o); });
+        const K = 34, M4 = new THREE.Matrix4(), M5 = new THREE.Matrix4(), Q = new THREE.Quaternion(), P = new THREE.Vector3(), S = new THREE.Vector3(), C = new THREE.Color(), D = new THREE.Vector3(), up = new THREE.Vector3(0, 0, 1);
+        let total = 0; for (const im of src) total += im.count * K; const leaf = new THREE.InstancedMesh(cg, cm, total); let k = 0;
+        for (const im of src) for (let i = 0; i < im.count; i++) { im.getMatrixAt(i, M4); M4.decompose(P, Q, S); if (im.instanceColor) im.getColorAt(i, C); else C.set('#4d7a30'); const r = S.x;
+          for (let j = 0; j < K; j++) { D.set(rr2(-1, 1), rr2(-.35, 1), rr2(-1, 1)).normalize(); const q = new THREE.Quaternion().setFromUnitVectors(up, D.clone().add(new THREE.Vector3(rr2(-.5, .5), rr2(-.5, .5), rr2(-.5, .5))).normalize());
+            q.multiply(new THREE.Quaternion().setFromAxisAngle(up, rr2(0, 6.283))); const sz = r * rr2(.32, .5); M5.compose(P.clone().addScaledVector(D, r * rr2(.88, 1.04)), q, new THREE.Vector3(sz, sz, sz)); leaf.setMatrixAt(k, M5);
+            leaf.setColorAt(k++, C.clone().offsetHSL(rr2(-.012, .012), rr2(-.05, .05), rr2(-.05, .05) + .06 * Math.max(0, D.y))); } }
+        leaf.castShadow = true; leaf.receiveShadow = true; add(leaf, 'hedge_leaf_cards', 'foliage', { mat: 'foliage' }); }
+      // a milk-churn stand by the lane, a log, hay bales by the farm, a dry-stone wall, molehills in the meadow
+      box('churn_stand', 'wood', 1.2, .7, .08, [-10.0, 4.0, .7], OAK); for (const sx of [-.5, .5]) for (const sy of [-.28, .28]) box('churn_stand_leg', 'wood', .08, .08, .7, [-10.0 + sx, 4.0 + sy, 0], OAK);
+      for (const dx of [-.3, .3]) { cyl('milk_churn', 'metal', .17, .5, [-10.0 + dx, 4.0, .78], metal('steel', '#b8bcb8', { rough: .45, finish: 'brushed' }), { r2: .13 }); cyl('churn_lid', 'metal', .1, .07, [-10.0 + dx, 4.0, 1.28], metal('steel', '#a8aca8', { rough: .4 })); }
+      const lg = cyl('fallen_log', 'wood', .22, 3.2, [-12.5, 9.5, .2], relief('bark', '#5a4a36', { seed: 144 }), { r2: .19 }); lg.rotation.set(0, .5, Math.PI / 2); lg.position.copy(V(-12.5, 9.5, .22));
+      for (const [x, y, s] of [[19, 30, 1], [20.4, 31, 1], [19.7, 30.6, 2.0]]) { const b = cyl('hay_bale', 'foliage', .7, 1.2, [x, y, s > 1 ? 1.4 : 0], relief('grass', '#c8a85e', { seed: 145 })); b.rotation.set(Math.PI / 2, 0, rr2(0, 3)); b.position.copy(V(x, y, s > 1 ? 2.1 : .7)); }
+      { const L = []; for (let x = 15; x < 32; x += .45) for (let z = 0; z < 3; z++) L.push({ at: [x + rr2(-.1, .1), 28 + rr2(-.08, .08), .18 + z * .3], ry: rr2(0, 3), rz: rr2(-.3, .3), s: [rr2(.24, .34), rr2(.14, .2), rr2(.2, .3)], c: ['#8e897e', '#a29c90', '#7c776c'][Math.floor(rr2(0, 3))] });
+        inst('drystone_wall', 'stone', new THREE.DodecahedronGeometry(1, 0), std('#ffffff', { rough: .95 }), L); }
+      { const L = []; for (let i = 0; i < 16; i++) { let x, y; do { x = rr2(-4, 26); y = rr2(4, 30); } while (Math.abs(x + 7) < 3.5 || Math.hypot(x - 5, y + 3.6) < 6 || Math.hypot(x + 1.6, y - 2.1) < 2.5); L.push({ at: [x, y, 0], ry: rr2(0, 3), s: [rr2(.16, .26), rr2(.08, .12), rr2(.16, .26)], c: '#5a4632' }); }
+        inst('molehill', 'ground', new THREE.SphereGeometry(1, 10, 6, 0, 6.29, 0, 1.6), relief('mud', '#ffffff', { seed: 146 }), L, { cast: false }); }
+    }
+    if (Z === 'road') {
+      const KERB = relief('stone', '#6a6a66', { seed: 151, size: .7 }), WOOD = relief('wood', '#4a3e30', { seed: 152 }), LIME = relief('plaster', '#c8c4b8', { seed: 153 });
+      // granite kerbs along both edges of the cobbles
+      { const L = []; for (const sx of [-2.6, 2.6]) for (let y = -12; y < 150; y += .9) L.push({ at: [sx + rr2(-.02, .02), y, .06], ry: rr2(-.03, .03), s: [.22, .12, .86], c: ['#6e6e6a', '#626260', '#7a7872'][Math.floor(rr2(0, 3))] });
+        inst('kerb_stone', 'stone', new THREE.BoxGeometry(1, 1, 1), KERB, L); }
+      // a roadside calvary (stone cross on steps), a milestone, a rail fence on the left verge, a far farm with one lit window
+      { const at = [-4.4, 13]; box('calvary_step', 'stone', 1.4, 1.4, .25, [at[0], at[1], 0], LIME); box('calvary_step', 'stone', 1.0, 1.0, .25, [at[0], at[1], .25], LIME); box('calvary_shaft', 'stone', .26, .26, 3.0, [at[0], at[1], .5], LIME); box('calvary_arm', 'stone', .9, .2, .2, [at[0], at[1], 2.9], LIME);
+        add(new THREE.Mesh(new THREE.TorusGeometry(.32, .03, 6, 24), LIME), 'calvary_ring', 'stone').position.copy(V(at[0], at[1] - .02, 3.0)); }
+      box('milestone', 'stone', .4, .22, .6, [2.95, 7.5, 0], LIME); cyl('milestone_cap', 'stone', .2, .22, [2.95, 7.5, .6], std('#8a3028', { rough: .7 }), { seg: 16 }).rotation.x = 0;
+      for (let y = -8; y < 70; y += 2.4) { cyl('fence_post', 'wood', .06, 1.1, [6.4 + rr2(-.05, .05), y, 0], WOOD); }   /* right verge: on the left it ran down the lens line of the low road shot and read as rails */
+      for (const z of [.5, .95]) for (let y = -8; y < 67; y += 2.4) { const r = box('fence_rail', 'wood', .05, 2.45, .06, [6.4, y + 1.2, z], WOOD); r.rotation.x = rr2(-.04, .04); }
+      { const g = farmhouse([-26, 46, 0], .35); const w = add(new THREE.Mesh(new THREE.PlaneGeometry(.88, 1.08), basic('#ffb860', { fog: false })), 'lit_window', 'lamp', { cast: false, parent: g }); w.position.set(0, 2.4, 3.08);
+        g.updateMatrixWorld(true); glow('#ffb860', 2.4, .55, w.getWorldPosition(new THREE.Vector3()).addScaledVector(new THREE.Vector3(0, 0, 1).applyQuaternion(g.quaternion), .3)); }
+      // wet fallen leaves on the cobbles and in the gutters
+      { const L = []; for (let i = 0; i < 700; i++) { const gut = r2() < .6, x = gut ? (r2() < .5 ? -1 : 1) * rr2(2.0, 2.45) : rr2(-2.3, 2.3); L.push({ at: [x, rr2(-8, 60), .02 + r2() * .006], rx: -Math.PI / 2, rz: rr2(0, 6.3), s: [rr2(.05, .09), rr2(.03, .06), 1], c: ['#5a3a1e', '#6a4a20', '#3e2a16', '#7a5a2a'][Math.floor(rr2(0, 4))] }); }
+        inst('fallen_leaf', 'foliage', new THREE.CircleGeometry(1, 6), std('#ffffff', { rough: .35, extra: { side: THREE.DoubleSide } }), L, { cast: false }); }
+    }
+  }
   if (Z === 'photo') {
     room(7, 6, 3.0, '#5a5e60', 'stone', '#4a4c4e', { wallMat: blockPaint, ceilMat: std('#4e5254', { rough: .95 }) });
     { const GM = metal('iron', '#5a6058', { rough: .55 });   // filing cabinet, a pinboard of photos, a desk lamp, stacked prints, a hanging shade

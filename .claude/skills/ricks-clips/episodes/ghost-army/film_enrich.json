@@ -2617,5 +2617,6 @@
   "breath": 0.55,
   "breath_rate": 2.15,
   "auto_blink": true
- }
+ },
+ "set_detail": true
 }
