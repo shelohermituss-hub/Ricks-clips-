@@ -199,6 +199,159 @@
    "history": [
     "2026-11-18: tested -> validated"
    ]
+  },
+  {
+   "id": "PI-008",
+   "date": "2026-11-18",
+   "episode": "ghost-army",
+   "shot_timecode": "pipeline",
+   "severity": "high",
+   "problem": "A pod was deleted before its results were downloaded: the 92-minute stage-8 lock was lost.",
+   "root_cause": "pod.py delete terminated the pod with no check of what it held; results lived only on the container disk; the watchdog also removed pods.",
+   "fix": "pod.py: manifest.json (path, size, sha256) published by every pod stage, fetch with sha256 check and FETCH_RECEIPT, delete refused unless every listed file is present locally with the same sha256; explicit logged overrides only; watchdogs STOP pods (volume kept).",
+   "files_changed": [
+    "scripts/runpod/pod.py",
+    "scripts/runpod/manifest.py",
+    "scripts/runpod/lookdev_pod.sh",
+    "scripts/runpod/render_pod.sh",
+    "scripts/runpod/gpu_diag.sh"
+   ],
+   "verification": {
+    "tests": [
+     "tools/tests/test_pod_guard.py: 13/13 PASS (fake pod over local HTTP)"
+    ],
+    "before_after_evidence": [
+     "episodes/ghost-army/production/QA_LOG.json#QA-010"
+    ],
+    "regression_check": "not yet run on a real RunPod pod"
+   },
+   "status": "tested"
+  },
+  {
+   "id": "PI-009",
+   "date": "2026-11-18",
+   "episode": "ghost-army",
+   "shot_timecode": "pipeline",
+   "severity": "high",
+   "problem": "The three.js -> glTF lock flattens every surface to one colour: painted textures, vertex colours and instance colours are lost before Blender.",
+   "root_cause": "GLTFExporter writes the material base colour; canvas maps, vertex colour and InstancedMesh instanceColor are not carried by the lock materials.",
+   "fix": "Do not build a film's look on a lossy export: worlds are built natively in Blender (Mission 0 architecture).",
+   "files_changed": [
+    "docs/MISSION_0_ARCHITECTURE_RICKSCLIPS.md"
+   ],
+   "verification": {
+    "tests": [],
+    "before_after_evidence": [
+     "episodes/ghost-army/look/proto/pass2"
+    ],
+    "regression_check": ""
+   },
+   "status": "proposed"
+  },
+  {
+   "id": "PI-010",
+   "date": "2026-11-18",
+   "episode": "ghost-army",
+   "shot_timecode": "pipeline",
+   "severity": "high",
+   "problem": "A LookDev that replaces the approved palette with photographic PBR colours fails (Ghost Army prototype: wrong colours everywhere).",
+   "root_cause": "Poly Haven textures were used with their own albedo; display transform AgX not calibrated against the approved frames; generic HDRI light.",
+   "fix": "LookDev is palette-first: place palette is data, PBR maps give relief/roughness/wear and are tinted to the palette, every place is calibrated against the reference with numbers before CB sees it.",
+   "files_changed": [
+    "docs/MISSION_0_ARCHITECTURE_RICKSCLIPS.md"
+   ],
+   "verification": {
+    "tests": [],
+    "before_after_evidence": [
+     "episodes/ghost-army/look/proto/pass2"
+    ],
+    "regression_check": ""
+   },
+   "status": "proposed"
+  },
+  {
+   "id": "PI-011",
+   "date": "2026-11-18",
+   "episode": "ghost-army",
+   "shot_timecode": "pipeline",
+   "severity": "medium",
+   "problem": "Blender's glTF importer turns each GPU instance into its own object (field: 50,656 objects for 202 meshes).",
+   "root_cause": "EXT_mesh_gpu_instancing is expanded on import.",
+   "fix": "Repeated things are instanced inside Blender (geometry nodes / collection instances); a QA gate counts objects vs instances.",
+   "files_changed": [
+    "docs/MISSION_0_ARCHITECTURE_RICKSCLIPS.md"
+   ],
+   "verification": {
+    "tests": [
+     "blender 5.2.2 import probe of out/lock/sets/field.glb: 50656 objects, 202 meshes"
+    ],
+    "before_after_evidence": [],
+    "regression_check": ""
+   },
+   "status": "proposed"
+  },
+  {
+   "id": "PI-012",
+   "date": "2026-11-18",
+   "episode": "ghost-army",
+   "shot_timecode": "pipeline",
+   "severity": "high",
+   "problem": "An effect that reads state kept from the previous render makes a frame depend on frame order (sound rings: 4.5 % of pixels differ between a slice and a single still).",
+   "root_cause": "scene.onBeforeRender stored the camera, the next update used it.",
+   "fix": "Every animated value is a function of the frame number only (baked keys in Blender); a determinism test renders frames alone and in sequence and requires identical pixels.",
+   "files_changed": [
+    "episodes/ghost-army/sets/ghost.js",
+    "templates/threejs_film/film.js"
+   ],
+   "verification": {
+    "tests": [],
+    "before_after_evidence": [],
+    "regression_check": "reproducibility test interrupted, NOT RUN"
+   },
+   "status": "proposed"
+  },
+  {
+   "id": "PI-013",
+   "date": "2026-11-18",
+   "episode": "ghost-army",
+   "shot_timecode": "pipeline",
+   "severity": "low",
+   "problem": "Poly Haven's API answers 403 to the default Python User-Agent.",
+   "root_cause": "the API filters generic clients",
+   "fix": "Send a client User-Agent (RicksClips-LookDev/1.0).",
+   "files_changed": [
+    "episodes/ghost-army/look/ld.py"
+   ],
+   "verification": {
+    "tests": [
+     "LookDev job 005 downloaded assets after the fix"
+    ],
+    "before_after_evidence": [],
+    "regression_check": ""
+   },
+   "status": "tested"
+  },
+  {
+   "id": "PI-014",
+   "date": "2026-11-18",
+   "episode": "ghost-army",
+   "shot_timecode": "pipeline",
+   "severity": "low",
+   "problem": "Blender RenderSettings.resolution_percentage is an int: a float (37.5) raises TypeError and the job still exits 0.",
+   "root_cause": "bpy property type; the job runner only read the exit code",
+   "fix": "Use int percentages or set resolution_x/y; job runners must scan logs for Traceback/TypeError, not only rc.",
+   "files_changed": [
+    "episodes/ghost-army/look/smoke.py",
+    "episodes/ghost-army/look/place_ld.py"
+   ],
+   "verification": {
+    "tests": [
+     "LookDev job 003 ran after the fix"
+    ],
+    "before_after_evidence": [],
+    "regression_check": ""
+   },
+   "status": "tested"
   }
  ]
 }

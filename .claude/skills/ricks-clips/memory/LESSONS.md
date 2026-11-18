@@ -78,3 +78,73 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Regression check:** the fortress passes all 10 thresholds; the v1 preview fails 9 of them
 
   - history: 2026-11-18: tested -> validated
+## PI-008 — A pod was deleted before its results were downloaded: the 92-minute stage-8 lock was lost. [tested, high]
+
+- **Where:** ghost-army pipeline
+- **Root cause:** pod.py delete terminated the pod with no check of what it held; results lived only on the container disk; the watchdog also removed pods.
+- **Fix:** pod.py: manifest.json (path, size, sha256) published by every pod stage, fetch with sha256 check and FETCH_RECEIPT, delete refused unless every listed file is present locally with the same sha256; explicit logged overrides only; watchdogs STOP pods (volume kept).
+- **Files:** scripts/runpod/pod.py, scripts/runpod/manifest.py, scripts/runpod/lookdev_pod.sh, scripts/runpod/render_pod.sh, scripts/runpod/gpu_diag.sh
+- **Tests:** tools/tests/test_pod_guard.py: 13/13 PASS (fake pod over local HTTP)
+- **Evidence:** episodes/ghost-army/production/QA_LOG.json#QA-010
+- **Regression check:** not yet run on a real RunPod pod
+
+## PI-009 — The three.js -> glTF lock flattens every surface to one colour: painted textures, vertex c [proposed, high]
+
+- **Where:** ghost-army pipeline
+- **Root cause:** GLTFExporter writes the material base colour; canvas maps, vertex colour and InstancedMesh instanceColor are not carried by the lock materials.
+- **Fix:** Do not build a film's look on a lossy export: worlds are built natively in Blender (Mission 0 architecture).
+- **Files:** docs/MISSION_0_ARCHITECTURE_RICKSCLIPS.md
+- **Tests:** 
+- **Evidence:** episodes/ghost-army/look/proto/pass2
+- **Regression check:** 
+
+## PI-010 — A LookDev that replaces the approved palette with photographic PBR colours fails (Ghost Ar [proposed, high]
+
+- **Where:** ghost-army pipeline
+- **Root cause:** Poly Haven textures were used with their own albedo; display transform AgX not calibrated against the approved frames; generic HDRI light.
+- **Fix:** LookDev is palette-first: place palette is data, PBR maps give relief/roughness/wear and are tinted to the palette, every place is calibrated against the reference with numbers before CB sees it.
+- **Files:** docs/MISSION_0_ARCHITECTURE_RICKSCLIPS.md
+- **Tests:** 
+- **Evidence:** episodes/ghost-army/look/proto/pass2
+- **Regression check:** 
+
+## PI-011 — Blender's glTF importer turns each GPU instance into its own object (field: 50,656 objects [proposed, medium]
+
+- **Where:** ghost-army pipeline
+- **Root cause:** EXT_mesh_gpu_instancing is expanded on import.
+- **Fix:** Repeated things are instanced inside Blender (geometry nodes / collection instances); a QA gate counts objects vs instances.
+- **Files:** docs/MISSION_0_ARCHITECTURE_RICKSCLIPS.md
+- **Tests:** blender 5.2.2 import probe of out/lock/sets/field.glb: 50656 objects, 202 meshes
+- **Evidence:** 
+- **Regression check:** 
+
+## PI-012 — An effect that reads state kept from the previous render makes a frame depend on frame ord [proposed, high]
+
+- **Where:** ghost-army pipeline
+- **Root cause:** scene.onBeforeRender stored the camera, the next update used it.
+- **Fix:** Every animated value is a function of the frame number only (baked keys in Blender); a determinism test renders frames alone and in sequence and requires identical pixels.
+- **Files:** episodes/ghost-army/sets/ghost.js, templates/threejs_film/film.js
+- **Tests:** 
+- **Evidence:** 
+- **Regression check:** reproducibility test interrupted, NOT RUN
+
+## PI-013 — Poly Haven's API answers 403 to the default Python User-Agent. [tested, low]
+
+- **Where:** ghost-army pipeline
+- **Root cause:** the API filters generic clients
+- **Fix:** Send a client User-Agent (RicksClips-LookDev/1.0).
+- **Files:** episodes/ghost-army/look/ld.py
+- **Tests:** LookDev job 005 downloaded assets after the fix
+- **Evidence:** 
+- **Regression check:** 
+
+## PI-014 — Blender RenderSettings.resolution_percentage is an int: a float (37.5) raises TypeError an [tested, low]
+
+- **Where:** ghost-army pipeline
+- **Root cause:** bpy property type; the job runner only read the exit code
+- **Fix:** Use int percentages or set resolution_x/y; job runners must scan logs for Traceback/TypeError, not only rc.
+- **Files:** episodes/ghost-army/look/smoke.py, episodes/ghost-army/look/place_ld.py
+- **Tests:** LookDev job 003 ran after the fix
+- **Evidence:** 
+- **Regression check:** 
+

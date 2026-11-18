@@ -1,30 +1,26 @@
-# Production state — ghost-army (updated 2026-11-18)
+# Production state — ghost-army (updated 2026-11-18, Mission 1 start)
 
-## Pipeline position (WORKFLOW.md 1-12)
-| # | Stage | State |
-|---|---|---|
-| 1 | Story | done |
-| 2 | Script | done (approved) |
-| 3 | Voice | done (approved) |
-| 4 | Rick examples | done |
-| 5 | film.json plan | done (0 FAIL, 8 WARN) |
-| 6 | Sets + storyboard | done (rough board approved) |
-| 7 | Full three.js preview | done, iterated: v1, v2, **V3** (540x960, 2026-11-18) |
-| 8 | Lock (`render.mjs --export-lock`) | NOT DONE (the out/lock folder is an old test, not a lock of V3) |
-| 9 | Blender look pass / LookDev (`templates/blender_look/from_lock.py`, materials, lights, scatter, post) | NOT DONE on this film |
-| 10 | Final render | NOT DONE (needs CB approval) |
-| 11 | Sound | done for the preview (mix -14.97 LUFS / -1.0 dBTP); re-check after lock |
-| 12 | Captions, QA, delivery | NOT DONE |
+## Where the project is
+The project is being restructured (CB approved Mission 0, `docs/MISSION_0_ARCHITECTURE_RICKSCLIPS.md`): Blender becomes the single world engine,
+three.js keeps only the character drawings. Ghost Army is the migration target; the **field** is the Mission 2 prototype place.
 
-## LookDev audit (2026-11-18, V3 frames + renderer inventory)
-- Blockout and geometry: done.
-- Detailed modelling: partial. Hero objects are Blender models; set dressing is still primitives (café 100 %, photo 83 %, field 67 %, radio 66 %, bedroom 64 %, attic 58 %, camp 40 %, road/river 35 %).
-- PBR textures: partial. Procedural only, no photographic PBR sets; textured share 35-77 % (standard >= 85 %).
-- Dressing: partial. Light: partial (shadows only within 14 m, no AO, no GI). Atmosphere: partial (exteriors yes, interiors no). Vegetation/terrain: partial. Grade: nearly done.
-- Verdict: dressed blockout in interiors, partial LookDev outside; stage 9 never run.
+## Old pipeline position (WORKFLOW.md 1-12) — frozen at this state
+| # | Stage | State | Evidence |
+|---|---|---|---|
+| 1-6 | Story, script, voice, Rick examples, plan, sets + storyboard | done | SCRIPT.md, voice/, film.json (plan 0 FAIL) |
+| 7 | Full three.js preview | done to **V3** (05:26); later code changes NOT in any preview | v3/ghost_army_preview_v3_*.mp4 |
+| 8 | Lock | **LOST** — done on pod 098nig2lticccc (14/14 card sets, 9 sets, NaN check 0) and the pod was deleted before download. Local out/lock = partial interrupted export (no lock.json) | QA-010 |
+| 9 | Blender LookDev | **FAILED** — prototype passes 1-3 on field/café/road, wrong colours | QA-011, look/proto/pass2 |
+| 9b | three.js enrichment (alternative) | stills only, 3/9 places; now a variant of film.json (`render_gpu.mjs film.json --variant enrich`), off by default | look/three_enrich/ |
+| 10-12 | Final render, captions, delivery | NOT RUN | — |
+| 11 | Sound | preview mix done (-14.97 LUFS DECLARED) | sound/ |
 
-## Next (in order)
-1. Finish stage 7 fixes still open (V3 completion report section F).
-2. Stage 8: lock the V3 film.
-3. Stage 9: LookDev per place (Blender from_lock + PBR Poly Haven / ambientCG + light + air), a comparative test on 3 shots first, CB approves one still per place.
-4. Stage 10: final render (RunPod 4090, GPU path fixed) after CB approval. 5. Stage 12: QA and delivery.
+## Code fixed but not verified (Mission 1 test list)
+- Sound-wave rings use the current frame's camera (QA-012). Seeded dust (QA-013). Variants in film.json (O17). From_lock instance collapse (QA-014, migration path only).
+- Pod results guard: tested 13/13 on a fake pod; never run on a real pod.
+
+## Quality numbers (V3 graded vs fortress, 05:32)
+edge 0.060 (>= 0.075 FAIL), saturation-seconds 8 (FAIL), motion 12.9 (>= 18 FAIL), peaks 5.47/10 s (FAIL); luma, crushed, burned, saturation, still frames PASS.
+
+## Next
+Mission 1 foundations (blender/rc package, cache, asset library, QA stats, scene assembly, card service cache, render manager, gates, tests), then Mission 2 prototype (field + destruction test; GPU render needs CB approval).
