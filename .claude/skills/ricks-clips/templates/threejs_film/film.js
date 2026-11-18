@@ -777,11 +777,11 @@ function lockShade(who, f, st) {
   const cp = B2T(c.pos), fw = B2T(c.aim).sub(cp), right = new THREE.Vector3().crossVectors(fw, new THREE.Vector3(0, 1, 0)), ls = best.lp.clone().sub(cp).dot(right) >= pos.clone().sub(cp).dot(right) ? 1 : -1, kq = Math.round(best.k * 4) / 4;
   return { key: '|sh' + ls + best.l.color + kq, sh: { ...sh, side: -ls, rim: best.l.color, rim_amount: (sh.rim_amount ?? 1) * kq } };
 }
-window.cardIndex = (who, px = 2) => {
+window.cardIndex = (who, px = 2, fa = 0, fb = null) => {   // fa..fb (Mission 2): only the drawings of a frame window (a prototype shot), frame numbers stay absolute
   // LOCK v2: one run per stretch of frames that shows the same drawing at the same place. The drawing is the one the animatic drew:
   // in-betweens (tween), eased faces and the face tint of a highlight are all part of it, so the Blender card moves exactly as approved.
   const card = R.cards[who], byKey = {}, bySvg = new Map(), states = [], runs = [];
-  for (let f = 0; f < R.end; f++) {
+  for (let f = Math.max(0, fa); f <= Math.min(R.end - 1, fb ?? R.end - 1); f++) {
     const c = R.cam[f], st = tweened(who, f), tn = cardTint(who, f), tint = tn && tn.a > 0 ? tn : null, shd = lockShade(who, f, st), tk = (tint ? '|tint' + tint.hex + tint.a : '') + (shd ? shd.key : '');
     const vis = !!st.visible && (!st.place || st.place === c.place), key = vis || !states.length ? stateKey(who, st) + tk : states[runs[runs.length - 1].img - 1].keys[0]; let i = byKey[key];
     if (i === undefined) { const svg = svgFor(card.entry, st), sk = svg + tk; i = bySvg.get(sk); if (i === undefined) { i = states.push({ img: states.length + 1, keys: [], svg, tint, shade: shd ? shd.sh : null }) - 1; bySvg.set(sk, i); } states[i].keys.push(key); byKey[key] = i; }

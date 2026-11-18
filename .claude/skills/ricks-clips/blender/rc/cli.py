@@ -29,6 +29,13 @@ def main(a):
         bpy.ops.wm.open_mainfile(filepath=a[1]); sc = bpy.context.scene; w, h = map(int, opt("--res", "270x480").split("x"))
         info = render.setup(sc, opt("--engine", "CYCLES"), (w, h), int(opt("--samples", "16")), int(opt("--seed", "0")), gpu="--gpu" in a, denoise="--no-denoise" not in a)
         rep = render.frames(sc, _frames(a[3]), a[2], info); print("RC_RESULT " + json.dumps({k: rep[k] for k in rep if k != "frames"} | {"n": len(rep["frames"]), "sec": [r["seconds"] for r in rep["frames"]]})); return
+    if a[0] == "calibrate":                                     # calibrate <blend> <frame> <reference.png> <outdir> [--res 135x240] [--samples 16]
+        from rc import render, lookdev
+        bpy.ops.wm.open_mainfile(filepath=a[1]); sc = bpy.context.scene; f = int(a[2]); w, h = map(int, opt("--res", "135x240").split("x"))
+        info = render.setup(sc, opt("--engine", "CYCLES"), (w, h), int(opt("--samples", "16")), 0)
+        def rf(i): render.frames(sc, [f], os.path.join(a[4], "it%d" % i), info); return os.path.join(a[4], "it%d" % i, "f%05d.png" % f)
+        wb = lookdev.calibrate_white(sc, a[3], lambda i: rf(10 + i)); log = lookdev.calibrate_exposure(sc, a[3], f, a[4], rf); bpy.ops.wm.save_mainfile()
+        print("RC_RESULT " + json.dumps({"white_balance": wb, "calibration": log, "exposure": sc.view_settings.exposure, "temperature": sc.view_settings.white_balance_temperature})); return
     raise SystemExit("unknown rc command: %s" % a[0])
 
 main(sys.argv[sys.argv.index("--") + 1:])

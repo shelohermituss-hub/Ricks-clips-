@@ -1,0 +1,27 @@
+{
+ "schema_version": 1,
+ "id": "normandy_farmhouse",
+ "name": "Normandy stone farmhouse",
+ "kind": "model",
+ "category": "building",
+ "tier": "midground",
+ "description": "Two-storey stone farmhouse: true openings, quoins, plinth, framed windows with shutters, plank door with strap hinges, ~2,400 individual roof tiles, ridge, chimneys, gutters.",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/normandy_farmhouse/build_normandy_farmhouse.py",
+  "output": "normandy_farmhouse.glb"
+ },
+ "episodes": [
+  "ghost-army"
+ ]
+}

@@ -1,0 +1,40 @@
+{
+ "schema_version": 1,
+ "id": "farm_cart",
+ "name": "Normandy farm cart (destructible)",
+ "kind": "model",
+ "category": "vehicle",
+ "tier": "foreground",
+ "description": "Two-wheel farm cart; every structural piece a named object (planks, sides, ends, rails, crosses, shafts, axle, wheels, stakes) for fracture and detachment.",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/farm_cart/build_farm_cart.py",
+  "output": "farm_cart.glb"
+ },
+ "parts": [
+  "cart_plank_",
+  "cart_side_",
+  "cart_end_",
+  "cart_rail_",
+  "cart_cross_",
+  "cart_shaft_",
+  "cart_axle",
+  "cart_wheel_L",
+  "cart_wheel_R",
+  "cart_stake_"
+ ],
+ "destructible": true,
+ "episodes": [
+  "ghost-army"
+ ]
+}

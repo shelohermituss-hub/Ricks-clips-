@@ -1,0 +1,1365 @@
+{
+ "schema_version": 2,
+ "place_id": "field",
+ "episode": "episodes/ghost-army",
+ "frames": [
+  0,
+  150
+ ],
+ "palette": {
+  "meadow": "#6f8a46",
+  "lane": "#8a7656",
+  "_note": "approved V3 colours (ghost.js) and each asset builder's own approved base colours"
+ },
+ "light": {
+  "preset": "day",
+  "key_dir": [
+   0.62,
+   -0.55,
+   0.56
+  ],
+  "view_transform": "Khronos PBR Neutral"
+ },
+ "terrain": {
+  "size": [
+   240,
+   240
+  ],
+  "res": 120,
+  "height": 3.0,
+  "seed": 3,
+  "material": {
+   "name": "meadow",
+   "color": "#6f8a46"
+  }
+ },
+ "strips": [
+  {
+   "name": "lane",
+   "from": [
+    -7,
+    -60
+   ],
+   "to": [
+    -7,
+    140
+   ],
+   "width": 4.2,
+   "material": {
+    "name": "lane",
+    "color": "#8a7656"
+   }
+  }
+ ],
+ "assets": [
+  {
+   "asset": "inflatable_tank",
+   "name": "hero_tank",
+   "at": [
+    0,
+    4,
+    0
+   ],
+   "rot": -20
+  },
+  {
+   "asset": "sound_halftrack",
+   "name": "truck",
+   "at": [
+    -7,
+    6,
+    0
+   ],
+   "rot": -90
+  },
+  {
+   "asset": "normandy_farmhouse",
+   "name": "farmhouse",
+   "at": [
+    24,
+    34,
+    0
+   ],
+   "rot": -23
+  },
+  {
+   "asset": "farm_cart",
+   "name": "farm_cart_parked",
+   "at": [
+    17.5,
+    29,
+    0
+   ],
+   "rot": 35
+  },
+  {
+   "asset": "dead_tree_trunk",
+   "name": "fallen_log",
+   "at": [
+    -12.5,
+    9.5,
+    0
+   ],
+   "rot": 30,
+   "scale": 1.2
+  },
+  {
+   "asset": "tree_stump_01",
+   "name": "stump",
+   "at": [
+    -11.6,
+    11.4,
+    0
+   ],
+   "rot": 10
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "oak_0",
+   "at": [
+    -14,
+    18,
+    0
+   ],
+   "rot": 0,
+   "scale": 3.1
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "oak_1",
+   "at": [
+    8,
+    20,
+    0
+   ],
+   "rot": 47,
+   "scale": 3.4
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "oak_2",
+   "at": [
+    18,
+    24,
+    0
+   ],
+   "rot": 94,
+   "scale": 3.0
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "oak_3",
+   "at": [
+    -26,
+    34,
+    0
+   ],
+   "rot": 141,
+   "scale": 3.6
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "oak_4",
+   "at": [
+    4,
+    46,
+    0
+   ],
+   "rot": 188,
+   "scale": 3.0
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "oak_5",
+   "at": [
+    -40,
+    10,
+    0
+   ],
+   "rot": 235,
+   "scale": 3.2
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "oak_6",
+   "at": [
+    30,
+    8,
+    0
+   ],
+   "rot": 282,
+   "scale": 3.0
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "oak_7",
+   "at": [
+    -20,
+    13.5,
+    0
+   ],
+   "rot": 329,
+   "scale": 2.8
+  },
+  {
+   "asset": "island_tree_02",
+   "name": "oak_8",
+   "at": [
+    36,
+    18,
+    0
+   ],
+   "rot": 16,
+   "scale": 3.3
+  }
+ ],
+ "scatter": [
+  {
+   "asset": "shrub_04",
+   "name": "hedge_body_0",
+   "zone": {
+    "from": [
+     -60,
+     14
+    ],
+    "to": [
+     -9.5,
+     14
+    ],
+    "width": 1.8
+   },
+   "count": 353,
+   "seed": 100,
+   "scale": [
+    6.5,
+    9.5
+   ],
+   "wind": 0.035
+  },
+  {
+   "asset": "shrub_03",
+   "name": "hedge_fill_0",
+   "zone": {
+    "from": [
+     -60,
+     14
+    ],
+    "to": [
+     -9.5,
+     14
+    ],
+    "width": 2.6
+   },
+   "count": 151,
+   "seed": 200,
+   "scale": [
+    5.0,
+    7.0
+   ],
+   "wind": 0.04
+  },
+  {
+   "asset": "nettle_plant",
+   "name": "hedge_nettles_0",
+   "zone": {
+    "from": [
+     -60,
+     14
+    ],
+    "to": [
+     -9.5,
+     14
+    ],
+    "width": 3.6
+   },
+   "count": 151,
+   "seed": 300,
+   "scale": [
+    2.5,
+    3.6
+   ],
+   "wind": 0.05
+  },
+  {
+   "asset": "shrub_04",
+   "name": "hedge_body_1",
+   "zone": {
+    "from": [
+     -4.5,
+     14
+    ],
+    "to": [
+     60,
+     14
+    ],
+    "width": 1.8
+   },
+   "count": 451,
+   "seed": 101,
+   "scale": [
+    6.5,
+    9.5
+   ],
+   "wind": 0.035
+  },
+  {
+   "asset": "shrub_03",
+   "name": "hedge_fill_1",
+   "zone": {
+    "from": [
+     -4.5,
+     14
+    ],
+    "to": [
+     60,
+     14
+    ],
+    "width": 2.6
+   },
+   "count": 193,
+   "seed": 201,
+   "scale": [
+    5.0,
+    7.0
+   ],
+   "wind": 0.04
+  },
+  {
+   "asset": "nettle_plant",
+   "name": "hedge_nettles_1",
+   "zone": {
+    "from": [
+     -4.5,
+     14
+    ],
+    "to": [
+     60,
+     14
+    ],
+    "width": 3.6
+   },
+   "count": 193,
+   "seed": 301,
+   "scale": [
+    2.5,
+    3.6
+   ],
+   "wind": 0.05
+  },
+  {
+   "asset": "shrub_04",
+   "name": "hedge_body_2",
+   "zone": {
+    "from": [
+     -9.5,
+     -30
+    ],
+    "to": [
+     -9.5,
+     14
+    ],
+    "width": 1.8
+   },
+   "count": 308,
+   "seed": 102,
+   "scale": [
+    6.5,
+    9.5
+   ],
+   "wind": 0.035
+  },
+  {
+   "asset": "shrub_03",
+   "name": "hedge_fill_2",
+   "zone": {
+    "from": [
+     -9.5,
+     -30
+    ],
+    "to": [
+     -9.5,
+     14
+    ],
+    "width": 2.6
+   },
+   "count": 132,
+   "seed": 202,
+   "scale": [
+    5.0,
+    7.0
+   ],
+   "wind": 0.04
+  },
+  {
+   "asset": "nettle_plant",
+   "name": "hedge_nettles_2",
+   "zone": {
+    "from": [
+     -9.5,
+     -30
+    ],
+    "to": [
+     -9.5,
+     14
+    ],
+    "width": 3.6
+   },
+   "count": 132,
+   "seed": 302,
+   "scale": [
+    2.5,
+    3.6
+   ],
+   "wind": 0.05
+  },
+  {
+   "asset": "shrub_04",
+   "name": "hedge_body_3",
+   "zone": {
+    "from": [
+     -4.5,
+     14
+    ],
+    "to": [
+     -4.5,
+     90
+    ],
+    "width": 1.8
+   },
+   "count": 532,
+   "seed": 103,
+   "scale": [
+    6.5,
+    9.5
+   ],
+   "wind": 0.035
+  },
+  {
+   "asset": "shrub_03",
+   "name": "hedge_fill_3",
+   "zone": {
+    "from": [
+     -4.5,
+     14
+    ],
+    "to": [
+     -4.5,
+     90
+    ],
+    "width": 2.6
+   },
+   "count": 228,
+   "seed": 203,
+   "scale": [
+    5.0,
+    7.0
+   ],
+   "wind": 0.04
+  },
+  {
+   "asset": "nettle_plant",
+   "name": "hedge_nettles_3",
+   "zone": {
+    "from": [
+     -4.5,
+     14
+    ],
+    "to": [
+     -4.5,
+     90
+    ],
+    "width": 3.6
+   },
+   "count": 228,
+   "seed": 303,
+   "scale": [
+    2.5,
+    3.6
+   ],
+   "wind": 0.05
+  },
+  {
+   "asset": "shrub_04",
+   "name": "hedge_body_4",
+   "zone": {
+    "from": [
+     14,
+     14
+    ],
+    "to": [
+     14,
+     90
+    ],
+    "width": 1.8
+   },
+   "count": 532,
+   "seed": 104,
+   "scale": [
+    6.5,
+    9.5
+   ],
+   "wind": 0.035
+  },
+  {
+   "asset": "shrub_03",
+   "name": "hedge_fill_4",
+   "zone": {
+    "from": [
+     14,
+     14
+    ],
+    "to": [
+     14,
+     90
+    ],
+    "width": 2.6
+   },
+   "count": 228,
+   "seed": 204,
+   "scale": [
+    5.0,
+    7.0
+   ],
+   "wind": 0.04
+  },
+  {
+   "asset": "nettle_plant",
+   "name": "hedge_nettles_4",
+   "zone": {
+    "from": [
+     14,
+     14
+    ],
+    "to": [
+     14,
+     90
+    ],
+    "width": 3.6
+   },
+   "count": 228,
+   "seed": 304,
+   "scale": [
+    2.5,
+    3.6
+   ],
+   "wind": 0.05
+  },
+  {
+   "asset": "grass_medium_02",
+   "name": "meadow_near",
+   "zone": {
+    "center": [
+     2,
+     4
+    ],
+    "radius": 22
+   },
+   "count": 4000,
+   "seed": 11,
+   "scale": [
+    1.1,
+    1.8
+   ],
+   "wind": 0.06,
+   "exclude": [
+    {
+     "center": [
+      0,
+      4
+     ],
+     "radius": 3.4
+    },
+    {
+     "center": [
+      1,
+      1.45
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      -1.4,
+      2.2
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      -1.06,
+      6.36
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      1.4,
+      5.8
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      5,
+      -3.6
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      7.8,
+      -0.9
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      6.4,
+      -1.7
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      3.8,
+      -3.2
+     ],
+     "radius": 0.6
+    },
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.0
+    },
+    {
+     "center": [
+      -7,
+      6
+     ],
+     "radius": 4.0
+    }
+   ]
+  },
+  {
+   "asset": "grass_medium_02",
+   "name": "meadow_mid",
+   "zone": {
+    "center": [
+     0,
+     34
+    ],
+    "radius": 46
+   },
+   "count": 2400,
+   "seed": 12,
+   "scale": [
+    1.1,
+    1.7
+   ],
+   "wind": 0.06,
+   "exclude": [
+    {
+     "center": [
+      0,
+      4
+     ],
+     "radius": 3.4
+    },
+    {
+     "center": [
+      1,
+      1.45
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      -1.4,
+      2.2
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      -1.06,
+      6.36
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      1.4,
+      5.8
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      5,
+      -3.6
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      7.8,
+      -0.9
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      6.4,
+      -1.7
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      3.8,
+      -3.2
+     ],
+     "radius": 0.6
+    },
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.0
+    },
+    {
+     "center": [
+      -7,
+      6
+     ],
+     "radius": 4.0
+    }
+   ]
+  },
+  {
+   "asset": "dandelion_01",
+   "name": "flowers",
+   "zone": {
+    "center": [
+     2,
+     8
+    ],
+    "radius": 24
+   },
+   "count": 380,
+   "seed": 13,
+   "scale": [
+    0.9,
+    1.3
+   ],
+   "wind": 0.08,
+   "exclude": [
+    {
+     "center": [
+      0,
+      4
+     ],
+     "radius": 3.4
+    },
+    {
+     "center": [
+      1,
+      1.45
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      -1.4,
+      2.2
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      -1.06,
+      6.36
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      1.4,
+      5.8
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      5,
+      -3.6
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      7.8,
+      -0.9
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      6.4,
+      -1.7
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      3.8,
+      -3.2
+     ],
+     "radius": 0.6
+    },
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.0
+    },
+    {
+     "center": [
+      -7,
+      6
+     ],
+     "radius": 4.0
+    }
+   ]
+  },
+  {
+   "asset": "boulder_01",
+   "name": "field_stones",
+   "zone": {
+    "center": [
+     0,
+     20
+    ],
+    "radius": 40
+   },
+   "count": 9,
+   "seed": 14,
+   "scale": [
+    0.25,
+    0.6
+   ],
+   "exclude": [
+    {
+     "center": [
+      0,
+      4
+     ],
+     "radius": 3.4
+    },
+    {
+     "center": [
+      1,
+      1.45
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      -1.4,
+      2.2
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      -1.06,
+      6.36
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      1.4,
+      5.8
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      5,
+      -3.6
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      7.8,
+      -0.9
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      6.4,
+      -1.7
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      3.8,
+      -3.2
+     ],
+     "radius": 0.6
+    },
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.0
+    },
+    {
+     "center": [
+      -7,
+      6
+     ],
+     "radius": 4.0
+    }
+   ]
+  },
+  {
+   "asset": "grass_medium_02",
+   "name": "meadow_cam",
+   "zone": {
+    "center": [
+     3.5,
+     0
+    ],
+    "radius": 9
+   },
+   "count": 7000,
+   "seed": 15,
+   "scale": [
+    1.4,
+    2.3
+   ],
+   "wind": 0.06,
+   "exclude": [
+    {
+     "center": [
+      0,
+      4
+     ],
+     "radius": 3.4
+    },
+    {
+     "center": [
+      1,
+      1.45
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      -1.4,
+      2.2
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      -1.06,
+      6.36
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      1.4,
+      5.8
+     ],
+     "radius": 0.7
+    },
+    {
+     "center": [
+      5,
+      -3.6
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      7.8,
+      -0.9
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      6.4,
+      -1.7
+     ],
+     "radius": 0.6
+    },
+    {
+     "center": [
+      3.8,
+      -3.2
+     ],
+     "radius": 0.6
+    },
+    {
+     "from": [
+      -7,
+      -60
+     ],
+     "to": [
+      -7,
+      140
+     ],
+     "width": 5.0
+    },
+    {
+     "center": [
+      -7,
+      6
+     ],
+     "radius": 4.0
+    }
+   ]
+  }
+ ],
+ "camera": {
+  "frames": [
+   0,
+   150
+  ]
+ },
+ "animation": [
+  {
+   "target": "hero_tank",
+   "type": "lift_set",
+   "frames": [
+    0,
+    150
+   ],
+   "at": [
+    0,
+    4,
+    0
+   ],
+   "rot": -20,
+   "lift": [
+    0,
+    60
+   ],
+   "set": 103,
+   "dent": 110
+  }
+ ],
+ "fx": [
+  {
+   "type": "dust_burst",
+   "name": "setdown",
+   "at": [
+    0,
+    4,
+    0
+   ],
+   "frame": 103,
+   "count": 16,
+   "radius": 2.6,
+   "height": 0.8,
+   "seed": 5
+  }
+ ],
+ "characters": {
+  "lock": "out/proto_field/lock",
+  "who": [
+   "lou",
+   "carrier_tall",
+   "carrier_stocky",
+   "carrier_short",
+   "farmer",
+   "boy"
+  ],
+  "self_lit": 0.55
+ },
+ "lookdev": {
+  "rules": {
+   "meadow": {
+    "tex": "tex_leafy_grass",
+    "tile": 2.5,
+    "contrast": 0.9,
+    "normal": 0.8,
+    "keep": 0.15,
+    "rough": [
+     0.75,
+     1.0
+    ]
+   },
+   "lane": {
+    "tex": "tex_brown_mud_02",
+    "tile": 2.5,
+    "contrast": 0.8,
+    "normal": 1.0,
+    "rough": [
+     0.6,
+     1.0
+    ]
+   },
+   "rubber_body": {
+    "proc": "rubber",
+    "contrast": 0.18,
+    "rough": [
+     0.55,
+     0.8
+    ],
+    "bump": 0.15
+   },
+   "rubber_dark": {
+    "proc": "rubber",
+    "contrast": 0.18,
+    "rough": [
+     0.55,
+     0.8
+    ]
+   },
+   "patch": {
+    "proc": "rubber",
+    "contrast": 0.22,
+    "rough": [
+     0.6,
+     0.85
+    ]
+   },
+   "seam": {
+    "proc": "rubber",
+    "rough": [
+     0.5,
+     0.8
+    ]
+   },
+   "rubber_track": {
+    "proc": "rubber",
+    "rough": [
+     0.7,
+     0.95
+    ]
+   },
+   "webbing": {
+    "proc": "grain",
+    "contrast": 0.3,
+    "rough": [
+     0.8,
+     1.0
+    ],
+    "bump": 0.3
+   },
+   "thread": {
+    "proc": "grain",
+    "contrast": 0.2
+   },
+   "canvas": {
+    "proc": "grain",
+    "contrast": 0.3,
+    "rough": [
+     0.8,
+     1.0
+    ],
+    "bump": 0.3
+   },
+   "brass": {
+    "proc": "iron",
+    "contrast": 0.2,
+    "rough": [
+     0.25,
+     0.45
+    ],
+    "metal": 0.9
+   },
+   "chrome": {
+    "proc": "iron",
+    "contrast": 0.1,
+    "rough": [
+     0.15,
+     0.3
+    ],
+    "metal": 1.0
+   },
+   "paint": {
+    "tex": "tex_rusty_painted_metal",
+    "tile": 1.2,
+    "contrast": 0.55,
+    "normal": 0.5,
+    "rough": [
+     0.45,
+     0.8
+    ]
+   },
+   "paint_worn": {
+    "tex": "tex_rusty_painted_metal",
+    "tile": 1.0,
+    "contrast": 0.7,
+    "normal": 0.6
+   },
+   "paint_dark": {
+    "tex": "tex_rusty_painted_metal",
+    "tile": 1.2,
+    "contrast": 0.5,
+    "normal": 0.5
+   },
+   "rust": {
+    "tex": "tex_rusty_painted_metal",
+    "tile": 0.8,
+    "contrast": 0.9
+   },
+   "steel_dark": {
+    "proc": "iron",
+    "contrast": 0.25,
+    "rough": [
+     0.4,
+     0.7
+    ],
+    "metal": 0.7
+   },
+   "iron": {
+    "proc": "iron",
+    "contrast": 0.3,
+    "rough": [
+     0.45,
+     0.75
+    ],
+    "metal": 0.6
+   },
+   "track": {
+    "proc": "iron",
+    "contrast": 0.3,
+    "rough": [
+     0.6,
+     0.9
+    ],
+    "metal": 0.5
+   },
+   "exhaust": {
+    "proc": "iron",
+    "contrast": 0.4,
+    "rough": [
+     0.7,
+     0.95
+    ],
+    "metal": 0.3
+   },
+   "rubber": {
+    "proc": "rubber",
+    "contrast": 0.15,
+    "rough": [
+     0.7,
+     0.95
+    ]
+   },
+   "glass": {
+    "proc": "grain",
+    "contrast": 0.05,
+    "rough": [
+     0.04,
+     0.12
+    ]
+   },
+   "wood": {
+    "tex": "tex_brown_planks_05",
+    "tile": 0.9,
+    "contrast": 0.7,
+    "normal": 0.8,
+    "rough": [
+     0.6,
+     0.9
+    ]
+   },
+   "wood_dark": {
+    "tex": "tex_brown_planks_05",
+    "tile": 0.9,
+    "contrast": 0.6,
+    "normal": 0.8
+   },
+   "wood_paint": {
+    "tex": "tex_brown_planks_05",
+    "tile": 0.9,
+    "contrast": 0.45,
+    "normal": 0.7
+   },
+   "stone": {
+    "tex": "tex_rustic_stone_wall",
+    "tile": 2.0,
+    "contrast": 0.9,
+    "normal": 1.3,
+    "rough": [
+     0.7,
+     1.0
+    ]
+   },
+   "quoin": {
+    "tex": "tex_rustic_stone_wall",
+    "tile": 1.4,
+    "contrast": 0.55,
+    "normal": 1.0
+   },
+   "roof": {
+    "tex": "tex_clay_roof_tiles",
+    "tile": 0.7,
+    "contrast": 0.6,
+    "normal": 0.8
+   },
+   "grass_medium_02": {
+    "tint": "#8fa850",
+    "amount": 0.55,
+    "mean": 0.2
+   },
+   "shrub_04": {
+    "tint": "#4d7a30",
+    "amount": 0.55,
+    "mean": 0.2
+   },
+   "shrub_03": {
+    "tint": "#5a8a36",
+    "amount": 0.55,
+    "mean": 0.2
+   },
+   "nettle_plant": {
+    "tint": "#3f6a2a",
+    "amount": 0.55,
+    "mean": 0.2
+   },
+   "island_tree_02_leaves": {
+    "tint": "#4d7a30",
+    "amount": 0.55,
+    "mean": 0.2
+   },
+   "dandelion_01": {
+    "tint": "#7a9a3e",
+    "amount": 0.55,
+    "mean": 0.2
+   }
+  }
+ }
+}

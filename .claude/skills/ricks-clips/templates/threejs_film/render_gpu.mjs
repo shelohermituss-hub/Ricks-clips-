@@ -198,7 +198,7 @@ if (has('--export-lock')) {
   const CCACHE = path.join(process.env.RICKCLIPS_CACHE || path.join(os.homedir(), '.ricksclips', 'cache'), 'cards'), WHO = val('--who') ? val('--who').split(',') : null; const cstat = { hit: 0, miss: 0 };
   for (const who of (SETS_ONLY ? [] : info.cast.filter(w => !WHO || WHO.includes(w)))) {
     const d = path.join(LOCK, 'cards', who); fs.mkdirSync(d, { recursive: true }); const t0 = Date.now(); let hit = 0, miss = 0;
-    const idx = await page.evaluate(([w, p]) => window.cardIndex(w, p), [who, cpx]), keys = await page.evaluate(([w, p]) => window.cardKeys(w, p), [who, cpx]);
+    const CF = (val('--card-frames') || '').split('-').map(Number), idx = await page.evaluate(([w, p, a, b]) => window.cardIndex(w, p, a, b), [who, cpx, CF[0] || 0, CF.length > 1 ? CF[1] : null]), keys = await page.evaluate(([w, p]) => window.cardKeys(w, p), [who, cpx]);
     for (const im of idx.images) { const k = keys[im.img - 1], cf = path.join(CCACHE, k.slice(0, 2), k + '.png'); im.key = k;
       if (fs.existsSync(cf)) { fs.copyFileSync(cf, path.join(d, im.file)); hit++; continue; }
       const png = repng(Buffer.from(await page.evaluate(([w, n, p]) => window.cardPNG(w, n, p), [who, im.img, cpx]), 'base64')); fs.writeFileSync(path.join(d, im.file), png);
