@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "id": "wooden_axe",
+ "name": "Axe",
+ "kind": "model",
+ "category": "prop",
+ "tier": "foreground",
+ "description": "Axe (Poly Haven CC0).",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/wooden_axe"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "wooden_axe",
+  "res": "1k",
+  "scale": 1.0
+ }
+}

@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "id": "old_tyre",
+ "name": "Old tyre",
+ "kind": "model",
+ "category": "prop",
+ "tier": "foreground",
+ "description": "Old tyre (Poly Haven CC0).",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/old_tyre"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "old_tyre",
+  "res": "1k",
+  "scale": 1.0
+ }
+}

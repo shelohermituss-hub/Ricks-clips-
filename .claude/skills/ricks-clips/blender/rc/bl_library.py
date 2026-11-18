@@ -33,12 +33,32 @@ def ingest(src, meta, out):
     parts = meta.get("parts") or []
     names = {o.name for o in col.all_objects}; stats["parts_found"] = [p for p in parts if any(n.startswith(p) for n in names)]
     stats["parts_missing"] = [p for p in parts if p not in stats["parts_found"]]
+    stats["lods"] = make_lods(col, aid, meta.get("lods") or [])
     col.asset_mark(); col.asset_data.description = "%s (%s, %s)" % (aid, meta.get("category"), meta.get("tier"))
     for t in (meta.get("category"), meta.get("tier")): col.asset_data.tags.new(t)
     os.makedirs(out, exist_ok=True)
     json.dump(stats, open(os.path.join(out, "ingest.json"), "w"), indent=1)
     bpy.ops.wm.save_as_mainfile(filepath=os.path.join(out, aid + ".blend"), compress=True)
     print("INGESTED", aid, json.dumps({k: stats[k] for k in ("dims_m", "tris", "objects", "materials")}))
+
+def make_lods(col, aid, ratios):
+    """LOD collections <id>__lod1, __lod2 ...: copies of the asset with a Decimate (collapse) applied at each ratio; measured tris.
+    Same object hierarchy (variants stay separate children). rc.envbuild picks the LOD by distance to the camera."""
+    out = []
+    for i, r in enumerate(ratios, 1):
+        lc = bpy.data.collections.new("%s__lod%d" % (aid, i)); bpy.context.scene.collection.children.link(lc); cp = {}
+        for o in col.objects:
+            c = o.copy(); c.data = o.data.copy() if o.type == "MESH" else o.data; lc.objects.link(c); cp[o] = c
+        for o, c in cp.items():
+            if o.parent in cp: c.parent = cp[o.parent]
+        tris = 0
+        for c in lc.objects:
+            if c.type != "MESH": continue
+            m = c.modifiers.new("lod", "DECIMATE"); m.ratio = r; m.use_collapse_triangulate = True
+            ev = c.evaluated_get(bpy.context.evaluated_depsgraph_get()); me = bpy.data.meshes.new_from_object(ev); c.modifiers.clear(); c.data = me
+            me.calc_loop_triangles(); tris += len(me.loop_triangles)
+        out.append({"lod": i, "ratio": r, "tris": tris, "collection": lc.name})
+    return out
 
 def material(aid, maps, params, out):
     _reset(); m = bpy.data.materials.new(aid); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links; b = N["Principled BSDF"]

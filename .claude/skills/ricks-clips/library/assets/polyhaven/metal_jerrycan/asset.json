@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "id": "metal_jerrycan",
+ "name": "Jerrycan",
+ "kind": "model",
+ "category": "prop",
+ "tier": "foreground",
+ "description": "Jerrycan (Poly Haven CC0).",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/metal_jerrycan"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "metal_jerrycan",
+  "res": "1k",
+  "scale": 1.0
+ }
+}

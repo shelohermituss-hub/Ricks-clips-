@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "id": "wine_barrel_01",
+ "name": "Wine barrel",
+ "kind": "model",
+ "category": "prop",
+ "tier": "foreground",
+ "description": "Wine barrel (Poly Haven CC0).",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/wine_barrel_01"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "wine_barrel_01",
+  "res": "1k",
+  "scale": 1.0
+ }
+}

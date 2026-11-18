@@ -1,0 +1,25 @@
+{
+ "schema_version": 1,
+ "id": "washing_posts",
+ "name": "Washing-line posts",
+ "kind": "model",
+ "category": "prop",
+ "tier": "foreground",
+ "description": "Two T posts with sagging lines (cloth simulated separately).",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/farm_props/build_farm_props.py",
+  "output": "washing_posts.glb"
+ },
+ "parts": []
+}

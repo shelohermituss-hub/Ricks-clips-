@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "id": "barrel_01",
+ "name": "Barrel",
+ "kind": "model",
+ "category": "prop",
+ "tier": "foreground",
+ "description": "Barrel (Poly Haven CC0).",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/Barrel_01"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "Barrel_01",
+  "res": "1k",
+  "scale": 1.0
+ }
+}

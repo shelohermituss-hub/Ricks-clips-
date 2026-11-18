@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "id": "woodentable_01",
+ "name": "Wooden table",
+ "kind": "model",
+ "category": "furniture",
+ "tier": "foreground",
+ "description": "Wooden table (Poly Haven CC0).",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/WoodenTable_01"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "WoodenTable_01",
+  "res": "1k",
+  "scale": 1.0
+ }
+}

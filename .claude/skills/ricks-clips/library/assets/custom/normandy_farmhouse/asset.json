@@ -23,5 +23,8 @@
  },
  "episodes": [
   "ghost-army"
+ ],
+ "lods_auto": [
+  0.4
  ]
 }

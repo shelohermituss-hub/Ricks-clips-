@@ -1,0 +1,29 @@
+{
+ "schema_version": 1,
+ "id": "garden_shed",
+ "name": "Plank garden shed",
+ "kind": "model",
+ "category": "building",
+ "tier": "foreground",
+ "description": "Vertical boards, roof planks, separate hinged door, separate glass panes.",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/farm_props/build_farm_props.py",
+  "output": "garden_shed.glb"
+ },
+ "parts": [
+  "shed_door",
+  "shed_glass_0",
+  "shed_glass_1"
+ ]
+}

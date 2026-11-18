@@ -1,0 +1,25 @@
+{
+ "schema_version": 1,
+ "id": "stone_well",
+ "name": "Stone well",
+ "kind": "model",
+ "category": "building",
+ "tier": "foreground",
+ "description": "Five courses of individual stones, roof frame, crank, rope, bucket.",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/farm_props/build_farm_props.py",
+  "output": "stone_well.glb"
+ },
+ "parts": []
+}

@@ -1,0 +1,25 @@
+{
+ "schema_version": 1,
+ "id": "hay_bale",
+ "name": "Square hay bale",
+ "kind": "model",
+ "category": "prop",
+ "tier": "foreground",
+ "description": "Displaced straw body, twine bands, loose tufts.",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/farm_props/build_farm_props.py",
+  "output": "hay_bale.glb"
+ },
+ "parts": []
+}

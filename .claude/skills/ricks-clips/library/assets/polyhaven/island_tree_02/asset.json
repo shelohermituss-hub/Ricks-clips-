@@ -20,5 +20,9 @@
   "source_id": "island_tree_02",
   "res": "1k",
   "scale": 1.0
- }
+ },
+ "lods_auto": [
+  0.25,
+  0.06
+ ]
 }

@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "id": "wooden_crate_02",
+ "name": "Wooden crate 02",
+ "kind": "model",
+ "category": "prop",
+ "tier": "foreground",
+ "description": "Wooden crate 02 (Poly Haven CC0).",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/wooden_crate_02"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "wooden_crate_02",
+  "res": "1k",
+  "scale": 1.0
+ }
+}

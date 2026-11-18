@@ -20,5 +20,8 @@
   "source_id": "shrub_04",
   "res": "1k",
   "scale": 1.0
- }
+ },
+ "lods_auto": [
+  0.3
+ ]
 }

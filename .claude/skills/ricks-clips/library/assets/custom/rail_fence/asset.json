@@ -1,0 +1,25 @@
+{
+ "schema_version": 1,
+ "id": "rail_fence",
+ "name": "Split-rail fence (4 m)",
+ "kind": "model",
+ "category": "prop",
+ "tier": "midground",
+ "description": "Two hewn posts, three irregular rails.",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/farm_props/build_farm_props.py",
+  "output": "rail_fence.glb"
+ },
+ "parts": []
+}

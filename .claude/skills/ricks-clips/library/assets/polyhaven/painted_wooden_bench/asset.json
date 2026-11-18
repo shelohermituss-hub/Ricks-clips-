@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "id": "painted_wooden_bench",
+ "name": "Painted bench",
+ "kind": "model",
+ "category": "furniture",
+ "tier": "foreground",
+ "description": "Painted bench (Poly Haven CC0).",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/painted_wooden_bench"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "painted_wooden_bench",
+  "res": "1k",
+  "scale": 1.0
+ }
+}

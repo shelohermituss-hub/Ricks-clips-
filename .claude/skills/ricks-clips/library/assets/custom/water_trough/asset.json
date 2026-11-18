@@ -1,0 +1,25 @@
+{
+ "schema_version": 1,
+ "id": "water_trough",
+ "name": "Stone water trough",
+ "kind": "model",
+ "category": "prop",
+ "tier": "foreground",
+ "description": "Stone trough on blocks with water surface.",
+ "source": {
+  "provider": "custom",
+  "url": ""
+ },
+ "license": {
+  "name": "custom-original",
+  "url": "",
+  "author": "RicksClips (scripted in Blender)",
+  "commercial_use": true
+ },
+ "build": {
+  "type": "script",
+  "script": "library/assets/custom/farm_props/build_farm_props.py",
+  "output": "water_trough.glb"
+ },
+ "parts": []
+}

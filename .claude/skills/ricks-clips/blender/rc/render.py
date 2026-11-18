@@ -51,10 +51,21 @@ def strip_png_text(p):
 def _sha(p):
     h = hashlib.sha256(); h.update(open(p, "rb").read()); return h.hexdigest()
 
-def frames(scene, frame_list, outdir, info):
-    os.makedirs(outdir, exist_ok=True); rows = []
+def scene_key(info):
+    """content key of what decides a frame's pixels: the saved .blend bytes + the render settings (engine, res, samples, seed, device)"""
+    h = hashlib.sha256(); h.update(open(bpy.data.filepath, "rb").read()); h.update(json.dumps({k: info[k] for k in sorted(info) if k != "devices"}, sort_keys=True, default=str).encode()); return h.hexdigest()
+
+def frames(scene, frame_list, outdir, info, frame_cache=True):
+    """renders each frame; FRAME CACHE: a frame whose (scene key, frame) was rendered before is copied, not rendered again"""
+    import shutil
+    os.makedirs(outdir, exist_ok=True); rows = []; croot = os.path.join(os.path.expanduser(os.environ.get("RICKCLIPS_CACHE", "~/.ricksclips/cache")), "frames")
+    sk = scene_key(info) if frame_cache and bpy.data.filepath else None
     for f in frame_list:
-        scene.frame_set(f); p = os.path.join(outdir, "f%05d.png" % f); scene.render.filepath = p; t = time.time()
+        p = os.path.join(outdir, "f%05d.png" % f); cf = os.path.join(croot, sk[:2], sk, "f%05d.png" % f) if sk else None
+        if cf and os.path.exists(cf):
+            shutil.copyfile(cf, p); rows.append({"f": f, "seconds": 0.0, "sha256": _sha(p), "cached": True}); continue
+        scene.frame_set(f); scene.render.filepath = p; t = time.time()
         bpy.ops.render.render(write_still=True); strip_png_text(p); rows.append({"f": f, "seconds": round(time.time() - t, 3), "sha256": _sha(p)})
-    rep = {**info, "frames": rows, "blend": bpy.data.filepath, "blender": bpy.app.version_string}
+        if cf: os.makedirs(os.path.dirname(cf), exist_ok=True); shutil.copyfile(p, cf + ".tmp"); os.replace(cf + ".tmp", cf)
+    rep = {**info, "scene_key": sk, "cached_frames": sum(1 for r in rows if r.get("cached")), "frames": rows, "blend": bpy.data.filepath, "blender": bpy.app.version_string}
     json.dump(rep, open(os.path.join(outdir, "render.json"), "w"), indent=1); return rep

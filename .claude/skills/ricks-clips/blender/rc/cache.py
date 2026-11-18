@@ -75,3 +75,34 @@ def stats():
             b += sum(os.path.getsize(os.path.join(root, x)) for x in names)
         out[kind] = {"entries": n, "bytes": b}
     return out
+
+
+def verify_all():
+    out = {}
+    for root, dirs, names in os.walk(ROOT):
+        if "meta.json" in names and not os.path.basename(root).startswith(".build_"):
+            ok, probs = verify(root); out[os.path.relpath(root, ROOT)] = probs
+    return out
+
+def gc_candidates(days=30):
+    """LIST ONLY (never deletes, CB rule): entries not modified for `days` days, with their size. Deleting is a human decision."""
+    import time as _t
+    lim = _t.time() - days * 86400; out = []
+    for root, dirs, names in os.walk(ROOT):
+        if "meta.json" in names and os.path.getmtime(os.path.join(root, "meta.json")) < lim:
+            out.append((os.path.relpath(root, ROOT), sum(os.path.getsize(os.path.join(root, n)) for n in names)))
+    return out
+
+if __name__ == "__main__":
+    import sys
+    a = sys.argv[1:] or ["stats"]
+    if a[0] == "stats": print(json.dumps(stats(), indent=1))
+    elif a[0] == "verify":
+        r = verify_all(); bad = {k: v for k, v in r.items() if v}; print("verified %d entries, %d with problems" % (len(r), len(bad)))
+        for k, v in bad.items(): print("  BAD", k, v)
+        sys.exit(1 if bad else 0)
+    elif a[0] == "gc":
+        if "--dry-run" not in a: print("refused: gc only lists (--dry-run); deleting cache entries is a human decision"); sys.exit(2)
+        c = gc_candidates(int(a[a.index("--days") + 1]) if "--days" in a else 30)
+        for k, b in c: print("  candidate", k, "%.1f MB" % (b / 1e6))
+        print("%d candidates (nothing deleted)" % len(c))

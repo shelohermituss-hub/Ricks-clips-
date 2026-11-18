@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "id": "wooden_bucket_01",
+ "name": "Wooden bucket",
+ "kind": "model",
+ "category": "prop",
+ "tier": "foreground",
+ "description": "Wooden bucket (Poly Haven CC0).",
+ "source": {
+  "provider": "polyhaven",
+  "url": "https://polyhaven.com/a/wooden_bucket_01"
+ },
+ "license": {
+  "name": "CC0",
+  "url": "https://polyhaven.com/license",
+  "author": "Poly Haven"
+ },
+ "build": {
+  "type": "polyhaven_model",
+  "source_id": "wooden_bucket_01",
+  "res": "1k",
+  "scale": 1.0
+ }
+}
