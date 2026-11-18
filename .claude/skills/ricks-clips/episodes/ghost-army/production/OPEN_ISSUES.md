@@ -16,3 +16,7 @@ Blockers that need a user decision (paid asset, account access, licence, creativ
 ## OI-3 Bicycles drawn by the 2D bike move
 - A real 3D bicycle (Sketchfab CC-BY, VladNeko) is converted and render-tested (production/evidence). The 2D rig cannot ride a 3D bike.
 - Options: keep the 2D bikes (WARN, needs acceptance); or restage the cyclists pushing or parked beside 3D bikes.
+
+## 2026-11-18 — fortress reference received
+- OI-1 (fortress reference missing) is CLOSED: the bible is OFFICIAL (v2.0); captures in `references/fortress/`.
+- OI-4 OPEN: the v1 preview fails 9 of the 10 reference thresholds (`REFERENCE_COMPARE.md`). Gap analysis and a 14-step correction plan are in `REFERENCE_GAP_ANALYSIS.md`, **waiting for the user's approval** before any change to the production.

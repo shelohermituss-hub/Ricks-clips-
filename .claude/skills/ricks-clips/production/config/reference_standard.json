@@ -1,0 +1,40 @@
+{
+ "name": "fortress_reference_v2",
+ "source": "references/REFERENCE_LOOK_BIBLE.md (fortress video, 66.9 s, sha256 e2bac85c10d6...)",
+ "measured_reference": {
+  "luma": 0.433,
+  "saturation": 0.4,
+  "contrast": 0.181,
+  "crushed": 0.0007,
+  "burned": 0.0055,
+  "motion_median_x1000": 35.8,
+  "still_frames_pct": 0.0,
+  "edge_detail": 0.095,
+  "hard_cuts": 0,
+  "peaks_per_10s": 10.47
+ },
+ "thresholds": {
+  "edge_detail_min": 0.075,
+  "luma_day": [
+   0.36,
+   0.5
+  ],
+  "luma_night_min": 0.25,
+  "crushed_max": 0.01,
+  "burned_max": 0.015,
+  "saturation": [
+   0.32,
+   0.52
+  ],
+  "saturation_shot_max": 0.6,
+  "still_frames_pct_max": 2.0,
+  "motion_median_min_x1000": 18.0,
+  "peaks_per_10s_min": 6.0,
+  "hard_cuts_policy": "only deliberate shock cuts; listed in production/DECISIONS.md"
+ },
+ "measure_size": [
+  90,
+  160
+ ],
+ "measured_with": "tools/reference_compare.py (same code measures the reference and every film)"
+}

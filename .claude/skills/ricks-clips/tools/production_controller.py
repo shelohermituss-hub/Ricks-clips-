@@ -7,6 +7,7 @@ manages the lessons registry (a fix only becomes a global lesson after it is tes
     .venv/bin/python tools/production_controller.py gates   episodes/<name> [--phase plan|preview|final] [--video final.mp4]
     .venv/bin/python tools/production_controller.py review  episodes/<name> <stills_dir> [--every 6] [--clip a-b ...]
     .venv/bin/python tools/production_controller.py issue   episodes/<name> --tc 00:43 --shot t_cafe --sev high --cat animation --obs "..." [--cause ...] [--fix ...]
+    .venv/bin/python tools/production_controller.py compare-reference episodes/<name> <video.mp4> [--night 27-35 ...]   # vs the fortress standard
     .venv/bin/python tools/production_controller.py lessons [--all]                       # list validated (or all) global lessons
     .venv/bin/python tools/production_controller.py lesson-add  <lesson.json>              # add as 'proposed' (schema-checked)
     .venv/bin/python tools/production_controller.py lesson-promote <id>                     # only with tests + evidence + regression check
@@ -131,9 +132,9 @@ def check_all(ep, phase, video):
     add("A_PREPRODUCTION", "script_locked", "PASS" if script else "FAIL", ", ".join(script) or "no SCRIPT.md / voice/script.txt")
     lb = [p for p in (os.path.join(ep, "REFERENCE_LOOK_BIBLE.md"), os.path.join(ROOT, "references", "REFERENCE_LOOK_BIBLE.md"), os.path.join(ep, "LOOK_BIBLE.md"), os.path.join(ep, "STORY_BIBLE.md")) if os.path.exists(p)]
     refok = os.path.exists(os.path.join(ROOT, "references", "REFERENCE_LOOK_BIBLE.md"))
-    provisional = refok and "PROVISIONAL" in open(os.path.join(ROOT, "references", "REFERENCE_LOOK_BIBLE.md"), encoding="utf-8").read()
+    provisional = refok and "Status: OFFICIAL" not in open(os.path.join(ROOT, "references", "REFERENCE_LOOK_BIBLE.md"), encoding="utf-8").read()
     add("A_PREPRODUCTION", "look_bible_exists", ("WARN" if provisional else "PASS") if refok else ("WARN" if lb else "FAIL"),
-        ("reference bible PROVISIONAL (fortress reference not available); " if provisional else "") + ", ".join(os.path.relpath(p, ROOT) for p in lb))
+        ("reference bible not marked OFFICIAL; " if provisional else "official fortress standard; ") + ", ".join(os.path.relpath(p, ROOT) for p in lb))
     add("A_PREPRODUCTION", "shot_list_exists", "PASS" if film and film.get("takes") else "FAIL", "film.json takes=%d" % len((film or {}).get("takes", [])))
     real_ev = [e for e in aem.get("events", []) if e.get("action") and not e["action"].startswith("(")]
     add("A_PREPRODUCTION", "action_effect_matrix_exists", "PASS" if real_ev else "FAIL", "%d story events in production/ACTION_EFFECT_MATRIX.json" % len(real_ev))
@@ -213,6 +214,12 @@ def check_all(ep, phase, video):
     add("F_PREVIEW_REVIEW", "continuous_clips_inspected", "PASS" if clips else "NOT_RUN", "%d strips" % len(clips))
     iss = qa.get("issues", []); openi = [i for i in iss if i.get("status") not in ("fixed", "waived", "closed")]
     add("F_PREVIEW_REVIEW", "timecoded_issues_logged", "PASS" if iss else "NOT_RUN", "%d issues, %d open" % (len(iss), len(openi)))
+    rc = jload(os.path.join(P, "REFERENCE_COMPARE.json"))
+    if not rc: add("F_PREVIEW_REVIEW", "reference_standard_compared", "NOT_RUN", "run compare-reference on the preview (fortress standard, references/REFERENCE_LOOK_BIBLE.md)")
+    else:
+        bad = [r["metric"] for r in rc["compare"] if r["status"] == "FAIL"]; wr = [r["metric"] for r in rc["compare"] if r["status"] == "WARN"]
+        add("F_PREVIEW_REVIEW", "reference_standard_compared", "PASS" if not bad and not wr else ("FAIL" if bad and final else "WARN"),
+            "%s (%s): FAIL %s; WARN %s" % (os.path.basename(rc.get("video", "?")), rc.get("date"), bad, wr))
     fx = [i for i in iss if i.get("status") == "fixed"]; fxe = [i for i in fx if i.get("after")]
     add("F_PREVIEW_REVIEW", "fixes_rerendered", "NOT_RUN" if not fx else ("PASS" if len(fxe) == len(fx) else "WARN"), "%d fixed, %d with after-render evidence" % (len(fx), len(fxe)))
     # ---- G final
@@ -269,6 +276,22 @@ def cmd_review(args):
         if sel: made.append(sheet(sel, os.path.join(F["REVIEW"], "clip_%05d_%05d.jpg" % (a, b)), cols=min(12, len(sel))))
     print("\n".join(os.path.relpath(m, ROOT) for m in made)); return 0
 
+def cmd_compare_reference(args):
+    sys.path.insert(0, os.path.join(ROOT, "tools")); import reference_compare as rcm
+    ep, video = args[0].rstrip("/"), args[1]; P, F = ep_paths(ep)
+    night = [tuple(map(float, args[i + 1].split("-"))) for i in range(len(args)) if args[i] == "--night"]
+    m = rcm.measure(video); m["compare"] = rcm.compare(m, night); m["night"] = night; m["date"] = today()
+    m["video"] = os.path.relpath(os.path.abspath(video), ROOT); jsave(os.path.join(P, "REFERENCE_COMPARE.json"), m)
+    ref = jload(rcm.STD)["measured_reference"]
+    L = ["# Reference comparison — %s vs the fortress standard (%s)" % (os.path.basename(ep), today()), "", "Video: `%s` (%s s). Standard: `production/config/reference_standard.json`, bible `references/REFERENCE_LOOK_BIBLE.md`." % (m["video"], m["seconds"]),
+         "", "| metric | film | target | reference | status |", "|---|---|---|---|---|"]
+    keymap = {"edge_detail": "edge_detail", "saturation": "saturation", "crushed": "crushed", "burned": "burned", "still_frames_pct": "still_frames_pct", "motion_median_x1000": "motion_median_x1000", "peaks_per_10s": "peaks_per_10s", "hard_cuts": "hard_cuts", "luma_day": "luma"}
+    for r in m["compare"]: L.append("| %s | %s | %s | %s | **%s** |" % (r["metric"], r["value"], r["target"].replace("|", "/"), ref.get(keymap.get(r["metric"], ""), "-"), r["status"]))
+    L += ["", "Hard cuts at (s): %s" % m["hard_cuts"], "", "Per second: see REFERENCE_COMPARE.json (luma, sat, crushed, burned, motion, edge)."]
+    open(os.path.join(P, "REFERENCE_COMPARE.md"), "w", encoding="utf-8").write("\n".join(L) + "\n")
+    for r in m["compare"]: print("%-5s %-28s %-8s %s" % (r["status"], r["metric"], r["value"], r["target"]))
+    print("->", os.path.relpath(os.path.join(P, "REFERENCE_COMPARE.md"), ROOT)); return 0
+
 def cmd_issue(args):
     ep = args[0].rstrip("/"); P, F = ep_paths(ep); D = jload(F["QA_LOG.json"], {"issues": []})
     g = lambda k, d=None: args[args.index(k) + 1] if k in args else d
@@ -279,7 +302,7 @@ def cmd_issue(args):
 def main():
     if len(sys.argv) < 2: print(__doc__); return 2
     c, a = sys.argv[1], sys.argv[2:]
-    fn = {"init": cmd_init, "gates": cmd_gates, "review": cmd_review, "issue": cmd_issue, "lessons": cmd_lessons, "lesson-add": cmd_lesson_add, "lesson-promote": cmd_lesson_promote}.get(c)
+    fn = {"init": cmd_init, "gates": cmd_gates, "review": cmd_review, "issue": cmd_issue, "compare-reference": cmd_compare_reference, "lessons": cmd_lessons, "lesson-add": cmd_lesson_add, "lesson-promote": cmd_lesson_promote}.get(c)
     if not fn: print(__doc__); return 2
     return fn(a) or 0
 

@@ -19,6 +19,7 @@ You are the sound designer. The story must read with the sound off, and feel bet
 - At the start, read the episode memory `episodes/<name>/production/` (STATE, OPEN_ISSUES, ASSET_REGISTER, ACTION_EFFECT_MATRIX, QA_LOG) and the VALIDATED lessons in `memory/LESSONS.md` that touch your department, and apply them.
 - Fill the audio columns of `production/ACTION_EFFECT_MATRIX.json` and mark audio_sync after checking each cue against the picture; a sound never proves a visual effect.
 - Statuses are PASS / WARN / FAIL / NOT_RUN; NOT_RUN is never PASS. Log every defect you find with `tools/production_controller.py issue` (root cause and fix included); what you cannot fix goes to `production/OPEN_ISSUES.md` with options and a recommendation.
+- Fortress standard (OFFICIAL, `references/REFERENCE_LOOK_BIBLE.md` v2.0, frames `references/fortress/frames/`): every action and effect of the fortress-standard contract (contact, impact, spark, launch, rain) has its synced sound.
 
 ## Before you start (every run)
 1. Read `rules/dept/sound-designer.md` (your slice of CB_RULES.md; the whole book is for the lead only), then ONLY the SKILL.md sections named below (grep for the heading, do not read the file through), then the episode files you are given. CB_RULES wins over everything; the newest rule wins inside it.

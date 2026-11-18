@@ -12,8 +12,8 @@
   {
    "gate": "A_PREPRODUCTION",
    "check": "look_bible_exists",
-   "status": "WARN",
-   "evidence": "reference bible PROVISIONAL (fortress reference not available); references/REFERENCE_LOOK_BIBLE.md, episodes/ghost-army/STORY_BIBLE.md"
+   "status": "PASS",
+   "evidence": "official fortress standard; references/REFERENCE_LOOK_BIBLE.md, episodes/ghost-army/STORY_BIBLE.md"
   },
   {
    "gate": "A_PREPRODUCTION",
@@ -158,6 +158,12 @@
    "check": "timecoded_issues_logged",
    "status": "PASS",
    "evidence": "7 issues, 2 open"
+  },
+  {
+   "gate": "F_PREVIEW_REVIEW",
+   "check": "reference_standard_compared",
+   "status": "FAIL",
+   "evidence": "ghost_army_preview_v1.mp4 (2026-11-18): FAIL ['edge_detail', 'luma_day', 'luma_night', 'crushed', 'saturation', 'saturation_seconds_over_max', 'still_frames_pct', 'motion_median_x1000', 'peaks_per_10s']; WARN ['hard_cuts']"
   },
   {
    "gate": "F_PREVIEW_REVIEW",

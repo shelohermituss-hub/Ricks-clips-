@@ -14,7 +14,7 @@ and which entry point runs it. Binding text: `CB_RULES.md` section **11g** (it i
 | Global memory | `memory/lessons_learned.json` (schema `production/schemas/lesson.schema.json`), readable `memory/LESSONS.md`, plus the long-form `library/` pitfalls | `init` prints validated lessons; SessionStart hook `scripts/production_memory_brief.sh` |
 | Episode memory | `episodes/<name>/production/` (BRIEF, DECISIONS, OPEN_ISSUES, STATE, ASSET_REGISTER, ACTION_EFFECT_MATRIX, QA_LOG, ENV_SCORES, GATES, REVIEW/) | `init` creates it (never overwrites) |
 | Quality gates A-G | `production/config/quality_gates.json` → `production_controller.py gates --phase plan/preview/final` → `production/GATES.md/json` | before every full preview and the final (studio-director owns it) |
-| Reference look bible | `references/REFERENCE_LOOK_BIBLE.md` + `references/REFERENCE_SHEET_look_locked.jpg` | gate A; ENV_SCORES criteria |
+| Reference look bible (OFFICIAL fortress standard) | `references/REFERENCE_LOOK_BIBLE.md` v2.0, captures `references/fortress/`, targets `production/config/reference_standard.json` | gate A (bible official); `compare-reference` → `production/REFERENCE_COMPARE.md` → gate F |
 | Environment richness score | `production/ENV_SCORES.json` per place, 0-4 per criterion, evidence required | gate C |
 | Asset intelligence | `production/ASSET_REGISTER.json` + Asset Hub (`tools/asset_hub.py`, 11f) + `render_gpu.mjs --inventory` (kit hook `window.sceneInventory`) | gate B: hero primitive/flat-prop detection, licence/provenance, render test |
 | Action → effect contract | `production/config/action_effect_matrix.json` (templates) → episode `ACTION_EFFECT_MATRIX.json` with evidence | gate A (exists) and E (rendered, aftermath, audio sync) |
@@ -37,13 +37,14 @@ node templates/threejs_film/render_gpu.mjs episodes/<name>/film.json --inventory
 node tools/frame_checks/check.mjs episodes/<name>/film.json
 .venv/bin/python tools/production_controller.py gates episodes/<name> --phase preview
 .venv/bin/python tools/production_controller.py review episodes/<name> <stills_dir> --clip 0-150 --clip 1680-1760
+.venv/bin/python tools/production_controller.py compare-reference episodes/<name> <preview.mp4> --night 27-35
 .venv/bin/python tools/production_controller.py issue episodes/<name> --tc 00:44 --shot t_cafe --sev medium --cat framing --obs "..." --cause "..." --fix "..."
 .venv/bin/python tools/production_controller.py lessons
 .venv/bin/python tools/tests/test_production_intelligence.py
 ```
 
 ## Honest limits of this release
-- The fortress reference is not in the repository; the look bible is PROVISIONAL (built from the approved `look_locked` stills).
+- The fortress reference video itself stays local (not committed, `references/video/fortress_reference/`); its frames, sheets and measurements are committed in `references/fortress/`. `compare-reference` measures image statistics; it cannot judge modelling quality by itself, which stays a reviewer's call with images.
 - Environment scores are a reviewer's judgement with an evidence image, not an automatic measurement; the inventory gives the
   numbers behind "geometry" (parts, triangles, primitive share, textured materials).
 - Gate E checks that evidence files exist and that a reviewer marked the event; it cannot prove by itself that an effect "looks good".

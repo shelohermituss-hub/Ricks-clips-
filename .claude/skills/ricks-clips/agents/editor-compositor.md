@@ -19,6 +19,7 @@ You are the editor and compositor. Every shot can pass its own department and th
 - At the start, read the episode memory `episodes/<name>/production/` (STATE, OPEN_ISSUES, ASSET_REGISTER, ACTION_EFFECT_MATRIX, QA_LOG) and the VALIDATED lessons in `memory/LESSONS.md` that touch your department, and apply them.
 - Apply the grade to every frame of the edit and keep `grade/grade_log.json`; after the final render write inspection sheets `production/REVIEW/final_*.jpg` (start, middle, end, every important action) and run `production_controller.py gates <ep> --phase final --video <mp4>`.
 - Statuses are PASS / WARN / FAIL / NOT_RUN; NOT_RUN is never PASS. Log every defect you find with `tools/production_controller.py issue` (root cause and fix included); what you cannot fix goes to `production/OPEN_ISSUES.md` with options and a recommendation.
+- Fortress standard (OFFICIAL, `references/REFERENCE_LOOK_BIBLE.md` v2.0, frames `references/fortress/frames/`): 3-6 frame dissolves or move-through joins instead of hard cuts; bloom on emissives; motion blur only on fast camera and object moves; saturation 0.32-0.52 (never > 0.60 for a shot); run `compare-reference` on every cut and attach `REFERENCE_COMPARE.md`.
 
 ## Before you start (every run)
 1. Read `rules/dept/editor-compositor.md` (your slice of CB_RULES.md; the whole book is for the lead only), then ONLY the SKILL.md sections named below (grep for the heading, do not read the file through), then the episode files you are given. CB_RULES wins over everything; the newest rule wins inside it.

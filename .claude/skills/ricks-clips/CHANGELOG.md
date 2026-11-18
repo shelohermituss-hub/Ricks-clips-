@@ -76,3 +76,9 @@
 - New: `tools/production_controller.py` (episode memory, quality gates A-G, review sheets and strips, QA log, lesson registry with proof-gated promotion), `tools/anim_audit.py`, `tools/lint_set_modules.py`, `tools/sync_project_agents.py`, `tools/tests/test_production_intelligence.py` (10 regression tests), `production/` (configs, schemas, delivered French spec, README), `memory/` (global lessons; 4 validated), `references/REFERENCE_LOOK_BIBLE.md` (PROVISIONAL), agent `production-controller`, SessionStart hook `scripts/production_memory_brief.sh`.
 - Kit: `render_gpu.mjs --inventory` + `window.sceneInventory` (what each place really builds); `film_plan.py` place entry lands with the cut on the same frame (PI-003, it fixed a 1-frame pop found by the new test); move-to-move pose blend (`film.tween.move_blend`); soft contact shadows; `lift` moves in the motion library.
 - Rules: CB_RULES section 11g (in every department slice); START_HERE, SKILL.md, WORKFLOW.md and library/INDEX.md point to it; every agent has a Production Intelligence block.
+
+## 2026-11-18 — Official fortress reference standard
+- `references/REFERENCE_LOOK_BIBLE.md` v2.0 OFFICIAL from the user's fortress video; captures `references/fortress/` (26 frames, overview, motion strips, measures).
+- `production/config/reference_standard.json` + `tools/reference_compare.py` + `production_controller.py compare-reference` (gate F; gate A checks the bible is official).
+- CB_RULES 11g, START_HERE, production/README and all 17 agents name the standard; lesson PI-007 validated; test suite 11/11.
+- Ghost Army: `production/REFERENCE_COMPARE.md`, `production/REFERENCE_GAP_ANALYSIS.md` (gaps + correction plan, awaiting approval).

@@ -67,3 +67,14 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Regression check:** frame checks report the old staging as body_in_mesh FAIL (tank_track) and the new one clean
 
   - history: 2026-11-18: tested -> validated
+## PI-007 — The finish level of a film was judged by eye; the Ghost Army v1 preview was far below the  [validated, high]
+
+- **Where:** ghost-army whole film
+- **Root cause:** no measured standard: the look bible was provisional and no tool compared a preview with the reference
+- **Fix:** official fortress standard (references/REFERENCE_LOOK_BIBLE.md v2.0, production/config/reference_standard.json); tools/reference_compare.py measures the reference and every film with the same code; production_controller.py compare-reference writes production/REFERENCE_COMPARE.md and gate F reads it (WARN preview, FAIL final)
+- **Files:** tools/reference_compare.py, tools/production_controller.py, production/config/reference_standard.json, references/REFERENCE_LOOK_BIBLE.md, CB_RULES.md, agents/*.md
+- **Tests:** tools/tests/test_production_intelligence.py: reference standard: fortress PASS, v1 preview FAIL
+- **Evidence:** references/fortress/reference_compare_self.json; episodes/ghost-army/production/REFERENCE_COMPARE.md; references/fortress/compare_ghost_army_2026-11-18.jpg
+- **Regression check:** the fortress passes all 10 thresholds; the v1 preview fails 9 of them
+
+  - history: 2026-11-18: tested -> validated

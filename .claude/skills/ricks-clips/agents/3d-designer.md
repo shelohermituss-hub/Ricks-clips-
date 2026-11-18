@@ -21,6 +21,7 @@ You are the 3D designer. A Blender frame from you is never weaker than its story
 - At the start, read the episode memory `episodes/<name>/production/` (STATE, OPEN_ISSUES, ASSET_REGISTER, ACTION_EFFECT_MATRIX, QA_LOG) and the VALIDATED lessons in `memory/LESSONS.md` that touch your department, and apply them.
 - Same asset contract as props-hero: `production/ASSET_REGISTER.json`, licence and provenance, Blender → GLB, renderer import test (status render_tested), close-up inspection before acceptance. A custom Blender model must be real modelling with parts and materials, never a recoloured primitive.
 - Statuses are PASS / WARN / FAIL / NOT_RUN; NOT_RUN is never PASS. Log every defect you find with `tools/production_controller.py issue` (root cause and fix included); what you cannot fix goes to `production/OPEN_ISSUES.md` with options and a recommendation.
+- Fortress standard (OFFICIAL, `references/REFERENCE_LOOK_BIBLE.md` v2.0, frames `references/fortress/frames/`): no flat-coloured surface at camera distance: texture plus normal or bump on stone, wood, metal, cloth and ground; wear and per-part variation; metal that reflects the sky, glowing lantern paper, wet sheen at night.
 
 ## Before you start (every run)
 1. Read `rules/dept/3d-designer.md` (your slice of CB_RULES.md; the whole book is for the lead only), then ONLY the SKILL.md sections named below (grep for the heading, do not read the file through), then the episode files you are given. CB_RULES wins over everything; the newest rule wins inside it.

@@ -164,6 +164,41 @@
     "2026-11-18: tested -> validated"
    ],
    "promote_global": true
+  },
+  {
+   "id": "PI-007",
+   "date": "2026-11-18",
+   "episode": "ghost-army",
+   "shot_timecode": "whole film",
+   "severity": "high",
+   "problem": "The finish level of a film was judged by eye; the Ghost Army v1 preview was far below the user's fortress reference (detail 0.047 vs 0.095, saturation 0.72 vs 0.40, 5.3 % still frames, 9 hard cuts vs 0) without any check saying so.",
+   "root_cause": "no measured standard: the look bible was provisional and no tool compared a preview with the reference",
+   "fix": "official fortress standard (references/REFERENCE_LOOK_BIBLE.md v2.0, production/config/reference_standard.json); tools/reference_compare.py measures the reference and every film with the same code; production_controller.py compare-reference writes production/REFERENCE_COMPARE.md and gate F reads it (WARN preview, FAIL final)",
+   "files_changed": [
+    "tools/reference_compare.py",
+    "tools/production_controller.py",
+    "production/config/reference_standard.json",
+    "references/REFERENCE_LOOK_BIBLE.md",
+    "CB_RULES.md",
+    "agents/*.md"
+   ],
+   "verification": {
+    "tests": [
+     "tools/tests/test_production_intelligence.py: reference standard: fortress PASS, v1 preview FAIL"
+    ],
+    "before_after_evidence": [
+     "references/fortress/reference_compare_self.json",
+     "episodes/ghost-army/production/REFERENCE_COMPARE.md",
+     "references/fortress/compare_ghost_army_2026-11-18.jpg"
+    ],
+    "regression_check": "the fortress passes all 10 thresholds; the v1 preview fails 9 of them"
+   },
+   "status": "validated",
+   "promote_global": true,
+   "notes": "Image statistics do not judge modelling quality: the bible's minimum-standards table and a reviewer with images remain required.",
+   "history": [
+    "2026-11-18: tested -> validated"
+   ]
   }
  ]
 }

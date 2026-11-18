@@ -79,10 +79,19 @@ def memory_schema():
     bada = [a.get("asset_id") for a in A if any(k not in a for k in reqa)]
     return not bad and not bada, "%d lessons, %d assets; bad: %s %s" % (len(L), len(A), bad, bada)
 
+# Reference standard: the fortress itself passes every threshold; the Ghost Army v1 preview does not (measured 2026-11-18)
+def reference_standard_discriminates():
+    sys.path.insert(0, "tools"); import reference_compare as rc
+    ref = json.load(open("references/fortress/reference_compare_self.json")); ga = json.load(open(GA + "/production/REFERENCE_COMPARE.json"))
+    a = rc.compare(ref); b = rc.compare(ga, [tuple(x) for x in ga.get("night", [])])
+    fa = [r["metric"] for r in a if r["status"] != "PASS"]; fb = [r["metric"] for r in b if r["status"] == "FAIL"]
+    return not fa and len(fb) >= 5, "reference not PASS: %s; v1 FAIL: %s" % (fa, fb)
+
 for n, fn in [("PI-002 lint catches swallowed code (fixture)", lint_fixture), ("PI-002 Ghost Army set module is clean", lint_current),
               ("PI-001 anim_audit FAILs the v1 film", anim_v1_fails), ("PI-001 anim_audit PASSes the current film", anim_current_passes),
               ("PI-003 entering a place never slides", place_entry_no_slide), ("controller init never overwrites memory", controller_init_idempotent),
               ("controller gates are honest (final: primitive hero FAILs)", controller_gates_honest), ("lesson promotion refuses without proof", promote_refuses_without_proof),
-              ("renderer inventory measures the hero", inventory_measures_hero), ("memory files follow the schemas", memory_schema)]:
+              ("renderer inventory measures the hero", inventory_measures_hero), ("memory files follow the schemas", memory_schema),
+              ("reference standard: fortress PASS, v1 preview FAIL", reference_standard_discriminates)]:
     t(n, fn)
 fails = [n for n, ok in R if not ok]; print("\n%d/%d PASS" % (len(R) - len(fails), len(R))); sys.exit(1 if fails else 0)
