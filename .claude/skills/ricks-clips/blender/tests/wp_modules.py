@@ -30,6 +30,17 @@ for i, (loc, sz) in enumerate((((0, 0, .25), .5), ((0, -.24, .3), .06))):       
 r = physics.collapse(sc, {"items": [{"asset": "a", "at": [0, 0, 0]}, {"asset": "a", "at": [0, 0, .52]}], "frames": [1, 60], "at_frame": 5}, lambda a: col, g)
 R["collapse"] = {"pieces": r["pieces"], "max_moved_m": r["max_moved_m"]}
 
+# 2b roll: a two-part barrel (body + overlapping lid) rolls on the ground, never launched (was 6.8 m up on the farmyard)
+sc, g = fresh(); col = bpy.data.collections.new("barrel"); bpy.context.scene.collection.children.link(col)
+for i, (loc, rad, dep) in enumerate((((0, 0, .45), .3, .9), ((0, 0, .88), .28, .06))):
+    bpy.ops.mesh.primitive_cylinder_add(vertices=24, radius=rad, depth=dep, location=loc); o = bpy.context.object; o.name = "bpart%d" % i
+    for c in list(o.users_collection): c.objects.unlink(o)
+    col.objects.link(o)
+r = physics.roll(sc, {"asset": "b", "name": "br", "at": [0, 0, 0], "direction": [1, 0], "speed": 2.0, "push_from": 2, "release": 20, "frames": [1, 60]}, lambda a: col, g)
+o = [x for x in bpy.data.objects if x.name.startswith("br:")][0]; zs, xs = [], []
+for f in range(1, 61): sc.frame_set(f); c = centre(o); zs.append(c.z); xs.append(c.x)
+R["roll"] = {"radius_m": r["radius_m"], "max_centre_z": round(max(zs), 3), "travel_x_m": round(xs[-1] - xs[0], 2), "max_speed_ms": r["max_speed_ms"]}
+
 # 3 deform: vertices move, the object does not
 sc, g = fresh(); bpy.ops.mesh.primitive_uv_sphere_add(radius=.5, location=(0, 0, .5)); s = bpy.context.object; s.name = "barrel"; loc0 = s.location.copy()
 r = physics.deform(sc, {"object": "barrel", "point": [0, -.5, .5], "direction": [0, 1, 0], "radius": .3, "depth": .1, "at_frame": 20}, None, g)

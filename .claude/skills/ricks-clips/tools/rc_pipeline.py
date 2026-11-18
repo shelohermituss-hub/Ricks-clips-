@@ -75,7 +75,9 @@ class Run:
         open(os.path.join(self.E, "p4_cards.log"), "w").write(r0.stdout)
         r = bl("assemble", self.place, os.path.join(self.B, "scene.blend"), "--upto", "9", timeout=14400); json.dump(r, open(os.path.join(self.E, "scene_report.json"), "w"), indent=1)
         anim = [a["target"] for a in self.P.get("animation", [])]
-        q = bl("qa", os.path.join(self.B, "scene.blend"), os.path.join(self.E, "scene_qa.json"), "--anim", ",".join(anim)); self.R, self.Q = r, q; return r, q
+        bl("qa", os.path.join(self.B, "scene.blend"), os.path.join(self.E, "scene_qa.json"), "--anim", ",".join(anim))
+        q = json.load(open(os.path.join(self.E, "scene_qa.json")))          # the full QA file (RC_RESULT leaves the stats out)
+        self.R, self.Q = r, q; return r, q
     def p4(self):
         r, q = self.p4_9(); c = q["contact"]
         return [("all characters placed", sorted(r.get("characters", [])) == sorted(self.P["characters"]["who"]), r.get("characters")),
@@ -89,6 +91,7 @@ class Run:
             if p["type"] == "deform": chk.append(("deform %s: vertices moved" % p.get("object"), p["deformed_vertices"] > 0, p["deformed_vertices"])); continue
             chk.append(("%s: pieces moved after release" % p["type"], p.get("pieces_moved", 0) > 0, {k: p.get(k) for k in ("pieces", "joints", "pieces_moved", "release")}))
             spec = next((x for x in self.P["physics"] if x["type"] == p["type"]), {})
+            chk.append(("%s: no piece launched upward (rise above release height < 1.5 m)" % p["type"], p.get("max_rise_m", 99) < 1.5, {"max_rise_m": p.get("max_rise_m"), "highest": p.get("highest")}))   # added 2026-11-18: a barrel flew 6.8 m up at 11 m/s, under the speed gate
             if spec.get("striker"):          # pushed pieces travel with the striker: distance is not projection (gate refined 2026-11-18 after the cart, pushed 12.1 m, failed it)
                 chk.append(("%s: no piece projected (peak free speed < 15 m/s)" % p["type"], p.get("max_speed_ms", 99) < 15, {"max_speed_ms": p.get("max_speed_ms"), "fastest": p.get("fastest"), "max_moved_m": p.get("max_moved_m")}))
             else:

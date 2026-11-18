@@ -859,33 +859,76 @@
     {
      "f": 270,
      "pos": [
-      3.0,
+      -1.0,
+      -14.0,
+      2.4
+     ],
+     "aim": [
+      -7.0,
+      -5.0,
+      1.0
+     ],
+     "fov_v": 58
+    },
+    {
+     "f": 321,
+     "pos": [
+      -2.5,
+      -9.5,
+      2.2
+     ],
+     "aim": [
+      -3.5,
+      1.5,
+      1.0
+     ],
+     "fov_v": 58
+    },
+    {
+     "f": 340,
+     "pos": [
+      0.0,
       -8.5,
-      1.8
+      2.0
      ],
      "aim": [
       1.0,
       2.5,
       1.0
      ],
-     "fov_v": 52
+     "fov_v": 58
+    },
+    {
+     "f": 377,
+     "pos": [
+      4.5,
+      -8.5,
+      2.0
+     ],
+     "aim": [
+      7.0,
+      2.0,
+      1.0
+     ],
+     "fov_v": 58
     },
     {
      "f": 389,
      "pos": [
-      6.5,
-      -8.0,
-      2.0
+      6.0,
+      -9.5,
+      2.4
      ],
      "aim": [
-      8.0,
-      2.5,
+      9.0,
+      2.0,
       1.0
      ],
-     "fov_v": 52
+     "fov_v": 58
     }
    ],
-   "join": "cut"
+   "join": "cut",
+   "_note": "camera follows the dozer (measured path timing) so the crate collapse (f336) and the cart crash (f377) are in frame; the 2-key version left the crash off-frame (validation sheet 2026-11-18)"
   },
   {
    "name": "s5_end",

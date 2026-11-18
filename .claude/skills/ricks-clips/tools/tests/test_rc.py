@@ -93,6 +93,7 @@ def test_modules():
     W = json.loads(L[-1]); g = W["glass"]
     t("glass: shards start at the pane, all land, none flies > 5 m", g["start_at_pane"] and g["on_ground"] and g["max_travel_m"] < 5, json.dumps(g))
     t("collapse: a multi-part asset (overlapping latch) is one body, no explosion (< 1 m)", W["collapse"]["max_moved_m"] < 1.0, json.dumps(W["collapse"]))
+    ro = W["roll"]; t("roll: multi-part barrel laid down, rolls forward on the ground, never launched", ro["max_centre_z"] < ro["radius_m"] + .1 and ro["travel_x_m"] > 1.0 and ro["max_speed_ms"] < 4, json.dumps(ro))
     d = W["deform"]; t("deform: vertices dented, object not moved", d["vertices"] > 0 and d["object_still"] and d["key_value_after"] == 1.0, json.dumps(d))
     t("lookdev: compositor grade on the Blender 5 API (group + output)", W["grade"]["group"] and W["grade"]["has_output"], json.dumps(W["grade"]))
     pe = W["penetration"]; t("qa: ground penetration gate measures a 20 cm sink", abs(pe["max_depth_m"] - .2) < .02 and pe["over_5cm"], json.dumps(pe))

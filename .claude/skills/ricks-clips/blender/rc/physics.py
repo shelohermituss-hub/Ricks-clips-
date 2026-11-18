@@ -161,15 +161,17 @@ class Sim:
             if any(t in nm for t in track_names): track[nm] = {"before": [round(v, 2) for v in p0], "end": [round(v, 2) for v in p1], "moved_m": round(d, 2)}
         # PROJECTION measure: peak speed of each FREE piece (after its release; a piece kinematic for the whole event is authored motion,
         # not simulation). A pushed piece moves at the pusher's speed; a thrown or exploding one is fast (gate: < 15 m/s).
-        fps = sc.render.fps / sc.render.fps_base; vmax, vwho = 0.0, None
+        fps = sc.render.fps / sc.render.fps_base; vmax, vwho = 0.0, None; rmax, rwho = 0.0, None
         for o in self.parts:
             r0 = self.release.get(o.name, self.f0)
             if r0 > self.f1: continue
-            T = [m.translation for m in M[o.name]]
-            for i in range(max(1, r0 - self.f0 + 1), len(T)):
+            T = [m.translation for m in M[o.name]]; i0 = max(1, r0 - self.f0 + 1)
+            for i in range(i0, len(T)):
                 v = (T[i] - T[i - 1]).length * fps
                 if v > vmax: vmax, vwho = v, o.name
-        return {"pieces": len(self.parts), "joints": self.joints, "pieces_moved": moved, "max_moved_m": round(far, 2), "max_speed_ms": round(vmax, 2), "fastest": vwho, "track": track}
+                up = T[i].z - T[i0 - 1].z                                  # LAUNCH measure: height gained above the release height
+                if up > rmax: rmax, rwho = up, o.name
+        return {"pieces": len(self.parts), "joints": self.joints, "pieces_moved": moved, "max_moved_m": round(far, 2), "max_speed_ms": round(vmax, 2), "fastest": vwho, "max_rise_m": round(rmax, 2), "highest": rwho, "track": track}
 
 def _shrink(o, k=.985):
     """pre-separation: each fragment shrunk 1.5 % about its own centre so neighbours never start interpenetrated (no pop at release)"""
@@ -221,20 +223,30 @@ def topple(scene, spec, src_fn, ground):
     return S.bake(tuple(o.name.split(":")[-1] for o in parts), before=rel - 1)
 
 def roll(scene, spec, src_fn, ground):
-    """tier 2: an object (barrel, tyre) set rolling: keyed (kinematic) push along a direction until release, then free on the ground"""
+    """tier 2: an object (barrel, tyre) set rolling: its parts are JOINED into one body (separate interpenetrating parts launched the
+    barrel 6.8 m up, farmyard 2026-11-18), it is LAID on its side (axis across the travel direction) and keyed rolling without slipping
+    (angle = distance / radius) on the ground until release, then free"""
+    from mathutils import Matrix, Quaternion
     f0, f1 = spec["frames"]; S = Sim(scene, f0, f1); col = S.col
-    parts = realize(scene, src_fn(spec["asset"]), spec.get("name", spec["asset"]), spec["at"], math.radians(spec.get("rot", 0)), col) if "asset" in spec else [_scene_obj(spec["object"])]
-    rel = spec["release"]; d = Vector((*spec["direction"], 0)).normalized(); v = spec.get("speed", 2.0); r0 = spec.get("radius", .3)
-    for o in parts:
-        p0 = o.location.copy(); b = list(o.rotation_euler)
-        for f in range(f0, rel + 1):
-            s = max(0, f - spec.get("push_from", f0)) * v / scene.render.fps; o.location = p0 + d * s; rr = list(b); rr[0] += s / r0; o.rotation_euler = rr
-            o.keyframe_insert("location", frame=f); o.keyframe_insert("rotation_euler", frame=f)
+    parts = realize(scene, src_fn(spec["asset"]), spec.get("name", spec["asset"]), spec["at"], 0.0, col) if "asset" in spec else [_scene_obj(spec["object"])]
+    o = join(parts, "%s:%s" % (spec.get("name", "roll"), spec.get("asset", parts[0].name.split(":")[-1])))
+    with bpy.context.temp_override(object=o, active_object=o, selected_objects=[o], selected_editable_objects=[o]): bpy.ops.object.origin_set(type="ORIGIN_GEOMETRY", center="BOUNDS")
+    bpy.context.view_layer.update(); dims = o.dimensions.copy(); r0 = spec.get("radius") or max(dims.x, dims.y) / 2
+    lay = Matrix.Rotation(math.pi / 2, 4, "X") if spec.get("lay", True) else Matrix.Identity(4)     # cylinder axis Z -> across the travel
+    rel = spec["release"]; d = Vector((*spec["direction"], 0)).normalized(); v = spec.get("speed", 2.0); h = math.atan2(d.y, d.x)
+    x0, y0 = spec["at"][0], spec["at"][1]; o.rotation_mode = "QUATERNION"; prev = None
+    for f in range(f0, rel + 1):
+        s_ = max(0, f - spec.get("push_from", f0)) * v / scene.render.fps; px, py = x0 + d.x * s_, y0 + d.y * s_
+        from rc import envbuild
+        gz = envbuild.ground_z(ground, px, py) if ground else 0.0
+        M = Matrix.Translation((px, py, gz + r0)) @ Matrix.Rotation(h, 4, "Z") @ Matrix.Rotation(s_ / r0, 4, "Y") @ lay
+        loc, q, _ = M.decompose()
+        if prev is not None and q.dot(prev) < 0: q.negate()
+        prev = q; o.location = loc; o.rotation_quaternion = q; o.keyframe_insert("location", frame=f); o.keyframe_insert("rotation_quaternion", frame=f)
     S.collider(ground)
     for c in spec.get("colliders", []): S.collider(_scene_obj(c), "CONVEX_HULL")
-    for o in parts: S.piece(o, rel, shape=spec.get("shape", "CYLINDER"), bounce=.2)
-    if len(parts) > 1: S.joints_between(parts, None)
-    return S.bake(tuple(o.name.split(":")[-1] for o in parts), before=f0)
+    S.piece(o, rel, shape=spec.get("shape", "CYLINDER"), bounce=.2)
+    r = S.bake((o.name.split(":")[-1],), before=f0); r["radius_m"] = round(r0, 3); return r
 
 def glass_pieces(ob, cuts, seed, col):
     """a pane cut into shards by seeded random plane cuts in its own plane (Voronoi-like), real cut faces"""
