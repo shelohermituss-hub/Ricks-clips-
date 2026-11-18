@@ -38,6 +38,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
   { const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js'), L = new GLTFLoader();
     for (const k of ['inflatable_tank', 'inflatable_tank_lod', 'crawler_dozer', 'sound_halftrack', 'field_radio', 'morse_key', 'light_table']) GLB[k] = (await L.loadAsync(new URL('../assets/' + k + '.glb', import.meta.url).href)).scene; }
   const TRK = new THREE.MeshStandardMaterial({ name: 'rubber_canvas', color: '#34352e', roughness: .8, bumpMap: treadTex, bumpScale: 1.2 });
+  const BRASS = metal('brass', '#d8b25a', { rough: .25 });
   const ray = new THREE.Raycaster();
   function inflatable(name, opts = {}) {
     const hero = /^(inflatable_sherman|deflated_skin)$/.test(name) || opts.hero;
@@ -46,7 +47,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     const col = new THREE.Color(opts.col || '#5d6538'); if (!opts.col) col.offsetHSL((VR - .5) * .03, (VR - .5) * .1, (VR - .5) * .08);
     const M = rubber(col), MD = rubber(col.clone().multiplyScalar(.74)), MP = rubber(col.clone().offsetHSL(.015, .05, .06));
     body.traverse(o => { if (!o.isMesh) return; const k = o.material.name;
-      o.material = k === 'rubber_body' ? M : k === 'rubber_dark' ? MD : k === 'rubber_track' ? TRK : k === 'patch' ? MP : o.material;
+      o.material = k === 'rubber_body' ? M : k === 'rubber_dark' ? MD : k === 'rubber_track' ? TRK : k === 'patch' ? MP : k === 'brass' ? BRASS : o.material;   /* V3.1: GLB metals had no env map and rendered near black */
       o.userData.role = 'cloth'; o.userData.mat = 'rubber'; o.castShadow = opts.cast ?? true; o.receiveShadow = true; });
     const turret = body.getObjectByName('turret'), gun = body.getObjectByName('gun_pivot'), valve = body.getObjectByName('valve_main');
     const hull = body.getObjectByName('hull_bladder'); body.updateMatrixWorld(true);
@@ -321,6 +322,18 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
       const tk = sherman('inflatable_sherman', { at: [0, 4, 0], rot: -.35 }); const lift = EV.lift || [0, 52], set = EV.set || 103, dent = EV.dent || 110;
       ups.push(f => { const a = sm((f - lift[0]) / (lift[1] - lift[0])), b = sm((f - lift[1]) / (set - lift[1])); tk.position.copy(V(0, 4, 1.55 * (1 - b) + .03 * Math.sin(f * .21) * (1 - b))); tk.rotation.y = -.35;   /* animation audit: the tank stays above its four lifters (it used to slide 3.6 m over static men) and comes down with them; a small bob while held */
         const d = Math.max(0, 1 - Math.abs(f - dent) / 10), dr = sm((f - (EV.deflate || 1e9)) / 18); tk.userData.set(.9 * dr, .12 * d + .25 * dr); });
+      /* V3.1 step 11 (interaction with consequence): on 'rubber' the brass valve cap pops off under the air pressure, flies on an arc,
+         bounces once in the grass and stays there (aftermath); the steam fx and the valve whistle already land on the same word */
+      { const cap = add(new THREE.Mesh(new THREE.CylinderGeometry(.075, .085, .05, 18), metal('brass', '#a8823a', { rough: .5 })), 'valve_cap', 'metal');   /* rougher, darker: facing the lens it must not flare into a glowing ball */ const v0 = new THREE.Vector3(), vel = new THREE.Vector3();
+        const t0 = (EV.deflate || 1e9) - 1, G = .0035;   /* a cartoon-slow arc: readable in the macro insert */
+        ups.push(f => { const vv = tk.userData.valve; if (!vv) return; vv.updateWorldMatrix(true, false);
+          const top = () => { const bb = new THREE.Box3().setFromObject(vv), c = bb.getCenter(new THREE.Vector3()); c.y = bb.max.y + .02; return c; };   /* GLB parts carry the tank origin: use the valve's real geometry */
+          if (f < t0) { cap.position.copy(top()); cap.rotation.set(0, 0, 0); return; }
+          if (!cap.userData.go) { v0.copy(top()); vel.set(.018, .055, .012); cap.userData.go = true; }
+          const k = f - t0; let x = v0.x + vel.x * k, y = v0.y + vel.y * k - .5 * G * k * k, z = v0.z + vel.z * k;
+          if (y < .03) { const kl = (vel.y + Math.sqrt(vel.y * vel.y + 2 * G * (v0.y - .03))) / G, b = k - kl, xl = v0.x + vel.x * kl, zl = v0.z + vel.z * kl;   /* one small bounce, then it lies in the grass */
+            x = xl + vel.x * .35 * Math.min(b, 14); z = zl + vel.z * .35 * Math.min(b, 14); y = .03 + Math.max(0, .03 * b - .5 * G * b * b); }
+          cap.position.set(x, y, z); cap.rotation.x = Math.min(k, 40) * .45; cap.rotation.z = Math.min(k, 40) * .3; }); }
       anchors = { tank: [0, 4, 1.2], truck: [-7, 6, 1.5] };
     } else {
       // the camp: rows of tanks in every state of inflation, compressors, paint pots, the bulldozer drawing track marks
@@ -510,7 +523,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
       box('pinboard', 'wood', 1.4, .04, .9, [-1.8, 3.97, 1.5], relief('wood', '#a88a5a', { seed: 121 })); for (let i = 0; i < 8; i++) box('pinned_photo', 'cloth', .22, .01, .17, [-2.35 + (i % 4) * .36, 3.94, 1.25 + (i >> 2) * .4], std(i % 3 ? '#9a9a90' : '#7a7a72'));
       for (let i = 0; i < 5; i++) box('print_stack', 'cloth', .3, .24, .015, [.85 + i * .01, 1.25, .93 + i * .016], std('#c8c8c0'), { rot: rr(-.2, .2) });
       cyl('lamp_shade', 'metal', .3, .25, [0, 1.6, 2.4], GM, { r2: .08 }); cyl('lamp_cord', 'metal', .01, .4, [0, 1.6, 2.65], std('#1a1a1a')); }
-    const lt = prop('light_table', 'light_table', 'lamp', [0, 1.6, 0], 0, { table_glass: basic('#c8d6e8') });   /* V3: Blender table (frame, legs, braces, lamp box, drawers, stereoscope, pencil tray); the frosted top glows */
+    const lt = prop('light_table', 'light_table', 'lamp', [0, 1.6, 0], 0, { table_glass: basic('#c8d6e8'), metal_dark: metal('iron', '#3a3a36', { rough: .5 }), brass: metal('brass', '#c8a24a', { rough: .3 }), chrome: metal('steel', '#c8c8c0', { rough: .25 }) });   /* V3: Blender table (frame, legs, braces, lamp box, drawers, stereoscope, pencil tray); the frosted top glows */
     const photoTex = canvasTex(512, 384, (g, w, h) => { g.fillStyle = '#8a8a80'; g.fillRect(0, 0, w, h); for (let i = 0; i < 9000; i++) { g.fillStyle = `rgba(${rnd() * 60 | 0},${rnd() * 60 | 0},${rnd() * 50 | 0},.08)`; g.fillRect(rnd() * w, rnd() * h, 3, 3); } g.fillStyle = '#3a3a34'; for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) { const x = 40 + c * 75, y = 60 + r * 80; g.fillRect(x, y, 36, 22); g.fillRect(x + 30, y + 9, 20, 4); g.fillStyle = 'rgba(30,25,20,.5)'; g.fillRect(x + 4, y + 24, 4, 50); g.fillRect(x + 26, y + 24, 4, 50); g.fillStyle = '#3a3a34'; } });
     const ph = add(new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.0), basic('#d8d8d0', { map: photoTex })), 'aerial_photo', 'cloth', { cast: false }); ph.rotation.x = -Math.PI / 2; ph.position.copy(V(0, 1.6, .925));
     const loupe = cyl('loupe', 'glass', .09, .015, [.25, 1.5, .93], std('#9fb0bc', { rough: .05, metal: .1, extra: { transparent: true, opacity: .22, depthWrite: false } })); add(new THREE.Mesh(new THREE.TorusGeometry(.09, .012, 8, 32), metal('iron', '#2a2a26', { rough: .4 })), 'loupe_rim', 'metal').position.copy(V(.25, 1.5, .945)); scene.children[scene.children.length - 1].rotation.x = Math.PI / 2;   /* V3: a thin lens in a dark rim (a solid pale cylinder read as a white blob on the lit table) */
@@ -556,8 +569,8 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     const scorchTex = canvasTex(128, 128, (g, w) => { const gr = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2); gr.addColorStop(0, 'rgba(14,10,8,.9)'); gr.addColorStop(.6, 'rgba(24,18,12,.6)'); gr.addColorStop(1, 'rgba(30,24,16,0)'); g.fillStyle = gr; g.fillRect(0, 0, w, w); });
     function layeredBurst(P) {
       const sprite = (col, blend) => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: puffTex, color: col, transparent: true, opacity: 0, depthWrite: false, blending: blend || THREE.NormalBlending, rotation: rr(0, 6.3) })); s.userData.noExport = true; s.scale.setScalar(1e-4); scene.add(s); return s; };
-      const fire = Array.from({ length: 16 }, () => ({ s: sprite('#ffd060', THREE.AdditiveBlending), d: new THREE.Vector3(rr(-1, 1), rr(.2, 1.2), rr(-1, 1)).normalize(), sp: rr(.6, 1.2), sz: rr(1.4, 2.6) }));
-      const smoke = Array.from({ length: 22 }, (_, i) => ({ s: sprite('#5a4a3a'), h: i / 22, a: rr(0, 6.3), r: rr(.2, 1), sz: rr(2.2, 3.6), dl: rr(0, 6) }));
+      const fire = Array.from({ length: 16 }, () => ({ s: sprite('#ffd060', THREE.AdditiveBlending), d: new THREE.Vector3(rr(-1, 1), rr(.2, 1.2), rr(-1, 1)).normalize(), sp: rr(.6, 1.2), sz: rr(2.2, 3.8) }));   /* V3.1: bigger envelope, it reads at phone size */
+      const smoke = Array.from({ length: 22 }, (_, i) => ({ s: sprite('#5a4a3a'), h: i / 22, a: rr(0, 6.3), r: rr(.2, 1), sz: rr(3.0, 4.8), dl: rr(0, 6) }));
       const flash = sprite('#fff6d8', THREE.AdditiveBlending);
       const NS = 40, sg = new THREE.BufferGeometry(), sv = new Float32Array(NS * 3), vel = Array.from({ length: NS }, () => new THREE.Vector3(rr(-7, 7), rr(6, 15), rr(-7, 7)));
       sg.setAttribute('position', new THREE.BufferAttribute(sv, 3)); const sparks = new THREE.Points(sg, new THREE.PointsMaterial({ color: '#ffc070', size: .22, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
@@ -571,16 +584,16 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
         // incoming trail: the 10 frames before impact, a short glowing streak running down its arc
         const u = (a + 10) / 10; trail.material.opacity = u > 0 && u < 1 ? .9 : 0; if (u > 0 && u < 1) { for (let k = 0; k < 8; k++) { const q = arc(Math.max(0, u - k * .025)); tv[k * 3] = q.x; tv[k * 3 + 1] = q.y; tv[k * 3 + 2] = q.z; } tg.attributes.position.needsUpdate = true; }
         // flash: 3 frames, small and warm
-        const fl = a >= 0 && a < 4 ? 1 - a / 4 : 0; flash.position.set(P.x, P.y + 1, P.z); flash.scale.setScalar(fl ? 3 + 2 * (1 - fl) : 1e-4); flash.material.opacity = .85 * fl;
+        const fl = a >= 0 && a < 4 ? 1 - a / 4 : 0; flash.position.set(P.x, P.y + 1, P.z); flash.scale.setScalar(fl ? 4 + 2.5 * (1 - fl) : 1e-4); flash.material.opacity = .85 * fl;
         // fire envelope: puffs billow out and up, cooling yellow -> orange -> dark red, gone by 1.3 s
         for (const F of fire) { const t = a / 40; if (a < 0 || t > 1) { F.s.scale.setScalar(1e-4); F.s.material.opacity = 0; continue; }
-          const e = 1 - Math.pow(1 - Math.min(1, t * 2.2), 3); F.s.position.set(P.x + F.d.x * 3.2 * e * F.sp, P.y + .6 + F.d.y * 3.6 * e * F.sp + 2.5 * t, P.z + F.d.z * 3.2 * e * F.sp);
+          const e = 1 - Math.pow(1 - Math.min(1, t * 2.2), 3); F.s.position.set(P.x + F.d.x * 4.2 * e * F.sp, P.y + .6 + F.d.y * 4.6 * e * F.sp + 3.2 * t, P.z + F.d.z * 4.2 * e * F.sp);
           F.s.scale.setScalar(F.sz * (.6 + 1.8 * e)); const ci = Math.min(FIRE.length - 1.001, t * (FIRE.length - 1)); F.s.material.color.copy(FIRE[Math.floor(ci)]).lerp(FIRE[Math.ceil(ci)], ci % 1); F.s.material.opacity = .8 * (1 - t) * Math.min(1, a / 2); }
         // smoke: a column that rises and spreads into a cap, lit warm from below at first, then grey; it drifts with the wind and thins out over 4 s
         for (const S of smoke) { const t = (a - 4 - S.dl) / 120; if (t <= 0 || t > 1) { S.s.scale.setScalar(1e-4); S.s.material.opacity = 0; continue; }
-          const rise = 9 * (1 - Math.pow(1 - Math.min(1, t * 1.6), 2)) * (.35 + .65 * S.h), cap = S.h > .6 ? 2.6 * Math.min(1, t * 2) : .6 * t, drift = 3.5 * t;
+          const rise = 13 * (1 - Math.pow(1 - Math.min(1, t * 1.6), 2)) * (.35 + .65 * S.h), cap = S.h > .6 ? 3.8 * Math.min(1, t * 2) : .6 * t, drift = 3.5 * t;   /* V3.1: a taller column and a wider cap: the mushroom reads */
           S.s.position.set(P.x + Math.cos(S.a) * (S.r + cap) + drift, P.y + 1 + rise, P.z + Math.sin(S.a) * (S.r + cap) * .7);
-          S.s.scale.setScalar(S.sz * (.7 + 1.6 * Math.min(1, t * 2)) * (S.h > .6 ? 1.25 : 1)); S.s.material.color.copy(SMOKE0).lerp(SMOKE1, Math.min(1, t * 3)); S.s.material.opacity = .62 * Math.min(1, t * 8) * (1 - t); }
+          S.s.scale.setScalar(S.sz * (.7 + 1.6 * Math.min(1, t * 2)) * (S.h > .6 ? 1.45 : 1)); S.s.material.color.copy(SMOKE0).lerp(SMOKE1, Math.min(1, t * 3)); S.s.material.opacity = .62 * Math.min(1, t * 8) * (1 - t); }
         // sparks: ballistic, fading
         const ts = a / 30; sparks.material.opacity = a >= 0 && ts < 1.2 ? .95 * (1 - ts / 1.2) : 0;
         if (a >= 0 && ts < 1.2) { for (let k = 0; k < NS; k++) { sv[k * 3] = P.x + vel[k].x * ts; sv[k * 3 + 1] = Math.max(.05, P.y + .5 + vel[k].y * ts - 9.8 * ts * ts); sv[k * 3 + 2] = P.z + vel[k].z * ts; } sg.attributes.position.needsUpdate = true; }
@@ -600,7 +613,7 @@ export async function build(THREE, scene, film, ctx) {   /* V3: async, the infla
     box('bridge_deck', 'wood', 3.2, 44, .12, [60, 58, .55], relief('wood', '#5a4a36', { seed: 121 }));
     const real = []; for (let i = 0; i < 3; i++) { const t = sherman('real_tank', { at: [60, 30 - i * 9, 0], rot: -Math.PI / 2, col: '#4a5030' }); t.traverse(o => { if (o.isMesh && o.material.name === 'rubber_canvas') { o.material = metal('iron', '#4a5030', { rough: .65, rust: .2 }); } }); real.push(t); }
     const moon = glow('#e6eeff', 24, .9, V(120, 200, 80)); const path = add(new THREE.Mesh(new THREE.PlaneGeometry(6, 60), basic('#c8d8ff', { transparent: true, opacity: .1, depthWrite: false })), 'moon_path', 'water', { cast: false }); path.rotation.x = -Math.PI / 2; path.position.copy(V(70, 70, .38)); path.visible = false;   /* the moon's real reflection (env map) replaces the painted strip */ const ml = new THREE.DirectionalLight('#b4c6ff', 3.2); scene.add(new THREE.HemisphereLight('#7c90c8', '#33402c', 3.2));   /* night never under mean 0.31 (11c) */    // moonlight pools on the silent crossing (north)
-    for (const [x, y] of [[-40, 14], [-26, 16], [-12, 14], [-33, 36], [-19, 38]]) { const wl = new THREE.PointLight('#ffcf8a', 30, 26, 1.6); wl.position.copy(V(x, y, 4)); scene.add(wl); glow('#ffcf8a', 1.4, .9, V(x, y, 4)); cyl('work_lamp_pole', 'metal', .06, 4, [x, y, 0], metal('iron', '#3a3a34')); } ml.position.copy(V(-40, -60, 70));   /* key from the camera side: the moon glint off the water bloomed into a haze */ scene.add(ml);
+    for (const [x, y] of [[-40, 14], [-37, 9], [-12, 14], [-33, 36], [-19, 38]])   /* V3.1: the lamp at (-26, 16) stood across the closer strike framing */ { const wl = new THREE.PointLight('#ffcf8a', 30, 26, 1.6); wl.position.copy(V(x, y, 4)); scene.add(wl); glow('#ffcf8a', 1.4, .9, V(x, y, 4)); cyl('work_lamp_pole', 'metal', .06, 4, [x, y, 0], metal('iron', '#3a3a34')); } ml.position.copy(V(-40, -60, 70));   /* key from the camera side: the moon glint off the water bloomed into a haze */ scene.add(ml);
     decoys.forEach((t, i) => { t.userData.i0 = (EV.inflate || 0) + i * 2; });
     ups.push((f, t) => {
       decoys.forEach(t => { if (t.position.y > .01) return; const u = sm((f - t.userData.i0) / 12), s0 = t.userData.s0 || 1; t.visible = u > .02; t.scale.set(s0, s0 * Math.max(.05, u) * (1 - .45 * (t.userData.sagV || 0)), s0); });

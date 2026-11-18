@@ -349,7 +349,7 @@
      "subject": "lou",
      "framing": "O",
      "lead": 3,
-     "travel": 0.9,
+     "travel": 1.5,
      "dof": 0.35
     }
    ],
@@ -622,7 +622,7 @@
      "subject": "radio_op",
      "framing": "O",
      "lead": 3,
-     "travel": 0.9,
+     "travel": 1.4,
      "dof": 0.35
     }
    ]
@@ -836,20 +836,20 @@
       1
      ],
      "pos": [
-      -34.0,
-      10.0,
-      4.0
+      -31.0,
+      13.5,
+      3.4
      ],
      "aim": [
-      -26.0,
-      26.0,
-      1.0
+      -24.0,
+      28.0,
+      3.0
      ],
-     "lens": 24,
+     "lens": 26,
      "subject": "lou",
      "framing": "P",
      "lead": 6,
-     "hold": 0.15
+     "hold": 0.9
     },
     {
      "at": [
@@ -871,7 +871,7 @@
      "framing": "P",
      "lead": 3,
      "hold": 0.2,
-     "travel": 3.2,
+     "travel": 2.2,
      "via": [
       [
        -14.0,
@@ -2229,9 +2229,9 @@
    ],
    "kind": "steam",
    "pos": [
-    -1.9,
-    3.2,
-    2.2
+    -1.96,
+    5.19,
+    2.3
    ]
   },
   {
@@ -2533,9 +2533,10 @@
    "name": "music_box_attic"
   }
  ],
+ "camera_standard": "fortress",
  "camera_life": {
-  "rest_mult": 1.0,
-  "push": 0.0015
+  "rest_mult": 3.0,
+  "push": 0.0022
  },
  "joins": [
   {

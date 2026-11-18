@@ -9,3 +9,6 @@
   - **t_sergeant (42.8 s)**: comic cut landing on "sergeant" in the same room; it replaced a travel that cut Lou by the frame edge (v1 note 3).
   - **t_strike (55.7 s)**: shock cut, "every gun" lands on the shelling.
 - Camera: the kit's Rick plan gates (>= 30 % of frames at rest, key words landing at rest) and the fortress standard (camera never rests) pull in opposite directions. V3 keeps the kit gates at 0 FAIL (camera_life rest_mult 1.0) and adds life through push-through joins, macro inserts and environment motion (wind grass, rain, pennants). Which standard wins for the rest speed is the user's decision.
+
+## 2026-11-18 — CB: fortress camera rhythm
+- CB chose the fortress rhythm (camera never parked) over the Rick rhythm. `film.json` "camera_standard": "fortress" makes `tools/film_plan.py` judge the rest gates on that standard (not switched off: at rest <= 15 %, dead still <= 5 %, rest median <= 1.2 s, key words readable < 12 px/f, faces calm >= 8 %). camera_life rest_mult 2.8, push .0022; push-through strength .22; valve and Morse travels lengthened (peak speed under 60 px/f). Plan: 0 FAIL, 5 WARN.

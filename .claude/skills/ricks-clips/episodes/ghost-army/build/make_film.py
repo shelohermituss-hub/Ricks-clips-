@@ -19,7 +19,7 @@ takes = [
    St(['bicycles', 1], [-2.2, -6.6, 1.3], [-7.2, -3.6, 1.0], subj='farmer', lead=3, hold=0.3, travel=1.0),
    St(['winks', 1], [4.2, -1.8, 1.45], [3.2, 0.5, 1.4], lens=35, framing='C', lead=3, hold=0.4, travel=1.0, **C),
    # V3 step 7: macro insert on the brass valve while the decoy sighs down (valve_air_whistle on 'rubber'); plan = the valve on the rear deck
-   St(['rubber', 1], [-2.75, 4.05, 2.85], [-1.96, 5.19, 2.12], lens=50, framing='O', lead=3, travel=0.9, **C)], join_out='push'),
+   St(['rubber', 1], [-2.75, 4.05, 2.85], [-1.96, 5.19, 2.12], lens=50, framing='O', lead=3, travel=1.5, **C)], join_out='push'),
  dict(id='t_camp', place='camp', join_in='push', join_in_frames=3, stations=[
    St(['painters', 1], [-7.6, -7.4, 3.2], [-2.0, 6.0, 1.0], framing='P', lead=9, hold=0.3),
    St(['job', 1], [2.8, -4.4, 1.5], [1.0, -1.4, 1.3], framing='M', lead=3, hold=0.3, travel=1.4),
@@ -33,7 +33,7 @@ takes = [
    St(['speaker', 1], [3.0, 3.6, 3.3], [0.0, 7.2, 2.7], subj='sound_op', framing='O', lead=3, travel=1.0, **C)]),
  dict(id='t_radio', place='radio', join_in='push', join_in_frames=3, join_out='push', stations=[
    St(['radio', 1], [1.8, -1.6, 1.7], [-0.2, 1.2, 1.1], subj='radio_op', framing='M', lead=9, hold=0.3),
-   St(['morse', 1], [-2.0, -1.2, 1.7], [-0.3, 0.85, 1.15], subj='radio_op', framing='O', lead=3, travel=0.9, **C)]),
+   St(['morse', 1], [-2.0, -1.2, 1.7], [-0.3, 0.85, 1.15], subj='radio_op', framing='O', lead=3, travel=1.4, **C)]),
  dict(id='t_cafe', place='cafe', join_in='push', join_in_frames=3, stations=[
    St(['café', 1], [-1.2, -1.6, 1.7], [1.2, 3.8, 1.3], lead=9, hold=0.3),
    St(['patches', 1], [0.6, 1.6, 1.5], [1.4, 3.6, 1.2], framing='M', lead=3, hold=0.2, travel=0.9),
@@ -50,9 +50,9 @@ takes = [
    St(['photographs', 1], [0.75, 0.95, 1.75], [0.05, 1.6, 0.93], lens=45, subj='interpreter', framing='O', lead=9, hold=0.3),
    St(['spies', 2], [1.9, -1.3, 1.6], [-0.1, 1.0, 1.1], subj='interpreter', framing='M', lead=3, travel=0.8)]),
  dict(id='t_strike', place='river', stations=[
-   St(['gun', 1], [-34.0, 10.0, 4.0], [-26.0, 26.0, 1.0], framing='P', lead=6, hold=0.15),
+   St(['gun', 1], [-31.0, 13.5, 3.4], [-24.0, 28.0, 3.0], lens=26, framing='P', lead=6, hold=0.9),   # V3.1: closer, aim lifted: the bursts and their smoke columns fill the frame
    # THE SIGNATURE (story bible): one crane from the shelled decoy field, rising and swinging north to the silent crossing
-   St(['crosses', 1], [48.0, 22.0, 7.0], [60.0, 44.0, 0.5], subj='sergeant', framing='P', lead=3, hold=0.2, travel=3.2, via=[[-14.0, 4.0, 22.0], [24.0, 6.0, 20.0]]),
+   St(['crosses', 1], [48.0, 22.0, 7.0], [60.0, 44.0, 0.5], subj='sergeant', framing='P', lead=3, hold=0.2, travel=2.2, via=[[-14.0, 4.0, 22.0], [24.0, 6.0, 20.0]]),   # V3.1: the crane waits on the smoke columns, then rises on 'Meanwhile'
    St(['fired', 1], [55.2, 40.4, 1.3], [57.0, 44.0, 1.5], subj='sergeant', framing='C', lead=3, travel=0.9, **C)]),
  dict(id='t_bed', place='bedroom', stations=[
    St(['pillow-under-the-blanket', 1], [0.8, -1.0, 1.5], [-0.4, 2.2, 0.9], subj='boy', lead=4, hold=0.3),
@@ -158,7 +158,7 @@ film = dict(title='THE GHOST ARMY', fps=30, size=[1080, 1920], end=END, kit3d=Tr
   places=places, props=dict(tank=dict(pos=[0, 4, 1.5]), lantern=dict(pos=[0, 0, 0])), takes=takes, acts=A, sentences=sents,
   kicks=[dict(at=['balloons', 2, 3], amp=0.3)],
   # V3 step 9: the 'hit' fx on balloons#2 and its flash_white mood are retired: the layered 3D bursts carry the impact (no white-out)
-  fx=[dict(at=['suitcase', 1], kind='knock', pos=[0.3, 3.6, 2.4]), dict(at=['strong', 1], kind='glint', pos=[3.0, 1.3, 1.6]), dict(at=['rubber', 1, 4], kind='steam', pos=[-1.9, 3.2, 2.2]),
+  fx=[dict(at=['suitcase', 1], kind='knock', pos=[0.3, 3.6, 2.4]), dict(at=['strong', 1], kind='glint', pos=[3.0, 1.3, 1.6]), dict(at=['rubber', 1, 4], kind='steam', pos=[-1.96, 5.19, 2.3]),
       dict(at=['track', 1], kind='dust', pos=[12.0, 0.0, 0.3]), dict(at=['hundred', 1], kind='ring', pos=[0.0, 7.2, 2.75]), dict(at=['morse', 1], kind='spark', pos=[-0.5, 1.4, 0.9]),
       dict(at=['patches', 1], kind='glint', pos=[1.15, 3.45, 0.95]), dict(at=['spies', 1], kind='glint', pos=[-2.6, 1.4, 1.6]), 
       dict(at=['photographs', 1], kind='glint', pos=[0.25, 1.5, 0.95]), dict(at=['years', 1], kind='glint', pos=[0.4, 1.6, 1.8])],
@@ -171,7 +171,8 @@ film = dict(title='THE GHOST ARMY', fps=30, size=[1080, 1920], end=END, kit3d=Tr
          dict(at=['hundred', 2], name='inflation_wave'), dict(at=['balloons', 2], name='shell_whistle_impacts'), dict(at=['crosses', 1], name='river_silence_paddles'), dict(at=['years', 1], name='music_box_attic')],
   # V3 steps 7-8 (2026-11-18): a camera that never parks (rest drift x2.6, gentle push) and joins without unmotivated hard cuts.
   # joins: how each take is entered (by the incoming take). 'dissolve' = n-frame blend in the edit (edit/joins.py); 'cut' = kept on purpose, with the reason.
-  camera_life=dict(rest_mult=1.0, push=0.0015),
+  camera_standard='fortress',   # CB 2026-11-18: fortress rhythm (camera never parked); film_plan judges the rest gates on it
+  camera_life=dict(rest_mult=3.0, push=0.0022),
   joins=[dict(take='t_camp', kind='dissolve', frames=4, why='push-through from the deflating valve into the camp'),
          dict(take='t_road', kind='dissolve', frames=6, why='day to night: a slower blend marks the time jump'),
          dict(take='t_radio', kind='dissolve', frames=3, why='push into the horn, push out of the radio: the sound carries the join'),

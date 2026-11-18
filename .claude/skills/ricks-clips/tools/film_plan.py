@@ -177,10 +177,10 @@ def _bake(F, tv_fix=None):
                 roll = s.get("roll", 0.0) + (nx.get("roll", 0.0) - s.get("roll", 0.0)) * u + nx.get("travel_roll", 0.0) * math.sin(math.pi * u) ** 2   # dutch only inside the move, back to level on landing
             jn = int(tk.get("join_frames", 9))                                                                     # kit 2026-11-18 (V3): push-through joins between takes
             if tk.get("join_out") == "push" and f > tk["_f1"] - jn:
-                k = ((f - (tk["_f1"] - jn)) / float(jn)) ** 2; pos = vadd(pos, vmul(vsub(aim, pos), float(tk.get("join_k", .3)) * k))
+                k = ((f - (tk["_f1"] - jn)) / float(jn)) ** 2; pos = vadd(pos, vmul(vsub(aim, pos), float(tk.get("join_k", .2)) * k))
             ji = int(tk.get("join_in_frames", jn))
             if tk.get("join_in") == "push" and f < tk["_f0"] + ji and f > 0:
-                k = (1 - (f - tk["_f0"]) / float(ji)) ** 2; pos = vsub(pos, vmul(vsub(aim, pos), .9 * float(tk.get("join_k", .3)) * k))
+                k = (1 - (f - tk["_f0"]) / float(ji)) ** 2; pos = vsub(pos, vmul(vsub(aim, pos), .9 * float(tk.get("join_k", .2)) * k))
             for kf, amp in kicks:                                                                                  # impact kick: flips sign every frame, gone in 7
                 if 0 <= f - kf < 7: roll += amp * (1 - (f - kf) / 7.0) * (1 if (f - kf) % 2 == 0 else -1); aim = vadd(aim, [0, 0, 0.012 * amp * (1 - (f - kf) / 7.0) * (1 if (f - kf) % 2 == 0 else -1)])
             kicked = any(0 <= f - kf < 8 for kf, amp in kicks)
@@ -511,18 +511,23 @@ def check(F, cam=None, perf=None):
     hl = [l / float(fps) for a, l in holds]; tl = [l / float(fps) for a, l in travels]
     v = [sp[i] for i in live]
     ps = 100.0 * sum(settled[i] for i in live) / max(1, len(live))
-    gate("camera", "at rest (< 2 px/f), % of frames", round(ps, 1), ps >= 30, ps >= 21, ">= 30 (Rick median 32, range 6-58)", "add or lengthen station holds; fewer stations per sentence")
+    FORT = F.get("camera_standard") == "fortress"   # kit 2026-11-18: film.json "camera_standard": "fortress" = CB chose the fortress reference rhythm (camera never parked); the rest gates below are judged on that standard, never switched off
+    if FORT: gate("camera", "at rest (< 2 px/f), % of frames", round(ps, 1), ps <= 15, ps <= 25, "fortress standard: <= 15 (the reference camera is never parked: 0 % still frames)", "raise camera_life rest_mult / push, or add drift on the parked stations")
+    else: gate("camera", "at rest (< 2 px/f), % of frames", round(ps, 1), ps >= 30, ps >= 21, ">= 30 (Rick median 32, range 6-58)", "add or lengthen station holds; fewer stations per sentence")
     h10 = 10.0 * len(holds) / dur
-    gate("camera", "rests per 10 s", round(h10, 2), 2.2 <= h10 <= 4.5 or (h10 > 4.5 and dur < 30), h10 >= 0.9, "2.2-4.5, aim 3 (Rick 3.1, range 0.9-4.7; the plan reads about 1 higher than the picture). CB 2026-11-10: the scene decides, but the camera must flow like his", "break long travels with a resting station on the next noun" if h10 < 2.2 else "station hopping: merge neighbouring stations and let ONE move flow through them (follow the thing that moves, cross the set, rise over it)")
+    if FORT: gate("camera", "rests per 10 s", round(h10, 2), h10 <= 2.5, h10 <= 4.5, "fortress standard: <= 2.5 (few true rests)", "the camera parks too often: drift through the rests")
+    else: gate("camera", "rests per 10 s", round(h10, 2), 2.2 <= h10 <= 4.5 or (h10 > 4.5 and dur < 30), h10 >= 0.9, "2.2-4.5, aim 3 (Rick 3.1, range 0.9-4.7; the plan reads about 1 higher than the picture). CB 2026-11-10: the scene decides, but the camera must flow like his", "break long travels with a resting station on the next noun" if h10 < 2.2 else "station hopping: merge neighbouring stations and let ONE move flow through them (follow the thing that moves, cross the set, rise over it)")
     hp = pct(hl, 50)
-    gate("camera", "rest length median, s", round(hp, 2), hp >= 0.6, hp >= 0.45, ">= 0.6 (Rick 0.62); one in ten >= 1.8", "raise hold on short stations, or drop a station")
+    if FORT: gate("camera", "rest length median, s", round(hp, 2), hp <= 1.2, hp <= 2.0, "fortress standard: <= 1.2 (rests are brief beats)", "shorten the parked holds")
+    else: gate("camera", "rest length median, s", round(hp, 2), hp >= 0.6, hp >= 0.45, ">= 0.6 (Rick 0.62); one in ten >= 1.8", "raise hold on short stations, or drop a station")
     tp = max(tl) if tl else 0.0
     gate("camera", "longest travel, s", round(tp, 2), (3.0 <= tp <= 7.0) or dur < 30, tp <= 9.5, "3-7 in a film of 30 s or more: at least one long flowing move (Rick's long travels: median 3.0, upper quarter 4.8-9.5; Railroads and Roller Coasters 4.7)", "insert a resting station inside the long move" if tp > 7.0 else "every move is a short hop: where the scene has something to follow (a train, a walk, a falling thing, a line of rails) let one move run 4-5 s (station key travel)")
     p50, p90 = pct(v, 50), pct(v, 90)
     gate("camera", "speed median px/f", round(p50, 2), 2.0 <= p50 <= 6.1, 1.55 <= p50 <= 8.1, "about 4 (Rick 4.1, middle half 2.5-6.1)", "too calm: raise the creep on the rests, add a drift, or lengthen the travels" if p50 < 2.0 else "too busy: fewer stations, slower travels")
     gate("camera", "speed p90 px/f", round(p90, 1), 15 <= p90 <= 27.4, 9.8 <= p90 <= 33.8, "about 23 (Rick 23, range 9.8-33.8)", "the travels crawl: cover more distance or take fewer frames (set travel on the station)" if p90 < 15 else "give fast travels more frames or less distance")
     fz = 100.0 * sum(1 for i in live if sp[i] < 0.7) / max(1, len(live))
-    gate("camera", "dead still (reads under 0.3 px/f when measured), % of frames", round(fz, 1), fz <= 21, fz <= 29, "<= 21, aim 9 (Rick 9.3, range 1-29)", "the rests are parked: raise creep on those stations or add a drift")
+    if FORT: gate("camera", "dead still (reads under 0.3 px/f when measured), % of frames", round(fz, 1), fz <= 5, fz <= 10, "fortress standard: <= 5 (reference 0 %)", "the rests are parked: raise camera_life")
+    else: gate("camera", "dead still (reads under 0.3 px/f when measured), % of frames", round(fz, 1), fz <= 21, fz <= 29, "<= 21, aim 9 (Rick 9.3, range 1-29)", "the rests are parked: raise creep on those stations or add a drift")
     pk = max(v) if v else 0
     gate("camera", "speed peak px/f", round(pk, 1), pk <= 60, pk <= 90, "<= 60 outside planned whips", "only passes and whips may exceed 40, for <= 10 f with motion blur")
     cuts = sum(1 for c in cam if c["cut"]); c10 = 10.0 * cuts / dur
@@ -547,8 +552,9 @@ def check(F, cam=None, perf=None):
         for s in tk["_S"]:
             if s.get("word") or isinstance(s["at"], list):
                 a = s["_at"]
-                if a < n and not all(settled[k] for k in range(max(0, a - 1), min(n, a + 3))): late.append("%s@%d" % (s.get("word") or s["at"][0], a))
-    gate("camera", "word stations not at rest on their word", len(late), not late, len(late) <= 1, "0: key nouns land with the camera at rest, 0-6 f before the word (CB's rule)", "too little time before: %s. Drop a station or shorten the travel into it" % ", ".join(late[:6]))
+                ok_k = (lambda k: sp[k] < 12.0) if F.get("camera_standard") == "fortress" else (lambda k: settled[k])
+                if a < n and not all(ok_k(k) for k in range(max(0, a - 1), min(n, a + 3))): late.append("%s@%d" % (s.get("word") or s["at"][0], a))
+    gate("camera", "word stations not at rest on their word" if not FORT else "word stations readable on their word (fortress: < 12 px/f)", len(late), not late, len(late) <= 1, "0: key nouns land with the camera at rest, 0-6 f before the word (CB's rule)" if not FORT else "0: on the key noun the camera may drift but stays readable (< 12 px/f)", "too little time before: %s. Drop a station or shorten the travel into it" % ", ".join(late[:6]))
     # ---------------- framing, from the baked camera + character positions
     face = [False] * n; headw = []; heady = []; figh = []; feety = []; heads_all = 0; band_all = 0; cutn = 0; fitn = 0; facen = 0; inband = 0; rest_face = 0
     mix = dict(W=0, M=0, C=0, P=0, O=0)
@@ -598,7 +604,8 @@ def check(F, cam=None, perf=None):
         ft = 100.0 * fitn / facen
         gate("framing", "face frames where the whole body fits, %", round(ft, 0), ft >= 65, ft >= 39, ">= 65 (Rick 68)", "pull a medium back until the feet are in, or change who is in the picture instead of the shot size")
         rf = 100.0 * rest_face / facen
-        gate("camera", "at rest while a face is on screen, %", round(rf, 0), rf >= 40, rf >= 25, ">= 40 (Rick 41): rest on faces, move on places and objects", "hold on the face, travel between faces")
+        if F.get("camera_standard") == "fortress": gate("camera", "calm while a face is on screen (at rest), %", round(rf, 0), rf >= 8, rf >= 3, "fortress standard: >= 8 (faces stay readable inside a moving camera)", "slow the drift on face stations")
+        else: gate("camera", "at rest while a face is on screen, %", round(rf, 0), rf >= 40, rf >= 25, ">= 40 (Rick 41): rest on faces, move on places and objects", "hold on the face, travel between faces")
     tot = float(n); m = {k: 100.0 * v_ / tot for k, v_ in mix.items()}
     gate("framing", "shot mix W/M/C/P/O, % of time", "/".join("%d" % round(m[k]) for k in "WMCPO"), m["O"] <= 15 and m["C"] <= 10 and m["W"] >= 35, m["O"] <= 25 and m["C"] <= 15, "whole body 45, medium 20, close <= 7, place 15, object insert <= 15 (Rick)", "object inserts and close-ups are the two that run over")
     po = m["P"] + m["O"]
