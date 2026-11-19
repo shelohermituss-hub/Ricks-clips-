@@ -1,5 +1,6 @@
 """J. Render Manager (deliverable 10, 2026-11-18): slices, resume, frame cache, GPU proof, benchmark, encode, manifest — around rc/render.py.
-    python3 tools/render_manager.py render <scene.blend> <outdir> --frames 0-449 [--slice 30] [--engine CYCLES] [--res 540x960] [--samples 64] [--gpu]
+    python3 tools/render_manager.py render <scene.blend> <outdir> --frames 0-449 [--slice 30] [--engine CYCLES] [--res 540x960] [--samples 64] [--gpu] [--patch]
+      --patch: re-render ONLY the listed frames after a fix and keep every other frame of the sequence (same engine/res/samples required)
     python3 tools/render_manager.py bench  <scene.blend> <outdir> --frames 60,200,380 [--res 540x960] [--samples 64] [--gpu]
     python3 tools/render_manager.py encode <framesdir> <out.mp4> [--fps 30]
     python3 tools/render_manager.py verify <outdir>
@@ -47,10 +48,18 @@ class GpuSampler:
         try: return {"samples": len(rows), "max_util_pct": max(float(r[1]) for r in rows), "max_mem_mib": max(float(r[2]) for r in rows), "mean_util_pct": round(sum(float(r[1]) for r in rows) / len(rows), 1)} if rows else None
         except ValueError: return None
 
-def render(blend, out, frames, slice_n=30, engine="CYCLES", res="540x960", samples=64, gpu=False, log=print):
+def render(blend, out, frames, slice_n=30, engine="CYCLES", res="540x960", samples=64, gpu=False, log=print, patch=False):
+    """patch=True (CB 2026-11-19: "rendre seulement les frames corrigées"): the scene changed, but only the listed frames are re-rendered and
+    replace the old ones; every other frame of the sequence is kept. The caller states which frames the fix touches (it knows the fix);
+    each frame records the .blend it came from, so the manifest says exactly which frames are from which version."""
     os.makedirs(os.path.join(out, "slices"), exist_ok=True); mp = os.path.join(out, "RENDER_MANIFEST.json")
     M = json.load(open(mp)) if os.path.exists(mp) else {"frames": {}, "slices": []}; settings = {"engine": engine, "res": res, "samples": samples, "gpu": gpu, "blend_sha256": _sha(blend)}
-    if M.get("settings") and M["settings"] != settings: log("settings changed since the last run: previous frames are not reused"); M = {"frames": {}, "slices": []}
+    if patch:
+        prev = M.get("settings", {}); same = {k: prev.get(k) for k in ("engine", "res", "samples", "gpu")} == {k: settings[k] for k in ("engine", "res", "samples", "gpu")}
+        if not same: raise SystemExit("patch refused: engine/resolution/samples differ from the existing frames (a patch must match them)")
+        for f in frames: M["frames"].pop(str(f), None)                 # forced re-render of exactly these frames
+        log("patch: %d frames re-rendered, %d kept" % (len(frames), len(M["frames"])))
+    elif M.get("settings") and M["settings"] != settings: log("settings changed since the last run: previous frames are not reused"); M = {"frames": {}, "slices": []}
     M["settings"] = settings; t0 = time.time()
     with GpuSampler(os.path.join(out, "gpu_usage.csv")) as G:
         for i in range(0, len(frames), slice_n):
@@ -61,7 +70,7 @@ def render(blend, out, frames, slice_n=30, engine="CYCLES", res="540x960", sampl
             rows = json.load(open(os.path.join(tmp, "render.json")))
             for row in rows["frames"]:
                 src = os.path.join(tmp, "f%05d.png" % row["f"]); os.replace(src, os.path.join(out, "f%05d.png" % row["f"]))
-                M["frames"][str(row["f"])] = {"sha256": row["sha256"], "seconds": row["seconds"], "cached": row.get("cached", False)}
+                M["frames"][str(row["f"])] = {"sha256": row["sha256"], "seconds": row["seconds"], "cached": row.get("cached", False), "blend_sha256": settings["blend_sha256"]}
             info = {"slice": name, "device": rows.get("device"), "devices": rows.get("devices"), "seconds": round(time.time() - t, 1), "cached_frames": rows.get("cached_frames")}
             json.dump(info | {"render": {k: rows[k] for k in rows if k != "frames"}}, open(os.path.join(out, "slices", name + ".json"), "w"), indent=1); shutil.rmtree(tmp, ignore_errors=True)
             M["slices"] = [s for s in M["slices"] if s["slice"] != name] + [info]; json.dump(M, open(mp, "w"), indent=1)
@@ -104,7 +113,7 @@ def encode(fdir, mp4, fps=30):
 def main(a):
     if len(a) < 2: print(__doc__); return 2
     opt = lambda k, d: a[a.index(k) + 1] if k in a else d
-    if a[0] == "render": r = render(a[1], a[2], _frames(opt("--frames", "0-0")), int(opt("--slice", "30")), opt("--engine", "CYCLES"), opt("--res", "540x960"), int(opt("--samples", "64")), "--gpu" in a); print(json.dumps(r["summary"] | {"gpu_usage": r.get("gpu_usage")}))
+    if a[0] == "render": r = render(a[1], a[2], _frames(opt("--frames", "0-0")), int(opt("--slice", "30")), opt("--engine", "CYCLES"), opt("--res", "540x960"), int(opt("--samples", "64")), "--gpu" in a, patch="--patch" in a); print(json.dumps(r["summary"] | {"gpu_usage": r.get("gpu_usage")}))
     elif a[0] == "bench": print(json.dumps(bench(a[1], a[2], _frames(opt("--frames", "0")), opt("--res", "540x960"), int(opt("--samples", "64")), "--gpu" in a), indent=1))
     elif a[0] == "encode": print(json.dumps(encode(a[1], a[2], int(opt("--fps", "30")))))
     elif a[0] == "verify": r = verify(a[1]); print(json.dumps(r)); return 0 if r["ok"] else 1
