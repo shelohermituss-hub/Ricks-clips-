@@ -164,7 +164,8 @@ class Run:
         cmp = os.path.join(self.E, "p12_reference_compare.json"); subprocess.run([VPY, os.path.join(SKILL, "tools", "reference_compare.py"), final, "--out", cmp], capture_output=True, text=True)
         rc = json.load(open(cmp)) if os.path.exists(cmp) else {}; passed = [c["metric"] for c in rc.get("compare", []) if c["status"] == "PASS"]
         probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "stream=codec_type", "-of", "csv=p=0", final], capture_output=True, text=True).stdout.split()
-        return [("final video has picture and sound", "video" in probe and "audio" in probe, probe), ("measured against the fortress standard", bool(rc), "%d/%d PASS: %s" % (len(passed), len(rc.get("compare", [])), passed))], [final, cmp, os.path.join(self.E, "p12_sound.json")]
+        return [("final video has picture and sound", "video" in probe and "audio" in probe, probe), ("meets the fortress standard (no FAIL; was 'comparison ran' until 2026-11-18, which hid 4 failures)", bool(rc) and not [c for c in rc.get("compare", []) if c["status"] == "FAIL"],
+                 {"pass": passed, "fail": {c["metric"]: [c["value"], c["target"]] for c in rc.get("compare", []) if c["status"] == "FAIL"}, "warn": [c["metric"] for c in rc.get("compare", []) if c["status"] == "WARN"]})], [final, cmp, os.path.join(self.E, "p12_sound.json")]
 
 def main(a):
     if not a or a[0] not in ("run", "status"): print(__doc__); return 2

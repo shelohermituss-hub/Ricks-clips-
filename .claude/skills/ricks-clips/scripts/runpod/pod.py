@@ -66,7 +66,7 @@ def fetch(r, dest):
         out = os.path.join(dest, *f["path"].split("/"))
         if os.path.exists(out) and os.path.getsize(out) == f["size"] and sha256_file(out) == f["sha256"]: got.append(f["path"]); continue
         os.makedirs(os.path.dirname(out), exist_ok=True); tmp = out + ".part"; h = hashlib.sha256(); n = 0
-        with get(base_url(r) + urllib.request.quote(f["path"]), 600) as s, open(tmp, "wb") as o:
+        with get(base_url(r) + urllib.request.quote(f.get("src", f["path"])), 600) as s, open(tmp, "wb") as o:   # src: frozen copy of a live file
             for b in iter(lambda: s.read(1 << 20), b""): o.write(b); h.update(b); n += len(b)
         if n != f["size"] or h.hexdigest() != f["sha256"]: bad.append(f["path"]); os.remove(tmp); continue
         os.replace(tmp, out); got.append(f["path"])

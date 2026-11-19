@@ -6,6 +6,8 @@ The manifest never lists itself, status.json, index.html or partial files (*.tmp
 import hashlib, json, os, sys, time
 
 SKIP = {"manifest.json", "manifest.json.tmp", "status.json", "status.json.tmp", "index.html"}
+LIVE = {"gpu_usage.csv", "setup.log"}     # files still being appended (nvidia-smi sampler, setup tee): listed as a FROZEN copy in _snap/
+                                          # (2026-11-19: their sha256 changed between manifest and download, so a fetch could never verify them)
 
 def sha256(p, bs=1 << 20):
     h = hashlib.sha256()
@@ -18,8 +20,12 @@ def build(pub, stage=""):
     for root, _, names in os.walk(pub):
         for n in sorted(names):
             rel = os.path.relpath(os.path.join(root, n), pub).replace(os.sep, "/")
-            if rel in SKIP or n.endswith(".tmp"): continue
-            p = os.path.join(root, n); files.append({"path": rel, "size": os.path.getsize(p), "sha256": sha256(p)})
+            if rel in SKIP or n.endswith(".tmp") or rel.startswith("_snap/"): continue
+            p = os.path.join(root, n); e = {"path": rel}
+            if rel in LIVE:
+                import shutil
+                snap = os.path.join(pub, "_snap", rel); os.makedirs(os.path.dirname(snap), exist_ok=True); shutil.copyfile(p, snap); p = snap; e["src"] = "_snap/" + rel
+            e.update(size=os.path.getsize(p), sha256=sha256(p)); files.append(e)
     files.sort(key=lambda x: x["path"])
     return {"version": 1, "stage": stage, "generated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "files": files,
             "total_bytes": sum(x["size"] for x in files)}
