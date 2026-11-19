@@ -73,6 +73,616 @@
     {
       "schema_version": 1,
       "provider": "polyhaven",
+      "asset_id": "asphalt_pit_lane",
+      "name": "Asphalt Pit Lane",
+      "creator": "Dimitrios Savva",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license",
+      "source_url": "https://polyhaven.com/a/asphalt_pit_lane",
+      "kind": "material",
+      "api_credit": "Powered by Poly Haven",
+      "downloaded_at_utc": "2026-11-19T03:43:47Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_Diffuse_1k_jpg.jpg",
+          "bytes": 1015369,
+          "sha256": "8aad5097f6de913aebc33f2b9b9271834b55c6942359955722db3196a9ce9bca",
+          "md5": "4052f5d5ad91124fd3feb855acdb3f89",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_pit_lane/asphalt_pit_lane_diff_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_Diffuse_1k_png.png",
+          "bytes": 5825132,
+          "sha256": "54ba47901a91257c251f7bcc03beb6f21e4a2413980ea052ec5b66472975a748",
+          "md5": "452ef95f2a8d07e980f35f51db371bea",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_pit_lane/asphalt_pit_lane_diff_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_Diffuse_1k_exr.exr",
+          "bytes": 2117527,
+          "sha256": "df0b82cf51746004e1a1bd4fc50d9a5480b5dafd66bbf1d755bcbd4ad7c95749",
+          "md5": "c56138c6e9f388bd87efbf6da1d1ec8b",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_pit_lane/asphalt_pit_lane_diff_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_nor_dx_1k_jpg.jpg",
+          "bytes": 1067900,
+          "sha256": "c10b7f25258c9262fcf2287212d7b77ec1d64d54694db4242beb93936fb7b043",
+          "md5": "e65f983ccf0d6d242a4a4713e45a2000",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_pit_lane/asphalt_pit_lane_nor_dx_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_nor_dx_1k_png.png",
+          "bytes": 5791174,
+          "sha256": "dea4518218339d91642995d7a13b13472b96171849241f9564e816443b55433b",
+          "md5": "e0eed7732e50399ce98e1a1f5b64cba5",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_pit_lane/asphalt_pit_lane_nor_dx_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_nor_dx_1k_exr.exr",
+          "bytes": 2253904,
+          "sha256": "f53e799914fb01236a75df4089a42abadb8c649aea5051e751b0c2039827c6ab",
+          "md5": "18591b3ab9dd84d8071376567d7f5528",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_pit_lane/asphalt_pit_lane_nor_dx_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_nor_gl_1k_jpg.jpg",
+          "bytes": 1066208,
+          "sha256": "a215356a1180664fbbf94076f3720a4620a1121e137780ce98059621bf8b444e",
+          "md5": "714a48991ba60f76b5414e654797d935",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_pit_lane/asphalt_pit_lane_nor_gl_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_nor_gl_1k_png.png",
+          "bytes": 5791103,
+          "sha256": "1034fbad50fc705cb3ea230ed49977b58f6259eed46e529dd613617c3906cb7b",
+          "md5": "4da94c0568437180ef02dbdca7e9a51f",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_pit_lane/asphalt_pit_lane_nor_gl_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_nor_gl_1k_exr.exr",
+          "bytes": 2253427,
+          "sha256": "1d7982d05d2fe8d10875e56cbac1156251866b1dc3029c24ff0cf4451c260b31",
+          "md5": "9cf4b70708f8456e77531c1790364240",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_pit_lane/asphalt_pit_lane_nor_gl_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_blend_1k_blend_include_textures_asphalt_pit_lane_rough_1k.exr.exr",
+          "bytes": 441853,
+          "sha256": "26652e03aaff27e9e5df0fc00a4b6b485de2565b81d1673efdf4e376ecee72ac",
+          "md5": "01b7318770fb11d660a8c13203404b0f",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_pit_lane/asphalt_pit_lane_rough_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_blend_1k_blend_include_textures_asphalt_pit_lane_disp_1k.png.png",
+          "bytes": 1660376,
+          "sha256": "7fa8a6ba7173d6297546b6b65172a20f7f6de7be5fb4c8e3eabefeb31d527d8b",
+          "md5": "0a7f0c0e37e0d46043099d92a588991e",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_pit_lane/asphalt_pit_lane_disp_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_blend_1k_blend_include_textures_asphalt_pit_lane_nor_gl_1k.exr.exr",
+          "bytes": 2253427,
+          "sha256": "1d7982d05d2fe8d10875e56cbac1156251866b1dc3029c24ff0cf4451c260b31",
+          "md5": "9cf4b70708f8456e77531c1790364240",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_pit_lane/asphalt_pit_lane_nor_gl_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_blend_1k_blend_include_textures_asphalt_pit_lane_diff_1k.jpg.jpg",
+          "bytes": 1015369,
+          "sha256": "8aad5097f6de913aebc33f2b9b9271834b55c6942359955722db3196a9ce9bca",
+          "md5": "4052f5d5ad91124fd3feb855acdb3f89",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_pit_lane/asphalt_pit_lane_diff_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_gltf_1k_gltf_include_textures_asphalt_pit_lane_diff_1k.jpg.jpg",
+          "bytes": 1015369,
+          "sha256": "8aad5097f6de913aebc33f2b9b9271834b55c6942359955722db3196a9ce9bca",
+          "md5": "4052f5d5ad91124fd3feb855acdb3f89",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_pit_lane/asphalt_pit_lane_diff_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_gltf_1k_gltf_include_textures_asphalt_pit_lane_arm_1k.jpg.jpg",
+          "bytes": 654703,
+          "sha256": "3e4315b489f07ff88315017932bdf40d3b9670e3d04c07d4077aa86a16e98d37",
+          "md5": "efcd9ac550f1fd2a6db93a6a32b3b619",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_pit_lane/asphalt_pit_lane_arm_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_gltf_1k_gltf_include_textures_asphalt_pit_lane_nor_gl_1k.jpg.jpg",
+          "bytes": 1066208,
+          "sha256": "a215356a1180664fbbf94076f3720a4620a1121e137780ce98059621bf8b444e",
+          "md5": "714a48991ba60f76b5414e654797d935",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_pit_lane/asphalt_pit_lane_nor_gl_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_arm_1k_jpg.jpg",
+          "bytes": 654703,
+          "sha256": "3e4315b489f07ff88315017932bdf40d3b9670e3d04c07d4077aa86a16e98d37",
+          "md5": "efcd9ac550f1fd2a6db93a6a32b3b619",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_pit_lane/asphalt_pit_lane_arm_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_arm_1k_png.png",
+          "bytes": 4274135,
+          "sha256": "829dffaa3db83a17160921cc61b73c9abe14753f16824312bf5070721016e709",
+          "md5": "ff24ba90c8420469c0737fe0945aa4ce",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_pit_lane/asphalt_pit_lane_arm_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_arm_1k_exr.exr",
+          "bytes": 1240914,
+          "sha256": "4495415b37325cb1fbe89a7cf9e362aeed0a4645955960aca148a0cae2a6fb5f",
+          "md5": "2fb3cdfbc92177444ec7c4fde791b022",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_pit_lane/asphalt_pit_lane_arm_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_AO_1k_jpg.jpg",
+          "bytes": 727303,
+          "sha256": "1d0b6ce32ddd7b63953bc6e657634b07ff2e3c14682854599a180fd6f7025aa3",
+          "md5": "e1567c87c98b06ba3a5990621d57aad5",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_pit_lane/asphalt_pit_lane_ao_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_AO_1k_png.png",
+          "bytes": 1895605,
+          "sha256": "56af4b8b3e6acd816feaf7dc4139130f378ea9b8cae57c0bcd01ee533dfbf37d",
+          "md5": "e42bbfeca70329eeb0a27481b95eb011",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_pit_lane/asphalt_pit_lane_ao_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_AO_1k_exr.exr",
+          "bytes": 709407,
+          "sha256": "81800511635c54016dfc1ed884ed8d6a87252bc681e5452faa3ad90d0797bc7f",
+          "md5": "94a5b2234f9d4010797af845e73cb598",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_pit_lane/asphalt_pit_lane_ao_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_Displacement_1k_jpg.jpg",
+          "bytes": 335130,
+          "sha256": "8c760ab68b32557b776e497164404a0975fa783f4b3468a9d107c449e5714c29",
+          "md5": "888ae27a22af926acb5298e062bcbd9a",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_pit_lane/asphalt_pit_lane_disp_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_Displacement_1k_png.png",
+          "bytes": 1660376,
+          "sha256": "7fa8a6ba7173d6297546b6b65172a20f7f6de7be5fb4c8e3eabefeb31d527d8b",
+          "md5": "0a7f0c0e37e0d46043099d92a588991e",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_pit_lane/asphalt_pit_lane_disp_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_Displacement_1k_exr.exr",
+          "bytes": 379530,
+          "sha256": "d93bdc70bf9e02539370f3643c79ddbaafbcbacf501946fcb9ca7b31d87285b2",
+          "md5": "86042978294168d510e61a2efdf6c70f",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_pit_lane/asphalt_pit_lane_disp_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_Rough_1k_jpg.jpg",
+          "bytes": 443992,
+          "sha256": "c6341db99340082f93b5f5252e9b0d320379d48783984618812feb238b940b67",
+          "md5": "aac430d67b0dea3acb853060060afec5",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_pit_lane/asphalt_pit_lane_rough_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_Rough_1k_png.png",
+          "bytes": 1742965,
+          "sha256": "428e6f91f6282bd790efce186f10d9737598d2a20c494caf370529965ceb5b5f",
+          "md5": "658e850c1a67bfd9381a51beff3bb0cc",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_pit_lane/asphalt_pit_lane_rough_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_Rough_1k_exr.exr",
+          "bytes": 441853,
+          "sha256": "26652e03aaff27e9e5df0fc00a4b6b485de2565b81d1673efdf4e376ecee72ac",
+          "md5": "01b7318770fb11d660a8c13203404b0f",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_pit_lane/asphalt_pit_lane_rough_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_mtlx_1k_mtlx_include_textures_asphalt_pit_lane_rough_1k.exr.exr",
+          "bytes": 441853,
+          "sha256": "26652e03aaff27e9e5df0fc00a4b6b485de2565b81d1673efdf4e376ecee72ac",
+          "md5": "01b7318770fb11d660a8c13203404b0f",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_pit_lane/asphalt_pit_lane_rough_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_mtlx_1k_mtlx_include_textures_asphalt_pit_lane_disp_1k.png.png",
+          "bytes": 1660376,
+          "sha256": "7fa8a6ba7173d6297546b6b65172a20f7f6de7be5fb4c8e3eabefeb31d527d8b",
+          "md5": "0a7f0c0e37e0d46043099d92a588991e",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_pit_lane/asphalt_pit_lane_disp_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_mtlx_1k_mtlx_include_textures_asphalt_pit_lane_nor_gl_1k.exr.exr",
+          "bytes": 2253427,
+          "sha256": "1d7982d05d2fe8d10875e56cbac1156251866b1dc3029c24ff0cf4451c260b31",
+          "md5": "9cf4b70708f8456e77531c1790364240",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_pit_lane/asphalt_pit_lane_nor_gl_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_pit_lane/asphalt_pit_lane_mtlx_1k_mtlx_include_textures_asphalt_pit_lane_diff_1k.jpg.jpg",
+          "bytes": 1015369,
+          "sha256": "8aad5097f6de913aebc33f2b9b9271834b55c6942359955722db3196a9ce9bca",
+          "md5": "4052f5d5ad91124fd3feb855acdb3f89",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_pit_lane/asphalt_pit_lane_diff_1k.jpg"
+        }
+      ],
+      "status": "ingested",
+      "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "polyhaven",
+      "asset_id": "asphalt_track",
+      "name": "Asphalt Track",
+      "creator": "Dimitrios Savva",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license",
+      "source_url": "https://polyhaven.com/a/asphalt_track",
+      "kind": "material",
+      "api_credit": "Powered by Poly Haven",
+      "downloaded_at_utc": "2026-11-19T03:44:07Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_Diffuse_1k_jpg.jpg",
+          "bytes": 858925,
+          "sha256": "05c4e79cd99160075969d37bfc6ef72be262153a410bb45510b2c23f7303894c",
+          "md5": "92e0682878c39430e521cce235ac1f75",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_diff_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_Diffuse_1k_png.png",
+          "bytes": 5694360,
+          "sha256": "e164e5d1ec0aa34e774f8ab60003beca6bb954408e33bbcdf080dda627997821",
+          "md5": "10ac8b303641094d451807d161bb724a",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_track/asphalt_track_diff_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_Diffuse_1k_exr.exr",
+          "bytes": 2078907,
+          "sha256": "4d929ec78e8c0eba0c55faa7ea7afda59f0100e22e9ee3f8eccfb7f2a33906ba",
+          "md5": "e3ffd6cf8978158c459c76dee9e25cda",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_track/asphalt_track_diff_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_nor_dx_1k_jpg.jpg",
+          "bytes": 833383,
+          "sha256": "c2f36e07518690e8b3418d00766753e32daa4cedc10b4185f68cdb65b8a18ec7",
+          "md5": "cb52486599d3c14385e09bdb4fecfb6f",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_nor_dx_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_nor_dx_1k_png.png",
+          "bytes": 5576795,
+          "sha256": "2e23258da37eb4e3ef1956bb42e5bcd74900b5a9c9938803204a3d53ba26ad74",
+          "md5": "63ee6deb2d5221a5bc9489674c4f9cc6",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_track/asphalt_track_nor_dx_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_nor_dx_1k_exr.exr",
+          "bytes": 1906325,
+          "sha256": "92bf0edbb118c94772daa8e33f1f61ccc33aaca20909d26177c980fd8a26c371",
+          "md5": "c492f0fed46b598103f91deb17655dd3",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_track/asphalt_track_nor_dx_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_nor_gl_1k_jpg.jpg",
+          "bytes": 832851,
+          "sha256": "18caf02427a7cd9cd577ceae5aa9daa7bb3ffba60598e2df8aaf75d1925a8a94",
+          "md5": "d61d8e22e24ea0e44873b9c9c97d4e0c",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_nor_gl_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_nor_gl_1k_png.png",
+          "bytes": 5576836,
+          "sha256": "1cd72b1a2ee50417d3e9cf3fff1e9873af978107b1c1bc9cbbef509b6a39604a",
+          "md5": "af77c53cabdcccd619d85322f7af1535",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_track/asphalt_track_nor_gl_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_nor_gl_1k_exr.exr",
+          "bytes": 1905508,
+          "sha256": "709acab0ea5e5e00f2eb06f6dd8fdce3f2ffe22eaee600a9576a45dc9b6c8fa0",
+          "md5": "abc2203a45666b0a614273e564d93c96",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_track/asphalt_track_nor_gl_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_blend_1k_blend_include_textures_asphalt_track_diff_1k.jpg.jpg",
+          "bytes": 858925,
+          "sha256": "05c4e79cd99160075969d37bfc6ef72be262153a410bb45510b2c23f7303894c",
+          "md5": "92e0682878c39430e521cce235ac1f75",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_diff_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_blend_1k_blend_include_textures_asphalt_track_disp_1k.png.png",
+          "bytes": 1611338,
+          "sha256": "572dfdad7a45a3b100cf5ba120ac21910b1e64e07469afa5caa4c94da833dea9",
+          "md5": "a70a3b47069f56629b076beb7fbf69d1",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_track/asphalt_track_disp_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_blend_1k_blend_include_textures_asphalt_track_rough_1k.exr.exr",
+          "bytes": 464541,
+          "sha256": "bae44a248cabb5b2d5fdb8ca78207e664a28adce0ba59b050d9ca0e8f3bd34a6",
+          "md5": "0bcfe4ce111da735856129f628ca7696",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_track/asphalt_track_rough_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_blend_1k_blend_include_textures_asphalt_track_nor_gl_1k.exr.exr",
+          "bytes": 1905508,
+          "sha256": "709acab0ea5e5e00f2eb06f6dd8fdce3f2ffe22eaee600a9576a45dc9b6c8fa0",
+          "md5": "abc2203a45666b0a614273e564d93c96",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_track/asphalt_track_nor_gl_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_gltf_1k_gltf_include_textures_asphalt_track_arm_1k.jpg.jpg",
+          "bytes": 529896,
+          "sha256": "1ad38c055c97547802912facec609ee6deda2dc9bc2f048f36ea484e5f5ccb6e",
+          "md5": "f38c5981fb7f8e8c9a8a42726d7fe5a5",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_arm_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_gltf_1k_gltf_include_textures_asphalt_track_diff_1k.jpg.jpg",
+          "bytes": 858925,
+          "sha256": "05c4e79cd99160075969d37bfc6ef72be262153a410bb45510b2c23f7303894c",
+          "md5": "92e0682878c39430e521cce235ac1f75",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_diff_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_gltf_1k_gltf_include_textures_asphalt_track_nor_gl_1k.jpg.jpg",
+          "bytes": 832851,
+          "sha256": "18caf02427a7cd9cd577ceae5aa9daa7bb3ffba60598e2df8aaf75d1925a8a94",
+          "md5": "d61d8e22e24ea0e44873b9c9c97d4e0c",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_nor_gl_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_arm_1k_jpg.jpg",
+          "bytes": 529896,
+          "sha256": "1ad38c055c97547802912facec609ee6deda2dc9bc2f048f36ea484e5f5ccb6e",
+          "md5": "f38c5981fb7f8e8c9a8a42726d7fe5a5",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_arm_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_arm_1k_png.png",
+          "bytes": 4202359,
+          "sha256": "74d4c1eefb5452538ec723d0fa2c48ab67a7c9a3529f2056da6cc57096c8218f",
+          "md5": "7e79e55a0261bb50b09283bfcdfd54d8",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_track/asphalt_track_arm_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_arm_1k_exr.exr",
+          "bytes": 1071236,
+          "sha256": "a42d76b533986b775da3e5b6161cf86967d56a60c60881440691e0f38818e98b",
+          "md5": "008e54cb2c5923d85da0e4085c7deac0",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_track/asphalt_track_arm_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_AO_1k_jpg.jpg",
+          "bytes": 572610,
+          "sha256": "7bced2814c5ff22c096446a15abe2fc714cf8321fb381f778be14f525e644ae7",
+          "md5": "c6e83474bcca7fd9307860934ca20918",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_ao_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_AO_1k_png.png",
+          "bytes": 1827130,
+          "sha256": "7cba45f01de9915c4f046deffc232cd4a7670eabd989455d7fbff8fc2a67eab3",
+          "md5": "ab027d04f509da36f2098c8fa53a1594",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_track/asphalt_track_ao_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_AO_1k_exr.exr",
+          "bytes": 572371,
+          "sha256": "f84ceda4d9b569648c53d5b942ac3a68c45cf827eb06a18d4b7c5494965ed027",
+          "md5": "6b667816cbbaaa0d3c15c62f2460b407",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_track/asphalt_track_ao_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_Displacement_1k_jpg.jpg",
+          "bytes": 280742,
+          "sha256": "08f2b7352fdc6491c751405c09ff9171c80f40ad3dc6dc0b798b9cc7c5d302e5",
+          "md5": "b28970fde2a5c20efa71a8e377ed426f",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_disp_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_Displacement_1k_png.png",
+          "bytes": 1611338,
+          "sha256": "572dfdad7a45a3b100cf5ba120ac21910b1e64e07469afa5caa4c94da833dea9",
+          "md5": "a70a3b47069f56629b076beb7fbf69d1",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_track/asphalt_track_disp_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_Displacement_1k_exr.exr",
+          "bytes": 244015,
+          "sha256": "4051a3fac1ab995820f352ae743c546638c84a21e4e85a0600fc611887c9cce6",
+          "md5": "c5fd1268d85f483ed6fbea16e4b693e2",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_track/asphalt_track_disp_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_Rough_1k_jpg.jpg",
+          "bytes": 459197,
+          "sha256": "0646d0cfbe6bf9ea4a8a9e43aec826e7ec32a10b8aff61bf5a4ec02b1bc3c363",
+          "md5": "c57f7b3a42ebfaf58e44c0ccc83326c3",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_rough_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_Rough_1k_png.png",
+          "bytes": 1758717,
+          "sha256": "0b34dcd4da4726144ce47e1e5ce40ec361d6662916ce763d4bd96135c90fd81c",
+          "md5": "c092a77d75b861a8b3be9f31e7ec5067",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_track/asphalt_track_rough_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_Rough_1k_exr.exr",
+          "bytes": 464541,
+          "sha256": "bae44a248cabb5b2d5fdb8ca78207e664a28adce0ba59b050d9ca0e8f3bd34a6",
+          "md5": "0bcfe4ce111da735856129f628ca7696",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_track/asphalt_track_rough_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_mtlx_1k_mtlx_include_textures_asphalt_track_diff_1k.jpg.jpg",
+          "bytes": 858925,
+          "sha256": "05c4e79cd99160075969d37bfc6ef72be262153a410bb45510b2c23f7303894c",
+          "md5": "92e0682878c39430e521cce235ac1f75",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_diff_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_mtlx_1k_mtlx_include_textures_asphalt_track_disp_1k.png.png",
+          "bytes": 1611338,
+          "sha256": "572dfdad7a45a3b100cf5ba120ac21910b1e64e07469afa5caa4c94da833dea9",
+          "md5": "a70a3b47069f56629b076beb7fbf69d1",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/asphalt_track/asphalt_track_disp_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_mtlx_1k_mtlx_include_textures_asphalt_track_rough_1k.exr.exr",
+          "bytes": 464541,
+          "sha256": "bae44a248cabb5b2d5fdb8ca78207e664a28adce0ba59b050d9ca0e8f3bd34a6",
+          "md5": "0bcfe4ce111da735856129f628ca7696",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_track/asphalt_track_rough_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/asphalt_track/asphalt_track_mtlx_1k_mtlx_include_textures_asphalt_track_nor_gl_1k.exr.exr",
+          "bytes": 1905508,
+          "sha256": "709acab0ea5e5e00f2eb06f6dd8fdce3f2ffe22eaee600a9576a45dc9b6c8fa0",
+          "md5": "abc2203a45666b0a614273e564d93c96",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/asphalt_track/asphalt_track_nor_gl_1k.exr"
+        }
+      ],
+      "status": "ingested",
+      "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "polyhaven",
       "asset_id": "boulder_01",
       "name": "Boulder 01",
       "creator": "Rico Cilliers",
@@ -396,6 +1006,311 @@
           "role": "pbr_map",
           "resolution": "1k",
           "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/coast_land_rocks_01/coast_land_rocks_01_disp_1k.png"
+        }
+      ],
+      "status": "ingested",
+      "commercial_use": "verify_provider_terms"
+    },
+    {
+      "schema_version": 1,
+      "provider": "polyhaven",
+      "asset_id": "concrete_wall_008",
+      "name": "Concrete Wall 008",
+      "creator": "Dario Barresi, Charlotte Baglioni",
+      "license": "CC0",
+      "license_url": "https://polyhaven.com/license",
+      "source_url": "https://polyhaven.com/a/concrete_wall_008",
+      "kind": "material",
+      "api_credit": "Powered by Poly Haven",
+      "downloaded_at_utc": "2026-11-19T03:44:17Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_Diffuse_1k_jpg.jpg",
+          "bytes": 623051,
+          "sha256": "a203166d280d3cfc6a91bbc9ffdae406eb9555b4a4f658cd92619063eb17c147",
+          "md5": "6a0f87fbfea261d797661c47e05b25ad",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_008/concrete_wall_008_diff_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_Diffuse_1k_png.png",
+          "bytes": 3913395,
+          "sha256": "72686751abff9fd701cf9c419b3f84090e255ee10a865be47a89930ecfd966b3",
+          "md5": "28b99bf8056aba1efc21ef09f0477820",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/concrete_wall_008/concrete_wall_008_diff_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_Diffuse_1k_exr.exr",
+          "bytes": 855369,
+          "sha256": "9a2599c2fd727a29e8c059f2ef836680cf1e7127d152280f38165fcb0999bf60",
+          "md5": "695d1e5b540f495cdc792c09d41190da",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/concrete_wall_008/concrete_wall_008_diff_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_nor_dx_1k_jpg.jpg",
+          "bytes": 515128,
+          "sha256": "b8bd12cc3b79f9ff2d434c91b49c74a8eba633719249bd600fbae6a3cb8ecb5c",
+          "md5": "d0883dca18f12d0362c618738a04138d",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_008/concrete_wall_008_nor_dx_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_nor_dx_1k_png.png",
+          "bytes": 3548428,
+          "sha256": "5844acc6a02e4067bbd95b2f458369404bcd4c490cc7827387b31069d95b4c86",
+          "md5": "ae6a102b5ff48d0dca4f8863ca78535e",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/concrete_wall_008/concrete_wall_008_nor_dx_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_nor_dx_1k_exr.exr",
+          "bytes": 1227739,
+          "sha256": "0bfcda5b667f10780742eabebf8866d4489d721d92e9d01bd9e360207abbc2f9",
+          "md5": "ee4053b145dceff03f5889890d7ea3d1",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/concrete_wall_008/concrete_wall_008_nor_dx_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_nor_gl_1k_jpg.jpg",
+          "bytes": 511519,
+          "sha256": "83cd3fa2c7cbf4c81402386065daf8fa6f72e1f1f77e02ccb1eedb28496909ae",
+          "md5": "ea22029834a78f549981196b3263aa78",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_008/concrete_wall_008_nor_gl_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_nor_gl_1k_png.png",
+          "bytes": 3548968,
+          "sha256": "76b85b25ec9d3c0b79aaad02690b9f2a0fe5613001d5c8063e0c2a56698e0d2f",
+          "md5": "514111a547adc8b3870732f864fc46b4",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/concrete_wall_008/concrete_wall_008_nor_gl_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_nor_gl_1k_exr.exr",
+          "bytes": 1225492,
+          "sha256": "b04161fb19eca47a0fcfaa20c465e210d839b95e3780c276b62e8304b9d19c80",
+          "md5": "b688d80d264afe941bb9ad985a8bf175",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/concrete_wall_008/concrete_wall_008_nor_gl_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_blend_1k_blend_include_textures_concrete_wall_008_disp_1k.png.png",
+          "bytes": 1108458,
+          "sha256": "10352a14ce10c0b01c8be602981c3720961440247b182844515c589c5f820d28",
+          "md5": "98c7c2c3cccb4f5992e09c77ee3e6706",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/concrete_wall_008/concrete_wall_008_disp_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_blend_1k_blend_include_textures_concrete_wall_008_rough_1k.exr.exr",
+          "bytes": 292872,
+          "sha256": "79d3ac25665144cf0cc67793b67639dd783863e8ee5b9dd01beb3863ccbb2a69",
+          "md5": "9d1971482edefada8fbf7d4b0d308da1",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/concrete_wall_008/concrete_wall_008_rough_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_blend_1k_blend_include_textures_concrete_wall_008_diff_1k.jpg.jpg",
+          "bytes": 623051,
+          "sha256": "a203166d280d3cfc6a91bbc9ffdae406eb9555b4a4f658cd92619063eb17c147",
+          "md5": "6a0f87fbfea261d797661c47e05b25ad",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_008/concrete_wall_008_diff_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_blend_1k_blend_include_textures_concrete_wall_008_nor_gl_1k.exr.exr",
+          "bytes": 1225492,
+          "sha256": "b04161fb19eca47a0fcfaa20c465e210d839b95e3780c276b62e8304b9d19c80",
+          "md5": "b688d80d264afe941bb9ad985a8bf175",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/concrete_wall_008/concrete_wall_008_nor_gl_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_gltf_1k_gltf_include_textures_concrete_wall_008_nor_gl_1k.jpg.jpg",
+          "bytes": 511519,
+          "sha256": "83cd3fa2c7cbf4c81402386065daf8fa6f72e1f1f77e02ccb1eedb28496909ae",
+          "md5": "ea22029834a78f549981196b3263aa78",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_008/concrete_wall_008_nor_gl_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_gltf_1k_gltf_include_textures_concrete_wall_008_arm_1k.jpg.jpg",
+          "bytes": 667023,
+          "sha256": "12b8b88bd0a9b303150f45cf0080371d78b7f04744d4ab14030b8958ec7dc2e3",
+          "md5": "bebc69f0c73d251023abb9cb57545165",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_008/concrete_wall_008_arm_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_gltf_1k_gltf_include_textures_concrete_wall_008_diff_1k.jpg.jpg",
+          "bytes": 623051,
+          "sha256": "a203166d280d3cfc6a91bbc9ffdae406eb9555b4a4f658cd92619063eb17c147",
+          "md5": "6a0f87fbfea261d797661c47e05b25ad",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_008/concrete_wall_008_diff_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_arm_1k_jpg.jpg",
+          "bytes": 667023,
+          "sha256": "12b8b88bd0a9b303150f45cf0080371d78b7f04744d4ab14030b8958ec7dc2e3",
+          "md5": "bebc69f0c73d251023abb9cb57545165",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_008/concrete_wall_008_arm_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_arm_1k_png.png",
+          "bytes": 2924790,
+          "sha256": "47378a1d5798a8b6d9c1e5be24c52db97d6d41723a745af26d9dd6c5946ee6dc",
+          "md5": "b55ddbee010664e6e43b3d8244fd9b2c",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/concrete_wall_008/concrete_wall_008_arm_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_arm_1k_exr.exr",
+          "bytes": 1222041,
+          "sha256": "8db0a4a0fbb9cd7540ae98addd5ec90cc87128eae5a9da5c4f5a96fff04019ed",
+          "md5": "cadfa39f68e68f94955e3a57e81eb7b0",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/concrete_wall_008/concrete_wall_008_arm_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_AO_1k_jpg.jpg",
+          "bytes": 742397,
+          "sha256": "01be9c7c9618135a59c5722eee7c26d5f0c1139a55ead1b03abc51fcc7532a00",
+          "md5": "28a0e26b1d5f94d59f189b2084aba0c0",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_008/concrete_wall_008_ao_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_AO_1k_png.png",
+          "bytes": 1309246,
+          "sha256": "003b9bbdf3f4fff688f0ef12a936b9aa96d921d956efc2964acc318b67186632",
+          "md5": "607f59a0b45a4af1cf46c713c28a2dfb",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/concrete_wall_008/concrete_wall_008_ao_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_AO_1k_exr.exr",
+          "bytes": 741434,
+          "sha256": "08c9efc0b9565b4d0d5449774725406dd0d8eb058e3192ba5be0e5e4d0153049",
+          "md5": "c799549021b246538caedbb08a87e92a",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/concrete_wall_008/concrete_wall_008_ao_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_Displacement_1k_jpg.jpg",
+          "bytes": 235646,
+          "sha256": "af3586f00ceeea587d5fcbcd2d440ff3c1ff0f06565c0722288439e85897c829",
+          "md5": "1abf71254161a2ab2a05b462f364fc78",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_008/concrete_wall_008_disp_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_Displacement_1k_png.png",
+          "bytes": 1108458,
+          "sha256": "10352a14ce10c0b01c8be602981c3720961440247b182844515c589c5f820d28",
+          "md5": "98c7c2c3cccb4f5992e09c77ee3e6706",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/concrete_wall_008/concrete_wall_008_disp_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_Displacement_1k_exr.exr",
+          "bytes": 473204,
+          "sha256": "cec8575342cf6b2b3139d2678d5041815720e0e8b48e0b80e1978e7e55f621c6",
+          "md5": "bf0500afb0cf21f3f16ef39c3ef86330",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/concrete_wall_008/concrete_wall_008_disp_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_Rough_1k_jpg.jpg",
+          "bytes": 322313,
+          "sha256": "2344fe72c4dc2fb9e4ce9b47079524ee8969f22c4af4bee85667511073fbf14a",
+          "md5": "1f6d5b02c58aff38a69f07a62a4cc231",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_008/concrete_wall_008_rough_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_Rough_1k_png.png",
+          "bytes": 1659465,
+          "sha256": "aa4d1d51f856d104b9e3254b0723ced26d368e626cb2fec194f6305e51edd79b",
+          "md5": "f7fdbaef34b034e53e5fd31c64e09b71",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/concrete_wall_008/concrete_wall_008_rough_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_Rough_1k_exr.exr",
+          "bytes": 292872,
+          "sha256": "79d3ac25665144cf0cc67793b67639dd783863e8ee5b9dd01beb3863ccbb2a69",
+          "md5": "9d1971482edefada8fbf7d4b0d308da1",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/concrete_wall_008/concrete_wall_008_rough_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_mtlx_1k_mtlx_include_textures_concrete_wall_008_disp_1k.png.png",
+          "bytes": 1108458,
+          "sha256": "10352a14ce10c0b01c8be602981c3720961440247b182844515c589c5f820d28",
+          "md5": "98c7c2c3cccb4f5992e09c77ee3e6706",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/concrete_wall_008/concrete_wall_008_disp_1k.png"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_mtlx_1k_mtlx_include_textures_concrete_wall_008_rough_1k.exr.exr",
+          "bytes": 292872,
+          "sha256": "79d3ac25665144cf0cc67793b67639dd783863e8ee5b9dd01beb3863ccbb2a69",
+          "md5": "9d1971482edefada8fbf7d4b0d308da1",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/concrete_wall_008/concrete_wall_008_rough_1k.exr"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_mtlx_1k_mtlx_include_textures_concrete_wall_008_diff_1k.jpg.jpg",
+          "bytes": 623051,
+          "sha256": "a203166d280d3cfc6a91bbc9ffdae406eb9555b4a4f658cd92619063eb17c147",
+          "md5": "6a0f87fbfea261d797661c47e05b25ad",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_008/concrete_wall_008_diff_1k.jpg"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/polyhaven/concrete_wall_008/concrete_wall_008_mtlx_1k_mtlx_include_textures_concrete_wall_008_nor_gl_1k.exr.exr",
+          "bytes": 1225492,
+          "sha256": "b04161fb19eca47a0fcfaa20c465e210d839b95e3780c276b62e8304b9d19c80",
+          "md5": "b688d80d264afe941bb9ad985a8bf175",
+          "role": "pbr_map",
+          "resolution": "1k",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/exr/1k/concrete_wall_008/concrete_wall_008_nor_gl_1k.exr"
         }
       ],
       "status": "ingested",
