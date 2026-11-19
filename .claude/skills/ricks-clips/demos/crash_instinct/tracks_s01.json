@@ -1,7 +1,7 @@
 {
- "title": "crash_instinct shot 1",
+ "title": "crash_instinct take A (shots 1-2, frames 0-176)",
  "fps": 30,
- "end": 96,
+ "end": 177,
  "cast": {
   "planter": {
    "puppet": "cast:planter",
@@ -91,6 +91,188 @@
    "dir": 1,
    "pose": "m:sit/A@0.7",
    "face": "k:nervous",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 106,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@0.7",
+   "face": "k:shocked",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 124,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@0.7",
+   "face": "k:nervous",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 136,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=0.95",
+   "face": "k:nervous",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 137,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=0.91",
+   "face": "k:nervous",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 138,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=0.87",
+   "face": "k:nervous",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 139,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=0.83",
+   "face": "k:nervous",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 140,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=0.79",
+   "face": "k:nervous",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 141,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=0.75",
+   "face": "k:annoyed",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 142,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=0.71",
+   "face": "k:annoyed",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 143,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=0.67",
+   "face": "k:annoyed",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 144,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=0.63",
+   "face": "k:annoyed",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 145,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=0.59",
+   "face": "k:annoyed",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 146,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:idle/B",
+   "face": "k:annoyed",
    "move_s": 0.01
   }
  ]

@@ -507,6 +507,63 @@
     "every keyed effect (leaves, debris, clods)",
     "every prop that disappears"
    ]
+  },
+  {
+   "id": "PI-020",
+   "date": "2026-11-19",
+   "episode": "crash_instinct",
+   "shot_timecode": "3.2 s (frame 96)",
+   "severity": "high",
+   "problem": "A 'hard cut' at frame 96 written in the analysis did not exist: shots 1 and 2 are ONE continuous take (the camera swoops down at 102-120). Building them as two cut shots would have broken the continuity of the set, the car and the character.",
+   "root_cause": "An improvised per-frame difference detector with a fixed threshold (14) took a 14.1 motion peak for a cut, while the repository tool (tools/analyze_reference.py, shots.json) correctly found no cut before 22.9 s.",
+   "fix": "Shot boundaries come from tools/analyze_reference.py shots.json; every boundary is checked at 30 fps around it before a shot is planned (a cut is a one-frame spike, a camera move is a ramp over several frames). A shot that continues the previous take is built ON TOP of the previous shot's script (s02_crash imports s01_plant.build_take), so set, car, card and camera are the same objects.",
+   "files_changed": [
+    "references/crash_instinct/ANALYSE_FR.md",
+    "references/crash_instinct/shots/s02.md",
+    "demos/crash_instinct/shots/s01_plant.py",
+    "demos/crash_instinct/shots/s02_crash.py"
+   ],
+   "verification": {
+    "tests": [
+     "per-frame difference 88-176: no one-frame spike; ramps at 101-121 and 150-176",
+     "continuity.py on s02_crash (frames 96-176): PASS 0 everywhere"
+    ],
+    "before_after_evidence": [
+     "references/crash_instinct/shots/s02_tr_sheet.jpg"
+    ],
+    "regression_check": "shots/sNN.md must cite shots.json and the 30 fps check of each boundary"
+   },
+   "status": "validated",
+   "applies_to": [
+    "every reference analysis",
+    "every shot boundary"
+   ]
+  },
+  {
+   "id": "PI-021",
+   "date": "2026-11-19",
+   "episode": "crash_instinct",
+   "shot_timecode": "s02 4.1-4.9 s",
+   "severity": "medium",
+   "problem": "A wheel detached from the Sketchfab car rolled around the wrong point and never tipped over flat.",
+   "root_cause": "glTF parts keep their origin at the model origin (the car centre), not at the part's centre; the tip-over was applied about the axle instead of about the rolling direction.",
+   "fix": "Before animating a part on its own: move its mesh origin to its bounding-box centre (mesh.transform(-c), world matrix @ T(c)); spin about the axle, tip about the path direction (s02_crash.wheel_off).",
+   "files_changed": [
+    "demos/crash_instinct/shots/s02_crash.py"
+   ],
+   "verification": {
+    "tests": [
+     "key frames 126-149: wheel rolls, wobbles, lies flat from 134; continuity PASS"
+    ],
+    "before_after_evidence": [
+     "demos/crash_instinct/build/keys_s02/compare.jpg"
+    ],
+    "regression_check": "look at the part on 3 key frames after detaching it"
+   },
+   "status": "validated",
+   "applies_to": [
+    "every part detached from an imported model"
+   ]
   }
  ],
  "notes": [

@@ -894,6 +894,31 @@
    ],
    "build": "text decal swapped per frame range on an emissive display mesh (the swap IS the action of the display)",
    "seen_in": "crash_instinct 9-11 s, whale_boat 13-15 s, dashcam 33 s"
+  },
+  {
+   "id": "stand_up",
+   "triggers": [
+    "stands up",
+    "gets up",
+    "se relève",
+    "se lève"
+   ],
+   "reactions": [
+    "weight forward, hands push, the body rises (no jump between a sitting and a standing drawing)",
+    "grass or dust moves where he stands"
+   ],
+   "consequences": [
+    "the place where he sat stays flattened"
+   ],
+   "micro": [
+    "head wobble",
+    "arms swing for balance"
+   ],
+   "sfx": [
+    "grass rustle",
+    "small grunt"
+   ],
+   "build": "play the sit move BACKWARDS with frozen times (m:sit/A@=0.95 ... @=0.55, one act per frame) while the card rises from its sunk height (crash_instinct s02)"
   }
  ]
 }

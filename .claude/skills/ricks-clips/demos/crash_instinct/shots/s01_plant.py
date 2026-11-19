@@ -166,15 +166,16 @@ def grass_and_flowers():
     an extra-tall tuft where he lands sitting (it hides the drawing's seat)"""
     c = street.col("L_SET"); clear = ({"center": [0, 0], "radius": 1.0},)
     roadside.verge_grass(c, [[-6.3, -2.4], [1.45, -2.4], [1.45, 14], [-6.3, 14]], 30000, 1, scale=(.6, 1.1), exclude=clear)
-    roadside.verge_grass(c, [[-6.3, -16], [1.45, -16], [1.45, -2.4], [-6.3, -2.4]], 26000, 4, scale=(1.8, 3.0))
-    roadside.verge_grass(c, [[-2.5, -1.25], [-1.2, -1.25], [-1.2, -.25], [-2.5, -.25]], 1800, 7, scale=(2.4, 3.2))
-    roadside.verge_grass(c, [[-6.3, 14], [1.45, 14], [1.45, 140], [-6.3, 140]], 22000, 2, scale=(.9, 1.6))
-    roadside.verge_grass(c, [[10.6, -16], [14.7, -16], [14.7, 80], [10.6, 80]], 9000, 3, scale=(.9, 1.6))
+    roadside.verge_grass(c, [[-1.6, -6.5], [1.45, -6.5], [1.45, -2.4], [-1.6, -2.4]], 6000, 4, scale=(1.3, 2.1))      # tall only right under shot 1's lens (20-32 cm)
+    roadside.verge_grass(c, [[-6.3, -16], [1.45, -16], [1.45, -6.5], [-6.3, -6.5]], 14000, 5, scale=(.7, 1.2))       # short where shot 2 looks across at grass level
+    roadside.verge_grass(c, [[-6.3, -6.5], [-1.6, -6.5], [-1.6, -2.4], [-6.3, -2.4]], 6500, 6, scale=(.7, 1.2))      # (shot 2's line to the planter stays left of the tall band)
+    roadside.verge_grass(c, [[-6.3, 14], [1.45, 14], [1.45, 140], [-6.3, 140]], 9000, 2, scale=(1.1, 1.9))           # far: thinned (LOD rule), bigger tufts
+    roadside.verge_grass(c, [[10.6, -16], [14.7, -16], [14.7, 80], [10.6, 80]], 4000, 3, scale=(1.1, 1.9))
     for k, (x, y) in enumerate(((-2.8, -3.2), (-3.4, -2.1), (-1.6, -2.6), (-4.2, -1.0), (.6, -2.4), (-2.2, -4.0))):
         street.lib_instance("dandelion%d" % k, "dandelion_01", c, (x, y, 0), rot=k * 1.3, scale=1.0)
 
-def main():
-    bpy.ops.wm.read_factory_settings(use_empty=True); sc = bpy.context.scene; sc.render.fps = 30; sc.frame_start, sc.frame_end = F0, F1
+def build_take(sc):
+    """everything of the take on the roadside set up to frame F1 (shot 2 sets F1 further and adds its own actions on top)"""
     roadside.build(sc); roadside.hole(street.col("L_SET")); roadside.dirt_patch(street.col("L_SET")); grass_and_flowers()
     oak(); turned_earth(); leaves(); rig = car(); cam = camera(); seed = acorn(); planter(cam, seed)
     vfx.apply(sc, [
@@ -183,16 +184,26 @@ def main():
         {"type": "dust_burst", "name": "planter_landing", "at": [LAND.x, LAND.y, .1], "frame": 34, "count": 6, "radius": .6, "height": .4, "seed": 8, "life": 26, "color": [.6, .52, .4]},
         {"type": "dust_burst", "name": "car_shoulder_1", "at": [2.6, 7.4, .1], "frame": 86, "count": 8, "radius": 1.2, "height": .8, "seed": 13, "life": 30, "color": [.72, .64, .5]},
         {"type": "dust_burst", "name": "car_shoulder_2", "at": [2.0, 5.6, .1], "frame": 92, "count": 8, "radius": 1.4, "height": 1.0, "seed": 14, "life": 30, "color": [.72, .64, .5]}])
+    fx_to_layer()
+    return rig, cam
+
+def fx_to_layer(prefixes=("seed_earth", "tree_impact", "planter_landing", "car_shoulder")):
     for o in list(bpy.data.objects):                                                           # every effect object goes to the FX layer
-        if o.users_collection and o.users_collection[0].name in ("RC_FX", "FX") or o.name.startswith(("seed_earth", "tree_impact", "planter_landing", "car_shoulder")):
+        if o.users_collection and o.users_collection[0].name in ("RC_FX", "FX") or o.name.startswith(tuple(prefixes)):
             for uc in list(o.users_collection): uc.objects.unlink(o)
             street.col("L_FX").objects.link(o)
+
+def finish(sc, out):
     sc.view_settings.view_transform = "Standard"; sc.view_settings.look = "Medium High Contrast"; sc.render.use_motion_blur = True; sc.render.motion_blur_shutter = .3
     w, h = map(int, opt("--res", "270x480").split("x")); render.setup(sc, "CYCLES", (w, h), int(opt("--samples", "12")), 0)
-    bpy.ops.wm.save_as_mainfile(filepath=OUT)
+    bpy.ops.wm.save_as_mainfile(filepath=out)
     if "--still" in A:
         for tok in A[A.index("--still") + 1:]:
             if tok.startswith("--"): break
             f, png = tok.split(":"); sc.frame_set(int(f)); sc.render.filepath = png; bpy.ops.render.render(write_still=True); print("STILL", png)
+
+def main():
+    bpy.ops.wm.read_factory_settings(use_empty=True); sc = bpy.context.scene; sc.render.fps = 30; sc.frame_start, sc.frame_end = F0, F1
+    build_take(sc); finish(sc, OUT)
 
 if __name__ == "__main__": main()

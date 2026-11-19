@@ -17,7 +17,7 @@ CB est l'auteur de cette vidéo (« C'est ma vidéo »). But : la **reproduire e
 | Loudness | **−14,0 LUFS**, plage 2,5 LU |
 | Mouvement (médiane par seconde) | 25,6 ; pics d'action 8,4 / 10 s |
 | Image | luminance 0,43 ; **saturation 0,29** (la plus basse des 7 : herbe et ciel désaturés le jour, nuit bleu-gris) |
-| Coupes franches (différence d'image, mesurée) | images 96, 658, 687, 732, 815, 938, 1069, 1122, 1206, 1232, 1369, 1473, 1552, 1638, 1754. De 3,2 à 21,9 s, tout s'enchaîne en **mouvements et fondus** |
+| Coupes franches (différence d'image, mesurée) | images 658, 687, 732, 815, 938, 1069, 1122, 1206, 1232, 1369, 1473, 1552, 1638, 1754. De 0 à 21,9 s, **aucune coupe** : tout s'enchaîne en mouvements de caméra et fondus, sur le même décor (vérifié image par image le 19/11 : l'image 96 était un pic de mouvement, pas une coupe) |
 
 ## 2. Structure du récit
 
@@ -29,9 +29,9 @@ Temps en secondes ; images entre crochets (30 i/s). « Coupe » = coupe franche 
 
 | # | Temps | Narration | Lieu et décor | Caméra | Action | Sortie |
 |---|---|---|---|---|---|---|
-| 1 | 0,0 – 3,2 [0–95] | If you plant a tree beside an empty road, cars will steer right into it. | Bord de route de campagne plate : herbe haute, clôture barbelée à piquets en bois, route grise à ligne blanche, champs, ciel pâle à gros nuages | Plan moyen sur le héros, puis **recul et descente rapides** (0,8–1,5 s) au niveau de la route, puis lente dérive | Le héros (chemise vert-bleu, casquette de camionneur rouge et blanche) jette une graine dans un trou ; **un grand arbre tombe du ciel** et se plante ; le choc le projette assis dans l'herbe ; une voiture blanche arrive et **dévie droit vers l'arbre** (poussière) | coupe |
-| 2 | 3,2 – 5,5 | You see, the road runs dead | Pied de l'arbre, gros plan bas | Plan serré, puis recul | La voiture s'écrase contre le tronc : feuilles qui tombent, **un pneu roule** jusqu'au héros assis ; capot fumant | enchaîné |
-| 3 | 5,5 – 8,0 | straight for miles. And the only thing beside it | **Vue aérienne** : route rectiligne jusqu'à l'horizon, champs labourés en bandes, l'arbre seul avec son ombre longue | Survol lent, légère descente | — | enchaîné |
+| 1 | 0,0 – 3,2 [0–95] | If you plant a tree beside an empty road, cars will steer right into | Bord de route de campagne plate : herbe, clôture barbelée à piquets en bois, route grise à ligne blanche, champs, ciel pâle à gros nuages | Plan moyen sur le héros, puis **recul et descente rapides** (0,8–1,5 s) au niveau de la route, puis lente dérive | Le héros (chemise vert-bleu, casquette de camionneur rouge et blanche) jette une graine dans un trou ; **un grand arbre tombe du ciel** et se plante ; le choc le projette assis dans l'herbe ; une voiture blanche arrive et **dévie droit vers l'arbre** | **aucune coupe** : la même prise continue (pic de 14,1 à l'image 96 = mouvement, pas une coupe) |
+| 2 | 3,2 – 5,0 [96–149] | it. You see, the road runs | Pied de l'arbre au ras de l'herbe ; clôture derrière | Tient la route (96–101), puis **plongée rapide** vers l'avant et vers le bas jusqu'au ras de l'herbe (102–120), puis dérive | Le SUV percute l'arbre (≈ 106) : avant écrasé, poussière, feuilles ; **une roue s'arrache**, roule vers le héros assis et tombe à plat à ses pieds (≈ 134) ; rais de lumière dans la couronne ; le héros se relève (136–148) | **mouvement** : la caméra s'élève et recule (150–176) jusqu'à la vue aérienne |
+| 3 | 5,0 – 8,0 [150–239] | straight for miles. And the only thing beside it | **Vue aérienne** : route rectiligne jusqu'à l'horizon, champs labourés en bandes, l'arbre seul avec son ombre longue | Survol lent, légère descente | — | enchaîné |
 | 4 | 8,0 – 9,5 | is this one tree. But | Arbre au bord de la route, voiture accidentée dessous, héros | Approche au ras de la route | — | enchaîné |
 | 5 | 9,5 – 12,0 | somehow, somebody hits it every week. | Panneau **« DAYS SINCE LAST CRASH » 7** cloué à l'arbre | Plan fixe-dérive sur le panneau | Une voiture bleue percute l'arbre (10,5) ; le chiffre passe **à 0** (11,5), pile de pneus | enchaîné |
 | 6 | 12,0 – 13,0 | So the town nails a | Tronc, échelle | Gros plan | Ouvrier de la ville (casque orange, gilet vert) sur l'échelle, cloue | enchaîné |

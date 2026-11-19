@@ -76,6 +76,14 @@ def fence(c):
     for z in (.55, .85, 1.15):
         o = cyl("wire_%d" % int(z * 100), c, .006, Y1 - Y0, (FENCE_X + .07, (Y0 + Y1) / 2, z), wire, seg=4, rot=(math.pi / 2, 0, 0), smooth=False); o.visible_shadow = False
 
+def cross_fence(c, y=10.0, x0=FENCE_X, x1=1.3):
+    """a field fence perpendicular to the road, behind the tree (seen behind the planter at grass level, shot 2)"""
+    wood = bpy.data.materials.get("fence_post"); wire = bpy.data.materials.get("barbed_wire")
+    for k in range(int((x1 - x0) / 3) + 1):
+        x = x0 + 3 * k; o = cyl("xpost%d" % k, c, .062, 1.25, (x, y, .62), wood, seg=8)
+    for z in (.55, .85, 1.15):
+        o = cyl("xwire_%d" % int(z * 100), c, .006, x1 - x0, ((x0 + x1) / 2, y + .07, z), wire, seg=4, rot=(0, math.pi / 2, 0), smooth=False); o.visible_shadow = False
+
 def verge_grass(c, zone, n, seed, scale=(1.0, 1.8), exclude=()):
     """roadside grass from street's blade tufts, recoloured to the reference's soft yellow-green (saturation 0.29 measured)"""
     from rc import geo
@@ -110,6 +118,6 @@ def clouds(c):
     m = bpy.data.materials["cloud"]; b = m.node_tree.nodes["Principled BSDF"]; b.inputs["Emission Strength"].default_value = .5; b.inputs["Subsurface Weight"].default_value = .0; b.inputs["Base Color"].default_value = (*srgb("#f4f4f6"), 1)
 
 def build(scene):
-    c = col("L_SET"); sky(scene); sun(scene); road(c); ground(c); fence(c); clouds(col("L_SKY"))
+    c = col("L_SET"); sky(scene); sun(scene); road(c); ground(c); fence(c); cross_fence(c); clouds(col("L_SKY"))
     street.hdri_reflections(scene, strength=1.0)
     return c

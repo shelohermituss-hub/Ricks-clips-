@@ -199,3 +199,23 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Evidence:** demos/crash_instinct/build/continuity/s01_plant.json
 - **Regression check:** render_layers.sh refuses to render on a continuity FAIL
 
+## PI-020 — A 'hard cut' at frame 96 written in the analysis did not exist: shots 1 and 2 are ONE cont [validated, high]
+
+- **Where:** crash_instinct 3.2 s (frame 96)
+- **Root cause:** An improvised per-frame difference detector with a fixed threshold (14) took a 14.1 motion peak for a cut, while the repository tool (tools/analyze_reference.py, shots.json) correctly found no cut before 22.9 s.
+- **Fix:** Shot boundaries come from tools/analyze_reference.py shots.json; every boundary is checked at 30 fps around it before a shot is planned (a cut is a one-frame spike, a camera move is a ramp over several frames). A shot that continues the previous take is built ON TOP of the previous shot's script (s02_crash imports s01_plant.build_take), so set, car, card and camera are the same objects.
+- **Files:** references/crash_instinct/ANALYSE_FR.md, references/crash_instinct/shots/s02.md, demos/crash_instinct/shots/s01_plant.py, demos/crash_instinct/shots/s02_crash.py
+- **Tests:** per-frame difference 88-176: no one-frame spike; ramps at 101-121 and 150-176; continuity.py on s02_crash (frames 96-176): PASS 0 everywhere
+- **Evidence:** references/crash_instinct/shots/s02_tr_sheet.jpg
+- **Regression check:** shots/sNN.md must cite shots.json and the 30 fps check of each boundary
+
+## PI-021 — A wheel detached from the Sketchfab car rolled around the wrong point and never tipped ove [validated, medium]
+
+- **Where:** crash_instinct s02 4.1-4.9 s
+- **Root cause:** glTF parts keep their origin at the model origin (the car centre), not at the part's centre; the tip-over was applied about the axle instead of about the rolling direction.
+- **Fix:** Before animating a part on its own: move its mesh origin to its bounding-box centre (mesh.transform(-c), world matrix @ T(c)); spin about the axle, tip about the path direction (s02_crash.wheel_off).
+- **Files:** demos/crash_instinct/shots/s02_crash.py
+- **Tests:** key frames 126-149: wheel rolls, wobbles, lies flat from 134; continuity PASS
+- **Evidence:** demos/crash_instinct/build/keys_s02/compare.jpg
+- **Regression check:** look at the part on 3 key frames after detaching it
+

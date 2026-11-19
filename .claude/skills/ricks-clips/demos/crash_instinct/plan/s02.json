@@ -1,0 +1,407 @@
+{
+ "style": "references/crash_instinct/ANALYSE_FR.md",
+ "format": "1080x1920",
+ "fps": 30,
+ "kind": "fragment",
+ "needs": [
+  {
+   "id": "planter",
+   "kind": "character",
+   "source": "cast:planter (sheet17)",
+   "state": "drawn by tools/card_service.py"
+  },
+  {
+   "id": "oak",
+   "kind": "model",
+   "source": "script: demos/crash_instinct/sets/oak.py (bark polyhaven:jolcham_oak_bark_01, CC0)",
+   "state": "built (no library tree matched: Poly Haven island trees fork at the base, Sketchfab oaks are sparse)"
+  },
+  {
+   "id": "white_car",
+   "kind": "model",
+   "source": "sketchfab:58c33766470d46e7b2aed542650494e5 (Márcio Meireles, CC-BY), repainted white",
+   "state": "in library"
+  },
+  {
+   "id": "grass_tufts",
+   "kind": "model",
+   "source": "polyhaven:grass_medium_02",
+   "state": "in library"
+  },
+  {
+   "id": "dandelion",
+   "kind": "model",
+   "source": "polyhaven:dandelion_01",
+   "state": "in library"
+  },
+  {
+   "id": "road_asphalt",
+   "kind": "texture",
+   "source": "polyhaven:asphalt_track",
+   "state": "cached"
+  },
+  {
+   "id": "mud",
+   "kind": "texture",
+   "source": "polyhaven:brown_mud_02",
+   "state": "in library"
+  },
+  {
+   "id": "field_grass",
+   "kind": "texture",
+   "source": "polyhaven:leafy_grass",
+   "state": "in library"
+  },
+  {
+   "id": "sky_hdri",
+   "kind": "hdri",
+   "source": "polyhaven:kloofendal_48d_partly_cloudy_puresky",
+   "state": "cached (reflections only)"
+  },
+  {
+   "id": "oak_bark",
+   "kind": "texture",
+   "source": "polyhaven:jolcham_oak_bark_01",
+   "state": "cached"
+  }
+ ],
+ "places": [
+  {
+   "id": "roadside",
+   "description": "bord de route de campagne plate : herbe haute dense, accotement ras, route droite à deux voies (rive blanche, axe jaune) jusqu'à l'horizon, clôture bois + barbelés à gauche, champs beiges et labourés en bandes, ciel pâle à gros cumulus",
+   "ground": {
+    "name": "roadside grass",
+    "texture": "polyhaven:leafy_grass",
+    "tile": 2.0,
+    "value": 1.1,
+    "extra": "touffes 3D grass_medium_02 denses au premier plan, pissenlits, trou de terre brown_mud_02 Ø 0,6 m"
+   },
+   "surfaces": [
+    {
+     "name": "road",
+     "texture": "polyhaven:asphalt_track",
+     "tile": 3.0,
+     "value": 1.45,
+     "extra": "gris clair, ligne de rive blanche, axe jaune discontinu au loin, bord de bitume irrégulier"
+    },
+    {
+     "name": "fields",
+     "texture": "polyhaven:brown_mud_02",
+     "tile": 8.0,
+     "extra": "bandes alternées beige sec / labour brun jusqu'à l'horizon"
+    }
+   ],
+   "sky": "dégradé bleu pâle → blanc à l'horizon, 4 gros cumulus blancs à gauche et en haut, légère brume au loin ; HDRI pour les reflets seulement",
+   "light": {
+    "sun": {
+     "elevation": 45,
+     "azimuth": -120,
+     "energy": 5.2,
+     "angle": 2.0
+    },
+    "fill": 0.55,
+    "mood": "day sun, soft"
+   },
+   "shadows": "ombre nette à bord doux du tronc et de la couronne sur l'herbe et la route ; ombres des piquets ; occlusion au pied du tronc et sous le héros assis ; ombres jamais noires (fill fort)",
+   "props": [
+    {
+     "id": "fence",
+     "source": "script: piquets bois gris tous les 3 m + 3 fils barbelés, texture polyhaven:brown_planks_05"
+    },
+    {
+     "id": "dirt_hole",
+     "source": "script: disque brown_mud_02 + bourrelet + petit tas de terre"
+    },
+    {
+     "id": "dandelions",
+     "source": "polyhaven:dandelion_01"
+    },
+    {
+     "id": "grass_tufts",
+     "source": "polyhaven:grass_medium_02"
+    }
+   ]
+  }
+ ],
+ "sound": {
+  "music": "light bed, about -7.6 dB under the voice",
+  "lufs": -14
+ },
+ "captions": {
+  "words": [
+   1,
+   3
+  ],
+  "style": "white bold rounded, thick black outline, centred at 70 % height, one change per word"
+ },
+ "title": "crash_instinct — plan 2 (3,2 → 5,0 s + transition 5,0 → 5,9 s)",
+ "notes": "Suite de la même prise que le plan 1 (aucune coupe, PI-020). Analyse : references/crash_instinct/shots/s02.md. Plan écrit APRÈS la construction (oubli signalé à CB le 19/11), contrôlé ensuite. Temps relatifs au début de la vidéo. Temps relatifs au début du plan (image 96 = 0 s). Débit bas : le plan ne couvre que 6 mots, la phrase continue au plan 3.",
+ "duration_s": 2.7,
+ "voice": {
+  "text": "it. You see, the road runs",
+  "words": 6,
+  "key_words": {
+   "it": 0.64,
+   "You see": 1.02,
+   "road": 1.54
+  }
+ },
+ "hook": {
+  "action": "(plan 1)",
+  "t": 0.0
+ },
+ "objects": [
+  {
+   "id": "white_car",
+   "source": "sketchfab:58c33766470d46e7b2aed542650494e5",
+   "material": "blanc verni, reflets HDRI",
+   "states": [
+    "roule",
+    "avant écrasé (clé de forme crash_dent)",
+    "fume"
+   ]
+  },
+  {
+   "id": "wheel",
+   "source": "sketchfab:58c33766470d46e7b2aed542650494e5 (Object_247, la vraie roue)",
+   "material": "pneu + jante du modèle",
+   "states": [
+    "sur la voiture",
+    "arrachée, roule",
+    "à plat dans l'herbe"
+   ]
+  },
+  {
+   "id": "oak",
+   "source": "script: sets/oak.py",
+   "material": "écorce polyhaven:jolcham_oak_bark_01, feuilles 3D",
+   "states": [
+    "planté",
+    "secoué, perd des feuilles"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "planter",
+   "puppet": "cast:planter",
+   "costume": "chemise vert-bleu, casquette rouge",
+   "view": "front",
+   "held": []
+  }
+ ],
+ "shots": [
+  {
+   "id": "2",
+   "place": "roadside",
+   "t0": 0.0,
+   "t1": 2.7,
+   "narration": "it. You see, the road runs",
+   "transition_in": "no cut: same take as shot 1 (frame 96)",
+   "transition_out": "camera crane up to the aerial of shot 3 (150-176)",
+   "camera": [
+    {
+     "t": 0.0,
+     "pos": [
+      3.6,
+      -11.8,
+      1.1
+     ],
+     "aim": "trunk",
+     "lens": 20,
+     "move": "drift (end of shot 1)"
+    },
+    {
+     "t": 0.33,
+     "pos": [
+      1.6,
+      -10.6,
+      0.95
+     ],
+     "aim": "trunk",
+     "lens": 22,
+     "move": "start of the swoop on the impact"
+    },
+    {
+     "t": 0.8,
+     "pos": [
+      -2.6,
+      -7.4,
+      1.35
+     ],
+     "aim": "planter and trunk",
+     "lens": 26,
+     "move": "fast swoop down to grass level"
+    },
+    {
+     "t": 1.77,
+     "pos": [
+      -2.45,
+      -7.0,
+      1.38
+     ],
+     "aim": "planter and trunk",
+     "lens": 26,
+     "move": "slow drift"
+    },
+    {
+     "t": 2.67,
+     "pos": [
+      5.0,
+      -24.0,
+      15.0
+     ],
+     "aim": "road to the horizon",
+     "lens": 22,
+     "move": "crane up to the aerial"
+    }
+   ],
+   "actions": [
+    {
+     "id": "car_hits_tree",
+     "who": "white_car",
+     "f": [
+      96,
+      110
+     ],
+     "what": "brakes across the shoulder and slams into the trunk",
+     "recipe": "vehicle_impact",
+     "anim": "keyed path + nose dive and rebound; rc.physics.deform crash_dent on the front panels",
+     "micro": [
+      "body roll",
+      "suspension rebound"
+     ],
+     "reactions": [
+      "front crushed",
+      "dust burst",
+      "the tree shakes, leaves fall",
+      "camera shake",
+      "the vehicle pitches and bounces back (nose dive then rebound)",
+      "debris, shards and dust cloud"
+     ],
+     "consequences": [
+      "dented: the front stays crushed",
+      "car stays crushed against the trunk",
+      "smoke from the wreck",
+      "leaves on the grass"
+     ],
+     "sfx": [
+      "brakes and gravel",
+      "big metal crunch",
+      "glass"
+     ]
+    },
+    {
+     "id": "wheel_breaks_off",
+     "who": "wheel",
+     "f": [
+      106,
+      134
+     ],
+     "what": "the front wheel breaks off, rolls to the planter, wobbles and falls flat",
+     "recipe": "object_fall_drop",
+     "anim": "the model's own wheel: follows the car until 106, then keyed roll (spin = distance / radius), wobble, tip over about the path",
+     "micro": [
+      "wobble before settling"
+     ],
+     "reactions": [
+      "falls with gravity, settles flat with a wobble",
+      "dust puff on contact"
+     ],
+     "consequences": [
+      "object stays where it lands: the wheel lies flat at his feet"
+     ],
+     "sfx": [
+      "wobble-wobble",
+      "clack when it lands flat"
+     ]
+    },
+    {
+     "id": "shock",
+     "who": "planter",
+     "f": [
+      106,
+      124
+     ],
+     "what": "shocked face on the impact, nervous when the wheel comes",
+     "recipe": "emotion_beat",
+     "anim": "face k:shocked then k:nervous",
+     "micro": [
+      "blink",
+      "small head wobble"
+     ],
+     "reactions": [
+      "the face changes ON the word with a 5-frame head pop",
+      "the body answers the face (lean back, shoulders up, freeze)"
+     ],
+     "consequences": [
+      "nervous until he stands"
+     ],
+     "sfx": [
+      "comic sting"
+     ]
+    },
+    {
+     "id": "stand_up",
+     "who": "planter",
+     "f": [
+      136,
+      146
+     ],
+     "what": "stands up from the grass",
+     "anim": "m:sit/A played backwards frame by frame (m:sit/A@=0.95 -> 0.59), card rises 0.30 m, then m:idle/B",
+     "micro": [
+      "head wobble",
+      "arms swing"
+     ],
+     "reactions": [
+      "grass moves where he stands"
+     ],
+     "consequences": [
+      "stands annoyed beside the flat wheel"
+     ],
+     "sfx": [
+      "grass rustle"
+     ],
+     "recipe": "stand_up"
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "white_car",
+     "change": "intact -> crushed",
+     "by_action": "car_hits_tree"
+    },
+    {
+     "who": "wheel",
+     "change": "on the car -> rolling -> flat",
+     "by_action": "wheel_breaks_off"
+    },
+    {
+     "who": "planter",
+     "change": "sitting -> standing",
+     "by_action": "stand_up"
+    }
+   ],
+   "fx": [
+    "brake dust",
+    "impact dust",
+    "smoke from the wreck",
+    "second leaf fall",
+    "dust where the wheel lands"
+   ],
+   "sound": {
+    "ambience": "wind, birds return after the crash",
+    "music": "light bed"
+   },
+   "handheld": true
+  }
+ ],
+ "lessons_planned": [
+  "PI-016",
+  "PI-018",
+  "PI-019",
+  "PI-020",
+  "PI-021"
+ ]
+}
