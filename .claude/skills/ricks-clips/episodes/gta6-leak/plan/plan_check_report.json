@@ -1,0 +1,2957 @@
+{
+ "ok": true,
+ "rows": [
+  {
+   "area": "STYLE",
+   "item": "style bible",
+   "status": "PASS",
+   "msg": "references/STYLE_BIBLE_FR.md"
+  },
+  {
+   "area": "STYLE",
+   "item": "format",
+   "status": "PASS",
+   "msg": "1080x1920"
+  },
+  {
+   "area": "STYLE",
+   "item": "fps",
+   "status": "PASS",
+   "msg": "30"
+  },
+  {
+   "area": "STYLE",
+   "item": "duration_s",
+   "status": "PASS",
+   "msg": "54.38"
+  },
+  {
+   "area": "STYLE",
+   "item": "narration pace",
+   "status": "PASS",
+   "msg": "3.44 words/s (style 3.44)"
+  },
+  {
+   "area": "PLACES",
+   "item": "places listed",
+   "status": "PASS",
+   "msg": "8"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel / carpet texture",
+   "status": "PASS",
+   "msg": "polyhaven:fabric_pattern_05"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel / walls texture",
+   "status": "PASS",
+   "msg": "polyhaven:beige_wall_001"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel / headboard texture",
+   "status": "PASS",
+   "msg": "polyhaven:fabric_leather_02"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel sun",
+   "status": "PASS",
+   "msg": "{\"elevation\": -10, \"azimuth\": 0, \"energy\": 0.0, \"angle\": 1.5}"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel fill / sky strength",
+   "status": "PASS",
+   "msg": "0.08"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel shadows",
+   "status": "PASS",
+   "msg": "hard TV-light shadow of his head and hands on the duvet and wall; lamp shadow of the bed corner on the carpet; curtain slats stripe the wall"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel sky",
+   "status": "PASS",
+   "msg": "city night through the window (lit windows, a few neon signs), HDRI for reflections only"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel prop tv_stick source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel prop phone source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel prop keyboard source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel prop room_service_tray source",
+   "status": "PASS",
+   "msg": "script + polyhaven food props"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel prop do_not_disturb_hanger source",
+   "status": "PASS",
+   "msg": "script + text decal"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel prop key_card_sleeve_18 source",
+   "status": "PASS",
+   "msg": "script + text decal"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel prop energy_drink_cans source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "hotel dressing density",
+   "status": "PASS",
+   "msg": "7 props (a set is never empty)"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor / corridor carpet texture",
+   "status": "PASS",
+   "msg": "polyhaven:fabric_pattern_05"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor / walls texture",
+   "status": "PASS",
+   "msg": "polyhaven:beige_wall_001"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor / doors texture",
+   "status": "PASS",
+   "msg": "polyhaven:wood_table_001"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor sun",
+   "status": "PASS",
+   "msg": "{\"elevation\": -10, \"azimuth\": 0, \"energy\": 0.0, \"angle\": 1.5}"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor fill / sky strength",
+   "status": "PASS",
+   "msg": "0.15"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor shadows",
+   "status": "PASS",
+   "msg": "sconce pools on the carpet, the officer's long shadow across the door"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor sky",
+   "status": "PASS",
+   "msg": "none (interior)"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor prop chair source",
+   "status": "PASS",
+   "msg": "polyhaven:woodenchair_01"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor prop paper_cup source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor prop door_214 source",
+   "status": "PASS",
+   "msg": "script + decal"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor prop fire_extinguisher source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor prop ice_machine source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "corridor dressing density",
+   "status": "PASS",
+   "msg": "5 props (a set is never empty)"
+  },
+  {
+   "area": "PLACES",
+   "item": "city / streets texture",
+   "status": "PASS",
+   "msg": "polyhaven:asphalt_track"
+  },
+  {
+   "area": "PLACES",
+   "item": "city / rooftops texture",
+   "status": "PASS",
+   "msg": "polyhaven:concrete_wall_008"
+  },
+  {
+   "area": "PLACES",
+   "item": "city sun",
+   "status": "PASS",
+   "msg": "{\"elevation\": -8, \"azimuth\": 0, \"energy\": 0.0, \"angle\": 1.5}"
+  },
+  {
+   "area": "PLACES",
+   "item": "city fill / sky strength",
+   "status": "PASS",
+   "msg": "0.12"
+  },
+  {
+   "area": "PLACES",
+   "item": "city shadows",
+   "status": "PASS",
+   "msg": "little sun; the flying clips cast moving light pools on the roofs"
+  },
+  {
+   "area": "PLACES",
+   "item": "city sky",
+   "status": "PASS",
+   "msg": "deep night blue gradient, a few clouds lit from below"
+  },
+  {
+   "area": "PLACES",
+   "item": "city prop instanced_buildings source",
+   "status": "PASS",
+   "msg": "script (boxes with window textures, built for the frame)"
+  },
+  {
+   "area": "PLACES",
+   "item": "city prop street_lamps source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "city prop billboards source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "city prop clip_cards source",
+   "status": "PASS",
+   "msg": "script (90 emissive cards)"
+  },
+  {
+   "area": "PLACES",
+   "item": "city dressing density",
+   "status": "PASS",
+   "msg": "4 props (a set is never empty)"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio / office floor texture",
+   "status": "PASS",
+   "msg": "polyhaven:laminate_floor_02"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio / walls texture",
+   "status": "PASS",
+   "msg": "polyhaven:beige_wall_001"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio / desks texture",
+   "status": "PASS",
+   "msg": "polyhaven:wood_table_001"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio sun",
+   "status": "PASS",
+   "msg": "{\"elevation\": 25, \"azimuth\": 120, \"energy\": 4.5, \"angle\": 1.5}"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio fill / sky strength",
+   "status": "PASS",
+   "msg": "0.35"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio shadows",
+   "status": "PASS",
+   "msg": "window frames cast long bars across the desks; alarm sweeps red shadows"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio sky",
+   "status": "PASS",
+   "msg": "city morning through big windows"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio prop desks_monitors source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio prop printer source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio prop invoice source",
+   "status": "PASS",
+   "msg": "script + decal"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio prop wall_clock source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio prop timesheet_board source",
+   "status": "PASS",
+   "msg": "script + decal"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio prop coffee_cups source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "studio dressing density",
+   "status": "PASS",
+   "msg": "6 props (a set is never empty)"
+  },
+  {
+   "area": "PLACES",
+   "item": "court_hospital / court floor texture",
+   "status": "PASS",
+   "msg": "polyhaven:wood_floor_deck"
+  },
+  {
+   "area": "PLACES",
+   "item": "court_hospital / panels texture",
+   "status": "PASS",
+   "msg": "polyhaven:wood_table_001"
+  },
+  {
+   "area": "PLACES",
+   "item": "court_hospital / hospital floor texture",
+   "status": "PASS",
+   "msg": "polyhaven:concrete_floor_painted"
+  },
+  {
+   "area": "PLACES",
+   "item": "court_hospital sun",
+   "status": "PASS",
+   "msg": "{\"elevation\": 35, \"azimuth\": 200, \"energy\": 3.5, \"angle\": 3}"
+  },
+  {
+   "area": "PLACES",
+   "item": "court_hospital fill / sky strength",
+   "status": "PASS",
+   "msg": "0.3"
+  },
+  {
+   "area": "PLACES",
+   "item": "court_hospital shadows",
+   "status": "PASS",
+   "msg": "window light shafts across the court; hospital: the closing door's shadow swallows him"
+  },
+  {
+   "area": "PLACES",
+   "item": "court_hospital sky",
+   "status": "PASS",
+   "msg": "tall court windows, overcast"
+  },
+  {
+   "area": "PLACES",
+   "item": "court_hospital prop judge_bench source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "court_hospital prop gavel source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "court_hospital prop secure_door source",
+   "status": "PASS",
+   "msg": "script + decal SECURE WARD"
+  },
+  {
+   "area": "PLACES",
+   "item": "court_hospital prop file_stamp_indefinite source",
+   "status": "PASS",
+   "msg": "script + decal"
+  },
+  {
+   "area": "PLACES",
+   "item": "court_hospital dressing density",
+   "status": "PASS",
+   "msg": "4 props (a set is never empty)"
+  },
+  {
+   "area": "PLACES",
+   "item": "billboard / square paving texture",
+   "status": "PASS",
+   "msg": "polyhaven:brick_pavement_03"
+  },
+  {
+   "area": "PLACES",
+   "item": "billboard / buildings texture",
+   "status": "PASS",
+   "msg": "polyhaven:concrete_wall_008"
+  },
+  {
+   "area": "PLACES",
+   "item": "billboard sun",
+   "status": "PASS",
+   "msg": "{\"elevation\": 3, \"azimuth\": 250, \"energy\": 3.0, \"angle\": 2}"
+  },
+  {
+   "area": "PLACES",
+   "item": "billboard fill / sky strength",
+   "status": "PASS",
+   "msg": "0.35"
+  },
+  {
+   "area": "PLACES",
+   "item": "billboard shadows",
+   "status": "PASS",
+   "msg": "long low-sun shadows of the crowd across the paving; the billboard throws coloured light on faces"
+  },
+  {
+   "area": "PLACES",
+   "item": "billboard sky",
+   "status": "PASS",
+   "msg": "purple to orange dusk gradient, pink clouds"
+  },
+  {
+   "area": "PLACES",
+   "item": "billboard prop billboard_counter source",
+   "status": "PASS",
+   "msg": "script + animated text decal"
+  },
+  {
+   "area": "PLACES",
+   "item": "billboard prop record_trophy source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "billboard prop crowd_phones source",
+   "status": "PASS",
+   "msg": "script (cards)"
+  },
+  {
+   "area": "PLACES",
+   "item": "billboard prop street_furniture source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "billboard dressing density",
+   "status": "PASS",
+   "msg": "4 props (a set is never empty)"
+  },
+  {
+   "area": "PLACES",
+   "item": "doctor_prison / office lino texture",
+   "status": "PASS",
+   "msg": "polyhaven:concrete_floor_painted"
+  },
+  {
+   "area": "PLACES",
+   "item": "doctor_prison / prison walls texture",
+   "status": "PASS",
+   "msg": "polyhaven:concrete_wall_008"
+  },
+  {
+   "area": "PLACES",
+   "item": "doctor_prison sun",
+   "status": "PASS",
+   "msg": "{\"elevation\": 30, \"azimuth\": 160, \"energy\": 3.0, \"angle\": 1.5}"
+  },
+  {
+   "area": "PLACES",
+   "item": "doctor_prison fill / sky strength",
+   "status": "PASS",
+   "msg": "0.3"
+  },
+  {
+   "area": "PLACES",
+   "item": "doctor_prison shadows",
+   "status": "PASS",
+   "msg": "window bar shadows on the cell floor; desk lamp pool on the file"
+  },
+  {
+   "area": "PLACES",
+   "item": "doctor_prison sky",
+   "status": "PASS",
+   "msg": "none"
+  },
+  {
+   "area": "PLACES",
+   "item": "doctor_prison prop stamp source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "doctor_prison prop patient_file source",
+   "status": "PASS",
+   "msg": "script + decal"
+  },
+  {
+   "area": "PLACES",
+   "item": "doctor_prison prop cell_bunk source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "doctor_prison prop small_cell_tv source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "doctor_prison dressing density",
+   "status": "PASS",
+   "msg": "4 props (a set is never empty)"
+  },
+  {
+   "area": "PLACES",
+   "item": "shop_street / pavement texture",
+   "status": "PASS",
+   "msg": "polyhaven:brick_pavement_03"
+  },
+  {
+   "area": "PLACES",
+   "item": "shop_street / shopfront texture",
+   "status": "PASS",
+   "msg": "polyhaven:concrete_wall_008"
+  },
+  {
+   "area": "PLACES",
+   "item": "shop_street sun",
+   "status": "PASS",
+   "msg": "{\"elevation\": -10, \"azimuth\": 0, \"energy\": 0.0, \"angle\": 1.5}"
+  },
+  {
+   "area": "PLACES",
+   "item": "shop_street fill / sky strength",
+   "status": "PASS",
+   "msg": "0.12"
+  },
+  {
+   "area": "PLACES",
+   "item": "shop_street shadows",
+   "status": "PASS",
+   "msg": "queue silhouettes against the bright window, long neon shadows on the wet pavement"
+  },
+  {
+   "area": "PLACES",
+   "item": "shop_street sky",
+   "status": "PASS",
+   "msg": "night, wet street reflections"
+  },
+  {
+   "area": "PLACES",
+   "item": "shop_street prop queue_gamers source",
+   "status": "PASS",
+   "msg": "cast cards"
+  },
+  {
+   "area": "PLACES",
+   "item": "shop_street prop poster_6 source",
+   "status": "PASS",
+   "msg": "script + decal"
+  },
+  {
+   "area": "PLACES",
+   "item": "shop_street prop calendar source",
+   "status": "PASS",
+   "msg": "script + decal"
+  },
+  {
+   "area": "PLACES",
+   "item": "shop_street prop sleeping_bags source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "PLACES",
+   "item": "shop_street prop puddles source",
+   "status": "PASS",
+   "msg": "script (wet decals)"
+  },
+  {
+   "area": "PLACES",
+   "item": "shop_street dressing density",
+   "status": "PASS",
+   "msg": "5 props (a set is never empty)"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "tv_stick source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "tv_stick material",
+   "status": "PASS",
+   "msg": "matte black plastic, tiny LED"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "phone source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "phone material",
+   "status": "PASS",
+   "msg": "glass + aluminium, screen emission"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "keyboard source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "keyboard material",
+   "status": "PASS",
+   "msg": "black plastic keys, backlight"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "hotel_tv source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "hotel_tv material",
+   "status": "PASS",
+   "msg": "glossy black bezel, emissive screen"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "clips source",
+   "status": "PASS",
+   "msg": "script (90 emissive cards)"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "clips material",
+   "status": "PASS",
+   "msg": "emissive video frames (blurred generic game shots, no logo)"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "invoice source",
+   "status": "PASS",
+   "msg": "script + decal"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "invoice material",
+   "status": "PASS",
+   "msg": "paper"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "file source",
+   "status": "PASS",
+   "msg": "script + decal"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "file material",
+   "status": "PASS",
+   "msg": "paper folder"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "counter source",
+   "status": "PASS",
+   "msg": "script (text decal swapped by frame range)"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "counter material",
+   "status": "PASS",
+   "msg": "emissive LED"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "calendar source",
+   "status": "PASS",
+   "msg": "script + decal"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "calendar material",
+   "status": "PASS",
+   "msg": "paper"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "cell_tv source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "cell_tv material",
+   "status": "PASS",
+   "msg": "old plastic TV"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "secure_door source",
+   "status": "PASS",
+   "msg": "script + decal SECURE WARD"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "secure_door material",
+   "status": "PASS",
+   "msg": "painted steel, wired glass window"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "cell_door source",
+   "status": "PASS",
+   "msg": "script"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "cell_door material",
+   "status": "PASS",
+   "msg": "steel bars"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "character kid puppet",
+   "status": "PASS",
+   "msg": "cast:hacker"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "character cop puppet",
+   "status": "PASS",
+   "msg": "cast:police"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "character judge puppet",
+   "status": "PASS",
+   "msg": "cast:judge"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "character doctor puppet",
+   "status": "PASS",
+   "msg": "cast:doctor"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "character dev puppet",
+   "status": "PASS",
+   "msg": "cast:programmer"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "character gamer puppet",
+   "status": "PASS",
+   "msg": "cast:gamer"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S01 starts where the last ended",
+   "status": "PASS",
+   "msg": "t0 0.00 vs 0.00"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S01 place",
+   "status": "PASS",
+   "msg": "hotel"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S01 narration",
+   "status": "PASS",
+   "msg": "He leaked the biggest video game on Earth from a hotel room, using nothing but a TV stick and a phone."
+  },
+  {
+   "area": "SHOTS",
+   "item": "S01 transitions",
+   "status": "PASS",
+   "msg": "first frame (loop target) -> whip pan to the door"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S01 keys",
+   "status": "PASS",
+   "msg": "4 keys"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S01 0->1.6 moves",
+   "status": "PASS",
+   "msg": "pull back and rise: his face lights up"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S01 1.6->3.6 moves",
+   "status": "PASS",
+   "msg": "crane back to the whole room: stick, phone, TV"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S01 3.6->5.48 moves",
+   "status": "PASS",
+   "msg": "slow drift"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S01 hand-held drift",
+   "status": "PASS",
+   "msg": "street.handheld() on every frame"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/plug_in who declared",
+   "status": "PASS",
+   "msg": "kid"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/plug_in animation",
+   "status": "PASS",
+   "msg": "m:button/A (hand to the port), stick follows the hand (card_anchors)"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/plug_in micro-animation",
+   "status": "PASS",
+   "msg": "fingers wiggle the stick in; LED blinks"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/plug_in reaction",
+   "status": "PASS",
+   "msg": "his hand reaches the port and the stick follows the hand from contact (no teleport); the TV wakes: static then a blue boot screen; the room goes from dark to TV-blue"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/plug_in lasting consequence",
+   "status": "PASS",
+   "msg": "the stick stays plugged with its LED on for the whole film; the empty stick box is left on the bed"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/plug_in sound effect",
+   "status": "PASS",
+   "msg": "click; TV power-on hum"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/plug_in vs recipe object_pick_up",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/grin who declared",
+   "status": "PASS",
+   "msg": "kid"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/grin animation",
+   "status": "PASS",
+   "msg": "m:idle/B k:smug"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/grin micro-animation",
+   "status": "PASS",
+   "msg": "blink; eyebrow wiggle"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/grin reaction",
+   "status": "PASS",
+   "msg": "the face changes ON the word 'leaked' with a head pop; the body answers the face: he leans back on the pillows, shoulders up; TV light flickers on his face"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/grin lasting consequence",
+   "status": "PASS",
+   "msg": "the grin stays as he settles on the bed"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/grin sound effect",
+   "status": "PASS",
+   "msg": "sly 'heh'"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/grin vs recipe emotion_beat",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/phone_hotspot who declared",
+   "status": "PASS",
+   "msg": "phone"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/phone_hotspot animation",
+   "status": "PASS",
+   "msg": "screen emission keyed"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/phone_hotspot micro-animation",
+   "status": "PASS",
+   "msg": "vibrates on the duvet"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/phone_hotspot reaction",
+   "status": "PASS",
+   "msg": "the phone screen lights up with a flicker; the duvet under it glows"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/phone_hotspot lasting consequence",
+   "status": "PASS",
+   "msg": "phone stays lit on the bed"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/phone_hotspot sound effect",
+   "status": "PASS",
+   "msg": "buzz"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/phone_hotspot vs recipe device_switch",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/can_tip who declared",
+   "status": "PASS",
+   "msg": "kid"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/can_tip animation",
+   "status": "PASS",
+   "msg": "m:idle/B elbow + can rigid-body keys"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/can_tip micro-animation",
+   "status": "PASS",
+   "msg": "can wobbles before falling"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/can_tip reaction",
+   "status": "PASS",
+   "msg": "can falls and rolls, fizz sprays"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/can_tip lasting consequence",
+   "status": "PASS",
+   "msg": "can lies on the carpet, a wet fizz stain"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/can_tip sound effect",
+   "status": "PASS",
+   "msg": "can clank; fizz"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S01/can_tip vs recipe object_fall_drop",
+   "status": "WARN",
+   "msg": "maybe forgotten: dust puff on contact | object stays where it lands, possibly dented or open"
+  },
+  {
+   "area": "STATE",
+   "item": "S01 tv_stick box -> plugged in",
+   "status": "PASS",
+   "msg": "by plug_in"
+  },
+  {
+   "area": "STATE",
+   "item": "S01 hotel_tv off -> on",
+   "status": "PASS",
+   "msg": "by plug_in"
+  },
+  {
+   "area": "STATE",
+   "item": "S01 phone dark -> lit",
+   "status": "PASS",
+   "msg": "by phone_hotspot"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S01 fx",
+   "status": "PASS",
+   "msg": "TV static burst; dust motes in the TV beam"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S01 ambience",
+   "status": "PASS",
+   "msg": "night room tone, distant traffic, TV hum"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S02 starts where the last ended",
+   "status": "PASS",
+   "msg": "t0 5.48 vs 5.48"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S02 place",
+   "status": "PASS",
+   "msg": "corridor"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S02 narration",
+   "status": "PASS",
+   "msg": "You see, he was 18, already on bail for hacking, and hiding in that hotel under police protection."
+  },
+  {
+   "area": "SHOTS",
+   "item": "S02 transitions",
+   "status": "PASS",
+   "msg": "whip pan through the door -> slide under the door back into the room"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S02 keys",
+   "status": "PASS",
+   "msg": "3 keys"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S02 5.48->8.48 moves",
+   "status": "PASS",
+   "msg": "dolly to the cop's face"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S02 8.48->11.42 moves",
+   "status": "PASS",
+   "msg": "drop to the floor and slide toward the blue light under the door"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S02 hand-held drift",
+   "status": "PASS",
+   "msg": "street.handheld() on every frame"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cop_yawn who declared",
+   "status": "PASS",
+   "msg": "cop"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cop_yawn animation",
+   "status": "PASS",
+   "msg": "m:drink/A"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cop_yawn micro-animation",
+   "status": "PASS",
+   "msg": "eyes heavy, head nods"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cop_yawn reaction",
+   "status": "PASS",
+   "msg": "the face changes ON the word 'protection' with a head pop; the body answers the face: he slumps, shoulders drop; coffee steams; the chair creaks"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cop_yawn lasting consequence",
+   "status": "PASS",
+   "msg": "the emotion stays: he dozes off; coffee ring stays on the floor by the chair"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cop_yawn sound effect",
+   "status": "PASS",
+   "msg": "yawn; slurp"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cop_yawn vs recipe emotion_beat",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cup_spill who declared",
+   "status": "PASS",
+   "msg": "cop"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cup_spill animation",
+   "status": "PASS",
+   "msg": "cup keyed tilt in the hand anchor"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cup_spill micro-animation",
+   "status": "PASS",
+   "msg": "drips"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cup_spill reaction",
+   "status": "PASS",
+   "msg": "coffee stream with the right thickness, splash where it lands, spreading puddle"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cup_spill lasting consequence",
+   "status": "PASS",
+   "msg": "puddle by the chair stays"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cup_spill sound effect",
+   "status": "PASS",
+   "msg": "drip; splat"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/cup_spill vs recipe liquid_pour_spill",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/bail_tag who declared",
+   "status": "PASS",
+   "msg": "kid"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/bail_tag animation",
+   "status": "PASS",
+   "msg": "card idle + 3D tag prop on the ankle anchor"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/bail_tag micro-animation",
+   "status": "PASS",
+   "msg": "toes wiggle"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/bail_tag reaction",
+   "status": "PASS",
+   "msg": "the tag LED lights up and blinks with each key"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/bail_tag lasting consequence",
+   "status": "PASS",
+   "msg": "tag stays on his ankle all film"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/bail_tag sound effect",
+   "status": "PASS",
+   "msg": "tag beep"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S02/bail_tag vs recipe device_switch",
+   "status": "WARN",
+   "msg": "maybe forgotten: the screen / LED wakes with a flicker, its light falls on nearby faces and surfaces | a button press dips under the finger"
+  },
+  {
+   "area": "STATE",
+   "item": "S02 cop already in place when the camera arrives (in frame from the first frame of the shot)",
+   "status": "PASS",
+   "msg": "by cut"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S02 fx",
+   "status": "PASS",
+   "msg": "steam from the cup; blue flicker under the door"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S02 ambience",
+   "status": "PASS",
+   "msg": "corridor hum, ice machine"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S03 starts where the last ended",
+   "status": "PASS",
+   "msg": "t0 11.42 vs 11.42"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S03 place",
+   "status": "PASS",
+   "msg": "hotel"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S03 narration",
+   "status": "PASS",
+   "msg": "So he plugged the stick into the TV, grabbed a keyboard, and slipped into Rockstar's private chat."
+  },
+  {
+   "area": "SHOTS",
+   "item": "S03 transitions",
+   "status": "PASS",
+   "msg": "slide under the door -> push into the TV screen"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S03 keys",
+   "status": "PASS",
+   "msg": "3 keys"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S03 11.42->13.82 moves",
+   "status": "PASS",
+   "msg": "orbit around him"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S03 13.82->16.58 moves",
+   "status": "PASS",
+   "msg": "push into the TV: the chat window fills the frame (POV)"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S03 hand-held drift",
+   "status": "PASS",
+   "msg": "street.handheld() on every frame"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/grab_keyboard who declared",
+   "status": "PASS",
+   "msg": "kid"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/grab_keyboard animation",
+   "status": "PASS",
+   "msg": "m:button/B, keyboard follows the hands from contact"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/grab_keyboard micro-animation",
+   "status": "PASS",
+   "msg": "pizza box slides off"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/grab_keyboard reaction",
+   "status": "PASS",
+   "msg": "his hands reach the keyboard and it follows the hands from contact (no teleport); crumbs fall off the keys"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/grab_keyboard lasting consequence",
+   "status": "PASS",
+   "msg": "pizza box open on the floor, the place where the keyboard was is empty with crumbs"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/grab_keyboard sound effect",
+   "status": "PASS",
+   "msg": "cardboard slide; plastic clack"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/grab_keyboard vs recipe object_pick_up",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/type who declared",
+   "status": "PASS",
+   "msg": "kid"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/type animation",
+   "status": "PASS",
+   "msg": "m:write/A fast"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/type micro-animation",
+   "status": "PASS",
+   "msg": "fingers blur; tongue out"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/type reaction",
+   "status": "PASS",
+   "msg": "keys light under his fingers; lines of code scroll on the TV"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/type lasting consequence",
+   "status": "PASS",
+   "msg": "the chat window stays open on the TV"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/type sound effect",
+   "status": "PASS",
+   "msg": "keyboard rattle; chat ping"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/type vs recipe door_open_close",
+   "status": "WARN",
+   "msg": "maybe forgotten: the door swings on its hinge (ease out, small overshoot)"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/access who declared",
+   "status": "PASS",
+   "msg": "hotel_tv"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/access animation",
+   "status": "PASS",
+   "msg": "screen decal swap"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/access micro-animation",
+   "status": "PASS",
+   "msg": "screen glitch"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/access reaction",
+   "status": "PASS",
+   "msg": "the screen lights up green on his face with a flicker"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/access lasting consequence",
+   "status": "PASS",
+   "msg": "the chat stays open"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/access sound effect",
+   "status": "PASS",
+   "msg": "access chime"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S03/access vs recipe device_switch",
+   "status": "WARN",
+   "msg": "maybe forgotten: a button press dips under the finger"
+  },
+  {
+   "area": "STATE",
+   "item": "S03 keyboard bed -> his hands",
+   "status": "PASS",
+   "msg": "by grab_keyboard"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S03 fx",
+   "status": "PASS",
+   "msg": "code light scrolling on his face"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S03 ambience",
+   "status": "PASS",
+   "msg": "keyboard clatter, TV hum"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S04 starts where the last ended",
+   "status": "PASS",
+   "msg": "t0 16.58 vs 16.58"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S04 place",
+   "status": "PASS",
+   "msg": "city"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S04 narration",
+   "status": "PASS",
+   "msg": "Then he dropped over 90 clips of the secret game for the whole internet to see."
+  },
+  {
+   "area": "SHOTS",
+   "item": "S04 transitions",
+   "status": "PASS",
+   "msg": "through the TV screen and out of the window -> clips rain down -> match cut to the studio window"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S04 keys",
+   "status": "PASS",
+   "msg": "3 keys"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S04 16.58->18.58 moves",
+   "status": "PASS",
+   "msg": "rise above the city as the swarm spreads"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S04 18.58->20.94 moves",
+   "status": "PASS",
+   "msg": "dive toward the streets"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S04 hand-held drift",
+   "status": "PASS",
+   "msg": "street.handheld() on every frame"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/upload who declared",
+   "status": "PASS",
+   "msg": "kid"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/upload animation",
+   "status": "PASS",
+   "msg": "m:button/A + counter decal swap"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/upload micro-animation",
+   "status": "PASS",
+   "msg": "finger slam"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/upload reaction",
+   "status": "PASS",
+   "msg": "the number changes on every beat 0 -> 30 -> 60 -> 90 CLIPS UPLOADED, flashes at 90; the clips peel off the screen"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/upload lasting consequence",
+   "status": "PASS",
+   "msg": "the final number stays on screen: 90 on the TV"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/upload sound effect",
+   "status": "PASS",
+   "msg": "enter clack; whoosh"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/upload vs recipe countdown_display",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/clips_fly who declared",
+   "status": "PASS",
+   "msg": "clips"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/clips_fly animation",
+   "status": "PASS",
+   "msg": "instanced cards on seeded curves"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/clips_fly micro-animation",
+   "status": "PASS",
+   "msg": "each clip flutters"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/clips_fly reaction",
+   "status": "PASS",
+   "msg": "clips burst out and flutter down, spinning, catching the light; windows and phones light up block by block"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/clips_fly lasting consequence",
+   "status": "PASS",
+   "msg": "the city stays dotted with lit screens; a few clips stuck on antennas and chimneys"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/clips_fly sound effect",
+   "status": "PASS",
+   "msg": "swarm whoosh; notification pings"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/clips_fly recipe",
+   "status": "WARN",
+   "msg": "no recipe matches: add one to library/reactions/reactions.json when it is built"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/pigeon who declared",
+   "status": "PASS",
+   "msg": "clips"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/pigeon animation",
+   "status": "PASS",
+   "msg": "pigeon card keyed duck"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/pigeon micro-animation",
+   "status": "PASS",
+   "msg": "head bob"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/pigeon reaction",
+   "status": "PASS",
+   "msg": "feathers puff"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/pigeon lasting consequence",
+   "status": "PASS",
+   "msg": "one feather drifts down"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/pigeon sound effect",
+   "status": "PASS",
+   "msg": "coo; flap"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/pigeon recipe",
+   "status": "WARN",
+   "msg": "no recipe matches: add one to library/reactions/reactions.json when it is built"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/phones_light who declared",
+   "status": "PASS",
+   "msg": "clips"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/phones_light animation",
+   "status": "PASS",
+   "msg": "m:react/confused + phone emission"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/phones_light micro-animation",
+   "status": "PASS",
+   "msg": "eyes widen"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/phones_light reaction",
+   "status": "PASS",
+   "msg": "his phone screen lights up with a flicker on his face"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/phones_light lasting consequence",
+   "status": "PASS",
+   "msg": "phone stays lit"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/phones_light sound effect",
+   "status": "PASS",
+   "msg": "ping; gasp"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S04/phones_light vs recipe device_switch",
+   "status": "WARN",
+   "msg": "maybe forgotten: a button press dips under the finger"
+  },
+  {
+   "area": "STATE",
+   "item": "S04 clips screen -> sky -> phones",
+   "status": "PASS",
+   "msg": "by clips_fly"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S04 fx",
+   "status": "PASS",
+   "msg": "glowing clip swarm; window lights popping on"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S04 ambience",
+   "status": "PASS",
+   "msg": "city night wind, pings"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S05 starts where the last ended",
+   "status": "PASS",
+   "msg": "t0 20.94 vs 20.94"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S05 place",
+   "status": "PASS",
+   "msg": "studio"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S05 narration",
+   "status": "PASS",
+   "msg": "Rockstar says the leak cost them $5 million and thousands of hours of work."
+  },
+  {
+   "area": "SHOTS",
+   "item": "S05 transitions",
+   "status": "PASS",
+   "msg": "match cut: phone screens -> studio monitors -> invoice slides into the courtroom"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S05 keys",
+   "status": "PASS",
+   "msg": "3 keys"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S05 20.94->23.14 moves",
+   "status": "PASS",
+   "msg": "rack to the printer spitting the invoice"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S05 23.14->25.74 moves",
+   "status": "PASS",
+   "msg": "tilt down the unrolling invoice"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S05 hand-held drift",
+   "status": "PASS",
+   "msg": "street.handheld() on every frame"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/panic who declared",
+   "status": "PASS",
+   "msg": "dev"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/panic animation",
+   "status": "PASS",
+   "msg": "m:react/fury and m:run/A for extras"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/panic micro-animation",
+   "status": "PASS",
+   "msg": "headset cable snaps back"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/panic reaction",
+   "status": "PASS",
+   "msg": "coffee stream with the right thickness pours off the desk, splash where it lands, spreading puddle; red alarm starts spinning"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/panic lasting consequence",
+   "status": "PASS",
+   "msg": "coffee puddle on the floor, chairs left spinning"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/panic sound effect",
+   "status": "PASS",
+   "msg": "alarm; gasps"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/panic vs recipe liquid_pour_spill",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/invoice who declared",
+   "status": "PASS",
+   "msg": "invoice"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/invoice animation",
+   "status": "PASS",
+   "msg": "paper mesh unrolling (keyed)"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/invoice micro-animation",
+   "status": "PASS",
+   "msg": "paper curls at the end"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/invoice reaction",
+   "status": "PASS",
+   "msg": "paper feeds out line by line, curls and unrolls over the edge onto the floor; the clock hands spin fast"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/invoice lasting consequence",
+   "status": "PASS",
+   "msg": "the long invoice lies across the floor"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/invoice sound effect",
+   "status": "PASS",
+   "msg": "printer screech; paper rustle"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/invoice vs recipe paper_print_unroll",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/phones_ring who declared",
+   "status": "PASS",
+   "msg": "dev"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/phones_ring animation",
+   "status": "PASS",
+   "msg": "phone emissions keyed in a wave down the aisle"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/phones_ring micro-animation",
+   "status": "PASS",
+   "msg": "handsets rattle in their cradles"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/phones_ring reaction",
+   "status": "PASS",
+   "msg": "the phone screens light up with a flicker one after another down the aisle"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/phones_ring lasting consequence",
+   "status": "PASS",
+   "msg": "the lights stay blinking"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/phones_ring sound effect",
+   "status": "PASS",
+   "msg": "phones ringing; chatter"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/phones_ring vs recipe device_switch",
+   "status": "WARN",
+   "msg": "maybe forgotten: a button press dips under the finger | the device stays in its new state (on, or stubbornly off) until another action changes it"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/faint who declared",
+   "status": "PASS",
+   "msg": "dev"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/faint animation",
+   "status": "PASS",
+   "msg": "m:fall/A into the chair"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/faint micro-animation",
+   "status": "PASS",
+   "msg": "legs kick up"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/faint reaction",
+   "status": "PASS",
+   "msg": "chair rolls back into a desk, a mug wobbles"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/faint lasting consequence",
+   "status": "PASS",
+   "msg": "he stays slumped, chair against the desk"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/faint sound effect",
+   "status": "PASS",
+   "msg": "thud; chair roll"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S05/faint vs recipe character_hit_fall",
+   "status": "WARN",
+   "msg": "maybe forgotten: anticipation, impact, body falls with arms out, bounce, dust | lies or sits on the ground, dirty patch on the clothes, bump / stars"
+  },
+  {
+   "area": "STATE",
+   "item": "S05 invoice printer -> floor",
+   "status": "PASS",
+   "msg": "by invoice"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S05 fx",
+   "status": "PASS",
+   "msg": "red alarm sweep; papers flying"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S05 ambience",
+   "status": "PASS",
+   "msg": "office alarm, phones ringing"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S06 starts where the last ended",
+   "status": "PASS",
+   "msg": "t0 25.74 vs 25.74"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S06 place",
+   "status": "PASS",
+   "msg": "court_hospital"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S06 narration",
+   "status": "PASS",
+   "msg": "But the court said he wasn't fit to stand trial, so instead of prison, he was locked in a secure hospital, maybe for life."
+  },
+  {
+   "area": "SHOTS",
+   "item": "S06 transitions",
+   "status": "PASS",
+   "msg": "invoice slide -> door slam to black, then light (whip)"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S06 keys",
+   "status": "PASS",
+   "msg": "4 keys"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S06 25.74->28.14 moves",
+   "status": "PASS",
+   "msg": "insert on the gavel hit and the stamp"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S06 28.14->29.34 moves",
+   "status": "PASS",
+   "msg": "slow track down the white corridor"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S06 29.34->32.24 moves",
+   "status": "PASS",
+   "msg": "push in as the door closes"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S06 hand-held drift",
+   "status": "PASS",
+   "msg": "street.handheld() on every frame"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/gavel who declared",
+   "status": "PASS",
+   "msg": "judge"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/gavel animation",
+   "status": "PASS",
+   "msg": "m:hammer/A"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/gavel micro-animation",
+   "status": "PASS",
+   "msg": "wig bounces"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/gavel reaction",
+   "status": "PASS",
+   "msg": "anticipation lift then a hard hit: papers jump on the bench; camera kick on the hit"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/gavel lasting consequence",
+   "status": "PASS",
+   "msg": "file stamped INDEFINITE, a dent in the sound block"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/gavel sound effect",
+   "status": "PASS",
+   "msg": "gavel bang"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/gavel vs recipe strike_stamp",
+   "status": "WARN",
+   "msg": "maybe forgotten: ink mark / dent stays where it hit"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/door_close who declared",
+   "status": "PASS",
+   "msg": "secure_door"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/door_close animation",
+   "status": "PASS",
+   "msg": "hinge keys with overshoot"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/door_close micro-animation",
+   "status": "PASS",
+   "msg": "lock bolt slides"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/door_close reaction",
+   "status": "PASS",
+   "msg": "the door swings on its hinge (ease out, small overshoot); the light from the corridor narrows on his face, dust swirls"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/door_close lasting consequence",
+   "status": "PASS",
+   "msg": "the door stays shut and locked, his face behind the glass"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/door_close sound effect",
+   "status": "PASS",
+   "msg": "heavy door; lock clunk"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/door_close vs recipe door_open_close",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/wave who declared",
+   "status": "PASS",
+   "msg": "kid"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/wave animation",
+   "status": "PASS",
+   "msg": "m:wave/A small"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/wave micro-animation",
+   "status": "PASS",
+   "msg": "fingers only"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/wave reaction",
+   "status": "PASS",
+   "msg": "his breath fogs the glass"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/wave lasting consequence",
+   "status": "PASS",
+   "msg": "a fog patch stays on the window"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/wave sound effect",
+   "status": "PASS",
+   "msg": "squeak on glass"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S06/wave vs recipe gesture",
+   "status": "WARN",
+   "msg": "maybe forgotten: the hand leads, the arm follows, the pose holds while the narration lands | anyone watching looks at the hand | the pose sets up the next beat"
+  },
+  {
+   "area": "STATE",
+   "item": "S06 kid court -> behind the hospital door",
+   "status": "PASS",
+   "msg": "by door_close"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S06 fx",
+   "status": "PASS",
+   "msg": "dust in the window shafts"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S06 ambience",
+   "status": "PASS",
+   "msg": "court murmur, hospital hum"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S07 starts where the last ended",
+   "status": "PASS",
+   "msg": "t0 32.24 vs 32.24"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S07 place",
+   "status": "PASS",
+   "msg": "billboard"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S07 narration",
+   "status": "PASS",
+   "msg": "And the leak didn't kill the game. A year later, the real trailer became the most watched non-music video on YouTube in a single day."
+  },
+  {
+   "area": "SHOTS",
+   "item": "S07 transitions",
+   "status": "PASS",
+   "msg": "whip from the door window -> counter blur -> doctor's office"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S07 keys",
+   "status": "PASS",
+   "msg": "3 keys"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S07 32.24->35.44 moves",
+   "status": "PASS",
+   "msg": "push into the racing digits"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S07 35.44->39.72 moves",
+   "status": "PASS",
+   "msg": "orbit the crowd as the record trophy rises"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S07 hand-held drift",
+   "status": "PASS",
+   "msg": "street.handheld() on every frame"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/counter who declared",
+   "status": "PASS",
+   "msg": "counter"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/counter animation",
+   "status": "PASS",
+   "msg": "decal swap per frame range (the display is the action)"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/counter micro-animation",
+   "status": "PASS",
+   "msg": "digits blur"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/counter reaction",
+   "status": "PASS",
+   "msg": "the number changes on every beat and flashes at 90,421,491; the crowd raises phones; confetti cannons fire on the record"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/counter lasting consequence",
+   "status": "PASS",
+   "msg": "the final number stays on screen: 90,421,491 + WORLD RECORD plaque"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/counter sound effect",
+   "status": "PASS",
+   "msg": "digit ticking; crowd cheer"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/counter vs recipe countdown_display",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/cheer who declared",
+   "status": "PASS",
+   "msg": "gamer"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/cheer animation",
+   "status": "PASS",
+   "msg": "m:cheer/A with offsets"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/cheer micro-animation",
+   "status": "PASS",
+   "msg": "random timing per person"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/cheer reaction",
+   "status": "PASS",
+   "msg": "fans stand up, arms up, flags wave, confetti"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/cheer lasting consequence",
+   "status": "PASS",
+   "msg": "confetti stays on the ground"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/cheer sound effect",
+   "status": "PASS",
+   "msg": "cheer; confetti pop"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/cheer vs recipe crowd_reaction",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/trophy who declared",
+   "status": "PASS",
+   "msg": "counter"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/trophy animation",
+   "status": "PASS",
+   "msg": "trophy keyed rise with a bounce"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/trophy micro-animation",
+   "status": "PASS",
+   "msg": "sparkle glints"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/trophy reaction",
+   "status": "PASS",
+   "msg": "spotlights swing onto it"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/trophy lasting consequence",
+   "status": "PASS",
+   "msg": "the trophy stays lit"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/trophy sound effect",
+   "status": "PASS",
+   "msg": "fanfare"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S07/trophy recipe",
+   "status": "WARN",
+   "msg": "no recipe matches: add one to library/reactions/reactions.json when it is built"
+  },
+  {
+   "area": "STATE",
+   "item": "S07 counter 0 -> 90,421,491",
+   "status": "PASS",
+   "msg": "by counter"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S07 fx",
+   "status": "PASS",
+   "msg": "confetti; billboard light on faces"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S07 ambience",
+   "status": "PASS",
+   "msg": "square crowd, dusk city"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S08 starts where the last ended",
+   "status": "PASS",
+   "msg": "t0 39.72 vs 39.72"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S08 place",
+   "status": "PASS",
+   "msg": "doctor_prison"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S08 narration",
+   "status": "PASS",
+   "msg": "Then this year, doctors decided he was fit for trial after all, and he was moved back to prison."
+  },
+  {
+   "area": "SHOTS",
+   "item": "S08 transitions",
+   "status": "PASS",
+   "msg": "counter blur -> cell door slam"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S08 keys",
+   "status": "PASS",
+   "msg": "3 keys"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S08 39.72->41.52 moves",
+   "status": "PASS",
+   "msg": "snap push to his shocked face"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S08 41.52->44.88 moves",
+   "status": "PASS",
+   "msg": "pull back as the cell door slides shut"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S08 hand-held drift",
+   "status": "PASS",
+   "msg": "street.handheld() on every frame"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/stamp who declared",
+   "status": "PASS",
+   "msg": "doctor"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/stamp animation",
+   "status": "PASS",
+   "msg": "m:hammer/B"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/stamp micro-animation",
+   "status": "PASS",
+   "msg": "glasses slide down"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/stamp reaction",
+   "status": "PASS",
+   "msg": "anticipation lift then a hard hit: ink splat, pen jumps"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/stamp lasting consequence",
+   "status": "PASS",
+   "msg": "the file stays stamped FIT FOR TRIAL, ink mark"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/stamp sound effect",
+   "status": "PASS",
+   "msg": "stamp thump"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/stamp vs recipe strike_stamp",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/shock who declared",
+   "status": "PASS",
+   "msg": "kid"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/shock animation",
+   "status": "PASS",
+   "msg": "m:idle/B k:shocked"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/shock micro-animation",
+   "status": "PASS",
+   "msg": "tremble"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/shock reaction",
+   "status": "PASS",
+   "msg": "the face changes on 'fit' to an exaggerated drawing (eyes pop) with a head pop; a world effect answers: the lamp flickers, papers fly off the desk"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/shock lasting consequence",
+   "status": "PASS",
+   "msg": "the effect fades but marks stay: papers on the floor, sweat drop until the end of the shot"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/shock sound effect",
+   "status": "PASS",
+   "msg": "sting"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/shock vs recipe extreme_emotion",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/cell who declared",
+   "status": "PASS",
+   "msg": "kid"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/cell animation",
+   "status": "PASS",
+   "msg": "door keys"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/cell micro-animation",
+   "status": "PASS",
+   "msg": "bars rattle"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/cell reaction",
+   "status": "PASS",
+   "msg": "the barred door slides on its rail (ease out, small overshoot); light changes through the bars, bar shadows sweep across him, dust swirl"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/cell lasting consequence",
+   "status": "PASS",
+   "msg": "the door stays shut, he is inside the cell"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/cell sound effect",
+   "status": "PASS",
+   "msg": "metal slam"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S08/cell vs recipe door_open_close",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "STATE",
+   "item": "S08 kid hospital -> cell",
+   "status": "PASS",
+   "msg": "by cell"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S08 fx",
+   "status": "PASS",
+   "msg": "sweat drop; bar shadows"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S08 ambience",
+   "status": "PASS",
+   "msg": "office tick, prison echo"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S09 starts where the last ended",
+   "status": "PASS",
+   "msg": "t0 44.88 vs 44.88"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S09 place",
+   "status": "PASS",
+   "msg": "shop_street"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S09 narration",
+   "status": "PASS",
+   "msg": "And just three days before GTA 6 finally came out, he pleaded guilty."
+  },
+  {
+   "area": "SHOTS",
+   "item": "S09 transitions",
+   "status": "PASS",
+   "msg": "cell door slam -> calendar flip -> the queue's phones -> the cell"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S09 keys",
+   "status": "PASS",
+   "msg": "3 keys"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S09 44.88->46.48 moves",
+   "status": "PASS",
+   "msg": "low tracking along the queue in the rain"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S09 46.48->48.82 moves",
+   "status": "PASS",
+   "msg": "push into a phone showing the headline 'PLEADS GUILTY'"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S09 hand-held drift",
+   "status": "PASS",
+   "msg": "street.handheld() on every frame"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/calendar who declared",
+   "status": "PASS",
+   "msg": "calendar"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/calendar animation",
+   "status": "PASS",
+   "msg": "page meshes peel off (keyed)"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/calendar micro-animation",
+   "status": "PASS",
+   "msg": "pages flutter"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/calendar reaction",
+   "status": "PASS",
+   "msg": "the number changes on each tear 16 -> 17 -> 18 -> 19 and the page flashes; torn pages drift down"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/calendar lasting consequence",
+   "status": "PASS",
+   "msg": "the final number stays on screen: NOV 19; pages stay on the floor"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/calendar sound effect",
+   "status": "PASS",
+   "msg": "paper rips"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/calendar vs recipe countdown_display",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/umbrella who declared",
+   "status": "PASS",
+   "msg": "gamer"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/umbrella animation",
+   "status": "PASS",
+   "msg": "umbrella keyed flip"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/umbrella micro-animation",
+   "status": "PASS",
+   "msg": "he clings to it"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/umbrella reaction",
+   "status": "PASS",
+   "msg": "rain sprays on the queue"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/umbrella lasting consequence",
+   "status": "PASS",
+   "msg": "the broken umbrella stays inside out"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/umbrella sound effect",
+   "status": "PASS",
+   "msg": "whoosh; snap"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/umbrella vs recipe wind_gust",
+   "status": "WARN",
+   "msg": "maybe forgotten: leaves, grass, flags, hair and clothes move in the same direction, dust swirls | light objects displaced"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/queue who declared",
+   "status": "PASS",
+   "msg": "gamer"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/queue animation",
+   "status": "PASS",
+   "msg": "m:wait/A, m:phone/A"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/queue micro-animation",
+   "status": "PASS",
+   "msg": "breath steam; shiver"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/queue reaction",
+   "status": "PASS",
+   "msg": "rain splashes on hoods; puddles ripple"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/queue lasting consequence",
+   "status": "PASS",
+   "msg": "wet hoodies, puddles"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/queue sound effect",
+   "status": "PASS",
+   "msg": "rain; chatter"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S09/queue vs recipe rain",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "STATE",
+   "item": "S09 calendar NOV 16 -> NOV 19",
+   "status": "PASS",
+   "msg": "by calendar"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S09 fx",
+   "status": "PASS",
+   "msg": "rain; neon reflections"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S09 ambience",
+   "status": "PASS",
+   "msg": "rain, street"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S10 starts where the last ended",
+   "status": "PASS",
+   "msg": "t0 48.82 vs 48.82"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S10 place",
+   "status": "PASS",
+   "msg": "doctor_prison"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S10 narration",
+   "status": "PASS",
+   "msg": "So the guy who showed the world GTA 6 first will probably be the last one to play it."
+  },
+  {
+   "area": "SHOTS",
+   "item": "S10 transitions",
+   "status": "PASS",
+   "msg": "the queue's phones -> the cell -> loop: the switched-off cell TV -> the hotel TV of frame 1"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S10 keys",
+   "status": "PASS",
+   "msg": "3 keys"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S10 48.82->51.82 moves",
+   "status": "PASS",
+   "msg": "push into the black screen: his reflection"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S10 51.82->54.38 moves",
+   "status": "PASS",
+   "msg": "the reflection becomes the hotel TV of frame 1 (loop)"
+  },
+  {
+   "area": "CAMERA",
+   "item": "S10 hand-held drift",
+   "status": "PASS",
+   "msg": "street.handheld() on every frame"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/sigh who declared",
+   "status": "PASS",
+   "msg": "kid"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/sigh animation",
+   "status": "PASS",
+   "msg": "m:react/sigh"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/sigh micro-animation",
+   "status": "PASS",
+   "msg": "shoulders drop"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/sigh reaction",
+   "status": "PASS",
+   "msg": "the face changes ON the word 'last' with a head pop; the body answers the face: he slumps, shoulders down; dust lifts from the mattress"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/sigh lasting consequence",
+   "status": "PASS",
+   "msg": "the emotion stays: he stays slumped"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/sigh sound effect",
+   "status": "PASS",
+   "msg": "sigh; springs creak"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/sigh vs recipe emotion_beat",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/tv_dead who declared",
+   "status": "PASS",
+   "msg": "cell_tv"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/tv_dead animation",
+   "status": "PASS",
+   "msg": "m:button/A + TV stays off"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/tv_dead micro-animation",
+   "status": "PASS",
+   "msg": "button clicks twice"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/tv_dead reaction",
+   "status": "PASS",
+   "msg": "the button dips under the finger, a tiny spark, then nothing"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/tv_dead lasting consequence",
+   "status": "PASS",
+   "msg": "the device stays stubbornly off: the TV stays black with his reflection"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/tv_dead sound effect",
+   "status": "PASS",
+   "msg": "click click; tiny fizz"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/tv_dead vs recipe device_switch",
+   "status": "WARN",
+   "msg": "maybe forgotten: the screen / LED wakes with a flicker, its light falls on nearby faces and surfaces"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/neighbour who declared",
+   "status": "PASS",
+   "msg": "gamer"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/neighbour animation",
+   "status": "PASS",
+   "msg": "off-screen sound + light flicker on the wall"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/neighbour micro-animation",
+   "status": "PASS",
+   "msg": "light flickers"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/neighbour reaction",
+   "status": "PASS",
+   "msg": "coloured TV light from the next cell dances on his wall"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/neighbour lasting consequence",
+   "status": "PASS",
+   "msg": "the light keeps flickering"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/neighbour sound effect",
+   "status": "PASS",
+   "msg": "game music muffled; cheer"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "S10/neighbour recipe",
+   "status": "WARN",
+   "msg": "no recipe matches: add one to library/reactions/reactions.json when it is built"
+  },
+  {
+   "area": "STATE",
+   "item": "S10 kid already in the cell (S08 cell action)",
+   "status": "PASS",
+   "msg": "by cell"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S10 fx",
+   "status": "PASS",
+   "msg": "dust motes; reflection"
+  },
+  {
+   "area": "SHOTS",
+   "item": "S10 ambience",
+   "status": "PASS",
+   "msg": "prison echo, distant TV from another cell (game sounds)"
+  },
+  {
+   "area": "SHOTS",
+   "item": "cover the duration",
+   "status": "PASS",
+   "msg": "54.38 / 54.38 s"
+  },
+  {
+   "area": "RHYTHM",
+   "item": "actions per 10 s",
+   "status": "PASS",
+   "msg": "6.1 (style ~11 events per 10 s)"
+  },
+  {
+   "area": "RHYTHM",
+   "item": "music bed",
+   "status": "PASS",
+   "msg": "light, mischievous bed (pizzicato + synth bass), -7.6 dB under the voice, a drop on the twist (line 7) and a sting on the punchline"
+  },
+  {
+   "area": "RHYTHM",
+   "item": "loudness target",
+   "status": "PASS",
+   "msg": "-14"
+  },
+  {
+   "area": "STORY",
+   "item": "hook action shown in the 1st second",
+   "status": "PASS",
+   "msg": "{\"action\": \"plug_in\", \"t\": 0.3}"
+  },
+  {
+   "area": "STORY",
+   "item": "facts written in the set",
+   "status": "PASS",
+   "msg": "8 facts"
+  },
+  {
+   "area": "STORY",
+   "item": ">= 2 light moods",
+   "status": "PASS",
+   "msg": "purple dusk + billboard glow, night city, night corridor, neon night (pink / cyan), night: blue TV glow + warm bedside lamp, night city: windows, street lamps, purple dusk, warm court wood, then cold hospital white, cold daylight office, grey prison, warm court -> cold hospital, grey prison, night interior: warm sconces, light under his door flickering blue, cold morning + red alarm, neon night, cold morning, night TV"
+  },
+  {
+   "area": "STORY",
+   "item": "emotion close-up",
+   "status": "PASS",
+   "msg": "shot_type / framing 'close' or 'extreme_close'"
+  },
+  {
+   "area": "STORY",
+   "item": "insert shot",
+   "status": "PASS",
+   "msg": "shot_type / framing 'insert' (top-down detail of the story object)"
+  },
+  {
+   "area": "STORY",
+   "item": "captions spec",
+   "status": "PASS",
+   "msg": "{\"words\": [1, 3], \"style\": \"white bold rounded, thick black outline, centred at 70 % height, one change per word (words.json)\"}"
+  },
+  {
+   "area": "STORY",
+   "item": "loop to the first image",
+   "status": "PASS",
+   "msg": "last shot pushes into the switched-off cell TV, whose reflection matches the hotel TV of the first frame"
+  },
+  {
+   "area": "LESSONS",
+   "item": "PI-016",
+   "status": "PASS",
+   "msg": "Characters and props appeared, disappeared, teleported or shrank in view: the hero 'appears suddenly' out of t... -> list it in lessons_planned with how the plan avoids it"
+  }
+ ]
+}

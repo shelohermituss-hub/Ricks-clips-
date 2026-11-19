@@ -894,6 +894,78 @@
    ],
    "build": "text decal swapped per frame range on an emissive display mesh (the swap IS the action of the display)",
    "seen_in": "crash_instinct 9-11 s, whale_boat 13-15 s, dashcam 33 s"
+  },
+  {
+   "id": "device_switch",
+   "triggers": [
+    "lights up",
+    "switches on",
+    "turns on",
+    "presses the tv button",
+    "hotspot",
+    "screen",
+    "led"
+   ],
+   "reactions": [
+    "the screen / LED wakes with a flicker, its light falls on nearby faces and surfaces",
+    "a button press dips under the finger"
+   ],
+   "consequences": [
+    "the device stays in its new state (on, or stubbornly off) until another action changes it"
+   ],
+   "micro": [
+    "standby LED blink, screen boot animation"
+   ],
+   "sfx": [
+    "click",
+    "power hum or boot chime"
+   ],
+   "build": "emissive material keyed (0 -> value with a 2-frame flicker) + a small area light that follows it"
+  },
+  {
+   "id": "strike_stamp",
+   "triggers": [
+    "gavel",
+    "stamp",
+    "stamps",
+    "slams"
+   ],
+   "reactions": [
+    "anticipation lift, a hard hit, objects on the desk jump, a camera kick"
+   ],
+   "consequences": [
+    "ink mark / dent stays where it hit"
+   ],
+   "micro": [
+    "wig or glasses bounce, pen rolls"
+   ],
+   "sfx": [
+    "bang / thump"
+   ],
+   "build": "keyed arm + prop with a 2-frame hold before the hit; desk props keyed to hop 1-2 cm"
+  },
+  {
+   "id": "paper_print_unroll",
+   "triggers": [
+    "prints",
+    "printer",
+    "invoice",
+    "unrolls"
+   ],
+   "reactions": [
+    "paper feeds out line by line, curls, unrolls over the edge"
+   ],
+   "consequences": [
+    "the long paper lies on the floor"
+   ],
+   "micro": [
+    "paper flutters in the air flow"
+   ],
+   "sfx": [
+    "printer screech",
+    "paper rustle"
+   ],
+   "build": "curve-deformed paper mesh keyed along its length, text decal revealed as it feeds"
   }
  ]
 }

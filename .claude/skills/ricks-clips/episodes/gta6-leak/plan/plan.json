@@ -1,0 +1,2234 @@
+{
+ "title": "He Leaked GTA 6 From A Hotel Room",
+ "kind": "video",
+ "style": "references/STYLE_BIBLE_FR.md",
+ "format": "1080x1920",
+ "fps": 30,
+ "duration_s": 54.38,
+ "notes": "Narration EN, voix Fish 'rick' (voice/). Faits et sources: research/SOURCES.md. Aucune marque Rockstar/GTA dessinée: le jeu = écrans flous, boîte générique « 6 ». Droits: personnages de notre distribution.",
+ "voice": {
+  "text": "He leaked the biggest video game on earth from a hotel room using nothing but a TV stick and a phone. You see, he was 18, already on bail for hacking and hiding in that hotel under police protection. So he plugged the stick into the TV, grabbed a keyboard and slipped into Rockstar's private chat. Then he dropped over 90 clips of the secret game for the whole internet to see. Rockstar says the leak cost them $5 million and thousands of hours of work. But the court said he wasn't fit to stand trial. So instead of prison, he was locked in a secure hospital, maybe for life, and the leak didn't kill the game. A year later, the real trailer became the most watched non -music video on YouTube in a single day. Then this year, doctors decided he was fit for trial after all, and he was moved back to prison. And just three days before GTA 6 finally came out, he pleaded guilty. So the guy who showed the world GTA 6 first will probably be the last one to play it.",
+  "words": 187,
+  "file": "voice/voice.wav",
+  "duration_s": 53.78
+ },
+ "hook": {
+  "action": "plug_in",
+  "t": 0.3
+ },
+ "captions": {
+  "words": [
+   1,
+   3
+  ],
+  "style": "white bold rounded, thick black outline, centred at 70 % height, one change per word (words.json)"
+ },
+ "loop": "last shot pushes into the switched-off cell TV, whose reflection matches the hotel TV of the first frame",
+ "facts": [
+  {
+   "fact": "18 — eighteen years old",
+   "shot": "S02",
+   "prop": "hotel key card sleeve with a birthday sticker '18' + bail tag on his ankle"
+  },
+  {
+   "fact": "90 clips (over 90)",
+   "shot": "S04",
+   "prop": "upload counter on the laptop-TV screen climbing 0 -> 90 CLIPS UPLOADED"
+  },
+  {
+   "fact": "$5 million — 5,000,000",
+   "shot": "S05",
+   "prop": "giant invoice printed on the studio printer: DAMAGE $5,000,000"
+  },
+  {
+   "fact": "thousands of hours",
+   "shot": "S05",
+   "prop": "wall clock spinning + timesheet board '4,000 HRS'"
+  },
+  {
+   "fact": "secure hospital, indefinite",
+   "shot": "S06",
+   "prop": "hospital door sign SECURE WARD + stamp INDEFINITE on the file"
+  },
+  {
+   "fact": "90,421,491 views in 24 h — record",
+   "shot": "S07",
+   "prop": "dusk billboard counter 90,421,491 VIEWS + trophy plaque WORLD RECORD"
+  },
+  {
+   "fact": "fit for trial — moved to prison",
+   "shot": "S08",
+   "prop": "doctor's stamp FIT FOR TRIAL on the file"
+  },
+  {
+   "fact": "Nov 16 guilty plea, Nov 19 release, 3 days, GTA 6",
+   "shot": "S09",
+   "prop": "tear-off calendar NOV 16 -> NOV 19 + shop window poster with a big '6' (no logo)"
+  }
+ ],
+ "needs": [
+  {
+   "id": "hotel_room",
+   "kind": "set",
+   "source": "script (sets/hotel.py): bed, bedside lamp, wall TV, curtains, carpet scan",
+   "state": "to build"
+  },
+  {
+   "id": "carpet",
+   "kind": "texture",
+   "source": "polyhaven:fabric_pattern_05 or ambientcg Carpet (to pick at download)",
+   "state": "to download"
+  },
+  {
+   "id": "wood_floor",
+   "kind": "texture",
+   "source": "polyhaven:wood_floor_deck / laminate_floor_02",
+   "state": "to download"
+  },
+  {
+   "id": "concrete_wall_008",
+   "kind": "texture",
+   "source": "polyhaven:concrete_wall_008",
+   "state": "cached"
+  },
+  {
+   "id": "night_city_hdri",
+   "kind": "hdri",
+   "source": "polyhaven (city night, CC0, to pick)",
+   "state": "to download"
+  },
+  {
+   "id": "tv_stick, phone, keyboard, remote",
+   "kind": "props",
+   "source": "script (small detailed props, rounded bevels)",
+   "state": "to build"
+  },
+  {
+   "id": "cast",
+   "kind": "characters",
+   "source": "cast: hacker, police, judge, doctor, programmer, gamer, nurse",
+   "state": "drawn by tools/card_service.py"
+  },
+  {
+   "id": "sounds",
+   "kind": "sfx",
+   "source": "templates/audio sfx_gen + rc.sound",
+   "state": "to generate"
+  }
+ ],
+ "places": [
+  {
+   "id": "hotel",
+   "description": "budget hotel room at night: double bed with a crumpled duvet, bedside lamp, wall TV, half-drawn curtains with the city lights, room-service tray, ugly patterned carpet, 'DO NOT DISTURB' hanger",
+   "ground": {
+    "name": "carpet",
+    "texture": "polyhaven:fabric_pattern_05",
+    "tile": 1.2,
+    "extra": "coffee stain, crisps crumbs near the bed"
+   },
+   "surfaces": [
+    {
+     "name": "walls",
+     "texture": "polyhaven:beige_wall_001"
+    },
+    {
+     "name": "headboard",
+     "texture": "polyhaven:fabric_leather_02"
+    }
+   ],
+   "sky": "city night through the window (lit windows, a few neon signs), HDRI for reflections only",
+   "light": {
+    "sun": {
+     "elevation": -10,
+     "azimuth": 0,
+     "energy": 0.0,
+     "angle": 1.5
+    },
+    "fill": 0.08,
+    "mood": "night: blue TV glow + warm bedside lamp",
+    "practicals": [
+     "TV screen emission 6 (blue-white, flickers with the screen content)",
+     "bedside lamp 40 W warm 2700 K",
+     "street neon through the curtains (magenta, slow pulse)"
+    ]
+   },
+   "shadows": "hard TV-light shadow of his head and hands on the duvet and wall; lamp shadow of the bed corner on the carpet; curtain slats stripe the wall",
+   "props": [
+    {
+     "id": "tv_stick",
+     "source": "script"
+    },
+    {
+     "id": "phone",
+     "source": "script"
+    },
+    {
+     "id": "keyboard",
+     "source": "script"
+    },
+    {
+     "id": "room_service_tray",
+     "source": "script + polyhaven food props"
+    },
+    {
+     "id": "do_not_disturb_hanger",
+     "source": "script + text decal"
+    },
+    {
+     "id": "key_card_sleeve_18",
+     "source": "script + text decal"
+    },
+    {
+     "id": "energy_drink_cans",
+     "source": "script"
+    }
+   ]
+  },
+  {
+   "id": "corridor",
+   "description": "hotel corridor outside his door: patterned carpet, door 214, police officer on a chair with a paper cup",
+   "ground": {
+    "name": "corridor carpet",
+    "texture": "polyhaven:fabric_pattern_05",
+    "tile": 1.2
+   },
+   "surfaces": [
+    {
+     "name": "walls",
+     "texture": "polyhaven:beige_wall_001"
+    },
+    {
+     "name": "doors",
+     "texture": "polyhaven:wood_table_001"
+    }
+   ],
+   "sky": "none (interior)",
+   "light": {
+    "sun": {
+     "elevation": -10,
+     "azimuth": 0,
+     "energy": 0.0,
+     "angle": 1.5
+    },
+    "fill": 0.15,
+    "mood": "night interior: warm sconces, light under his door flickering blue",
+    "practicals": [
+     "wall sconces warm",
+     "blue TV flicker under the door"
+    ]
+   },
+   "shadows": "sconce pools on the carpet, the officer's long shadow across the door",
+   "props": [
+    {
+     "id": "chair",
+     "source": "polyhaven:woodenchair_01"
+    },
+    {
+     "id": "paper_cup",
+     "source": "script"
+    },
+    {
+     "id": "door_214",
+     "source": "script + decal"
+    },
+    {
+     "id": "fire_extinguisher",
+     "source": "script"
+    },
+    {
+     "id": "ice_machine",
+     "source": "script"
+    }
+   ]
+  },
+  {
+   "id": "city",
+   "description": "the city at night seen from above: rooftops, streets of light; the 90 clips fly out of the hotel window like glowing cards and scatter over the city into thousands of phone screens lighting up",
+   "ground": {
+    "name": "streets",
+    "texture": "polyhaven:asphalt_track",
+    "tile": 3.0
+   },
+   "surfaces": [
+    {
+     "name": "rooftops",
+     "texture": "polyhaven:concrete_wall_008"
+    }
+   ],
+   "sky": "deep night blue gradient, a few clouds lit from below",
+   "light": {
+    "sun": {
+     "elevation": -8,
+     "azimuth": 0,
+     "energy": 0.0,
+     "angle": 1.5
+    },
+    "fill": 0.12,
+    "mood": "night city: windows, street lamps"
+   },
+   "shadows": "little sun; the flying clips cast moving light pools on the roofs",
+   "props": [
+    {
+     "id": "instanced_buildings",
+     "source": "script (boxes with window textures, built for the frame)"
+    },
+    {
+     "id": "street_lamps",
+     "source": "script"
+    },
+    {
+     "id": "billboards",
+     "source": "script"
+    },
+    {
+     "id": "clip_cards",
+     "source": "script (90 emissive cards)"
+    }
+   ]
+  },
+  {
+   "id": "studio",
+   "description": "a game studio open office in panic: rows of desks, big monitors, coffee everywhere, red alarm light, printer spitting the damage invoice",
+   "ground": {
+    "name": "office floor",
+    "texture": "polyhaven:laminate_floor_02",
+    "tile": 2.0
+   },
+   "surfaces": [
+    {
+     "name": "walls",
+     "texture": "polyhaven:beige_wall_001"
+    },
+    {
+     "name": "desks",
+     "texture": "polyhaven:wood_table_001"
+    }
+   ],
+   "sky": "city morning through big windows",
+   "light": {
+    "sun": {
+     "elevation": 25,
+     "azimuth": 120,
+     "energy": 4.5,
+     "angle": 1.5
+    },
+    "fill": 0.35,
+    "mood": "cold morning + red alarm",
+    "practicals": [
+     "rotating red alarm light",
+     "monitor glows",
+     "fluorescent ceiling panels"
+    ]
+   },
+   "shadows": "window frames cast long bars across the desks; alarm sweeps red shadows",
+   "props": [
+    {
+     "id": "desks_monitors",
+     "source": "script"
+    },
+    {
+     "id": "printer",
+     "source": "script"
+    },
+    {
+     "id": "invoice",
+     "source": "script + decal"
+    },
+    {
+     "id": "wall_clock",
+     "source": "script"
+    },
+    {
+     "id": "timesheet_board",
+     "source": "script + decal"
+    },
+    {
+     "id": "coffee_cups",
+     "source": "script"
+    }
+   ]
+  },
+  {
+   "id": "court_hospital",
+   "description": "courtroom (wood panels, judge's bench, gavel) then the secure hospital corridor (white, glass, heavy door)",
+   "ground": {
+    "name": "court floor",
+    "texture": "polyhaven:wood_floor_deck",
+    "tile": 1.5
+   },
+   "surfaces": [
+    {
+     "name": "panels",
+     "texture": "polyhaven:wood_table_001"
+    },
+    {
+     "name": "hospital floor",
+     "texture": "polyhaven:concrete_floor_painted"
+    }
+   ],
+   "sky": "tall court windows, overcast",
+   "light": {
+    "sun": {
+     "elevation": 35,
+     "azimuth": 200,
+     "energy": 3.5,
+     "angle": 3
+    },
+    "fill": 0.3,
+    "mood": "warm court wood, then cold hospital white",
+    "practicals": [
+     "brass desk lamps in court",
+     "cold strip lights in the hospital"
+    ]
+   },
+   "shadows": "window light shafts across the court; hospital: the closing door's shadow swallows him",
+   "props": [
+    {
+     "id": "judge_bench",
+     "source": "script"
+    },
+    {
+     "id": "gavel",
+     "source": "script"
+    },
+    {
+     "id": "secure_door",
+     "source": "script + decal SECURE WARD"
+    },
+    {
+     "id": "file_stamp_indefinite",
+     "source": "script + decal"
+    }
+   ]
+  },
+  {
+   "id": "billboard",
+   "description": "a huge digital billboard over a square at purple dusk, the view counter racing to 90,421,491, people stopping with their phones up",
+   "ground": {
+    "name": "square paving",
+    "texture": "polyhaven:brick_pavement_03",
+    "tile": 1.5
+   },
+   "surfaces": [
+    {
+     "name": "buildings",
+     "texture": "polyhaven:concrete_wall_008"
+    }
+   ],
+   "sky": "purple to orange dusk gradient, pink clouds",
+   "light": {
+    "sun": {
+     "elevation": 3,
+     "azimuth": 250,
+     "energy": 3.0,
+     "angle": 2
+    },
+    "fill": 0.35,
+    "mood": "purple dusk + billboard glow"
+   },
+   "shadows": "long low-sun shadows of the crowd across the paving; the billboard throws coloured light on faces",
+   "props": [
+    {
+     "id": "billboard_counter",
+     "source": "script + animated text decal"
+    },
+    {
+     "id": "record_trophy",
+     "source": "script"
+    },
+    {
+     "id": "crowd_phones",
+     "source": "script (cards)"
+    },
+    {
+     "id": "street_furniture",
+     "source": "script"
+    }
+   ]
+  },
+  {
+   "id": "doctor_prison",
+   "description": "doctor's office (stamp FIT FOR TRIAL) then the prison van / cell",
+   "ground": {
+    "name": "office lino",
+    "texture": "polyhaven:concrete_floor_painted",
+    "tile": 1.5
+   },
+   "surfaces": [
+    {
+     "name": "prison walls",
+     "texture": "polyhaven:concrete_wall_008"
+    }
+   ],
+   "sky": "none",
+   "light": {
+    "sun": {
+     "elevation": 30,
+     "azimuth": 160,
+     "energy": 3.0,
+     "angle": 1.5
+    },
+    "fill": 0.3,
+    "mood": "cold daylight office, grey prison"
+   },
+   "shadows": "window bar shadows on the cell floor; desk lamp pool on the file",
+   "props": [
+    {
+     "id": "stamp",
+     "source": "script"
+    },
+    {
+     "id": "patient_file",
+     "source": "script + decal"
+    },
+    {
+     "id": "cell_bunk",
+     "source": "script"
+    },
+    {
+     "id": "small_cell_tv",
+     "source": "script"
+    }
+   ]
+  },
+  {
+   "id": "shop_street",
+   "description": "a game shop street at night: the queue of gamers in hoodies with sleeping bags, neon, a shop window with a big '6' poster (no logo), a tear-off calendar in the shop",
+   "ground": {
+    "name": "pavement",
+    "texture": "polyhaven:brick_pavement_03",
+    "tile": 1.5
+   },
+   "surfaces": [
+    {
+     "name": "shopfront",
+     "texture": "polyhaven:concrete_wall_008"
+    }
+   ],
+   "sky": "night, wet street reflections",
+   "light": {
+    "sun": {
+     "elevation": -10,
+     "azimuth": 0,
+     "energy": 0.0,
+     "angle": 1.5
+    },
+    "fill": 0.12,
+    "mood": "neon night (pink / cyan)",
+    "practicals": [
+     "shop window light",
+     "neon sign",
+     "phone screens in the queue"
+    ]
+   },
+   "shadows": "queue silhouettes against the bright window, long neon shadows on the wet pavement",
+   "props": [
+    {
+     "id": "queue_gamers",
+     "source": "cast cards"
+    },
+    {
+     "id": "poster_6",
+     "source": "script + decal"
+    },
+    {
+     "id": "calendar",
+     "source": "script + decal"
+    },
+    {
+     "id": "sleeping_bags",
+     "source": "script"
+    },
+    {
+     "id": "puddles",
+     "source": "script (wet decals)"
+    }
+   ]
+  }
+ ],
+ "objects": [
+  {
+   "id": "tv_stick",
+   "source": "script",
+   "material": "matte black plastic, tiny LED",
+   "states": [
+    "in the box",
+    "plugged in (LED on)"
+   ]
+  },
+  {
+   "id": "phone",
+   "source": "script",
+   "material": "glass + aluminium, screen emission",
+   "states": [
+    "dark",
+    "lit hotspot screen"
+   ]
+  },
+  {
+   "id": "keyboard",
+   "source": "script",
+   "material": "black plastic keys, backlight",
+   "states": [
+    "on the bed",
+    "typing (keys press)"
+   ]
+  },
+  {
+   "id": "hotel_tv",
+   "source": "script",
+   "material": "glossy black bezel, emissive screen",
+   "states": [
+    "off",
+    "on: code / chat / upload bar"
+   ]
+  },
+  {
+   "id": "clips",
+   "source": "script (90 emissive cards)",
+   "material": "emissive video frames (blurred generic game shots, no logo)",
+   "states": [
+    "on screen",
+    "flying",
+    "landed on phones"
+   ]
+  },
+  {
+   "id": "invoice",
+   "source": "script + decal",
+   "material": "paper",
+   "states": [
+    "printing",
+    "unrolled across the floor"
+   ]
+  },
+  {
+   "id": "file",
+   "source": "script + decal",
+   "material": "paper folder",
+   "states": [
+    "blank",
+    "stamped INDEFINITE",
+    "stamped FIT FOR TRIAL"
+   ]
+  },
+  {
+   "id": "counter",
+   "source": "script (text decal swapped by frame range)",
+   "material": "emissive LED",
+   "states": [
+    "0",
+    "racing",
+    "90,421,491"
+   ]
+  },
+  {
+   "id": "calendar",
+   "source": "script + decal",
+   "material": "paper",
+   "states": [
+    "NOV 16",
+    "pages torn",
+    "NOV 19"
+   ]
+  },
+  {
+   "id": "cell_tv",
+   "source": "script",
+   "material": "old plastic TV",
+   "states": [
+    "off (reflection)"
+   ]
+  },
+  {
+   "id": "secure_door",
+   "source": "script + decal SECURE WARD",
+   "material": "painted steel, wired glass window",
+   "states": [
+    "open",
+    "closed and locked"
+   ]
+  },
+  {
+   "id": "cell_door",
+   "source": "script",
+   "material": "steel bars",
+   "states": [
+    "open",
+    "slid shut"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "kid",
+   "puppet": "cast:hacker",
+   "costume": "hoodie, pyjama trousers, socks, ankle bail tag (3D prop)",
+   "view": "34",
+   "held": [
+    "tv_stick",
+    "phone",
+    "keyboard"
+   ]
+  },
+  {
+   "id": "cop",
+   "puppet": "cast:police",
+   "costume": "uniform, paper cup",
+   "view": "34"
+  },
+  {
+   "id": "judge",
+   "puppet": "cast:judge",
+   "costume": "robe, wig",
+   "view": "front"
+  },
+  {
+   "id": "doctor",
+   "puppet": "cast:doctor",
+   "costume": "white coat, clipboard",
+   "view": "34"
+  },
+  {
+   "id": "dev",
+   "puppet": "cast:programmer",
+   "costume": "studio hoodie (no logo), headset",
+   "view": "34"
+  },
+  {
+   "id": "gamer",
+   "puppet": "cast:gamer",
+   "costume": "hoodie, sleeping bag, phone",
+   "view": "34"
+  }
+ ],
+ "shots": [
+  {
+   "id": "S01",
+   "place": "hotel",
+   "line": 1,
+   "t0": 0,
+   "t1": 5.48,
+   "narration": "He leaked the biggest video game on Earth from a hotel room, using nothing but a TV stick and a phone.",
+   "transition_in": "first frame (loop target)",
+   "transition_out": "whip pan to the door",
+   "camera": [
+    {
+     "t": 0,
+     "pos": [
+      0.6,
+      -0.9,
+      0.55
+     ],
+     "aim": "tv port",
+     "lens": 24,
+     "move": "macro push on the stick going into the TV port",
+     "framing": "insert"
+    },
+    {
+     "t": 1.6,
+     "pos": [
+      0.2,
+      -1.6,
+      1.0
+     ],
+     "aim": "kid face lit by the TV",
+     "lens": 35,
+     "move": "pull back and rise: his face lights up",
+     "framing": "close"
+    },
+    {
+     "t": 3.6,
+     "pos": [
+      -1.2,
+      -2.6,
+      1.6
+     ],
+     "aim": "room",
+     "lens": 28,
+     "move": "crane back to the whole room: stick, phone, TV",
+     "framing": "wide"
+    },
+    {
+     "t": 5.48,
+     "pos": [
+      -1.4,
+      -2.9,
+      1.7
+     ],
+     "aim": "room",
+     "lens": 28,
+     "move": "slow drift",
+     "framing": "medium"
+    }
+   ],
+   "actions": [
+    {
+     "id": "plug_in",
+     "who": "kid",
+     "f": [
+      9,
+      45
+     ],
+     "what": "plugs the TV stick into the hotel TV",
+     "anim": "m:button/A (hand to the port), stick follows the hand (card_anchors)",
+     "micro": [
+      "fingers wiggle the stick in",
+      "LED blinks"
+     ],
+     "reactions": [
+      "his hand reaches the port and the stick follows the hand from contact (no teleport)",
+      "the TV wakes: static then a blue boot screen",
+      "the room goes from dark to TV-blue"
+     ],
+     "consequences": [
+      "the stick stays plugged with its LED on for the whole film",
+      "the empty stick box is left on the bed"
+     ],
+     "sfx": [
+      "click",
+      "TV power-on hum"
+     ],
+     "recipe": "object_pick_up"
+    },
+    {
+     "id": "grin",
+     "who": "kid",
+     "f": [
+      48,
+      102
+     ],
+     "what": "his face lights up blue, sly grin",
+     "anim": "m:idle/B k:smug",
+     "micro": [
+      "blink",
+      "eyebrow wiggle"
+     ],
+     "reactions": [
+      "the face changes ON the word 'leaked' with a head pop",
+      "the body answers the face: he leans back on the pillows, shoulders up",
+      "TV light flickers on his face"
+     ],
+     "consequences": [
+      "the grin stays as he settles on the bed"
+     ],
+     "sfx": [
+      "sly 'heh'"
+     ],
+     "recipe": "emotion_beat"
+    },
+    {
+     "id": "phone_hotspot",
+     "who": "phone",
+     "f": [
+      108,
+      164
+     ],
+     "what": "the phone on the bed lights up: hotspot on",
+     "anim": "screen emission keyed",
+     "micro": [
+      "vibrates on the duvet"
+     ],
+     "reactions": [
+      "the phone screen lights up with a flicker",
+      "the duvet under it glows"
+     ],
+     "consequences": [
+      "phone stays lit on the bed"
+     ],
+     "sfx": [
+      "buzz"
+     ],
+     "recipe": "device_switch"
+    },
+    {
+     "id": "can_tip",
+     "who": "kid",
+     "f": [
+      126,
+      156
+     ],
+     "what": "his elbow knocks an energy-drink can off the bedside table",
+     "anim": "m:idle/B elbow + can rigid-body keys",
+     "micro": [
+      "can wobbles before falling"
+     ],
+     "reactions": [
+      "can falls and rolls, fizz sprays"
+     ],
+     "consequences": [
+      "can lies on the carpet, a wet fizz stain"
+     ],
+     "sfx": [
+      "can clank",
+      "fizz"
+     ],
+     "recipe": "object_fall_drop"
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "tv_stick",
+     "change": "box -> plugged in",
+     "by_action": "plug_in"
+    },
+    {
+     "who": "hotel_tv",
+     "change": "off -> on",
+     "by_action": "plug_in"
+    },
+    {
+     "who": "phone",
+     "change": "dark -> lit",
+     "by_action": "phone_hotspot"
+    }
+   ],
+   "fx": [
+    "TV static burst",
+    "dust motes in the TV beam"
+   ],
+   "sound": {
+    "ambience": "night room tone, distant traffic, TV hum"
+   },
+   "handheld": true,
+   "shot_type": "insert",
+   "mood": "night TV"
+  },
+  {
+   "id": "S02",
+   "place": "corridor",
+   "line": 2,
+   "t0": 5.48,
+   "t1": 11.42,
+   "narration": "You see, he was 18, already on bail for hacking, and hiding in that hotel under police protection.",
+   "transition_in": "whip pan through the door",
+   "transition_out": "slide under the door back into the room",
+   "camera": [
+    {
+     "t": 5.48,
+     "pos": [
+      0,
+      -3.5,
+      1.4
+     ],
+     "aim": "door 214 + cop",
+     "lens": 32,
+     "move": "slow push down the corridor",
+     "framing": "medium"
+    },
+    {
+     "t": 8.48,
+     "pos": [
+      0.5,
+      -2.4,
+      1.2
+     ],
+     "aim": "cop",
+     "lens": 40,
+     "move": "dolly to the cop's face",
+     "framing": "close"
+    },
+    {
+     "t": 11.42,
+     "pos": [
+      0.2,
+      -1.2,
+      0.25
+     ],
+     "aim": "gap under the door",
+     "lens": 30,
+     "move": "drop to the floor and slide toward the blue light under the door",
+     "framing": "insert"
+    }
+   ],
+   "actions": [
+    {
+     "id": "cop_yawn",
+     "who": "cop",
+     "f": [
+      170,
+      254
+     ],
+     "what": "the officer on guard yawns and sips coffee",
+     "anim": "m:drink/A",
+     "micro": [
+      "eyes heavy, head nods"
+     ],
+     "reactions": [
+      "the face changes ON the word 'protection' with a head pop",
+      "the body answers the face: he slumps, shoulders drop",
+      "coffee steams",
+      "the chair creaks"
+     ],
+     "consequences": [
+      "the emotion stays: he dozes off",
+      "coffee ring stays on the floor by the chair"
+     ],
+     "sfx": [
+      "yawn",
+      "slurp"
+     ],
+     "recipe": "emotion_beat"
+    },
+    {
+     "id": "cup_spill",
+     "who": "cop",
+     "f": [
+      230,
+      254
+     ],
+     "what": "as he nods off, the paper cup tilts and drips",
+     "anim": "cup keyed tilt in the hand anchor",
+     "micro": [
+      "drips"
+     ],
+     "reactions": [
+      "coffee stream with the right thickness, splash where it lands, spreading puddle"
+     ],
+     "consequences": [
+      "puddle by the chair stays"
+     ],
+     "sfx": [
+      "drip",
+      "splat"
+     ],
+     "recipe": "liquid_pour_spill"
+    },
+    {
+     "id": "bail_tag",
+     "who": "kid",
+     "f": [
+      260,
+      343
+     ],
+     "what": "inside: the bail tag on his ankle blinks green as he types",
+     "anim": "card idle + 3D tag prop on the ankle anchor",
+     "micro": [
+      "toes wiggle"
+     ],
+     "reactions": [
+      "the tag LED lights up and blinks with each key"
+     ],
+     "consequences": [
+      "tag stays on his ankle all film"
+     ],
+     "sfx": [
+      "tag beep"
+     ],
+     "recipe": "device_switch"
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "cop",
+     "change": "already in place when the camera arrives (in frame from the first frame of the shot)",
+     "by_action": "cut"
+    }
+   ],
+   "fx": [
+    "steam from the cup",
+    "blue flicker under the door"
+   ],
+   "sound": {
+    "ambience": "corridor hum, ice machine"
+   },
+   "handheld": true,
+   "shot_type": "medium",
+   "mood": "night corridor"
+  },
+  {
+   "id": "S03",
+   "place": "hotel",
+   "line": 3,
+   "t0": 11.42,
+   "t1": 16.58,
+   "narration": "So he plugged the stick into the TV, grabbed a keyboard, and slipped into Rockstar's private chat.",
+   "transition_in": "slide under the door",
+   "transition_out": "push into the TV screen",
+   "camera": [
+    {
+     "t": 11.42,
+     "pos": [
+      0,
+      -0.6,
+      2.4
+     ],
+     "aim": "keyboard on duvet",
+     "lens": 30,
+     "move": "top-down insert, slow rotate",
+     "framing": "insert"
+    },
+    {
+     "t": 13.82,
+     "pos": [
+      0.7,
+      -1.2,
+      1.1
+     ],
+     "aim": "kid typing",
+     "lens": 34,
+     "move": "orbit around him",
+     "framing": "close"
+    },
+    {
+     "t": 16.58,
+     "pos": [
+      0,
+      -0.25,
+      1.05
+     ],
+     "aim": "TV screen",
+     "lens": 30,
+     "move": "push into the TV: the chat window fills the frame (POV)",
+     "framing": "pov"
+    }
+   ],
+   "actions": [
+    {
+     "id": "grab_keyboard",
+     "who": "kid",
+     "f": [
+      343,
+      379
+     ],
+     "what": "grabs the keyboard from under a pizza box",
+     "anim": "m:button/B, keyboard follows the hands from contact",
+     "micro": [
+      "pizza box slides off"
+     ],
+     "reactions": [
+      "his hands reach the keyboard and it follows the hands from contact (no teleport)",
+      "crumbs fall off the keys"
+     ],
+     "consequences": [
+      "pizza box open on the floor, the place where the keyboard was is empty with crumbs"
+     ],
+     "sfx": [
+      "cardboard slide",
+      "plastic clack"
+     ],
+     "recipe": "object_pick_up"
+    },
+    {
+     "id": "type",
+     "who": "kid",
+     "f": [
+      379,
+      497
+     ],
+     "what": "types fast, the chat window opens on the TV",
+     "anim": "m:write/A fast",
+     "micro": [
+      "fingers blur",
+      "tongue out"
+     ],
+     "reactions": [
+      "keys light under his fingers",
+      "lines of code scroll on the TV"
+     ],
+     "consequences": [
+      "the chat window stays open on the TV"
+     ],
+     "sfx": [
+      "keyboard rattle",
+      "chat ping"
+     ]
+    },
+    {
+     "id": "access",
+     "who": "hotel_tv",
+     "f": [
+      445,
+      497
+     ],
+     "what": "the TV flashes ACCESS GRANTED in green, his grin widens",
+     "anim": "screen decal swap",
+     "micro": [
+      "screen glitch"
+     ],
+     "reactions": [
+      "the screen lights up green on his face with a flicker"
+     ],
+     "consequences": [
+      "the chat stays open"
+     ],
+     "sfx": [
+      "access chime"
+     ],
+     "recipe": "device_switch"
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "keyboard",
+     "change": "bed -> his hands",
+     "by_action": "grab_keyboard"
+    }
+   ],
+   "fx": [
+    "code light scrolling on his face"
+   ],
+   "sound": {
+    "ambience": "keyboard clatter, TV hum"
+   },
+   "handheld": true,
+   "shot_type": "insert",
+   "mood": "night TV"
+  },
+  {
+   "id": "S04",
+   "place": "city",
+   "line": 4,
+   "t0": 16.58,
+   "t1": 20.94,
+   "narration": "Then he dropped over 90 clips of the secret game for the whole internet to see.",
+   "transition_in": "through the TV screen and out of the window",
+   "transition_out": "clips rain down -> match cut to the studio window",
+   "camera": [
+    {
+     "t": 16.58,
+     "pos": [
+      0,
+      0,
+      22
+     ],
+     "aim": "hotel window",
+     "lens": 40,
+     "move": "fly out of the window with the first clip",
+     "framing": "aerial"
+    },
+    {
+     "t": 18.58,
+     "pos": [
+      6,
+      -10,
+      30
+     ],
+     "aim": "clips swarm",
+     "lens": 35,
+     "move": "rise above the city as the swarm spreads",
+     "framing": "aerial"
+    },
+    {
+     "t": 20.94,
+     "pos": [
+      12,
+      -18,
+      18
+     ],
+     "aim": "phones lighting up",
+     "lens": 32,
+     "move": "dive toward the streets",
+     "framing": "aerial"
+    }
+   ],
+   "actions": [
+    {
+     "id": "upload",
+     "who": "kid",
+     "f": [
+      497,
+      527
+     ],
+     "what": "hits ENTER: the upload counter climbs to 90",
+     "anim": "m:button/A + counter decal swap",
+     "micro": [
+      "finger slam"
+     ],
+     "reactions": [
+      "the number changes on every beat 0 -> 30 -> 60 -> 90 CLIPS UPLOADED, flashes at 90",
+      "the clips peel off the screen"
+     ],
+     "consequences": [
+      "the final number stays on screen: 90 on the TV"
+     ],
+     "sfx": [
+      "enter clack",
+      "whoosh"
+     ],
+     "recipe": "countdown_display"
+    },
+    {
+     "id": "clips_fly",
+     "who": "clips",
+     "f": [
+      515,
+      628
+     ],
+     "what": "90 glowing clips fly out of the window over the city and land on thousands of phones",
+     "anim": "instanced cards on seeded curves",
+     "micro": [
+      "each clip flutters"
+     ],
+     "reactions": [
+      "clips burst out and flutter down, spinning, catching the light",
+      "windows and phones light up block by block"
+     ],
+     "consequences": [
+      "the city stays dotted with lit screens",
+      "a few clips stuck on antennas and chimneys"
+     ],
+     "sfx": [
+      "swarm whoosh",
+      "notification pings"
+     ]
+    },
+    {
+     "id": "pigeon",
+     "who": "clips",
+     "f": [
+      557,
+      587
+     ],
+     "what": "a pigeon on a rooftop ducks as a clip whooshes past, feathers fly",
+     "anim": "pigeon card keyed duck",
+     "micro": [
+      "head bob"
+     ],
+     "reactions": [
+      "feathers puff"
+     ],
+     "consequences": [
+      "one feather drifts down"
+     ],
+     "sfx": [
+      "coo",
+      "flap"
+     ]
+    },
+    {
+     "id": "phones_light",
+     "who": "clips",
+     "f": [
+      587,
+      628
+     ],
+     "what": "a gamer in his bedroom jumps when his phone lights up with the clip",
+     "anim": "m:react/confused + phone emission",
+     "micro": [
+      "eyes widen"
+     ],
+     "reactions": [
+      "his phone screen lights up with a flicker on his face"
+     ],
+     "consequences": [
+      "phone stays lit"
+     ],
+     "sfx": [
+      "ping",
+      "gasp"
+     ],
+     "recipe": "device_switch"
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "clips",
+     "change": "screen -> sky -> phones",
+     "by_action": "clips_fly"
+    }
+   ],
+   "fx": [
+    "glowing clip swarm",
+    "window lights popping on"
+   ],
+   "sound": {
+    "ambience": "city night wind, pings"
+   },
+   "handheld": true,
+   "shot_type": "aerial",
+   "mood": "night city"
+  },
+  {
+   "id": "S05",
+   "place": "studio",
+   "line": 5,
+   "t0": 20.94,
+   "t1": 25.74,
+   "narration": "Rockstar says the leak cost them $5 million and thousands of hours of work.",
+   "transition_in": "match cut: phone screens -> studio monitors",
+   "transition_out": "invoice slides into the courtroom",
+   "camera": [
+    {
+     "t": 20.94,
+     "pos": [
+      -3,
+      -6,
+      2.2
+     ],
+     "aim": "office",
+     "lens": 30,
+     "move": "fast dolly down the aisle as people run",
+     "framing": "wide"
+    },
+    {
+     "t": 23.14,
+     "pos": [
+      0.3,
+      -1.1,
+      1.0
+     ],
+     "aim": "printer",
+     "lens": 28,
+     "move": "rack to the printer spitting the invoice",
+     "framing": "insert"
+    },
+    {
+     "t": 25.74,
+     "pos": [
+      0.3,
+      -0.7,
+      1.6
+     ],
+     "aim": "invoice $5,000,000",
+     "lens": 30,
+     "move": "tilt down the unrolling invoice",
+     "framing": "insert"
+    }
+   ],
+   "actions": [
+    {
+     "id": "panic",
+     "who": "dev",
+     "f": [
+      628,
+      688
+     ],
+     "what": "developers jump up, headsets fly, coffee spills",
+     "anim": "m:react/fury and m:run/A for extras",
+     "micro": [
+      "headset cable snaps back"
+     ],
+     "reactions": [
+      "coffee stream with the right thickness pours off the desk, splash where it lands, spreading puddle",
+      "red alarm starts spinning"
+     ],
+     "consequences": [
+      "coffee puddle on the floor, chairs left spinning"
+     ],
+     "sfx": [
+      "alarm",
+      "gasps"
+     ],
+     "recipe": "liquid_pour_spill"
+    },
+    {
+     "id": "invoice",
+     "who": "invoice",
+     "f": [
+      694,
+      772
+     ],
+     "what": "the printer prints a 3-metre invoice DAMAGE $5,000,000",
+     "anim": "paper mesh unrolling (keyed)",
+     "micro": [
+      "paper curls at the end"
+     ],
+     "reactions": [
+      "paper feeds out line by line, curls and unrolls over the edge onto the floor",
+      "the clock hands spin fast"
+     ],
+     "consequences": [
+      "the long invoice lies across the floor"
+     ],
+     "sfx": [
+      "printer screech",
+      "paper rustle"
+     ],
+     "recipe": "paper_print_unroll"
+    },
+    {
+     "id": "phones_ring",
+     "who": "dev",
+     "f": [
+      652,
+      694
+     ],
+     "what": "every desk phone in the office lights up and rings at once",
+     "anim": "phone emissions keyed in a wave down the aisle",
+     "micro": [
+      "handsets rattle in their cradles"
+     ],
+     "reactions": [
+      "the phone screens light up with a flicker one after another down the aisle"
+     ],
+     "consequences": [
+      "the lights stay blinking"
+     ],
+     "sfx": [
+      "phones ringing",
+      "chatter"
+     ],
+     "recipe": "device_switch"
+    },
+    {
+     "id": "faint",
+     "who": "dev",
+     "f": [
+      730,
+      772
+     ],
+     "what": "a developer reads the total and faints back into his chair",
+     "anim": "m:fall/A into the chair",
+     "micro": [
+      "legs kick up"
+     ],
+     "reactions": [
+      "chair rolls back into a desk, a mug wobbles"
+     ],
+     "consequences": [
+      "he stays slumped, chair against the desk"
+     ],
+     "sfx": [
+      "thud",
+      "chair roll"
+     ],
+     "recipe": "character_hit_fall"
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "invoice",
+     "change": "printer -> floor",
+     "by_action": "invoice"
+    }
+   ],
+   "fx": [
+    "red alarm sweep",
+    "papers flying"
+   ],
+   "sound": {
+    "ambience": "office alarm, phones ringing"
+   },
+   "handheld": true,
+   "shot_type": "insert",
+   "mood": "cold morning"
+  },
+  {
+   "id": "S06",
+   "place": "court_hospital",
+   "line": 6,
+   "t0": 25.74,
+   "t1": 32.24,
+   "narration": "But the court said he wasn't fit to stand trial, so instead of prison, he was locked in a secure hospital, maybe for life.",
+   "transition_in": "invoice slide",
+   "transition_out": "door slam to black, then light (whip)",
+   "camera": [
+    {
+     "t": 25.74,
+     "pos": [
+      0,
+      -5,
+      1.8
+     ],
+     "aim": "judge",
+     "lens": 35,
+     "move": "slow push to the bench",
+     "framing": "medium"
+    },
+    {
+     "t": 28.14,
+     "pos": [
+      0.2,
+      -0.8,
+      1.2
+     ],
+     "aim": "gavel + file",
+     "lens": 30,
+     "move": "insert on the gavel hit and the stamp",
+     "framing": "insert"
+    },
+    {
+     "t": 29.34,
+     "pos": [
+      0,
+      -4,
+      1.4
+     ],
+     "aim": "secure door",
+     "lens": 32,
+     "move": "slow track down the white corridor",
+     "framing": "wide"
+    },
+    {
+     "t": 32.24,
+     "pos": [
+      0,
+      -1.6,
+      1.4
+     ],
+     "aim": "door window with his face",
+     "lens": 40,
+     "move": "push in as the door closes",
+     "framing": "close"
+    }
+   ],
+   "actions": [
+    {
+     "id": "gavel",
+     "who": "judge",
+     "f": [
+      844,
+      862
+     ],
+     "what": "the judge brings the gavel down",
+     "anim": "m:hammer/A",
+     "micro": [
+      "wig bounces"
+     ],
+     "reactions": [
+      "anticipation lift then a hard hit: papers jump on the bench",
+      "camera kick on the hit"
+     ],
+     "consequences": [
+      "file stamped INDEFINITE, a dent in the sound block"
+     ],
+     "sfx": [
+      "gavel bang"
+     ],
+     "recipe": "strike_stamp"
+    },
+    {
+     "id": "door_close",
+     "who": "secure_door",
+     "f": [
+      892,
+      967
+     ],
+     "what": "the heavy secure door swings shut, he looks out through the small window",
+     "anim": "hinge keys with overshoot",
+     "micro": [
+      "lock bolt slides"
+     ],
+     "reactions": [
+      "the door swings on its hinge (ease out, small overshoot)",
+      "the light from the corridor narrows on his face, dust swirls"
+     ],
+     "consequences": [
+      "the door stays shut and locked, his face behind the glass"
+     ],
+     "sfx": [
+      "heavy door",
+      "lock clunk"
+     ],
+     "recipe": "door_open_close"
+    },
+    {
+     "id": "wave",
+     "who": "kid",
+     "f": [
+      928,
+      967
+     ],
+     "what": "behind the glass he gives a tiny awkward wave",
+     "anim": "m:wave/A small",
+     "micro": [
+      "fingers only"
+     ],
+     "reactions": [
+      "his breath fogs the glass"
+     ],
+     "consequences": [
+      "a fog patch stays on the window"
+     ],
+     "sfx": [
+      "squeak on glass"
+     ],
+     "recipe": "gesture"
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "kid",
+     "change": "court -> behind the hospital door",
+     "by_action": "door_close"
+    }
+   ],
+   "fx": [
+    "dust in the window shafts"
+   ],
+   "sound": {
+    "ambience": "court murmur, hospital hum"
+   },
+   "handheld": true,
+   "shot_type": "close",
+   "mood": "warm court -> cold hospital"
+  },
+  {
+   "id": "S07",
+   "place": "billboard",
+   "line": 7,
+   "t0": 32.24,
+   "t1": 39.72,
+   "narration": "And the leak didn't kill the game. A year later, the real trailer became the most watched non-music video on YouTube in a single day.",
+   "transition_in": "whip from the door window",
+   "transition_out": "counter blur -> doctor's office",
+   "camera": [
+    {
+     "t": 32.24,
+     "pos": [
+      0,
+      -14,
+      1.6
+     ],
+     "aim": "billboard",
+     "lens": 35,
+     "move": "low crane up the crowd to the billboard",
+     "framing": "wide"
+    },
+    {
+     "t": 35.44,
+     "pos": [
+      0,
+      -4,
+      4
+     ],
+     "aim": "counter digits",
+     "lens": 40,
+     "move": "push into the racing digits",
+     "framing": "insert"
+    },
+    {
+     "t": 39.72,
+     "pos": [
+      2,
+      -6,
+      2
+     ],
+     "aim": "crowd faces + trophy",
+     "lens": 32,
+     "move": "orbit the crowd as the record trophy rises",
+     "framing": "medium"
+    }
+   ],
+   "actions": [
+    {
+     "id": "counter",
+     "who": "counter",
+     "f": [
+      997,
+      1132
+     ],
+     "what": "the view counter races to 90,421,491",
+     "anim": "decal swap per frame range (the display is the action)",
+     "micro": [
+      "digits blur"
+     ],
+     "reactions": [
+      "the number changes on every beat and flashes at 90,421,491",
+      "the crowd raises phones",
+      "confetti cannons fire on the record"
+     ],
+     "consequences": [
+      "the final number stays on screen: 90,421,491 + WORLD RECORD plaque"
+     ],
+     "sfx": [
+      "digit ticking",
+      "crowd cheer"
+     ],
+     "recipe": "countdown_display"
+    },
+    {
+     "id": "cheer",
+     "who": "gamer",
+     "f": [
+      1132,
+      1192
+     ],
+     "what": "the crowd cheers, phones up, confetti",
+     "anim": "m:cheer/A with offsets",
+     "micro": [
+      "random timing per person"
+     ],
+     "reactions": [
+      "fans stand up, arms up, flags wave, confetti"
+     ],
+     "consequences": [
+      "confetti stays on the ground"
+     ],
+     "sfx": [
+      "cheer",
+      "confetti pop"
+     ],
+     "recipe": "crowd_reaction"
+    },
+    {
+     "id": "trophy",
+     "who": "counter",
+     "f": [
+      1147,
+      1192
+     ],
+     "what": "a giant record trophy rises from the billboard base",
+     "anim": "trophy keyed rise with a bounce",
+     "micro": [
+      "sparkle glints"
+     ],
+     "reactions": [
+      "spotlights swing onto it"
+     ],
+     "consequences": [
+      "the trophy stays lit"
+     ],
+     "sfx": [
+      "fanfare"
+     ]
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "counter",
+     "change": "0 -> 90,421,491",
+     "by_action": "counter"
+    }
+   ],
+   "fx": [
+    "confetti",
+    "billboard light on faces"
+   ],
+   "sound": {
+    "ambience": "square crowd, dusk city"
+   },
+   "handheld": true,
+   "shot_type": "insert",
+   "mood": "purple dusk"
+  },
+  {
+   "id": "S08",
+   "place": "doctor_prison",
+   "line": 8,
+   "t0": 39.72,
+   "t1": 44.88,
+   "narration": "Then this year, doctors decided he was fit for trial after all, and he was moved back to prison.",
+   "transition_in": "counter blur",
+   "transition_out": "cell door slam",
+   "camera": [
+    {
+     "t": 39.72,
+     "pos": [
+      0,
+      -1.0,
+      1.5
+     ],
+     "aim": "file on desk",
+     "lens": 30,
+     "move": "top-down on the file, the stamp comes in",
+     "framing": "insert"
+    },
+    {
+     "t": 41.52,
+     "pos": [
+      0.2,
+      -1.0,
+      1.25
+     ],
+     "aim": "kid face",
+     "lens": 45,
+     "move": "snap push to his shocked face",
+     "framing": "extreme_close"
+    },
+    {
+     "t": 44.88,
+     "pos": [
+      0,
+      -3.5,
+      1.4
+     ],
+     "aim": "cell door",
+     "lens": 32,
+     "move": "pull back as the cell door slides shut",
+     "framing": "medium"
+    }
+   ],
+   "actions": [
+    {
+     "id": "stamp",
+     "who": "doctor",
+     "f": [
+      1201,
+      1237
+     ],
+     "what": "the doctor stamps FIT FOR TRIAL",
+     "anim": "m:hammer/B",
+     "micro": [
+      "glasses slide down"
+     ],
+     "reactions": [
+      "anticipation lift then a hard hit: ink splat, pen jumps"
+     ],
+     "consequences": [
+      "the file stays stamped FIT FOR TRIAL, ink mark"
+     ],
+     "sfx": [
+      "stamp thump"
+     ],
+     "recipe": "strike_stamp"
+    },
+    {
+     "id": "shock",
+     "who": "kid",
+     "f": [
+      1246,
+      1288
+     ],
+     "what": "his eyes pop out, sweat drop",
+     "anim": "m:idle/B k:shocked",
+     "micro": [
+      "tremble"
+     ],
+     "reactions": [
+      "the face changes on 'fit' to an exaggerated drawing (eyes pop) with a head pop",
+      "a world effect answers: the lamp flickers, papers fly off the desk"
+     ],
+     "consequences": [
+      "the effect fades but marks stay: papers on the floor, sweat drop until the end of the shot"
+     ],
+     "sfx": [
+      "sting"
+     ],
+     "recipe": "extreme_emotion"
+    },
+    {
+     "id": "cell",
+     "who": "kid",
+     "f": [
+      1294,
+      1346
+     ],
+     "what": "the cell door slides shut on him",
+     "anim": "door keys",
+     "micro": [
+      "bars rattle"
+     ],
+     "reactions": [
+      "the barred door slides on its rail (ease out, small overshoot)",
+      "light changes through the bars, bar shadows sweep across him, dust swirl"
+     ],
+     "consequences": [
+      "the door stays shut, he is inside the cell"
+     ],
+     "sfx": [
+      "metal slam"
+     ],
+     "recipe": "door_open_close"
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "kid",
+     "change": "hospital -> cell",
+     "by_action": "cell"
+    }
+   ],
+   "fx": [
+    "sweat drop",
+    "bar shadows"
+   ],
+   "sound": {
+    "ambience": "office tick, prison echo"
+   },
+   "handheld": true,
+   "shot_type": "extreme_close",
+   "mood": "grey prison"
+  },
+  {
+   "id": "S09",
+   "place": "shop_street",
+   "line": 9,
+   "t0": 44.88,
+   "t1": 48.82,
+   "narration": "And just three days before GTA 6 finally came out, he pleaded guilty.",
+   "transition_in": "cell door slam -> calendar flip",
+   "transition_out": "the queue's phones -> the cell",
+   "camera": [
+    {
+     "t": 44.88,
+     "pos": [
+      0,
+      -0.6,
+      1.5
+     ],
+     "aim": "calendar",
+     "lens": 32,
+     "move": "insert on the calendar pages tearing NOV 16 -> NOV 19",
+     "framing": "insert"
+    },
+    {
+     "t": 46.48,
+     "pos": [
+      -4,
+      -8,
+      1.2
+     ],
+     "aim": "queue + shop window '6'",
+     "lens": 30,
+     "move": "low tracking along the queue in the rain",
+     "framing": "wide"
+    },
+    {
+     "t": 48.82,
+     "pos": [
+      0,
+      -2,
+      1.4
+     ],
+     "aim": "gamer's phone: headline",
+     "lens": 40,
+     "move": "push into a phone showing the headline 'PLEADS GUILTY'",
+     "framing": "insert"
+    }
+   ],
+   "actions": [
+    {
+     "id": "calendar",
+     "who": "calendar",
+     "f": [
+      1346,
+      1394
+     ],
+     "what": "calendar pages tear off from NOV 16 to NOV 19",
+     "anim": "page meshes peel off (keyed)",
+     "micro": [
+      "pages flutter"
+     ],
+     "reactions": [
+      "the number changes on each tear 16 -> 17 -> 18 -> 19 and the page flashes",
+      "torn pages drift down"
+     ],
+     "consequences": [
+      "the final number stays on screen: NOV 19",
+      "pages stay on the floor"
+     ],
+     "sfx": [
+      "paper rips"
+     ],
+     "recipe": "countdown_display"
+    },
+    {
+     "id": "umbrella",
+     "who": "gamer",
+     "f": [
+      1436,
+      1466
+     ],
+     "what": "a gust flips a gamer's umbrella inside out",
+     "anim": "umbrella keyed flip",
+     "micro": [
+      "he clings to it"
+     ],
+     "reactions": [
+      "rain sprays on the queue"
+     ],
+     "consequences": [
+      "the broken umbrella stays inside out"
+     ],
+     "sfx": [
+      "whoosh",
+      "snap"
+     ],
+     "recipe": "wind_gust"
+    },
+    {
+     "id": "queue",
+     "who": "gamer",
+     "f": [
+      1394,
+      1465
+     ],
+     "what": "gamers queue in the rain for the game; one reads the guilty plea headline on his phone",
+     "anim": "m:wait/A, m:phone/A",
+     "micro": [
+      "breath steam",
+      "shiver"
+     ],
+     "reactions": [
+      "rain splashes on hoods",
+      "puddles ripple"
+     ],
+     "consequences": [
+      "wet hoodies, puddles"
+     ],
+     "sfx": [
+      "rain",
+      "chatter"
+     ],
+     "recipe": "rain"
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "calendar",
+     "change": "NOV 16 -> NOV 19",
+     "by_action": "calendar"
+    }
+   ],
+   "fx": [
+    "rain",
+    "neon reflections"
+   ],
+   "sound": {
+    "ambience": "rain, street"
+   },
+   "handheld": true,
+   "shot_type": "insert",
+   "mood": "neon night"
+  },
+  {
+   "id": "S10",
+   "place": "doctor_prison",
+   "line": 10,
+   "t0": 48.82,
+   "t1": 54.38,
+   "narration": "So the guy who showed the world GTA 6 first will probably be the last one to play it.",
+   "transition_in": "the queue's phones -> the cell",
+   "transition_out": "loop: the switched-off cell TV -> the hotel TV of frame 1",
+   "camera": [
+    {
+     "t": 48.82,
+     "pos": [
+      0,
+      -3.2,
+      1.3
+     ],
+     "aim": "kid on the bunk",
+     "lens": 32,
+     "move": "slow push in",
+     "framing": "medium"
+    },
+    {
+     "t": 51.82,
+     "pos": [
+      0.1,
+      -1.2,
+      1.15
+     ],
+     "aim": "the small TV, off",
+     "lens": 35,
+     "move": "push into the black screen: his reflection",
+     "framing": "close"
+    },
+    {
+     "t": 54.38,
+     "pos": [
+      0.05,
+      -0.5,
+      1.1
+     ],
+     "aim": "black screen",
+     "lens": 30,
+     "move": "the reflection becomes the hotel TV of frame 1 (loop)",
+     "framing": "extreme_close"
+    }
+   ],
+   "actions": [
+    {
+     "id": "sigh",
+     "who": "kid",
+     "f": [
+      1465,
+      1555
+     ],
+     "what": "sits on the bunk, sighs at the dead little TV",
+     "anim": "m:react/sigh",
+     "micro": [
+      "shoulders drop"
+     ],
+     "reactions": [
+      "the face changes ON the word 'last' with a head pop",
+      "the body answers the face: he slumps, shoulders down",
+      "dust lifts from the mattress"
+     ],
+     "consequences": [
+      "the emotion stays: he stays slumped"
+     ],
+     "sfx": [
+      "sigh",
+      "springs creak"
+     ],
+     "recipe": "emotion_beat"
+    },
+    {
+     "id": "tv_dead",
+     "who": "cell_tv",
+     "f": [
+      1555,
+      1631
+     ],
+     "what": "he presses the TV button: nothing, just his reflection",
+     "anim": "m:button/A + TV stays off",
+     "micro": [
+      "button clicks twice"
+     ],
+     "reactions": [
+      "the button dips under the finger, a tiny spark, then nothing"
+     ],
+     "consequences": [
+      "the device stays stubbornly off: the TV stays black with his reflection"
+     ],
+     "sfx": [
+      "click click",
+      "tiny fizz"
+     ],
+     "recipe": "device_switch"
+    },
+    {
+     "id": "neighbour",
+     "who": "gamer",
+     "f": [
+      1510,
+      1555
+     ],
+     "what": "from the next cell, game sounds and a cheer: someone else is already playing",
+     "anim": "off-screen sound + light flicker on the wall",
+     "micro": [
+      "light flickers"
+     ],
+     "reactions": [
+      "coloured TV light from the next cell dances on his wall"
+     ],
+     "consequences": [
+      "the light keeps flickering"
+     ],
+     "sfx": [
+      "game music muffled",
+      "cheer"
+     ]
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "kid",
+     "change": "already in the cell (S08 cell action)",
+     "by_action": "cell"
+    }
+   ],
+   "fx": [
+    "dust motes",
+    "reflection"
+   ],
+   "sound": {
+    "ambience": "prison echo, distant TV from another cell (game sounds)"
+   },
+   "handheld": true,
+   "shot_type": "close",
+   "mood": "grey prison"
+  }
+ ],
+ "sound": {
+  "music": "light, mischievous bed (pizzicato + synth bass), -7.6 dB under the voice, a drop on the twist (line 7) and a sting on the punchline",
+  "lufs": -14
+ },
+ "lessons_planned": [
+  "PI-016"
+ ],
+ "warn_reasons": {
+  "recipe vs plan wording": "the matcher compares the first words of each recipe line; the remaining 'maybe forgotten' lines were read one by one: either covered in other words (fall, gust, gesture, LED) or not relevant to this action (a TV that stays OFF does not light up; typing is not a door)",
+  "no recipe for clips_fly / pigeon / trophy / neighbour": "new actions of this film: their recipes are written to library/reactions/reactions.json after they are built (rule: every new action becomes a recipe)"
+ },
+ "risks": [
+  "the game must never look like Rockstar's assets: generic blurred screens only",
+  "the sentence on 23/11 may change the last line: re-check before publishing",
+  "many interiors at night: watch noise at 12 samples -> denoise on, check key frames",
+  "cards in small rooms: keep one view per character, anchors for held props (phone, keyboard, stick)"
+ ]
+}

@@ -74,7 +74,7 @@ def check(P):
             for k, name in (("micro", "micro-animation"), ("reactions", "reaction"), ("consequences", "lasting consequence"), ("sfx", "sound effect")):
                 add("ACTIONS", aid + " " + name, bool(a.get(k)), "; ".join(map(str, a.get(k, []))) or "missing: every action has %s (CB 2026-11-19)" % name)
             txt = (a.get("what", "") + " " + a.get("recipe", "")).lower()
-            rec = [r for r in lib if r["id"] == a.get("recipe")] or [r for r in lib if any(tr in txt for tr in r["triggers"])]
+            rec = [r for r in lib if r["id"] == a.get("recipe")] or [r for r in lib if any(re.search(r"\b" + re.escape(tr) + r"\b", txt) for tr in r["triggers"])]   # whole words ("chat" is not "hat", 2026-11-19)
             if rec:
                 planned = " ".join(map(str, a.get("reactions", []) + a.get("consequences", []))).lower()
                 miss = [x for x in rec[0]["reactions"] + rec[0]["consequences"] if not any(wd in planned for wd in re.findall(r"[a-z]{5,}", x.lower())[:3])]

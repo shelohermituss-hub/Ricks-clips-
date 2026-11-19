@@ -18,3 +18,7 @@ for want in ("hook action shown in the 1st second", "facts written in the set", 
 V["hook"] = {"action": "pose", "t": 0.0}; V["facts"] = [{"fact": "70 MPH", "prop": "speed sign"}]; V["shots"][0]["camera"][1]["framing"] = "insert"
 assert not [r for r in plan_check.check(V) if r["status"] == "FAIL"], [r for r in plan_check.check(V) if r["status"] == "FAIL"]
 print("test_plan_check STORY PASS")
+# recipe triggers match whole words only (bug 2026-11-19: "private chat" matched the helmet recipe through "hat")
+C = copy.deepcopy(P); C["shots"][0]["actions"][0]["what"] = "slips into the private chat"; C["shots"][0]["actions"][0].pop("recipe", None)
+assert not any(r["item"].startswith("2AB/pose vs recipe put_on_take_off_wearable") for r in plan_check.check(C)), "chat must not match hat"
+print("test_plan_check WORDS PASS")

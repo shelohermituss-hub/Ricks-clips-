@@ -1,0 +1,62 @@
+[
+ {
+  "line": 1,
+  "start_words": "He leaked",
+  "t0": 0.0,
+  "t1": 5.48
+ },
+ {
+  "line": 2,
+  "start_words": "You see",
+  "t0": 5.48,
+  "t1": 11.42
+ },
+ {
+  "line": 3,
+  "start_words": "So he plugged",
+  "t0": 11.42,
+  "t1": 16.58
+ },
+ {
+  "line": 4,
+  "start_words": "Then he dropped",
+  "t0": 16.58,
+  "t1": 20.94
+ },
+ {
+  "line": 5,
+  "start_words": "Rockstar says",
+  "t0": 20.94,
+  "t1": 25.74
+ },
+ {
+  "line": 6,
+  "start_words": "But the court",
+  "t0": 25.74,
+  "t1": 32.24
+ },
+ {
+  "line": 7,
+  "start_words": "And the leak",
+  "t0": 32.24,
+  "t1": 39.72
+ },
+ {
+  "line": 8,
+  "start_words": "Then this year",
+  "t0": 39.72,
+  "t1": 44.88
+ },
+ {
+  "line": 9,
+  "start_words": "And just three",
+  "t0": 44.88,
+  "t1": 48.82
+ },
+ {
+  "line": 10,
+  "start_words": "So the guy",
+  "t0": 48.82,
+  "t1": 53.78
+ }
+]
