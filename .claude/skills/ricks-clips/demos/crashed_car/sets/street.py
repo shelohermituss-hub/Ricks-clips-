@@ -33,6 +33,32 @@ def mat(name, hexcol, rough=.6, metal=0.0, bump=None):
         nt.links.new(bp.outputs["Normal"], b.inputs["Normal"])
     return m
 
+def stains(m, hexcol, scale, amount):
+    """large-scale blotches (oil stains on concrete, patches on asphalt, sun-bleached patches on the lawn): a second noise mixed into the colour"""
+    nt = m.node_tree; b = nt.nodes["Principled BSDF"]; src = b.inputs["Base Color"].links[0].from_socket if b.inputs["Base Color"].links else None
+    tc = nt.nodes.new("ShaderNodeTexCoord"); n = nt.nodes.new("ShaderNodeTexNoise"); n.inputs["Scale"].default_value = scale; n.inputs["Detail"].default_value = 4
+    nt.links.new(tc.outputs["Object"], n.inputs["Vector"]); cr = nt.nodes.new("ShaderNodeMapRange"); cr.inputs["From Min"].default_value = .55; cr.inputs["From Max"].default_value = .75
+    nt.links.new(n.outputs["Fac"], cr.inputs["Value"]); mx = nt.nodes.new("ShaderNodeMix"); mx.data_type = "RGBA"
+    k = nt.nodes.new("ShaderNodeMath"); k.operation = "MULTIPLY"; k.inputs[1].default_value = amount; nt.links.new(cr.outputs[0], k.inputs[0]); nt.links.new(k.outputs[0], mx.inputs[0])
+    if src: nt.links.new(src, mx.inputs[6])
+    else: mx.inputs[6].default_value = b.inputs["Base Color"].default_value[:]
+    mx.inputs[7].default_value = (*srgb(hexcol), 1); nt.links.new(mx.outputs[2], b.inputs["Base Color"])
+
+def flowers(c, x0, x1, y, depth=.7, seed=0):
+    """a flower bed: dark soil strip, low bushes and bright blossoms (instanced icospheres in 4 colours)"""
+    rr = random.Random(seed); soil = mat("soil", "#4a3424", .95, bump=("noise", 20, .3)); box("bed_soil", c, (x1 - x0, depth, .08), ((x0 + x1) / 2, y, .03), soil, bevel=.02)
+    box("bed_edge", c, (x1 - x0, .06, .12), ((x0 + x1) / 2, y - depth / 2, .05), mat("edging", "#d9d2c5", .6), bevel=.01)
+    leafm = mat("bush_leaf", "#2f7d22", .8, bump=("noise", 12, .5)); cols = ("#e83b5a", "#ffd23a", "#ff8fc0", "#f4f1ea")
+    for k in range(int((x1 - x0) * 2.2)):
+        x = rr.uniform(x0 + .2, x1 - .2); yy = y + rr.uniform(-depth * .3, depth * .3); r = rr.uniform(.18, .32)
+        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=2, radius=r)
+        for v in bm.verts: v.co += v.normal * r * .25 * noise.noise(v.co * 6 + Vector((k, seed, 0)))
+        o = mesh_obj("bed_bush", bm, leafm, c, smooth=True); o.location = (x, yy, r * .7); o.scale = (1, 1, .8)
+        fm = mat("blossom_" + cols[k % 4], cols[k % 4], .5)
+        for j in range(4):
+            bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=1, radius=.05); f_ = mesh_obj("blossom", bm, fm, c, smooth=True)
+            a = rr.uniform(0, 6.28); f_.location = (x + math.cos(a) * r * .7, yy + math.sin(a) * r * .7, r * 1.15 + rr.uniform(-.05, .08))
+
 def target_mat():
     """red/white concentric rings painted on the garage door (object coords, centre at origin of the door object)"""
     if "target_paint" in bpy.data.materials: return bpy.data.materials["target_paint"]
@@ -177,6 +203,7 @@ def build(scene, tod="day", lane=False, lib_trees=True):
     S = col("SET_street")
     road = mat("asphalt", "#4d525b", .8, bump=("noise", 40, .15)); conc = mat("concrete", "#cfc9bf", .75, bump=("noise", 25, .12))
     lawn = mat("lawn", "#4fa22a", .9, bump=("noise", 30, .2)); curb = mat("curb", "#b9b4ab", .7)
+    stains(conc, "#9c958a", 1.3, .55); stains(road, "#3a3e45", 2.0, .5); stains(lawn, "#6aa83a", .35, .6)
     box("ground", S, (220, 220, .1), (0, 0, -.06), lawn, bevel=0)
     ry = -34 if lane else -10
     box("road", S, (220, 7, .04), (0, ry, -.01), road, bevel=0)
@@ -192,13 +219,28 @@ def build(scene, tod="day", lane=False, lib_trees=True):
     for x in (-17, 17): box("driveway_n", S, (5, 10, .05), (x, 0, 0), conc, bevel=.01)
     for k in range(-30, 31): box("walk_joint", S, (.04, 1.58, .052), (k * 1.6, ry + 4.5, .0), mat("joint", "#a8a39a", .9), bevel=0)
     # hero house: garage block in front (door faces -Y at y=5), house body behind and to the left
-    mint = mat("siding_mint", "#93d7c4", .65, bump=("siding", 6.0, .35)); trim = mat("trim_white", "#f2efe8", .5); roofm = mat("roof_slate", "#5d6577", .8, bump=("noise", 30, .2))
+    mint = mat("siding_mint", "#93d7c4", .65, bump=("siding", 6.0, .35)); trim = mat("trim_white", "#f2efe8", .5); roofm = mat("roof_slate", "#5d6577", .8, bump=("siding", 9.0, .6))
     gable_house("garage", S, 7.0, 6.0, 3.0, 1.7, (0, 8, 0), mint, roofm, trim)
     door = box("garage_door", S, (5.2, .12, 2.5), (0, 4.94, 1.25), mat("door_white", "#f4f1ea", .45, bump=("panel", 2.2, .5)), bevel=.02)
     paint = box("garage_target", S, (2.2, .01, 2.2), (0, 4.87, 1.15), target_mat(), bevel=0)
     for k in range(4): box("door_window", S, (.75, .02, .32), (-1.8 + k * 1.2, 4.86, 2.15), mat("window_glass", "#2c4a6e", .15), bevel=0)
     vent = cyl("gable_vent", S, .42, .08, (0, 4.92, 3.95), trim, rot=(math.pi / 2, 0, 0)); [box("vent_slat", S, (.6, .03, .05), (0, 4.86, 3.72 + k * .12), mat("vent_slat", "#c9c3b5", .6), bevel=0) for k in range(5)]
     gable_house("house", S, 9.0, 9.0, 3.4, 2.4, (-8.5, 12, 0), mint, roofm, trim, windows=((-2.2, 1.9, 1.2, 1.3), (2.2, 1.9, 1.2, 1.3)), door=(0, 1.0, 2.1, mat("door_red", "#d9452e", .45)))
+    gut = mat("gutter", "#e9e6df", .4)
+    box("gutter_garage", S, (7.9, .14, .12), (0, 4.55, 2.98), gut, bevel=.02); box("gutter_house", S, (9.9, .14, .12), (-8.5, 7.05, 3.38), gut, bevel=.02)
+    box("downpipe", S, (.09, .09, 2.95), (3.62, 4.62, 1.48), gut, bevel=.01)
+    box("chimney", S, (.9, .9, 2.6), (-11.0, 13.0, 5.2), mat("brick", "#a8553f", .85, bump=("panel", 9.0, .4)), bevel=.03)
+    box("porch_step", S, (2.6, 1.0, .18), (-8.5, 6.95, .09), mat("step", "#bdb6aa", .7), bevel=.03)
+    flowers(S, -12.8, -9.6, 6.85, seed=1); flowers(S, -7.4, -4.4, 6.85, seed=2)
+    flowers(S, -6.6, -3.6, 4.4, depth=.55, seed=3)
+    for k, x in enumerate((4.2, 4.9)):                              # wheelie bins by the garage
+        bm_ = mat("bin_green" if k == 0 else "bin_grey", "#2f6b3a" if k == 0 else "#5b6068", .5)
+        box("bin", S, (.6, .7, 1.0), (x, 4.2, .5), bm_, bevel=.06); box("bin_lid", S, (.64, .76, .08), (x, 4.15, 1.04), bm_, bevel=.03)
+    bpy.ops.mesh.primitive_torus_add(major_radius=.3, minor_radius=.07, location=(-3.9, 4.75, .45), rotation=(math.pi / 2, 0, 0)); hose = bpy.context.object; hose.name = "hose_reel"
+    for c_ in list(hose.users_collection): c_.objects.unlink(hose)
+    S.objects.link(hose); hose.data.materials.append(mat("hose_green", "#2e9c3a", .5))
+    if lane:
+        for k, y in enumerate(range(-30, 16, 3)): lib_instance("fence_shrub%d" % k, ("shrub_03", "shrub_04")[k % 2], S, (6.6, y + .7 * (k % 2), 0), rot=k * 1.3, scale=.55 + .1 * (k % 3))
     # basketball hoop at the right of the driveway
     pole = cyl("hoop_pole", S, .07, 3.6, (3.6, 4.0, 1.8), mat("pole", "#2f3a52", .4, .6), seg=12)
     box("backboard", S, (1.4, .05, .9), (3.6, 3.65, 3.5), trim, bevel=.02); box("board_square", S, (.5, .01, .38), (3.6, 3.62, 3.38), mat("board_red", "#d8262f", .5), bevel=0)
@@ -224,7 +266,7 @@ def build(scene, tod="day", lane=False, lib_trees=True):
                 windows=((-2.5, 1.8, 1.3, 1.2), (2.5, 1.8, 1.3, 1.2)), door=(0, 1.0, 2.1, mat("door_navy", "#2c3e6b", .45)))
     gable_house("far_house", S, 11, 8, 3.0, 2.0, (-34, 14, 0), mat("siding_cream", "#efe2b8", .65), mat("roof_grey", "#6a6f78", .8), trim, windows=((-3, 1.7, 1.2, 1.1), (3, 1.7, 1.2, 1.1)))
     # trees (cloud balls), along the fence and the street
-    for k, (x, y, hgt, cr) in enumerate(((-4.5, 15.5, 7.5, 2.8), (6.5, 14.5, 8.0, 3.2), (11, 3, 6.5, 2.4), (-12, 2.5, 6.0, 2.2), (25, 15, 8.5, 3.4), (-27, 16, 8.0, 3.0), (-2, 22, 9, 3.8), (14, 21, 9.5, 4.0), (-14, 20, 9, 3.6), (4, 19, 8.5, 3.4))):
+    for k, (x, y, hgt, cr) in enumerate(((-4.5, 15.5, 7.5, 2.8), (6.5, 14.5, 8.0, 3.2), (11, 3, 6.5, 2.4), (-12, 2.5, 6.0, 2.2), (25, 15, 8.5, 3.4), (-27, 16, 8.0, 3.0), (-2, 22, 9, 3.8), (14, 21, 9.5, 4.0), (-14, 20, 9, 3.6), (4, 19, 8.5, 3.4), (5.5, 9.5, 8.0, 3.2), (-15.5, 9.0, 7.5, 3.0))):
         if lib_trees: lib_instance("tree%d" % k, "island_tree_02", S, (x, y, 0), rot=k * 1.7, scale=hgt / 7.5)
         else: blob_tree("tree%d" % k, S, (x, y, 0), hgt, cr, seed=k, leaf=("#3f8f2e", "#4a9a34", "#367f2a")[k % 3])
     for k, (x, y, z, s) in enumerate(((-28, 70, 26, 13), (30, 80, 30, 15), (-6, 110, 40, 18), (55, 95, 22, 12))): cloud("cloud%d" % k, S, (x, y, z), s, seed=k)

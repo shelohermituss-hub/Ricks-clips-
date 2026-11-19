@@ -1,4 +1,55 @@
-{"title": "crashed_car shot 1", "fps": 30, "end": 122,
- "cast": {"hero": {"puppet": "cast:barrel_inventor", "height": 1.72}},
- "acts": [{"who": "hero", "at": 0, "pos": [-1.75, 0.35, 0], "view": "34", "dir": 1, "pose": "m:idle/A", "face": "k:happy", "move_s": 0.01},
-          {"who": "hero", "at": 104, "pos": [-1.75, 0.35, 0], "view": "front", "dir": 1, "pose": "m:idle/A", "face": "k:smug", "move_s": 0.01}]}
+{
+ "title": "crashed_car shot 1",
+ "fps": 30,
+ "end": 122,
+ "cast": {
+  "hero": {
+   "puppet": "cast:barrel_inventor",
+   "height": 1.72
+  }
+ },
+ "acts": [
+  {
+   "who": "hero",
+   "at": 0,
+   "pos": [
+    -1.75,
+    0.35,
+    0
+   ],
+   "view": "34",
+   "dir": 1,
+   "pose": "m:idle/A",
+   "face": "k:happy",
+   "move_s": 0.01
+  },
+  {
+   "who": "hero",
+   "at": 88,
+   "pos": [
+    -1.75,
+    0.35,
+    0
+   ],
+   "view": "34",
+   "dir": -1,
+   "pose": "m:walk/A",
+   "face": "k:happy",
+   "move_s": 0.01
+  },
+  {
+   "who": "hero",
+   "at": 104,
+   "pos": [
+    -1.75,
+    0.35,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:idle/A",
+   "face": "k:smug",
+   "move_s": 0.01
+  }
+ ]
+}
