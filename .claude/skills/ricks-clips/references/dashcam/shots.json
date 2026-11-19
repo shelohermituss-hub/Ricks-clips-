@@ -1,0 +1,58 @@
+[
+ {
+  "n": 1,
+  "t0": 0.0,
+  "t1": 3.3,
+  "len_s": 3.3,
+  "words": "He slammed the brakes on the highway, and the car behind him smashes right"
+ },
+ {
+  "n": 2,
+  "t0": 3.3,
+  "t1": 6.97,
+  "len_s": 3.67,
+  "words": "into his bumper. He climbs out, holding his neck and limping, because"
+ },
+ {
+  "n": 3,
+  "t0": 6.97,
+  "t1": 12.9,
+  "len_s": 5.93,
+  "words": "he figures whoever hits you from behind always gets the blame. And sure enough, their insurance pays for his car, his"
+ },
+ {
+  "n": 4,
+  "t0": 12.9,
+  "t1": 29.47,
+  "len_s": 16.57,
+  "words": "doctor, and a nice fat check for all that pain he's in. So, the next week, he does it again with a different car. He picks them carefully. A guy on his phone, a kid who just got his license, anyone driving a little too close. Then, he brings a buddy, who drives right beside you so you can't swerve. The money comes in so fast he buys"
+ },
+ {
+  "n": 5,
+  "t0": 29.47,
+  "t1": 36.7,
+  "len_s": 7.23,
+  "words": "a nicer car, just to crash that one too. Eventually, the insurance company starts calling. Sir, this is your fifth neck injury this year."
+ },
+ {
+  "n": 6,
+  "t0": 36.7,
+  "t1": 38.7,
+  "len_s": 2.0,
+  "words": "Yeah, I've got a really weak neck."
+ },
+ {
+  "n": 7,
+  "t0": 38.7,
+  "t1": 55.23,
+  "len_s": 16.53,
+  "words": "But it's his word against the guy who hit him, and he's counting on everyone blaming the guy in the back. Then, one rainy morning, he picks a quiet guy in an old car, slams on his brakes, and out he comes, clutching his neck. But the quiet guy doesn't yell, and he doesn't even get out. He just points at a little box taped to his windshield."
+ },
+ {
+  "n": 8,
+  "t0": 55.23,
+  "t1": 62.23,
+  "len_s": 7.0,
+  "words": "It's a camera, and it filmed an empty road, and a man breaking for absolutely nothing. And that's how the dashcam was invented."
+ }
+]

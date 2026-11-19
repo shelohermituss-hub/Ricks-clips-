@@ -81,6 +81,7 @@ Tous les chemins `S/...` désignent `.claude/skills/ricks-clips/...`, le dossier
 | Règles CB du 19/11 | Corriger seulement ce qui change (`--patch`), rendu par couches, analyse détaillée d'abord, tout passe par une action, caméra jamais à l'arrêt, vraies surfaces et ombres, contrôle automatique, plan complet avant construction, réaction et conséquence pour chaque action, chaque problème devient une solution permanente | `S/CB_RULES.md` §11h (fin du fichier) |
 | Contrôle de continuité | `S/demos/crashed_car/shots/continuity.py` : apparition, téléportation, rétrécissement, saut de pose, arrêt caméra. Le rendu est refusé s'il échoue (`render_layers.sh`) | ancienne version du plan 2 : 7 apparitions, 2 téléportations, 1 arrêt ; nouvelle version : 0 |
 | Repères des cartes | `S/tools/card_anchors.py` mesure la tête, les pieds, les mains et les sauts de pose. Lancé automatiquement par `card_service.py` | `anchors.json` à côté des dessins |
+| Analyse de 6 nouvelles vidéos de référence de CB | `S/tools/analyze_reference.py` (mesures, loudness, transcription, coupes, planches), regard seconde par seconde ; bible de style v2 sur 7 vidéos ; 12 recettes de plus (36 au total) ; `plan_check` contrôle aussi le crochet, les faits écrits dans le décor, les ambiances, le gros plan d'émotion et le plan d'insert | `S/references/ANALYSE_7_VIDEOS_FR.md`, `S/references/<vidéo>/summary.json`, `test_plan_check.py` PASS |
 | Méthode sans référence | `S/tools/plan_check.py`, `S/templates/production_plan/` (modèle et exemple rempli), `S/library/reactions/reactions.json` (24 recettes), `S/references/STYLE_BIBLE_FR.md`, `S/docs/PREPRODUCTION_FR.md` | `test_plan_check.py` PASS (19/11) |
 
 ---
@@ -95,7 +96,7 @@ Tous les chemins `S/...` désignent `.claude/skills/ricks-clips/...`, le dossier
 - **Intégration des outils du plan par plan dans `blender/rc/`** : non faite (§5 et `MIGRATION_PLAN.md`).
 - **Démo ferme** : le nouveau rendu calibré qui mesurerait l'effet des corrections est **NOT_RUN** (décision CB : pas de second rendu GPU).
 - **Personnages 3D riggés** : essai NOT_RUN, en attente de l'accord de CB.
-- **Vidéos de référence supplémentaires** : CB a demandé s'il devait en envoyer d'autres, et la réponse a été oui, 3 à 5 vidéos variées. **Aucune reçue à ce jour.**
+- **Vidéos de référence supplémentaires** : **reçues le 19/11 (6 vidéos) et analysées** (voir §2). La bible de style passe en v2 sur 7 vidéos.
 
 ---
 
@@ -225,23 +226,15 @@ Procédure : `pod.py fetch <id>` → `pod.py verify <id>` (code de sortie 0) →
 
 ## 12. Prochaine action exacte
 
-**Étape 1 — Restaurer et vérifier (sans rendu lourd)** : §0, étapes 1 à 5.
+**Décision de CB (19/11)** : « Nous allons construire une **nouvelle vidéo** avec la nouvelle méthode. » Il a d'abord envoyé 6 vidéos de référence, toutes analysées (§2). La reproduction de crashed_car (plans 3 à 15, corrections du plan 2) est **en pause** ; elle n'est pas abandonnée.
 
-**Étape 2 — Demander à CB.** Il faut :
-- (a) qu'il renvoie la vidéo `He_Crashed_His_Own_Car_For_Science` (à placer dans `S/references/crashed_car/source.mp4`, ignoré par Git) ;
-- (b) qu'il choisisse : **corriger d'abord les 4 points du plan 2, ou passer au plan 3**. La dernière réponse proposait de passer au plan 3 et de grouper les corrections du plan 2 à la fin ; CB n'a pas encore répondu.
-
-**Étape 3 — Plan 3** (« he vowed to make the race track safer for all », 8,27 → 11,4 s, images 248 à 342 ; bureau-garage, mur de liège, affiche « STOP CAR. GENTLY. », photos « MY BAD », la dernière image du plan 2 devient une photo épinglée) :
-
-1. Extraire les images à 10 i/s :
-   ```
-   cd S/references/crashed_car && mkdir -p shots/s03
-   ffmpeg -ss 8.27 -to 11.5 -i source.mp4 -vf fps=10 shots/s03/f%04d.jpg
-   ```
-   Puis faire les planches.
-2. Écrire `S/references/crashed_car/shots/s03.md`, au format de `s02.md`, **avec** les sections « Entrées / sorties / changements d'état », caméra, surfaces et ombres.
-3. Écrire `S/demos/crashed_car/plan/s03.json` au format de `plan_example.json`, puis `python3 tools/plan_check.py …` jusqu'à **PLAN PASS**.
-4. Construire `S/demos/crashed_car/sets/office.py` et `shots/s03_office.py`, sur le modèle de `s02_pit.py`. Écrire la piste `tracks_s03.json`, puis lancer `card_service.py`.
-5. Lancer `blender -b build/s03_office.blend --python shots/continuity.py -- build/continuity/s03.json` jusqu'à PASS. Faire environ 8 images clés et les comparer côte à côte avec la référence.
-6. `bash S/demos/crashed_car/shots/render_layers.sh s03_office 248-342`. Rendu CPU 270×480 : prévoir 10 à 20 min. **Annoncer le temps mesuré.**
-7. Commiter, pousser, envoyer la comparaison côte à côte à CB.
+1. **Restaurer et vérifier** (§0, étapes 1 à 5).
+2. **Demander à CB le sujet de la nouvelle vidéo**, ou lui proposer 3 histoires vraies au format du crochet (§2 de `S/references/STYLE_BIBLE_FR.md`). **Ne rien construire avant son choix.**
+3. Écrire le **script**, environ 60 s et 3,5 mots/s, avec crochet, « You see », escalade, retournement, chute et boucle. Puis la **voix**, avec ses mots minutés.
+4. Écrire `S/episodes/<nom>/plan/plan.json` et `PLAN.md` (modèle `S/templates/production_plan/`, avec `"kind": "video"`, `hook`, `facts`, `captions`, ambiances, `shot_type`). Lancer `python3 tools/plan_check.py …` jusqu'à **PLAN PASS**.
+5. Montrer le plan à CB.
+6. Construction plan par plan, sur le modèle de `S/demos/crashed_car/shots/s02_pit.py` :
+   - `continuity.py` PASS ;
+   - environ 8 images clés ;
+   - `render_layers.sh` ;
+   - annoncer les temps mesurés.

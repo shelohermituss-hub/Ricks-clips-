@@ -1,0 +1,22 @@
+{
+ "slug": "whale_boat",
+ "duration_s": 49.62,
+ "resolution": "1080x1920",
+ "fps": 30.0,
+ "words": 163,
+ "words_per_s": 3.36,
+ "longest_pause_s": 0.36,
+ "lufs": -13.9,
+ "lra": 4.0,
+ "hard_cuts": 0,
+ "seconds_per_hard_cut": 49.62,
+ "motion_per_second_median": 35.3,
+ "motion_median_x1000": 31.53,
+ "peaks_per_10s": 11.51,
+ "luma": 0.448,
+ "saturation": 0.493,
+ "contrast": 0.185,
+ "edge_detail": 0.0716,
+ "still_frames_pct": 0.1,
+ "sheets": 5
+}

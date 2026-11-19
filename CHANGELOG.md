@@ -2,6 +2,16 @@
 
 Historique détaillé des versions du skill : `.claude/skills/ricks-clips/CHANGELOG.md` (jusqu'à la V1.1 du 15/11). Pour la suite, voir `git log` sur la branche `ccr-00f60cb8-lenpig`. `S/` = `.claude/skills/ricks-clips/`.
 
+## 19/11/2026 — base de style sur 7 vidéos de référence
+- `S/tools/analyze_reference.py` : même analyse pour chaque vidéo (fiche technique, mesures par seconde, LUFS, mots minutés, coupes, planches).
+- 6 nouvelles vidéos de CB analysées : pink_prison, dashcam, mine_salting, crash_instinct, whale_boat, plane_fall. Les sources restent en local.
+- Documents mis à jour :
+  - `S/references/ANALYSE_7_VIDEOS_FR.md` ;
+  - `STYLE_BIBLE_FR.md` v2 (plages mesurées sur 7 vidéos, règles communes contre options).
+- Catalogue des réactions : +12 recettes (36 au total).
+- `plan_check.py` vérifie aussi l'histoire : crochet montré dans la 1re seconde, faits écrits dans le décor, au moins 2 ambiances, gros plan d'émotion, plan d'insert, sous-titres, boucle.
+- Décision de CB : la prochaine étape est une nouvelle vidéo avec la nouvelle méthode ; crashed_car est en pause.
+
 ## 19/11/2026 — passation
 - Ajout à la racine de `HANDOFF.md`, `PROJECT_STATE.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `MIGRATION_PLAN.md`, `OPEN_ISSUES.md` et `CHANGELOG.md`.
 - Correction de `S/tools/tests/test_rc.py` : chaque résultat de test est converti en booléen. Un test renvoyait un dictionnaire et faisait planter le comptage final ; le test lui-même passait. Suite relancée : 27/27 PASS.

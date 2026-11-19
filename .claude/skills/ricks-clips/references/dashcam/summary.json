@@ -1,0 +1,22 @@
+{
+ "slug": "dashcam",
+ "duration_s": 62.3,
+ "resolution": "720x1280",
+ "fps": 30.0,
+ "words": 237,
+ "words_per_s": 3.83,
+ "longest_pause_s": 0.36,
+ "lufs": -14.1,
+ "lra": 2.2,
+ "hard_cuts": 7,
+ "seconds_per_hard_cut": 8.9,
+ "motion_per_second_median": 22.4,
+ "motion_median_x1000": 19.06,
+ "peaks_per_10s": 8.52,
+ "luma": 0.394,
+ "saturation": 0.453,
+ "contrast": 0.216,
+ "edge_detail": 0.0814,
+ "still_frames_pct": 8.6,
+ "sheets": 7
+}

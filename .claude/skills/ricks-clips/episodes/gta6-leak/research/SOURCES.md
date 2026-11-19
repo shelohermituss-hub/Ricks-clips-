@@ -1,0 +1,20 @@
+# Sources — « He Leaked GTA 6 From A Hotel Room » (vérifiées le 19/11/2026)
+
+Chaque phrase du script s'appuie sur ces sources. Un fait non confirmé n'entre pas dans le script.
+
+| Fait utilisé | Statut | Sources |
+|---|---|---|
+| Arion Kurtaj, 18 ans, membre de Lapsus$, auteur de la fuite GTA 6 (septembre 2022) | confirmé | [VGC](https://videogameschronicle.com/news/gta-6-hacker-sentenced-to-an-indefinite-hospital-order), [TechRadar](https://www.techradar.com/gaming/gta-6-hacker-who-intended-to-return-to-cyber-crime-as-soon-as-possible-sentenced-to-an-indefinite-hospital-order?mid=1) |
+| Il a agi depuis un Travelodge, en liberté sous caution et sous protection policière, avec un Amazon Fire Stick, la télé de l'hôtel, un téléphone, un clavier et une souris | rapporté par plusieurs médias (procès), pas un document du tribunal | [Gfinity](https://www.gfinityesports.com/article/gta-6-leaker-travelodge-tv-fire-stick), [TBS News](https://www.tbsnews.net/tech/british-teen-hacker-behind-gta-6-leak-sentenced-life-hospital-762398), [EssentiallySports](https://www.essentiallysports.com/gaming-news-gta-6-leak-forced-rockstar-to-spend-five-million-dollars-to-recover-damages-after-hacker-arion-kurtaj-stole-game-data-from-a-hotel-room/) |
+| Il est entré dans le Slack (messagerie interne) de Rockstar et y a posté un message de rançon | rapporté | [Shattered](https://shattered.io/gta-6-hacker-kurtaj-pleads-guilty-90-clips-5-million-rockstar-cost/) |
+| Plus de 90 vidéos et captures d'une version de développement, environ une heure d'images | confirmé | [GamesRadar](https://www.gamesradar.com/the-gta-6-leak-cost-rockstar-dollar5-million-and-thousands-of-hours-of-staff-time), [Shattered](https://shattered.io/gta-6-hacker-kurtaj-pleads-guilty-90-clips-5-million-rockstar-cost/) |
+| Coût annoncé par Rockstar : environ 5 millions de dollars et des milliers d'heures de travail | déclaration de Rockstar au tribunal (pas d'audit indépendant) | [GamesRadar](https://www.gamesradar.com/the-gta-6-leak-cost-rockstar-dollar5-million-and-thousands-of-hours-of-staff-time) |
+| Juillet 2023 : déclaré inapte à être jugé ; décembre 2023 : hospitalisation sécurisée pour une durée indéterminée | confirmé | [VGC](https://videogameschronicle.com/news/gta-6-hacker-sentenced-to-an-indefinite-hospital-order), [Dexerto](https://dexerto.com/gaming/what-happened-to-the-gta-6-hacker-sentence-explained-2996616) |
+| 2026 : jugé apte, transféré de l'hôpital vers la prison en attendant un nouveau procès | confirmé (juillet 2026) | [gHacks](https://www.ghacks.net/2026/07/17/gta-6-hacker-arion-kurtaj-moved-from-secure-hospital-to-prison-ahead-of-november-2026-retrial/), [GamesRadar](https://www.gamesradar.com/games/grand-theft-auto/hacker-behind-gta6-leak-that-cost-rockstar-usd5-million-reportedly-awaiting-retrial-after-being-released-from-secure-hospital/) |
+| 16/11/2026 : il plaide coupable, peine prononcée le 23/11 à Woolwich Crown Court | confirmé (CPS cité) ; **la peine n'est pas encore connue** | [Android Headlines](https://www.androidheadlines.com/2026/11/2022-gta-6-hacker-pleads-guilty-will-await-sentencing-this-month.html), [TheStreet](https://www.thestreet.com/crypto/entertainment/gta-6-hacker-pleads-guilty-ahead-of-nov-19-release) |
+| Sortie de GTA 6 prévue le 19/11/2026 | annoncée par Rockstar | [TheStreet](https://www.thestreet.com/crypto/entertainment/gta-6-hacker-pleads-guilty-ahead-of-nov-19-release) |
+| 1re bande-annonce (décembre 2023) : record Guinness de la vidéo non musicale la plus vue sur YouTube en 24 h, 90 421 491 vues | confirmé | [Push Square](https://pushsquare.com/news/2023/12/gta-6-trailer-pulls-90-million-views-in-24-hours-sets-new-world-records), [TechRadar](https://www.techradar.com/gaming/gaming-industry/grand-theft-auto-6-is-already-an-official-guinness-world-record-holder-and-its-expected-to-break-even-more-records-at-launch-gta-6s-release-is-a-really-global-phenomenon-in-a-way-that-few-things-are) |
+
+**À revérifier juste avant la publication** :
+- la peine prononcée le 23/11 (la dernière ligne du script en dépend) ;
+- la sortie effective du jeu le 19/11.

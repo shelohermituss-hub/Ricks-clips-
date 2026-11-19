@@ -6,7 +6,7 @@
 
 | # | Prio | Problème | Détail / piste |
 |---|---|---|---|
-| 1 | **P1** | **La vidéo source de CB n'est pas dans le dépôt** (ignorée par Git, par choix) | Une nouvelle session doit la redemander à CB pour analyser les plans 3 à 15. La transcription (`words.json`), les mesures et les planches sont versionnées |
+| 1 | **P1** (seulement pour reprendre crashed_car) | **La vidéo source de CB n'est pas dans le dépôt** (ignorée par Git, par choix) | Une nouvelle session doit la redemander à CB pour analyser les plans 3 à 15. La transcription (`words.json`), les mesures et les planches sont versionnées |
 | 2 | P2 | Plan 2 : le casque 3D est trop gros (le casque de référence est ajusté à la tête) ; les oreillettes de la casquette dépassent un peu en 2A | Le casque a été agrandi (×2,0) pour couvrir les oreillettes. Piste : rayon plus petit et oreillettes cachées par une forme de casque plus basse |
 | 3 | P2 | Plan 2 : sol du stand trop sombre ; l'ombre longue du toit n'est pas lisible au sol comme dans la référence | Monter la valeur de `pit_concrete`, orienter le soleil pour projeter le toit dans le cadre |
 | 4 | P2 | Plan 2 : asphalte du virage trop sombre, trop de cailloux ; il manque les grandes traces noires de dérapage | Valeur de `track_asphalt`, moins de débris, traces plus marquées |
@@ -39,3 +39,5 @@
 | # | Prio | Problème | Détail |
 |---|---|---|---|
 | 18 | P3 | `S/docs/RAPPORT_MIGRATION_FR.md` §3 annonce « `blender/rc/` (19 modules) » | Compté le 19/11 : 17 modules Python, plus `__init__.py` et `schema/`. À corriger dans ce rapport (non modifié pendant la passation) |
+| 19 | P3 | Les 7 vidéos sources de référence ne sont pas dans le dépôt (ignorées par Git) | Les mesures, les transcriptions et les planches sont versionnées. Pour réanalyser une vidéo, la redemander à CB |
+| 20 | P3 | Le gabarit de mouvement « cible 41,8 » de crashed_car est remplacé par la plage des 7 vidéos (20 à 65, médiane 30,6) | `CB_RULES` §11h cite encore 41,8 comme exemple : à lire comme « au niveau de la référence choisie » |

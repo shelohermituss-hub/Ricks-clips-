@@ -1,0 +1,22 @@
+{
+ "slug": "mine_salting",
+ "duration_s": 61.11,
+ "resolution": "720x1280",
+ "fps": 30.0,
+ "words": 231,
+ "words_per_s": 3.79,
+ "longest_pause_s": 0.7,
+ "lufs": -14.1,
+ "lra": 2.7,
+ "hard_cuts": 12,
+ "seconds_per_hard_cut": 5.09,
+ "motion_per_second_median": 30.6,
+ "motion_median_x1000": 23.91,
+ "peaks_per_10s": 10.81,
+ "luma": 0.384,
+ "saturation": 0.549,
+ "contrast": 0.187,
+ "edge_detail": 0.0841,
+ "still_frames_pct": 2.3,
+ "sheets": 7
+}

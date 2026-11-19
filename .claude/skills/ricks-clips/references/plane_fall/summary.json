@@ -1,0 +1,22 @@
+{
+ "slug": "plane_fall",
+ "duration_s": 83.08,
+ "resolution": "720x1280",
+ "fps": 30.0,
+ "words": 264,
+ "words_per_s": 3.21,
+ "longest_pause_s": 0.64,
+ "lufs": -13.9,
+ "lra": 3.9,
+ "hard_cuts": 2,
+ "seconds_per_hard_cut": 41.54,
+ "motion_per_second_median": 65.2,
+ "motion_median_x1000": 61.06,
+ "peaks_per_10s": 14.22,
+ "luma": 0.41,
+ "saturation": 0.439,
+ "contrast": 0.198,
+ "edge_detail": 0.0882,
+ "still_frames_pct": 0.6,
+ "sheets": 9
+}

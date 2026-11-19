@@ -1,0 +1,22 @@
+{
+ "slug": "crash_instinct",
+ "duration_s": 59.49,
+ "resolution": "720x1280",
+ "fps": 30.0,
+ "words": 217,
+ "words_per_s": 3.67,
+ "longest_pause_s": 0.36,
+ "lufs": -14.0,
+ "lra": 2.5,
+ "hard_cuts": 12,
+ "seconds_per_hard_cut": 4.96,
+ "motion_per_second_median": 25.6,
+ "motion_median_x1000": 16.19,
+ "peaks_per_10s": 8.41,
+ "luma": 0.433,
+ "saturation": 0.285,
+ "contrast": 0.19,
+ "edge_detail": 0.0722,
+ "still_frames_pct": 3.3,
+ "sheets": 6
+}
