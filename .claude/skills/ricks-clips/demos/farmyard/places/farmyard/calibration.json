@@ -1,0 +1,16 @@
+{
+ "exposure": 0.9909197688102722,
+ "white_balance_temperature": 10996.390625,
+ "target_scale": 1.0,
+ "frames": [
+  40,
+  150,
+  300
+ ],
+ "measured": {
+  "render_lum": 0.2757,
+  "ref_lum": 0.2703
+ },
+ "source": "production/p9_calibration.json (phase 9, 2026-11-18)",
+ "date": "2026-11-19"
+}
