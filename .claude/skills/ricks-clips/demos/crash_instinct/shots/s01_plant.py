@@ -208,6 +208,9 @@ def grass_and_flowers():
     # CB 2026-11-19: the SAME grass on both sides of the road, all along (density falls with distance: LOD)
     roadside.verge_grass(c, [[10.6, -16], [18.4, -16], [18.4, 40], [10.6, 40]], 9000, 3, scale=(.5, .9))
     roadside.verge_grass(c, [[10.6, 40], [18.4, 40], [18.4, 160], [10.6, 160]], 7000, 8, scale=(.6, 1.1))
+    # the aerial view (shot 3) looks down on the verges in front of the tree: the same tufts there, both sides (never a bare flat plane)
+    roadside.verge_grass(c, [[-6.3, -60], [1.45, -60], [1.45, -16], [-6.3, -16]], 9000, 9, scale=(.6, 1.1))
+    roadside.verge_grass(c, [[10.6, -60], [18.4, -60], [18.4, -16], [10.6, -16]], 9000, 10, scale=(.6, 1.1))
     for k, (x, y) in enumerate(((-2.8, -3.2), (-3.4, -2.1), (-1.6, -2.6), (-4.2, -1.0), (.6, -2.4), (-2.2, -4.0))):
         street.lib_instance("dandelion%d" % k, "dandelion_01", c, (x, y, 0), rot=k * 1.3, scale=1.0)
 

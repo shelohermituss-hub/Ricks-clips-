@@ -14,7 +14,7 @@ import bpy, bmesh, math
 from mathutils import Vector
 
 HDRI = "kloofendal_48d_partly_cloudy_puresky"; HDRI_SUN_DEG = -34.2          # its sun: atan2(y, x) of the brightest pixel (measured), elevation 47.8
-SUN = [-32.0, 24.0]                                                             # azimuth (deg, direction the light comes FROM, 0 = +Y, -90 = -X), elevation
+SUN = [-48.0, 15.0]                                                             # azimuth (deg, direction the light comes FROM, 0 = +Y, -90 = -X), elevation
 
 def srgb(h): return tuple(((int(h[i:i + 2], 16) / 255) ** 2.2) for i in (1, 3, 5))
 
@@ -63,7 +63,7 @@ def pbr(name, ph_id, tile=2.0, tint=None, tint_k=0.0, rough_mul=1.0, normal=1.0,
         n = img("normal", True); nm = N.new("ShaderNodeNormalMap"); nm.inputs["Strength"].default_value = normal; L.new(n.outputs["Color"], nm.inputs["Color"]); L.new(nm.outputs["Normal"], b.inputs["Normal"])
     return m
 
-def sky_hdri(scene, strength=1.0, hdri=HDRI, hdri_sun_deg=HDRI_SUN_DEG, sun_az=None):
+def sky_hdri(scene, strength=1.0, hdri=HDRI, hdri_sun_deg=HDRI_SUN_DEG, sun_az=None, glow=.8, light=.5):
     """CINEMATIC SKY (CB 2026-11-19): a real cloudy sky photo (Poly Haven CC0) seen by the camera AND lighting the scene (soft fill, so the
     trunk is never black in daylight); rotated so its sun sits where the sun lamp is"""
     from rc import fetch
@@ -74,9 +74,38 @@ def sky_hdri(scene, strength=1.0, hdri=HDRI, hdri_sun_deg=HDRI_SUN_DEG, sun_az=N
     want = math.degrees(math.atan2(math.cos(math.radians(az)), math.sin(math.radians(az))))     # direction the light comes from, as atan2(y, x)
     mp.inputs["Rotation"].default_value = (0, 0, math.radians(hdri_sun_deg - want))
     L.new(tc.outputs["Generated"], mp.inputs["Vector"]); L.new(mp.outputs["Vector"], env.inputs["Vector"]); L.new(env.outputs["Color"], bg.inputs["Color"])
-    bg.inputs["Strength"].default_value = strength
+    # THE LAMP IS THE ONLY SUN (aerial view of crash_instinct, 2026-11-19): the photo's own sun (48 deg high) drew a second, short, soft
+    # shadow and its fill washed out the long shadow of the lamp. For every ray but the camera's, the sky is capped (no hot sun) and
+    # dimmed to `light`: it stays a soft blue fill, the hard long shadows come from sun() alone.
+    lp = N.new("ShaderNodeLightPath"); cap = N.new("ShaderNodeMix"); cap.data_type = "RGBA"; cap.blend_type = "DARKEN"; cap.inputs[0].default_value = 1.0
+    L.new(env.outputs["Color"], cap.inputs[6]); cap.inputs[7].default_value = (1.6, 1.6, 1.6, 1)
+    pick = N.new("ShaderNodeMix"); pick.data_type = "RGBA"; L.new(lp.outputs["Is Camera Ray"], pick.inputs[0]); L.new(cap.outputs[2], pick.inputs[6]); L.new(env.outputs["Color"], pick.inputs[7])
+    L.new(pick.outputs[2], bg.inputs["Color"])
+    st = N.new("ShaderNodeMix"); st.data_type = "FLOAT"; L.new(lp.outputs["Is Camera Ray"], st.inputs[0]); st.inputs[2].default_value = light * strength; st.inputs[3].default_value = strength
+    L.new(st.outputs[0], bg.inputs["Strength"])
+    if glow > 0: sun_glow(w, glow)
 
-def god_rays(c, center=(0, 0, 0), size=(34, 34, 16), density=.0015, anisotropy=.75):
+def sun_glow(w, k=1.0, wide=5.0, tight=90.0):
+    """THE SUN SEEN IN THE SKY (CB 2026-11-19: "le soleil doit apparaître en lueur en haut à gauche sur la vue aérienne"): a warm white glow
+    around the direction of the sun LAMP (SUN), added to the sky for camera rays only (the lighting does not change): a wide halo that
+    whitens the sky on the sun's side even when the sun is out of frame, and a hot core where the camera looks at it"""
+    nt = w.node_tree; N, L = nt.nodes, nt.links; bg = N["Background"]; src = bg.inputs["Color"].links[0].from_socket
+    el, az = math.radians(SUN[1]), math.radians(SUN[0]); d = (math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el))
+    tc = N.new("ShaderNodeTexCoord"); nrm = N.new("ShaderNodeVectorMath"); nrm.operation = "NORMALIZE"; L.new(tc.outputs["Generated"], nrm.inputs[0])
+    dot = N.new("ShaderNodeVectorMath"); dot.operation = "DOT_PRODUCT"; L.new(nrm.outputs["Vector"], dot.inputs[0]); dot.inputs[1].default_value = d
+    def m(o, a, b):
+        n_ = N.new("ShaderNodeMath"); n_.operation = o
+        for i, v in enumerate((a, b)):
+            if isinstance(v, (int, float)): n_.inputs[i].default_value = v
+            else: L.new(v, n_.inputs[i])
+        return n_.outputs[0]
+    c = m("MAXIMUM", dot.outputs["Value"], 0.0)
+    g = m("ADD", m("MULTIPLY", m("POWER", c, wide), 1.5 * k), m("MULTIPLY", m("POWER", c, tight), 5.0 * k))
+    lp = N.new("ShaderNodeLightPath"); g = m("MULTIPLY", g, lp.outputs["Is Camera Ray"])
+    mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "ADD"; mx.clamp_result = False; L.new(g, mx.inputs[0]); L.new(src, mx.inputs[6]); mx.inputs[7].default_value = (1, .96, .88, 1)
+    L.new(mx.outputs[2], bg.inputs["Color"])
+
+def god_rays(c, center=(0, 0, 0), size=(34, 34, 16), density=.004, anisotropy=.75):
     """SUN RAYS (CB 2026-11-19): a light haze volume around the tree; the sun lamp shining through the crown draws the shafts"""
     m = bpy.data.materials.get("god_ray_haze") or bpy.data.materials.new("god_ray_haze"); m.use_nodes = True; nt = m.node_tree
     for n_ in list(nt.nodes):
@@ -86,7 +115,7 @@ def god_rays(c, center=(0, 0, 0), size=(34, 34, 16), density=.0015, anisotropy=.
     o = box("god_rays", c, size, (center[0], center[1], size[2] / 2 - .05), m, bevel=0); o.visible_shadow = False
     return o
 
-def light_shafts(c, n=10, seed=3, under=(0, 0, 4.4), spread=2.0, length=None, strength=.14, parent=None):
+def light_shafts(c, n=14, seed=3, under=(0, 0, 4.4), spread=2.2, length=None, strength=.14, parent=None):
     """SUN RAYS you can SEE (CB 2026-11-19): soft tapered shafts falling from gaps under the crown along the sun direction, additive light
     (transparent + emission, fading along the shaft and at its edges); the reference shows them under the tree in daylight"""
     import random as _r
@@ -108,8 +137,8 @@ def light_shafts(c, n=10, seed=3, under=(0, 0, 4.4), spread=2.0, length=None, st
         L.new(add.outputs[0], N["Material Output"].inputs["Surface"])
     side = d.cross(Vector((0, 0, 1))).normalized(); out = []
     for i in range(n):
-        p0 = Vector(under) + Vector((R.uniform(-spread, spread), R.uniform(-spread, spread), R.uniform(-.4, .6))); w0, w1 = R.uniform(.06, .16), R.uniform(.18, .38)
-        L_ = length or (p0.z / max(.2, -d.z)) * R.uniform(.55, .85)                         # from under the crown down toward the ground, never across the sky
+        p0 = Vector(under) + Vector((R.uniform(-spread, spread), R.uniform(-spread, spread), R.uniform(-.4, .6))); w0, w1 = R.uniform(.14, .32), R.uniform(.45, .85)   # broad soft beams, not thin lines
+        L_ = length or min((p0.z / max(.2, -d.z)) * R.uniform(.55, .85), R.uniform(5.0, 7.5))   # from under the crown toward the ground, never across the sky; with a low sun they stay near the tree
         p1 = p0 + d * L_
         bm = bmesh.new(); uv = bm.loops.layers.uv.new()
         vs = [bm.verts.new(v) for v in (p0 - side * w0, p0 + side * w0, p1 + side * w1, p1 - side * w1)]; f = bm.faces.new(vs)
@@ -127,7 +156,7 @@ def bounce_fill(c, at=(-3.0, -9.0, 2.2), aim=(0, 0, 2.0), energy=900.0, size=7.0
     o.visible_camera = False; o.visible_glossy = False
     return o
 
-def sun(scene, elevation=None, azimuth=None, energy=4.2, angle=2.0):
+def sun(scene, elevation=None, azimuth=None, energy=9.0, angle=2.0):
     elevation = SUN[1] if elevation is None else elevation; azimuth = SUN[0] if azimuth is None else azimuth; SUN[0], SUN[1] = azimuth, elevation
     s = bpy.data.lights.new("sun", "SUN"); s.energy = energy; s.angle = math.radians(angle); s.color = srgb("#fff3e2")
     o = bpy.data.objects.new("sun", s); col("LIGHT").objects.link(o)
@@ -135,14 +164,64 @@ def sun(scene, elevation=None, azimuth=None, energy=4.2, angle=2.0):
     d = Vector((math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el)))
     o.rotation_euler = (-d).to_track_quat("-Z", "Y").to_euler(); return o
 
-def tex(name, ph_id, tile=2.0, tint=None, tint_k=0.0, value=1.0, rot=0.0, normal=1.0, rough_mul=1.0, spec=.12):
-    """a CC0 Poly Haven PBR set like street.pbr, plus a rotation of the pattern (furrows along the road), a stronger normal (relief) and a LOW
-    specular (spec .12): seen from a high or grazing camera a ground reflects the bright sky and looks washed out and grey (CB 2026-11-19:
-    the aerial road was light grey, the reference is dark asphalt). Ground = matte."""
+def _math(N, L, o, a, b=None, c=None, clamp=False):
+    """one Math node; each input is a socket or a number"""
+    n_ = N.new("ShaderNodeMath"); n_.operation = o; n_.use_clamp = clamp
+    for i, v in enumerate((a, b, c)):
+        if v is None: continue
+        if isinstance(v, (int, float)): n_.inputs[i].default_value = v
+        else: L.new(v, n_.inputs[i])
+    return n_.outputs[0]
+
+def tex(name, ph_id, tile=2.0, tint=None, tint_k=0.0, value=1.0, rot=0.0, normal=1.0, rough_mul=1.0, spec=.12,
+        recolor=None, untile=True, macro=.18, stripes=None):
+    """a CC0 Poly Haven PBR set like street.pbr, made for GROUNDS seen from any height (CB 2026-11-19, aerial view of crash_instinct):
+      spec .12      LOW specular: from a high or grazing camera a ground mirrors the bright sky and turns light grey. Ground = matte.
+      rot           rotation of the pattern (furrows along the road); normal = relief strength
+      recolor       "#hex": the scan keeps its light/dark detail but takes exactly this colour (a field must be golden, not the brown of the scan)
+      untile        a second, bigger, turned copy of the scan mixed in by a soft noise: no visible repeating squares from the air
+      macro         large patches (3-25 m) a little lighter / darker: from far a texture averages to ONE flat colour, a real ground never does
+      stripes       (period m, depth 0..1): regular fine dark lines along Y (furrows / drill rows), readable from the air"""
     if name in bpy.data.materials: return bpy.data.materials[name]
-    m = pbr(name, ph_id, tile=tile, tint=tint, tint_k=tint_k, value=value, normal=normal, rough_mul=rough_mul)
-    m.node_tree.nodes["Principled BSDF"].inputs["Specular IOR Level"].default_value = spec
-    mp = [n_ for n_ in m.node_tree.nodes if n_.type == "MAPPING"][0]; mp.inputs["Rotation"].default_value = (0, 0, math.radians(rot))
+    m = pbr(name, ph_id, tile=tile, tint=None if recolor else tint, tint_k=0 if recolor else tint_k, value=1.0 if recolor else value, normal=normal, rough_mul=rough_mul)
+    nt = m.node_tree; N, L = nt.nodes, nt.links; b = N["Principled BSDF"]
+    b.inputs["Specular IOR Level"].default_value = spec
+    mp = [n_ for n_ in N if n_.type == "MAPPING"][0]; mp.inputs["Rotation"].default_value = (0, 0, math.radians(rot))
+    tc = [n_ for n_ in N if n_.type == "TEX_COORD"][0]; obj = tc.outputs["Object"]
+    src = b.inputs["Base Color"].links[0].from_socket
+    ctex = [n_ for n_ in N if n_.type == "TEX_IMAGE" and n_.image.colorspace_settings.name != "Non-Color"][0]
+    if untile:
+        mp2 = N.new("ShaderNodeMapping"); L.new(obj, mp2.inputs["Vector"]); mp2.inputs["Scale"].default_value = (1 / (tile * 2.7),) * 3
+        mp2.inputs["Rotation"].default_value = (0, 0, math.radians(rot if stripes or rot else 37)); mp2.inputs["Location"].default_value = (.37, .61, 0)
+        t2 = N.new("ShaderNodeTexImage"); t2.image = ctex.image; t2.projection = "BOX"; t2.projection_blend = .2; L.new(mp2.outputs["Vector"], t2.inputs["Vector"])
+        nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = .11; nz.inputs["Detail"].default_value = 2; L.new(obj, nz.inputs["Vector"])
+        mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; L.new(_math(N, L, "MULTIPLY_ADD", nz.outputs["Fac"], 3.0, -1.0, clamp=True), mx.inputs[0])
+        users = [lk.to_socket for lk in ctex.outputs["Color"].links]
+        L.new(ctex.outputs["Color"], mx.inputs[6]); L.new(t2.outputs["Color"], mx.inputs[7])
+        for sk in users: L.new(mx.outputs[2], sk)
+        if src == ctex.outputs["Color"]: src = mx.outputs[2]
+    val = None
+    def times(v): return v if val is None else _math(N, L, "MULTIPLY", val, v)
+    if recolor:
+        import numpy as np
+        px = np.array(ctex.image.pixels[:], dtype=np.float32).reshape(-1, 4)[::7, :3]
+        mean = float((px ** 2.2 @ np.array([.2126, .7152, .0722], dtype=np.float32)).mean()) or .2
+        bw = N.new("ShaderNodeRGBToBW"); L.new(src, bw.inputs[0])
+        rel = _math(N, L, "MULTIPLY_ADD", bw.outputs[0], .75 / mean, .25)                      # 1.0 = the scan's average brightness
+        val = _math(N, L, "MULTIPLY", _math(N, L, "MINIMUM", _math(N, L, "MAXIMUM", rel, .45), 1.6), value)
+    if macro:
+        n1 = N.new("ShaderNodeTexNoise"); n1.inputs["Scale"].default_value = .045; n1.inputs["Detail"].default_value = 4; L.new(obj, n1.inputs["Vector"])
+        n2 = N.new("ShaderNodeTexNoise"); n2.inputs["Scale"].default_value = .4; n2.inputs["Detail"].default_value = 3; L.new(obj, n2.inputs["Vector"])
+        val = times(_math(N, L, "ADD", _math(N, L, "MULTIPLY_ADD", n1.outputs["Fac"], 2.8 * macro, 1.0 - 2 * macro), _math(N, L, "MULTIPLY", n2.outputs["Fac"], 1.2 * macro)))
+    if stripes:
+        period, depth = stripes; sx = N.new("ShaderNodeSeparateXYZ"); L.new(obj, sx.inputs[0])
+        line = _math(N, L, "POWER", _math(N, L, "MULTIPLY_ADD", _math(N, L, "COSINE", _math(N, L, "MULTIPLY", sx.outputs["X"], 2 * math.pi / period)), .5, .5), 5.0)
+        val = times(_math(N, L, "SUBTRACT", 1.0, _math(N, L, "MULTIPLY", line, depth)))
+    if val is not None:
+        hv = N.new("ShaderNodeHueSaturation"); L.new(val, hv.inputs["Value"])
+        if recolor: hv.inputs["Color"].default_value = (*srgb(recolor), 1)
+        else: L.new(src, hv.inputs["Color"])
+        L.new(hv.outputs["Color"], b.inputs["Base Color"])
     return m
 
 def road_wear(m):
