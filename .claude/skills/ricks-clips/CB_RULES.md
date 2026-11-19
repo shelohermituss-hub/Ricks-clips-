@@ -398,3 +398,8 @@ These additions strengthen the existing Three.js world and 2D character motion; 
 - NEVER RECOMPUTE THE UNCHANGED: assets, materials, downloads, character drawings and rendered frames go through the content cache (`rc.cache`; frames keyed on the build inputs, not on .blend bytes). The cache is never emptied automatically (`gc --dry-run` lists only).
 - RENDER: `tools/render_manager.py` (slices, resume, sha256 manifest, `gpu_usage.csv`, Cycles/EEVEE bench). `--gpu` = GPU mandatory, explicit failure otherwise. A pod is deleted ONLY after `pod.py fetch` verified its manifest. Paid pod time only with CB's explicit go and cap.
 - Tests: `python3 tools/tests/test_rc.py` (all PASS before a commit that touches `blender/rc/`), `.venv/bin/python tools/tests/test_pod_guard.py`.
+- **FIX ONLY WHAT CHANGED (CB rule, 2026-11-19: "garde cette méthode comme règle").** A correction never re-renders a whole shot by default:
+  1. check the fix on 3-5 key frames first (low resolution, a few seconds each);
+  2. re-render only the frames the fix touches with `tools/render_manager.py render ... --frames a-b --patch` (the rest of the sequence is kept; same engine/res/samples enforced). When a camera key moves, include the frames on both sides of that key;
+  3. a full re-render only when the fix is visible on (almost) every frame, and then group all such fixes into ONE full render;
+  4. every report gives the time actually spent (work + render), not only the estimate.
