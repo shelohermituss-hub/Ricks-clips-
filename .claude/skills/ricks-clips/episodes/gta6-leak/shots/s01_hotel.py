@@ -18,7 +18,7 @@ opt = lambda k, d: A[A.index(k) + 1] if k in A else d
 OUT = A[0] if A and not A[0].startswith("--") else "/tmp/gta_s01.blend"
 F0, F1 = 0, 165
 KID = Vector((-.98, 1.42, 0)); PORT = Vector((-.79, 1.995, 1.02))
-PLUG, TV_ON, KNOCK = 30, 36, 126
+PLUG, TV_ON, KNOCK = 14, 17, 126            # HOOK: the stick is in and the TV wakes inside the first 0.6 s (7 refs: the action at once)
 
 def key_val(node, value, f):
     node.outputs[0].default_value = value; node.outputs[0].keyframe_insert("default_value", frame=f)
@@ -28,7 +28,7 @@ def camera():
     # fov = VERTICAL angle in degrees (sensor fit vertical): 9:16 -> the horizontal angle is ~0.56x. Wide = 65-70, close = 40-45 (lesson 2026-11-19)
     keys = [(0, (-1.55, .35, 1.15), (-.85, 1.75, 1.0), 38), (40, (-1.45, .45, 1.2), (-.8, 1.8, 1.05), 36),        # insert: hand + stick + TV edge, slow push
             (52, (-1.25, .25, 1.55), (-.98, 1.42, 1.45), 42), (100, (-1.3, .15, 1.58), (-.98, 1.42, 1.45), 42),    # rise to his face lit by the TV
-            (118, (-1.6, -1.5, 1.75), (-.4, 1.2, .9), 68), (156, (-1.7, -1.65, 1.78), (-.35, 1.15, .9), 68),      # crane back: the whole room
+            (118, (-.15, -1.15, 1.6), (-.55, 1.35, 1.0), 62), (156, (-.25, -1.35, 1.66), (-.55, 1.3, .95), 64),     # crane back: kid, TV, painting, suitcase, pizza (all in the 9:16 width)
             (165, (-1.75, -1.7, 1.78), (-2.1, -.6, 1.1), 70)]                                                     # whip to the door (-> S02)
     for f, p, a, fov in keys:
         cam.location = p; cam.rotation_euler = (Vector(a) - Vector(p)).to_track_quat("-Z", "Y").to_euler(); cam.data.angle = math.radians(fov)
@@ -49,7 +49,7 @@ def lights(screen):
     for f in range(TV_ON + 14, F1 + 1, 6): tv.data.energy = 70 + 8 * math.sin(f * .7); tv.data.keyframe_insert("energy", frame=f)   # screen content flicker
     neon = light("neon_outside", "AREA", 20, "#ff3fa4", (2.4, .4, 1.5), (0, math.radians(-90), 0), (1.2, 1.2))
     for f in range(F0, F1 + 1, 10): neon.data.energy = 18 + 9 * math.sin(f * .21); neon.data.keyframe_insert("energy", frame=f)
-    sp = bpy.data.lights.new("neon_on_port", "SPOT"); sp.energy = 12; sp.color = street.srgb("#ff4fb0"); sp.spot_size = math.radians(35); sp.shadow_soft_size = .05
+    sp = bpy.data.lights.new("neon_on_port", "SPOT"); sp.energy = 35; sp.color = street.srgb("#ff4fb0"); sp.spot_size = math.radians(35); sp.shadow_soft_size = .05
     so = bpy.data.objects.new("neon_on_port", sp); LT.objects.link(so); so.location = (.9, 1.0, 1.5); so.rotation_euler = (PORT - so.location).to_track_quat("-Z", "Y").to_euler()   # the window neon grazing the TV side
     fill = light("room_fill", "AREA", 18, "#8fa4d6", (0, -1.5, 2.6), (0, 0, 0), (2.5, 2.5))     # very low ceiling bounce so shadows stay readable
     rim = light("tv_spill_on_kid", "AREA", 0, "#5b8cff", (-.55, 1.85, 1.45), (math.radians(70), 0, math.radians(-60)), (.5, .5))   # the TV glow reaches his face
@@ -83,7 +83,7 @@ def aim_insert(cam, card, AN):
     """the insert (0-40) is OBJECT-ONLY: the TV port in close-up, the stick slides in from the edge of the frame (the hand that holds it is
     just outside the frame). Lesson 2026-11-19: a drawn character always faces the lens, so a close-up on its hand shows its torso;
     an insert on a held object is framed on the object, with the card out of frame."""
-    for f, p, fov in ((0, (-.3, 1.44, 1.12), 44), (40, (-.26, 1.3, 1.2), 50)):
+    for f, p, fov in ((0, (-.42, 1.58, 1.08), 40), (40, (-.3, 1.38, 1.18), 48)):     # tighter on the port, pulls back as the TV light floods in
         tgt = PORT + Vector((0, -.06, 0)); p = Vector(p)
         cam.location = p; cam.rotation_euler = (tgt - p).to_track_quat("-Z", "Y").to_euler(); cam.data.angle = math.radians(fov)
         cam.keyframe_insert("location", frame=f); cam.keyframe_insert("rotation_euler", frame=f); cam.data.keyframe_insert("lens", frame=f)

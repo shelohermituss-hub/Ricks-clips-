@@ -49,7 +49,7 @@ def duvet(c, size, loc, seed=3):
 
 def build(scene):
     S, O, F, LT = lcol("L_SET"), lcol("L_OBJECTS"), lcol("L_FX"), lcol("L_LIGHTS"); lcol("L_SKY")
-    carpet = street.pbr("hotel_carpet", "fabric_pattern_05", tile=.45, tint="#7a3b4a", tint_k=.55, value=.9)
+    carpet = street.pbr("hotel_carpet", "acg:Carpet012", tile=1.0, tint="#8a3a4c", tint_k=.75, value=1.25)   # continuous pile (the woven pattern read as tiles)
     wall = street.pbr("hotel_wall", "beige_wall_001", tile=1.4, value=1.05); wood = street.pbr("dresser_wood", "wood_table_001", tile=.8, value=.9)
     leather = street.pbr("headboard", "fabric_leather_02", tile=.6, tint="#3b2b2a", tint_k=.5)
     street.box("floor", S, (4.4, 4.2, .05), (0, 0, -.025), carpet, bevel=0)
@@ -97,7 +97,33 @@ def build(scene):
     street.cyl("cloche", O, .1, .09, (-.55, 1.78, .78), street.mat("tray_steel", "#b9bcc2", .25, .9), seg=24)
     kc = street.box("keycard_sleeve", O, (.09, .06, .004), (.75, 1.62, .725), street.mat("keycard", "#1f3a8a", .4), bevel=.002); kc.rotation_euler.z = .3
     racetrack.text_decal("keycard_18", O, "18", .03, (.75, 1.62, .728), (0, 0, .3), "#ffd23a")
+    dress(S, O, wood)
     return {"screen": scr, "tv_center": Vector((-.2, 2.003, 1.15))}
+
+def dress(S, O, wood):
+    """what makes it read as a HOTEL ROOM in the wide shot: painting above the TV, two wall sconces, open suitcase with clothes,
+    stacked pizza boxes, a chair with his hoodie, a laundry bag"""
+    street.box("painting_frame", S, (.9, .03, .55), (-.2, 2.04, 2.05), street.mat("frame_gold", "#a5803f", .35, .8), bevel=.01)
+    art = street.box("painting", S, (.82, .01, .47), (-.2, 2.022, 2.05), street.mat("canvas_blue", "#3f6e9e", .8, bump=("noise", 6, .4)), bevel=0)
+    for x in (-1.05, .65):
+        street.cyl("sconce", S, .07, .16, (x, 2.03, 1.75), street.mat("sconce_glass", "#ffe2b0", .5), seg=16)
+        m = bpy.data.materials["sconce_glass"].node_tree.nodes["Principled BSDF"]; m.inputs["Emission Color"].default_value = (*street.srgb("#ffc27a"), 1); m.inputs["Emission Strength"].default_value = 3
+        d = bpy.data.lights.new("sconce_light", "POINT"); d.energy = 12; d.color = street.srgb("#ffb56b"); d.shadow_soft_size = .08; l = bpy.data.objects.new("sconce_light", d); street.col("L_LIGHTS").objects.link(l); l.location = (x, 1.95, 1.75)
+    case = street.box("suitcase", O, (.7, .45, .2), (.3, .95, .1), street.mat("suitcase_blue", "#22406e", .4), bevel=.03)
+    lid = street.box("suitcase_lid", O, (.7, .06, .45), (.3, 1.2, .33), street.mat("suitcase_blue", "#22406e", .4), bevel=.03); lid.rotation_euler.x = math.radians(-15)
+    rr = random.Random(9)
+    for k, c in enumerate(("#c94b3b", "#f0eadc", "#2e7d4f", "#d9b23a", "#1f1f26")):     # clothes spilling out of the suitcase
+        cl = street.box("clothes", O, (.32, .26, .05), (.15 + rr.uniform(-.1, .25), .9 + rr.uniform(-.12, .1), .22 + k * .025), street.mat("cloth_" + c, c, .9, bump=("noise", 25, .3)), bevel=.02)
+        cl.rotation_euler.z = rr.uniform(-.6, .6)
+    sock = street.box("sock", O, (.22, .07, .03), (-.1, .7, .015), street.mat("cloth_#f0eadc", "#f0eadc", .9), bevel=.015); sock.rotation_euler.z = .7
+    for k in range(3):                                                         # pizza boxes on the floor by the bed
+        b = street.box("pizza_box", O, (.42, .42, .045), (-.35 + k * .015, .3 - k * .02, .025 + k * .047), street.mat("cardboard", "#b88a55", .85, bump=("noise", 40, .2)), bevel=.004); b.rotation_euler.z = .2 * k - .2
+    racetrack.text_decal("pizza_txt", O, "PIZZA", .07, (-.32, .26, .17), (0, 0, -.2), "#c8202a")
+    street.box("chair_seat", S, (.48, .48, .05), (-1.75, .9, .46), wood, bevel=.01)
+    for dx in (-.2, .2):
+        for dy in (-.2, .2): street.box("chair_leg", S, (.04, .04, .45), (-1.75 + dx, .9 + dy, .22), wood, bevel=.005)
+    street.box("chair_back", S, (.48, .05, .5), (-1.75, 1.12, .75), wood, bevel=.01)
+    hood = street.box("hoodie_on_chair", O, (.46, .28, .1), (-1.75, 1.05, .82), street.mat("hoodie_grey", "#4a4f5a", .95, bump=("noise", 30, .3)), bevel=.05); hood.rotation_euler.x = math.radians(70)
 
 def energy_can(name, loc, color="#d01f2f"):
     c = lcol("L_OBJECTS"); o = street.cyl(name, c, .033, .12, loc, street.mat("can_" + color, color, .25, .8), seg=20)

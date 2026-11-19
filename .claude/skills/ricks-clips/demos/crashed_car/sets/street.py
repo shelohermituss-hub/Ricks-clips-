@@ -284,7 +284,7 @@ def pbr(name, ph_id, tile=2.0, tint=None, tint_k=0.0, rough_mul=1.0, normal=1.0,
     import sys, os
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "blender"))
     from rc import fetch
-    M = fetch.polyhaven_maps(ph_id, "1k", log=lambda *a: None)
+    M = fetch.ambientcg_maps(ph_id[4:], "1K", log=lambda *a: None) if ph_id.startswith("acg:") else fetch.polyhaven_maps(ph_id, "1k", log=lambda *a: None)   # "acg:Carpet012" = ambientCG
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links; b = N["Principled BSDF"]
     tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); L.new(tc.outputs["Object"], mp.inputs["Vector"]); mp.inputs["Scale"].default_value = (1 / tile,) * 3
     def img(key, nc):
