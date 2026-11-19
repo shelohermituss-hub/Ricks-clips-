@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "..", "crashed_car", "sets")); sys.p
 import street  # noqa: E402
 from street import srgb, col, mat, pbr, box, cyl, mesh_obj, cloud, lib_instance  # noqa: E402
 
-ROAD = (2.2, 9.8); FENCE_X = -6.5; FENCE_XR = 18.5; Y0, Y1 = -40.0, 2500.0                       # to the horizon (aerial view, shot 3)
+ROAD = (2.2, 9.8); FENCE_X = -6.5; FENCE_XR = 18.5; Y0, Y1 = -220.0, 2500.0                       # to the horizon (aerial view, shot 3)
 
 def plane(name, c, x0, x1, y0, y1, m, z=0.0):
     bm = bmesh.new(); vs = [bm.verts.new(v) for v in ((x0, y0, z), (x1, y0, z), (x1, y1, z), (x0, y1, z))]; bm.faces.new(vs)
@@ -32,7 +32,7 @@ from rc.look import HDRI, SUN, sky_hdri, god_rays, light_shafts, bounce_fill, su
 SUN_AZ, SUN_EL = SUN
 
 def road(c):
-    asphalt = road_wear(tex("road_asphalt", "asphalt_02", tile=4.0, value=1.25, normal=1.6, rough_mul=1.05))      # scanned worn asphalt + wheel paths + tar snakes
+    asphalt = road_wear(tex("road_asphalt", "asphalt_02", tile=4.0, value=.7, normal=1.6, rough_mul=1.05, spec=.08))      # scanned worn asphalt + wheel paths + tar snakes
     plane("road", c, ROAD[0], ROAD[1], Y0, Y1, asphalt, .02)
     gravel = pbr("shoulder_gravel", "asphalt_track", tile=1.2, value=1.15, tint="#b8a888", tint_k=.5)
     plane("shoulder_L", c, 1.5, ROAD[0], Y0, Y1, gravel, .012); plane("shoulder_R", c, ROAD[1], ROAD[1] + .7, Y0, Y1, gravel, .012)
@@ -41,15 +41,15 @@ def road(c):
     plane("centre_L", c, 5.86, 5.98, Y0, Y1, yellow, .026); plane("centre_R", c, 6.02, 6.14, Y0, Y1, yellow, .026)   # double solid yellow (seen from the air, shot 3)
 
 def ground(c):
-    grass = pbr("verge_grass", "leafy_grass", tile=2.0, value=1.45, tint="#76b83a", tint_k=1.0)   # same green as the tufts seen from far   # green from far too (aerial), not beige
+    grass = tex("verge_grass", "leafy_grass", tile=2.0, value=1.3, tint="#76b83a", tint_k=1.0)   # same green as the tufts seen from far   # green from far too (aerial), not beige
     plane("verge", c, FENCE_X - .5, 1.5, Y0, Y1, grass, 0.0); plane("verge_R", c, ROAD[1] + .7, FENCE_XR + .5, Y0, Y1, grass, 0.0)   # 8 m of green on BOTH sides (CB)
     fields(c)
 
 def fields(c):
     """PREPARED FARMLAND (CB 2026-11-19: "la terre ... a des traces comme si un tracteur était passé"): scanned furrows (Poly Haven farm_furrows,
     CC0) running along the road, strong relief; bands of golden stubble-on-furrows and bare brown tilled soil, to the horizon on both sides"""
-    gold = tex("field_gold", "farm_furrows", tile=2.2, tint="#e6c255", tint_k=.85, value=1.7, rot=90, normal=2.2)
-    soil = tex("field_soil", "farm_furrows", tile=2.2, tint="#8a6a42", tint_k=.35, value=1.2, rot=90, normal=2.2)
+    gold = tex("field_gold", "farm_furrows", tile=1.6, tint="#e8c25a", tint_k=.9, value=1.9, rot=90, normal=1.6)
+    soil = tex("field_soil", "farm_furrows", tile=1.6, tint="#c19a48", tint_k=.8, value=1.55, rot=90, normal=1.6)
     for side, x0, x1 in (("L", -400.0, FENCE_X - .5), ("R", FENCE_XR + .5, 400.0)):
         x = x1 if side == "L" else x0; k = 0
         while (x > x0 if side == "L" else x < x1):

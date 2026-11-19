@@ -14,7 +14,7 @@ import bpy, bmesh, math
 from mathutils import Vector
 
 HDRI = "kloofendal_48d_partly_cloudy_puresky"; HDRI_SUN_DEG = -34.2          # its sun: atan2(y, x) of the brightest pixel (measured), elevation 47.8
-SUN = [-32.0, 30.0]                                                             # azimuth (deg, direction the light comes FROM, 0 = +Y, -90 = -X), elevation
+SUN = [-32.0, 24.0]                                                             # azimuth (deg, direction the light comes FROM, 0 = +Y, -90 = -X), elevation
 
 def srgb(h): return tuple(((int(h[i:i + 2], 16) / 255) ** 2.2) for i in (1, 3, 5))
 
@@ -135,10 +135,13 @@ def sun(scene, elevation=None, azimuth=None, energy=4.2, angle=2.0):
     d = Vector((math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el)))
     o.rotation_euler = (-d).to_track_quat("-Z", "Y").to_euler(); return o
 
-def tex(name, ph_id, tile=2.0, tint=None, tint_k=0.0, value=1.0, rot=0.0, normal=1.0, rough_mul=1.0):
-    """a CC0 Poly Haven PBR set like street.pbr, plus a rotation of the pattern (furrows along the road) and a stronger normal (relief)"""
+def tex(name, ph_id, tile=2.0, tint=None, tint_k=0.0, value=1.0, rot=0.0, normal=1.0, rough_mul=1.0, spec=.12):
+    """a CC0 Poly Haven PBR set like street.pbr, plus a rotation of the pattern (furrows along the road), a stronger normal (relief) and a LOW
+    specular (spec .12): seen from a high or grazing camera a ground reflects the bright sky and looks washed out and grey (CB 2026-11-19:
+    the aerial road was light grey, the reference is dark asphalt). Ground = matte."""
     if name in bpy.data.materials: return bpy.data.materials[name]
     m = pbr(name, ph_id, tile=tile, tint=tint, tint_k=tint_k, value=value, normal=normal, rough_mul=rough_mul)
+    m.node_tree.nodes["Principled BSDF"].inputs["Specular IOR Level"].default_value = spec
     mp = [n_ for n_ in m.node_tree.nodes if n_.type == "MAPPING"][0]; mp.inputs["Rotation"].default_value = (0, 0, math.radians(rot))
     return m
 
