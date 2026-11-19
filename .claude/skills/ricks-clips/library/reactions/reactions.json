@@ -588,6 +588,312 @@
     "cloth whoosh of the arm"
    ],
    "build": "motion library gesture move in the character's single view (moves blend only inside one view)"
+  },
+  {
+   "id": "money_burst",
+   "triggers": [
+    "money",
+    "cash",
+    "check",
+    "billets",
+    "jackpot",
+    "bucks",
+    "insurance pays"
+   ],
+   "reactions": [
+    "bills burst out and flutter down, spinning, catching the light",
+    "the character's eyes turn into dollar signs"
+   ],
+   "consequences": [
+    "a pile of bills stays on the ground / in the car",
+    "bills stuck on objects"
+   ],
+   "micro": [
+    "single bills drifting past the lens"
+   ],
+   "sfx": [
+    "cash flutter",
+    "ka-ching"
+   ],
+   "build": "instanced bill cards with seeded ballistic + flutter keys; pile = instanced scatter on the ground",
+   "seen_in": "dashcam 15 s, plane_fall 33 s, 81 s"
+  },
+  {
+   "id": "tree_felled",
+   "triggers": [
+    "chops",
+    "cuts down",
+    "axe",
+    "tree falls",
+    "abat"
+   ],
+   "reactions": [
+    "wood chips fly at each blow, the tree leans then crashes down, leaves and dust burst"
+   ],
+   "consequences": [
+    "a STUMP stays (and can be hit later), the trunk lies on the ground"
+   ],
+   "micro": [
+    "branches bounce after the fall"
+   ],
+   "sfx": [
+    "axe chops",
+    "creak",
+    "crash of the fall"
+   ],
+   "build": "trunk rig keyed on a hinge at the cut, chips instanced, stump separate object",
+   "seen_in": "crash_instinct 30-42 s"
+  },
+  {
+   "id": "boat_sinking",
+   "triggers": [
+    "sinking",
+    "sinks",
+    "coule",
+    "hole in the hull"
+   ],
+   "reactions": [
+    "water pours in, the boat lists and settles lower each shot, bubbles"
+   ],
+   "consequences": [
+    "the boat is gone, debris and a slick float on the water"
+   ],
+   "micro": [
+    "things sliding on the deck"
+   ],
+   "sfx": [
+    "water gush",
+    "creaks",
+    "bubbles"
+   ],
+   "build": "keyed list/sink on the rig, water plane with foam ring, floating debris",
+   "seen_in": "whale_boat 9-12 s, 48 s"
+  },
+  {
+   "id": "freefall",
+   "triggers": [
+    "falls out",
+    "free fall",
+    "sucked out",
+    "falling",
+    "tombe de"
+   ],
+   "reactions": [
+    "body tumbles, clothes and hair flap in the wind, cheeks ripple",
+    "others fall around, clouds rush past"
+   ],
+   "consequences": [
+    "landing leaves a crater / a crushed haystack / broken branches"
+   ],
+   "micro": [
+    "arms flail, eyes water"
+   ],
+   "sfx": [
+    "wind roar",
+    "scream"
+   ],
+   "build": "card on a falling path + fast camera follow, cloth/hair flap via moves, cloud layers streaming",
+   "seen_in": "plane_fall 4-15 s, 67-73 s"
+  },
+  {
+   "id": "pass_out_wake",
+   "triggers": [
+    "passed out",
+    "faints",
+    "s'évanouit",
+    "woke up",
+    "wakes up"
+   ],
+   "reactions": [
+    "vision blurs and darkens to black",
+    "waking: a blurry POV that focuses"
+   ],
+   "consequences": [
+    "he is somewhere else when he wakes (time jump)"
+   ],
+   "micro": [
+    "eyelids drop"
+   ],
+   "sfx": [
+    "heartbeat slowing",
+    "muffled sound"
+   ],
+   "build": "compositor blur + vignette keyed to black, POV camera, focus pull on wake",
+   "seen_in": "plane_fall 15-18 s"
+  },
+  {
+   "id": "vehicle_fire",
+   "triggers": [
+    "bursts into flames",
+    "fire",
+    "burst",
+    "en feu"
+   ],
+   "reactions": [
+    "flames burst from the engine, black smoke column, heat light on everything around"
+   ],
+   "consequences": [
+    "burnt shell, scorch marks, smoke lingering"
+   ],
+   "micro": [
+    "sparks, small explosions, glass cracking"
+   ],
+   "sfx": [
+    "whoomp",
+    "crackle"
+   ],
+   "build": "rc.vfx fire meshes + smoke + flicker light; burnt material switch",
+   "seen_in": "plane_fall 52-54 s"
+  },
+  {
+   "id": "splash_into_water",
+   "triggers": [
+    "into the lake",
+    "into the water",
+    "dans l'eau",
+    "plunges"
+   ],
+   "reactions": [
+    "big splash crown, spray, waves ring out, ice breaks"
+   ],
+   "consequences": [
+    "the vehicle / person sinks or floats, wet and shivering afterwards (blue face)"
+   ],
+   "micro": [
+    "drops falling back, bubbles"
+   ],
+   "sfx": [
+    "splash",
+    "ice crack"
+   ],
+   "build": "splash crown mesh + instanced droplets + wave rings",
+   "seen_in": "plane_fall 41-46 s, whale_boat"
+  },
+  {
+   "id": "gunshot",
+   "triggers": [
+    "fires",
+    "shotgun",
+    "shoots",
+    "tire"
+   ],
+   "reactions": [
+    "muzzle flash, recoil, sparks and dust where it hits"
+   ],
+   "consequences": [
+    "holes / pellets in the wall, smoke wisps"
+   ],
+   "micro": [
+    "shell drops, barrel smoke"
+   ],
+   "sfx": [
+    "bang",
+    "ricochet"
+   ],
+   "build": "emissive flash card 2 frames, recoil keys, impact sparks",
+   "seen_in": "mine_salting 0-3 s"
+  },
+  {
+   "id": "explosion_reveal",
+   "triggers": [
+    "dynamite",
+    "firecracker",
+    "blast",
+    "when the dust clears"
+   ],
+   "reactions": [
+    "fuse sparks, flash, dust cloud fills the tunnel, debris"
+   ],
+   "consequences": [
+    "when the dust clears the hidden thing is revealed (glowing gold vein), rubble on the floor"
+   ],
+   "micro": [
+    "dust settling, small stones still falling"
+   ],
+   "sfx": [
+    "fuse hiss",
+    "boom",
+    "rubble"
+   ],
+   "build": "rc.vfx explosion + dust volume that fades to reveal a pre-built glowing object",
+   "seen_in": "mine_salting 51-59 s"
+  },
+  {
+   "id": "extreme_emotion",
+   "triggers": [
+    "furious",
+    "rage",
+    "frozen",
+    "greedy",
+    "terrified",
+    "brain freeze",
+    "shocked"
+   ],
+   "reactions": [
+    "the face changes ON the word to an exaggerated drawing (red eyes + veins, dollar eyes, blue face, chattering teeth)",
+    "a world effect answers (red cracks glow on the floor, steam from the ears, frost)"
+   ],
+   "consequences": [
+    "the effect fades but marks stay (cracks on the floor)"
+   ],
+   "micro": [
+    "head shake, tremble"
+   ],
+   "sfx": [
+    "sting",
+    "rumble"
+   ],
+   "build": "card face from the cast faces + vfx decal / cracks mesh with emissive",
+   "seen_in": "pink_prison 27 s, crash_instinct 29 s, plane_fall 46 s"
+  },
+  {
+   "id": "pour_paint",
+   "triggers": [
+    "pours",
+    "mixes",
+    "paint",
+    "verse"
+   ],
+   "reactions": [
+    "thick stream, swirl where it lands, colour spreads"
+   ],
+   "consequences": [
+    "the mix changes colour, drips on the rim and the table"
+   ],
+   "micro": [
+    "spoon stirring"
+   ],
+   "sfx": [
+    "glug",
+    "splat"
+   ],
+   "build": "curve stream + animated swirl texture, top-down insert shot",
+   "seen_in": "pink_prison 6-7 s"
+  },
+  {
+   "id": "countdown_display",
+   "triggers": [
+    "minutes",
+    "timer",
+    "countdown",
+    "days since",
+    "seconds"
+   ],
+   "reactions": [
+    "the number changes on the beat (7 → 0, 4:59 → 4:58), flashes"
+   ],
+   "consequences": [
+    "the final number stays on screen"
+   ],
+   "micro": [
+    "display flicker"
+   ],
+   "sfx": [
+    "tick",
+    "beep"
+   ],
+   "build": "text decal swapped per frame range on an emissive display mesh (the swap IS the action of the display)",
+   "seen_in": "crash_instinct 9-11 s, whale_boat 13-15 s, dashcam 33 s"
   }
  ]
 }

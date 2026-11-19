@@ -1,6 +1,6 @@
 {
  "title": "crashed_car — plan 2 (exemple rempli)",
- "notes": "Exemple de plan complet : le plan 2 tel qu'il a été construit (demos/crashed_car/shots/s02_*.py). Les temps sont relatifs au début du plan (image 122 = 0 s).",
+ "notes": "Exemple de plan complet : le plan 2 tel qu'il a été construit (demos/crashed_car/shots/s02_*.py). Les temps sont relatifs au début du plan (image 122 = 0 s). kind=fragment: les controles STORY (video entiere) ne font qu'avertir.",
  "style": "references/STYLE_BIBLE_FR.md",
  "format": "1080x1920",
  "fps": 30,
@@ -76,7 +76,8 @@
      "energy": 6.2,
      "angle": 1.5
     },
-    "fill": 0.42
+    "fill": 0.42,
+    "mood": "day sun"
    },
    "shadows": "toit de la tribune et portique : bandes d'ombre diagonales sur le sol ; F1 et personnage : ombres nettes vers l'arrière-gauche ; disques de contact",
    "props": [
@@ -134,7 +135,8 @@
      "energy": 6.2,
      "angle": 1.5
     },
-    "fill": 0.42
+    "fill": 0.42,
+    "mood": "day sun, after the crash"
    },
    "shadows": "F1 retournée : grande ombre portée sur le gravier ; personnage : ombre nette",
    "props": [
@@ -213,7 +215,8 @@
      ],
      "aim": "cockpit",
      "lens": 58,
-     "move": "slide left on the cockpit"
+     "move": "slide left on the cockpit",
+     "framing": "close"
     },
     {
      "t": 0.4,
@@ -495,5 +498,13 @@
  },
  "lessons_planned": [
   "PI-016"
- ]
+ ],
+ "kind": "fragment",
+ "captions": {
+  "words": [
+   1,
+   3
+  ],
+  "style": "white bold rounded, thick black outline, centred at 70 % height, one change per word"
+ }
 }

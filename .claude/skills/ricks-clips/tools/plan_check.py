@@ -13,6 +13,10 @@ Exit 1 when anything blocks; the build must not start before PASS. What it check
             matched against library/reactions/reactions.json: reactions the recipe lists and the plan forgot are reported
   STATE     every entry / exit / change of a character or object names the action that carries it (no pop, no teleport)
   RHYTHM    actions per 10 s (reference style: an event every ~0.9 s), FX and sound per shot (ambience + music)
+  STORY     (7 reference videos, 2026-11-19) the hook action is SHOWN within the first second; every number / name of the narration is
+            a TEXT IN THE SET (facts: sign, newspaper, label, display); >= 2 light moods; >= 1 emotion close-up and >= 1 insert shot;
+            captions spec (1-3 words, white bold, black outline, ~70 % height); a loop back to the first image (WARN)
+            -> FAIL for a full video (kind "video", the default), WARN for a fragment (kind "fragment", e.g. the shot-2 example)
   LESSONS   prints every validated lesson of memory/lessons_learned.json that applies to the plan (they must be planned for)
 Statuses per line: PASS / WARN / FAIL. Never NOT_RUN = PASS."""
 import json, os, re, sys
@@ -85,6 +89,20 @@ def check(P):
     rate = n_act / max(d, 1) * 10; add("RHYTHM", "actions per 10 s", rate >= 6, "%.1f (style ~11 events per 10 s)" % rate, warn=True)
     add("RHYTHM", "music bed", bool(P.get("sound", {}).get("music")), str(P.get("sound", {}).get("music")))
     add("RHYTHM", "loudness target", P.get("sound", {}).get("lufs") == -14, str(P.get("sound", {}).get("lufs")), warn=True)
+    # STORY (style bible v2, measured on 7 reference videos)
+    full = P.get("kind", "video") == "video"; sw = not full
+    hk = P.get("hook", {}); add("STORY", "hook action shown in the 1st second", hk.get("t", 99) <= 1.0 and hk.get("action") in all_ids, json.dumps(hk) if hk else "missing: hook {action, t}", warn=sw)
+    facts = P.get("facts", []); txt = v.get("text", "")
+    nums = set(x.strip(",.:") for x in re.findall(r"\d[\d,.:]*", txt)); covered = " ".join(str(f.get("fact", "")) for f in facts)
+    miss = sorted(n for n in nums if n not in covered)
+    add("STORY", "facts written in the set", bool(facts) and all(f.get("prop") for f in facts) and not miss, ("missing for: %s" % miss) if miss else "%d facts" % len(facts), warn=sw)
+    moods = {p.get("light", {}).get("mood", pid) for pid, p in places.items()} | {s.get("mood") for s in shots if s.get("mood")}
+    add("STORY", ">= 2 light moods", len(moods) >= 2, ", ".join(map(str, moods)), warn=sw)
+    types = [s.get("shot_type", "") for s in shots] + [k.get("framing", "") for s in shots for k in s.get("camera", [])]
+    add("STORY", "emotion close-up", any("close" in t for t in types), "shot_type / framing 'close' or 'extreme_close'", warn=sw)
+    add("STORY", "insert shot", any("insert" in t for t in types), "shot_type / framing 'insert' (top-down detail of the story object)", warn=sw)
+    cap = P.get("captions", {}); add("STORY", "captions spec", bool(cap.get("style")) and cap.get("words", [0, 9])[1] <= 3, json.dumps(cap) if cap else "missing", warn=sw)
+    add("STORY", "loop to the first image", bool(P.get("loop")), str(P.get("loop", "none")), warn=True)
     # LESSONS
     les = json.load(open(os.path.join(SKILL, "memory", "lessons_learned.json")))["lessons"]
     rem = [l for l in les if l.get("status") == "validated" and any(x in ("every shot", "every card character", "every held prop") for x in l.get("applies_to", []))]

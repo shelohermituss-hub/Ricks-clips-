@@ -17,6 +17,7 @@ Les décisions de production de la démo ferme sont aussi dans `S/demos/farmyard
 | 19/11 | Rendre par couches (ciel, décor, objets, effets) | Proposition de CB, adoptée pour tous les plans |
 | 19/11 | Analyser chaque plan en détail avant de le construire | CB |
 | 19/11 | Tout passe par une action ; caméra jamais à l'arrêt ; vraies textures et vraies ombres ; contrôle automatique | CB, après des apparitions et téléportations répétées |
+| 19/11 | Construire une **nouvelle vidéo** avec la nouvelle méthode, après analyse de 6 vidéos de référence supplémentaires ; crashed_car en pause | CB : « Nous allons construire une nouvelle vidéo avec la nouvelle méthode » |
 | 19/11 | Plan complet avant de construire, une réaction et une conséquence pour chaque action, chaque problème devient une solution permanente | CB, pour les vidéos sans référence |
 
 ## Décisions techniques (prises par Claude, mesurées)

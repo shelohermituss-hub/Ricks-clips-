@@ -1,0 +1,12 @@
+{
+ "width": 720,
+ "height": 1280,
+ "fps": 30.0,
+ "duration_s": 61.11,
+ "video_kbps": 1453,
+ "audio": {
+  "codec": "aac",
+  "rate": "44100",
+  "channels": 2
+ }
+}

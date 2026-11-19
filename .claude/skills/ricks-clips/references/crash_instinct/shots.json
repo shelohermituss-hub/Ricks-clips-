@@ -1,0 +1,93 @@
+[
+ {
+  "n": 1,
+  "t0": 0.0,
+  "t1": 22.9,
+  "len_s": 22.9,
+  "words": "If you plant a tree beside an empty road, cars will steer right into it. You see, the road runs dead straight for miles. And the only thing beside it is this one tree. But somehow, somebody hits it every week. So the town nails a giant flashing arrow to it so nobody can miss it. Yet the crashes double. The tow truck guy starts parking out there with a lawn chair. And he's never made more money in his life. Eventually, the sheriff drives"
+ },
+ {
+  "n": 2,
+  "t0": 22.9,
+  "t1": 24.4,
+  "len_s": 1.5,
+  "words": "out to see what's going on."
+ },
+ {
+  "n": 3,
+  "t0": 24.4,
+  "t1": 27.17,
+  "len_s": 2.77,
+  "words": "He goes 15 miles an hour with both hands on the wheel and"
+ },
+ {
+  "n": 4,
+  "t0": 27.17,
+  "t1": 31.27,
+  "len_s": 4.1,
+  "words": "slams right into it. He climbs out furious, grabs an ax off the tow truck,"
+ },
+ {
+  "n": 5,
+  "t0": 31.27,
+  "t1": 35.63,
+  "len_s": 4.36,
+  "words": "and chops the thing down. While the tow truck guy watches his whole business fall over."
+ },
+ {
+  "n": 6,
+  "t0": 35.63,
+  "t1": 37.4,
+  "len_s": 1.77,
+  "words": "The second his cruiser's fixed, the sheriff"
+ },
+ {
+  "n": 7,
+  "t0": 37.4,
+  "t1": 40.2,
+  "len_s": 2.8,
+  "words": "drives back out to enjoy his nice empty road and"
+ },
+ {
+  "n": 8,
+  "t0": 40.2,
+  "t1": 45.63,
+  "len_s": 5.43,
+  "words": "plows straight into the stump. So how does this keep happening? Well, it's called target fixation. After"
+ },
+ {
+  "n": 9,
+  "t0": 45.63,
+  "t1": 49.1,
+  "len_s": 3.47,
+  "words": "miles of nothing, that tree sticks out like a lighthouse."
+ },
+ {
+  "n": 10,
+  "t0": 49.1,
+  "t1": 51.73,
+  "len_s": 2.63,
+  "words": "Especially with a giant flashing arrow pointing at it. So"
+ },
+ {
+  "n": 11,
+  "t0": 51.73,
+  "t1": 54.6,
+  "len_s": 2.87,
+  "words": "every driver's eyes lock onto it and won't let go."
+ },
+ {
+  "n": 12,
+  "t0": 54.6,
+  "t1": 58.47,
+  "len_s": 3.87,
+  "words": "And while they stare, their hands slowly turn the wheel toward it. Even when it's just"
+ },
+ {
+  "n": 13,
+  "t0": 58.47,
+  "t1": 59.43,
+  "len_s": 0.96,
+  "words": "a stump."
+ }
+]

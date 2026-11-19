@@ -1,0 +1,93 @@
+[
+ {
+  "n": 1,
+  "t0": 0.0,
+  "t1": 9.2,
+  "len_s": 9.2,
+  "words": "He loaded the shotgun with gold and fired it into the walls of the mine. His buddy just watches the gold vanish into the rock. So we're shooting gold into a gold mine? You"
+ },
+ {
+  "n": 2,
+  "t0": 9.2,
+  "t1": 10.7,
+  "len_s": 1.5,
+  "words": "see, it's called salting."
+ },
+ {
+  "n": 3,
+  "t0": 10.7,
+  "t1": 16.1,
+  "len_s": 5.4,
+  "words": "He's dug this mine for 10 years and found nothing but rock. And tomorrow, a rich guy is coming to buy it."
+ },
+ {
+  "n": 4,
+  "t0": 16.1,
+  "t1": 21.47,
+  "len_s": 5.37,
+  "words": "So he spent his last hundred bucks on gold dust instead. Next morning, the rich guy rolls up in a white suit and"
+ },
+ {
+  "n": 5,
+  "t0": 21.47,
+  "t1": 24.53,
+  "len_s": 3.06,
+  "words": "bangs his head on the first beam. But he's brought an expert, and the"
+ },
+ {
+  "n": 6,
+  "t0": 24.53,
+  "t1": 27.47,
+  "len_s": 2.94,
+  "words": "expert isn't stupid. He smashes a chunk of wall,"
+ },
+ {
+  "n": 7,
+  "t0": 27.47,
+  "t1": 28.87,
+  "len_s": 1.4,
+  "words": "swirls it in a pan, and"
+ },
+ {
+  "n": 8,
+  "t0": 28.87,
+  "t1": 45.33,
+  "len_s": 16.46,
+  "words": "gold flakes spin to the bottom. But under his magnifying glass, every flake is flat. Somebody shot this gold into the wall, but the rich guy just laughs. Why would anyone shoot gold into a wall? That's insane! And his buddy nods. Completely insane. So the rich guy pays up. And while those two boat"
+ },
+ {
+  "n": 9,
+  "t0": 45.33,
+  "t1": 46.23,
+  "len_s": 0.9,
+  "words": "with the money, he"
+ },
+ {
+  "n": 10,
+  "t0": 46.23,
+  "t1": 51.2,
+  "len_s": 4.97,
+  "words": "stays behind and pulls a stick of dynamite out of his suit. He's never mind a day in his life. So"
+ },
+ {
+  "n": 11,
+  "t0": 51.2,
+  "t1": 53.77,
+  "len_s": 2.57,
+  "words": "he just lights it, tosses it down the tunnel like a firecracker,"
+ },
+ {
+  "n": 12,
+  "t0": 53.77,
+  "t1": 54.73,
+  "len_s": 0.96,
+  "words": "and runs."
+ },
+ {
+  "n": 13,
+  "t0": 54.73,
+  "t1": 61.07,
+  "len_s": 6.34,
+  "words": "And when the dust clears, there's a vein of real gold as thick as your arm, ten feet past where the last guy gave up."
+ }
+]

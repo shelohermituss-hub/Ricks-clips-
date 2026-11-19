@@ -1,99 +1,147 @@
 # Bible de style — la référence quand il n'y a pas de vidéo de référence
 
-**Version 1 (19/11).** Construite à partir de la vidéo de CB « He Crashed His Own Car For Science » (mesures : `references/crashed_car/ANALYSE_FR.md`, `ref_measures.json`) et des leçons des plans 1 et 2.
+**Version 2 (19/11), construite sur 7 vidéos de CB** :
+- crashed_car ;
+- pink_prison ;
+- dashcam ;
+- mine_salting ;
+- crash_instinct ;
+- whale_boat ;
+- plane_fall.
 
-**Chaque nouvelle vidéo de référence analysée enrichit cette bible.** Les mesures sont ajoutées au tableau §9, et les règles communes à toutes les vidéos remplacent les règles tirées d'une seule.
+Mesures et observations : `references/ANALYSE_7_VIDEOS_FR.md`. Analyse fine du plan par plan : `references/crashed_car/ANALYSE_FR.md`.
 
-Toute nouvelle vidéo est planifiée **contre cette bible** (`tools/plan_check.py` vérifie qu'elle est citée). Un écart volontaire est écrit dans le plan avec sa raison.
+- **Règle commune** = vraie dans toutes les vidéos analysées. Elle est obligatoire.
+- **Option** = varie d'une vidéo à l'autre. Elle est choisie selon l'histoire et notée dans le plan.
 
-## 1. Format et rythme (mesurés)
+Toute nouvelle vidéo est planifiée contre cette bible (`tools/plan_check.py`). Un écart volontaire est écrit dans le plan avec sa raison. Chaque nouvelle vidéo de référence passe par `tools/analyze_reference.py`, puis enrichit le tableau §10.
 
-| | Cible |
-|---|---|
-| Format | 1080×1920, 9:16, 30 i/s |
-| Durée | 45 à 75 s |
-| Narration | 3,3 à 3,6 mots/s, **sans trou** : aucune pause de plus de 0,4 s |
-| Événements | **un toutes les 0,9 s environ** (11,5 pics d'action par 10 s). Il se passe toujours quelque chose : action, réaction, mouvement de caméra, effet. |
-| Lieux | beaucoup de lieux « légers » : **11 en 51 s**. Chaque lieu est construit **pour le cadre**, seulement ce que la caméra voit. |
-| Coupes franches | environ 1 par 5 s, seulement sur un saut de lieu ou de temps |
-| Autres transitions | **par le mouvement** : balayage flou, traversée d'un objet, fondu court de 6 images, image qui devient une photo |
-| Boucle | la dernière image renvoie à la première |
+## 1. Format, durée, rythme (mesurés sur 7 vidéos)
 
-## 2. Caméra : elle ne s'arrête jamais
+| | Règle commune | Plage mesurée |
+|---|---|---|
+| Format | 9:16, 30 i/s, livré en 1080×1920 | 720p à 1080p |
+| Durée | 50 à 85 s | 49,6 – 83,1 s |
+| Narration | 3,3 à 3,8 mots/s, **voix continue** de 0 s à la fin, aucune pause au-delà de 0,7 s | 3,21 – 3,83 ; pause max 0,36 – 0,70 s |
+| Mixage | **−14 LUFS** intégré, plage de 2 à 3 LU | −13,9 à −14,2 |
+| Événements | 7 à 14 pics d'action par 10 s, **cible environ 10** | 7,2 – 14,2 (médiane 10,8) |
+| Mouvement d'image | médiane seconde par seconde de **20 à 65**. Cible ≥ 25, plus haute pour une histoire d'action | 20,2 – 65,2 (médiane 30,6) |
+| Images figées | ≤ 3 % | 0,1 – 3,3 % (dashcam 8,6 %) |
+| Lieux | **6 à 15**, chacun construit **pour le cadre** | — |
+| Coupes franches | option : 0 (tout en fondus et mouvements) à ≈ 1 toutes les 5 s, seulement sur un changement de lieu ou de temps | 0 – 12 |
+| Lumière d'image | luminance 0,38 – 0,52, saturation 0,29 – 0,55, contraste ≈ 0,19 – 0,22, netteté ≥ 0,072 | — |
 
-- Mouvement médian mesuré : **41,8**. Notre première démo n'atteignait que 14,7.
-- Chaque plan combine un mouvement nommé (poussée, glissement, orbite, grue, suivi, panoramique filé) et une **dérive façon caméra à l'épaule** sur chaque image (`street.handheld`).
-- Caméra basse près des objets (≈ 1,2 m), grand angle (champ de 50 à 60°) sur les gros plans, plans larges de côté pour situer l'action.
-- Elle **suit l'action** : quand un personnage saute ou qu'une voiture passe, la caméra l'accompagne.
-- Flou de mouvement sur les mouvements rapides, profondeur de champ légère sur les gros plans.
+## 2. Histoire et narration
 
-## 3. Monde
+1. **Crochet** : la 1re phrase est l'action la plus surprenante, au passé, et l'**image la montre dès la 1re seconde**.
+   - « He slammed the brakes… »
+   - « A whale crashed into their boat… »
+   - « He loaded the shotgun with gold… »
+2. **« You see, »** fait la bascule vers l'explication (5 vidéos sur 7).
+3. **Escalade en 3 à 5 temps**, chacun avec son image forte, puis un **retournement**.
+4. **Dernière phrase-chute** : l'origine (« that's how the dashcam was invented »), la révélation ou l'ironie (« Even when it's just a stump. »).
+5. **Boucle** quand c'est possible : la dernière image renvoie à la première (crashed, whale).
+6. Un **personnage secondaire** réagit pour le comique : le dépanneur sur sa chaise longue, le copain, le voisin aux jumelles.
 
-- **3D cartoon de qualité série TV** : formes douces et arrondies, proportions un peu exagérées.
-- **Surfaces réelles** : sol et grandes surfaces en **scans PBR CC0** (Poly Haven, ambientCG), jamais une couleur plate avec du bruit.
-  - Teinte gardée dans la palette.
-  - Taches, traces et usure ajoutées par-dessus.
-- **Végétation** : arbres en boules de feuillage stylisées, herbe en vrais brins denses au premier plan, fleurs.
-- **Densité** : un décor n'est jamais vide.
-  - Au moins 4 accessoires racontent le lieu : piles de pneus, jerrycans, outils, panneaux.
-  - Des inscriptions intégrées au décor : sponsors, panneaux, étiquettes.
-- **Objets brillants** (voitures, casques, métal peint) : vernis complet (coat 1,0, rugosité 0,03) et reflets d'un **vrai ciel HDRI**, visible uniquement dans les reflets.
+## 3. Sous-titres (identiques dans les 7)
 
-## 4. Lumière et ombres
+- 1 à 3 mots à la fois, **blancs, gras, police ronde, contour noir épais**, centrés vers **70 % de la hauteur**.
+- Changent sur chaque mot, calés sur `words.json`.
 
-- **Soleil franc et dur** : angle 1,5°, énergie ≈ 6, de face-côté pour éclairer les visages.
-- **Ombres portées nettes** des structures (toits, portiques, arbres) dessinées au sol.
-- Ciel d'appoint bas (≈ 0,4) : les ombres restent lisibles et colorées, jamais noires.
-- **Ombre de contact** sous chaque personnage et chaque objet posé.
-- Ciel bleu profond et gros nuages blancs. Au moins une ambiance différente par vidéo : crépuscule violet, intérieur à lampe chaude, nuit.
-- Image : Standard + « Medium High Contrast », saturation élevée mais pas uniforme, contours nets, pas de grain.
+## 4. Caméra : toujours vivante
 
-## 5. Personnages
+- **Jamais à l'arrêt** : mouvement nommé + dérive façon caméra à l'épaule (`street.handheld`) sur chaque plan.
+- **Les personnages sont grands dans le cadre.**
+  - Plans moyens et gros plans : la tête occupe 30 à 60 % de la hauteur.
+  - **Au moins un très gros plan d'émotion** par vidéo : visage, œil.
+  - Plans larges seulement pour situer.
+- **Vocabulaire de plans** :
+  - **plans d'insert** sur l'objet du récit, souvent vus de dessus (peinture, billets, batée, chronomètre, compteurs) ;
+  - **plans subjectifs** : derrière le pare-brise, interface de dashcam, jumelles, vision en tunnel, flou et noir à l'évanouissement ;
+  - drone et vue aérienne ;
+  - travellings au ras du sol ou de la route ;
+  - contre-plongée ;
+  - plan débullé.
+- **Transitions continues** : fondu court, balayage flou, passage à travers un objet, masque. Coupe franche seulement sur un saut de lieu ou de temps.
 
-- **Stick figures 2D** de notre distribution (cartes éclairées dans le monde 3D) : tête ronde blanche, trait noir, accessoires dessinés.
-- **Un personnage = une carte = un dessin du début à la fin.** On ne remplace jamais un personnage par un autre à l'écran.
-- **Toutes ses actions dans la même vue** : la transition entre deux mouvements ne fonctionne que dans une même vue.
-- Jeu à la frame, avec :
-  - anticipation, action nette, retour au repos ;
-  - un visage qui change sur le mot ;
-  - une goutte de sueur, des étoiles ou une veine quand l'émotion le demande.
-- Les objets tenus (casque, outil) sont en **3D** et suivent la tête et les mains **mesurées sur le dessin** (`tools/card_anchors.py`).
+## 5. Monde
 
-## 6. Actions, réactions et conséquences
+- **3D stylisée et réaliste de grande qualité** : formes douces et arrondies, proportions un peu exagérées.
+- **Surfaces réelles** : scans PBR CC0 (Poly Haven, ambientCG), teintés dans la palette, avec usure, taches et traces.
+- **Densité** : un décor raconte son lieu avec au moins 4 accessoires et des inscriptions.
+- **TEXTE DANS LE DÉCOR, obligatoire** : chaque **fait chiffré ou nommé** de la narration apparaît comme un objet du décor.
+  - panneaux : « DAYS SINCE LAST CRASH 7 → 0 », « 10 YEARS LATER » ;
+  - journaux : « MILLIONAIRE DUE TO MORROW » ;
+  - étiquettes : « P-618 » ;
+  - écrans et minuteurs : « 4:59 », « JACKPOT » ;
+  - caisses : « 20 DAYS ».
+
+  Les sauts de temps sont annoncés par un panneau dans le décor.
+- **Cartes et schémas** sur papier, posés dans le monde 3D, pour expliquer : carte, coupe, vue aérienne.
+- **Objets brillants** : vernis complet et reflets d'un vrai ciel HDRI, visible uniquement dans les reflets.
+
+## 6. Lumière et ambiances
+
+- **Au moins 2 ambiances par vidéo**, en suivant l'histoire :
+  - jour franc ;
+  - crépuscule violet ;
+  - nuit bleue avec lumières chaudes (lanternes, néons, phares) ;
+  - orage et pluie ;
+  - intérieur chaud ;
+  - souvenir en noir et blanc.
+- **Soleil franc et dur** (angle 1,5°), ombres portées nettes des structures, ciel d'appoint bas, **ombre de contact** sous tout ce qui est posé.
+- Rayons de lumière (lanterne, soleil dans la poussière), liseré de lumière sur les personnages, lumières pratiques colorées.
+- Couleur-thème de l'histoire : une couleur forte qui revient (rose, or, rouge, bleu océan).
+
+## 7. Personnages
+
+- **Stick figures 2D** de la distribution, sous forme de cartes éclairées dans le monde 3D.
+  - **Un personnage = un dessin = une vue** du début à la fin.
+  - Objets tenus en 3D, qui suivent la tête et les mains mesurées (`tools/card_anchors.py`).
+- **Le rôle se lit au costume** : shérif, riche au haut-de-forme, mineur, marin, scientifique, prisonnier, pilote.
+- **Émotions exagérées sur chaque temps fort** :
+  - yeux en dollars ;
+  - yeux rouges et veines de rage ;
+  - visage bleu de froid ;
+  - dents serrées ;
+  - goutte de sueur ;
+  - yeux exorbités ;
+  - le visage change **sur le mot**.
+
+## 8. Actions, réactions, conséquences
 
 - **Tout passe par une action** : rien n'apparaît, ne disparaît, ne saute ni ne rétrécit à l'écran.
-- **Chaque action a ses réactions**, prises dans le catalogue `library/reactions/reactions.json` :
-  - des réactions visibles : éclaboussure, poussière, débris, secousse ;
-  - des **conséquences qui restent** : voiture mouillée, carrosserie enfoncée, traces au sol, objet cassé ;
-  - des micro-animations : une antenne qui vibre, un enjoliveur qui roule, une respiration ;
-  - un bruitage.
-- Exemple : une voiture passe dans une flaque.
-  - Des gerbes partent de chaque roue.
-  - Des gouttes retombent en anneaux.
-  - La surface ondule.
-  - Le bas de caisse devient mouillé (plus sombre et plus brillant) et goutte.
-  - Des traces humides s'effacent sur la route.
-  - La flaque se vide un peu.
-  - On entend le splash.
+- **Chaque action a ses réactions** (catalogue `library/reactions/reactions.json`) :
+  - **visibles** : gerbe, poussière, débris, secousse ;
+  - **conséquences qui restent** : cabossé, mouillé, cassé, souche, tas de billets, traces ;
+  - **micro-animations** ;
+  - un **bruitage**.
 
-## 7. Effets visuels
+## 9. Effets visuels
 
-- Effets stylisés et opaques plutôt que des volumes coûteux : nuages de poussière en boules, flammes cartoon, étincelles.
-- Toujours **déclenchés par une action** et **déterministes** (graine fixe).
-- Particules en avant-plan qui passent devant l'objectif (confettis, poussière, gouttes) pour la profondeur.
+- **Comiques, exagérés et au service de l'histoire** :
+  - pluie de billets ;
+  - feu de voiture ;
+  - tornade de débris ;
+  - fissures rouges lumineuses ;
+  - veine d'or qui brille ;
+  - gerbes et éclaboussures ;
+  - neige ;
+  - étincelles ;
+  - rayons ;
+  - confettis.
+- Stylisés et opaques plutôt que des volumes coûteux.
+- Déclenchés par une action, déterministes (graine fixe).
+- Particules en avant-plan devant l'objectif pour la profondeur.
 
-## 8. Son
+## 10. Mesures par vidéo de référence
 
-- Voix continue.
-- Musique douce **permanente** environ 7,6 dB sous la voix.
-- Une ambiance par lieu : foule, vent, rue, intérieur.
-- **Un bruitage sur chaque action et chaque réaction.**
-- Mixage final à −14 LUFS.
-
-## 9. Mesures par vidéo de référence (à compléter)
-
-| Vidéo | Durée | Mots/s | Mouvement médian | Lieux | Coupes | LUFS | Saturation médiane |
-|---|---|---|---|---|---|---|---|
-| crashed_car (CB) | 51,5 s | 3,44 | 41,8 | 11 | 10 | −13,9 | 0,405 |
-
-**Règle commune** = vraie dans toutes les vidéos analysées. **Variante** = propre à une vidéo, gardée comme option.
+| Vidéo | Durée | Mots/s | Mvt/s médian | Pics /10 s | Coupes | LUFS | Luma | Sat |
+|---|---|---|---|---|---|---|---|---|
+| crashed_car | 51,5 | 3,44 | 41,8 | 11,5 | 4 | −13,9 | 0,42 | 0,42 |
+| pink_prison | 65,3 | 3,65 | 20,2 | 7,2 | 0 | −14,2 | 0,52 | 0,37 |
+| dashcam | 62,3 | 3,83 | 22,4 | 8,5 | 7 | −14,1 | 0,39 | 0,45 |
+| mine_salting | 61,1 | 3,79 | 30,6 | 10,8 | 12 | −14,1 | 0,38 | 0,55 |
+| crash_instinct | 59,5 | 3,67 | 25,6 | 8,4 | 12 | −14,0 | 0,43 | 0,29 |
+| whale_boat | 49,6 | 3,36 | 35,3 | 11,5 | 0 | −13,9 | 0,45 | 0,49 |
+| plane_fall | 83,1 | 3,21 | 65,2 | 14,2 | 2 | −13,9 | 0,41 | 0,44 |

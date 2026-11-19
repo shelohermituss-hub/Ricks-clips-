@@ -16,6 +16,7 @@ Statuts :
 | Démo cour de ferme | Phases 1 à 11 PASS, **phase 12 FAIL** (standard forteresse 5/10 en GPU, 6/10 en CPU), livrée telle quelle sur décision de CB | `S/demos/farmyard/production/` |
 | Reproduction de la vidéo de CB « crashed_car » | **PARTIEL** : 2 plans sur 15 | `S/demos/crashed_car/`, `S/references/crashed_car/` |
 | Méthode nouvelle vidéo sans référence | **FAIT** (outils et documents) ; **NOT_RUN** sur une vraie vidéo | `S/docs/PREPRODUCTION_FR.md` |
+| Base de style : 7 vidéos de référence de CB analysées | **FAIT** (19/11) | `S/references/ANALYSE_7_VIDEOS_FR.md`, `S/references/STYLE_BIBLE_FR.md` v2 |
 | Ghost Army | **Archivé** (rien supprimé) | `S/episodes/ghost-army/ARCHIVED.md` |
 
 ## 2. crashed_car, plan par plan
@@ -31,7 +32,7 @@ Statuts :
 
 - `tools/tests/test_rc.py` : **27/27 PASS**.
 - `tools/tests/test_pod_guard.py` : **13/13 PASS**.
-- `tools/tests/test_plan_check.py` : **PASS**.
+- `tools/tests/test_plan_check.py` : **PASS** (avec les contrôles STORY).
 - `continuity.py` sur le plan 2 : **PASS**.
 
 ## 4. GPU et coûts
@@ -49,4 +50,4 @@ Statuts :
 
 ## 6. Prochaine action
 
-`HANDOFF.md` §12 : restaurer l'environnement, demander à CB la vidéo source et son choix (corrections du plan 2 ou plan 3), puis le plan 3 avec la méthode complète.
+`HANDOFF.md` §12 : **nouvelle vidéo avec la nouvelle méthode** (décision de CB du 19/11). Demander le sujet, puis script, voix, `plan.json` et `plan_check` PASS avant toute construction. crashed_car est en pause.

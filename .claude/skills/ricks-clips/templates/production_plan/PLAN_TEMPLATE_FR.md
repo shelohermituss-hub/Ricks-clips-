@@ -94,3 +94,18 @@ Chaque leçon validée de `memory/lessons_learned.json` qui s'applique, avec la 
 
 ## 14. Risques connus
 Ce qui pourrait mal tourner, et la parade prévue.
+
+## 15. Champs « histoire » de `plan.json`
+
+Ajoutés le 19/11 à partir des 7 vidéos de référence (`references/ANALYSE_7_VIDEOS_FR.md`). `plan_check.py` les exige pour une vidéo entière (`"kind": "video"`) ; un fragment (`"kind": "fragment"`) ne reçoit que des avertissements.
+
+- **`hook`** : `{"action": "<id>", "t": 0.0}`. La première action surprenante doit être **montrée dans la première seconde**.
+- **`facts`** : `[{"fact": "DAYS SINCE LAST CRASH 7", "shot": "s03", "prop": "panneau au bord de la route"}]`. Chaque nombre ou nom de la narration est écrit **dans le décor** : panneau, journal, étiquette, écran, caisse.
+- **`captions`** : `{"words": [1, 3], "style": "white bold rounded, thick black outline, 70 % height"}`.
+- **`mood`**, par lieu (`light.mood`) ou par plan : au moins **2 ambiances** (jour, crépuscule, nuit, orage, intérieur chaud, souvenir en noir et blanc).
+- **`shot_type`**, par plan, ou **`framing`**, par clé de caméra :
+  - `close` ou `extreme_close` : au moins un gros plan d'émotion ;
+  - `insert` : au moins un détail de l'objet du récit, souvent vu de dessus ;
+  - `pov` : subjectif ;
+  - `aerial`, `wide`.
+- **`loop`** : la dernière image renvoie à la première. Recommandé ; son absence donne un avertissement.

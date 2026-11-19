@@ -1,0 +1,21 @@
+{
+ "slug": "crashed_car",
+ "duration_s": 51.5,
+ "resolution": "1080x1920",
+ "fps": 30,
+ "words": 177,
+ "words_per_s": 3.44,
+ "longest_pause_s": 0.4,
+ "lufs": -13.9,
+ "lra": 2.8,
+ "hard_cuts": 4,
+ "seconds_per_hard_cut": 12.88,
+ "motion_per_second_median": 41.8,
+ "motion_median_x1000": 35.83,
+ "peaks_per_10s": 11.47,
+ "luma": 0.421,
+ "saturation": 0.422,
+ "contrast": 0.202,
+ "edge_detail": 0.0745,
+ "still_frames_pct": 0.1
+}

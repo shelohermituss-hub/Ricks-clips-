@@ -11,3 +11,10 @@ F = {(r["area"], r["item"].split()[-1]) for r in plan_check.check(B) if r["statu
 for want in (("PLACES", "texture"), ("CAMERA", "moves"), ("ACTIONS", "reaction"), ("STATE", "swap")): assert want in F, (want, F)
 assert ("ACTIONS", "effect") in F, F
 print("test_plan_check PASS")
+# STORY (7 reference videos): a FULL video without a hook in the 1st second, facts in the set or an insert shot is refused
+V = copy.deepcopy(P); V["kind"] = "video"
+FV = {r["item"] for r in plan_check.check(V) if r["status"] == "FAIL"}
+for want in ("hook action shown in the 1st second", "facts written in the set", "insert shot"): assert want in FV, (want, FV)
+V["hook"] = {"action": "pose", "t": 0.0}; V["facts"] = [{"fact": "70 MPH", "prop": "speed sign"}]; V["shots"][0]["camera"][1]["framing"] = "insert"
+assert not [r for r in plan_check.check(V) if r["status"] == "FAIL"], [r for r in plan_check.check(V) if r["status"] == "FAIL"]
+print("test_plan_check STORY PASS")
