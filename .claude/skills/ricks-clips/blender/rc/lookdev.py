@@ -193,6 +193,9 @@ def grade(scene, g):
         ca = [i for i in mx.inputs if i.bl_idname == "NodeSocketColor"]
         L.new(ell.outputs[0], bl.inputs["Image"]); L.new(bl.outputs[0], mr.inputs["Value"]); L.new(last, ca[0]); L.new(mr.outputs[0], ca[1])
         last = [o for o in mx.outputs if o.bl_idname == "NodeSocketColor"][0]
+    if g.get("sharpen"):                                             # crisp edges after the denoiser (fortress standard: edge_detail)
+        sh = N.new("CompositorNodeFilter"); sh.inputs["Type"].default_value = "Diamond Sharpen"; sh.inputs["Factor"].default_value = g["sharpen"]
+        L.new(last, sh.inputs["Image"]); last = sh.outputs[0]
     L.new(last, out.inputs[0]); scene.render.use_compositing = True
     return ng
 
@@ -215,11 +218,11 @@ def _lum_mean(path):
     lin = np.where(a <= .04045, a / 12.92, ((a + .055) / 1.055) ** 2.4)
     return float((lin @ np.array([.2126, .7152, .0722], dtype=np.float32)).mean()), [float(x) for x in lin.mean(0)]
 
-def calibrate_exposure(scene, ref_png, frame, outdir, render_fn, iters=3, clamp=3.0):
+def calibrate_exposure(scene, ref_png, frame, outdir, render_fn, iters=3, clamp=3.0, target_scale=1.0):
     """MEASURED calibration (no eyeballing): render the frame, compare its mean linear luminance with the approved reference frame,
     move the view exposure by log2(ref/render), repeat. Returns the log with the colour ratios (drift report, not corrected here)."""
     import math
-    ref_l, ref_rgb = _lum_mean(ref_png); log = []
+    ref_l, ref_rgb = _lum_mean(ref_png); ref_l *= target_scale; log = []   # target_scale < 1: aim slightly under the reference mean
     for i in range(iters):
         p = render_fn(i); l, rgb = _lum_mean(p); step = math.log2(max(1e-4, ref_l) / max(1e-4, l))
         log.append({"iter": i, "exposure": round(scene.view_settings.exposure, 3), "render_lum": round(l, 4), "ref_lum": round(ref_l, 4), "rgb_ratio": [round(r / max(1e-4, q), 3) for r, q in zip(rgb, ref_rgb)]})

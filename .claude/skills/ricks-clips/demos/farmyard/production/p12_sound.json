@@ -1,0 +1,17 @@
+{
+ "wav": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/demos/farmyard/build/sound.wav",
+ "seconds": 15.0,
+ "events": [
+  "beds: breeze, birds",
+  "pane @f166",
+  "crate_drop @f205",
+  "barrel_roll @f232",
+  "crates @f336",
+  "barrel_dent @f342",
+  "cart @f377",
+  "fire crackle f0-449",
+  "blast @f405",
+  "door creak @f144",
+  "engine from f270"
+ ]
+}

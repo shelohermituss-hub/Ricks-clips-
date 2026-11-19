@@ -52,7 +52,22 @@ Rien n'a été supprimé du disque.
 
 ## 4. Rendu GPU (livrable 10) et vidéo prototype (livrable 14)
 
-*Section complétée à la fin de la session pod : statut, coût mesuré par le solde, preuve GPU, benchmark, vidéo finale.*
+### 4.1 Session GPU n° 1 (pod `572kwozsr0osyn`, RTX 4090, 0,89 $/h)
+
+| Point | Mesure |
+|---|---|
+| Preuve GPU | `cycles_devices.txt` : `OPTIX`, NVIDIA GeForce RTX 4090. `gpu_usage.csv` : 1 264 échantillons, pointe d'utilisation 100 %. |
+| Premier benchmark | 47 s par image en moyenne, GPU utilisé à 3 %. **Pod arrêté** (pas supprimé) pour ne pas payer un rendu de 6 h. |
+| Cause 1 | Les volumes non biaisés de Blender 5 analysent chaque volume procédural sur le CPU à chaque image : 22,7 s de préparation pour 0,05 s d'échantillonnage. Volumes biaisés : 1,7 s, image identique (écart moyen 0,4 à 0,6 sur 255). |
+| Cause 2 | La moyenne du benchmark était trompeuse : 121 s pour la 1re image (compilation des noyaux OptiX), puis 4,5 s. Le benchmark donne désormais la médiane après échauffement. |
+| Rendu | 450/450 images en 540×960 à 64 échantillons, **4,49 s par image**, 34 min, sha256 vérifiés. |
+| Récupération | 494 fichiers récupérés et vérifiés, 0 échec. Deux fichiers vivants (`gpu_usage.csv`, `setup.log`) ne pouvaient jamais être vérifiés : ils sont désormais listés en copie figée (`_snap/`, tâche 202). **Suppression autorisée par la protection sans aucune dérogation.** |
+| Coût réel (solde) | 4,724 $ → 3,669 $ = **1,06 $** |
+| Défaut trouvé | Le pod a rendu **sans la calibration de la phase 9**, qui n'existait que dans le `.blend` local : luminance 0,37 contre 0,50 en local. Correctif : la calibration est écrite dans `places/<lieu>/calibration.json` et réappliquée à chaque assemblage (et incluse dans la clé de cache). Ces images non calibrées sont conservées dans `build/frames_gpu_uncalibrated/` et ne servent pas de livrable. |
+
+### 4.2 Session GPU n° 2 (rendu calibré)
+
+*À compléter : statut, coût, comparaison au standard.*
 
 ## 5. Défauts trouvés et corrigés pendant la mission (avec mesure)
 

@@ -111,7 +111,11 @@ class Run:
             allr = sorted(glob.glob(os.path.join(os.path.dirname(self.place), cal["reference"][0], "*.jpg")) + glob.glob(os.path.join(os.path.dirname(self.place), cal["reference"][0], "*.png")))
             if not allr: raise RuntimeError("calibration reference folder has no images: %s" % os.path.normpath(os.path.join(os.path.dirname(self.place), cal["reference"][0])))
             n = len(cal["frames"]); refs = [allr[round(i * (len(allr) - 1) / max(1, n - 1))] for i in range(n)]   # spread over the reference, not its first seconds
-            c = bl("calibrate", os.path.join(self.B, "scene.blend"), ",".join(map(str, cal["frames"])), ",".join(refs), os.path.join(self.B, "calib"), "--res", "135x240", "--samples", "8")
+            ts = cal.get("target_scale", 1.0)
+            c = bl("calibrate", os.path.join(self.B, "scene.blend"), ",".join(map(str, cal["frames"])), ",".join(refs), os.path.join(self.B, "calib"), "--res", "135x240", "--samples", "8", "--target-scale", str(ts))
+            json.dump({"exposure": c["exposure"], "white_balance_temperature": c["temperature"], "target_scale": ts, "frames": cal["frames"],
+                       "references": [os.path.basename(x) for x in refs], "date": time.strftime("%Y-%m-%d")},
+                      open(os.path.join(os.path.dirname(self.place), "calibration.json"), "w"), indent=1)   # persisted with the place: every rebuild gets this look
             json.dump(c, open(os.path.join(self.E, "p9_calibration.json"), "w"), indent=1); ev.append(os.path.join(self.E, "p9_calibration.json")); last = c["calibration"][-1]
         st = self.Q["stats"]; tex = st["textured_materials"] / max(1, st["materials"])
         return [("materials textured >= 85 %", tex >= .85, "%d/%d" % (st["textured_materials"], st["materials"])),

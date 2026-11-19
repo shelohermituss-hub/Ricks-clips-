@@ -27,7 +27,8 @@
    "saturation": 1.05,
    "gamma": 1.0,
    "gain": 1.0,
-   "vignette": 0.22
+   "vignette": 0.22,
+   "sharpen": 0.2
   }
  },
  "terrain": {
@@ -796,9 +797,9 @@
     {
      "f": 179,
      "pos": [
-      -2.2,
-      1.6,
-      1.65
+      -2.8,
+      2.4,
+      1.6
      ],
      "aim": [
       -6.5,
@@ -821,8 +822,8 @@
     {
      "f": 180,
      "pos": [
-      -3.6,
-      -2.4,
+      -3.2,
+      -2.2,
       1.5
      ],
      "aim": [
@@ -835,13 +836,13 @@
     {
      "f": 269,
      "pos": [
-      -4.6,
-      -3.0,
-      1.6
+      -6.6,
+      -3.8,
+      1.9
      ],
      "aim": [
-      -7.5,
-      3.0,
+      -8.0,
+      3.4,
       0.8
      ],
      "fov_v": 52
@@ -1547,7 +1548,9 @@
     40,
     150,
     300
-   ]
+   ],
+   "target_scale": 0.93
   }
- }
+ },
+ "_note_tuning_2026_11_19": "fortress standard on the CPU render: luma_day 0.502 (>0.50), edge_detail 0.0715 (<0.075), motion 17.5 (<18): calibration target 0.93 x reference, compositor sharpen 0.2, more camera travel in shots 2 and 3"
 }

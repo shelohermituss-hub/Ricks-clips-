@@ -47,7 +47,7 @@ def main(a):
             if len(fl) == 1: return os.path.join(d, "f%05d.png" % f)
             return _tile([os.path.join(d, "f%05d.png" % x) for x in fl], os.path.join(d, "tile.png"))
         if len(refs) > 1: a[3] = _tile(refs, os.path.join(a[4], "ref_tile.png"))
-        wb = lookdev.calibrate_white(sc, a[3], lambda i: rf(10 + i)); log = lookdev.calibrate_exposure(sc, a[3], f, a[4], rf); bpy.ops.wm.save_mainfile()
+        wb = lookdev.calibrate_white(sc, a[3], lambda i: rf(10 + i)); log = lookdev.calibrate_exposure(sc, a[3], f, a[4], rf, target_scale=float(opt("--target-scale", "1.0"))); bpy.ops.wm.save_mainfile()
         print("RC_RESULT " + json.dumps({"white_balance": wb, "calibration": log, "exposure": sc.view_settings.exposure, "temperature": sc.view_settings.white_balance_temperature})); return
     if a[0] == "qa":                                            # qa <blend> <out.json> [--anim name,name]: character contact + animation keys
         from rc import qa

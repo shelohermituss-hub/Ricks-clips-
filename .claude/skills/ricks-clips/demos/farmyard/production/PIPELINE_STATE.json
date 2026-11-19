@@ -473,5 +473,98 @@
   ],
   "seconds": 75.4,
   "date": "2026-11-18T23:24:27Z"
+ },
+ "11": {
+  "name": "RENDER",
+  "status": "PASS",
+  "checks": [
+   {
+    "check": "every frame rendered and verified (sha256)",
+    "pass": true,
+    "evidence": {
+     "frames": 450,
+     "bad": []
+    }
+   },
+   {
+    "check": "device recorded per slice",
+    "pass": true,
+    "evidence": [
+     "{'compute_device_type': 'OPTIX', 'gpus': [['NVIDIA GeForce RTX 4090', 'OPTIX']]}"
+    ]
+   },
+   {
+    "check": "seconds per frame measured",
+    "pass": true,
+    "evidence": {
+     "frames": 450,
+     "wall_seconds_this_run": 2044.2,
+     "mean_seconds_per_rendered_frame": 4.49,
+     "devices": [
+      "{'compute_device_type': 'OPTIX', 'gpus': [['NVIDIA GeForce RTX 4090', 'OPTIX']]}"
+     ]
+    }
+   }
+  ],
+  "evidence": [
+   "production/p11_render_manifest.json"
+  ],
+  "seconds": 0.3,
+  "date": "2026-11-19T00:13:35Z"
+ },
+ "12": {
+  "name": "POST-PRODUCTION",
+  "status": "FAIL",
+  "checks": [
+   {
+    "check": "final video has picture and sound",
+    "pass": true,
+    "evidence": [
+     "video",
+     "audio"
+    ]
+   },
+   {
+    "check": "meets the fortress standard (no FAIL; was 'comparison ran' until 2026-11-18, which hid 4 failures)",
+    "pass": false,
+    "evidence": {
+     "pass": [
+      "luma_day",
+      "crushed",
+      "burned",
+      "saturation_seconds_over_max",
+      "still_frames_pct"
+     ],
+     "fail": {
+      "edge_detail": [
+       0.0636,
+       ">= 0.075 (ref 0.095)"
+      ],
+      "saturation": [
+       0.536,
+       "0.32-0.52 (ref 0.4)"
+      ],
+      "motion_median_x1000": [
+       14.7,
+       ">= 18.0 (ref 35.8)"
+      ],
+      "peaks_per_10s": [
+       4.73,
+       ">= 6.0 (ref 10.47)"
+      ]
+     },
+     "warn": [
+      "hard_cuts"
+     ]
+    }
+   }
+  ],
+  "evidence": [
+   "production/farmyard_demo.mp4",
+   "production/p12_reference_compare.json",
+   "production/p12_sound.json"
+  ],
+  "seconds": 11.6,
+  "date": "2026-11-19T00:13:47Z"
  }
 }

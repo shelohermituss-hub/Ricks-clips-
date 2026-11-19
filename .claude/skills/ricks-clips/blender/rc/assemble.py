@@ -143,6 +143,10 @@ def build(place_path, out_blend, upto=9, light=True):
     if upto >= 9:
         if light and P.get("light"): report["light"] = lookdev.light_rig(sc, P["light"]); [sc.collection.objects.unlink(o) or _col("RC_LIGHTS").objects.link(o) for o in [o for o in sc.collection.objects if o.type == "LIGHT"]]
         if P.get("lookdev"): report["lookdev"] = lookdev.apply(P["lookdev"]["rules"])
+        cal = os.path.join(os.path.dirname(os.path.abspath(place_path)), "calibration.json")
+        if os.path.exists(cal):                                         # PERSISTED calibration (phase 9 writes it): a rebuild anywhere (pod) gets the
+            C = json.load(open(cal)); vs = sc.view_settings             # same look; it was only in the local .blend before (pod render: 0.37 vs 0.50 luma)
+            vs.exposure = C["exposure"]; vs.use_white_balance = True; vs.white_balance_temperature = C["white_balance_temperature"]; report["calibration"] = C
         report["phases"].append(9)
     os.makedirs(os.path.dirname(os.path.abspath(out_blend)), exist_ok=True); bpy.ops.wm.save_as_mainfile(filepath=out_blend, compress=True)
     report["assets_used"] = sorted(cols); sc["rc_build_key"] = report["build_key"] = build_key(P, place_path, root, upto); return report
@@ -155,6 +159,8 @@ def build_key(P, place_path, root, upto):
     h = hashlib.sha256(); h.update(json.dumps(P, sort_keys=True).encode()); h.update(str(upto).encode()); h.update(bpy.app.version_string.encode())
     for f in sorted(glob.glob(os.path.join(os.path.dirname(os.path.abspath(__file__)), "*.py"))): h.update(open(f, "rb").read())
     for aid in sorted(library.index()): h.update(json.dumps(library.index()[aid], sort_keys=True).encode())
+    cal = os.path.join(os.path.dirname(os.path.abspath(place_path)), "calibration.json")
+    if os.path.exists(cal): h.update(open(cal, "rb").read())
     ch = P.get("characters", {})
     if ch.get("cards"):
         for f in sorted(glob.glob(os.path.join(root, ch["cards"], "*", "index.json"))): h.update(open(f, "rb").read())

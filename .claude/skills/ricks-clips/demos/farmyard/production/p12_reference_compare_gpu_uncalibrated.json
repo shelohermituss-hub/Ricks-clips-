@@ -1,0 +1,231 @@
+{
+ "video": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/demos/farmyard/production/farmyard_demo.mp4",
+ "frames": 444,
+ "seconds": 14.8,
+ "per_second": [
+  {
+   "t": 0,
+   "luma": 0.391,
+   "sat": 0.502,
+   "crushed": 0.0004,
+   "burned": 0.0,
+   "motion": 7.0,
+   "edge": 0.0496
+  },
+  {
+   "t": 1,
+   "luma": 0.394,
+   "sat": 0.505,
+   "crushed": 0.0005,
+   "burned": 0.0,
+   "motion": 6.25,
+   "edge": 0.0507
+  },
+  {
+   "t": 2,
+   "luma": 0.394,
+   "sat": 0.505,
+   "crushed": 0.0002,
+   "burned": 0.0,
+   "motion": 9.8,
+   "edge": 0.0532
+  },
+  {
+   "t": 3,
+   "luma": 0.39,
+   "sat": 0.543,
+   "crushed": 0.002,
+   "burned": 0.0001,
+   "motion": 36.01,
+   "edge": 0.079
+  },
+  {
+   "t": 4,
+   "luma": 0.376,
+   "sat": 0.555,
+   "crushed": 0.004,
+   "burned": 0.0,
+   "motion": 17.71,
+   "edge": 0.0803
+  },
+  {
+   "t": 5,
+   "luma": 0.356,
+   "sat": 0.542,
+   "crushed": 0.0027,
+   "burned": 0.0001,
+   "motion": 20.13,
+   "edge": 0.076
+  },
+  {
+   "t": 6,
+   "luma": 0.345,
+   "sat": 0.523,
+   "crushed": 0.0013,
+   "burned": 0.0,
+   "motion": 13.47,
+   "edge": 0.0694
+  },
+  {
+   "t": 7,
+   "luma": 0.344,
+   "sat": 0.522,
+   "crushed": 0.0014,
+   "burned": 0.0,
+   "motion": 13.29,
+   "edge": 0.0695
+  },
+  {
+   "t": 8,
+   "luma": 0.345,
+   "sat": 0.535,
+   "crushed": 0.002,
+   "burned": 0.0,
+   "motion": 18.18,
+   "edge": 0.0657
+  },
+  {
+   "t": 9,
+   "luma": 0.363,
+   "sat": 0.559,
+   "crushed": 0.0044,
+   "burned": 0.0,
+   "motion": 31.92,
+   "edge": 0.0616
+  },
+  {
+   "t": 10,
+   "luma": 0.363,
+   "sat": 0.553,
+   "crushed": 0.0064,
+   "burned": 0.0,
+   "motion": 38.86,
+   "edge": 0.0623
+  },
+  {
+   "t": 11,
+   "luma": 0.357,
+   "sat": 0.558,
+   "crushed": 0.009,
+   "burned": 0.0,
+   "motion": 28.55,
+   "edge": 0.0579
+  },
+  {
+   "t": 12,
+   "luma": 0.346,
+   "sat": 0.569,
+   "crushed": 0.006,
+   "burned": 0.0,
+   "motion": 27.61,
+   "edge": 0.0623
+  },
+  {
+   "t": 13,
+   "luma": 0.415,
+   "sat": 0.534,
+   "crushed": 0.0012,
+   "burned": 0.0,
+   "motion": 25.8,
+   "edge": 0.0608
+  },
+  {
+   "t": 14,
+   "luma": 0.373,
+   "sat": 0.531,
+   "crushed": 0.001,
+   "burned": 0.0,
+   "motion": 12.95,
+   "edge": 0.0534
+  }
+ ],
+ "hard_cuts": [
+  5.8,
+  8.8,
+  12.8,
+  13.3
+ ],
+ "peaks": [
+  3.0,
+  4.77,
+  6.03,
+  8.87,
+  10.53,
+  12.8,
+  13.3
+ ],
+ "overall": {
+  "luma": 0.37,
+  "saturation": 0.536,
+  "contrast": 0.161,
+  "crushed": 0.0029,
+  "burned": 0.0,
+  "motion_median_x1000": 14.7,
+  "still_frames_pct": 0.2,
+  "edge_detail": 0.0636,
+  "hard_cuts": 4,
+  "peaks_per_10s": 4.73
+ },
+ "compare": [
+  {
+   "metric": "edge_detail",
+   "value": 0.0636,
+   "target": ">= 0.075 (ref 0.095)",
+   "status": "FAIL"
+  },
+  {
+   "metric": "luma_day",
+   "value": 0.37,
+   "target": "0.36-0.5",
+   "status": "PASS"
+  },
+  {
+   "metric": "crushed",
+   "value": 0.0029,
+   "target": "<= 0.01",
+   "status": "PASS"
+  },
+  {
+   "metric": "burned",
+   "value": 0.0,
+   "target": "<= 0.015",
+   "status": "PASS"
+  },
+  {
+   "metric": "saturation",
+   "value": 0.536,
+   "target": "0.32-0.52 (ref 0.4)",
+   "status": "FAIL"
+  },
+  {
+   "metric": "saturation_seconds_over_max",
+   "value": 0,
+   "target": "0 s above 0.6 (seconds: [])",
+   "status": "PASS"
+  },
+  {
+   "metric": "still_frames_pct",
+   "value": 0.2,
+   "target": "<= 2.0",
+   "status": "PASS"
+  },
+  {
+   "metric": "motion_median_x1000",
+   "value": 14.7,
+   "target": ">= 18.0 (ref 35.8)",
+   "status": "FAIL"
+  },
+  {
+   "metric": "peaks_per_10s",
+   "value": 4.73,
+   "target": ">= 6.0 (ref 10.47)",
+   "status": "FAIL"
+  },
+  {
+   "metric": "hard_cuts",
+   "value": 4,
+   "target": "0 unless listed as deliberate in DECISIONS.md (at [5.8, 8.8, 12.8, 13.3] s)",
+   "status": "WARN"
+  }
+ ]
+}
