@@ -26,7 +26,8 @@ Tous les chemins `S/...` désignent `.claude/skills/ricks-clips/...`, le dossier
    - `S/docs/PREPRODUCTION_FR.md` ;
    - `S/memory/LESSONS.md`.
 3. **Vérifier l'environnement** : `blender --version` (attendu : 5.2.2 LTS), `node --version` (attendu : 22), `ffmpeg -version`, `python3` avec numpy et PIL.
-   - Si Blender manque : voir `S/INSTALL.md` et `S/CLOUD_MODE.md`.
+   - Si Blender manque : `bash S/scripts/cloud_environment_setup.sh` (5.2.2, somme vérifiée). Il faut `download.blender.org` dans les hôtes autorisés de l'environnement (ajouté le 19/11 à l'environnement « 3d-cartoon »). Voir aussi `S/INSTALL.md` et `S/CLOUD_MODE.md`.
+   - Puis `bash S/scripts/restore_untracked.sh` : modèles Sketchfab, conversions `.glb`, plan cuit de Ghost Army (leçon PI-017). Sans lui, `test_rc` échoue à 25/27 dans une session neuve.
 4. **Secrets** : uniquement en *secrets réseau* de l'environnement, jamais dans le chat, les fichiers ou les journaux.
    - `SKETCHFAB_OAUTH_TOKEN`, pour retélécharger la F1 et la berline ;
    - `RUNPOD_API_KEY`, seulement si CB autorise un rendu GPU ;
@@ -34,7 +35,8 @@ Tous les chemins `S/...` désignent `.claude/skills/ricks-clips/...`, le dossier
    - Les hôtes de chaque pod RunPod (`<pod>-8000.proxy.runpod.net`) doivent être ajoutés aux hôtes autorisés de l'environnement.
 5. **Tests rapides** (aucun rendu lourd) :
    - `cd S && python3 tools/tests/test_plan_check.py` (attendu : PASS) ;
-   - `python3 tools/tests/test_rc.py` (attendu : 27/27 PASS, environ 2 min) ;
+   - `python3 tools/tests/test_rc.py` (attendu : 27/27 PASS, environ 4 min sur 4 cœurs) ;
+   - `.venv/bin/python tools/tests/test_production_intelligence.py` (attendu : 11/11 PASS ; il demande l'historique Git complet : `git fetch --unshallow` si le clone est superficiel ; il réécrit `memory/LESSONS.md` et les `GATES.*` de Ghost Army) ;
    - `.venv/bin/python tools/tests/test_pod_guard.py` (attendu : 13/13 PASS), s'il y a un `.venv`.
 6. **Fichiers absents d'une session neuve** (non versionnés, voir §10) :
    - la vidéo source de CB ;
@@ -91,7 +93,7 @@ Tous les chemins `S/...` désignent `.claude/skills/ricks-clips/...`, le dossier
 - **crashed_car, plans 3 à 15** : non faits. Aucune analyse détaillée `sNN.md` sauf `s02.md`, aucun script, aucun rendu.
 - **crashed_car, plan 2** : 4 corrections demandées et 2 manques signalés par `plan_check`, **non faits** (liste dans `OPEN_ISSUES.md`).
 - **crashed_car, son, voix, sous-titres, montage, rendu final GPU** : non faits. Le plafond GPU de cette vidéo n'est **pas fixé par CB**.
-- **Plan 1 revérifié avec la dernière version du contrôle** (sauts de pose, repères des cartes) : **NOT_RUN**. Son rapport de continuité date d'avant ces ajouts.
+- ~~Plan 1 revérifié avec la dernière version du contrôle~~ : **FAIT le 19/11** (session `ccr-1c670715-ewni3e`) : `cards_s01` redessiné (122 dessins, 0 saut de pose), `continuity.py` **PASS** à 0 partout, caméra 0,082 m/image en médiane.
 - **Méthode sans référence** : utilisée sur aucune vraie nouvelle vidéo. Le plan 2 a seulement été réécrit comme exemple.
 - **Intégration des outils du plan par plan dans `blender/rc/`** : non faite (§5 et `MIGRATION_PLAN.md`).
 - **Démo ferme** : le nouveau rendu calibré qui mesurerait l'effet des corrections est **NOT_RUN** (décision CB : pas de second rendu GPU).

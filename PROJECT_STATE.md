@@ -23,7 +23,7 @@ Statuts :
 
 | Plan | Temps (s) | Analyse détaillée | Script | Continuité | Rendu | Avis de CB |
 |---|---|---|---|---|---|---|
-| 1 — rue, crash dans les barils | 0 – 4,1 | dans `ANALYSE_FR.md` §3 (pas de `s01.md`) | `s01_driveway.py` | PASS (version d'avant le contrôle des sauts de pose) | v2, 270×480 | **Accepté tel quel** |
+| 1 — rue, crash dans les barils | 0 – 4,1 | dans `ANALYSE_FR.md` §3 (pas de `s01.md`) | `s01_driveway.py` | **PASS** avec la version actuelle (19/11 : 0 partout, sauts de pose et repères compris) | v2, 270×480 | **Accepté tel quel** |
 | 2 — stand + virage | 4,07 – 8,27 | `shots/s02.md` (avec entrées et sorties, caméra, surfaces) | `s02_pit.py`, `s02_corner.py` | **PASS** (0 partout) | v2, par couches, 21 min 54 s | « presque exactement ce que je voulais ». 4 corrections + 2 manques ouverts |
 | 3 à 15 | 8,27 – 51,5 | NON FAIT | NON FAIT | — | — | — |
 | Voix, son, sous-titres, montage, rendu GPU final | — | NON FAIT | — | — | — | Plafond GPU non fixé |

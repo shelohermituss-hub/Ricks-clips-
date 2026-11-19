@@ -26,7 +26,7 @@
      - rebuild de `s02_pit` et `s02_corner`, avec continuité PASS ;
      - sha256 identiques sur 3 images de contrôle par rapport aux rendus actuels.
 2. **Brancher les barrières dans `tools/rc_pipeline.py`** : `plan_check` en phase 0, `continuity` avant la phase 11. Ajouter des tests.
-3. **Relancer `continuity.py` sur le plan 1** avec la version actuelle : générer `anchors.json` pour `cards_s01` avec `card_anchors.py`. Corriger ce qu'il trouve.
+3. ~~Relancer `continuity.py` sur le plan 1~~ **FAIT (19/11)** : `anchors.json` généré (0 saut de pose), continuité PASS à 0 partout ; rien à corriger.
 4. **Outiller son, voix et montage pour la méthode par plan** : voix et mots minutés, sous-titres de 1 à 3 mots, ambiance et bruitage par action depuis `plan.json`, mixage à −14 LUFS. Réutiliser `rc/sound.py` et `templates/audio`.
 5. **Mettre à jour `S/docs/ARCHITECTURE.md` et `S/docs/GUIDE_UTILISATEUR_FR.md`** pour décrire la méthode par plan comme voie principale des nouvelles vidéos.
 6. Optionnel, avec l'accord de CB : **rendu de contrôle de la ferme calibrée** (CPU, environ 35 min) pour mesurer l'effet des corrections enregistrées (aujourd'hui NOT_RUN).

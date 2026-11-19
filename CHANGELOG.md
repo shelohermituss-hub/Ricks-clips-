@@ -12,6 +12,13 @@ Historique détaillé des versions du skill : `.claude/skills/ricks-clips/CHANGE
 - `plan_check.py` vérifie aussi l'histoire : crochet montré dans la 1re seconde, faits écrits dans le décor, au moins 2 ambiances, gros plan d'émotion, plan d'insert, sous-titres, boucle.
 - Décision de CB : la prochaine étape est une nouvelle vidéo avec la nouvelle méthode ; crashed_car est en pause.
 
+## 19/11/2026 — reprise dans une session neuve (branche `ccr-1c670715-ewni3e`)
+- Blender 5.2.2 installé (`download.blender.org` ajouté aux hôtes autorisés de l'environnement).
+- Session neuve : `test_rc` 25/27 → **27/27** après correction (leçon PI-017) : `tools/gltf_to_glb.py`, `scripts/restore_untracked.sh`, `test_rc` cuit le plan manquant. `test_pod_guard` 13/13, `test_plan_check` PASS, `test_production_intelligence` 11/11 (après `git fetch --unshallow`).
+- Plan 1 : continuité **PASS** avec la version actuelle (MIGRATION_PLAN étape 3).
+- OPEN_ISSUES n° 13 corrigé : licence déjà remplie ; vrai écart = auteur de la berline.
+- Fusion de `origin/ccr-00f60cb8-lenpig` (7 vidéos de référence, gta6-leak).
+
 ## 19/11/2026 — passation
 - Ajout à la racine de `HANDOFF.md`, `PROJECT_STATE.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `MIGRATION_PLAN.md`, `OPEN_ISSUES.md` et `CHANGELOG.md`.
 - Correction de `S/tools/tests/test_rc.py` : chaque résultat de test est converti en booléen. Un test renvoyait un dictionnaire et faisait planter le comptage final ; le test lui-même passait. Suite relancée : 27/27 PASS.

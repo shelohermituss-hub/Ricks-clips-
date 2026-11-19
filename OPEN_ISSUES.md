@@ -13,7 +13,7 @@
 | 5 | P2 | Plan 2 : deux gestes de bras en environ une image (4,2 s : bras qui descendent dans le cockpit ; 5,8 s : casque qui redescend) | Ils passent juste sous le seuil (0,87 et 0,85 contre 0,9 m par image). Piste : mouvements intermédiaires, ou réparer le mélange des mouvements |
 | 6 | P2 | Plan 2 : pas de **poussière à l'atterrissage** du saut (signalé par `plan_check`, recette `jump_landing`) | Ajouter une bouffée de poussière `rc.vfx` à l'image 150 |
 | 7 | P2 | Plan 2 : F1 retournée **sans bosses, sans fumée, sans vitre ni pièces tordues** (recette `vehicle_impact`) | Clés de forme et fumée `rc.vfx` |
-| 8 | P3 | Plan 1 : contrôle de continuité passé avec la version d'avant le contrôle des sauts de pose ; `cards_s01` n'a pas de `anchors.json` | `card_anchors.py` puis `continuity.py` sur `s01.blend` |
+| 8 | — | ~~Plan 1 : continuité non revérifiée~~ **RÉSOLU 19/11** | continuité PASS à 0 partout avec la version actuelle |
 | 9 | P3 | Nuages trop ronds, décalques un peu grands, F1 retournée trop verticale | Points notés pendant le plan 2, non traités |
 | 10 | P3 | En-tête de `s02_pit.py` : la docstring décrit encore « 158 the helmet lifts off » | Texte à mettre à jour. Le code est juste |
 
@@ -23,7 +23,7 @@
 |---|---|---|---|
 | 11 | P3 | Outils génériques rangés dans `demos/crashed_car/` | `MIGRATION_PLAN.md`, étape 1 |
 | 12 | P3 | `plan_check` et `continuity` ne sont pas branchés dans `rc_pipeline.py` | `MIGRATION_PLAN.md`, étape 2 |
-| 13 | P3 | `catalog.json` : champ licence vide pour les 3 entrées Sketchfab | Ce sont des CC-BY (F1 LWDream, berline MMC Works, vélo VladNeko). À remplir depuis leur `asset.json` et `ASSET_MANIFEST.json` |
+| 13 | P3 | ~~Licence vide dans `catalog.json`~~ : **inexact**, vérifié le 19/11 : les 3 entrées ont déjà la licence CC-BY 4.0 complète. **Reste** : le `license.txt` de la berline crédite **Márcio Meireles** (sketchfab.com/marciomeireles), alors que le catalogue, `s01_driveway.py` et ces documents disent « MMC Works » | Pour le crédit CC-BY, utiliser le nom du `license.txt` |
 | 14 | P3 | Le mélange des mouvements est sans effet entre deux vues différentes (cause des sauts de pose) | Contourné : une seule vue par personnage (règle et leçon PI-016) |
 | 15 | P3 | Asset Hub : le modèle Sketchfab de « voiture bâchée » est refusé à tort par le filtre armes et militaire | Plan 5 : prévoir une simulation de tissu |
 | 16 | P3 | Démo ferme : standard forteresse non atteint (5/10 et 6/10). Corrections enregistrées, effet NOT_RUN | `S/docs/RAPPORT_MIGRATION_FR.md` §4.2 |
@@ -41,3 +41,4 @@
 | 18 | P3 | `S/docs/RAPPORT_MIGRATION_FR.md` §3 annonce « `blender/rc/` (19 modules) » | Compté le 19/11 : 17 modules Python, plus `__init__.py` et `schema/`. À corriger dans ce rapport (non modifié pendant la passation) |
 | 19 | P3 | Les 7 vidéos sources de référence ne sont pas dans le dépôt (ignorées par Git) | Les mesures, les transcriptions et les planches sont versionnées. Pour réanalyser une vidéo, la redemander à CB |
 | 20 | P3 | Le gabarit de mouvement « cible 41,8 » de crashed_car est remplacé par la plage des 7 vidéos (20 à 65, médiane 30,6) | `CB_RULES` §11h cite encore 41,8 comme exemple : à lire comme « au niveau de la référence choisie » |
+| 21 | P3 | Une session neuve ne repassait pas `test_rc` (25/27) : fichiers dérivés faits à la main | **RÉSOLU 19/11** (PI-017) : `tools/gltf_to_glb.py`, `scripts/restore_untracked.sh`, `test_rc` cuit le plan lui-même |
