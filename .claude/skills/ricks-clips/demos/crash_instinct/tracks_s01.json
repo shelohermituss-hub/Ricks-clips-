@@ -6,6 +6,10 @@
   "planter": {
    "puppet": "cast:planter",
    "height": 1.75
+  },
+  "driver": {
+   "puppet": "cast:driver",
+   "height": 1.7
   }
  },
  "acts": [
@@ -273,6 +277,76 @@
    "dir": 1,
    "pose": "m:idle/B",
    "face": "k:annoyed",
+   "move_s": 0.01
+  },
+  {
+   "who": "driver",
+   "at": 0,
+   "pos": [
+    4.2,
+    40.0,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=1.6",
+   "face": "k:happy",
+   "move_s": 0.01
+  },
+  {
+   "who": "driver",
+   "at": 70,
+   "pos": [
+    4.2,
+    40.0,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=1.6",
+   "face": "k:standard",
+   "move_s": 0.01
+  },
+  {
+   "who": "driver",
+   "at": 84,
+   "pos": [
+    4.2,
+    40.0,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=1.6",
+   "face": "k:nervous",
+   "move_s": 0.01
+  },
+  {
+   "who": "driver",
+   "at": 104,
+   "pos": [
+    4.2,
+    40.0,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=1.6",
+   "face": "k:shocked",
+   "move_s": 0.01
+  },
+  {
+   "who": "driver",
+   "at": 116,
+   "pos": [
+    4.2,
+    40.0,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@=1.6",
+   "face": "k:nervous",
    "move_s": 0.01
   }
  ]

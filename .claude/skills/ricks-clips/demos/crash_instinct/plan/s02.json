@@ -19,8 +19,8 @@
   {
    "id": "white_car",
    "kind": "model",
-   "source": "sketchfab:58c33766470d46e7b2aed542650494e5 (Márcio Meireles, CC-BY), repainted white",
-   "state": "in library"
+   "source": "sketchfab:5db696c6ed5d4bdc87905c1040fa072a (MMC Generic Small SUV, MMC Works, CC-BY)",
+   "state": "in library (matte white paint, clear glass; CB 2026-11-19)"
   },
   {
    "id": "grass_tufts",
@@ -63,6 +63,12 @@
    "kind": "texture",
    "source": "polyhaven:jolcham_oak_bark_01",
    "state": "cached"
+  },
+  {
+   "id": "sky",
+   "kind": "hdri",
+   "source": "polyhaven:kloofendal_48d_partly_cloudy_puresky",
+   "state": "cached (visible sky, CB 2026-11-19)"
   }
  ],
  "places": [
@@ -153,8 +159,8 @@
  "objects": [
   {
    "id": "white_car",
-   "source": "sketchfab:58c33766470d46e7b2aed542650494e5",
-   "material": "blanc verni, reflets HDRI",
+   "source": "sketchfab:5db696c6ed5d4bdc87905c1040fa072a",
+   "material": "blanc mat #e9e8e2 (texture métal et relief retirées), vitres claires",
    "states": [
     "roule",
     "avant écrasé (clé de forme crash_dent)",
@@ -163,7 +169,7 @@
   },
   {
    "id": "wheel",
-   "source": "sketchfab:58c33766470d46e7b2aed542650494e5 (Object_247, la vraie roue)",
+   "source": "sketchfab:5db696c6ed5d4bdc87905c1040fa072a",
    "material": "pneu + jante du modèle",
    "states": [
     "sur la voiture",
@@ -188,6 +194,14 @@
    "costume": "chemise vert-bleu, casquette rouge",
    "view": "front",
    "held": []
+  },
+  {
+   "id": "driver",
+   "puppet": "cast:driver",
+   "costume": "polo bleu, lunettes de soleil",
+   "view": "front",
+   "held": [],
+   "notes": "assis au volant, vu à travers le pare-brise ; projeté en avant au choc"
   }
  ],
  "shots": [
@@ -402,6 +416,7 @@
   "PI-018",
   "PI-019",
   "PI-020",
-  "PI-021"
+  "PI-021",
+  "PI-022"
  ]
 }

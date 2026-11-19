@@ -26,7 +26,72 @@ def sky(scene):
     cr.color_ramp.elements[1].position = .62; cr.color_ramp.elements[1].color = (*srgb("#6fa6de"), 1)
     nt.links.new(cr.outputs[0], bg.inputs["Color"]); bg.inputs["Strength"].default_value = .9
 
-def sun(scene, elevation=45, azimuth=-120, energy=5.2, angle=2.0):
+HDRI = "kloofendal_48d_partly_cloudy_puresky"; HDRI_SUN_DEG = -34.2          # its sun: atan2(y, x) of the brightest pixel (measured), elevation 47.8
+SUN_AZ, SUN_EL = 30.5, 45.0                                                     # CB 2026-11-19: backlit like the reference (sun behind the tree, right)
+
+def sky_hdri(scene, strength=1.0):
+    """CINEMATIC SKY (CB 2026-11-19): a real cloudy sky photo (Poly Haven CC0) seen by the camera AND lighting the scene (soft fill, so the
+    trunk is never black in daylight); rotated so its sun sits where the sun lamp is"""
+    from rc import fetch
+    w = bpy.data.worlds.new("sky_hdri"); scene.world = w; w.use_nodes = True; nt = w.node_tree; N, L = nt.nodes, nt.links; bg = N["Background"]
+    tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); env = N.new("ShaderNodeTexEnvironment")
+    env.image = bpy.data.images.load(fetch.polyhaven_hdri(HDRI, "1k", log=lambda *a: None), check_existing=True)
+    want = math.degrees(math.atan2(math.cos(math.radians(SUN_AZ)), math.sin(math.radians(SUN_AZ))))     # direction the light comes from, as atan2(y, x)
+    mp.inputs["Rotation"].default_value = (0, 0, math.radians(HDRI_SUN_DEG - want))
+    L.new(tc.outputs["Generated"], mp.inputs["Vector"]); L.new(mp.outputs["Vector"], env.inputs["Vector"]); L.new(env.outputs["Color"], bg.inputs["Color"])
+    bg.inputs["Strength"].default_value = strength
+
+def god_rays(c, center=(0, 0, 0), size=(34, 34, 16), density=.003, anisotropy=.75):
+    """SUN RAYS (CB 2026-11-19): a light haze volume around the tree; the sun lamp shining through the crown draws the shafts"""
+    m = bpy.data.materials.get("god_ray_haze") or bpy.data.materials.new("god_ray_haze"); m.use_nodes = True; nt = m.node_tree
+    for n_ in list(nt.nodes):
+        if n_.type != "OUTPUT_MATERIAL": nt.nodes.remove(n_)
+    v = nt.nodes.new("ShaderNodeVolumePrincipled"); v.inputs["Density"].default_value = density; v.inputs["Anisotropy"].default_value = anisotropy
+    v.inputs["Color"].default_value = (1, .97, .9, 1); nt.links.new(v.outputs[0], nt.nodes["Material Output"].inputs["Volume"])
+    o = box("god_rays", c, size, (center[0], center[1], size[2] / 2 - .05), m, bevel=0); o.visible_shadow = False
+    return o
+
+def light_shafts(c, n=12, seed=3, under=(0, 0, 4.6), spread=3.0, length=7.0, strength=.2, parent=None):
+    """SUN RAYS you can SEE (CB 2026-11-19): soft tapered shafts falling from gaps under the crown along the sun direction, additive light
+    (transparent + emission, fading along the shaft and at its edges); the reference shows them under the tree in daylight"""
+    import random as _r
+    R = _r.Random(seed); el, az = math.radians(SUN_EL), math.radians(SUN_AZ)
+    d = -Vector((math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el)))      # the way the light travels
+    m = bpy.data.materials.get("light_shaft")
+    if not m:
+        m = bpy.data.materials.new("light_shaft"); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links
+        for n_ in list(N):
+            if n_.type != "OUTPUT_MATERIAL": N.remove(n_)
+        tc = N.new("ShaderNodeTexCoord"); sx = N.new("ShaderNodeSeparateXYZ"); L.new(tc.outputs["UV"], sx.inputs[0])
+        along = N.new("ShaderNodeMath"); along.operation = "SUBTRACT"; along.inputs[0].default_value = 1.0; L.new(sx.outputs["Y"], along.inputs[1])
+        edge = N.new("ShaderNodeMath"); edge.operation = "SINE"; m2 = N.new("ShaderNodeMath"); m2.operation = "MULTIPLY"; m2.inputs[1].default_value = math.pi
+        L.new(sx.outputs["X"], m2.inputs[0]); L.new(m2.outputs[0], edge.inputs[0])
+        k = N.new("ShaderNodeMath"); k.operation = "MULTIPLY"; L.new(along.outputs[0], k.inputs[0]); L.new(edge.outputs[0], k.inputs[1])
+        em = N.new("ShaderNodeEmission"); em.inputs["Color"].default_value = (1, .95, .82, 1)
+        st = N.new("ShaderNodeMath"); st.operation = "MULTIPLY"; st.inputs[1].default_value = strength; L.new(k.outputs[0], st.inputs[0]); L.new(st.outputs[0], em.inputs["Strength"])
+        tr = N.new("ShaderNodeBsdfTransparent"); add = N.new("ShaderNodeAddShader"); L.new(tr.outputs[0], add.inputs[0]); L.new(em.outputs[0], add.inputs[1])
+        L.new(add.outputs[0], N["Material Output"].inputs["Surface"])
+    side = d.cross(Vector((0, 0, 1))).normalized(); out = []
+    for i in range(n):
+        p0 = Vector(under) + Vector((R.uniform(-spread, spread), R.uniform(-spread, spread), R.uniform(-.4, .6))); w0, w1 = R.uniform(.06, .16), R.uniform(.18, .38)
+        p1 = p0 + d * (length * R.uniform(.8, 1.1))
+        bm = bmesh.new(); uv = bm.loops.layers.uv.new()
+        vs = [bm.verts.new(v) for v in (p0 - side * w0, p0 + side * w0, p1 + side * w1, p1 - side * w1)]; f = bm.faces.new(vs)
+        for lp, (u_, v_) in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uv].uv = (u_, v_)
+        o = mesh_obj("light_shaft%d" % i, bm, m, c); o.visible_shadow = False; o.visible_glossy = False; out.append(o)
+        if parent: o.parent = parent                                                        # they belong to the tree (fall with it)
+    return out
+
+def bounce_fill(c, at=(-3.0, -9.0, 2.2), aim=(0, 0, 2.0), energy=900.0, size=7.0):
+    """CINEMATIC FILL (CB 2026-11-19: "le tronc est tout sombre en plein jour"): a big soft area light on the camera side, like a bounce board;
+    invisible to the camera and in reflections, it opens the shadow side of the trunk and the characters under the crown"""
+    l = bpy.data.lights.new("bounce_fill", "AREA"); l.energy = energy; l.size = size; l.color = srgb("#fff6ea")
+    o = bpy.data.objects.new("bounce_fill", l); col("LIGHT").objects.link(o); o.location = at
+    o.rotation_euler = (Vector(aim) - Vector(at)).to_track_quat("-Z", "Y").to_euler()
+    o.visible_camera = False; o.visible_glossy = False
+    return o
+
+def sun(scene, elevation=SUN_EL, azimuth=SUN_AZ, energy=4.2, angle=2.0):
     s = bpy.data.lights.new("sun", "SUN"); s.energy = energy; s.angle = math.radians(angle); s.color = srgb("#fff3e2")
     o = bpy.data.objects.new("sun", s); col("LIGHT").objects.link(o)
     el, az = math.radians(elevation), math.radians(azimuth)                       # azimuth: direction the light COMES FROM, 0 = +Y, -90 = -X
@@ -90,7 +155,7 @@ def verge_grass(c, zone, n, seed, scale=(1.0, 1.8), exclude=()):
     src = street.blade_clump(); m = bpy.data.materials.get("grass_blades")
     if m and not m.get("rc_recoloured"):
         cr = [n_ for n_ in m.node_tree.nodes if n_.type == "VALTORGB"][0].color_ramp
-        cr.elements[0].color = (*srgb("#4a7a26"), 1); cr.elements[1].color = (*srgb("#b6cf6c"), 1); m["rc_recoloured"] = 1
+        cr.elements[0].color = (*srgb("#33501a"), 1); cr.elements[1].color = (*srgb("#86a446"), 1)   # measured on the reference: #44662e (shade) .. #65932d (sun); m["rc_recoloured"] = 1
     P, Rt, Sc = geo.scatter_points({"polygon": zone}, n, seed, exclude=exclude, scale_range=scale)
     return geo.instancer("grass_%d" % seed, P, src, c, Rt, Sc, wind=.05)
 
@@ -118,6 +183,6 @@ def clouds(c):
     m = bpy.data.materials["cloud"]; b = m.node_tree.nodes["Principled BSDF"]; b.inputs["Emission Strength"].default_value = .5; b.inputs["Subsurface Weight"].default_value = .0; b.inputs["Base Color"].default_value = (*srgb("#f4f4f6"), 1)
 
 def build(scene):
-    c = col("L_SET"); sky(scene); sun(scene); road(c); ground(c); fence(c); cross_fence(c); clouds(col("L_SKY"))
-    street.hdri_reflections(scene, strength=1.0)
+    c = col("L_SET"); sky_hdri(scene); sun(scene); road(c); ground(c); fence(c); cross_fence(c)   # the HDRI carries the clouds (no mesh clouds)
+    god_rays(col("L_FX")); bounce_fill(c)          # light_shafts() is called by the shot once the oak exists
     return c

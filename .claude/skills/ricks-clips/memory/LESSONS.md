@@ -219,3 +219,13 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Evidence:** demos/crash_instinct/build/keys_s02/compare.jpg
 - **Regression check:** look at the part on 3 key frames after detaching it
 
+## PI-022 — CB: no cinematic light. No sun rays, the trunk dark in full daylight, a flat painted sky,  [validated, high]
+
+- **Where:** crash_instinct s01-s02
+- **Root cause:** The look was judged by eye on our own frames, never MEASURED against the reference. The sun was front-lit (the reference is backlit). No fill light under the big crown. The sky was a gradient with mesh clouds. The Sketchfab paint kept its metallic/roughness texture and normal map.
+- **Fix:** Cinematic kit in sets/roadside.py: visible HDRI sky (Poly Haven, rotated so its sun matches the sun lamp), backlit sun, bounce_fill area light (camera-side, invisible), thin haze volume + light_shafts attached to the tree, shorter and half-dense grass recoloured to measured values. Grade = Standard + Medium Contrast, exposure -0.35, saturation 1.05, chosen by measuring 5 transforms. tools/grade_match.py compares key frames with the reference (luma, saturation, contrast) and must PASS before a preview. Car paint: links to texture, metallic, roughness and normal removed -> matte; untinted glass.
+- **Files:** demos/crash_instinct/sets/roadside.py, demos/crash_instinct/shots/s01_plant.py, demos/crash_instinct/shots/s02_crash.py, tools/grade_match.py
+- **Tests:** grade_match before: frame 126 luma 0.65 vs 0.49, frame 46 saturation 0.12 vs 0.35 (FAIL); grade_match after: frames 0, 46, 126, 149 PASS
+- **Evidence:** demos/crash_instinct/build/look/grade_sheet.jpg
+- **Regression check:** tools/grade_match.py on the key frames of every shot
+

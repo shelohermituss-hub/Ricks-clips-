@@ -18,16 +18,16 @@ OUT = A[0] if A and not A[0].startswith("--") else "/tmp/s02_crash.blend"
 
 def car_crash(rig):
     """brake across the shoulder into the trunk (front stops 0.7 m from the trunk axis), crush + rebound, then it stays"""
-    head = Vector((-.375, -.927, 0)); p95 = Vector((1.9, 4.6, 0)); hit = p95 + head * 1.96
-    keys = [(99, p95 + head * .95), (103, p95 + head * 1.62), (HIT, hit), (HIT + 3, hit + head * .22), (HIT + 8, hit + head * .1), (F1, hit + head * .1)]
+    head = Vector((-.375, -.927, 0)); p95 = Vector((1.9, 4.6, 0)); hit = p95 + head * (4.98 - S1.CAR_FRONT - .6)   # nose stops at the bark
+    keys = [(99, p95 + head * (hit - p95).length * .48), (103, p95 + head * (hit - p95).length * .83), (HIT, hit), (HIT + 3, hit + head * .22), (HIT + 8, hit + head * .1), (F1, hit + head * .1)]
     for f, p in keys:
         rig.location = p; rig.keyframe_insert("location", frame=f)
     for f, pitch in ((HIT - 1, 0), (HIT + 2, 5.0), (HIT + 6, -2.0), (HIT + 11, .6), (HIT + 16, 0), (F1, 0)):   # nose dive and rebound
         rig.rotation_euler = (math.radians(pitch), math.radians(1.2 if f < HIT else 0), math.radians(-22)); rig.keyframe_insert("rotation_euler", frame=f)
     from rc import physics
     sc = bpy.context.scene; sc.frame_set(HIT + 10); bpy.context.view_layer.update(); n = 0
-    body = [o for o in bpy.data.collections["L_OBJECTS"].all_objects if o.type == "MESH" and o.data.materials and o.data.materials[0].name.startswith(("Car_Paint", "Plastic_ext", "honeycomb", "Headlight"))]
-    front_w = rig.matrix_world @ Vector((0, -2.42, .62))
+    body = [o for o in bpy.data.collections["L_OBJECTS"].all_objects if o.type == "MESH" and o.data.materials and o.data.materials[0].name.startswith(("body", "black-plastic", "headligth", "glass-headlight", "Headlight"))]
+    front_w = rig.matrix_world @ Vector((0, -S1.CAR_FRONT, S1.CAR_LIFT - .1))
     for o in body:
         if min((o.matrix_world @ Vector(c) - front_w).length for c in o.bound_box) > 1.3: continue
         r = physics.deform(sc, {"object": o.name, "name": "crash_dent", "point": list(front_w + head * .1), "direction": list(-head + Vector((0, 0, -.2))),
@@ -36,11 +36,14 @@ def car_crash(rig):
     return hit, n
 
 def wheel_off(rig):
-    """the REAL front-left wheel of the model (Object_247, 'tire-low') follows the car until the hit, then rolls on its own,
+    """the REAL front wheel of the SUV (tyre tire-low-fr + rim wheel-fr, joined) follows the car until the hit, then rolls on its own,
     wobbles and tips over flat. Its mesh origin is moved to the wheel centre first (the glTF puts it at the car origin)."""
-    w = bpy.data.objects.get("Object_247")
+    w = bpy.data.objects.get("tire-low-fr_tire-low_0"); rim = bpy.data.objects.get("wheel-fr_wheels-brakes_0")
     if w is None: return None
     sc = bpy.context.scene
+    if rim:                                                                                     # tyre + rim are one wheel: join them
+        for o in bpy.context.selected_objects: o.select_set(False)
+        rim.select_set(True); w.select_set(True); bpy.context.view_layer.objects.active = w; bpy.ops.object.join()
     c = sum((Vector(v) for v in w.bound_box), Vector()) / 8.0                                   # wheel centre in the object's own space
     if w.data.users > 1: w.data = w.data.copy()
     w.data.transform(Matrix.Translation(-c)); C = Matrix.Translation(c)
@@ -107,7 +110,7 @@ def main():
     bpy.ops.wm.read_factory_settings(use_empty=True); sc = bpy.context.scene; sc.render.fps = 30
     S1.F1 = F1; sc.frame_start, sc.frame_end = S1.F0, F1
     rig, cam = S1.build_take(sc)
-    hit, nd = car_crash(rig); w = wheel_off(rig); oak_shake(); leaves_again(); camera_more(cam); stand_up()
+    hit, nd = car_crash(rig); S1.driver(rig, cam, HIT); w = wheel_off(rig); oak_shake(); leaves_again(); camera_more(cam); stand_up()
     print("CRASH dent verts", nd, "wheel", w.name if w else None)
     front = rig.matrix_world @ Vector((0, -2.0, 1.0))
     vfx.apply(sc, [

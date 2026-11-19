@@ -11,20 +11,24 @@ from mathutils import Vector
 HERE = os.path.dirname(os.path.abspath(__file__)); SKILL = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, os.path.join(HERE, "..", "sets")); sys.path.insert(0, os.path.join(SKILL, "demos", "crashed_car", "sets")); sys.path.insert(0, os.path.join(SKILL, "blender"))
 import roadside, street, oak as oakkit  # noqa: E402
-from rc import render, vfx, characters  # noqa: E402
+from rc import render, vfx, characters, lookdev  # noqa: E402
 
 A = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 opt = lambda k, d: A[A.index(k) + 1] if k in A else d
 OUT = A[0] if A and not A[0].startswith("--") else "/tmp/s01_plant.blend"
 F0, F1 = 0, 95; IMPACT = 21; RELEASE = 14
 HERO = Vector((-0.75, -0.3, 0)); LAND = Vector((-1.85, -0.75, 0)); SIT_DROP = .30          # seated drawing sits on a 0.45 m seat: sunk 0.30 m into the tall grass
-CAR_GLTF = os.path.join(SKILL, "library", "assets", "sketchfab", "58c33766470d46e7b2aed542650494e5", "gltf", "scene.gltf")
+CAR_GLTF = os.path.join(SKILL, "library", "assets", "sketchfab", "5db696c6ed5d4bdc87905c1040fa072a", "gltf", "scene.gltf")   # MMC Generic Small SUV (MMC Works, CC-BY)
+CAR_LIFT = .80; CAR_FRONT = 2.05                                                         # its origin is at mid-height; nose at local y = -2.05
+
+EXPOSURE = -0.35; SATURATION = 1.05
 
 def smooth(t): t = max(0., min(1., t)); return t * t * (3 - 2 * t)
 
 def oak():
     """the hero tree: falls from the sky (keyed, accelerating like gravity) and lands upright in the hole; the crown sways twice after"""
     o = oakkit.oak(street.col("L_SET"), "oak", seed=7, height=9.0); o.location = (0, 0, 40); o.rotation_euler = (0, 0, .6)
+    roadside.light_shafts(street.col("L_FX"), parent=o)                                   # sun shafts under its crown, attached to it
     z_top = 24.0
     for f in range(F0, IMPACT + 1):
         if f <= 13: z = 40.0                                                                  # far above the frame (its shadow falls ~40 m away, out of frame)
@@ -84,22 +88,31 @@ def acorn():
     return o
 
 def car():
-    """the white car (Sketchfab 'Generic Sedan Car', Márcio Meireles, CC-BY), repainted white with clear coat; it faces -Y = toward us"""
+    """the white SUV of the reference (Sketchfab 'MMC Generic Small SUV Car', MMC Works, CC-BY; no real brand). CB 2026-11-19: MATTE white
+    paint (the model's metallic/roughness texture and normal map made it sparkle: removed), CLEAR (untinted) windows, a driver inside.
+    It faces -Y = toward us; lifted so the tyres sit on the road."""
     before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=CAR_GLTF); new = [o for o in bpy.data.objects if o not in before]
     c = street.col("L_OBJECTS"); rig = bpy.data.objects.new("car_rig", None); c.objects.link(rig)
+    body = bpy.data.objects.new("car_body", None); c.objects.link(body); body.parent = rig; body.location = (0, 0, CAR_LIFT)
     for o in new:
         for uc in list(o.users_collection): uc.objects.unlink(o)
         c.objects.link(o)
-        if o.parent is None: o.parent = rig
-    paint = bpy.data.materials.get("Car_Paint_-_All_Colors")
+        if o.parent is None: o.parent = body
+    paint = bpy.data.materials.get("body")
     if paint and paint.use_nodes:
         b = paint.node_tree.nodes.get("Principled BSDF")
-        for l in list(b.inputs["Base Color"].links): paint.node_tree.links.remove(l)
-        b.inputs["Base Color"].default_value = (*street.srgb("#f2f2ef"), 1); b.inputs["Roughness"].default_value = .3; b.inputs["Metallic"].default_value = 0.0
-        b.inputs["Coat Weight"].default_value = .3; b.inputs["Coat Roughness"].default_value = .12
-    for m in bpy.data.materials:
-        if m.name.startswith("Glass") and m.use_nodes and m.node_tree.nodes.get("Principled BSDF"):
-            b = m.node_tree.nodes["Principled BSDF"]; b.inputs["Transmission Weight"].default_value = 1.0; b.inputs["Roughness"].default_value = .02; b.inputs["IOR"].default_value = 1.2
+        for inp in ("Base Color", "Metallic", "Roughness", "Normal"):
+            for l in list(b.inputs[inp].links): paint.node_tree.links.remove(l)
+        b.inputs["Base Color"].default_value = (*street.srgb("#e9e8e2"), 1); b.inputs["Metallic"].default_value = 0.0; b.inputs["Roughness"].default_value = .62
+        b.inputs["Coat Weight"].default_value = 0.0; b.inputs["Specular IOR Level"].default_value = .35
+    for name in ("Glass_ext-tinted", "glass-windshield"):
+        m = bpy.data.materials.get(name)
+        if m and m.use_nodes and m.node_tree.nodes.get("Principled BSDF"):
+            b = m.node_tree.nodes["Principled BSDF"]
+            for inp in ("Base Color", "Alpha"):
+                for l in list(b.inputs[inp].links): m.node_tree.links.remove(l)
+            b.inputs["Base Color"].default_value = (1, 1, 1, 1); b.inputs["Alpha"].default_value = 1.0
+            b.inputs["Transmission Weight"].default_value = 1.0; b.inputs["Roughness"].default_value = .02; b.inputs["IOR"].default_value = 1.1
     keys = [(0, (4.2, 56.4), 0.0), (78, (4.2, 13.5), 0.0), (86, (3.4, 9.0), -11.0), (95, (1.9, 4.6), -22.0)]   # 60 km/h = 0.55 m/frame, then steers at the tree
     for f, (x, y), yaw in keys:
         rig.location = (x, y, 0); rig.rotation_euler = (0, math.radians(1.2) if f >= 86 else 0, math.radians(yaw))   # body roll in the turn
@@ -161,16 +174,38 @@ def planter(cam, seed):
         seed.location = p; seed.keyframe_insert("location", frame=f); prev = p.copy()
     return card
 
+DRIVER_SEAT = Vector((.37, -.02, -.66))                                                # card origin (its feet) in the SUV body's space: hips on the front-left seat
+
+def driver(rig, cam, hit=None):
+    """the SUV driver (cast:driver, front view, frozen seated drawing): his card follows the driver's seat on every frame (seen through the
+    clear windscreen); at the hit he is thrown forward and back (seat belt). Called after the car's last keys are set."""
+    cd = os.path.join(HERE, "..", "build", "cards_s01"); sc = bpy.context.scene
+    if "Card_driver" not in bpy.data.objects: characters.place_cards(sc, cd, ["driver"], cam, .55, contact=False, ground=None)
+    card = bpy.data.objects["Card_driver"]
+    for uc in list(card.users_collection): uc.objects.unlink(card)
+    street.col("L_OBJECTS").objects.link(card)
+    for f in range(F0 - 1, F1 + 2):
+        for dp in ("hide_render", "hide_viewport", "location"):
+            try: card.keyframe_delete(dp, frame=f)
+            except RuntimeError: pass
+    card.hide_render = card.hide_viewport = False; body = bpy.data.objects["car_body"]
+    for f in range(F0, F1 + 1):
+        sc.frame_set(f); off = DRIVER_SEAT.copy()
+        if hit is not None and f >= hit:
+            t = f - hit; off.y -= .22 * math.exp(-t / 3.0) * math.sin(min(math.pi, t * .7) + .01)      # thrown toward the dashboard, back into the seat
+        card.location = body.matrix_world @ off; card.keyframe_insert("location", frame=f)
+    return card
+
 def grass_and_flowers():
-    """reference: short soft grass around the hole and the planter (feet and hole visible), tall grass only in the near foreground,
-    an extra-tall tuft where he lands sitting (it hides the drawing's seat)"""
+    """CB 2026-11-19: grass shorter and half as dense as before (closer to the reference, faster to render); tall only right under shot 1's lens,
+    short where shot 2 looks across at grass level; far zones thinned (LOD)"""
     c = street.col("L_SET"); clear = ({"center": [0, 0], "radius": 1.0},)
-    roadside.verge_grass(c, [[-6.3, -2.4], [1.45, -2.4], [1.45, 14], [-6.3, 14]], 30000, 1, scale=(.6, 1.1), exclude=clear)
-    roadside.verge_grass(c, [[-1.6, -6.5], [1.45, -6.5], [1.45, -2.4], [-1.6, -2.4]], 6000, 4, scale=(1.3, 2.1))      # tall only right under shot 1's lens (20-32 cm)
-    roadside.verge_grass(c, [[-6.3, -16], [1.45, -16], [1.45, -6.5], [-6.3, -6.5]], 14000, 5, scale=(.7, 1.2))       # short where shot 2 looks across at grass level
-    roadside.verge_grass(c, [[-6.3, -6.5], [-1.6, -6.5], [-1.6, -2.4], [-6.3, -2.4]], 6500, 6, scale=(.7, 1.2))      # (shot 2's line to the planter stays left of the tall band)
-    roadside.verge_grass(c, [[-6.3, 14], [1.45, 14], [1.45, 140], [-6.3, 140]], 9000, 2, scale=(1.1, 1.9))           # far: thinned (LOD rule), bigger tufts
-    roadside.verge_grass(c, [[10.6, -16], [14.7, -16], [14.7, 80], [10.6, 80]], 4000, 3, scale=(1.1, 1.9))
+    roadside.verge_grass(c, [[-6.3, -2.4], [1.45, -2.4], [1.45, 14], [-6.3, 14]], 15000, 1, scale=(.45, .8), exclude=clear)
+    roadside.verge_grass(c, [[-1.6, -6.5], [1.45, -6.5], [1.45, -2.4], [-1.6, -2.4]], 3200, 4, scale=(1.0, 1.6))
+    roadside.verge_grass(c, [[-6.3, -16], [1.45, -16], [1.45, -6.5], [-6.3, -6.5]], 7000, 5, scale=(.5, .9))
+    roadside.verge_grass(c, [[-6.3, -6.5], [-1.6, -6.5], [-1.6, -2.4], [-6.3, -2.4]], 3200, 6, scale=(.5, .9))
+    roadside.verge_grass(c, [[-6.3, 14], [1.45, 14], [1.45, 140], [-6.3, 140]], 6000, 2, scale=(.9, 1.5))
+    roadside.verge_grass(c, [[10.6, -16], [14.7, -16], [14.7, 80], [10.6, 80]], 2500, 3, scale=(.9, 1.5))
     for k, (x, y) in enumerate(((-2.8, -3.2), (-3.4, -2.1), (-1.6, -2.6), (-4.2, -1.0), (.6, -2.4), (-2.2, -4.0))):
         street.lib_instance("dandelion%d" % k, "dandelion_01", c, (x, y, 0), rot=k * 1.3, scale=1.0)
 
@@ -194,7 +229,9 @@ def fx_to_layer(prefixes=("seed_earth", "tree_impact", "planter_landing", "car_s
             street.col("L_FX").objects.link(o)
 
 def finish(sc, out):
-    sc.view_settings.view_transform = "Standard"; sc.view_settings.look = "Medium High Contrast"; sc.render.use_motion_blur = True; sc.render.motion_blur_shutter = .3
+    sc.view_settings.view_transform = "Standard"; sc.view_settings.look = "Medium Contrast"; sc.view_settings.exposure = EXPOSURE   # grade matched on the reference:
+    lookdev.grade(sc, {"saturation": SATURATION})          # 5 transforms measured on frames 46 and 126 (luma, saturation, contrast): this one is closest
+    sc.render.use_motion_blur = True; sc.render.motion_blur_shutter = .3
     w, h = map(int, opt("--res", "270x480").split("x")); render.setup(sc, "CYCLES", (w, h), int(opt("--samples", "12")), 0)
     bpy.ops.wm.save_as_mainfile(filepath=out)
     if "--still" in A:
@@ -204,6 +241,6 @@ def finish(sc, out):
 
 def main():
     bpy.ops.wm.read_factory_settings(use_empty=True); sc = bpy.context.scene; sc.render.fps = 30; sc.frame_start, sc.frame_end = F0, F1
-    build_take(sc); finish(sc, OUT)
+    rig, cam = build_take(sc); driver(rig, cam); finish(sc, OUT)
 
 if __name__ == "__main__": main()
