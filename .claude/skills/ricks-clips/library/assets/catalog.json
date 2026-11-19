@@ -1723,6 +1723,64 @@
     {
       "schema_version": 1,
       "provider": "sketchfab",
+      "asset_id": "4f6ab5594a8a415aba3f958682b9ced5",
+      "name": "Mighty Oak Trees",
+      "creator": "Jagobo",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_url": "https://sketchfab.com/3d-models/mighty-oak-trees-4f6ab5594a8a415aba3f958682b9ced5",
+      "kind": "model",
+      "commercial_use": "check exact license and preserve attribution",
+      "downloaded_at_utc": "2026-11-19T17:52:40Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/4f6ab5594a8a415aba3f958682b9ced5/4f6ab5594a8a415aba3f958682b9ced5_source.zip",
+          "bytes": 14727801,
+          "sha256": "de81da06a4b958a5b49c29bd1807bb69504f07357da0290b14bb98be81314cd2",
+          "md5": "64e182bd837147e9c6cea8622e857ff7",
+          "role": "source_archive"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/4f6ab5594a8a415aba3f958682b9ced5/gltf/license.txt",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/4f6ab5594a8a415aba3f958682b9ced5/gltf/scene.bin",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/4f6ab5594a8a415aba3f958682b9ced5/gltf/scene.gltf",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/4f6ab5594a8a415aba3f958682b9ced5/gltf/textures/bark_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/4f6ab5594a8a415aba3f958682b9ced5/gltf/textures/bark_metallicRoughness.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/4f6ab5594a8a415aba3f958682b9ced5/gltf/textures/bark_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/4f6ab5594a8a415aba3f958682b9ced5/gltf/textures/foliage_baseColor.png",
+          "role": "extracted"
+        }
+      ],
+      "status": "ingested"
+    },
+    {
+      "schema_version": 1,
+      "provider": "sketchfab",
       "asset_id": "1795f6e907634afda88fdaf45f67b279",
       "name": "Vintage Bicycle",
       "creator": "VladNeko",

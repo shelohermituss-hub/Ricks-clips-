@@ -450,6 +450,63 @@
     "every derived file outside git",
     "every handoff"
    ]
+  },
+  {
+   "id": "PI-018",
+   "date": "2026-11-19",
+   "episode": "crash_instinct",
+   "shot_timecode": "s01 0.4-1.2 s",
+   "severity": "medium",
+   "problem": "Chosen by name, two library moves did not act what the plan said: lift/B raises the arms above the head (hands at 1.38 m) instead of bending to the ground, and sit/A (front) stays standing for ~0.9 s before it sits, then sits on an invisible seat (feet 0.14 m off the ground).",
+   "root_cause": "Moves were picked from their id/feeling labels without measuring what the drawing does over time; there is no front-view 'sit on the ground' move.",
+   "fix": "Measure every chosen move on the drawings (card_anchors.py head_top / feet / hands per frame) before building; start a move at the right moment with the pose offset syntax 'm:<id>@<seconds>' (puppets.mjs); preview candidate moves side by side with templates/motion_styles/render.mjs --still. Shot 1 uses inspect/B (squat, hands low) and m:sit/A@0.7 (the plop lands on the word), the hidden seat sunk 0.30 m into a tall grass tuft.",
+   "files_changed": [
+    "demos/crash_instinct/tracks_s01.json",
+    "demos/crash_instinct/shots/s01_plant.py"
+   ],
+   "verification": {
+    "tests": [
+     "anchors before: head 1.87 m during lift/B (no bend), sit starts at +26 frames",
+     "anchors after: squat 1.65 m at 12-18, plop 30-36, seated from 48; 0 pose pops"
+    ],
+    "before_after_evidence": [
+     "demos/crash_instinct/build/cards_s01/cards/planter/anchors.json"
+    ],
+    "regression_check": "card_service prints anchors; read head_top/feet per act before building"
+   },
+   "status": "validated",
+   "applies_to": [
+    "every card character",
+    "every move chosen from the motion library"
+   ]
+  },
+  {
+   "id": "PI-019",
+   "date": "2026-11-19",
+   "episode": "crash_instinct",
+   "shot_timecode": "s01",
+   "severity": "medium",
+   "problem": "Falling leaves teleported (70 TELEPORT) and an acorn cap popped: a random delay was drawn INSIDE the per-frame loop, and a child object was not hidden with its parent.",
+   "root_cause": "Randomness must be drawn once per object, never per frame; a visibility switch on a parent does not carry to children.",
+   "fix": "Random values drawn once per object before the frame loop; no visibility switch for a thing that goes into a hole: it sinks under the surface that covers it. continuity.py caught both before any render (the check works as the permanent guard).",
+   "files_changed": [
+    "demos/crash_instinct/shots/s01_plant.py"
+   ],
+   "verification": {
+    "tests": [
+     "continuity before: POP 1, TELEPORT 70 (FAIL)",
+     "continuity after: PASS 0 everywhere"
+    ],
+    "before_after_evidence": [
+     "demos/crash_instinct/build/continuity/s01_plant.json"
+    ],
+    "regression_check": "render_layers.sh refuses to render on a continuity FAIL"
+   },
+   "status": "validated",
+   "applies_to": [
+    "every keyed effect (leaves, debris, clods)",
+    "every prop that disappears"
+   ]
   }
  ],
  "notes": [

@@ -179,3 +179,23 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Evidence:** tools/tests/test_rc.py output 2026-11-19
 - **Regression check:** run scripts/restore_untracked.sh then test_rc.py at every handoff
 
+## PI-018 — Chosen by name, two library moves did not act what the plan said: lift/B raises the arms a [validated, medium]
+
+- **Where:** crash_instinct s01 0.4-1.2 s
+- **Root cause:** Moves were picked from their id/feeling labels without measuring what the drawing does over time; there is no front-view 'sit on the ground' move.
+- **Fix:** Measure every chosen move on the drawings (card_anchors.py head_top / feet / hands per frame) before building; start a move at the right moment with the pose offset syntax 'm:<id>@<seconds>' (puppets.mjs); preview candidate moves side by side with templates/motion_styles/render.mjs --still. Shot 1 uses inspect/B (squat, hands low) and m:sit/A@0.7 (the plop lands on the word), the hidden seat sunk 0.30 m into a tall grass tuft.
+- **Files:** demos/crash_instinct/tracks_s01.json, demos/crash_instinct/shots/s01_plant.py
+- **Tests:** anchors before: head 1.87 m during lift/B (no bend), sit starts at +26 frames; anchors after: squat 1.65 m at 12-18, plop 30-36, seated from 48; 0 pose pops
+- **Evidence:** demos/crash_instinct/build/cards_s01/cards/planter/anchors.json
+- **Regression check:** card_service prints anchors; read head_top/feet per act before building
+
+## PI-019 — Falling leaves teleported (70 TELEPORT) and an acorn cap popped: a random delay was drawn  [validated, medium]
+
+- **Where:** crash_instinct s01
+- **Root cause:** Randomness must be drawn once per object, never per frame; a visibility switch on a parent does not carry to children.
+- **Fix:** Random values drawn once per object before the frame loop; no visibility switch for a thing that goes into a hole: it sinks under the surface that covers it. continuity.py caught both before any render (the check works as the permanent guard).
+- **Files:** demos/crash_instinct/shots/s01_plant.py
+- **Tests:** continuity before: POP 1, TELEPORT 70 (FAIL); continuity after: PASS 0 everywhere
+- **Evidence:** demos/crash_instinct/build/continuity/s01_plant.json
+- **Regression check:** render_layers.sh refuses to render on a continuity FAIL
+

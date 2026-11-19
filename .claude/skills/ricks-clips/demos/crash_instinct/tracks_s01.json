@@ -1,0 +1,97 @@
+{
+ "title": "crash_instinct shot 1",
+ "fps": 30,
+ "end": 96,
+ "cast": {
+  "planter": {
+   "puppet": "cast:planter",
+   "height": 1.75
+  }
+ },
+ "acts": [
+  {
+   "who": "planter",
+   "at": 0,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:cheer/B",
+   "face": "k:proud",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 8,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:inspect/B",
+   "face": "k:happy",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 17,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:cheer/C",
+   "face": "k:happy",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 19,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:jump/B",
+   "face": "k:shocked",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 24,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@0.7",
+   "face": "k:shocked",
+   "move_s": 0.01
+  },
+  {
+   "who": "planter",
+   "at": 62,
+   "pos": [
+    -0.75,
+    -0.3,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:sit/A@0.7",
+   "face": "k:nervous",
+   "move_s": 0.01
+  }
+ ]
+}

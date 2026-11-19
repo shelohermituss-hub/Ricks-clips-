@@ -26,8 +26,8 @@
   {
    "id": "oak",
    "kind": "model",
-   "source": "polyhaven:island_tree_02 (CC0), scaled to 9 m",
-   "state": "in library"
+   "source": "script: demos/crash_instinct/sets/oak.py (bark polyhaven:jolcham_oak_bark_01, CC0)",
+   "state": "built (no library tree matched: Poly Haven island trees fork at the base, Sketchfab oaks are sparse)"
   },
   {
    "id": "white_car",
@@ -70,6 +70,12 @@
    "kind": "hdri",
    "source": "polyhaven:kloofendal_48d_partly_cloudy_puresky",
    "state": "cached (reflections only)"
+  },
+  {
+   "id": "oak_bark",
+   "kind": "texture",
+   "source": "polyhaven:jolcham_oak_bark_01",
+   "state": "cached"
   }
  ],
  "places": [
@@ -133,8 +139,8 @@
  "objects": [
   {
    "id": "oak",
-   "source": "polyhaven:island_tree_02",
-   "material": "écorce PBR gris-brun, feuilles alpha vert tendre à vert foncé",
+   "source": "script: sets/oak.py",
+   "material": "écorce polyhaven:jolcham_oak_bark_01 ; 52 paquets de vraies feuilles 3D (vert-jaune au soleil, vert foncé dessous) + cœur sombre",
    "states": [
     "en chute (racines en bas)",
     "planté, racines enfouies, terre retournée autour"
@@ -165,10 +171,11 @@
    "id": "planter",
    "puppet": "cast:planter",
    "costume": "chemise de travail vert-bleu, casquette rouge, cheveux bruns",
-   "view": "34",
+   "view": "front",
    "held": [
     "seed"
-   ]
+   ],
+   "notes": "une seule vue (PI-016) : la vue de face est la seule qui a fier / accroupi / sursaut / assis ; la référence est en 3/4"
   }
  ],
  "shots": [
@@ -184,57 +191,57 @@
     {
      "t": 0.0,
      "pos": [
-      -1.0,
-      -4.2,
-      1.3
+      -0.45,
+      -6.0,
+      1.75
      ],
      "aim": "planter + hole",
-     "lens": 35,
+     "lens": 24,
      "move": "slow push-in",
      "framing": "medium"
     },
     {
-     "t": 0.67,
+     "t": 0.8,
      "pos": [
-      -0.9,
-      -3.9,
-      1.35
+      -0.4,
+      -5.7,
+      1.78
      ],
      "aim": "hole",
-     "lens": 35,
-     "move": "shake on the tree impact"
+     "lens": 24,
+     "move": "shake on the tree impact (frame 21)"
     },
     {
-     "t": 1.0,
+     "t": 1.07,
      "pos": [
-      0.8,
-      -6.0,
-      1.1
+      0.6,
+      -7.0,
+      1.5
      ],
      "aim": "trunk",
-     "lens": 30,
+     "lens": 21,
      "move": "fast pull-back and slide onto the road"
     },
     {
-     "t": 1.5,
+     "t": 1.33,
      "pos": [
-      3.2,
-      -9.5,
-      0.9
+      3.3,
+      -12.4,
+      1.05
      ],
-     "aim": "trunk at 4 m",
-     "lens": 28,
-     "move": "settle low on the road"
+     "aim": "trunk at 4.5 m",
+     "lens": 20,
+     "move": "settle low on the road, whole tree in frame"
     },
     {
      "t": 3.17,
      "pos": [
-      3.5,
-      -9.0,
-      0.95
+      3.6,
+      -11.8,
+      1.1
      ],
      "aim": "trunk",
-     "lens": 28,
+     "lens": 20,
      "move": "slow drift forward-right"
     }
    ],
@@ -274,7 +281,7 @@
      ],
      "what": "bends and drops the acorn into the hole",
      "recipe": "object_fall_drop",
-     "anim": "m:bend/A; seed follows the drawn hand (card_anchors) then falls",
+     "anim": "m:inspect/B (squat, hands low; lift/B raised the arms: PI-018); seed follows the drawn hand (card_anchors) then falls",
      "micro": [
       "knees bend",
       "wobble before settling"
@@ -330,7 +337,7 @@
      ],
      "what": "round eyes, arms up, on the word 'tree'",
      "recipe": "emotion_beat",
-     "anim": "face k:shock, m:react/surprise",
+     "anim": "face k:shocked, m:jump/B (front) from frame 19",
      "micro": [
       "blink",
       "small head wobble"
@@ -355,7 +362,7 @@
      ],
      "what": "the impact blast throws him back; he lands sitting in the grass",
      "recipe": "character_hit_fall",
-     "anim": "m:fall/back then sit pose, card slides 1.2 m back on a keyed arc",
+     "anim": "m:sit/A@0.7 from frame 24 (the plop lands at 30-36); card thrown on a keyed arc 1.2 m back and sunk 0.30 m into a tall grass tuft that hides the drawing's seat",
      "micro": [
       "dizzy head wobble",
       "legs bounce once"
@@ -472,7 +479,9 @@
  },
  "lessons_planned": [
   "PI-016",
-  "PI-017"
+  "PI-017",
+  "PI-018",
+  "PI-019"
  ],
  "hook": {
   "action": "the planter shows the acorn, drops it, and a full-grown tree falls from the sky into the hole",
