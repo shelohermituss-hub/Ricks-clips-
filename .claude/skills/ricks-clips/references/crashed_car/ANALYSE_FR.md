@@ -1,6 +1,6 @@
-# Analyse — « He Crashed His Own Car For Science » (référence Rick's Clips)
+# Analyse — « He Crashed His Own Car For Science » (vidéo de CB, à reproduire)
 
-Source : `references/crashed_car/source.mp4`, copie du fichier envoyé par CB le 19/11.
+Source : `references/crashed_car/source.mp4`, vidéo de CB envoyée le 19/11 (gardée en local, hors du dépôt).
 
 Matériaux de travail dans ce dossier :
 - planches à 2 images par seconde : `sheet_00..03.jpg` ;
@@ -35,7 +35,7 @@ Tout ce qui suit est mesuré ou observé sur la vidéo.
 
 **Conclusions :**
 1. L'écart principal n'est pas la couleur : c'est **le mouvement**. La caméra ne s'arrête presque jamais, et il se passe quelque chose toutes les 0,9 s.
-2. Rick lui-même échoue à 3 de nos gates (netteté ≥ 0,075, noirs ≤ 0,01, saturation > 0,6 pendant 4 s). Ces seuils sont **plus sévères que la référence** et seront recalés sur ces mesures.
+2. La vidéo de référence elle-même échoue à 3 de nos gates (netteté ≥ 0,075, noirs ≤ 0,01, saturation > 0,6 pendant 4 s). Ces seuils sont **plus sévères que la référence** et seront recalés sur ces mesures.
 
 ## 3. Découpage plan par plan
 
@@ -139,13 +139,14 @@ Temps en secondes ; les mots sont ceux de la narration.
 4. Personnages : nos cartes 2D (déjà validées), avec un tracé de personnages adapté au besoin. Jeu sur la narration (faster-whisper).
 5. Son : voix (Fish Audio), bruitages procéduraux (`rc.sound`) et un fond musical, mixés à −14 LUFS.
 
-## 7. Limite à respecter : reproduire, pas copier
+## 7. Droits (précisé par CB le 19/11)
 
-- La vidéo appartient à Rick's Clips. Je peux reproduire **la méthode, le look, le rythme, les mouvements de caméra et la structure**.
-- L'histoire est **vraie** (un ancien pilote de course a inventé les barils à sable des autoroutes et les a testés lui-même), donc elle peut être racontée.
-- Mais je **n'utiliserai pas la narration mot pour mot de Rick, sa voix, ni ses designs exacts** (personnages, logos « BIG BARREL »).
-- Nous écrirons notre propre texte, avec les faits vérifiés et sourcés, avec notre voix et nos personnages de la distribution.
-- Le résultat sera très ressemblant en qualité et en style, sans être une copie publiée de son œuvre.
+CB est l'auteur de cette vidéo. Le but est de la **reproduire entièrement** :
+- même narration ;
+- mêmes plans, même style, même rendu ;
+- tout recréé de zéro (modèles, décors, personnages, animation, son).
+
+Aucune image ni aucun son de la source n'entre dans le résultat. La source sert uniquement de référence de comparaison.
 
 ## 8. Plan de production proposé
 
@@ -153,7 +154,7 @@ Temps en secondes ; les mots sont ceux de la narration.
    - Rendu local en basse définition pour le look, comparé côte à côte avec la référence (mesures du §2 et planche).
    - Puis 30 images sur GPU pour mesurer le temps réel par image et le coût.
    - **Décision de CB sur ce plan avant le reste.**
-2. Script (nos mots, faits vérifiés), voix, mots minutés.
+2. Script : la narration de la source (`transcript.txt`), voix recréée, mots minutés.
 3. Décors des 11 lieux en version légère, en commençant par les lieux qui reviennent : rue et allée (plans 1, 5 à 9, 11, 13) et autoroute (14, 15).
 4. Caméras plan par plan (grues, survols, traversées, caméra embarquée) avec la cible de mouvement médian ≥ 35.
 5. Effets : éclats de bois, sable, fumée de pneus, confettis, F1 qui se retourne.
