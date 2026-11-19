@@ -1,0 +1,481 @@
+{
+ "title": "crash_instinct — plan 1 (0,0 → 3,2 s)",
+ "notes": "Reproduction de la vidéo de CB « The Instinct That Makes You Crash » (CB est l'auteur). Analyse : references/crash_instinct/shots/s01.md. Temps relatifs au début de la vidéo (image 0 = 0 s). kind=fragment : les contrôles STORY de la vidéo entière ne font qu'avertir. Débit : la phrase se termine à 3,96 s, dans le plan 2 (15 mots sur 3,2 s ici = 4,69 mots/s ; sur la vidéo entière 3,67 mots/s, mesuré).",
+ "style": "references/crash_instinct/ANALYSE_FR.md",
+ "format": "1080x1920",
+ "fps": 30,
+ "duration_s": 3.2,
+ "kind": "fragment",
+ "voice": {
+  "text": "If you plant a tree beside an empty road, cars will steer right into it.",
+  "words": 15,
+  "key_words": {
+   "plant": 0.36,
+   "tree": 0.86,
+   "empty road": 1.66,
+   "steer": 2.94
+  }
+ },
+ "needs": [
+  {
+   "id": "planter",
+   "kind": "character",
+   "source": "cast:planter (sheet17)",
+   "state": "drawn by tools/card_service.py"
+  },
+  {
+   "id": "oak",
+   "kind": "model",
+   "source": "polyhaven:island_tree_02 (CC0), scaled to 9 m",
+   "state": "in library"
+  },
+  {
+   "id": "white_car",
+   "kind": "model",
+   "source": "sketchfab:58c33766470d46e7b2aed542650494e5 (Márcio Meireles, CC-BY), repainted white",
+   "state": "in library"
+  },
+  {
+   "id": "grass_tufts",
+   "kind": "model",
+   "source": "polyhaven:grass_medium_02",
+   "state": "in library"
+  },
+  {
+   "id": "dandelion",
+   "kind": "model",
+   "source": "polyhaven:dandelion_01",
+   "state": "in library"
+  },
+  {
+   "id": "road_asphalt",
+   "kind": "texture",
+   "source": "polyhaven:asphalt_track",
+   "state": "cached"
+  },
+  {
+   "id": "mud",
+   "kind": "texture",
+   "source": "polyhaven:brown_mud_02",
+   "state": "in library"
+  },
+  {
+   "id": "field_grass",
+   "kind": "texture",
+   "source": "polyhaven:leafy_grass",
+   "state": "in library"
+  },
+  {
+   "id": "sky_hdri",
+   "kind": "hdri",
+   "source": "polyhaven:kloofendal_48d_partly_cloudy_puresky",
+   "state": "cached (reflections only)"
+  }
+ ],
+ "places": [
+  {
+   "id": "roadside",
+   "description": "bord de route de campagne plate : herbe haute dense, accotement ras, route droite à deux voies (rive blanche, axe jaune) jusqu'à l'horizon, clôture bois + barbelés à gauche, champs beiges et labourés en bandes, ciel pâle à gros cumulus",
+   "ground": {
+    "name": "roadside grass",
+    "texture": "polyhaven:leafy_grass",
+    "tile": 2.0,
+    "value": 1.1,
+    "extra": "touffes 3D grass_medium_02 denses au premier plan, pissenlits, trou de terre brown_mud_02 Ø 0,6 m"
+   },
+   "surfaces": [
+    {
+     "name": "road",
+     "texture": "polyhaven:asphalt_track",
+     "tile": 3.0,
+     "value": 1.45,
+     "extra": "gris clair, ligne de rive blanche, axe jaune discontinu au loin, bord de bitume irrégulier"
+    },
+    {
+     "name": "fields",
+     "texture": "polyhaven:brown_mud_02",
+     "tile": 8.0,
+     "extra": "bandes alternées beige sec / labour brun jusqu'à l'horizon"
+    }
+   ],
+   "sky": "dégradé bleu pâle → blanc à l'horizon, 4 gros cumulus blancs à gauche et en haut, légère brume au loin ; HDRI pour les reflets seulement",
+   "light": {
+    "sun": {
+     "elevation": 45,
+     "azimuth": -120,
+     "energy": 5.2,
+     "angle": 2.0
+    },
+    "fill": 0.55,
+    "mood": "day sun, soft"
+   },
+   "shadows": "ombre nette à bord doux du tronc et de la couronne sur l'herbe et la route ; ombres des piquets ; occlusion au pied du tronc et sous le héros assis ; ombres jamais noires (fill fort)",
+   "props": [
+    {
+     "id": "fence",
+     "source": "script: piquets bois gris tous les 3 m + 3 fils barbelés, texture polyhaven:brown_planks_05"
+    },
+    {
+     "id": "dirt_hole",
+     "source": "script: disque brown_mud_02 + bourrelet + petit tas de terre"
+    },
+    {
+     "id": "dandelions",
+     "source": "polyhaven:dandelion_01"
+    },
+    {
+     "id": "grass_tufts",
+     "source": "polyhaven:grass_medium_02"
+    }
+   ]
+  }
+ ],
+ "objects": [
+  {
+   "id": "oak",
+   "source": "polyhaven:island_tree_02",
+   "material": "écorce PBR gris-brun, feuilles alpha vert tendre à vert foncé",
+   "states": [
+    "en chute (racines en bas)",
+    "planté, racines enfouies, terre retournée autour"
+   ]
+  },
+  {
+   "id": "seed",
+   "source": "script (gland : ellipsoïde + chapeau)",
+   "material": "brun brillant, chapeau brun mat",
+   "states": [
+    "dans la main",
+    "tombe",
+    "dans le trou, recouverte"
+   ]
+  },
+  {
+   "id": "white_car",
+   "source": "sketchfab:58c33766470d46e7b2aed542650494e5",
+   "material": "blanc #f2f2ef verni coat .3/.12, reflets HDRI",
+   "states": [
+    "roule au loin",
+    "braque vers l'arbre sur l'accotement"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "planter",
+   "puppet": "cast:planter",
+   "costume": "chemise de travail vert-bleu, casquette rouge, cheveux bruns",
+   "view": "34",
+   "held": [
+    "seed"
+   ]
+  }
+ ],
+ "shots": [
+  {
+   "id": "1",
+   "place": "roadside",
+   "t0": 0.0,
+   "t1": 3.2,
+   "narration": "If you plant a tree beside an empty road, cars will steer right into it.",
+   "transition_in": "start of the video (first image shows the action at once: seed in hand)",
+   "transition_out": "cut to shot 2 (frame 96)",
+   "camera": [
+    {
+     "t": 0.0,
+     "pos": [
+      -1.0,
+      -4.2,
+      1.3
+     ],
+     "aim": "planter + hole",
+     "lens": 35,
+     "move": "slow push-in",
+     "framing": "medium"
+    },
+    {
+     "t": 0.67,
+     "pos": [
+      -0.9,
+      -3.9,
+      1.35
+     ],
+     "aim": "hole",
+     "lens": 35,
+     "move": "shake on the tree impact"
+    },
+    {
+     "t": 1.0,
+     "pos": [
+      0.8,
+      -6.0,
+      1.1
+     ],
+     "aim": "trunk",
+     "lens": 30,
+     "move": "fast pull-back and slide onto the road"
+    },
+    {
+     "t": 1.5,
+     "pos": [
+      3.2,
+      -9.5,
+      0.9
+     ],
+     "aim": "trunk at 4 m",
+     "lens": 28,
+     "move": "settle low on the road"
+    },
+    {
+     "t": 3.17,
+     "pos": [
+      3.5,
+      -9.0,
+      0.95
+     ],
+     "aim": "trunk",
+     "lens": 28,
+     "move": "slow drift forward-right"
+    }
+   ],
+   "actions": [
+    {
+     "id": "show_seed",
+     "who": "planter",
+     "f": [
+      0,
+      8
+     ],
+     "what": "holds the acorn up proudly, tiny toss in the hand",
+     "anim": "m:idle/B + face k:proud",
+     "micro": [
+      "breath",
+      "head tilt"
+     ],
+     "reactions": [
+      "the acorn rises and falls in the hand",
+      "the face changes ON the word 'plant' with a 5-frame head pop",
+      "the body answers the face: chest out, shoulders up"
+     ],
+     "consequences": [
+      "acorn stays in the right hand until the drop"
+     ],
+     "sfx": [
+      "light tap"
+     ],
+     "recipe": "emotion_beat"
+    },
+    {
+     "id": "drop_seed",
+     "who": "planter",
+     "f": [
+      8,
+      15
+     ],
+     "what": "bends and drops the acorn into the hole",
+     "recipe": "object_fall_drop",
+     "anim": "m:bend/A; seed follows the drawn hand (card_anchors) then falls",
+     "micro": [
+      "knees bend",
+      "wobble before settling"
+     ],
+     "reactions": [
+      "falls with gravity into the hole",
+      "dust puff on contact: a little earth splashes up"
+     ],
+     "consequences": [
+      "the seed stays in the hole, covered by earth"
+     ],
+     "sfx": [
+      "small pop",
+      "earth patter"
+     ]
+    },
+    {
+     "id": "tree_falls",
+     "who": "oak",
+     "f": [
+      15,
+      21
+     ],
+     "what": "a full-grown oak falls from the sky, roots first, into the hole",
+     "recipe": "object_fall_drop",
+     "anim": "keyed fall from z=+14 m, accelerating, slight tilt",
+     "micro": [
+      "leaves flutter during the fall",
+      "wobble before settling (crown sways 2 times)"
+     ],
+     "reactions": [
+      "falls with gravity, settles upright with a crown sway",
+      "dust puff on contact: big brown ring, clods thrown, grass flattened",
+      "camera shake"
+     ],
+     "consequences": [
+      "object stays where it lands: the tree stands planted in the hole",
+      "tree planted for the rest of the film, roots buried, ring of turned earth and clods around the trunk",
+      "leaves on the grass"
+     ],
+     "sfx": [
+      "whistle of the fall",
+      "deep thud",
+      "leaves rustle"
+     ]
+    },
+    {
+     "id": "surprise",
+     "who": "planter",
+     "f": [
+      18,
+      24
+     ],
+     "what": "round eyes, arms up, on the word 'tree'",
+     "recipe": "emotion_beat",
+     "anim": "face k:shock, m:react/surprise",
+     "micro": [
+      "blink",
+      "small head wobble"
+     ],
+     "reactions": [
+      "the face changes on the word with a 5-frame head pop",
+      "the body leans back, shoulders up"
+     ],
+     "consequences": [
+      "shocked face until he sits"
+     ],
+     "sfx": [
+      "comic sting"
+     ]
+    },
+    {
+     "id": "blown_back",
+     "who": "planter",
+     "f": [
+      22,
+      34
+     ],
+     "what": "the impact blast throws him back; he lands sitting in the grass",
+     "recipe": "character_hit_fall",
+     "anim": "m:fall/back then sit pose, card slides 1.2 m back on a keyed arc",
+     "micro": [
+      "dizzy head wobble",
+      "legs bounce once"
+     ],
+     "reactions": [
+      "anticipation, impact, body falls with arms out, bounce, dust"
+     ],
+     "consequences": [
+      "sits on the ground beside the tree for the rest of the shot",
+      "flattened grass where he landed"
+     ],
+     "sfx": [
+      "thud",
+      "oof"
+     ]
+    },
+    {
+     "id": "car_approach",
+     "who": "white_car",
+     "f": [
+      0,
+      78
+     ],
+     "what": "the white car drives down the empty road toward camera",
+     "recipe": "vehicle_drive",
+     "anim": "keyed path along the lane, 60 km/h, wheel spin = distance / radius",
+     "micro": [
+      "suspension bob",
+      "reflections slide over the body"
+     ],
+     "reactions": [
+      "wheels turn at the ground speed, suspension bob",
+      "heat shimmer and faint dust trail behind it"
+     ],
+     "consequences": [
+      "tyre tracks on soft ground where it leaves the road"
+     ],
+     "sfx": [
+      "engine getting louder"
+     ]
+    },
+    {
+     "id": "car_steers",
+     "who": "white_car",
+     "f": [
+      78,
+      95
+     ],
+     "what": "steers off the lane straight toward the tree, bites the shoulder",
+     "recipe": "vehicle_drive",
+     "anim": "yaw 18 deg toward the trunk, front wheels turned",
+     "micro": [
+      "body roll",
+      "antenna sway"
+     ],
+     "reactions": [
+      "dust kicked up on dirt",
+      "gravel and grass thrown by the wheels"
+     ],
+     "consequences": [
+      "tyre tracks in the grass of the shoulder"
+     ],
+     "sfx": [
+      "tyres on gravel",
+      "engine"
+     ]
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "seed",
+     "change": "hand -> hole (covered)",
+     "by_action": "drop_seed"
+    },
+    {
+     "who": "oak",
+     "change": "enters from the top of the frame -> planted",
+     "by_action": "tree_falls"
+    },
+    {
+     "who": "planter",
+     "change": "standing -> sitting in the grass",
+     "by_action": "blown_back"
+    },
+    {
+     "who": "white_car",
+     "change": "far on the road -> on the shoulder heading for the tree",
+     "by_action": "car_steers"
+    }
+   ],
+   "fx": [
+    "earth splash (seed)",
+    "big dust ring + clods (tree impact)",
+    "falling leaves",
+    "dust behind the car on the shoulder"
+   ],
+   "sound": {
+    "ambience": "light wind, countryside birds",
+    "music": "light bed under the voice"
+   },
+   "handheld": true
+  }
+ ],
+ "sound": {
+  "music": "light bed, about -7.6 dB under the voice",
+  "lufs": -14
+ },
+ "captions": {
+  "words": [
+   1,
+   3
+  ],
+  "style": "white bold rounded, thick black outline, centred at 70 % height, one change per word"
+ },
+ "lessons_planned": [
+  "PI-016",
+  "PI-017"
+ ],
+ "hook": {
+  "action": "the planter shows the acorn, drops it, and a full-grown tree falls from the sky into the hole",
+  "t": 0.0
+ }
+}

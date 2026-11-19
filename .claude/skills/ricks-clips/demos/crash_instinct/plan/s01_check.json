@@ -1,0 +1,617 @@
+{
+ "ok": true,
+ "rows": [
+  {
+   "area": "STYLE",
+   "item": "style bible",
+   "status": "PASS",
+   "msg": "references/crash_instinct/ANALYSE_FR.md"
+  },
+  {
+   "area": "STYLE",
+   "item": "format",
+   "status": "PASS",
+   "msg": "1080x1920"
+  },
+  {
+   "area": "STYLE",
+   "item": "fps",
+   "status": "PASS",
+   "msg": "30"
+  },
+  {
+   "area": "STYLE",
+   "item": "duration_s",
+   "status": "PASS",
+   "msg": "3.2"
+  },
+  {
+   "area": "STYLE",
+   "item": "narration pace",
+   "status": "WARN",
+   "msg": "4.69 words/s (style 3.44)"
+  },
+  {
+   "area": "PLACES",
+   "item": "places listed",
+   "status": "PASS",
+   "msg": "1"
+  },
+  {
+   "area": "PLACES",
+   "item": "roadside / roadside grass texture",
+   "status": "PASS",
+   "msg": "polyhaven:leafy_grass"
+  },
+  {
+   "area": "PLACES",
+   "item": "roadside / road texture",
+   "status": "PASS",
+   "msg": "polyhaven:asphalt_track"
+  },
+  {
+   "area": "PLACES",
+   "item": "roadside / fields texture",
+   "status": "PASS",
+   "msg": "polyhaven:brown_mud_02"
+  },
+  {
+   "area": "PLACES",
+   "item": "roadside sun",
+   "status": "PASS",
+   "msg": "{\"elevation\": 45, \"azimuth\": -120, \"energy\": 5.2, \"angle\": 2.0}"
+  },
+  {
+   "area": "PLACES",
+   "item": "roadside fill / sky strength",
+   "status": "PASS",
+   "msg": "0.55"
+  },
+  {
+   "area": "PLACES",
+   "item": "roadside shadows",
+   "status": "PASS",
+   "msg": "ombre nette à bord doux du tronc et de la couronne sur l'herbe et la route ; ombres des piquets ; occlusion au pied du tronc et sous le héros assis ; ombres jamais noires (fill fort)"
+  },
+  {
+   "area": "PLACES",
+   "item": "roadside sky",
+   "status": "PASS",
+   "msg": "dégradé bleu pâle → blanc à l'horizon, 4 gros cumulus blancs à gauche et en haut, légère brume au loin ; HDRI pour les reflets seulement"
+  },
+  {
+   "area": "PLACES",
+   "item": "roadside prop fence source",
+   "status": "PASS",
+   "msg": "script: piquets bois gris tous les 3 m + 3 fils barbelés, texture polyhaven:brown_planks_05"
+  },
+  {
+   "area": "PLACES",
+   "item": "roadside prop dirt_hole source",
+   "status": "PASS",
+   "msg": "script: disque brown_mud_02 + bourrelet + petit tas de terre"
+  },
+  {
+   "area": "PLACES",
+   "item": "roadside prop dandelions source",
+   "status": "PASS",
+   "msg": "polyhaven:dandelion_01"
+  },
+  {
+   "area": "PLACES",
+   "item": "roadside prop grass_tufts source",
+   "status": "PASS",
+   "msg": "polyhaven:grass_medium_02"
+  },
+  {
+   "area": "PLACES",
+   "item": "roadside dressing density",
+   "status": "PASS",
+   "msg": "4 props (a set is never empty)"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "oak source",
+   "status": "PASS",
+   "msg": "polyhaven:island_tree_02"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "oak material",
+   "status": "PASS",
+   "msg": "écorce PBR gris-brun, feuilles alpha vert tendre à vert foncé"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "seed source",
+   "status": "PASS",
+   "msg": "script (gland : ellipsoïde + chapeau)"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "seed material",
+   "status": "PASS",
+   "msg": "brun brillant, chapeau brun mat"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "white_car source",
+   "status": "PASS",
+   "msg": "sketchfab:58c33766470d46e7b2aed542650494e5"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "white_car material",
+   "status": "PASS",
+   "msg": "blanc #f2f2ef verni coat .3/.12, reflets HDRI"
+  },
+  {
+   "area": "OBJECTS",
+   "item": "character planter puppet",
+   "status": "PASS",
+   "msg": "cast:planter"
+  },
+  {
+   "area": "SHOTS",
+   "item": "1 starts where the last ended",
+   "status": "PASS",
+   "msg": "t0 0.00 vs 0.00"
+  },
+  {
+   "area": "SHOTS",
+   "item": "1 place",
+   "status": "PASS",
+   "msg": "roadside"
+  },
+  {
+   "area": "SHOTS",
+   "item": "1 narration",
+   "status": "PASS",
+   "msg": "If you plant a tree beside an empty road, cars will steer right into it."
+  },
+  {
+   "area": "SHOTS",
+   "item": "1 transitions",
+   "status": "PASS",
+   "msg": "start of the video (first image shows the action at once: seed in hand) -> cut to shot 2 (frame 96)"
+  },
+  {
+   "area": "CAMERA",
+   "item": "1 keys",
+   "status": "PASS",
+   "msg": "5 keys"
+  },
+  {
+   "area": "CAMERA",
+   "item": "1 0.0->0.67 moves",
+   "status": "PASS",
+   "msg": "shake on the tree impact"
+  },
+  {
+   "area": "CAMERA",
+   "item": "1 0.67->1.0 moves",
+   "status": "PASS",
+   "msg": "fast pull-back and slide onto the road"
+  },
+  {
+   "area": "CAMERA",
+   "item": "1 1.0->1.5 moves",
+   "status": "PASS",
+   "msg": "settle low on the road"
+  },
+  {
+   "area": "CAMERA",
+   "item": "1 1.5->3.17 moves",
+   "status": "PASS",
+   "msg": "slow drift forward-right"
+  },
+  {
+   "area": "CAMERA",
+   "item": "1 hand-held drift",
+   "status": "PASS",
+   "msg": "street.handheld() on every frame"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/show_seed who declared",
+   "status": "PASS",
+   "msg": "planter"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/show_seed animation",
+   "status": "PASS",
+   "msg": "m:idle/B + face k:proud"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/show_seed micro-animation",
+   "status": "PASS",
+   "msg": "breath; head tilt"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/show_seed reaction",
+   "status": "PASS",
+   "msg": "the acorn rises and falls in the hand; the face changes ON the word 'plant' with a 5-frame head pop; the body answers the face: chest out, shoulders up"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/show_seed lasting consequence",
+   "status": "PASS",
+   "msg": "acorn stays in the right hand until the drop"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/show_seed sound effect",
+   "status": "PASS",
+   "msg": "light tap"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/show_seed vs recipe emotion_beat",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/drop_seed who declared",
+   "status": "PASS",
+   "msg": "planter"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/drop_seed animation",
+   "status": "PASS",
+   "msg": "m:bend/A; seed follows the drawn hand (card_anchors) then falls"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/drop_seed micro-animation",
+   "status": "PASS",
+   "msg": "knees bend; wobble before settling"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/drop_seed reaction",
+   "status": "PASS",
+   "msg": "falls with gravity into the hole; dust puff on contact: a little earth splashes up"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/drop_seed lasting consequence",
+   "status": "PASS",
+   "msg": "the seed stays in the hole, covered by earth"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/drop_seed sound effect",
+   "status": "PASS",
+   "msg": "small pop; earth patter"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/drop_seed vs recipe object_fall_drop",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/tree_falls who declared",
+   "status": "PASS",
+   "msg": "oak"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/tree_falls animation",
+   "status": "PASS",
+   "msg": "keyed fall from z=+14 m, accelerating, slight tilt"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/tree_falls micro-animation",
+   "status": "PASS",
+   "msg": "leaves flutter during the fall; wobble before settling (crown sways 2 times)"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/tree_falls reaction",
+   "status": "PASS",
+   "msg": "falls with gravity, settles upright with a crown sway; dust puff on contact: big brown ring, clods thrown, grass flattened; camera shake"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/tree_falls lasting consequence",
+   "status": "PASS",
+   "msg": "object stays where it lands: the tree stands planted in the hole; tree planted for the rest of the film, roots buried, ring of turned earth and clods around the trunk; leaves on the grass"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/tree_falls sound effect",
+   "status": "PASS",
+   "msg": "whistle of the fall; deep thud; leaves rustle"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/tree_falls vs recipe object_fall_drop",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/surprise who declared",
+   "status": "PASS",
+   "msg": "planter"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/surprise animation",
+   "status": "PASS",
+   "msg": "face k:shock, m:react/surprise"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/surprise micro-animation",
+   "status": "PASS",
+   "msg": "blink; small head wobble"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/surprise reaction",
+   "status": "PASS",
+   "msg": "the face changes on the word with a 5-frame head pop; the body leans back, shoulders up"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/surprise lasting consequence",
+   "status": "PASS",
+   "msg": "shocked face until he sits"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/surprise sound effect",
+   "status": "PASS",
+   "msg": "comic sting"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/surprise vs recipe emotion_beat",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/blown_back who declared",
+   "status": "PASS",
+   "msg": "planter"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/blown_back animation",
+   "status": "PASS",
+   "msg": "m:fall/back then sit pose, card slides 1.2 m back on a keyed arc"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/blown_back micro-animation",
+   "status": "PASS",
+   "msg": "dizzy head wobble; legs bounce once"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/blown_back reaction",
+   "status": "PASS",
+   "msg": "anticipation, impact, body falls with arms out, bounce, dust"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/blown_back lasting consequence",
+   "status": "PASS",
+   "msg": "sits on the ground beside the tree for the rest of the shot; flattened grass where he landed"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/blown_back sound effect",
+   "status": "PASS",
+   "msg": "thud; oof"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/blown_back vs recipe character_hit_fall",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_approach who declared",
+   "status": "PASS",
+   "msg": "white_car"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_approach animation",
+   "status": "PASS",
+   "msg": "keyed path along the lane, 60 km/h, wheel spin = distance / radius"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_approach micro-animation",
+   "status": "PASS",
+   "msg": "suspension bob; reflections slide over the body"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_approach reaction",
+   "status": "PASS",
+   "msg": "wheels turn at the ground speed, suspension bob; heat shimmer and faint dust trail behind it"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_approach lasting consequence",
+   "status": "PASS",
+   "msg": "tyre tracks on soft ground where it leaves the road"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_approach sound effect",
+   "status": "PASS",
+   "msg": "engine getting louder"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_approach vs recipe vehicle_drive",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_steers who declared",
+   "status": "PASS",
+   "msg": "white_car"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_steers animation",
+   "status": "PASS",
+   "msg": "yaw 18 deg toward the trunk, front wheels turned"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_steers micro-animation",
+   "status": "PASS",
+   "msg": "body roll; antenna sway"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_steers reaction",
+   "status": "PASS",
+   "msg": "dust kicked up on dirt; gravel and grass thrown by the wheels"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_steers lasting consequence",
+   "status": "PASS",
+   "msg": "tyre tracks in the grass of the shoulder"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_steers sound effect",
+   "status": "PASS",
+   "msg": "tyres on gravel; engine"
+  },
+  {
+   "area": "ACTIONS",
+   "item": "1/car_steers vs recipe vehicle_drive",
+   "status": "PASS",
+   "msg": "covered"
+  },
+  {
+   "area": "STATE",
+   "item": "1 seed hand -> hole (covered)",
+   "status": "PASS",
+   "msg": "by drop_seed"
+  },
+  {
+   "area": "STATE",
+   "item": "1 oak enters from the top of the frame -> planted",
+   "status": "PASS",
+   "msg": "by tree_falls"
+  },
+  {
+   "area": "STATE",
+   "item": "1 planter standing -> sitting in the grass",
+   "status": "PASS",
+   "msg": "by blown_back"
+  },
+  {
+   "area": "STATE",
+   "item": "1 white_car far on the road -> on the shoulder heading for the tree",
+   "status": "PASS",
+   "msg": "by car_steers"
+  },
+  {
+   "area": "SHOTS",
+   "item": "1 fx",
+   "status": "PASS",
+   "msg": "earth splash (seed); big dust ring + clods (tree impact); falling leaves; dust behind the car on the shoulder"
+  },
+  {
+   "area": "SHOTS",
+   "item": "1 ambience",
+   "status": "PASS",
+   "msg": "light wind, countryside birds"
+  },
+  {
+   "area": "SHOTS",
+   "item": "cover the duration",
+   "status": "PASS",
+   "msg": "3.20 / 3.20 s"
+  },
+  {
+   "area": "RHYTHM",
+   "item": "actions per 10 s",
+   "status": "PASS",
+   "msg": "21.9 (style ~11 events per 10 s)"
+  },
+  {
+   "area": "RHYTHM",
+   "item": "music bed",
+   "status": "PASS",
+   "msg": "light bed, about -7.6 dB under the voice"
+  },
+  {
+   "area": "RHYTHM",
+   "item": "loudness target",
+   "status": "PASS",
+   "msg": "-14"
+  },
+  {
+   "area": "STORY",
+   "item": "hook action shown in the 1st second",
+   "status": "WARN",
+   "msg": "{\"action\": \"the planter shows the acorn, drops it, and a full-grown tree falls from the sky into the hole\", \"t\": 0.0}"
+  },
+  {
+   "area": "STORY",
+   "item": "facts written in the set",
+   "status": "WARN",
+   "msg": "0 facts"
+  },
+  {
+   "area": "STORY",
+   "item": ">= 2 light moods",
+   "status": "WARN",
+   "msg": "day sun, soft"
+  },
+  {
+   "area": "STORY",
+   "item": "emotion close-up",
+   "status": "WARN",
+   "msg": "shot_type / framing 'close' or 'extreme_close'"
+  },
+  {
+   "area": "STORY",
+   "item": "insert shot",
+   "status": "WARN",
+   "msg": "shot_type / framing 'insert' (top-down detail of the story object)"
+  },
+  {
+   "area": "STORY",
+   "item": "captions spec",
+   "status": "PASS",
+   "msg": "{\"words\": [1, 3], \"style\": \"white bold rounded, thick black outline, centred at 70 % height, one change per word\"}"
+  },
+  {
+   "area": "STORY",
+   "item": "loop to the first image",
+   "status": "WARN",
+   "msg": "none"
+  },
+  {
+   "area": "LESSONS",
+   "item": "PI-016",
+   "status": "PASS",
+   "msg": "Characters and props appeared, disappeared, teleported or shrank in view: the hero 'appears suddenly' out of t... -> list it in lessons_planned with how the plan avoids it"
+  }
+ ]
+}
