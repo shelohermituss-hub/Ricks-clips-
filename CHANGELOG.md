@@ -1,0 +1,59 @@
+# CHANGELOG — RicksClips (vue d'ensemble, racine du dépôt)
+
+Historique détaillé des versions du skill : `.claude/skills/ricks-clips/CHANGELOG.md` (jusqu'à la V1.1 du 15/11). Pour la suite, voir `git log` sur la branche `ccr-00f60cb8-lenpig`. `S/` = `.claude/skills/ricks-clips/`.
+
+## 19/11/2026 — passation
+- Ajout à la racine de `HANDOFF.md`, `PROJECT_STATE.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `MIGRATION_PLAN.md`, `OPEN_ISSUES.md` et `CHANGELOG.md`.
+- Correction de `S/tools/tests/test_rc.py` : chaque résultat de test est converti en booléen. Un test renvoyait un dictionnaire et faisait planter le comptage final ; le test lui-même passait. Suite relancée : 27/27 PASS.
+- Le commit de passation est celui qui ajoute ces fichiers (`git log -1 -- HANDOFF.md`).
+
+## 19/11/2026 — méthode nouvelle vidéo sans référence (`d07c50f`)
+- `S/tools/plan_check.py` : barrière avant construction.
+- `S/templates/production_plan/` : modèle de plan et exemple rempli.
+- `S/library/reactions/reactions.json` : 24 recettes.
+- `S/references/STYLE_BIBLE_FR.md`, `S/docs/PREPRODUCTION_FR.md`.
+- Nouvelles règles dans `CB_RULES` §11h.
+- Test `test_plan_check.py`.
+
+## 19/11/2026 — catalogue d'assets (`66bfda6`)
+- Textures Poly Haven CC0 ajoutées au catalogue : asphalt_pit_lane, asphalt_track, concrete_wall_008.
+
+## 19/11/2026 — continuité et plan 2 v2 (`72e8b33`, `f5e81ea`)
+- `continuity.py` vérifie avant tout rendu les apparitions, téléportations, rétrécissements, sauts de pose et arrêts caméra. Le rendu est bloqué s'il échoue.
+- `card_anchors.py` mesure la tête, les pieds et les mains sur chaque dessin.
+- Plan 2 refait en actions continues :
+  - un seul personnage, qui saute hors du cockpit ;
+  - il retire son casque à deux mains, puis le tient sous le bras ;
+  - caméra toujours en mouvement.
+- Textures et éclairage :
+  - textures PBR CC0 ;
+  - pneus et jerrycans ;
+  - soleil dur ;
+  - peinture vernie et reflets d'un HDRI.
+- Ajout de la récupération des HDRI dans `rc.fetch.polyhaven_hdri`.
+- Leçon PI-016.
+- Rendu par couches en 21 min 54 s.
+
+## 19/11/2026 — plan 2 v1, règles de rendu (`8e2ebd7`, `78b9ece`, `ebb33d4`, `2846c41`)
+- Décors du circuit, F1 Sketchfab recolorée, casque, confettis, module de couches.
+- Règles :
+  - rendu par couches ;
+  - analyse détaillée de chaque plan avant construction ;
+  - ne corriger que ce qui change ;
+  - option `render_manager --patch`.
+
+## 19/11/2026 — plan 1 et analyse de la vidéo de CB (`c39a31c`, `b3311a3`, `ae00e0c`, `497e592`, `d851fcd`, `03e42ed`)
+- Analyse complète de « He Crashed His Own Car For Science ». La source reste en local.
+- Plan 1 :
+  - vrai crash et barils qui éclatent ;
+  - héros qui descend de la voiture ;
+  - décor enrichi.
+- CB l'accepte tel quel.
+
+## 18-19/11/2026 — mission maîtresse de restructuration (`1c9ae34` et précédents)
+- Pipeline Blender `rc` (17 modules Python + `schema/`) et orchestrateur en 12 phases.
+- Bibliothèque, caches, physique, effets visuels, LookDev, contrôle qualité.
+- Démo ferme :
+  - rendu GPU RunPod : 1,06 $, pod supprimé après récupération vérifiée ;
+  - phase 12 FAIL, livrée telle quelle sur décision de CB.
+- Rapport : `S/docs/RAPPORT_MIGRATION_FR.md`.

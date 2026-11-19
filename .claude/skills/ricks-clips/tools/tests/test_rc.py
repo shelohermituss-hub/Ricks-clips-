@@ -9,7 +9,7 @@ BL = os.environ.get("RICKCLIPS_BLENDER", shutil.which("blender") or "blender")
 CLI = os.path.join(SKILL, "blender", "rc", "cli.py"); FIX = os.path.join(SKILL, "blender", "tests", "fixtures", "test_place.json")
 RES = []
 
-def t(name, ok, info=""): RES.append((name, ok)); print("%s  %s  %s" % ("PASS" if ok else "FAIL", name, info), flush=True)
+def t(name, ok, info=""): ok = bool(ok); RES.append((name, ok)); print("%s  %s  %s" % ("PASS" if ok else "FAIL", name, info), flush=True)
 def blender(*a, timeout=900):
     r = subprocess.run([BL, "-b", "--factory-startup", "--python-exit-code", "3", "--python", CLI, "--", *a], capture_output=True, text=True, timeout=timeout)
     res = [l[10:] for l in r.stdout.splitlines() if l.startswith("RC_RESULT ")]

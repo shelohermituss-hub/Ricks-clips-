@@ -1,0 +1,41 @@
+# OPEN_ISSUES — problèmes connus au 19/11/2026
+
+`S/` = `.claude/skills/ricks-clips/`. Priorité : **P1** bloque la suite, **P2** est visible par CB, **P3** est interne.
+
+## crashed_car
+
+| # | Prio | Problème | Détail / piste |
+|---|---|---|---|
+| 1 | **P1** | **La vidéo source de CB n'est pas dans le dépôt** (ignorée par Git, par choix) | Une nouvelle session doit la redemander à CB pour analyser les plans 3 à 15. La transcription (`words.json`), les mesures et les planches sont versionnées |
+| 2 | P2 | Plan 2 : le casque 3D est trop gros (le casque de référence est ajusté à la tête) ; les oreillettes de la casquette dépassent un peu en 2A | Le casque a été agrandi (×2,0) pour couvrir les oreillettes. Piste : rayon plus petit et oreillettes cachées par une forme de casque plus basse |
+| 3 | P2 | Plan 2 : sol du stand trop sombre ; l'ombre longue du toit n'est pas lisible au sol comme dans la référence | Monter la valeur de `pit_concrete`, orienter le soleil pour projeter le toit dans le cadre |
+| 4 | P2 | Plan 2 : asphalte du virage trop sombre, trop de cailloux ; il manque les grandes traces noires de dérapage | Valeur de `track_asphalt`, moins de débris, traces plus marquées |
+| 5 | P2 | Plan 2 : deux gestes de bras en environ une image (4,2 s : bras qui descendent dans le cockpit ; 5,8 s : casque qui redescend) | Ils passent juste sous le seuil (0,87 et 0,85 contre 0,9 m par image). Piste : mouvements intermédiaires, ou réparer le mélange des mouvements |
+| 6 | P2 | Plan 2 : pas de **poussière à l'atterrissage** du saut (signalé par `plan_check`, recette `jump_landing`) | Ajouter une bouffée de poussière `rc.vfx` à l'image 150 |
+| 7 | P2 | Plan 2 : F1 retournée **sans bosses, sans fumée, sans vitre ni pièces tordues** (recette `vehicle_impact`) | Clés de forme et fumée `rc.vfx` |
+| 8 | P3 | Plan 1 : contrôle de continuité passé avec la version d'avant le contrôle des sauts de pose ; `cards_s01` n'a pas de `anchors.json` | `card_anchors.py` puis `continuity.py` sur `s01.blend` |
+| 9 | P3 | Nuages trop ronds, décalques un peu grands, F1 retournée trop verticale | Points notés pendant le plan 2, non traités |
+| 10 | P3 | En-tête de `s02_pit.py` : la docstring décrit encore « 158 the helmet lifts off » | Texte à mettre à jour. Le code est juste |
+
+## Pipeline
+
+| # | Prio | Problème | Détail |
+|---|---|---|---|
+| 11 | P3 | Outils génériques rangés dans `demos/crashed_car/` | `MIGRATION_PLAN.md`, étape 1 |
+| 12 | P3 | `plan_check` et `continuity` ne sont pas branchés dans `rc_pipeline.py` | `MIGRATION_PLAN.md`, étape 2 |
+| 13 | P3 | `catalog.json` : champ licence vide pour les 3 entrées Sketchfab | Ce sont des CC-BY (F1 LWDream, berline MMC Works, vélo VladNeko). À remplir depuis leur `asset.json` et `ASSET_MANIFEST.json` |
+| 14 | P3 | Le mélange des mouvements est sans effet entre deux vues différentes (cause des sauts de pose) | Contourné : une seule vue par personnage (règle et leçon PI-016) |
+| 15 | P3 | Asset Hub : le modèle Sketchfab de « voiture bâchée » est refusé à tort par le filtre armes et militaire | Plan 5 : prévoir une simulation de tissu |
+| 16 | P3 | Démo ferme : standard forteresse non atteint (5/10 et 6/10). Corrections enregistrées, effet NOT_RUN | `S/docs/RAPPORT_MIGRATION_FR.md` §4.2 |
+
+## RunPod / compte
+
+| # | Prio | Problème | Détail |
+|---|---|---|---|
+| 17 | P2 | Dépense de **0,005 $/h** alors que **aucun pod n'existe** (`pod.py balance` du 19/11 : `pods: []`, solde 3,58 $, contre 3,669 $ après la session) | Probablement du stockage (volume réseau ?). **À vérifier dans la console RunPod** ; ne rien supprimer sans l'accord de CB |
+
+## Documentation
+
+| # | Prio | Problème | Détail |
+|---|---|---|---|
+| 18 | P3 | `S/docs/RAPPORT_MIGRATION_FR.md` §3 annonce « `blender/rc/` (19 modules) » | Compté le 19/11 : 17 modules Python, plus `__init__.py` et `schema/`. À corriger dans ce rapport (non modifié pendant la passation) |
