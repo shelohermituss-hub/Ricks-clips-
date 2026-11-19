@@ -159,3 +159,10 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Regression check:** 3 repeated pairs bit-identical on a fresh scene (2026-11-18)
 
   - history: 2026-11-18: tested -> validated
+
+## PI-016 — Characters/props appeared, disappeared, teleported or shrank in view (CB said it twice) [validated, high]
+
+- **Where:** crashed_car shot 1 (hero out of the car), shot 2 (young/old driver swap, cockpit teleport, helmet pop)
+- **Root cause:** each case was fixed locally, never turned into a rule + a check; state changes built as visibility/location switches instead of actions; the 2D move blend does nothing across different views (arms snapped).
+- **Fix:** CB_RULES 11h (action / moving camera / real surfaces); `demos/crashed_car/shots/continuity.py` before any render (POP, TELEPORT, SHRINK, POSE_POP, HOLD) and `render_layers.sh` refuses to render on FAIL; `tools/card_anchors.py` (head/feet/hands per drawing, run by card_service) so props follow the drawing; mandatory "Entrées / sorties / changements d'état" section in every shot analysis; keep all moves of one character in ONE view.
+- **Tests:** old s02_pit: 7 POP, 2 TELEPORT, 1 HOLD -> new s02_pit and s02_corner: PASS; it also caught a new helmet side-swap at frame 223 (fixed).

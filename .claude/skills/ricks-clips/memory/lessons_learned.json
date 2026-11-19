@@ -380,6 +380,44 @@
     "2026-11-18: tested -> validated"
    ],
    "promote_global": true
+  },
+  {
+   "id": "PI-016",
+   "date": "2026-11-19",
+   "episode": "crashed_car",
+   "shot_timecode": "s01 3.0 s, s02 4.75-5.6 s",
+   "severity": "high",
+   "problem": "Characters and props appeared, disappeared, teleported or shrank in view: the hero 'appears suddenly' out of the car (shot 1); in shot 2 a young-driver card was swapped for the hero at frame 158, teleported from the cockpit to the track at 143, and the 3D helmet popped in. CB reported the same kind of error twice.",
+   "root_cause": "Each case was fixed locally without a rule or a check, so the next shot repeated it; a change of state was built as a visibility/location switch instead of an animated action; and the 2D move-to-move blend silently does nothing when the two moves are drawn in different views (puppets.mjs moveOf), so arms snapped between moves.",
+   "fix": "CB_RULES 11h: everything happens through an action, the camera never stops, real surfaces and shadows. demos/crashed_car/shots/continuity.py runs on every built shot BEFORE any render (render_layers.sh refuses to render on FAIL): POP, TELEPORT, SHRINK/GROW, POSE_POP, HOLD; BREAK (a whole replaced by its own pieces) and FX are reported as allowed. tools/card_anchors.py measures head, feet, hands and pose pops on every drawing (card_service runs it automatically) so 3D props follow the drawn head/hands. Shot analyses get a mandatory section 'Entr\u00e9es / sorties / changements d'\u00e9tat'.",
+   "files_changed": [
+    "CB_RULES.md",
+    "demos/crashed_car/shots/continuity.py",
+    "demos/crashed_car/shots/render_layers.sh",
+    "tools/card_anchors.py",
+    "tools/card_service.py",
+    "demos/crashed_car/shots/s02_pit.py",
+    "demos/crashed_car/shots/s02_corner.py",
+    "demos/crashed_car/tracks_s02.json",
+    "references/crashed_car/shots/s02.md"
+   ],
+   "verification": {
+    "tests": [
+     "continuity.py on the old s02_pit build: 7 POP, 2 TELEPORT, 1 HOLD (FAIL, the reported errors)",
+     "continuity.py on the new s02_pit and s02_corner: PASS 0/0/0",
+     "continuity.py caught a new helmet side-swap at 223 in s02_corner; fixed, PASS"
+    ],
+    "before_after_evidence": [
+     "demos/crashed_car/build/continuity/*.json"
+    ],
+    "regression_check": "render_layers.sh refuses to render a part whose continuity report is not ok"
+   },
+   "status": "validated",
+   "applies_to": [
+    "every shot",
+    "every card character",
+    "every held prop"
+   ]
   }
  ],
  "notes": [

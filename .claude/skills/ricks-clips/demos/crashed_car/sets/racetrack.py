@@ -67,14 +67,15 @@ def stick_mechanic(name, c, loc):
 
 def pit(scene):
     SET, OBJ, SKY = lcol("L_SET"), lcol("L_OBJECTS"), lcol("L_SKY")
-    conc = street.mat("pit_concrete", "#999b9f", .85, bump=("noise", 22, .15)); street.stains(conc, "#6e7074", 1.6, .55)
+    conc = street.pbr("pit_concrete", "concrete_floor_worn_001", tile=2.5, value=1.35, normal=.8)      # REAL SURFACE (CB 2026-11-19): CC0 scan, not a flat grey
+    street.stains(conc, "#6e7074", 1.6, .45)
     street.box("pit_floor", SET, (80, 30, .1), (0, 0, -.05), conc, bevel=0)
     for k in range(7):                                               # dark tyre marks on the pit floor
         bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1); bmesh.ops.scale(bm, vec=(6, .22, .004), verts=bm.verts)
         o = street.mesh_obj("tyre_mark", bm, street.mat("tyre_mark", "#3d3f43", .9), SET); o.location = (-12 + k * 4.5, -1.5 + (k % 3) * 1.1, .002); o.rotation_euler = (0, 0, math.radians(-8 + k * 3))
     street.box("pit_stripe_red", SET, (80, 1.4, .01), (0, -4.6, .004), street.mat("stripe_red", "#e0202a", .55), bevel=0)
     street.box("pit_stripe_white", SET, (80, .22, .012), (0, -3.8, .005), street.mat("stripe_white", "#f2f0ea", .55), bevel=0)
-    wall = street.mat("pit_wall", "#c8cacc", .7, bump=("noise", 18, .1)); street.box("pit_wall", SET, (80, .5, 1.1), (0, 6, .55), wall, bevel=.04)
+    wall = street.pbr("pit_wall", "concrete_wall_008", tile=1.8, value=1.25); street.box("pit_wall", SET, (80, .5, 1.1), (0, 6, .55), wall, bevel=.04)
     for k in range(-5, 6):                                            # sponsor boards on the pit wall
         x = k * 4.2; green = k % 2 == 0
         street.box("board", SET, (3.4, .04, .55), (x, 5.72, .6), street.mat("board_green" if green else "board_black", "#1f6b3a" if green else "#1b1c20", .5), bevel=.01)
@@ -99,14 +100,17 @@ def pit(scene):
     cu.bevel_depth = .03; ho = bpy.data.objects.new("air_hose", cu); OBJ.objects.link(ho); ho.data.materials.append(street.mat("hose_black", "#151517", .5))
     street.box("jack_box", OBJ, (.45, .35, .3), (2.6, -.3, .15), street.mat("jack_red", "#d61f26", .4), bevel=.03)
     for k, (x, y, z, s) in enumerate(((-25, 60, 26, 14), (20, 70, 30, 16), (60, 80, 24, 12))): o = street.cloud("cloud%d" % k, SKY, (x, y, z), s, seed=k + 3)
-    street.sky(scene, "day")
-    sun = bpy.data.lights.new("sun", "SUN"); sun.energy = 5.5; sun.angle = math.radians(3); sun.color = street.srgb("#fff3dc")
-    so = bpy.data.objects.new("sun", sun); lcol("L_LIGHTS").objects.link(so); so.rotation_euler = (math.radians(42), 0, math.radians(25))   # front-right sun: lit faces, like the reference
+    for k, (x, y, h) in enumerate(((4.2, 2.6, 4), (4.9, 3.1, 3), (-5.0, 2.8, 4), (-5.6, 3.4, 2))):          # tyre stacks + jerry cans: the pit is a workplace
+        for j in range(h): street.lib_instance("tyre_stack", "old_tyre", OBJ, (x, y, j * .26), rot=j * .7 + k, scale=1.0)
+    for k, (x, y) in enumerate(((3.4, 3.4), (3.8, 3.5), (-4.2, 3.6))): street.lib_instance("jerrycan", "metal_jerrycan", OBJ, (x, y, 0), rot=k * .9 + .3)
+    street.sky(scene, "day"); street.hdri_reflections(scene, sky_strength=.42)                      # darker sky fill = contrasted shadows
+    sun = bpy.data.lights.new("sun", "SUN"); sun.energy = 6.2; sun.angle = math.radians(1.5); sun.color = street.srgb("#fff1d6")
+    so = bpy.data.objects.new("sun", sun); lcol("L_LIGHTS").objects.link(so); so.rotation_euler = (math.radians(40), 0, math.radians(28))   # front-right sun: lit faces + hard shadows of roof/gantry
     return n
 
 def corner(scene):
     SET, OBJ, SKY = lcol("L_SET"), lcol("L_OBJECTS"), lcol("L_SKY")
-    asph = street.mat("track_asphalt", "#55585e", .85, bump=("noise", 35, .2)); street.stains(asph, "#3b3d42", 1.4, .5)
+    asph = street.pbr("track_asphalt", "asphalt_track", tile=2.0, value=2.2, normal=1.0)              # REAL SURFACE: CC0 track asphalt scan
     street.box("track", SET, (60, 40, .1), (0, -10, -.05), asph, bevel=0)
     skid = street.mat("skid", "#222326", .9)
     for k in range(3):                                                # curved skid marks sweeping to the right
@@ -129,6 +133,6 @@ def corner(scene):
         red = k % 6 == 0; o = street.mesh_obj("chip" if red else "stone", bm, deb if red else stone, OBJ, smooth=not red)
         o.location = (rr.uniform(-4, 5), rr.uniform(-6, 1.0), .02); o.scale = (1.6 if red else 1, .6 if red else 1, .3 if red else .7); o.rotation_euler = (0, 0, rr.uniform(0, 6.3))
     for k, (x, y, z, s) in enumerate(((-18, 60, 22, 13), (15, 70, 28, 15))): street.cloud("cloud%d" % k, SKY, (x, y, z), s, seed=k + 7)
-    street.sky(scene, "day")
-    sun = bpy.data.lights.new("sun", "SUN"); sun.energy = 5.5; sun.angle = math.radians(3); sun.color = street.srgb("#fff3dc")
-    so = bpy.data.objects.new("sun", sun); lcol("L_LIGHTS").objects.link(so); so.rotation_euler = (math.radians(48), 0, math.radians(20))
+    street.sky(scene, "day"); street.hdri_reflections(scene, sky_strength=.42)
+    sun = bpy.data.lights.new("sun", "SUN"); sun.energy = 6.2; sun.angle = math.radians(1.5); sun.color = street.srgb("#fff1d6")
+    so = bpy.data.objects.new("sun", sun); lcol("L_LIGHTS").objects.link(so); so.rotation_euler = (math.radians(46), 0, math.radians(22))

@@ -276,3 +276,54 @@ def build(scene, tod="day", lane=False, lib_trees=True):
     sun.color = srgb("#fff3dc") if tod == "day" else srgb("#ffb07a")
     so = bpy.data.objects.new("sun", sun); col("SET_lights").objects.link(so); so.rotation_euler = (math.radians(58), 0, math.radians(-40 if tod == "day" else -80))
     return S
+
+def pbr(name, ph_id, tile=2.0, tint=None, tint_k=0.0, rough_mul=1.0, normal=1.0, value=1.0):
+    """REAL SURFACE (CB rule 2026-11-19): a CC0 Poly Haven PBR set (colour, roughness, normal, from rc.fetch's cache) tiled every `tile`
+    metres in object space; tint (hex) mixed in by tint_k keeps the reference palette; value scales the brightness"""
+    if name in bpy.data.materials: return bpy.data.materials[name]
+    import sys, os
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "blender"))
+    from rc import fetch
+    M = fetch.polyhaven_maps(ph_id, "1k", log=lambda *a: None)
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links; b = N["Principled BSDF"]
+    tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); L.new(tc.outputs["Object"], mp.inputs["Vector"]); mp.inputs["Scale"].default_value = (1 / tile,) * 3
+    def img(key, nc):
+        t = N.new("ShaderNodeTexImage"); t.image = bpy.data.images.load(M[key], check_existing=True)
+        if nc: t.image.colorspace_settings.name = "Non-Color"
+        t.projection = "BOX"; t.projection_blend = .2; L.new(mp.outputs["Vector"], t.inputs["Vector"]); return t
+    c = img("color", False); src = c.outputs["Color"]
+    if tint and tint_k > 0:
+        mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs[0].default_value = tint_k; L.new(src, mx.inputs[6]); mx.inputs[7].default_value = (*srgb(tint), 1); src = mx.outputs[2]
+    if value != 1.0:
+        hv = N.new("ShaderNodeHueSaturation"); hv.inputs["Value"].default_value = value; L.new(src, hv.inputs["Color"]); src = hv.outputs["Color"]
+    L.new(src, b.inputs["Base Color"])
+    if "roughness" in M:
+        r = img("roughness", True); rm = N.new("ShaderNodeMath"); rm.operation = "MULTIPLY"; rm.inputs[1].default_value = rough_mul; rm.use_clamp = True
+        L.new(r.outputs["Color"], rm.inputs[0]); L.new(rm.outputs[0], b.inputs["Roughness"])
+    if "normal" in M:
+        n = img("normal", True); nm = N.new("ShaderNodeNormalMap"); nm.inputs["Strength"].default_value = normal; L.new(n.outputs["Color"], nm.inputs["Color"]); L.new(nm.outputs["Normal"], b.inputs["Normal"])
+    return m
+
+def hdri_reflections(scene, ph_hdri="kloofendal_48d_partly_cloudy_puresky", strength=1.0, sky_strength=None):
+    """REAL REFLECTIONS (CB rule 2026-11-19): shiny surfaces (car paint, helmet, visor) reflect a real sky HDRI, but ONLY glossy rays see it;
+    the camera keeps the painted sky gradient and the diffuse light stays the gradient, so the reference palette does not change.
+    sky_strength: new strength of the gradient (lower = darker shadows next to the sun)"""
+    import sys, os
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "blender"))
+    from rc import fetch
+    w = scene.world; nt = w.node_tree; N, L = nt.nodes, nt.links; out = N["World Output"]; bg = N["Background"]
+    if sky_strength is not None: bg.inputs["Strength"].default_value = sky_strength
+    env = N.new("ShaderNodeTexEnvironment"); env.image = bpy.data.images.load(fetch.polyhaven_hdri(ph_hdri, "1k", log=lambda *a: None), check_existing=True)
+    b2 = N.new("ShaderNodeBackground"); b2.inputs["Strength"].default_value = strength; L.new(env.outputs["Color"], b2.inputs["Color"])
+    lp = N.new("ShaderNodeLightPath"); mx = N.new("ShaderNodeMixShader"); L.new(lp.outputs["Is Glossy Ray"], mx.inputs[0])
+    L.new(bg.outputs[0], mx.inputs[1]); L.new(b2.outputs[0], mx.inputs[2]); L.new(mx.outputs[0], out.inputs["Surface"])
+
+def handheld(cam, f0, f1, amp=.012, rot_deg=.25, seed=0):
+    """THE CAMERA NEVER STOPS (CB rule 2026-11-19): a soft deterministic hand-held drift on EVERY frame (delta transforms, on top of the
+    keyed move): sums of slow sines, ~1 cm and ~0.25 deg, so no frame is ever a dead hold"""
+    import math as _m
+    for f in range(f0, f1 + 1):
+        t = f + seed * 37.0
+        cam.delta_location = (amp * (_m.sin(t * .21) + .5 * _m.sin(t * .53 + 1)), amp * .5 * _m.sin(t * .17 + 2), amp * (_m.sin(t * .27 + 4) + .4 * _m.sin(t * .61)))
+        cam.delta_rotation_euler = (_m.radians(rot_deg) * _m.sin(t * .19 + 3), _m.radians(rot_deg) * .4 * _m.sin(t * .23 + 5), _m.radians(rot_deg) * _m.sin(t * .15 + 1))
+        cam.keyframe_insert("delta_location", frame=f); cam.keyframe_insert("delta_rotation_euler", frame=f)

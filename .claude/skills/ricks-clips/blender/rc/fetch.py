@@ -39,3 +39,9 @@ def ambientcg_maps(aid, res="1K", log=print):
                 if n.endswith(suf): open(os.path.join(out, k + ".jpg"), "wb").write(z.read(n))
     d = cache.get_or_build("download", {"provider": "ambientcg", "id": aid, "res": res, "fmt": "maps-jpg"}, build, log=log)
     return {k: os.path.join(d, k + ".jpg") for k in AC_MAPS if os.path.exists(os.path.join(d, k + ".jpg"))}
+
+def polyhaven_hdri(aid, res="1k", log=print):
+    """a Poly Haven HDRI (CC0) as .hdr in the cache (2026-11-19: real reflections on shiny paint, CB "the paint lacks depth")"""
+    def build(out): open(os.path.join(out, aid + ".hdr"), "wb").write(_get(_api("files/" + aid)["hdri"][res]["hdr"]["url"]))
+    d = cache.get_or_build("download", {"provider": "polyhaven", "id": aid, "res": res, "fmt": "hdr"}, build, log=log)
+    return os.path.join(d, aid + ".hdr")

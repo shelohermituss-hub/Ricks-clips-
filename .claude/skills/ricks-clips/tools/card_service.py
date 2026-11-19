@@ -32,6 +32,11 @@ def main(tracks, out):
     cards = os.path.join(out, "cards")
     if os.path.exists(cards): shutil.rmtree(cards)
     shutil.copytree(os.path.join(lock, "cards"), cards)            # .puppet_cache is kept: unchanged drawings are reused next run
+    sys.path.insert(0, os.path.join(SKILL, "tools")); import card_anchors   # head/feet/hands per frame + pose pops (continuity check, CB 2026-11-19)
+    for w in T["cast"]:
+        for root in (cards, os.path.join(lock, "cards")):
+            A = card_anchors.anchors(os.path.join(root, w))
+        lines.append("anchors %s: %d pose pops %s" % (w, len(A["_pose_pops"]), A["_pose_pops"]))
     print("\n".join(lines)); return 0
 
 if __name__ == "__main__":

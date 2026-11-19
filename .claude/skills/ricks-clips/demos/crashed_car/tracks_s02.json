@@ -3,10 +3,6 @@
  "fps": 30,
  "end": 250,
  "cast": {
-  "young": {
-   "puppet": "cast:young_driver",
-   "height": 1.72
-  },
   "old": {
    "puppet": "cast:hero_racer",
    "height": 1.72
@@ -14,58 +10,86 @@
  },
  "acts": [
   {
-   "who": "young",
+   "who": "old",
    "at": 0,
    "pos": [
     0,
     -1.4,
     0
    ],
-   "view": "34",
+   "view": "front",
    "dir": 1,
    "pose": "m:cheer/A",
    "face": "k:proud",
    "move_s": 0.01
   },
   {
-   "who": "young",
-   "at": 143,
+   "who": "old",
+   "at": 126,
    "pos": [
     0,
     -1.4,
     0
    ],
-   "view": "34",
+   "view": "front",
    "dir": 1,
-   "pose": "m:idle/A",
+   "pose": "m:idle/B",
    "face": "k:happy",
    "move_s": 0.01
   },
   {
    "who": "old",
-   "at": 0,
+   "at": 131,
    "pos": [
     0,
     -1.4,
     0
    ],
-   "view": "34",
+   "view": "front",
    "dir": 1,
-   "pose": "m:idle/A",
+   "pose": "m:jump/joy",
+   "face": "k:happy",
+   "move_s": 0.01
+  },
+  {
+   "who": "old",
+   "at": 155,
+   "pos": [
+    0,
+    -1.4,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:idle/B",
+   "face": "k:happy",
+   "move_s": 0.01
+  },
+  {
+   "who": "old",
+   "at": 158,
+   "pos": [
+    0,
+    -1.4,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:jump/joy",
    "face": "k:proud",
    "move_s": 0.01
   },
   {
    "who": "old",
-   "at": 168,
+   "at": 173,
    "pos": [
     0,
     -1.4,
     0
    ],
-   "view": "34",
+   "view": "front",
    "dir": 1,
-   "pose": "m:react/huff",
+   "pose": "m:idle/B",
    "face": "k:smug",
    "move_s": 0.01
   },
@@ -79,7 +103,7 @@
    ],
    "view": "front",
    "dir": 1,
-   "pose": "m:idle/A",
+   "pose": "m:idle/B",
    "face": "k:shocked",
    "move_s": 0.01
   },

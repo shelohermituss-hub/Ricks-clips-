@@ -27,6 +27,7 @@ def camera():
     for f, p, a, fov in ((F0, (0.5, -6.6, 2.3), (-0.4, 2.0, 1.2), 54), (F1, (0.45, -5.9, 2.15), (-0.35, 2.0, 1.05), 52)):
         cam.location = p; cam.rotation_euler = (Vector(a) - Vector(p)).to_track_quat("-Z", "Y").to_euler(); cam.data.angle = math.radians(fov)
         cam.keyframe_insert("location", frame=f); cam.keyframe_insert("rotation_euler", frame=f); cam.data.keyframe_insert("lens", frame=f)
+    P.street.handheld(cam, F0, F1, seed=3)                                  # the camera never stops (CB 2026-11-19)
     return cam
 
 def hero(cam):
@@ -41,7 +42,18 @@ def hero(cam):
                 try: o.keyframe_delete(dp, frame=f)
                 except RuntimeError: pass
     c = bpy.data.objects["Card_old"]; c.hide_render = c.hide_viewport = False; c.location = (0.1, -0.6, 0); c.keyframe_insert("location", frame=F0)
-    h = P.helmet3d(); h.scale = (1.55,) * 3; h.location = (0.42, -0.75, .9)                 # the helmet still under his arm
+    # the helmet stays under the arm that does NOT rise (the oath hand goes up at 222): it follows that hand on every frame, tucked behind
+    # the arm, same size as in 2A/2B (CB 2026-11-19: a held thing follows the hand, never pinned in the air)
+    import json; from mathutils import Vector
+    AN = json.load(open(os.path.join(cd, "cards", "old", "anchors.json"))); sc = bpy.context.scene
+    idx = min((0, 1), key=lambda i: max(AN[str(f)]["hands"][i][1] for f in range(F0, F1 + 1)))
+    h = P.helmet3d(); h.scale = (2.0,) * 3; prev = None
+    for f in range(F0, F1 + 1):
+        sc.frame_set(f); M = c.matrix_world; hd = AN[str(f)]["hands"][idx]; cp = cam.matrix_world.translation; tc = cp - M.translation; tc.z = 0; tc.normalize()
+        side = 1; tgt = M @ Vector((.44, 0, 1.02)) - tc * .3       # under the RIGHT arm, the spot where 2B ends (the drawn hands swap sides in cheer/B: follow the body, not the hand index)
+        if prev is not None and (tgt - prev).length > .12: tgt = prev + (tgt - prev).normalized() * .12
+        prev = tgt.copy(); h.location = tgt; e = (cp - tgt).to_track_quat("-Y", "Z").to_euler(); e.x += math.radians(18); e.z += math.radians(70) * side
+        h.rotation_euler = e; h.keyframe_insert("location", frame=f); h.keyframe_insert("rotation_euler", frame=f)
 
 def main():
     bpy.ops.wm.read_factory_settings(use_empty=True); sc = bpy.context.scene; sc.render.fps = 30; sc.frame_start, sc.frame_end = F0, F1
