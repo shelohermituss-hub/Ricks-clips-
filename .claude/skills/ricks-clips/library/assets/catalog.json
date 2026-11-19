@@ -612,6 +612,144 @@
     {
       "schema_version": 1,
       "provider": "sketchfab",
+      "asset_id": "58c33766470d46e7b2aed542650494e5",
+      "name": "Generic Sedan Car",
+      "creator": "MMC Works",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_url": "https://sketchfab.com/3d-models/generic-sedan-car-58c33766470d46e7b2aed542650494e5",
+      "kind": "model",
+      "commercial_use": "check exact license and preserve attribution",
+      "downloaded_at_utc": "2026-11-19T00:55:44Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/58c33766470d46e7b2aed542650494e5_source.zip",
+          "bytes": 41616534,
+          "sha256": "4dbd244fd7060c1f62e0d4415eec39849f2219224ef56a0a81bd41139b9cb6ee",
+          "md5": "273b7d320a31a3ad337ad64c40396b9a",
+          "role": "source_archive"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/license.txt",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/scene.bin",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/scene.gltf",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/Car_Paint_-_All_Colors_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/Car_Paint_-_All_Colors_metallicRoughness.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/Car_Paint_-_All_Colors_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/MetalStainlessSteelBrushedElongated005_2K.001_metallicRoughness.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/MetalStainlessSteelBrushedElongated005_2K.001_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/MetalStainlessSteelBrushedElongated005_2K_metallicRoughness.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/Metal_-_Chrome_-_Rough_baseColor.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/car-bottom_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/car-bottom_metallicRoughness.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/car-bottom_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/engine_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/engine_metallicRoughness.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/engine_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/honeycomb-grill-pattern-small_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/honeycomb-grill-pattern_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/interior_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/interior_metallicRoughness.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/interior_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/suspension-pipe-brakes_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/suspension-pipe-brakes_metallicRoughness.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/suspension-pipe-brakes_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/tire-low_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/tire-low_metallicRoughness.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/58c33766470d46e7b2aed542650494e5/gltf/textures/tire-low_normal.png",
+          "role": "extracted"
+        }
+      ],
+      "status": "ingested"
+    },
+    {
+      "schema_version": 1,
+      "provider": "sketchfab",
       "asset_id": "1795f6e907634afda88fdaf45f67b279",
       "name": "Vintage Bicycle",
       "creator": "VladNeko",
