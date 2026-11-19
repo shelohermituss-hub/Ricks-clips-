@@ -389,7 +389,7 @@
    "severity": "high",
    "problem": "Characters and props appeared, disappeared, teleported or shrank in view: the hero 'appears suddenly' out of the car (shot 1); in shot 2 a young-driver card was swapped for the hero at frame 158, teleported from the cockpit to the track at 143, and the 3D helmet popped in. CB reported the same kind of error twice.",
    "root_cause": "Each case was fixed locally without a rule or a check, so the next shot repeated it; a change of state was built as a visibility/location switch instead of an animated action; and the 2D move-to-move blend silently does nothing when the two moves are drawn in different views (puppets.mjs moveOf), so arms snapped between moves.",
-   "fix": "CB_RULES 11h: everything happens through an action, the camera never stops, real surfaces and shadows. demos/crashed_car/shots/continuity.py runs on every built shot BEFORE any render (render_layers.sh refuses to render on FAIL): POP, TELEPORT, SHRINK/GROW, POSE_POP, HOLD; BREAK (a whole replaced by its own pieces) and FX are reported as allowed. tools/card_anchors.py measures head, feet, hands and pose pops on every drawing (card_service runs it automatically) so 3D props follow the drawn head/hands. Shot analyses get a mandatory section 'Entr\u00e9es / sorties / changements d'\u00e9tat'.",
+   "fix": "CB_RULES 11h: everything happens through an action, the camera never stops, real surfaces and shadows. demos/crashed_car/shots/continuity.py runs on every built shot BEFORE any render (render_layers.sh refuses to render on FAIL): POP, TELEPORT, SHRINK/GROW, POSE_POP, HOLD; BREAK (a whole replaced by its own pieces) and FX are reported as allowed. tools/card_anchors.py measures head, feet, hands and pose pops on every drawing (card_service runs it automatically) so 3D props follow the drawn head/hands. Shot analyses get a mandatory section 'Entrées / sorties / changements d'état'.",
    "files_changed": [
     "CB_RULES.md",
     "demos/crashed_car/shots/continuity.py",
@@ -417,6 +417,38 @@
     "every shot",
     "every card character",
     "every held prop"
+   ]
+  },
+  {
+   "id": "PI-017",
+   "date": "2026-11-19",
+   "episode": "pipeline",
+   "shot_timecode": "-",
+   "severity": "medium",
+   "problem": "A fresh session (handoff) could not pass tools/tests/test_rc.py: 2 FAIL (library: vintage_bicycle glb missing; cards: episodes/ghost-army/out/plan/camera_baked.json missing) although the code was right. Blender itself was missing (download.blender.org not in the environment's allowed hosts).",
+   "root_cause": "Files outside git were produced once by hand: a throw-away bike2glb.py (gltf -> 1k glb) never committed, and a film_plan bake the test silently assumed. The handoff listed what to re-download but not how to rebuild derived files.",
+   "fix": "tools/gltf_to_glb.py (re-packs the scaled textures: the glTF importer packs images, so scaling alone exported the original 2048 px bytes, 34.5 MB instead of 3.7 MB); test_rc bakes the plan itself when out/ is missing; scripts/restore_untracked.sh restores every untracked input idempotently (Sketchfab models, glb conversions, baked plan); asset.json fetch_note gives the exact rebuild command.",
+   "files_changed": [
+    "tools/gltf_to_glb.py",
+    "tools/tests/test_rc.py",
+    "scripts/restore_untracked.sh",
+    "library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/asset.json"
+   ],
+   "verification": {
+    "tests": [
+     "fresh session: test_rc 25/27 FAIL -> 27/27 PASS after the fix",
+     "gltf_to_glb: 3.7 MB, 49483 tris, 1024 px JPEG (same numbers as the 2026-11-18 conversion)",
+     "restore_untracked.sh rebuilds a deleted glb, second run converts nothing"
+    ],
+    "before_after_evidence": [
+     "tools/tests/test_rc.py output 2026-11-19"
+    ],
+    "regression_check": "run scripts/restore_untracked.sh then test_rc.py at every handoff"
+   },
+   "status": "validated",
+   "applies_to": [
+    "every derived file outside git",
+    "every handoff"
    ]
   }
  ],

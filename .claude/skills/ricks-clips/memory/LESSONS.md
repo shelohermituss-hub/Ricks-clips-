@@ -159,10 +159,23 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Regression check:** 3 repeated pairs bit-identical on a fresh scene (2026-11-18)
 
   - history: 2026-11-18: tested -> validated
+## PI-016 — Characters and props appeared, disappeared, teleported or shrank in view: the hero 'appear [validated, high]
 
-## PI-016 — Characters/props appeared, disappeared, teleported or shrank in view (CB said it twice) [validated, high]
+- **Where:** crashed_car s01 3.0 s, s02 4.75-5.6 s
+- **Root cause:** Each case was fixed locally without a rule or a check, so the next shot repeated it; a change of state was built as a visibility/location switch instead of an animated action; and the 2D move-to-move blend silently does nothing when the two moves are drawn in different views (puppets.mjs moveOf), so arms snapped between moves.
+- **Fix:** CB_RULES 11h: everything happens through an action, the camera never stops, real surfaces and shadows. demos/crashed_car/shots/continuity.py runs on every built shot BEFORE any render (render_layers.sh refuses to render on FAIL): POP, TELEPORT, SHRINK/GROW, POSE_POP, HOLD; BREAK (a whole replaced by its own pieces) and FX are reported as allowed. tools/card_anchors.py measures head, feet, hands and pose pops on every drawing (card_service runs it automatically) so 3D props follow the drawn head/hands. Shot analyses get a mandatory section 'Entrées / sorties / changements d'état'.
+- **Files:** CB_RULES.md, demos/crashed_car/shots/continuity.py, demos/crashed_car/shots/render_layers.sh, tools/card_anchors.py, tools/card_service.py, demos/crashed_car/shots/s02_pit.py, demos/crashed_car/shots/s02_corner.py, demos/crashed_car/tracks_s02.json, references/crashed_car/shots/s02.md
+- **Tests:** continuity.py on the old s02_pit build: 7 POP, 2 TELEPORT, 1 HOLD (FAIL, the reported errors); continuity.py on the new s02_pit and s02_corner: PASS 0/0/0; continuity.py caught a new helmet side-swap at 223 in s02_corner; fixed, PASS
+- **Evidence:** demos/crashed_car/build/continuity/*.json
+- **Regression check:** render_layers.sh refuses to render a part whose continuity report is not ok
 
-- **Where:** crashed_car shot 1 (hero out of the car), shot 2 (young/old driver swap, cockpit teleport, helmet pop)
-- **Root cause:** each case was fixed locally, never turned into a rule + a check; state changes built as visibility/location switches instead of actions; the 2D move blend does nothing across different views (arms snapped).
-- **Fix:** CB_RULES 11h (action / moving camera / real surfaces); `demos/crashed_car/shots/continuity.py` before any render (POP, TELEPORT, SHRINK, POSE_POP, HOLD) and `render_layers.sh` refuses to render on FAIL; `tools/card_anchors.py` (head/feet/hands per drawing, run by card_service) so props follow the drawing; mandatory "Entrées / sorties / changements d'état" section in every shot analysis; keep all moves of one character in ONE view.
-- **Tests:** old s02_pit: 7 POP, 2 TELEPORT, 1 HOLD -> new s02_pit and s02_corner: PASS; it also caught a new helmet side-swap at frame 223 (fixed).
+## PI-017 — A fresh session (handoff) could not pass tools/tests/test_rc.py: 2 FAIL (library: vintage_ [validated, medium]
+
+- **Where:** pipeline -
+- **Root cause:** Files outside git were produced once by hand: a throw-away bike2glb.py (gltf -> 1k glb) never committed, and a film_plan bake the test silently assumed. The handoff listed what to re-download but not how to rebuild derived files.
+- **Fix:** tools/gltf_to_glb.py (re-packs the scaled textures: the glTF importer packs images, so scaling alone exported the original 2048 px bytes, 34.5 MB instead of 3.7 MB); test_rc bakes the plan itself when out/ is missing; scripts/restore_untracked.sh restores every untracked input idempotently (Sketchfab models, glb conversions, baked plan); asset.json fetch_note gives the exact rebuild command.
+- **Files:** tools/gltf_to_glb.py, tools/tests/test_rc.py, scripts/restore_untracked.sh, library/assets/sketchfab/1795f6e907634afda88fdaf45f67b279/asset.json
+- **Tests:** fresh session: test_rc 25/27 FAIL -> 27/27 PASS after the fix; gltf_to_glb: 3.7 MB, 49483 tris, 1024 px JPEG (same numbers as the 2026-11-18 conversion); restore_untracked.sh rebuilds a deleted glb, second run converts nothing
+- **Evidence:** tools/tests/test_rc.py output 2026-11-19
+- **Regression check:** run scripts/restore_untracked.sh then test_rc.py at every handoff
+

@@ -78,6 +78,10 @@ def test_physics(tmp):
 def test_card_cache(tmp):
     ep = os.path.join(SKILL, "episodes", "ghost-army"); node = shutil.which("node")
     if not node: t("cards: cache", False, "node missing"); return
+    # out/ is not in git: a fresh session has no baked plan, so bake it first (0.6 s), like tools/card_service.py does
+    if not os.path.isfile(os.path.join(ep, "out", "plan", "camera_baked.json")):
+        b = subprocess.run([sys.executable, os.path.join(SKILL, "tools", "film_plan.py"), "bake", "film.json"], cwd=ep, capture_output=True, text=True)
+        if b.returncode != 0: t("cards: film_plan bake", False, (b.stdout + b.stderr)[-400:]); return
     cmd = lambda d: subprocess.run([node, "../../templates/threejs_film/render_gpu.mjs", "film.json", "--export-lock", "--cards-only", "--who", "radio_op", "--lock-dir", d, "--cache", os.path.join(tmp, "pc")], cwd=ep, capture_output=True, text=True, timeout=1800)
     cmd(os.path.join(tmp, "l1")); r = cmd(os.path.join(tmp, "l2"))
     line = [l for l in r.stdout.splitlines() if l.startswith("cards radio_op: cache")]
