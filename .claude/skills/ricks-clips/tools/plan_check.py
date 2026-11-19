@@ -66,6 +66,9 @@ def check(P):
             same = a.get("pos") == b.get("pos") and a.get("aim") == b.get("aim") and a.get("lens") == b.get("lens")
             add("CAMERA", "%s %s->%s moves" % (sid, a.get("t"), b.get("t")), not same and b.get("move") != "hold", b.get("move", ""))
         add("CAMERA", sid + " hand-held drift", bool(s.get("handheld", True)), "street.handheld() on every frame")
+        for k in cam:                                                     # lesson PI-018: lens = VERTICAL field of view in degrees (9:16 -> horizontal ~0.56x)
+            fv, fr = k.get("lens", 0), k.get("framing", "")
+            if fr in ("wide", "aerial") and fv < 55: add("CAMERA", "%s %s wide needs >= 55 deg vertical" % (sid, k.get("t")), False, "lens %s: in 9:16 that is only %.0f deg across" % (fv, fv * .56), warn=True)
         acts = s.get("actions", []); n_act += len(acts); ids = {a["id"] for a in acts}
         for a in acts:
             aid = "%s/%s" % (sid, a["id"]); who = a.get("who")

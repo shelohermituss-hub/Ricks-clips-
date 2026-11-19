@@ -8,7 +8,7 @@ anywhere) is saved as 4 layer .blends; each is rendered alone with tools/render_
 Inside Blender:  layers.split(<shot.blend>, <outdir>)  -> outdir/<layer>.blend
 Outside:         python3 layers.py comp <outdir> <frames a-b> <out frames dir>   (alpha-over SKY < SET < OBJECTS < FX)"""
 import os, sys, json
-GROUND = ("ground", "pit_floor", "track", "road", "lane", "driveway", "apron", "footpath", "sidewalk", "gravel_trap", "grass_strip")
+GROUND = ("ground", "floor", "pit_floor", "track", "road", "lane", "driveway", "apron", "footpath", "sidewalk", "gravel_trap", "grass_strip")
 ORDER = ("SKY", "SET", "OBJECTS", "FX")
 COLS = {"SKY": "L_SKY", "SET": "L_SET", "OBJECTS": "L_OBJECTS", "FX": "L_FX"}
 

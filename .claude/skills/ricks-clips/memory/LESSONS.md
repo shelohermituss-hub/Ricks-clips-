@@ -166,3 +166,13 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Root cause:** each case was fixed locally, never turned into a rule + a check; state changes built as visibility/location switches instead of actions; the 2D move blend does nothing across different views (arms snapped).
 - **Fix:** CB_RULES 11h (action / moving camera / real surfaces); `demos/crashed_car/shots/continuity.py` before any render (POP, TELEPORT, SHRINK, POSE_POP, HOLD) and `render_layers.sh` refuses to render on FAIL; `tools/card_anchors.py` (head/feet/hands per drawing, run by card_service) so props follow the drawing; mandatory "Entrées / sorties / changements d'état" section in every shot analysis; keep all moves of one character in ONE view.
 - **Tests:** old s02_pit: 7 POP, 2 TELEPORT, 1 HOLD -> new s02_pit and s02_corner: PASS; it also caught a new helmet side-swap at frame 223 (fixed).
+
+## PI-017 — Poly Haven texture without its colour map [validated, medium]
+- **Root cause:** colour maps named col_01/col_02 instead of Diffuse were skipped silently.
+- **Fix:** rc.fetch takes the first col_* variant and raises when no colour map exists.
+
+## PI-018 — Framings far too tight (vertical FOV mistaken for lens mm) [validated, medium]
+- **Fix:** camera values = vertical FOV in degrees: close 40-45, medium 45-55, wide 65-70 (9:16: horizontal ~0.56x). plan_check warns under 55 for wide/aerial.
+
+## PI-019 — Insert on an object held by a drawn character shows the torso [validated, medium]
+- **Fix:** object-only insert: frame the object and its target, the card out of frame, the object enters from the edge, motivated light; reveal the character after.

@@ -26,8 +26,11 @@ def polyhaven_maps(aid, res="1k", log=print):
     def build(out):
         F = _api("files/" + aid)
         for k, key in PH_MAPS.items():
+            if key not in F and k == "color":                     # 2026-11-19: some sets name their colour maps col_01, col_02... (fabric_pattern_05)
+                key = next((x for x in sorted(F) if x.lower().startswith("col")), key)    # take the first variant instead of silently having no colour
             if key in F and res in F[key] and "jpg" in F[key][res]: open(os.path.join(out, k + ".jpg"), "wb").write(_get(F[key][res]["jpg"]["url"]))
-    d = cache.get_or_build("download", {"provider": "polyhaven", "id": aid, "res": res, "fmt": "maps-jpg"}, build, log=log)
+        if not os.path.exists(os.path.join(out, "color.jpg")): raise RuntimeError("polyhaven %s: no colour map among %s" % (aid, sorted(F)))   # fail loudly, never a grey material
+    d = cache.get_or_build("download", {"provider": "polyhaven", "id": aid, "res": res, "fmt": "maps-jpg", "rev": 2}, build, log=log)
     return {k: os.path.join(d, k + ".jpg") for k in PH_MAPS if os.path.exists(os.path.join(d, k + ".jpg"))}
 
 AC_MAPS = {"color": "_Color.jpg", "roughness": "_Roughness.jpg", "normal": "_NormalGL.jpg", "ao": "_AmbientOcclusion.jpg", "displacement": "_Displacement.jpg"}

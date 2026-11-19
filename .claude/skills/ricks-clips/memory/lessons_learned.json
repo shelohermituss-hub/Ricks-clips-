@@ -418,6 +418,88 @@
     "every card character",
     "every held prop"
    ]
+  },
+  {
+   "id": "PI-017",
+   "date": "2026-11-19",
+   "episode": "gta6-leak",
+   "shot_timecode": "S01 build",
+   "severity": "medium",
+   "problem": "A Poly Haven texture (fabric_pattern_05) downloaded without its colour map: the material would have been grey.",
+   "root_cause": "Some Poly Haven sets name their colour maps col_01, col_02... instead of Diffuse; rc.fetch silently skipped them.",
+   "fix": "rc.fetch.polyhaven_maps takes the first col_* variant when Diffuse is missing and RAISES when no colour map exists (never a silent grey material); cache key rev 2.",
+   "files_changed": [
+    "blender/rc/fetch.py"
+   ],
+   "verification": {
+    "tests": [
+     "11 textures re-fetched: all have color.jpg"
+    ],
+    "before_after_evidence": [
+     "episodes/gta6-leak S01 key frames"
+    ],
+    "regression_check": "11 textures re-fetched: all have color.jpg"
+   },
+   "status": "validated",
+   "applies_to": [
+    "every texture download"
+   ]
+  },
+  {
+   "id": "PI-018",
+   "date": "2026-11-19",
+   "episode": "gta6-leak",
+   "shot_timecode": "S01 build",
+   "severity": "medium",
+   "problem": "Every framing of the first S01 key frames was far too tight: the 'wide shot' showed only the TV, the character was out of frame.",
+   "root_cause": "Camera values were written like lens millimetres (24-40) but the scripts set cam.data.angle = VERTICAL field of view in degrees; in 9:16 the horizontal angle is only ~0.56x of it.",
+   "fix": "Camera 'lens' values in plans and shot scripts are vertical FOV in degrees: close 40-45, medium 45-55, wide 65-70. plan_check warns on a wide/aerial key under 55.",
+   "files_changed": [
+    "tools/plan_check.py",
+    "episodes/gta6-leak/shots/s01_hotel.py"
+   ],
+   "verification": {
+    "tests": [
+     "S01 key frames re-rendered: wide shot shows room, TV, character"
+    ],
+    "before_after_evidence": [
+     "episodes/gta6-leak S01 key frames"
+    ],
+    "regression_check": "S01 key frames re-rendered: wide shot shows room, TV, character"
+   },
+   "status": "validated",
+   "applies_to": [
+    "every shot",
+    "every camera"
+   ]
+  },
+  {
+   "id": "PI-019",
+   "date": "2026-11-19",
+   "episode": "gta6-leak",
+   "shot_timecode": "S01 build",
+   "severity": "medium",
+   "problem": "The insert on the TV stick held by the character showed only a blurred slice of his torso.",
+   "root_cause": "A drawn card always faces the lens: a close-up on its hand is a close-up on its torso; the held 3D prop is hidden or tiny.",
+   "fix": "An insert on a held object is OBJECT-ONLY: framed on the object and where it goes (the port), the card out of frame, the object enters from the frame edge (the hand is implied), lit by a motivated light; the reveal of the character follows.",
+   "files_changed": [
+    "episodes/gta6-leak/shots/s01_hotel.py"
+   ],
+   "verification": {
+    "tests": [
+     "S01 frames 6-34: stick with its LED slides into the port"
+    ],
+    "before_after_evidence": [
+     "episodes/gta6-leak S01 key frames"
+    ],
+    "regression_check": "S01 frames 6-34: stick with its LED slides into the port"
+   },
+   "status": "validated",
+   "applies_to": [
+    "every card character",
+    "every held prop",
+    "every insert shot"
+   ]
   }
  ],
  "notes": [

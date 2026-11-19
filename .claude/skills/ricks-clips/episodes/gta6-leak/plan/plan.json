@@ -721,7 +721,7 @@
       0.55
      ],
      "aim": "tv port",
-     "lens": 24,
+     "lens": 40,
      "move": "macro push on the stick going into the TV port",
      "framing": "insert"
     },
@@ -733,7 +733,7 @@
       1.0
      ],
      "aim": "kid face lit by the TV",
-     "lens": 35,
+     "lens": 42,
      "move": "pull back and rise: his face lights up",
      "framing": "close"
     },
@@ -745,7 +745,7 @@
       1.6
      ],
      "aim": "room",
-     "lens": 28,
+     "lens": 68,
      "move": "crane back to the whole room: stick, phone, TV",
      "framing": "wide"
     },
@@ -757,7 +757,7 @@
       1.7
      ],
      "aim": "room",
-     "lens": 28,
+     "lens": 50,
      "move": "slow drift",
      "framing": "medium"
     }
@@ -912,7 +912,7 @@
       1.4
      ],
      "aim": "door 214 + cop",
-     "lens": 32,
+     "lens": 50,
      "move": "slow push down the corridor",
      "framing": "medium"
     },
@@ -924,7 +924,7 @@
       1.2
      ],
      "aim": "cop",
-     "lens": 40,
+     "lens": 42,
      "move": "dolly to the cop's face",
      "framing": "close"
     },
@@ -936,7 +936,7 @@
       0.25
      ],
      "aim": "gap under the door",
-     "lens": 30,
+     "lens": 40,
      "move": "drop to the floor and slide toward the blue light under the door",
      "framing": "insert"
     }
@@ -1054,7 +1054,7 @@
       2.4
      ],
      "aim": "keyboard on duvet",
-     "lens": 30,
+     "lens": 40,
      "move": "top-down insert, slow rotate",
      "framing": "insert"
     },
@@ -1066,7 +1066,7 @@
       1.1
      ],
      "aim": "kid typing",
-     "lens": 34,
+     "lens": 42,
      "move": "orbit around him",
      "framing": "close"
     },
@@ -1078,7 +1078,7 @@
       1.05
      ],
      "aim": "TV screen",
-     "lens": 30,
+     "lens": 60,
      "move": "push into the TV: the chat window fills the frame (POV)",
      "framing": "pov"
     }
@@ -1193,7 +1193,7 @@
       22
      ],
      "aim": "hotel window",
-     "lens": 40,
+     "lens": 65,
      "move": "fly out of the window with the first clip",
      "framing": "aerial"
     },
@@ -1205,7 +1205,7 @@
       30
      ],
      "aim": "clips swarm",
-     "lens": 35,
+     "lens": 65,
      "move": "rise above the city as the swarm spreads",
      "framing": "aerial"
     },
@@ -1217,7 +1217,7 @@
       18
      ],
      "aim": "phones lighting up",
-     "lens": 32,
+     "lens": 65,
      "move": "dive toward the streets",
      "framing": "aerial"
     }
@@ -1357,7 +1357,7 @@
       2.2
      ],
      "aim": "office",
-     "lens": 30,
+     "lens": 68,
      "move": "fast dolly down the aisle as people run",
      "framing": "wide"
     },
@@ -1369,7 +1369,7 @@
       1.0
      ],
      "aim": "printer",
-     "lens": 28,
+     "lens": 40,
      "move": "rack to the printer spitting the invoice",
      "framing": "insert"
     },
@@ -1381,7 +1381,7 @@
       1.6
      ],
      "aim": "invoice $5,000,000",
-     "lens": 30,
+     "lens": 40,
      "move": "tilt down the unrolling invoice",
      "framing": "insert"
     }
@@ -1522,7 +1522,7 @@
       1.8
      ],
      "aim": "judge",
-     "lens": 35,
+     "lens": 50,
      "move": "slow push to the bench",
      "framing": "medium"
     },
@@ -1534,7 +1534,7 @@
       1.2
      ],
      "aim": "gavel + file",
-     "lens": 30,
+     "lens": 40,
      "move": "insert on the gavel hit and the stamp",
      "framing": "insert"
     },
@@ -1546,7 +1546,7 @@
       1.4
      ],
      "aim": "secure door",
-     "lens": 32,
+     "lens": 68,
      "move": "slow track down the white corridor",
      "framing": "wide"
     },
@@ -1558,7 +1558,7 @@
       1.4
      ],
      "aim": "door window with his face",
-     "lens": 40,
+     "lens": 42,
      "move": "push in as the door closes",
      "framing": "close"
     }
@@ -1672,7 +1672,7 @@
       1.6
      ],
      "aim": "billboard",
-     "lens": 35,
+     "lens": 68,
      "move": "low crane up the crowd to the billboard",
      "framing": "wide"
     },
@@ -1696,7 +1696,7 @@
       2
      ],
      "aim": "crowd faces + trophy",
-     "lens": 32,
+     "lens": 50,
      "move": "orbit the crowd as the record trophy rises",
      "framing": "medium"
     }
@@ -1811,7 +1811,7 @@
       1.5
      ],
      "aim": "file on desk",
-     "lens": 30,
+     "lens": 40,
      "move": "top-down on the file, the stamp comes in",
      "framing": "insert"
     },
@@ -1823,7 +1823,7 @@
       1.25
      ],
      "aim": "kid face",
-     "lens": 45,
+     "lens": 40,
      "move": "snap push to his shocked face",
      "framing": "extreme_close"
     },
@@ -1835,7 +1835,7 @@
       1.4
      ],
      "aim": "cell door",
-     "lens": 32,
+     "lens": 50,
      "move": "pull back as the cell door slides shut",
      "framing": "medium"
     }
@@ -1949,7 +1949,7 @@
       1.5
      ],
      "aim": "calendar",
-     "lens": 32,
+     "lens": 40,
      "move": "insert on the calendar pages tearing NOV 16 -> NOV 19",
      "framing": "insert"
     },
@@ -1961,7 +1961,7 @@
       1.2
      ],
      "aim": "queue + shop window '6'",
-     "lens": 30,
+     "lens": 68,
      "move": "low tracking along the queue in the rain",
      "framing": "wide"
     },
@@ -2091,7 +2091,7 @@
       1.3
      ],
      "aim": "kid on the bunk",
-     "lens": 32,
+     "lens": 50,
      "move": "slow push in",
      "framing": "medium"
     },
@@ -2103,7 +2103,7 @@
       1.15
      ],
      "aim": "the small TV, off",
-     "lens": 35,
+     "lens": 42,
      "move": "push into the black screen: his reflection",
      "framing": "close"
     },
@@ -2115,7 +2115,7 @@
       1.1
      ],
      "aim": "black screen",
-     "lens": 30,
+     "lens": 40,
      "move": "the reflection becomes the hotel TV of frame 1 (loop)",
      "framing": "extreme_close"
     }
@@ -2219,7 +2219,10 @@
   "lufs": -14
  },
  "lessons_planned": [
-  "PI-016"
+  "PI-016",
+  "PI-017",
+  "PI-018",
+  "PI-019"
  ],
  "warn_reasons": {
   "recipe vs plan wording": "the matcher compares the first words of each recipe line; the remaining 'maybe forgotten' lines were read one by one: either covered in other words (fall, gust, gesture, LED) or not relevant to this action (a TV that stays OFF does not light up; typing is not a door)",

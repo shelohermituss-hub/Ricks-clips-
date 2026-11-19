@@ -152,10 +152,10 @@ a game shop street at night: the queue of gamers in hoodies with sleeping bags, 
 
 **Caméra** (jamais à l'arrêt, + dérive à l'épaule) :
 
-- 0.00 s · insert · 24 mm · macro push on the stick going into the TV port · vise tv port
-- 1.60 s · close · 35 mm · pull back and rise: his face lights up · vise kid face lit by the TV
-- 3.60 s · wide · 28 mm · crane back to the whole room: stick, phone, TV · vise room
-- 5.48 s · medium · 28 mm · slow drift · vise room
+- 0.00 s · insert · 40 mm · macro push on the stick going into the TV port · vise tv port
+- 1.60 s · close · 42 mm · pull back and rise: his face lights up · vise kid face lit by the TV
+- 3.60 s · wide · 68 mm · crane back to the whole room: stick, phone, TV · vise room
+- 5.48 s · medium · 50 mm · slow drift · vise room
 
 **Actions** :
 
@@ -192,9 +192,9 @@ a game shop street at night: the queue of gamers in hoodies with sleeping bags, 
 
 **Caméra** (jamais à l'arrêt, + dérive à l'épaule) :
 
-- 5.48 s · medium · 32 mm · slow push down the corridor · vise door 214 + cop
-- 8.48 s · close · 40 mm · dolly to the cop's face · vise cop
-- 11.42 s · insert · 30 mm · drop to the floor and slide toward the blue light under the door · vise gap under the door
+- 5.48 s · medium · 50 mm · slow push down the corridor · vise door 214 + cop
+- 8.48 s · close · 42 mm · dolly to the cop's face · vise cop
+- 11.42 s · insert · 40 mm · drop to the floor and slide toward the blue light under the door · vise gap under the door
 
 **Actions** :
 
@@ -226,9 +226,9 @@ a game shop street at night: the queue of gamers in hoodies with sleeping bags, 
 
 **Caméra** (jamais à l'arrêt, + dérive à l'épaule) :
 
-- 11.42 s · insert · 30 mm · top-down insert, slow rotate · vise keyboard on duvet
-- 13.82 s · close · 34 mm · orbit around him · vise kid typing
-- 16.58 s · pov · 30 mm · push into the TV: the chat window fills the frame (POV) · vise TV screen
+- 11.42 s · insert · 40 mm · top-down insert, slow rotate · vise keyboard on duvet
+- 13.82 s · close · 42 mm · orbit around him · vise kid typing
+- 16.58 s · pov · 60 mm · push into the TV: the chat window fills the frame (POV) · vise TV screen
 
 **Actions** :
 
@@ -260,9 +260,9 @@ a game shop street at night: the queue of gamers in hoodies with sleeping bags, 
 
 **Caméra** (jamais à l'arrêt, + dérive à l'épaule) :
 
-- 16.58 s · aerial · 40 mm · fly out of the window with the first clip · vise hotel window
-- 18.58 s · aerial · 35 mm · rise above the city as the swarm spreads · vise clips swarm
-- 20.94 s · aerial · 32 mm · dive toward the streets · vise phones lighting up
+- 16.58 s · aerial · 65 mm · fly out of the window with the first clip · vise hotel window
+- 18.58 s · aerial · 65 mm · rise above the city as the swarm spreads · vise clips swarm
+- 20.94 s · aerial · 65 mm · dive toward the streets · vise phones lighting up
 
 **Actions** :
 
@@ -299,9 +299,9 @@ a game shop street at night: the queue of gamers in hoodies with sleeping bags, 
 
 **Caméra** (jamais à l'arrêt, + dérive à l'épaule) :
 
-- 20.94 s · wide · 30 mm · fast dolly down the aisle as people run · vise office
-- 23.14 s · insert · 28 mm · rack to the printer spitting the invoice · vise printer
-- 25.74 s · insert · 30 mm · tilt down the unrolling invoice · vise invoice $5,000,000
+- 20.94 s · wide · 68 mm · fast dolly down the aisle as people run · vise office
+- 23.14 s · insert · 40 mm · rack to the printer spitting the invoice · vise printer
+- 25.74 s · insert · 40 mm · tilt down the unrolling invoice · vise invoice $5,000,000
 
 **Actions** :
 
@@ -338,10 +338,10 @@ a game shop street at night: the queue of gamers in hoodies with sleeping bags, 
 
 **Caméra** (jamais à l'arrêt, + dérive à l'épaule) :
 
-- 25.74 s · medium · 35 mm · slow push to the bench · vise judge
-- 28.14 s · insert · 30 mm · insert on the gavel hit and the stamp · vise gavel + file
-- 29.34 s · wide · 32 mm · slow track down the white corridor · vise secure door
-- 32.24 s · close · 40 mm · push in as the door closes · vise door window with his face
+- 25.74 s · medium · 50 mm · slow push to the bench · vise judge
+- 28.14 s · insert · 40 mm · insert on the gavel hit and the stamp · vise gavel + file
+- 29.34 s · wide · 68 mm · slow track down the white corridor · vise secure door
+- 32.24 s · close · 42 mm · push in as the door closes · vise door window with his face
 
 **Actions** :
 
@@ -373,9 +373,9 @@ a game shop street at night: the queue of gamers in hoodies with sleeping bags, 
 
 **Caméra** (jamais à l'arrêt, + dérive à l'épaule) :
 
-- 32.24 s · wide · 35 mm · low crane up the crowd to the billboard · vise billboard
+- 32.24 s · wide · 68 mm · low crane up the crowd to the billboard · vise billboard
 - 35.44 s · insert · 40 mm · push into the racing digits · vise counter digits
-- 39.72 s · medium · 32 mm · orbit the crowd as the record trophy rises · vise crowd faces + trophy
+- 39.72 s · medium · 50 mm · orbit the crowd as the record trophy rises · vise crowd faces + trophy
 
 **Actions** :
 
@@ -407,9 +407,9 @@ a game shop street at night: the queue of gamers in hoodies with sleeping bags, 
 
 **Caméra** (jamais à l'arrêt, + dérive à l'épaule) :
 
-- 39.72 s · insert · 30 mm · top-down on the file, the stamp comes in · vise file on desk
-- 41.52 s · extreme_close · 45 mm · snap push to his shocked face · vise kid face
-- 44.88 s · medium · 32 mm · pull back as the cell door slides shut · vise cell door
+- 39.72 s · insert · 40 mm · top-down on the file, the stamp comes in · vise file on desk
+- 41.52 s · extreme_close · 40 mm · snap push to his shocked face · vise kid face
+- 44.88 s · medium · 50 mm · pull back as the cell door slides shut · vise cell door
 
 **Actions** :
 
@@ -441,8 +441,8 @@ a game shop street at night: the queue of gamers in hoodies with sleeping bags, 
 
 **Caméra** (jamais à l'arrêt, + dérive à l'épaule) :
 
-- 44.88 s · insert · 32 mm · insert on the calendar pages tearing NOV 16 -> NOV 19 · vise calendar
-- 46.48 s · wide · 30 mm · low tracking along the queue in the rain · vise queue + shop window '6'
+- 44.88 s · insert · 40 mm · insert on the calendar pages tearing NOV 16 -> NOV 19 · vise calendar
+- 46.48 s · wide · 68 mm · low tracking along the queue in the rain · vise queue + shop window '6'
 - 48.82 s · insert · 40 mm · push into a phone showing the headline 'PLEADS GUILTY' · vise gamer's phone: headline
 
 **Actions** :
@@ -475,9 +475,9 @@ a game shop street at night: the queue of gamers in hoodies with sleeping bags, 
 
 **Caméra** (jamais à l'arrêt, + dérive à l'épaule) :
 
-- 48.82 s · medium · 32 mm · slow push in · vise kid on the bunk
-- 51.82 s · close · 35 mm · push into the black screen: his reflection · vise the small TV, off
-- 54.38 s · extreme_close · 30 mm · the reflection becomes the hotel TV of frame 1 (loop) · vise black screen
+- 48.82 s · medium · 50 mm · slow push in · vise kid on the bunk
+- 51.82 s · close · 42 mm · push into the black screen: his reflection · vise the small TV, off
+- 54.38 s · extreme_close · 40 mm · the reflection becomes the hotel TV of frame 1 (loop) · vise black screen
 
 **Actions** :
 
@@ -509,6 +509,9 @@ a game shop street at night: the queue of gamers in hoodies with sleeping bags, 
 ## Leçons appliquées
 
 - PI-016
+- PI-017
+- PI-018
+- PI-019
 
 ## Risques
 

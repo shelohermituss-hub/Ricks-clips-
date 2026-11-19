@@ -4,7 +4,8 @@ H = os.path.dirname(os.path.abspath(__file__)); V = os.path.join(H, "..", "voice
 LT = {d["line"]: (d["t0"], d["t1"]) for d in json.load(open(os.path.join(V, "line_times.json")))}
 W = json.load(open(os.path.join(V, "words.json")))
 F = lambda t: int(round(t * 30))
-def cam(t, pos, aim, lens, move, framing="medium"): return {"t": round(t, 2), "pos": pos, "aim": aim, "lens": lens, "move": move, "framing": framing}
+FOV = {"insert": 40, "close": 42, "extreme_close": 40, "medium": 50, "wide": 68, "aerial": 65, "pov": 60}   # VERTICAL degrees (lesson PI-018)
+def cam(t, pos, aim, lens, move, framing="medium"): return {"t": round(t, 2), "pos": pos, "aim": aim, "lens": FOV.get(framing, 50), "move": move, "framing": framing}
 def act(id, who, t0, t1, what, anim, micro, reactions, consequences, sfx, recipe=None):
     a = {"id": id, "who": who, "f": [F(t0), F(t1)], "what": what, "anim": anim, "micro": micro, "reactions": reactions, "consequences": consequences, "sfx": sfx}
     if recipe: a["recipe"] = recipe
@@ -113,7 +114,7 @@ P = {
  {"id": "dev", "puppet": "cast:programmer", "costume": "studio hoodie (no logo), headset", "view": "34"},
  {"id": "gamer", "puppet": "cast:gamer", "costume": "hoodie, sleeping bag, phone", "view": "34"}],
 "shots": [], "sound": {"music": "light, mischievous bed (pizzicato + synth bass), -7.6 dB under the voice, a drop on the twist (line 7) and a sting on the punchline", "lufs": -14},
-"lessons_planned": ["PI-016"],
+"lessons_planned": ["PI-016", "PI-017", "PI-018", "PI-019"],
 "warn_reasons": {"recipe vs plan wording": "the matcher compares the first words of each recipe line; the remaining 'maybe forgotten' lines were read one by one: either covered in other words (fall, gust, gesture, LED) or not relevant to this action (a TV that stays OFF does not light up; typing is not a door)",
   "no recipe for clips_fly / pigeon / trophy / neighbour": "new actions of this film: their recipes are written to library/reactions/reactions.json after they are built (rule: every new action becomes a recipe)"},
 "risks": ["the game must never look like Rockstar's assets: generic blurred screens only", "the sentence on 23/11 may change the last line: re-check before publishing",

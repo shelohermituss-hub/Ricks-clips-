@@ -1,0 +1,69 @@
+{
+ "title": "gta6-leak S01 hotel",
+ "fps": 30,
+ "end": 166,
+ "cast": {
+  "kid": {
+   "puppet": "cast:hacker",
+   "height": 1.72
+  }
+ },
+ "acts": [
+  {
+   "who": "kid",
+   "at": 0,
+   "pos": [
+    0,
+    -1.4,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:button/A",
+   "face": "k:smug",
+   "move_s": 0.01
+  },
+  {
+   "who": "kid",
+   "at": 48,
+   "pos": [
+    0,
+    -1.4,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:idle/B",
+   "face": "k:smug",
+   "move_s": 0.01
+  },
+  {
+   "who": "kid",
+   "at": 117,
+   "pos": [
+    0,
+    -1.4,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:cheer/B",
+   "face": "k:happy",
+   "move_s": 0.01
+  },
+  {
+   "who": "kid",
+   "at": 150,
+   "pos": [
+    0,
+    -1.4,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:idle/B",
+   "face": "k:smug",
+   "move_s": 0.01
+  }
+ ]
+}
