@@ -160,7 +160,7 @@
   {
    "id": "white_car",
    "source": "sketchfab:5db696c6ed5d4bdc87905c1040fa072a",
-   "material": "blanc mat #e9e8e2 (texture métal et relief retirées), vitres claires",
+   "material": "blanc métallisé #f1f1ee (métal 0,55, rugosité 0,28, vernis 0,6) : lisse, sans la texture d'origine qui scintillait (CB 19/11) ; vitres claires",
    "states": [
     "roule",
     "avant écrasé (clé de forme crash_dent)",

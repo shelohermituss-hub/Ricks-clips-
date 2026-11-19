@@ -155,7 +155,7 @@ def verge_grass(c, zone, n, seed, scale=(1.0, 1.8), exclude=()):
     src = street.blade_clump(); m = bpy.data.materials.get("grass_blades")
     if m and not m.get("rc_recoloured"):
         cr = [n_ for n_ in m.node_tree.nodes if n_.type == "VALTORGB"][0].color_ramp
-        cr.elements[0].color = (*srgb("#33501a"), 1); cr.elements[1].color = (*srgb("#86a446"), 1)   # measured on the reference: #44662e (shade) .. #65932d (sun); m["rc_recoloured"] = 1
+        cr.elements[0].color = (*srgb("#4e8a2e"), 1); cr.elements[1].color = (*srgb("#a4d866"), 1)   # CB 2026-11-19: brighter, more saturated   # measured on the reference: #44662e (shade) .. #65932d (sun); m["rc_recoloured"] = 1
     P, Rt, Sc = geo.scatter_points({"polygon": zone}, n, seed, exclude=exclude, scale_range=scale)
     return geo.instancer("grass_%d" % seed, P, src, c, Rt, Sc, wind=.05)
 

@@ -21,7 +21,7 @@ HERO = Vector((-0.75, -0.3, 0)); LAND = Vector((-1.85, -0.75, 0)); SIT_DROP = .3
 CAR_GLTF = os.path.join(SKILL, "library", "assets", "sketchfab", "5db696c6ed5d4bdc87905c1040fa072a", "gltf", "scene.gltf")   # MMC Generic Small SUV (MMC Works, CC-BY)
 CAR_LIFT = .80; CAR_FRONT = 2.05                                                         # its origin is at mid-height; nose at local y = -2.05
 
-EXPOSURE = -0.35; SATURATION = 1.05
+EXPOSURE = -0.5; SATURATION = 1.05
 
 def smooth(t): t = max(0., min(1., t)); return t * t * (3 - 2 * t)
 
@@ -89,7 +89,7 @@ def acorn():
 
 def car():
     """the white SUV of the reference (Sketchfab 'MMC Generic Small SUV Car', MMC Works, CC-BY; no real brand). CB 2026-11-19: MATTE white
-    paint (the model's metallic/roughness texture and normal map made it sparkle: removed), CLEAR (untinted) windows, a driver inside.
+    paint (the model's metallic/roughness texture and normal map made it sparkle: removed; then CB asked for a smooth METALLIC white), CLEAR (untinted) windows, a driver inside.
     It faces -Y = toward us; lifted so the tyres sit on the road."""
     before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=CAR_GLTF); new = [o for o in bpy.data.objects if o not in before]
     c = street.col("L_OBJECTS"); rig = bpy.data.objects.new("car_rig", None); c.objects.link(rig)
@@ -103,8 +103,8 @@ def car():
         b = paint.node_tree.nodes.get("Principled BSDF")
         for inp in ("Base Color", "Metallic", "Roughness", "Normal"):
             for l in list(b.inputs[inp].links): paint.node_tree.links.remove(l)
-        b.inputs["Base Color"].default_value = (*street.srgb("#e9e8e2"), 1); b.inputs["Metallic"].default_value = 0.0; b.inputs["Roughness"].default_value = .62
-        b.inputs["Coat Weight"].default_value = 0.0; b.inputs["Specular IOR Level"].default_value = .35
+        b.inputs["Base Color"].default_value = (*street.srgb("#f1f1ee"), 1); b.inputs["Metallic"].default_value = .55; b.inputs["Roughness"].default_value = .28   # CB 2026-11-19:
+        b.inputs["Coat Weight"].default_value = .6; b.inputs["Coat Roughness"].default_value = .06; b.inputs["Specular IOR Level"].default_value = .5     # METALLIC white, smooth (no flake texture)
     for name in ("Glass_ext-tinted", "glass-windshield"):
         m = bpy.data.materials.get(name)
         if m and m.use_nodes and m.node_tree.nodes.get("Principled BSDF"):
