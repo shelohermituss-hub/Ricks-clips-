@@ -145,3 +145,8 @@ Toute nouvelle vidéo est planifiée contre cette bible (`tools/plan_check.py`).
 | crash_instinct | 59,5 | 3,67 | 25,6 | 8,4 | 12 | −14,0 | 0,43 | 0,29 |
 | whale_boat | 49,6 | 3,36 | 35,3 | 11,5 | 0 | −13,9 | 0,45 | 0,49 |
 | plane_fall | 83,1 | 3,21 | 65,2 | 14,2 | 2 | −13,9 | 0,41 | 0,44 |
+
+
+## Corrections de CB déjà apprises (à appliquer dès la première version)
+
+Voir `docs/CORRECTIONS_CB_FR.md` : textures réelles partout, lumière cinématique (ciel HDRI, soleil placé, ombres longues, débouchage, rayons de soleil), routes usées, champs labourés, clôtures qui projettent une ombre, herbe identique des deux côtés, étalonnage mesuré, conducteur dans chaque voiture.

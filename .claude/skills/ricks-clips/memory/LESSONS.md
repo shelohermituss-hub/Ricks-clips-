@@ -229,3 +229,23 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Evidence:** demos/crash_instinct/build/look/grade_sheet.jpg
 - **Regression check:** tools/grade_match.py on the key frames of every shot
 
+## PI-023 — CB's corrections kept repeating the same family: flat road without wear or tyre marks, fla [validated, high]
+
+- **Where:** crash_instinct s03 (aerial)
+- **Root cause:** Corrections were applied to the shot, not to the method: the first version of a new set started from flat or default values, and nothing in plan_check or the helpers refused it.
+- **Fix:** All corrections are now DEFAULTS: blender/rc/look.py (visible HDRI sky rotated to the sun, hard sun, bounce fill, sun shafts, light haze, scanned PBR with relief, road wear: wheel paths + tar snakes), roadside.py (furrowed fields, real fence with varied posts, sagging wires and shadows, same green verge on both sides, LOD grass), plan_check LOOK + vehicle checks (a plan without look is REFUSED: test_plan_check), docs/CORRECTIONS_CB_FR.md (every correction -> rule -> where it is enforced), continuity.py CLIP (camera far clip cuts the set).
+- **Files:** blender/rc/look.py, demos/crash_instinct/sets/roadside.py, tools/plan_check.py, tools/tests/test_plan_check.py, docs/CORRECTIONS_CB_FR.md, demos/crashed_car/shots/continuity.py
+- **Tests:** test_plan_check: a plan without look FAILS 7 LOOK checks; plans s01-s03 and the example: PLAN PASS with look blocks; continuity PASS with CLIP 0; set moved to rc.look: frame 262 identical (0.00/255)
+- **Evidence:** demos/crash_instinct/build/look3/compare.jpg
+- **Regression check:** python3 tools/tests/test_plan_check.py
+
+## PI-024 — The camera far clip (Blender default 100 m, then 1000 m) cut the set: the fields stopped a [validated, medium]
+
+- **Where:** crash_instinct s03
+- **Root cause:** No check compared the camera's clip_end with how far the set reaches.
+- **Fix:** continuity.py CLIP: fails when a big flat set piece reaches farther than clip_end and prints the fix (cam.data.clip_end = N). Default clip_end 4000 m in the shot camera.
+- **Files:** demos/crashed_car/shots/continuity.py, demos/crash_instinct/shots/s01_plant.py
+- **Tests:** continuity before the fix: CLIP 1 (set reaches 2588 m, clip 1000 m); after: CLIP 0
+- **Evidence:** demos/crash_instinct/build/continuity/s03_aerial.json
+- **Regression check:** continuity.py runs before every preview and render
+

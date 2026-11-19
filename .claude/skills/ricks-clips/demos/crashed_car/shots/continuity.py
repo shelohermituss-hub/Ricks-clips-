@@ -7,6 +7,8 @@ It walks every frame of the shot and reports, for everything the camera sees:
   SHRINK    a jump in scale (> 15 % in one frame) — a helmet that shrinks instead of being moved
   POSE_POP  a drawn character whose new move does not ease in (tools/card_anchors.py measures it on the drawings; a card without
             anchors.json is reported ANCHORS_MISSING: run card_anchors.py first)
+  CLIP      the camera's far clip (clip_end) cuts the set: a ground/road/field mesh reaches farther than clip_end from the camera on the
+            first frame (Blender's default 100 m showed sky where the fields go on, crash_instinct shot 3; lesson PI-023)
   HOLD      the camera does not move (position < 1 mm, rotation < 0.03 deg, lens unchanged) for 2+ consecutive frames
 Exit code 1 if anything is found (the render must not start), 0 when clean.
 Two cases are recognised as real actions and reported as ALLOWED (never silently):
@@ -104,8 +106,16 @@ def check(frames=None):
         if (not still or i == len(camh) - 1) and len(run) >= 2:
             issues.append({"kind": "HOLD", "object": cam.name, "frame": run[0] - 1, "to": run[-1], "frames": len(run) + 1})
         if not still: run = []
+    sc.frame_set(fr[0]); cpos = cam.matrix_world.translation; far = 0.0; who = None
+    for o in bpy.data.objects:
+        if o.type != "MESH" or o.hide_render or len(o.data.polygons) > 64: continue        # big flat set pieces (ground, road, fields), not props
+        d = max((o.matrix_world @ __import__("mathutils").Vector(c) - cpos).length for c in o.bound_box)
+        if d > far: far, who = d, o.name
+    if far > cam.data.clip_end * 1.02:
+        issues.append({"kind": "CLIP", "object": cam.name, "frame": fr[0], "clip_end_m": round(cam.data.clip_end, 1), "set_reaches_m": round(far, 1), "farthest": who,
+                       "fix": "cam.data.clip_end = %d" % int(far * 1.1)})
     speeds = [math.dist(camh[i - 1]["loc"], camh[i]["loc"]) for i in range(1, len(camh))]
-    cnt = {k: sum(1 for x in issues if x["kind"] == k) for k in ("POP", "TELEPORT", "SHRINK", "GROW", "POSE_POP", "ANCHORS_MISSING", "HOLD")}
+    cnt = {k: sum(1 for x in issues if x["kind"] == k) for k in ("POP", "TELEPORT", "SHRINK", "GROW", "POSE_POP", "ANCHORS_MISSING", "CLIP", "HOLD")}
     return {"blend": bpy.data.filepath, "frames": [fr[0], fr[-1]], "checked_objects": len(C), "counts": cnt, "ok": not issues,
             "camera_median_step_m": round(sorted(speeds)[len(speeds) // 2], 4) if speeds else None, "issues": issues, "allowed_swaps": allowed}
 

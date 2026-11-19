@@ -77,10 +77,10 @@ def oak(collection, name="oak", seed=7, height=9.0, crown=10.6):
     top = tp[-1]
     # crown clumps on an ellipsoid (flatter underneath)
     C = Vector((0, 0, 6.9 * s)); rx = crown / 2 * .8; rz = 2.4 * s; clumps = []
-    while len(clumps) < 52:
+    while len(clumps) < 95:                                                             # CB 2026-11-19: more, smaller, irregular clumps (more real)
         u = R.uniform(-.35, 1.0); a = R.uniform(0, 2 * math.pi); h = math.sqrt(max(0, 1 - u * u)); r = R.uniform(.72, 1.0)
         p = C + Vector((math.cos(a) * h * rx * r, math.sin(a) * h * rx * r, u * rz * r))
-        if all((p - q[0]).length > .95 * s for q in clumps): clumps.append((p, R.uniform(.85, 1.45) * s))
+        if all((p - q[0]).length > .7 * s for q in clumps): clumps.append((p, R.uniform(.6, 1.15) * s))
     # limbs: 5 main limbs to the biggest outer clumps, 2 twigs each to neighbours
     bm = bmesh.new(); outer = sorted(clumps, key=lambda q: -(Vector((q[0].x, q[0].y, 0)).length))[:5]
     for k, (p, _) in enumerate(outer):
@@ -94,20 +94,20 @@ def oak(collection, name="oak", seed=7, height=9.0, crown=10.6):
     core_m = street.mat("oak_core", "#2f5a1e", .8)
     bm = bmesh.new()
     for p, r in clumps:
-        sph = bmesh.new(); bmesh.ops.create_icosphere(sph, subdivisions=2, radius=r * .78)
+        sph = bmesh.new(); bmesh.ops.create_icosphere(sph, subdivisions=2, radius=r * .7)
         vm = {}
         for v in sph.verts: vm[v] = bm.verts.new(p + v.co * (1 + .22 * math.sin(v.co.x * 4 + v.co.z * 3 + v.co.y * 2)))
         for f in sph.faces: bm.faces.new([vm[v] for v in f.verts])
         sph.free()
     core = street.mesh_obj(name + "_core", bm, core_m, collection, smooth=True); core.parent = root
-    sunny = _leaf_set("oakleaf_sun", ["#bcd85a", "#9fca46", "#82b83a"]); shade = _leaf_set("oakleaf_shade", ["#5f9a2e", "#4b8326", "#3c6e22"])
+    sunny = _leaf_set("oakleaf_sun", ["#c2dc5e", "#a6cc48", "#8aba3c", "#6fa232"]); shade = _leaf_set("oakleaf_shade", ["#5f9a2e", "#4b8326", "#3c6e22", "#2e5a1c"])
     up_pts, up_rot, up_sc, dn_pts, dn_rot, dn_sc = [], [], [], [], [], []
     for p, r in clumps:
-        n = int(620 * r / 1.4)
+        n = int(520 * r / 1.0)
         for _ in range(n):
             u = R.uniform(-1, 1); a = R.uniform(0, 2 * math.pi); h = math.sqrt(1 - u * u); nrm = Vector((math.cos(a) * h, math.sin(a) * h, u))
             q = p + nrm * r * R.uniform(.84, 1.06); e = (nrm + Vector((R.uniform(-.4, .4), R.uniform(-.4, .4), R.uniform(-.2, .4)))).normalized().to_track_quat("Z", "Y").to_euler()
-            sc_ = R.uniform(1.0, 1.6) * s; lit = nrm.z + .35 * (nrm.x * -.6 + nrm.y * -.5) > -.05      # faces the sun (from -X, -Y, above)
+            sc_ = R.uniform(.7, 1.15) * s; lit = nrm.z + .35 * (nrm.x * -.6 + nrm.y * -.5) > -.05      # faces the sun (from -X, -Y, above)
             (up_pts if lit else dn_pts).append(q - root.location); (up_rot if lit else dn_rot).append(tuple(e)); (up_sc if lit else dn_sc).append(sc_)
     l1 = geo.instancer(name + "_leaves_sun", up_pts, sunny, collection, up_rot, up_sc, pick=True, seed=seed, wind=.02); l1.parent = root
     l2 = geo.instancer(name + "_leaves_shade", dn_pts, shade, collection, dn_rot, dn_sc, pick=True, seed=seed + 1, wind=.02); l2.parent = root

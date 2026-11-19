@@ -123,7 +123,7 @@ def car():
 
 def camera():
     cam = bpy.data.objects.new("cam", bpy.data.cameras.new("cam")); street.col("CAM").objects.link(cam); bpy.context.scene.camera = cam
-    cam.data.sensor_fit = "VERTICAL"; cam.data.sensor_height = 24
+    cam.data.sensor_fit = "VERTICAL"; cam.data.sensor_height = 24; cam.data.clip_end = 4000.0          # the fields go to 2.6 km (continuity CLIP check, PI-023)
     keys = [(0, (-0.45, -6.0, 1.75), (-0.35, 0.6, .45), 24), (24, (-0.4, -5.7, 1.78), (-0.3, 0.7, .6), 24), (32, (0.6, -7.0, 1.5), (0.1, 0.3, 2.4), 21),
             (40, (3.3, -12.4, 1.05), (0.3, 0.5, 4.5), 20), (95, (3.6, -11.8, 1.1), (0.35, 0.6, 4.4), 20)]
     for f, p, a, lens in keys:
@@ -204,8 +204,10 @@ def grass_and_flowers():
     roadside.verge_grass(c, [[-1.6, -6.5], [1.45, -6.5], [1.45, -2.4], [-1.6, -2.4]], 3200, 4, scale=(1.0, 1.6))
     roadside.verge_grass(c, [[-6.3, -16], [1.45, -16], [1.45, -6.5], [-6.3, -6.5]], 7000, 5, scale=(.5, .9))
     roadside.verge_grass(c, [[-6.3, -6.5], [-1.6, -6.5], [-1.6, -2.4], [-6.3, -2.4]], 3200, 6, scale=(.5, .9))
-    roadside.verge_grass(c, [[-6.3, 14], [1.45, 14], [1.45, 140], [-6.3, 140]], 6000, 2, scale=(.9, 1.5))
-    roadside.verge_grass(c, [[10.6, -16], [14.7, -16], [14.7, 80], [10.6, 80]], 2500, 3, scale=(.9, 1.5))
+    roadside.verge_grass(c, [[-6.3, 14], [1.45, 14], [1.45, 160], [-6.3, 160]], 7000, 2, scale=(.6, 1.1))
+    # CB 2026-11-19: the SAME grass on both sides of the road, all along (density falls with distance: LOD)
+    roadside.verge_grass(c, [[10.6, -16], [18.4, -16], [18.4, 40], [10.6, 40]], 9000, 3, scale=(.5, .9))
+    roadside.verge_grass(c, [[10.6, 40], [18.4, 40], [18.4, 160], [10.6, 160]], 7000, 8, scale=(.6, 1.1))
     for k, (x, y) in enumerate(((-2.8, -3.2), (-3.4, -2.1), (-1.6, -2.6), (-4.2, -1.0), (.6, -2.4), (-2.2, -4.0))):
         street.lib_instance("dandelion%d" % k, "dandelion_01", c, (x, y, 0), rot=k * 1.3, scale=1.0)
 

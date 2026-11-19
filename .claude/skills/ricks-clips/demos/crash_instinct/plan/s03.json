@@ -1,0 +1,361 @@
+{
+ "style": "references/crash_instinct/ANALYSE_FR.md",
+ "format": "1080x1920",
+ "fps": 30,
+ "kind": "fragment",
+ "needs": [
+  {
+   "id": "planter",
+   "kind": "character",
+   "source": "cast:planter (sheet17)",
+   "state": "drawn by tools/card_service.py"
+  },
+  {
+   "id": "oak",
+   "kind": "model",
+   "source": "script: demos/crash_instinct/sets/oak.py (bark polyhaven:jolcham_oak_bark_01, CC0)",
+   "state": "built (no library tree matched: Poly Haven island trees fork at the base, Sketchfab oaks are sparse)"
+  },
+  {
+   "id": "white_car",
+   "kind": "model",
+   "source": "sketchfab:5db696c6ed5d4bdc87905c1040fa072a (MMC Generic Small SUV, MMC Works, CC-BY)",
+   "state": "in library (matte white paint, clear glass; CB 2026-11-19)"
+  },
+  {
+   "id": "grass_tufts",
+   "kind": "model",
+   "source": "polyhaven:grass_medium_02",
+   "state": "in library"
+  },
+  {
+   "id": "dandelion",
+   "kind": "model",
+   "source": "polyhaven:dandelion_01",
+   "state": "in library"
+  },
+  {
+   "id": "road_asphalt",
+   "kind": "texture",
+   "source": "polyhaven:asphalt_track",
+   "state": "cached"
+  },
+  {
+   "id": "mud",
+   "kind": "texture",
+   "source": "polyhaven:brown_mud_02",
+   "state": "in library"
+  },
+  {
+   "id": "field_grass",
+   "kind": "texture",
+   "source": "polyhaven:leafy_grass",
+   "state": "in library"
+  },
+  {
+   "id": "sky_hdri",
+   "kind": "hdri",
+   "source": "polyhaven:kloofendal_48d_partly_cloudy_puresky",
+   "state": "cached (reflections only)"
+  },
+  {
+   "id": "oak_bark",
+   "kind": "texture",
+   "source": "polyhaven:jolcham_oak_bark_01",
+   "state": "cached"
+  },
+  {
+   "id": "sky",
+   "kind": "hdri",
+   "source": "polyhaven:kloofendal_48d_partly_cloudy_puresky",
+   "state": "cached (visible sky, CB 2026-11-19)"
+  }
+ ],
+ "places": [
+  {
+   "id": "roadside",
+   "description": "bord de route de campagne plate : herbe haute dense, accotement ras, route droite à deux voies (rive blanche, axe jaune) jusqu'à l'horizon, clôture bois + barbelés à gauche, champs beiges et labourés en bandes, ciel pâle à gros cumulus ; vue aérienne : route et champs prolongés à 2,5 km, double ligne jaune continue au centre",
+   "ground": {
+    "name": "roadside grass",
+    "texture": "polyhaven:leafy_grass",
+    "tile": 2.0,
+    "value": 1.1,
+    "extra": "touffes 3D grass_medium_02 denses au premier plan, pissenlits, trou de terre brown_mud_02 Ø 0,6 m"
+   },
+   "surfaces": [
+    {
+     "name": "road",
+     "texture": "polyhaven:asphalt_02",
+     "tile": 3.0,
+     "value": 1.45,
+     "extra": "scanned worn asphalt, double solid yellow centre, white edge lines",
+     "wear": "wheel paths darker in both lanes (patchy), sealed cracks / tar snakes (roadside.road_wear)"
+    },
+    {
+     "name": "fields",
+     "texture": "polyhaven:farm_furrows",
+     "tile": 8.0,
+     "extra": "tilled furrows along the road (relief x2.2), bands of golden stubble / brown soil"
+    }
+   ],
+   "sky": "dégradé bleu pâle → blanc à l'horizon, 4 gros cumulus blancs à gauche et en haut, légère brume au loin ; HDRI pour les reflets seulement",
+   "light": {
+    "sun": {
+     "elevation": 45,
+     "azimuth": -120,
+     "energy": 5.2,
+     "angle": 2.0
+    },
+    "fill": 0.55,
+    "mood": "day sun, soft"
+   },
+   "shadows": "ombre nette à bord doux du tronc et de la couronne sur l'herbe et la route ; ombres des piquets ; occlusion au pied du tronc et sous le héros assis ; ombres jamais noires (fill fort)",
+   "props": [
+    {
+     "id": "fence",
+     "source": "script: piquets bois gris tous les 3 m + 3 fils barbelés, texture polyhaven:brown_planks_05"
+    },
+    {
+     "id": "dirt_hole",
+     "source": "script: disque brown_mud_02 + bourrelet + petit tas de terre"
+    },
+    {
+     "id": "dandelions",
+     "source": "polyhaven:dandelion_01"
+    },
+    {
+     "id": "grass_tufts",
+     "source": "polyhaven:grass_medium_02"
+    }
+   ],
+   "look": {
+    "sky": "hdri:kloofendal_48d_partly_cloudy_puresky (visible, rotated to the sun lamp)",
+    "sun_from": "back-left, 30 deg high (backlight, like the reference): sun glow top-left of the aerial",
+    "hero_shadow": "the oak's long shadow across the verge and the road toward the camera",
+    "fill": "bounce_fill: camera-side area light 7 m, 900 W, invisible (trunk never black)",
+    "shafts": "light_shafts attached to the oak: thin, toward the ground; haze 0.0015",
+    "fence": "rough_wood posts (varied height, lean, slanted cut), sagging barbed wires, posts and wires cast shadows, both sides of the road",
+    "grass": {
+     "height_cm": "8-25 (tall 30 only in shot 1's foreground)",
+     "colour": "#4e8a2e..#a4d866 (measured, CB brighter)",
+     "both_sides": true
+    }
+   }
+  }
+ ],
+ "sound": {
+  "music": "light bed, about -7.6 dB under the voice",
+  "lufs": -14
+ },
+ "captions": {
+  "words": [
+   1,
+   3
+  ],
+  "style": "white bold rounded, thick black outline, centred at 70 % height, one change per word"
+ },
+ "objects": [
+  {
+   "id": "white_car",
+   "source": "sketchfab:5db696c6ed5d4bdc87905c1040fa072a",
+   "material": "blanc métallisé #f1f1ee (métal 0,55, rugosité 0,28, vernis 0,6) : lisse, sans la texture d'origine qui scintillait (CB 19/11) ; vitres claires",
+   "states": [
+    "roule",
+    "avant écrasé (clé de forme crash_dent)",
+    "fume"
+   ]
+  },
+  {
+   "id": "wheel",
+   "source": "sketchfab:5db696c6ed5d4bdc87905c1040fa072a",
+   "material": "pneu + jante du modèle",
+   "states": [
+    "sur la voiture",
+    "arrachée, roule",
+    "à plat dans l'herbe"
+   ]
+  },
+  {
+   "id": "oak",
+   "source": "script: sets/oak.py",
+   "material": "écorce polyhaven:jolcham_oak_bark_01, feuilles 3D",
+   "states": [
+    "planté",
+    "secoué, perd des feuilles"
+   ]
+  }
+ ],
+ "lessons_planned": [
+  "PI-016",
+  "PI-018",
+  "PI-019",
+  "PI-020",
+  "PI-021",
+  "PI-022"
+ ],
+ "title": "crash_instinct — plan 3 (5,9 → 9,4 s, images 177-281)",
+ "notes": "Suite de la même prise (aucune coupe avant 22,9 s : shots.json + différence d'image, PI-020). Analyse : references/crash_instinct/shots/s03.md. Plan écrit et contrôlé AVANT la construction. Temps relatifs au début du plan (image 177 = 0 s).",
+ "duration_s": 3.5,
+ "voice": {
+  "text": "straight for miles. And the only thing beside it is this one tree. But",
+  "words": 14,
+  "key_words": {
+   "straight": 0.0,
+   "miles": 0.3,
+   "only thing": 1.2,
+   "one tree": 2.5
+  }
+ },
+ "hook": {
+  "action": "(plan 1)",
+  "t": 0.0
+ },
+ "characters": [
+  {
+   "id": "planter",
+   "puppet": "cast:planter",
+   "costume": "chemise de travail vert-bleu, casquette rouge, cheveux bruns",
+   "view": "front",
+   "held": [
+    "seed"
+   ],
+   "notes": "une seule vue (PI-016) : la vue de face est la seule qui a fier / accroupi / sursaut / assis ; la référence est en 3/4"
+  },
+  {
+   "id": "driver",
+   "puppet": "cast:driver",
+   "costume": "polo bleu, lunettes de soleil",
+   "view": "front",
+   "held": [],
+   "notes": "assis au volant, vu à travers le pare-brise ; projeté en avant au choc"
+  }
+ ],
+ "shots": [
+  {
+   "id": "3",
+   "place": "roadside",
+   "t0": 0.0,
+   "t1": 3.5,
+   "narration": "straight for miles. And the only thing beside it is this one tree. But",
+   "transition_in": "no cut: continues shot 2's crane (frame 177)",
+   "transition_out": "no cut: very fast move toward the DAYS SINCE LAST CRASH sign (shot 4, frame 282)",
+   "camera": [
+    {
+     "t": 0.0,
+     "pos": [
+      5.0,
+      -24.0,
+      15.0
+     ],
+     "aim": "road to the horizon",
+     "lens": 22,
+     "move": "aerial, end of the crane"
+    },
+    {
+     "t": 1.8,
+     "pos": [
+      5.6,
+      -21.0,
+      14.0
+     ],
+     "aim": "road to the horizon",
+     "lens": 22,
+     "move": "very slow push"
+    },
+    {
+     "t": 2.83,
+     "pos": [
+      3.4,
+      -12.6,
+      1.3
+     ],
+     "aim": "the tree",
+     "lens": 22,
+     "move": "descend toward the tree"
+    },
+    {
+     "t": 3.47,
+     "pos": [
+      3.6,
+      -12.0,
+      1.35
+     ],
+     "aim": "the tree",
+     "lens": 22,
+     "move": "slow drift"
+    }
+   ],
+   "actions": [
+    {
+     "id": "shrug",
+     "who": "planter",
+     "f": [
+      255,
+      272
+     ],
+     "what": "shrugs at the tree, puzzled",
+     "recipe": "emotion_beat",
+     "anim": "m:shrug/A (front), face k:confused",
+     "micro": [
+      "blink",
+      "small head wobble"
+     ],
+     "reactions": [
+      "the face changes ON the word with a 5-frame head pop",
+      "the body answers the face (lean back, shoulders up, freeze)"
+     ],
+     "consequences": [
+      "stays puzzled beside the wreck"
+     ],
+     "sfx": [
+      "small huff"
+     ]
+    },
+    {
+     "id": "smoke",
+     "who": "white_car",
+     "f": [
+      177,
+      281
+     ],
+     "what": "the wreck keeps smoking",
+     "recipe": "vehicle_fire",
+     "anim": "rc.vfx smoke (continued)",
+     "micro": [
+      "smoke drifts with the wind"
+     ],
+     "reactions": [
+      "smoke rises from the crushed front"
+     ],
+     "consequences": [
+      "the car stays crushed against the trunk"
+     ],
+     "sfx": [
+      "engine ticking as it cools"
+     ]
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "planter",
+     "change": "standing -> shrugging -> standing",
+     "by_action": "shrug"
+    }
+   ],
+   "fx": [
+    "wreck smoke",
+    "leaves on the ground"
+   ],
+   "sound": {
+    "ambience": "wind on the plain, birds",
+    "music": "light bed"
+   },
+   "handheld": true
+  }
+ ],
+ "grade": {
+  "method": "tools/grade_match.py on the key frames",
+  "reference": "references/crash_instinct/source.mp4",
+  "result": "Standard + Medium Contrast, exposure -0.5, saturation 1.05"
+ }
+}

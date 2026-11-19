@@ -109,7 +109,13 @@
      "id": "sponsor_boards",
      "source": "script + text decals"
     }
-   ]
+   ],
+   "look": {
+    "sky": "hdri:kloofendal_48d_partly_cloudy_puresky (visible, rotated to the sun lamp)",
+    "sun_from": "behind-left of the camera, 40 deg high (hard, angle 1.5)",
+    "hero_shadow": "the grandstand roof's long shadow bands across the pit floor",
+    "fill": "camera-side bounce area light, 7 m, 900 W, invisible"
+   }
   },
   {
    "id": "corner",
@@ -156,14 +162,20 @@
      "id": "debris",
      "source": "script (seed 7)"
     }
-   ]
+   ],
+   "look": {
+    "sky": "hdri:kloofendal_48d_partly_cloudy_puresky (visible, rotated to the sun lamp)",
+    "sun_from": "behind-left of the camera, 40 deg high (hard, angle 1.5)",
+    "hero_shadow": "the barrier's shadow along the gravel trap",
+    "fill": "camera-side bounce area light, 7 m, 900 W, invisible"
+   }
   }
  ],
  "objects": [
   {
    "id": "f1",
    "source": "sketchfab:ca91852b29bb435d8d0278d9131aa775",
-   "material": "rouge #cc101a, vernis coat 1.0 / 0.03, reflets HDRI",
+   "material": "peinture rouge #cc101a refaite (pas la texture du modèle), vernis coat 1.0 / 0.03, reflets HDRI ; monoplace sans vitre, visière fumée",
    "states": [
     "propre (pit)",
     "retournée, aileron arraché (corner)"
@@ -508,5 +520,10 @@
    3
   ],
   "style": "white bold rounded, thick black outline, centred at 70 % height, one change per word"
+ },
+ "grade": {
+  "method": "tools/grade_match.py on the key frames",
+  "reference": "references/crashed_car/source.mp4",
+  "result": "Standard + Medium High Contrast"
  }
 }

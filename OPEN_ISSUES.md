@@ -42,3 +42,8 @@
 | 19 | P3 | Les 7 vidéos sources de référence ne sont pas dans le dépôt (ignorées par Git) | Les mesures, les transcriptions et les planches sont versionnées. Pour réanalyser une vidéo, la redemander à CB |
 | 20 | P3 | Le gabarit de mouvement « cible 41,8 » de crashed_car est remplacé par la plage des 7 vidéos (20 à 65, médiane 30,6) | `CB_RULES` §11h cite encore 41,8 comme exemple : à lire comme « au niveau de la référence choisie » |
 | 21 | P3 | Une session neuve ne repassait pas `test_rc` (25/27) : fichiers dérivés faits à la main | **RÉSOLU 19/11** (PI-017) : `tools/gltf_to_glb.py`, `scripts/restore_untracked.sh`, `test_rc` cuit le plan lui-même |
+| 22 | P2 | crash_instinct plan 3 : `grade_match` échoue sur le contraste (images 0, 126, 180) ; rayons de soleil trop discrets ; cadrage aérien trop plongeant et arbre trop gros | Régler puis montrer les images clés à CB |
+| 23 | P2 | crash_instinct : les dernières corrections de CB (route usée, champs en sillons, clôtures qui projettent une ombre, herbe des deux côtés, soleil arrière-gauche) ne sont pas encore revues par lui | Rendre les images clés 0, 46, 126, 180, 262 |
+| 24 | P3 | `rc/look.py` existe mais `sets/roadside.py` ne l'utilise que pour le ciel, le soleil, le débouchage et les faisceaux : `road_wear`/`tex` y sont importés, `pbr`/`mat` viennent encore de `crashed_car/sets/street.py` | Fusionner à terme `street.py` dans `rc/look.py` (MIGRATION_PLAN étape 1) |
+| 25 | P3 | Test GPU RunPod non fait ; le pod n'a pas le jeton Sketchfab (la berline et le SUV viennent de Sketchfab) | Convertir ces modèles en `.glb` et les fournir au pod ; accord et plafond de CB |
+

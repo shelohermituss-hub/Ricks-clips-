@@ -98,16 +98,17 @@
    "surfaces": [
     {
      "name": "road",
-     "texture": "polyhaven:asphalt_track",
+     "texture": "polyhaven:asphalt_02",
      "tile": 3.0,
      "value": 1.45,
-     "extra": "gris clair, ligne de rive blanche, axe jaune discontinu au loin, bord de bitume irrégulier"
+     "extra": "scanned worn asphalt, double solid yellow centre, white edge lines",
+     "wear": "wheel paths darker in both lanes (patchy), sealed cracks / tar snakes (roadside.road_wear)"
     },
     {
      "name": "fields",
-     "texture": "polyhaven:brown_mud_02",
+     "texture": "polyhaven:farm_furrows",
      "tile": 8.0,
-     "extra": "bandes alternées beige sec / labour brun jusqu'à l'horizon"
+     "extra": "tilled furrows along the road (relief x2.2), bands of golden stubble / brown soil"
     }
    ],
    "sky": "dégradé bleu pâle → blanc à l'horizon, 4 gros cumulus blancs à gauche et en haut, légère brume au loin ; HDRI pour les reflets seulement",
@@ -139,7 +140,20 @@
      "id": "grass_tufts",
      "source": "polyhaven:grass_medium_02"
     }
-   ]
+   ],
+   "look": {
+    "sky": "hdri:kloofendal_48d_partly_cloudy_puresky (visible, rotated to the sun lamp)",
+    "sun_from": "back-left, 30 deg high (backlight, like the reference): sun glow top-left of the aerial",
+    "hero_shadow": "the oak's long shadow across the verge and the road toward the camera",
+    "fill": "bounce_fill: camera-side area light 7 m, 900 W, invisible (trunk never black)",
+    "shafts": "light_shafts attached to the oak: thin, toward the ground; haze 0.0015",
+    "fence": "rough_wood posts (varied height, lean, slanted cut), sagging barbed wires, posts and wires cast shadows, both sides of the road",
+    "grass": {
+     "height_cm": "8-25 (tall 30 only in shot 1's foreground)",
+     "colour": "#4e8a2e..#a4d866 (measured, CB brighter)",
+     "both_sides": true
+    }
+   }
   }
  ],
  "objects": [
@@ -501,5 +515,10 @@
  "hook": {
   "action": "the planter shows the acorn, drops it, and a full-grown tree falls from the sky into the hole",
   "t": 0.0
+ },
+ "grade": {
+  "method": "tools/grade_match.py on the key frames",
+  "reference": "references/crash_instinct/source.mp4",
+  "result": "Standard + Medium Contrast, exposure -0.5, saturation 1.05"
  }
 }

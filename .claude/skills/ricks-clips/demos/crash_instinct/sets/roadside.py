@@ -1,6 +1,6 @@
 """crash_instinct: the empty country road and its one tree (shots 1-10, 14-15, 17-19, 25), built for the frame.
 Layout (metres): the tree trunk at the origin; the road runs along +Y, dead straight to the horizon, between x = 2.2 and x = 9.8
-(white edge lines, a yellow dashed centre line at x = 6); a gravel shoulder 1.6-2.2; roadside grass on the tree side; a wooden
+(white edge lines, a double solid yellow centre line at x = 6); a gravel shoulder 1.6-2.2; roadside grass on the tree side; a wooden
 barbed-wire fence at x = -6.5; flat fields in alternating dry-beige / ploughed-brown bands to the horizon on both sides.
 Analysis: references/crash_instinct/ANALYSE_FR.md §4 and shots/s01.md. Helpers (mat, pbr, grass tufts, clouds, handheld) come
 from demos/crashed_car/sets/street.py."""
@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.join(HERE, "..", "..", "crashed_car", "sets")); sys.p
 import street  # noqa: E402
 from street import srgb, col, mat, pbr, box, cyl, mesh_obj, cloud, lib_instance  # noqa: E402
 
-ROAD = (2.2, 9.8); FENCE_X = -6.5; Y0, Y1 = -40.0, 700.0
+ROAD = (2.2, 9.8); FENCE_X = -6.5; FENCE_XR = 18.5; Y0, Y1 = -40.0, 2500.0                       # to the horizon (aerial view, shot 3)
 
 def plane(name, c, x0, x1, y0, y1, m, z=0.0):
     bm = bmesh.new(); vs = [bm.verts.new(v) for v in ((x0, y0, z), (x1, y0, z), (x1, y1, z), (x0, y1, z))]; bm.faces.new(vs)
@@ -26,120 +26,71 @@ def sky(scene):
     cr.color_ramp.elements[1].position = .62; cr.color_ramp.elements[1].color = (*srgb("#6fa6de"), 1)
     nt.links.new(cr.outputs[0], bg.inputs["Color"]); bg.inputs["Strength"].default_value = .9
 
-HDRI = "kloofendal_48d_partly_cloudy_puresky"; HDRI_SUN_DEG = -34.2          # its sun: atan2(y, x) of the brightest pixel (measured), elevation 47.8
-SUN_AZ, SUN_EL = 30.5, 45.0                                                     # CB 2026-11-19: backlit like the reference (sun behind the tree, right)
-
-def sky_hdri(scene, strength=1.0):
-    """CINEMATIC SKY (CB 2026-11-19): a real cloudy sky photo (Poly Haven CC0) seen by the camera AND lighting the scene (soft fill, so the
-    trunk is never black in daylight); rotated so its sun sits where the sun lamp is"""
-    from rc import fetch
-    w = bpy.data.worlds.new("sky_hdri"); scene.world = w; w.use_nodes = True; nt = w.node_tree; N, L = nt.nodes, nt.links; bg = N["Background"]
-    tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); env = N.new("ShaderNodeTexEnvironment")
-    env.image = bpy.data.images.load(fetch.polyhaven_hdri(HDRI, "1k", log=lambda *a: None), check_existing=True)
-    want = math.degrees(math.atan2(math.cos(math.radians(SUN_AZ)), math.sin(math.radians(SUN_AZ))))     # direction the light comes from, as atan2(y, x)
-    mp.inputs["Rotation"].default_value = (0, 0, math.radians(HDRI_SUN_DEG - want))
-    L.new(tc.outputs["Generated"], mp.inputs["Vector"]); L.new(mp.outputs["Vector"], env.inputs["Vector"]); L.new(env.outputs["Color"], bg.inputs["Color"])
-    bg.inputs["Strength"].default_value = strength
-
-def god_rays(c, center=(0, 0, 0), size=(34, 34, 16), density=.003, anisotropy=.75):
-    """SUN RAYS (CB 2026-11-19): a light haze volume around the tree; the sun lamp shining through the crown draws the shafts"""
-    m = bpy.data.materials.get("god_ray_haze") or bpy.data.materials.new("god_ray_haze"); m.use_nodes = True; nt = m.node_tree
-    for n_ in list(nt.nodes):
-        if n_.type != "OUTPUT_MATERIAL": nt.nodes.remove(n_)
-    v = nt.nodes.new("ShaderNodeVolumePrincipled"); v.inputs["Density"].default_value = density; v.inputs["Anisotropy"].default_value = anisotropy
-    v.inputs["Color"].default_value = (1, .97, .9, 1); nt.links.new(v.outputs[0], nt.nodes["Material Output"].inputs["Volume"])
-    o = box("god_rays", c, size, (center[0], center[1], size[2] / 2 - .05), m, bevel=0); o.visible_shadow = False
-    return o
-
-def light_shafts(c, n=12, seed=3, under=(0, 0, 4.6), spread=3.0, length=7.0, strength=.2, parent=None):
-    """SUN RAYS you can SEE (CB 2026-11-19): soft tapered shafts falling from gaps under the crown along the sun direction, additive light
-    (transparent + emission, fading along the shaft and at its edges); the reference shows them under the tree in daylight"""
-    import random as _r
-    R = _r.Random(seed); el, az = math.radians(SUN_EL), math.radians(SUN_AZ)
-    d = -Vector((math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el)))      # the way the light travels
-    m = bpy.data.materials.get("light_shaft")
-    if not m:
-        m = bpy.data.materials.new("light_shaft"); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links
-        for n_ in list(N):
-            if n_.type != "OUTPUT_MATERIAL": N.remove(n_)
-        tc = N.new("ShaderNodeTexCoord"); sx = N.new("ShaderNodeSeparateXYZ"); L.new(tc.outputs["UV"], sx.inputs[0])
-        along = N.new("ShaderNodeMath"); along.operation = "SUBTRACT"; along.inputs[0].default_value = 1.0; L.new(sx.outputs["Y"], along.inputs[1])
-        edge = N.new("ShaderNodeMath"); edge.operation = "SINE"; m2 = N.new("ShaderNodeMath"); m2.operation = "MULTIPLY"; m2.inputs[1].default_value = math.pi
-        L.new(sx.outputs["X"], m2.inputs[0]); L.new(m2.outputs[0], edge.inputs[0])
-        k = N.new("ShaderNodeMath"); k.operation = "MULTIPLY"; L.new(along.outputs[0], k.inputs[0]); L.new(edge.outputs[0], k.inputs[1])
-        em = N.new("ShaderNodeEmission"); em.inputs["Color"].default_value = (1, .95, .82, 1)
-        st = N.new("ShaderNodeMath"); st.operation = "MULTIPLY"; st.inputs[1].default_value = strength; L.new(k.outputs[0], st.inputs[0]); L.new(st.outputs[0], em.inputs["Strength"])
-        tr = N.new("ShaderNodeBsdfTransparent"); add = N.new("ShaderNodeAddShader"); L.new(tr.outputs[0], add.inputs[0]); L.new(em.outputs[0], add.inputs[1])
-        L.new(add.outputs[0], N["Material Output"].inputs["Surface"])
-    side = d.cross(Vector((0, 0, 1))).normalized(); out = []
-    for i in range(n):
-        p0 = Vector(under) + Vector((R.uniform(-spread, spread), R.uniform(-spread, spread), R.uniform(-.4, .6))); w0, w1 = R.uniform(.06, .16), R.uniform(.18, .38)
-        p1 = p0 + d * (length * R.uniform(.8, 1.1))
-        bm = bmesh.new(); uv = bm.loops.layers.uv.new()
-        vs = [bm.verts.new(v) for v in (p0 - side * w0, p0 + side * w0, p1 + side * w1, p1 - side * w1)]; f = bm.faces.new(vs)
-        for lp, (u_, v_) in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uv].uv = (u_, v_)
-        o = mesh_obj("light_shaft%d" % i, bm, m, c); o.visible_shadow = False; o.visible_glossy = False; out.append(o)
-        if parent: o.parent = parent                                                        # they belong to the tree (fall with it)
-    return out
-
-def bounce_fill(c, at=(-3.0, -9.0, 2.2), aim=(0, 0, 2.0), energy=900.0, size=7.0):
-    """CINEMATIC FILL (CB 2026-11-19: "le tronc est tout sombre en plein jour"): a big soft area light on the camera side, like a bounce board;
-    invisible to the camera and in reflections, it opens the shadow side of the trunk and the characters under the crown"""
-    l = bpy.data.lights.new("bounce_fill", "AREA"); l.energy = energy; l.size = size; l.color = srgb("#fff6ea")
-    o = bpy.data.objects.new("bounce_fill", l); col("LIGHT").objects.link(o); o.location = at
-    o.rotation_euler = (Vector(aim) - Vector(at)).to_track_quat("-Z", "Y").to_euler()
-    o.visible_camera = False; o.visible_glossy = False
-    return o
-
-def sun(scene, elevation=SUN_EL, azimuth=SUN_AZ, energy=4.2, angle=2.0):
-    s = bpy.data.lights.new("sun", "SUN"); s.energy = energy; s.angle = math.radians(angle); s.color = srgb("#fff3e2")
-    o = bpy.data.objects.new("sun", s); col("LIGHT").objects.link(o)
-    el, az = math.radians(elevation), math.radians(azimuth)                       # azimuth: direction the light COMES FROM, 0 = +Y, -90 = -X
-    d = Vector((math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el)))
-    o.rotation_euler = (-d).to_track_quat("-Z", "Y").to_euler(); return o
+# the cinematic kit (sky, sun, fill, shafts, haze, scanned textures, road wear) lives in blender/rc/look.py since 2026-11-19 (CB: every
+# correction becomes the default for every new scene); the sun of this film: back-left, 30 deg (look.SUN)
+from rc.look import HDRI, SUN, sky_hdri, god_rays, light_shafts, bounce_fill, sun, tex, road_wear  # noqa: E402
+SUN_AZ, SUN_EL = SUN
 
 def road(c):
-    asphalt = pbr("road_asphalt", "asphalt_track", tile=3.0, value=1.6, rough_mul=1.1)
+    asphalt = road_wear(tex("road_asphalt", "asphalt_02", tile=4.0, value=1.25, normal=1.6, rough_mul=1.05))      # scanned worn asphalt + wheel paths + tar snakes
     plane("road", c, ROAD[0], ROAD[1], Y0, Y1, asphalt, .02)
     gravel = pbr("shoulder_gravel", "asphalt_track", tile=1.2, value=1.15, tint="#b8a888", tint_k=.5)
     plane("shoulder_L", c, 1.5, ROAD[0], Y0, Y1, gravel, .012); plane("shoulder_R", c, ROAD[1], ROAD[1] + .7, Y0, Y1, gravel, .012)
     white = mat("paint_white", "#f2f2ec", .45); yellow = mat("paint_yellow", "#f7cf4a", .5)
     plane("edge_L", c, ROAD[0] + .2, ROAD[0] + .35, Y0, Y1, white, .026); plane("edge_R", c, ROAD[1] - .35, ROAD[1] - .2, Y0, Y1, white, .026)
-    bm = bmesh.new(); y = Y0                                                       # yellow centre: dashed 3 m every 12 m, one mesh
-    while y < Y1:
-        vs = [bm.verts.new(v) for v in ((5.9, y, .026), (6.1, y, .026), (6.1, y + 3, .026), (5.9, y + 3, .026))]; bm.faces.new(vs); y += 12
-    mesh_obj("centre_line", bm, yellow, c)
+    plane("centre_L", c, 5.86, 5.98, Y0, Y1, yellow, .026); plane("centre_R", c, 6.02, 6.14, Y0, Y1, yellow, .026)   # double solid yellow (seen from the air, shot 3)
 
 def ground(c):
-    grass = pbr("verge_grass", "leafy_grass", tile=2.0, value=1.1)
-    plane("verge", c, FENCE_X - .5, 1.5, Y0, Y1, grass, 0.0); plane("verge_R", c, ROAD[1] + .7, ROAD[1] + 5, Y0, Y1, grass, 0.0)
+    grass = pbr("verge_grass", "leafy_grass", tile=2.0, value=1.45, tint="#76b83a", tint_k=1.0)   # same green as the tufts seen from far   # green from far too (aerial), not beige
+    plane("verge", c, FENCE_X - .5, 1.5, Y0, Y1, grass, 0.0); plane("verge_R", c, ROAD[1] + .7, FENCE_XR + .5, Y0, Y1, grass, 0.0)   # 8 m of green on BOTH sides (CB)
     fields(c)
 
 def fields(c):
-    """flat farmland in bands parallel to the road: dry beige stubble / ploughed brown, to the horizon on both sides"""
-    dry = pbr("field_dry", "leafy_grass", tile=4.0, tint="#c9b27a", tint_k=.85, value=1.25)
-    plough = pbr("field_plough", "brown_mud_02", tile=3.0, value=1.05)
-    for side, x0, x1 in (("L", -400.0, FENCE_X - .5), ("R", ROAD[1] + 5, 400.0)):
+    """PREPARED FARMLAND (CB 2026-11-19: "la terre ... a des traces comme si un tracteur était passé"): scanned furrows (Poly Haven farm_furrows,
+    CC0) running along the road, strong relief; bands of golden stubble-on-furrows and bare brown tilled soil, to the horizon on both sides"""
+    gold = tex("field_gold", "farm_furrows", tile=2.2, tint="#e6c255", tint_k=.85, value=1.7, rot=90, normal=2.2)
+    soil = tex("field_soil", "farm_furrows", tile=2.2, tint="#8a6a42", tint_k=.35, value=1.2, rot=90, normal=2.2)
+    for side, x0, x1 in (("L", -400.0, FENCE_X - .5), ("R", FENCE_XR + .5, 400.0)):
         x = x1 if side == "L" else x0; k = 0
         while (x > x0 if side == "L" else x < x1):
             w = 9.0 + (k % 3) * 4
             a, b = (x - w, x) if side == "L" else (x, x + w)
-            plane("field_%s%d" % (side, k), c, a, b, Y0, Y1, dry if k % 2 == 0 else plough, -.01)
+            plane("field_%s%d" % (side, k), c, a, b, Y0, Y1, gold if k % 2 == 0 else soil, -.01)
             x = a if side == "L" else b; k += 1
             if k > 40: break
 
-def fence(c):
-    """grey wooden posts every 3 m with three barbed wires, along x = FENCE_X to the horizon (posts: one mesh, instanced)"""
-    wood = pbr("fence_post", "brown_planks_05", tile=.6, tint="#9a958c", tint_k=.6, value=1.1)
-    bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=8, radius1=.065, radius2=.055, depth=1.25); bmesh.ops.translate(bm, vec=(0, 0, .62), verts=bm.verts)
-    me = bpy.data.meshes.new("post"); bm.to_mesh(me); bm.free(); me.materials.append(wood)
-    pc = bpy.data.collections.new("post_src"); po = bpy.data.objects.new("post", me); pc.objects.link(po)
-    sys.path.insert(0, os.path.join(HERE, "..", "..", "..", "blender")); from rc import geo
-    P = [(FENCE_X, y, 0) for y in [Y0 + 3 * k for k in range(int((Y1 - Y0) / 3))]]
-    geo.instancer("fence_posts", P, pc, c, [(0, 0, (k * 1.7) % .4) for k in range(len(P))], [(1, 1, 1)] * len(P))
-    wire = mat("barbed_wire", "#5a5a5c", .4, .8)
-    for z in (.55, .85, 1.15):
-        o = cyl("wire_%d" % int(z * 100), c, .006, Y1 - Y0, (FENCE_X + .07, (Y0 + Y1) / 2, z), wire, seg=4, rot=(math.pi / 2, 0, 0), smooth=False); o.visible_shadow = False
+def fence(c, x=FENCE_X, name="fence", seed=0):
+    """REAL FENCE (CB 2026-11-19: "la clôture manque de réalisme et n'émet pas d'ombre"): rough split posts (Poly Haven rough_wood, CC0), each a
+    little different (height, lean, twist), three barbed wires that sag between posts; posts AND wires cast shadows"""
+    from rc import geo
+    wood = tex("fence_post", "rough_wood", tile=.5, value=1.05, normal=1.8)
+    if "post_src" not in bpy.data.collections:
+        pc = bpy.data.collections.new("post_src")
+        for v in range(3):
+            bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=7, radius1=.085, radius2=.07, depth=1.35)
+            for vt in bm.verts: vt.co.x += .012 * math.sin(vt.co.z * 9 + v); vt.co.y += .01 * math.cos(vt.co.z * 7 + v * 2)
+            top = [vt for vt in bm.verts if vt.co.z > .6]
+            for vt in top: vt.co.z += .05 * (vt.co.x * 6 + v * .3)                         # cut at a slant
+            bmesh.ops.translate(bm, vec=(0, 0, .6), verts=bm.verts)
+            me = bpy.data.meshes.new("post%d" % v); bm.to_mesh(me); bm.free(); me.materials.append(wood); pc.objects.link(bpy.data.objects.new("post%d" % v, me))
+    pc = bpy.data.collections["post_src"]; R = random.Random(seed)
+    ys = [Y0 + 3 * k + R.uniform(-.15, .15) for k in range(int((min(Y1, 600) - Y0) / 3))]
+    P = [(x, y, -.05 - R.uniform(0, .12)) for y in ys]
+    geo.instancer(name + "_posts", P, pc, c, [(R.uniform(-.05, .05), R.uniform(-.05, .05), R.uniform(0, 6.28)) for _ in P], [(1, 1, R.uniform(.92, 1.06)) for _ in P], pick=True, seed=seed)
+    wire = mat("barbed_wire", "#6a6a6c", .35, .85)
+    for z in (.55, .85, 1.12):                                                              # one sagging wire mesh per height (catenary-like dip between posts)
+        bm = bmesh.new(); prev = None
+        for i in range(len(ys) - 1):
+            for t in (0, .25, .5, .75):
+                yy = ys[i] + (ys[i + 1] - ys[i]) * t; zz = z - .045 * math.sin(math.pi * t)
+                v = bm.verts.new((x + .09, yy, zz))
+                if prev: bm.edges.new((prev, v))
+                prev = v
+        me = bpy.data.meshes.new("%s_wire_%d" % (name, int(z * 100))); bm.to_mesh(me); bm.free()
+        o = bpy.data.objects.new(me.name, me); c.objects.link(o)
+        sk = o.modifiers.new("skin", "SKIN")
+        for vd in me.skin_vertices[0].data: vd.radius = (.0045, .0045)
+        me.materials.append(wire); o.visible_shadow = True
 
 def cross_fence(c, y=10.0, x0=FENCE_X, x1=1.3):
     """a field fence perpendicular to the road, behind the tree (seen behind the planter at grass level, shot 2)"""
@@ -147,7 +98,7 @@ def cross_fence(c, y=10.0, x0=FENCE_X, x1=1.3):
     for k in range(int((x1 - x0) / 3) + 1):
         x = x0 + 3 * k; o = cyl("xpost%d" % k, c, .062, 1.25, (x, y, .62), wood, seg=8)
     for z in (.55, .85, 1.15):
-        o = cyl("xwire_%d" % int(z * 100), c, .006, x1 - x0, ((x0 + x1) / 2, y + .07, z), wire, seg=4, rot=(0, math.pi / 2, 0), smooth=False); o.visible_shadow = False
+        o = cyl("xwire_%d" % int(z * 100), c, .0045, x1 - x0, ((x0 + x1) / 2, y + .07, z), wire, seg=4, rot=(0, math.pi / 2, 0), smooth=False)
 
 def verge_grass(c, zone, n, seed, scale=(1.0, 1.8), exclude=()):
     """roadside grass from street's blade tufts, recoloured to the reference's soft yellow-green (saturation 0.29 measured)"""
@@ -155,7 +106,7 @@ def verge_grass(c, zone, n, seed, scale=(1.0, 1.8), exclude=()):
     src = street.blade_clump(); m = bpy.data.materials.get("grass_blades")
     if m and not m.get("rc_recoloured"):
         cr = [n_ for n_ in m.node_tree.nodes if n_.type == "VALTORGB"][0].color_ramp
-        cr.elements[0].color = (*srgb("#4e8a2e"), 1); cr.elements[1].color = (*srgb("#a4d866"), 1)   # CB 2026-11-19: brighter, more saturated   # measured on the reference: #44662e (shade) .. #65932d (sun); m["rc_recoloured"] = 1
+        cr.elements[0].color = (*srgb("#4e8a2e"), 1); cr.elements[1].color = (*srgb("#a4d866"), 1); m["rc_recoloured"] = 1   # CB 2026-11-19: brighter, more saturated
     P, Rt, Sc = geo.scatter_points({"polygon": zone}, n, seed, exclude=exclude, scale_range=scale)
     return geo.instancer("grass_%d" % seed, P, src, c, Rt, Sc, wind=.05)
 
@@ -184,5 +135,5 @@ def clouds(c):
 
 def build(scene):
     c = col("L_SET"); sky_hdri(scene); sun(scene); road(c); ground(c); fence(c); cross_fence(c)   # the HDRI carries the clouds (no mesh clouds)
-    god_rays(col("L_FX")); bounce_fill(c)          # light_shafts() is called by the shot once the oak exists
+    fence(c, FENCE_XR, "fence_R", seed=5); god_rays(col("L_FX")); bounce_fill(c)          # light_shafts() is called by the shot once the oak exists
     return c

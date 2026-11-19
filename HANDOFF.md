@@ -226,17 +226,22 @@ Voir `OPEN_ISSUES.md`. Les plus importants :
 
 Procédure : `pod.py fetch <id>` → `pod.py verify <id>` (code de sortie 0) → `pod.py delete <id>`. **Aucun pod n'existe aujourd'hui** : rien n'est à récupérer.
 
-## 12. Prochaine action exacte
+## 12. Prochaine action exacte (mise à jour le 19/11, fin de session `ccr-1c670715-ewni3e`)
 
-**Décision de CB (19/11)** : « Nous allons construire une **nouvelle vidéo** avec la nouvelle méthode. » Il a d'abord envoyé 6 vidéos de référence, toutes analysées (§2). La reproduction de crashed_car (plans 3 à 15, corrections du plan 2) est **en pause** ; elle n'est pas abandonnée.
+**Projet en cours : reproduire « The Instinct That Makes You Crash » (vidéo de CB, il en est l'auteur).** crashed_car et gta6-leak sont en pause.
 
-1. **Restaurer et vérifier** (§0, étapes 1 à 5).
-2. **Demander à CB le sujet de la nouvelle vidéo**, ou lui proposer 3 histoires vraies au format du crochet (§2 de `S/references/STYLE_BIBLE_FR.md`). **Ne rien construire avant son choix.**
-3. Écrire le **script**, environ 60 s et 3,5 mots/s, avec crochet, « You see », escalade, retournement, chute et boucle. Puis la **voix**, avec ses mots minutés.
-4. Écrire `S/episodes/<nom>/plan/plan.json` et `PLAN.md` (modèle `S/templates/production_plan/`, avec `"kind": "video"`, `hook`, `facts`, `captions`, ambiances, `shot_type`). Lancer `python3 tools/plan_check.py …` jusqu'à **PLAN PASS**.
-5. Montrer le plan à CB.
-6. Construction plan par plan, sur le modèle de `S/demos/crashed_car/shots/s02_pit.py` :
-   - `continuity.py` PASS ;
-   - environ 8 images clés ;
-   - `render_layers.sh` ;
-   - annoncer les temps mesurés.
+**État (avec preuve)** :
+- Analyse complète : `S/references/crash_instinct/ANALYSE_FR.md` (25 plans, bible du look). Analyses détaillées `shots/s01.md`, `s02.md`, `s03.md`.
+- Plans 1, 2 et 3 **construits en une seule prise continue** (aucune coupe avant 22,9 s) : `S/demos/crash_instinct/shots/s01_plant.py`, `s02_crash.py`, `s03_aerial.py` ; plans de production `plan/s01..s03.json` (PLAN PASS) ; continuité PASS (0 partout, CLIP 0).
+- Décor : `sets/roadside.py` + `sets/oak.py` ; kit de lumière et de textures réutilisable : `S/blender/rc/look.py`.
+- Rendus validés par CB : plan 1 (64 min en couches, CPU), plan 2 (aperçu). Le plan 3 n'a que des images clés.
+
+**Dernières corrections de CB, appliquées mais PAS encore revues par lui** (route usée avec traces de roues, champs en sillons, clôtures réelles qui projettent une ombre, herbe identique des deux côtés, soleil en contre-jour arrière-gauche) :
+- à refaire d'abord : images clés 0, 46, 126, 180, 262 (côte à côte avec la référence), puis `tools/grade_match.py` (il échoue sur le contraste des images 0, 126, 180 : à régler) ;
+- les rayons de soleil sont encore trop discrets ; le cadrage de la vue aérienne (images 177-231) est trop plongeant et l'arbre trop gros par rapport à la référence.
+
+**Règles de CB apprises ce jour** : `S/docs/CORRECTIONS_CB_FR.md` (à lire avant tout plan), `CB_RULES.md` §11h (en fin de fichier), leçons PI-016 à PI-024.
+
+**Suite** : 1) régler les points ci-dessus et montrer les images clés du plan 3 ; 2) plan 4 (« But somehow, somebody hits it every week » : panneau DAYS SINCE LAST CRASH, images 282+) avec la méthode dans l'ordre : analyse à 10 i/s, plan validé par `plan_check`, construction, `continuity.py`, images clés, `grade_match.py`, aperçu rapide ; 3) test GPU RunPod sur un plan construit (accord et plafond de CB d'abord ; aucun pod n'existe).
+
+**Aperçu et rendus** : sur le processeur seulement les images clés et `S/demos/crashed_car/shots/preview.sh <plan> <images> demos/crash_instinct` (une couche, environ 3 s par image). Les vrais rendus par couches vont sur le GPU RunPod.

@@ -20,9 +20,10 @@ def car_crash(rig):
     """brake across the shoulder into the trunk (front stops 0.7 m from the trunk axis), crush + rebound, then it stays"""
     head = Vector((-.375, -.927, 0)); p95 = Vector((1.9, 4.6, 0)); hit = p95 + head * (4.98 - S1.CAR_FRONT - .6)   # nose stops at the bark
     keys = [(99, p95 + head * (hit - p95).length * .48), (103, p95 + head * (hit - p95).length * .83), (HIT, hit), (HIT + 3, hit + head * .22), (HIT + 8, hit + head * .1), (F1, hit + head * .1)]
+    keys[-1] = (S1.F1, keys[-1][1])
     for f, p in keys:
         rig.location = p; rig.keyframe_insert("location", frame=f)
-    for f, pitch in ((HIT - 1, 0), (HIT + 2, 5.0), (HIT + 6, -2.0), (HIT + 11, .6), (HIT + 16, 0), (F1, 0)):   # nose dive and rebound
+    for f, pitch in ((HIT - 1, 0), (HIT + 2, 5.0), (HIT + 6, -2.0), (HIT + 11, .6), (HIT + 16, 0), (S1.F1, 0)):   # nose dive and rebound
         rig.rotation_euler = (math.radians(pitch), math.radians(1.2 if f < HIT else 0), math.radians(-22)); rig.keyframe_insert("rotation_euler", frame=f)
     from rc import physics
     sc = bpy.context.scene; sc.frame_set(HIT + 10); bpy.context.view_layer.update(); n = 0
@@ -58,7 +59,7 @@ def wheel_off(rig):
     loc0, rot0, scl0 = local[-1].decompose(); radius = .35
     stop = Vector((-1.25, -1.55, 0)); start = Vector((loc0.x, loc0.y, 0)); d = (stop - start).normalized(); dist = (stop - start).length
     yaw = math.atan2(d.y, d.x); S = Matrix.Diagonal(scl0.to_4d())
-    for f in range(HIT + 1, F1 + 1):
+    for f in range(HIT + 1, S1.F1 + 1):
         t = min(1.0, (f - HIT) / (FLAT - 4 - HIT)); e = 1 - (1 - t) ** 2                       # thrown out, slows down as it rolls
         p = start + d * dist * e
         fall = (math.pi / 2) * min(1.0, max(0.0, (f - (FLAT - 6)) / 6.0)) ** 2                  # tips over flat at the end
@@ -70,7 +71,7 @@ def wheel_off(rig):
 
 def oak_shake():
     o = bpy.data.objects["oak"]
-    for f in range(HIT, F1 + 1):
+    for f in range(HIT, S1.F1 + 1):
         t = f - HIT; a = math.radians(1.6) * math.exp(-t / 8) * math.sin(t * .7)
         o.rotation_euler = (a * .5, -a, .6); o.keyframe_insert("rotation_euler", frame=f)
 
@@ -83,7 +84,7 @@ def leaves_again():
         o = street.mesh_obj("leafB%d" % k, bm, m, c); o.visible_shadow = False
         a = R.uniform(0, 6.28); r = R.uniform(.8, 4.5); p0 = Vector((math.cos(a) * r, math.sin(a) * r, R.uniform(4.5, 8.5))); drop = R.uniform(.05, .085)
         sw, ph = R.uniform(.25, .6), R.uniform(0, 6.28); delay = R.randint(0, 6); t_land = (p0.z - .03) / drop
-        for f in range(S1.F0, F1 + 1):
+        for f in range(S1.F0, S1.F1 + 1):
             t = min(max(0, f - HIT - delay), t_land)
             o.location = p0 + Vector((sw * math.sin(t * .2 + ph), sw * .6 * math.cos(t * .17 + ph), 0)); o.location.z = max(.03, p0.z - drop * t)
             o.rotation_euler = (t * .23 + ph, t * .31, t * .11) if t < t_land else (0, 0, ph)
@@ -91,7 +92,7 @@ def leaves_again():
 
 def camera_more(cam):
     keys = [(101, (3.5, -11.4, 1.1), (0.35, 0.65, 4.2), 20), (106, (1.6, -10.6, .95), (0.1, 0.6, 3.0), 22), (120, (-2.6, -7.4, 1.35), (-.9, 0.0, .95), 26),
-            (149, (-2.45, -7.0, 1.38), (-.85, 0.1, 1.0), 26), (162, (1.2, -16.0, 6.0), (2.5, 10.0, 2.0), 22), (F1, (5.0, -24.0, 15.0), (6.2, 70.0, 0.0), 22)]
+            (149, (-2.45, -7.0, 1.38), (-.85, 0.1, 1.0), 26), (162, (2.0, -24.0, 6.5), (3.0, 20.0, 1.5), 22), (F1, (5.5, -55.0, 14.0), (6.0, 80.0, 0.0), 22)]                     # aerial: tree small near mid-frame, horizon ~40 % (s03.md)
     for f, p, a, lens in keys:
         cam.location = p; cam.rotation_euler = (Vector(a) - Vector(p)).to_track_quat("-Z", "Y").to_euler(); cam.data.lens = lens
         cam.keyframe_insert("location", frame=f); cam.keyframe_insert("rotation_euler", frame=f); cam.data.keyframe_insert("lens", frame=f)
@@ -103,23 +104,27 @@ def camera_more(cam):
 
 def stand_up():
     card = bpy.data.objects["Card_planter"]
-    for f in range(UP0, F1 + 1):
+    for f in range(UP0, S1.F1 + 1):
         p = S1.LAND.copy(); p.z = -S1.SIT_DROP * (1 - smooth((f - UP0) / (UP1 - UP0))); card.location = p; card.keyframe_insert("location", frame=f)
+
+def build_take2(sc):
+    """shot 1's take + everything shot 2 adds, up to S1.F1 (shot 3 sets it further and continues the same take)"""
+    rig, cam = S1.build_take(sc)
+    hit, nd = car_crash(rig); S1.driver(rig, cam, HIT); w = wheel_off(rig); oak_shake(); leaves_again(); camera_more(cam); stand_up()
+    print("CRASH dent verts", nd, "wheel", w.name if w else None)
+    vfx.apply(sc, [
+        {"type": "dust_burst", "name": "car_brake", "at": [1.5, 3.7, .1], "frame": 100, "count": 8, "radius": 1.2, "height": .8, "seed": 31, "life": 30, "color": [.72, .64, .5]},
+        {"type": "dust_burst", "name": "car_hit", "at": [.6, 1.2, .3], "frame": HIT, "count": 16, "radius": 2.0, "height": 1.6, "seed": 32, "life": 45, "color": [.75, .7, .6]},
+        {"type": "smoke", "name": "wreck_smoke", "at": [.9, 1.9, 1.0], "frames": [HIT + 4, S1.F1], "every": 6, "per_burst": 2, "rise": 1.8, "size": .35, "density": .45,
+         "color": [.88, .88, .88], "life": 50, "seed": 33, "drift": [-.3, 0]},
+        {"type": "dust_burst", "name": "wheel_flat", "at": [-1.25, -1.55, .05], "frame": FLAT, "count": 6, "radius": .5, "height": .3, "seed": 34, "life": 24, "color": [.6, .52, .4]}])
+    S1.fx_to_layer(("car_brake", "car_hit", "wreck_smoke", "wheel_flat"))
+    return rig, cam
 
 def main():
     bpy.ops.wm.read_factory_settings(use_empty=True); sc = bpy.context.scene; sc.render.fps = 30
     S1.F1 = F1; sc.frame_start, sc.frame_end = S1.F0, F1
-    rig, cam = S1.build_take(sc)
-    hit, nd = car_crash(rig); S1.driver(rig, cam, HIT); w = wheel_off(rig); oak_shake(); leaves_again(); camera_more(cam); stand_up()
-    print("CRASH dent verts", nd, "wheel", w.name if w else None)
-    front = rig.matrix_world @ Vector((0, -2.0, 1.0))
-    vfx.apply(sc, [
-        {"type": "dust_burst", "name": "car_brake", "at": [1.5, 3.7, .1], "frame": 100, "count": 8, "radius": 1.2, "height": .8, "seed": 31, "life": 30, "color": [.72, .64, .5]},
-        {"type": "dust_burst", "name": "car_hit", "at": [.6, 1.2, .3], "frame": HIT, "count": 16, "radius": 2.0, "height": 1.6, "seed": 32, "life": 45, "color": [.75, .7, .6]},
-        {"type": "smoke", "name": "wreck_smoke", "at": [.9, 1.9, 1.0], "frames": [HIT + 4, F1], "every": 6, "per_burst": 2, "rise": 1.8, "size": .35, "density": .45,
-         "color": [.88, .88, .88], "life": 50, "seed": 33, "drift": [-.3, 0]},
-        {"type": "dust_burst", "name": "wheel_flat", "at": [-1.25, -1.55, .05], "frame": FLAT, "count": 6, "radius": .5, "height": .3, "seed": 34, "life": 24, "color": [.6, .52, .4]}])
-    S1.fx_to_layer(("car_brake", "car_hit", "wreck_smoke", "wheel_flat"))
+    build_take2(sc)
     sc.frame_start = F0
     S1.finish(sc, OUT)
 

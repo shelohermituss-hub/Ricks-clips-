@@ -12,6 +12,11 @@ Historique détaillé des versions du skill : `.claude/skills/ricks-clips/CHANGE
 - `plan_check.py` vérifie aussi l'histoire : crochet montré dans la 1re seconde, faits écrits dans le décor, au moins 2 ambiances, gros plan d'émotion, plan d'insert, sous-titres, boucle.
 - Décision de CB : la prochaine étape est une nouvelle vidéo avec la nouvelle méthode ; crashed_car est en pause.
 
+## 19/11/2026 — crash_instinct, plans 1 à 3 (branche `ccr-1c670715-ewni3e`)
+- Vidéo de CB (il en est l'auteur) analysée ; plans 1 à 3 construits en une prise continue ; décor de route, chêne construit, SUV blanc métallisé et conducteur, voiture écrasée, roue arrachée.
+- Méthode : aperçu rapide en une couche (`preview.sh`), `grade_match.py`, `rc/look.py` (lumière cinématique, textures réelles, usure de route), contrôles LOOK dans `plan_check`, contrôle CLIP dans `continuity.py`.
+- `docs/CORRECTIONS_CB_FR.md` : toutes les corrections de CB et où elles sont appliquées ; leçons PI-017 à PI-024 ; règles CB_RULES §11h.
+
 ## 19/11/2026 — reprise dans une session neuve (branche `ccr-1c670715-ewni3e`)
 - Blender 5.2.2 installé (`download.blender.org` ajouté aux hôtes autorisés de l'environnement).
 - Session neuve : `test_rc` 25/27 → **27/27** après correction (leçon PI-017) : `tools/gltf_to_glb.py`, `scripts/restore_untracked.sh`, `test_rc` cuit le plan manquant. `test_pod_guard` 13/13, `test_plan_check` PASS, `test_production_intelligence` 11/11 (après `git fetch --unshallow`).

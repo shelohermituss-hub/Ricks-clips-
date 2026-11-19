@@ -18,3 +18,14 @@ for want in ("hook action shown in the 1st second", "facts written in the set", 
 V["hook"] = {"action": "pose", "t": 0.0}; V["facts"] = [{"fact": "70 MPH", "prop": "speed sign"}]; V["shots"][0]["camera"][1]["framing"] = "insert"
 assert not [r for r in plan_check.check(V) if r["status"] == "FAIL"], [r for r in plan_check.check(V) if r["status"] == "FAIL"]
 print("test_plan_check STORY PASS")
+
+# LOOK (CB corrections 2026-11-19): a plan whose places forget the cinematic look / real surfaces is refused
+import copy, subprocess as _sp, tempfile as _tf
+_SK = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_P = json.load(open(os.path.join(_SK, "templates", "production_plan", "plan_example.json")))
+_bad = copy.deepcopy(_P); [pl.pop("look", None) for pl in _bad["places"]]; _bad.pop("grade", None)
+_f = _tf.NamedTemporaryFile("w", suffix=".json", delete=False); json.dump(_bad, _f); _f.close()
+_r = _sp.run([sys.executable, os.path.join(_SK, "tools", "plan_check.py"), _f.name], capture_output=True, text=True)
+_fails = [l for l in _r.stdout.splitlines() if l.startswith("FAIL LOOK")]
+assert _r.returncode == 1 and len(_fails) >= 5, "a plan without look must FAIL (got %d LOOK fails)" % len(_fails)
+print("test_plan_check LOOK PASS (%d LOOK fails on a plan without look)" % len(_fails))

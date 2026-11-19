@@ -17,6 +17,10 @@ Exit 1 when anything blocks; the build must not start before PASS. What it check
             a TEXT IN THE SET (facts: sign, newspaper, label, display); >= 2 light moods; >= 1 emotion close-up and >= 1 insert shot;
             captions spec (1-3 words, white bold, black outline, ~70 % height); a loop back to the first image (WARN)
             -> FAIL for a full video (kind "video", the default), WARN for a fragment (kind "fragment", e.g. the shot-2 example)
+  LOOK      (CB's corrections, docs/CORRECTIONS_CB_FR.md) every exterior place: a visible real sky (hdri:), where the sun comes from and the
+            hero object's shadow, a fill light; a road declares its wear (wheel paths, cracks), fields a scanned furrow texture, a fence its
+            shadow, roadside grass its height and that both sides match; a sun shaft plan under trees by day (WARN); the plan's grade is
+            measured (tools/grade_match.py); a vehicle declares its paint (never the asset's texture) and clear glass
   LESSONS   prints every validated lesson of memory/lessons_learned.json that applies to the plan (they must be planned for)
 Statuses per line: PASS / WARN / FAIL. Never NOT_RUN = PASS."""
 import json, os, re, sys
@@ -45,11 +49,38 @@ def check(P):
         add("PLACES", pid + " sky", bool(p.get("sky")), str(p.get("sky")))
         for pr in p.get("props", []): add("PLACES", "%s prop %s source" % (pid, pr.get("id")), bool(pr.get("source")), pr.get("source", "missing"))
         add("PLACES", pid + " dressing density", len(p.get("props", [])) >= 4, "%d props (a set is never empty)" % len(p.get("props", [])), warn=True)
+    # LOOK (CB corrections 2026-11-19, docs/CORRECTIONS_CB_FR.md): never a flat, unlit, ungraded first version
+    for pid, p in places.items():
+        lk = p.get("look", {}); txt = json.dumps(p, ensure_ascii=False).lower()
+        interior = bool(p.get("interior")); night = "night" in str(p.get("light", {}).get("mood", "")).lower() or "nuit" in txt
+        if not interior:
+            add("LOOK", pid + " visible real sky", str(lk.get("sky", "")).startswith(("hdri:", "polyhaven:")), lk.get("sky", "look.sky = hdri:<id> (a real sky photo seen by the camera, rotated to the sun)"))
+            add("LOOK", pid + " sun direction + hero shadow", bool(lk.get("sun_from")) and bool(lk.get("hero_shadow")),
+                "%s / %s" % (lk.get("sun_from", "look.sun_from: where the sun is, as in the reference"), lk.get("hero_shadow", "look.hero_shadow: which long shadow crosses the frame")))
+        add("LOOK", pid + " fill light", bool(lk.get("fill")), lk.get("fill", "look.fill: camera-side soft bounce light (nothing black in daylight)"))
+        if not interior and not night and any(w in txt for w in ("tree", "arbre", "oak", "chêne")):
+            add("LOOK", pid + " sun shafts under the trees", bool(lk.get("shafts")), lk.get("shafts", "look.shafts: thin shafts under the crown toward the ground"), warn=True)
+        for srf in [p.get("ground", {})] + p.get("surfaces", []):
+            nm = str(srf.get("name", "")).lower()
+            if re.search(r"\b(road|route|asphalt|chaussée)\b", nm) and "roadside" not in nm:
+                add("LOOK", "%s / %s wear" % (pid, srf.get("name")), bool(srf.get("wear")), srf.get("wear", "wear: wheel paths, cracks / tar snakes, patches (never a uniform asphalt)"))
+            if any(w in nm for w in ("field", "champ", "farm")):
+                add("LOOK", "%s / %s furrows" % (pid, srf.get("name")), any(w in str(srf.get("texture", "")) + str(srf.get("extra", "")) for w in ("furrow", "sillon")),
+                    "%s (a field is tilled: scanned furrows, relief)" % srf.get("texture"))
+        if any(w in txt for w in ("fence", "clôture")):
+            add("LOOK", pid + " fence real + shadow", any(w in str(lk.get("fence", "")).lower() for w in ("shadow", "ombre")), lk.get("fence", "look.fence: real wood, varied posts, sagging wires, casts shadows"))
+        if any(w in txt for w in ("grass", "herbe")) and any(w in txt for w in ("road", "route")):
+            g = lk.get("grass", {}); add("LOOK", pid + " roadside grass height + both sides", bool(g.get("height_cm")) and bool(g.get("both_sides")), json.dumps(g) if g else "look.grass: {height_cm, colour, both_sides: true}")
+    add("LOOK", "grade measured", bool(P.get("grade", {}).get("method")), json.dumps(P.get("grade", {})) if P.get("grade") else "grade: {method: tools/grade_match.py, reference: ...} (or the style bible values)")
     # OBJECTS
     objs = {o["id"]: o for o in P.get("objects", [])}; chars = {c["id"] for c in P.get("characters", [])}
     for oid, o in objs.items():
         add("OBJECTS", oid + " source", bool(o.get("source")), o.get("source", "missing"))
         add("OBJECTS", oid + " material", bool(o.get("material") or o.get("texture")), o.get("material") or o.get("texture") or "missing")
+        if any(w in (oid + " " + str(o.get("source", ""))).lower() for w in ("car", "suv", "truck", "vehicle", "voiture", "f1")):
+            mt = str(o.get("material", "")).lower()
+            add("OBJECTS", oid + " vehicle paint + glass", any(w in mt for w in ("glass", "vitre", "verre")) and any(w in mt for w in ("paint", "peinture", "blanc", "rouge", "#", "metal", "métal", "mat")),
+                o.get("material", "") + " (declare the paint, never the asset's texture, and clear glass)")
     for c in P.get("characters", []): add("OBJECTS", "character %s puppet" % c["id"], bool(c.get("puppet")), c.get("puppet", "missing"))
     # SHOTS / CAMERA / ACTIONS / STATE
     shots = P.get("shots", []); t = 0.0; n_act = 0

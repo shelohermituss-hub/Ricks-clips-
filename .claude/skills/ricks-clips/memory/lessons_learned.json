@@ -595,6 +595,67 @@
     "every shot",
     "every imported car paint"
    ]
+  },
+  {
+   "id": "PI-023",
+   "date": "2026-11-19",
+   "episode": "crash_instinct",
+   "shot_timecode": "s03 (aerial)",
+   "severity": "high",
+   "problem": "CB's corrections kept repeating the same family: flat road without wear or tyre marks, flat untextured farmland behind the fence, a fence without realism or shadow, grass on one side of the road only, a sky or sun that did not match the reference. Each was fixed in one shot, then found again in the next.",
+   "root_cause": "Corrections were applied to the shot, not to the method: the first version of a new set started from flat or default values, and nothing in plan_check or the helpers refused it.",
+   "fix": "All corrections are now DEFAULTS: blender/rc/look.py (visible HDRI sky rotated to the sun, hard sun, bounce fill, sun shafts, light haze, scanned PBR with relief, road wear: wheel paths + tar snakes), roadside.py (furrowed fields, real fence with varied posts, sagging wires and shadows, same green verge on both sides, LOD grass), plan_check LOOK + vehicle checks (a plan without look is REFUSED: test_plan_check), docs/CORRECTIONS_CB_FR.md (every correction -> rule -> where it is enforced), continuity.py CLIP (camera far clip cuts the set).",
+   "files_changed": [
+    "blender/rc/look.py",
+    "demos/crash_instinct/sets/roadside.py",
+    "tools/plan_check.py",
+    "tools/tests/test_plan_check.py",
+    "docs/CORRECTIONS_CB_FR.md",
+    "demos/crashed_car/shots/continuity.py"
+   ],
+   "verification": {
+    "tests": [
+     "test_plan_check: a plan without look FAILS 7 LOOK checks",
+     "plans s01-s03 and the example: PLAN PASS with look blocks",
+     "continuity PASS with CLIP 0; set moved to rc.look: frame 262 identical (0.00/255)"
+    ],
+    "before_after_evidence": [
+     "demos/crash_instinct/build/look3/compare.jpg"
+    ],
+    "regression_check": "python3 tools/tests/test_plan_check.py"
+   },
+   "status": "validated",
+   "applies_to": [
+    "every new scene, with or without a reference video"
+   ]
+  },
+  {
+   "id": "PI-024",
+   "date": "2026-11-19",
+   "episode": "crash_instinct",
+   "shot_timecode": "s03",
+   "severity": "medium",
+   "problem": "The camera far clip (Blender default 100 m, then 1000 m) cut the set: the fields stopped and the sky showed where the farmland goes on to the horizon (aerial view).",
+   "root_cause": "No check compared the camera's clip_end with how far the set reaches.",
+   "fix": "continuity.py CLIP: fails when a big flat set piece reaches farther than clip_end and prints the fix (cam.data.clip_end = N). Default clip_end 4000 m in the shot camera.",
+   "files_changed": [
+    "demos/crashed_car/shots/continuity.py",
+    "demos/crash_instinct/shots/s01_plant.py"
+   ],
+   "verification": {
+    "tests": [
+     "continuity before the fix: CLIP 1 (set reaches 2588 m, clip 1000 m)",
+     "after: CLIP 0"
+    ],
+    "before_after_evidence": [
+     "demos/crash_instinct/build/continuity/s03_aerial.json"
+    ],
+    "regression_check": "continuity.py runs before every preview and render"
+   },
+   "status": "validated",
+   "applies_to": [
+    "every shot with a far horizon"
+   ]
   }
  ],
  "notes": [

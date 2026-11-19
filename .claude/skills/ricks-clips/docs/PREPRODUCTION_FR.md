@@ -17,6 +17,10 @@ Méthode décidée avec CB le 19/11. Elle s'applique à toute nouvelle vidéo.
 8. **Rendu par couches** (`shots/render_layers.sh`), qui refuse de rendre si le contrôle échoue. Ensuite, seules les images corrigées sont refaites (`--patch`).
 9. **Son et montage** : ambiance, musique, un bruitage par action et par réaction, −14 LUFS.
 
+## Appliquer d'office ce que CB a déjà corrigé
+
+Avant d'écrire un plan, relire `docs/CORRECTIONS_CB_FR.md`. Le plan déclare, pour chaque lieu, un bloc `look` (ciel HDRI visible, d'où vient le soleil, ombre portée du héros, lumière de débouchage, faisceaux, usure de la route, sillons des champs, clôture réelle qui projette une ombre, hauteur de l'herbe et deux côtés identiques) et un bloc `grade` (étalonnage mesuré par `tools/grade_match.py`). `plan_check` refuse un plan qui n'en a pas (contrôles LOOK). Le décor se construit avec `blender/rc/look.py` : ces réglages sont les valeurs par défaut, pas des corrections après coup.
+
 ## S'améliorer en construisant
 
 Chaque problème rencontré, qu'il soit signalé par CB, par un contrôle ou vu en regardant les images, suit 4 étapes dans la même séance :
@@ -39,6 +43,10 @@ Exemples déjà en place :
 | Sol gris plat | `street.pbr()`, scans CC0 ; `plan_check.py` refuse une couleur plate |
 | Peinture sans profondeur | vernis, plus `street.hdri_reflections()` |
 | Action sans conséquence | `library/reactions/reactions.json` et `plan_check.py` (ACTIONS) |
+| Route plate, champs plats, clôture sans ombre, herbe d'un seul côté | `blender/rc/look.py`, `plan_check.py` (LOOK), `docs/CORRECTIONS_CB_FR.md` |
+| Lumière plate, tronc noir, pas de rayons de soleil, étalonnage à l'œil | ciel HDRI, soleil placé, débouchage, faisceaux (`rc.look`), `tools/grade_match.py` |
+| Ciel du décor coupé au loin | `continuity.py` (CLIP) |
+| Aperçu CPU trop long | `preview.sh` (une couche, 4 échantillons), GPU pour les vrais rendus |
 
 ## Ajouter une vidéo de référence à la base de style
 

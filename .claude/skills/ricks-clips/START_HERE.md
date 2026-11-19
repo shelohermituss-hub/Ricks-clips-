@@ -6,6 +6,9 @@ before any build; style = `references/STYLE_BIBLE_FR.md`; every action from `lib
 consequence + micro + sound); build one Blender script per shot; `continuity.py` before any render; render in layers; every problem
 becomes a lesson + a check/recipe (CB_RULES 11h). Worked example: `demos/crashed_car/` + `references/crashed_car/shots/`.
 
+## CB's corrections are defaults (2026-11-19)
+Read `docs/CORRECTIONS_CB_FR.md` before planning any scene: real textures, cinematic light, worn roads, furrowed fields, real fences with shadows, measured grade. Kit: `blender/rc/look.py`. `plan_check` refuses a plan without a `look` block.
+
 ## Cloud runtime (Claude Code Web)
 If `CLAUDE_CODE_REMOTE=true`, read `CLOUD_MODE.md` first. Use `.venv/bin/python` for Python tools and `render_gpu.mjs --software` for cloud previews. Do not run the Windows installer. On install requests, run `scripts/cloud_session_start.sh` and `scripts/cloud_doctor.sh`, then report exact test results before creating a film.
 
