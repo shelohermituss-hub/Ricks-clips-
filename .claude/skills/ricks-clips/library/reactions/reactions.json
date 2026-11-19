@@ -1,0 +1,593 @@
+{
+ "schema_version": 1,
+ "description": "ACTION -> REACTION library (CB 2026-11-19: 'chaque action possède une réaction... de vraies conséquences'). tools/plan_check.py matches every planned action against the triggers and refuses a plan whose action lists no reaction, no lasting consequence, no micro-animation or no sound. New recipes are added every time a production meets a new action (rule: a problem solved once becomes a recipe for every next video).",
+ "recipes": [
+  {
+   "id": "vehicle_through_puddle",
+   "triggers": [
+    "puddle",
+    "flaque",
+    "water on the road"
+   ],
+   "reactions": [
+    "splash sheets thrown sideways from each wheel (arcs, 0.3-0.6 s)",
+    "droplets falling back with small rings on the puddle",
+    "the puddle surface ripples and rocks for 1-2 s",
+    "spray mist behind the car in backlight"
+   ],
+   "consequences": [
+    "car body and wheels WET: darker, glossier lower half, drips from the sills for 2-3 s",
+    "wet tyre tracks on the dry road that fade",
+    "the puddle is smaller / emptier afterwards"
+   ],
+   "micro": [
+    "car dips slightly as the front wheels enter",
+    "a few drops hit the lens or a nearby object"
+   ],
+   "sfx": [
+    "splash (big, on contact)",
+    "water spray hiss",
+    "drips"
+   ],
+   "build": "rc.vfx splash sheets (mesh arcs + instanced droplets, seeded), puddle = water plane with keyed ripple displacement, wet = keyed mix to a darker low-roughness material + wet-track decal fading"
+  },
+  {
+   "id": "vehicle_impact",
+   "triggers": [
+    "crash",
+    "hits",
+    "collision",
+    "percute",
+    "smash"
+   ],
+   "reactions": [
+    "the vehicle pitches and bounces back, the hit object breaks or is thrown on a ballistic path",
+    "debris, shards and dust cloud",
+    "camera shake on the impact frame"
+   ],
+   "consequences": [
+    "dented panel (shape key), cracked / broken glass, bent parts, steam or smoke from the engine",
+    "debris left on the ground, skid marks before the impact",
+    "the hit object stays broken (no reset)"
+   ],
+   "micro": [
+    "wipers / antenna wobble, a hubcap rolls away, door swings",
+    "character jerks forward then back"
+   ],
+   "sfx": [
+    "metal crunch",
+    "glass break",
+    "debris rattle",
+    "tyres screech before"
+   ],
+   "build": "rc.physics (crash ballistic, deform shape keys, glass), rc.vfx dust/steam, shake() on lens shift; checked: launch < 1.5 m, speed < 15 m/s"
+  },
+  {
+   "id": "vehicle_brake_skid",
+   "triggers": [
+    "brakes",
+    "skid",
+    "dérape",
+    "freine"
+   ],
+   "reactions": [
+    "nose dives, tyres smoke, the car slides",
+    "dust or rubber smoke trail"
+   ],
+   "consequences": [
+    "black skid marks stay on the road",
+    "smell-smoke drifts away"
+   ],
+   "micro": [
+    "body rocks back when stopped"
+   ],
+   "sfx": [
+    "tyre screech",
+    "engine drop"
+   ],
+   "build": "keyed pitch on the rig, skid decal curves (fill BOTH) growing with the slide, rc.vfx smoke"
+  },
+  {
+   "id": "vehicle_drive",
+   "triggers": [
+    "drives",
+    "roule",
+    "arrives",
+    "leaves"
+   ],
+   "reactions": [
+    "wheels turn at the ground speed, suspension bob",
+    "dust kicked up on dirt / spray on wet road, leaves swirl in its wake"
+   ],
+   "consequences": [
+    "tyre tracks on soft ground"
+   ],
+   "micro": [
+    "exhaust puff, antenna sway, reflections slide over the body"
+   ],
+   "sfx": [
+    "engine (pitch follows speed)",
+    "tyres on surface"
+   ],
+   "build": "rc.animate vehicle_drive (wheel spin = distance / radius), rc.vfx dust trail on dirt"
+  },
+  {
+   "id": "footstep",
+   "triggers": [
+    "walks",
+    "marche",
+    "runs",
+    "court",
+    "steps"
+   ],
+   "reactions": [
+    "foot plants (no sliding), small dust puff on dirt / sand, splash ring on water, grass bends"
+   ],
+   "consequences": [
+    "footprints on sand, mud, snow"
+   ],
+   "micro": [
+    "body bob, arm swing, a breath"
+   ],
+   "sfx": [
+    "step on the surface (concrete/grass/gravel/wood/water)"
+   ],
+   "build": "motion library walk/run, card feet snapped to the ground, footprint decals on soft ground"
+  },
+  {
+   "id": "jump_landing",
+   "triggers": [
+    "jumps",
+    "saute",
+    "leaps",
+    "lands",
+    "atterrit"
+   ],
+   "reactions": [
+    "anticipation crouch, spring, airborne arc, landing squash",
+    "dust puff / splash / gravel scatter at the landing spot"
+   ],
+   "consequences": [
+    "prints or displaced gravel at the landing spot"
+   ],
+   "micro": [
+    "arms swing up, hat or hair lifts, settle after landing"
+   ],
+   "sfx": [
+    "whoosh",
+    "thud of the landing on the surface"
+   ],
+   "build": "motion library jump/joy (21 f cycle: crouch +1..+6, air +7..+18, land +19); card on an arc; contact shadow stays on the ground"
+  },
+  {
+   "id": "put_on_take_off_wearable",
+   "triggers": [
+    "helmet",
+    "casque",
+    "hat",
+    "chapeau",
+    "glasses",
+    "takes off",
+    "removes",
+    "puts on"
+   ],
+   "reactions": [
+    "both hands go TO the item, grip, then it moves WITH the hands (never pops)",
+    "the hidden face / hair is revealed progressively"
+   ],
+   "consequences": [
+    "the item is held (under the arm, in the hand) or put down somewhere visible"
+   ],
+   "micro": [
+    "head tilt, hair spring, a shake of the head"
+   ],
+   "sfx": [
+    "fabric / plastic rub",
+    "small pop for a helmet"
+   ],
+   "build": "3D item follows the drawn head then the hands (tools/card_anchors.py), max 12 cm per frame, same scale throughout"
+  },
+  {
+   "id": "door_open_close",
+   "triggers": [
+    "door",
+    "porte",
+    "opens",
+    "closes"
+   ],
+   "reactions": [
+    "the door swings on its hinge (ease out, small overshoot)",
+    "light changes through the opening, dust swirl"
+   ],
+   "consequences": [
+    "door stays in its new state"
+   ],
+   "micro": [
+    "handle turns first, door rattles"
+   ],
+   "sfx": [
+    "latch click",
+    "hinge creak",
+    "slam"
+   ],
+   "build": "hinge reparent with view_layer.update before (lesson shot 1), keyed rotation with overshoot"
+  },
+  {
+   "id": "glass_break",
+   "triggers": [
+    "glass",
+    "vitre",
+    "window breaks",
+    "shatter"
+   ],
+   "reactions": [
+    "cracks spread from the hit point then shards burst out and fall, glints"
+   ],
+   "consequences": [
+    "broken frame with jagged edge, shards on the ground"
+   ],
+   "micro": [
+    "small late shards drop",
+    "dust"
+   ],
+   "sfx": [
+    "glass shatter",
+    "tinkle of shards"
+   ],
+   "build": "rc.physics glass (Voronoi, fixed seed, view_layer.update per cut), stone kinematic"
+  },
+  {
+   "id": "object_fall_drop",
+   "triggers": [
+    "falls",
+    "drops",
+    "tombe",
+    "lâche"
+   ],
+   "reactions": [
+    "falls with gravity, bounces with decreasing height, rolls / settles",
+    "dust puff on contact"
+   ],
+   "consequences": [
+    "object stays where it lands, possibly dented or open"
+   ],
+   "micro": [
+    "wobble before settling"
+   ],
+   "sfx": [
+    "impact per bounce (getting quieter)"
+   ],
+   "build": "rc.physics drop (rigid body bake converted to keys)"
+  },
+  {
+   "id": "object_pick_up",
+   "triggers": [
+    "picks up",
+    "ramasse",
+    "grabs",
+    "takes"
+   ],
+   "reactions": [
+    "hand reaches, the object follows the hand from contact on (no teleport)"
+   ],
+   "consequences": [
+    "the place where it was is empty, maybe a dust mark"
+   ],
+   "micro": [
+    "slight weight dip of the arm"
+   ],
+   "sfx": [
+    "grab rustle"
+   ],
+   "build": "prop follows card hand (index.json hands) from the contact frame"
+  },
+  {
+   "id": "barrel_hit",
+   "triggers": [
+    "barrel",
+    "tonneau",
+    "baril"
+   ],
+   "reactions": [
+    "staves burst at the hit point, contents spill (sand / water / liquid), hoops roll away"
+   ],
+   "consequences": [
+    "broken staves on the ground, a pile or puddle of the contents"
+   ],
+   "micro": [
+    "a hoop spins and falls flat"
+   ],
+   "sfx": [
+    "wood crack",
+    "sand pour / liquid splash"
+   ],
+   "build": "BREAK: barrel replaced by its own pieces at the same place and frame (continuity allows it), rc.physics + rc.vfx"
+  },
+  {
+   "id": "explosion",
+   "triggers": [
+    "explodes",
+    "explosion",
+    "boom",
+    "blast"
+   ],
+   "reactions": [
+    "flash, fireball, shockwave ring on the ground, debris flying, smoke column",
+    "camera shake, lights flicker"
+   ],
+   "consequences": [
+    "scorch mark, burning pieces, smoke that lingers"
+   ],
+   "micro": [
+    "sparks bouncing, small fires"
+   ],
+   "sfx": [
+    "boom",
+    "debris rain",
+    "fire crackle"
+   ],
+   "build": "rc.vfx explosion_stylized (purely visual), fire meshes, smoke"
+  },
+  {
+   "id": "fire",
+   "triggers": [
+    "fire",
+    "feu",
+    "flames",
+    "burns"
+   ],
+   "reactions": [
+    "flames flicker, light flickers on nearby surfaces, smoke rises, embers"
+   ],
+   "consequences": [
+    "blackened surfaces, ash"
+   ],
+   "micro": [
+    "heat shimmer"
+   ],
+   "sfx": [
+    "crackle",
+    "roar"
+   ],
+   "build": "rc.vfx fire (cartoon mesh flames + embers) + flickering point light"
+  },
+  {
+   "id": "liquid_pour_spill",
+   "triggers": [
+    "pours",
+    "verse",
+    "spill",
+    "renverse"
+   ],
+   "reactions": [
+    "stream with the right thickness, splash where it lands, spreading puddle"
+   ],
+   "consequences": [
+    "puddle / stain stays, container emptier"
+   ],
+   "micro": [
+    "drips from the lip"
+   ],
+   "sfx": [
+    "pour",
+    "splash"
+   ],
+   "build": "curve stream + growing puddle plane"
+  },
+  {
+   "id": "wind_gust",
+   "triggers": [
+    "wind",
+    "vent",
+    "gust"
+   ],
+   "reactions": [
+    "leaves, grass, flags, hair and clothes move in the same direction, dust swirls"
+   ],
+   "consequences": [
+    "light objects displaced"
+   ],
+   "micro": [
+    "character squints, holds hat"
+   ],
+   "sfx": [
+    "wind whoosh"
+   ],
+   "build": "rc.animate wind on vegetation + cloth sim baked to keys"
+  },
+  {
+   "id": "rain",
+   "triggers": [
+    "rain",
+    "pluie",
+    "storm"
+   ],
+   "reactions": [
+    "streaks, splash rings on puddles, wet shine on everything"
+   ],
+   "consequences": [
+    "puddles grow, surfaces darker and glossier"
+   ],
+   "micro": [
+    "characters hunch, drops on the lens"
+   ],
+   "sfx": [
+    "rain bed",
+    "thunder"
+   ],
+   "build": "rc.vfx rain + wet material switch"
+  },
+  {
+   "id": "character_hit_fall",
+   "triggers": [
+    "falls over",
+    "trips",
+    "tombe",
+    "gets hit"
+   ],
+   "reactions": [
+    "anticipation, impact, body falls with arms out, bounce, dust"
+   ],
+   "consequences": [
+    "lies or sits on the ground, dirty patch on the clothes, bump / stars"
+   ],
+   "micro": [
+    "dizzy head wobble"
+   ],
+   "sfx": [
+    "thud",
+    "oof"
+   ],
+   "build": "motion library fall/*, dust at contact"
+  },
+  {
+   "id": "crowd_reaction",
+   "triggers": [
+    "crowd",
+    "foule",
+    "cheers",
+    "applause"
+   ],
+   "reactions": [
+    "fans stand up, arms up, flags wave, confetti"
+   ],
+   "consequences": [
+    "confetti stays on the ground"
+   ],
+   "micro": [
+    "individual random timing (not in sync)"
+   ],
+   "sfx": [
+    "cheer",
+    "applause"
+   ],
+   "build": "instanced crowd with per-instance phase offsets"
+  },
+  {
+   "id": "engine_start",
+   "triggers": [
+    "starts the engine",
+    "démarre",
+    "engine"
+   ],
+   "reactions": [
+    "car shakes, exhaust puff, headlights on"
+   ],
+   "consequences": [
+    "idle vibration continues"
+   ],
+   "micro": [
+    "dashboard needles move"
+   ],
+   "sfx": [
+    "starter whine",
+    "engine catch"
+   ],
+   "build": "keyed rig vibration + smoke puff"
+  },
+  {
+   "id": "metal_sparks",
+   "triggers": [
+    "sparks",
+    "étincelles",
+    "grinds",
+    "scrapes"
+   ],
+   "reactions": [
+    "sparks jet from the contact, bounce and die out, light on surfaces"
+   ],
+   "consequences": [
+    "scratch marks on the metal / road"
+   ],
+   "micro": [
+    "smoke wisps"
+   ],
+   "sfx": [
+    "grind",
+    "scrape"
+   ],
+   "build": "rc.vfx sparks (instanced points on ballistic arcs, emissive)"
+  },
+  {
+   "id": "confetti_celebration",
+   "triggers": [
+    "confetti",
+    "celebration",
+    "célébration"
+   ],
+   "reactions": [
+    "pieces tumble and fall at different speeds, catch the light"
+   ],
+   "consequences": [
+    "confetti stays on the ground and on shoulders"
+   ],
+   "micro": [
+    "foreground pieces blur past the lens"
+   ],
+   "sfx": [
+    "pop",
+    "crowd"
+   ],
+   "build": "instanced cards with linear keys (shot 2)"
+  },
+  {
+   "id": "emotion_beat",
+   "triggers": [
+    "shock",
+    "frozen",
+    "round eyes",
+    "scared",
+    "surprised",
+    "proud",
+    "happy",
+    "angry",
+    "nervous",
+    "fier"
+   ],
+   "reactions": [
+    "the face changes ON the word with a 5-frame head pop",
+    "the body answers the face (lean back, shoulders up, freeze)"
+   ],
+   "consequences": [
+    "the emotion stays until the next beat (sweat drop, blush, veins)"
+   ],
+   "micro": [
+    "blink",
+    "breath",
+    "small head wobble"
+   ],
+   "sfx": [
+    "sting or comic accent on the word"
+   ],
+   "build": "card faces k:<emotion> on the narration word (tracks.json acts), head pop by film.js tween.pop"
+  },
+  {
+   "id": "gesture",
+   "triggers": [
+    "raises",
+    "points",
+    "waves",
+    "arms out",
+    "oath",
+    "lève",
+    "salue",
+    "gesture"
+   ],
+   "reactions": [
+    "the hand leads, the arm follows, the pose holds while the narration lands",
+    "anyone watching looks at the hand"
+   ],
+   "consequences": [
+    "the pose sets up the next beat"
+   ],
+   "micro": [
+    "hand tremble at the hold",
+    "settle"
+   ],
+   "sfx": [
+    "cloth whoosh of the arm"
+   ],
+   "build": "motion library gesture move in the character's single view (moves blend only inside one view)"
+  }
+ ]
+}

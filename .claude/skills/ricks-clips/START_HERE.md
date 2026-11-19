@@ -1,5 +1,11 @@
 # Start here (for Claude)
 
+## NEW VIDEO, WITH OR WITHOUT A REFERENCE VIDEO (CB 2026-11-19) — read first
+`docs/PREPRODUCTION_FR.md`: write the full plan (`templates/production_plan/`), `python3 tools/plan_check.py plan/plan.json` = PLAN PASS
+before any build; style = `references/STYLE_BIBLE_FR.md`; every action from `library/reactions/reactions.json` (reaction + lasting
+consequence + micro + sound); build one Blender script per shot; `continuity.py` before any render; render in layers; every problem
+becomes a lesson + a check/recipe (CB_RULES 11h). Worked example: `demos/crashed_car/` + `references/crashed_car/shots/`.
+
 ## Cloud runtime (Claude Code Web)
 If `CLAUDE_CODE_REMOTE=true`, read `CLOUD_MODE.md` first. Use `.venv/bin/python` for Python tools and `render_gpu.mjs --software` for cloud previews. Do not run the Windows installer. On install requests, run `scripts/cloud_session_start.sh` and `scripts/cloud_doctor.sh`, then report exact test results before creating a film.
 

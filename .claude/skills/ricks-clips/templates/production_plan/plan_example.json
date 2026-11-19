@@ -1,0 +1,499 @@
+{
+ "title": "crashed_car — plan 2 (exemple rempli)",
+ "notes": "Exemple de plan complet : le plan 2 tel qu'il a été construit (demos/crashed_car/shots/s02_*.py). Les temps sont relatifs au début du plan (image 122 = 0 s).",
+ "style": "references/STYLE_BIBLE_FR.md",
+ "format": "1080x1920",
+ "fps": 30,
+ "duration_s": 4.2,
+ "voice": {
+  "text": "You see, he was a retired race car driver, and after a bad crash,",
+  "words": 14,
+  "key_words": {
+   "You see": 0.0,
+   "retired": 1.2,
+   "driver": 2.3,
+   "crash": 3.9
+  }
+ },
+ "needs": [
+  {
+   "id": "f1",
+   "kind": "model",
+   "source": "sketchfab:ca91852b29bb435d8d0278d9131aa775 (LWDream, CC-BY)",
+   "state": "in library"
+  },
+  {
+   "id": "pit_concrete",
+   "kind": "texture",
+   "source": "polyhaven:concrete_floor_worn_001",
+   "state": "cached"
+  },
+  {
+   "id": "track_asphalt",
+   "kind": "texture",
+   "source": "polyhaven:asphalt_track",
+   "state": "cached"
+  },
+  {
+   "id": "sky_hdri",
+   "kind": "hdri",
+   "source": "polyhaven:kloofendal_48d_partly_cloudy_puresky",
+   "state": "cached"
+  },
+  {
+   "id": "hero",
+   "kind": "character",
+   "source": "cast:hero_racer (sheet16)",
+   "state": "drawn by tools/card_service.py"
+  }
+ ],
+ "places": [
+  {
+   "id": "pit",
+   "description": "voie des stands : béton clair, bande rouge et blanche, muret à sponsors, grillage, tribune pleine sous un toit, portique",
+   "ground": {
+    "name": "pit floor",
+    "texture": "polyhaven:concrete_floor_worn_001",
+    "tile": 2.5,
+    "value": 1.35,
+    "extra": "taches d'huile, traces de pneus"
+   },
+   "surfaces": [
+    {
+     "name": "pit wall",
+     "texture": "polyhaven:concrete_wall_008"
+    },
+    {
+     "name": "edge stripe",
+     "texture": "library:stripe_paint_red"
+    }
+   ],
+   "sky": "dégradé bleu profond + 3 gros nuages, HDRI pour les reflets seulement",
+   "light": {
+    "sun": {
+     "elevation": 40,
+     "azimuth": 28,
+     "energy": 6.2,
+     "angle": 1.5
+    },
+    "fill": 0.42
+   },
+   "shadows": "toit de la tribune et portique : bandes d'ombre diagonales sur le sol ; F1 et personnage : ombres nettes vers l'arrière-gauche ; disques de contact",
+   "props": [
+    {
+     "id": "tyre_stacks",
+     "source": "polyhaven:old_tyre"
+    },
+    {
+     "id": "jerrycans",
+     "source": "polyhaven:metal_jerrycan"
+    },
+    {
+     "id": "jack",
+     "source": "script"
+    },
+    {
+     "id": "air_hose",
+     "source": "script (bezier)"
+    },
+    {
+     "id": "crowd",
+     "source": "script (1772 instances)"
+    },
+    {
+     "id": "mechanics",
+     "source": "script"
+    },
+    {
+     "id": "sponsor_boards",
+     "source": "script + text decals"
+    }
+   ]
+  },
+  {
+   "id": "corner",
+   "description": "virage après le crash : asphalte, vibreurs, bac à gravier, mur de pneus, grillage",
+   "ground": {
+    "name": "track",
+    "texture": "polyhaven:asphalt_track",
+    "tile": 2.0,
+    "value": 2.2,
+    "extra": "grandes traces de dérapage"
+   },
+   "surfaces": [
+    {
+     "name": "gravel trap",
+     "texture": "library:gravel_proc (à remplacer par un scan)"
+    }
+   ],
+   "sky": "dégradé + 2 nuages, HDRI reflets",
+   "light": {
+    "sun": {
+     "elevation": 46,
+     "azimuth": 22,
+     "energy": 6.2,
+     "angle": 1.5
+    },
+    "fill": 0.42
+   },
+   "shadows": "F1 retournée : grande ombre portée sur le gravier ; personnage : ombre nette",
+   "props": [
+    {
+     "id": "kerbs",
+     "source": "script"
+    },
+    {
+     "id": "barrier",
+     "source": "script"
+    },
+    {
+     "id": "blue_tyre",
+     "source": "script"
+    },
+    {
+     "id": "debris",
+     "source": "script (seed 7)"
+    }
+   ]
+  }
+ ],
+ "objects": [
+  {
+   "id": "f1",
+   "source": "sketchfab:ca91852b29bb435d8d0278d9131aa775",
+   "material": "rouge #cc101a, vernis coat 1.0 / 0.03, reflets HDRI",
+   "states": [
+    "propre (pit)",
+    "retournée, aileron arraché (corner)"
+   ]
+  },
+  {
+   "id": "helmet",
+   "source": "script (helmet3d)",
+   "material": "blanc brillant, 2 bandes bleues, visière fumée",
+   "states": [
+    "sur la tête",
+    "dans les mains",
+    "sous le bras"
+   ]
+  },
+  {
+   "id": "confetti",
+   "source": "script (320 instances)",
+   "material": "papier coloré mat"
+  }
+ ],
+ "characters": [
+  {
+   "id": "hero",
+   "puppet": "cast:hero_racer",
+   "costume": "combinaison bleue, casquette d'aviateur",
+   "view": "front",
+   "held": [
+    "helmet"
+   ]
+  }
+ ],
+ "shots": [
+  {
+   "id": "2AB",
+   "place": "pit",
+   "t0": 0.0,
+   "t1": 2.6,
+   "narration": "You see, he was a retired race car driver,",
+   "transition_in": "cut from shot 1",
+   "transition_out": "fade 6 frames",
+   "camera": [
+    {
+     "t": 0.0,
+     "pos": [
+      -1.8,
+      -2.5,
+      2.2
+     ],
+     "aim": "cockpit",
+     "lens": 58,
+     "move": "slide left on the cockpit"
+    },
+    {
+     "t": 0.4,
+     "pos": [
+      -1.3,
+      -2.75,
+      2.17
+     ],
+     "aim": "cockpit",
+     "lens": 57,
+     "move": "slow slide"
+    },
+    {
+     "t": 0.67,
+     "pos": [
+      -1.35,
+      -7.6,
+      1.55
+     ],
+     "aim": "hero jumping",
+     "lens": 52,
+     "move": "whip pan to the wide, following the jump"
+    },
+    {
+     "t": 1.0,
+     "pos": [
+      -1.1,
+      -7.25,
+      1.52
+     ],
+     "aim": "hero",
+     "lens": 50,
+     "move": "push-in"
+    },
+    {
+     "t": 2.77,
+     "pos": [
+      -0.45,
+      -6.35,
+      1.45
+     ],
+     "aim": "hero",
+     "lens": 47,
+     "move": "push-in to the last frame"
+    }
+   ],
+   "actions": [
+    {
+     "id": "pose",
+     "who": "hero",
+     "f": [
+      122,
+      130
+     ],
+     "what": "stands proud in the cockpit, arms out",
+     "anim": "m:cheer/A",
+     "micro": [
+      "breath",
+      "body sway"
+     ],
+     "reactions": [
+      "crowd cheers and waves",
+      "confetti falls"
+     ],
+     "consequences": [
+      "confetti settles on the floor"
+     ],
+     "sfx": [
+      "crowd cheer"
+     ]
+    },
+    {
+     "id": "jump",
+     "who": "hero",
+     "f": [
+      131,
+      155
+     ],
+     "what": "jumps out of the cockpit and lands on the track",
+     "recipe": "jump_landing",
+     "anim": "m:jump/joy + card arc over the sidepod",
+     "micro": [
+      "arms swing up",
+      "settle after landing"
+     ],
+     "reactions": [
+      "anticipation crouch then spring, airborne arc, landing squash",
+      "dust puff at the landing spot"
+     ],
+     "consequences": [
+      "prints / dust mark at the landing spot"
+     ],
+     "sfx": [
+      "whoosh",
+      "thud of the landing"
+     ]
+    },
+    {
+     "id": "helmet_off",
+     "who": "hero",
+     "f": [
+      158,
+      185
+     ],
+     "what": "takes off his helmet with both hands",
+     "recipe": "put_on_take_off_wearable",
+     "anim": "m:jump/joy (hands up) then m:idle/B; 3D helmet follows head then hands (card_anchors)",
+     "micro": [
+      "head shake",
+      "helmet tilts back 18 deg"
+     ],
+     "reactions": [
+      "both hands go to the item, grip, the helmet moves with the hands",
+      "the old face is revealed progressively"
+     ],
+     "consequences": [
+      "helmet held under the right arm for the rest of the shot"
+     ],
+     "sfx": [
+      "plastic rub",
+      "small pop"
+     ]
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "helmet",
+     "change": "head -> hands -> under arm",
+     "by_action": "helmet_off"
+    },
+    {
+     "who": "hero",
+     "change": "cockpit -> track",
+     "by_action": "jump"
+    }
+   ],
+   "fx": [
+    "confetti (foreground pieces past the lens)",
+    "dust puff at landing"
+   ],
+   "sound": {
+    "ambience": "stadium crowd"
+   },
+   "handheld": true
+  },
+  {
+   "id": "2C",
+   "place": "corner",
+   "t0": 2.6,
+   "t1": 4.2,
+   "narration": "and after a bad crash,",
+   "transition_in": "fade 6 frames",
+   "transition_out": "becomes a pinned photo (shot 3)",
+   "camera": [
+    {
+     "t": 2.6,
+     "pos": [
+      0.5,
+      -6.6,
+      2.3
+     ],
+     "aim": "hero + car",
+     "lens": 54,
+     "move": "slow push-in"
+    },
+    {
+     "t": 4.2,
+     "pos": [
+      0.45,
+      -5.9,
+      2.15
+     ],
+     "aim": "hero + car",
+     "lens": 54,
+     "move": "push-in + tilt down"
+    }
+   ],
+   "actions": [
+    {
+     "id": "flip",
+     "who": "f1",
+     "f": [
+      199,
+      248
+     ],
+     "what": "the crashed car hangs upside down in the air, almost frozen",
+     "recipe": "vehicle_impact",
+     "anim": "rig keys: 6 deg roll, 15 cm drift over 1.6 s",
+     "micro": [
+      "loose wheel spins",
+      "front wing dangles"
+     ],
+     "reactions": [
+      "vehicle pitches, pieces thrown on ballistic paths",
+      "debris, shards and dust cloud"
+     ],
+     "consequences": [
+      "skid marks before the impact",
+      "debris left on the ground",
+      "broken car (no reset)"
+     ],
+     "sfx": [
+      "distant crash",
+      "debris rattle"
+     ]
+    },
+    {
+     "id": "shock",
+     "who": "hero",
+     "f": [
+      200,
+      221
+     ],
+     "what": "frozen, round eyes",
+     "anim": "m:idle/B k:shocked",
+     "micro": [
+      "blink",
+      "breath"
+     ],
+     "reactions": [
+      "camera creeps closer"
+     ],
+     "consequences": [
+      "sweat drop at the end of the shot"
+     ],
+     "sfx": [
+      "sting"
+     ]
+    },
+    {
+     "id": "oath",
+     "who": "hero",
+     "f": [
+      222,
+      248
+     ],
+     "what": "raises his hand: the oath",
+     "anim": "m:cheer/B k:annoyed then k:nervous",
+     "micro": [
+      "hand tremble",
+      "sweat drop"
+     ],
+     "reactions": [
+      "pose held as the narration lands"
+     ],
+     "consequences": [
+      "leads into the vow of shot 3"
+     ],
+     "sfx": [
+      "whoosh of the arm"
+     ]
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "helmet",
+     "change": "stays under the right arm",
+     "by_action": "helmet_off"
+    },
+    {
+     "who": "f1",
+     "change": "clean -> crashed",
+     "by_action": "cut"
+    }
+   ],
+   "fx": [
+    "gravel and pieces in the air",
+    "dust settling"
+   ],
+   "sound": {
+    "ambience": "empty track, wind"
+   },
+   "handheld": true
+  }
+ ],
+ "sound": {
+  "music": "light bed, -7.6 dB under the voice",
+  "lufs": -14
+ },
+ "lessons_planned": [
+  "PI-016"
+ ]
+}
