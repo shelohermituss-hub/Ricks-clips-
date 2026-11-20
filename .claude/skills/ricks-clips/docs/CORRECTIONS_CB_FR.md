@@ -168,3 +168,8 @@ Comparaison côte à côte (`episodes/exploding-whale/build/review/comparaison_r
 6. Couleurs décidées qui s'opposent (bleu / orangé-rouge), soleil chaud, ombres bleutées, halo léger, brume de distance teintée.
 7. Une vague = eau claire + lèvre d'écume festonnée, jamais une plaque blanche.
 **Règle de travail** : valider UN plan à côté des références avant d'habiller les autres ; montrer avant/après + référence sur la même planche.
+
+## CB 2026-11-20 — « le ciel est sous-exposé et les personnages blancs semblent assombris »
+- **Cause** : pour empêcher le sable blanc de brûler, j'avais baissé l'exposition de toute l'image (−0,5) : le ciel peint, les nuages et les personnages baissaient avec.
+- **Règle** : un sol clair se tient avec la LAMPE (soleil ×0,7, ambiance 0,30), jamais avec l'exposition. Le ciel et les nuages gardent leur pleine valeur ; les personnages dessinés sont éclairés à 86 % par leur propre lumière pour que le blanc reste blanc.
+- **Code** : `sets/toon.py` (`stylize`), `shots/film.py` (`_drawn_finish` sans baisse d'exposition).

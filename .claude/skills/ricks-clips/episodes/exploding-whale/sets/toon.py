@@ -70,7 +70,7 @@ def outline(o, t=.02):
     md.material_offset = len(o.data.materials) - 1; md.use_quality_normals = True; return o
 
 # ------------------------------------------------------------------------------------------------------------ the painted sky
-def sky(scene, ambient=(.50, .60, 1.0), k=.42, sun=(95, 24)):
+def sky(scene, ambient=(.50, .60, 1.0), k=.30, sun=(95, 24)):
     """camera rays: a painted gradient (peach at the horizon, blue above, as in the references' sea shots); light: a blue ambient, so that
     every shadow is coloured"""
     w = scene.world; nt = w.node_tree; N, L = nt.nodes, nt.links; N.clear(); out = N.new("ShaderNodeOutputWorld")
@@ -130,7 +130,7 @@ def sea():
     en = N.new("ShaderNodeTexNoise"); en.inputs["Scale"].default_value = .35; L.new(geo.outputs["Position"], en.inputs["Vector"])
     edge = _m(N, L, "LESS_THAN", d, _m(N, L, "MULTIPLY_ADD", en.outputs["Fac"], 3.0, 1.2))                                                  # the foam edge lying on the sand
     foam = _m(N, L, "MAXIMUM", lines, edge); colr = _mix(N, L, foam, base, (1.0, 1.0, 1.0))
-    L.new(colr, b.inputs["Base Color"]); L.new(colr, b.inputs["Emission Color"]); b.inputs["Emission Strength"].default_value = .38; b.inputs["Roughness"].default_value = .22; b.inputs["Specular IOR Level"].default_value = .35
+    L.new(colr, b.inputs["Base Color"]); L.new(colr, b.inputs["Emission Color"]); b.inputs["Emission Strength"].default_value = .30; b.inputs["Roughness"].default_value = .22; b.inputs["Specular IOR Level"].default_value = .35
 
 def sand():
     """the drawn sand (CB 2026-11-20: "le sable est jaune, je n'aime pas, une couleur plus blanche" + more drawing on the ground): a pale
@@ -175,15 +175,20 @@ def stylize(scene, whale=None, sun_color=(1.0, .90, .74), sun=(95, 24)):
     """turn the photo beach into the drawn beach (call after beach.build and after the shot's own objects exist)"""
     sky(scene, sun=sun); clouds(col("L_SET"), sun=sun); sea(); sand()
     for o in bpy.data.objects:
-        if o.type == "LIGHT" and o.data.type == "SUN": o.data.color = sun_color
+        if o.type == "LIGHT" and o.data.type == "SUN": o.data.color = sun_color; o.data.energy *= .7       # the pale sand is held by the LAMP, not by the exposure: sky, clouds and characters keep their brightness (CB 2026-11-20)
         if o.name.startswith("bounce_fill"): o.data.energy *= .35
         if o.name.startswith("rock"):
             o.data.materials.clear(); o.data.materials.append(paint("rock_paint", (.13, .16, .27), .5)); outline(o, .05)
         if o.name.startswith("driftwood"):
             o.data.materials.clear(); o.data.materials.append(paint("wood_paint", (.80, .56, .34), .7, planks=(2, .34, .03))); outline(o, .03)
+    for o in bpy.data.objects:                                                                     # the drawn characters stay WHITE: mostly their own light (CB 2026-11-20: "les personnages blancs semblent assombris")
+        if o.name.startswith("Card_"):
+            for m in o.data.materials:
+                for nd in (m.node_tree.nodes if m and m.use_nodes else ()):
+                    if nd.type == "MIX_SHADER" and not nd.inputs[0].links: nd.inputs[0].default_value = max(nd.inputs[0].default_value, .86)
     if whale:
         for o in whale.children_recursive:
-            if o.type == "MESH": recolor(o, (.10, .16, .33), .6, .4); outline(o, .04 / whale.scale.x)      # model units
+            if o.type == "MESH": recolor(o, (.15, .23, .43), .6, .4); outline(o, .04 / whale.scale.x)      # model units
     g = bpy.data.materials.get("marram")
     if g:
         b = g.node_tree.nodes.get("Principled BSDF"); src = b.inputs["Base Color"].links[0].from_socket if b.inputs["Base Color"].links else None
@@ -328,7 +333,7 @@ def crate(c, at, yaw, word="FISH"):
 
 def fore(c):
     """the near sand of the low cameras (never an empty half picture)"""
-    castle(c, (9.9, -3.6)); crate(c, (-.6, -8.4), .5); gull(c, (3.1, -7.6), 2.2); gull(c, (3.9, -7.1), 2.9); gull(c, (6.5, -9.6), .6); gull(c, (12.6, -6.9), 2.0)
+    castle(c, (10.25, -3.6)); crate(c, (-.6, -8.4), .5); gull(c, (3.1, -7.6), 2.2); gull(c, (3.9, -7.1), 2.9); gull(c, (6.5, -9.6), .6); gull(c, (12.6, -6.9), 2.0)
     gull(c, (-10.4, 31.0), 1.2, SEA_Z + 1.32); gull(c, (-10.1, 26.5), -1.0, SEA_Z + 1.32)
     crab = _root("crab", c, (1.3, -9.6), .4); cr = paint("crab_red", RED, .4); _ball("crab_body", .09, (0, 0, .07), cr, c, scale=(1.3, 1, .55), parent=crab, line=.006)
     for s in (-1, 1):

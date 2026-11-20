@@ -13,7 +13,7 @@ _finish = kit.finish
 def _drawn_finish(sc, Mo, expo=(), haze=.5):
     if "beach_sand" in bpy.data.materials:
         toon.stylize(sc, bpy.data.objects.get("whale"), sun=(Mo["az"], Mo["el"])); toon.dress(col("L_OBJECTS"), clear=DRESS_CLEAR); toon.ink_all()
-        Mo.update(haze_color=(1.0, .80, .60, 1), bloom=.3, exposure=Mo["exposure"] - .5); haze = .2
+        Mo.update(haze_color=(1.0, .80, .60, 1), bloom=.3); haze = .2
     _finish(sc, Mo, expo, haze)
 kit.finish = _drawn_finish
 YELLOW, RED, WHITE, BLACK, GREEN = (.95, .72, .05), (.75, .04, .03), (.9, .9, .88), (.02, .02, .02), (.25, .75, .12)
