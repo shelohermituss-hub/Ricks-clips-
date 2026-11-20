@@ -1,0 +1,51 @@
+{
+ "video": "V04",
+ "frames_total": 1783,
+ "shots": 20,
+ "stills_saved": 36,
+ "ranges_frame_by_frame": [
+  [
+   84,
+   107,
+   "premier choc et roue"
+  ],
+  [
+   1224,
+   1247,
+   "voiture verticale sur la souche"
+  ]
+ ],
+ "ranges_10fps": [
+  [
+   0,
+   366,
+   "session de reproduction précédente (19-20/11): plans 1 à 4 analysés à 10 i/s, shots/s01.md à s04.md"
+  ]
+ ],
+ "ranges_2fps_only": [
+  [
+   0,
+   1782,
+   "niveau A: 3 planches overview lues en entier"
+  ]
+ ],
+ "complex_passages_studied": [
+  "chute du chêne 14-40",
+  "choc + roue 84-140 (image par image 84-107)",
+  "fouetté 282-285 qui cache une semaine",
+  "choc bleu + pile de pneus + compteur 309-351 (10 i/s)",
+  "coup de hache et ciel ouvert 939-1069 (2 fps)",
+  "voiture verticale 1224-1247 (image par image)"
+ ],
+ "audio": "Pas d'écoute. MESURÉ: -14,0 LUFS, LRA 2,5 LU, crête -2,1 dBTP, corrélation 0,995, 65 attaques (la moins nombreuse), 217 mots (3,67 mots/s, pause max 0,36 s).",
+ "tool_limits": [
+  "13 candidats de coupe; 282-285 est un fouetté (vérifié), pas une coupe; aucune coupe franche avant 687 (22,9 s)",
+  "pas d'échantillon ponctuel neuf: k-means + échantillons de la session précédente"
+ ],
+ "not_done": [
+  "lecture image par image du coup de hache et des chocs de nuit",
+  "mesure en pixels des personnages"
+ ],
+ "confidence": "haute pour les plans 1 à 4 (analysés deux fois), moyenne-haute pour le reste",
+ "status": "PARTIAL"
+}
