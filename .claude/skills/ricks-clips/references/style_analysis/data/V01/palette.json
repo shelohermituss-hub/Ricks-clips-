@@ -1,0 +1,879 @@
+{
+ "video": "V01",
+ "moods": [
+  {
+   "mood": "cellule bleue de départ (jour intérieur froid)",
+   "place": "cellule S01",
+   "frames": [
+    0
+   ],
+   "samples": [
+    {
+     "video": "V01",
+     "frame": 0,
+     "timecode": "00:00:00.000",
+     "label": "wall_blue_day",
+     "region_xyxy": [
+      40,
+      500,
+      180,
+      700
+     ],
+     "n_pixels": 28000,
+     "hex": "#34566a",
+     "rgb": [
+      52,
+      86,
+      106
+     ],
+     "hsv_deg_pct": [
+      202,
+      51,
+      42
+     ],
+     "lab": [
+      35.0,
+      -6.0,
+      -15.5
+     ],
+     "std_rgb": [
+      5.0,
+      5.0,
+      5.0
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "dominant"
+    },
+    {
+     "video": "V01",
+     "frame": 0,
+     "timecode": "00:00:00.000",
+     "label": "floor_blue",
+     "region_xyxy": [
+      200,
+      1100,
+      600,
+      1250
+     ],
+     "n_pixels": 60000,
+     "hex": "#39506b",
+     "rgb": [
+      57,
+      80,
+      107
+     ],
+     "hsv_deg_pct": [
+      212,
+      47,
+      42
+     ],
+     "lab": [
+      33.4,
+      -0.8,
+      -18.2
+     ],
+     "std_rgb": [
+      22.1,
+      17.3,
+      15.0
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "secondary"
+    }
+   ],
+   "kmeans": [
+    {
+     "video": "V01",
+     "frame": 0,
+     "timecode": "00:00:00.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#34566a",
+       "share": 0.443
+      },
+      {
+       "hex": "#2c3844",
+       "share": 0.247
+      },
+      {
+       "hex": "#364561",
+       "share": 0.146
+      },
+      {
+       "hex": "#7d9198",
+       "share": 0.133
+      },
+      {
+       "hex": "#e4e5e5",
+       "share": 0.031
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "mood": "cellule rose / magenta (couleur-sujet)",
+   "place": "cellules S03, S06, S11, S13",
+   "frames": [
+    290,
+    740,
+    1420,
+    1740,
+    1935
+   ],
+   "samples": [
+    {
+     "video": "V01",
+     "frame": 290,
+     "timecode": "00:00:09.667",
+     "label": "wall_pink_magenta",
+     "region_xyxy": [
+      40,
+      900,
+      200,
+      1100
+     ],
+     "n_pixels": 32000,
+     "hex": "#a9799a",
+     "rgb": [
+      169,
+      121,
+      154
+     ],
+     "hsv_deg_pct": [
+      318,
+      28,
+      66
+     ],
+     "lab": [
+      56.6,
+      24.2,
+      -10.2
+     ],
+     "std_rgb": [
+      53.8,
+      52.4,
+      32.9
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "mixed (gardien + mur, région mal choisie)"
+    },
+    {
+     "video": "V01",
+     "frame": 740,
+     "timecode": "00:00:24.667",
+     "label": "pink_wall_c4",
+     "region_xyxy": [
+      300,
+      500,
+      560,
+      760
+     ],
+     "n_pixels": 67600,
+     "hex": "#dfa0b8",
+     "rgb": [
+      223,
+      160,
+      184
+     ],
+     "hsv_deg_pct": [
+      338,
+      28,
+      87
+     ],
+     "lab": [
+      72.7,
+      26.5,
+      -2.9
+     ],
+     "std_rgb": [
+      49.0,
+      52.7,
+      46.3
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "dominant"
+    },
+    {
+     "video": "V01",
+     "frame": 740,
+     "timecode": "00:00:24.667",
+     "label": "floor_grey_cell",
+     "region_xyxy": [
+      200,
+      1100,
+      600,
+      1270
+     ],
+     "n_pixels": 68000,
+     "hex": "#888793",
+     "rgb": [
+      136,
+      135,
+      147
+     ],
+     "hsv_deg_pct": [
+      246,
+      8,
+      58
+     ],
+     "lab": [
+      56.9,
+      2.5,
+      -6.0
+     ],
+     "std_rgb": [
+      14.8,
+      16.3,
+      16.0
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "secondary"
+    },
+    {
+     "video": "V01",
+     "frame": 1420,
+     "timecode": "00:00:47.333",
+     "label": "pink_cell_window_light",
+     "region_xyxy": [
+      300,
+      200,
+      600,
+      500
+     ],
+     "n_pixels": 90000,
+     "hex": "#d689c6",
+     "rgb": [
+      214,
+      137,
+      198
+     ],
+     "hsv_deg_pct": [
+      312,
+      36,
+      84
+     ],
+     "lab": [
+      66.7,
+      38.6,
+      -19.5
+     ],
+     "std_rgb": [
+      57.1,
+      37.7,
+      54.3
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "highlight"
+    },
+    {
+     "video": "V01",
+     "frame": 1420,
+     "timecode": "00:00:47.333",
+     "label": "pink_cell_floor",
+     "region_xyxy": [
+      0,
+      1100,
+      300,
+      1270
+     ],
+     "n_pixels": 51000,
+     "hex": "#c1547e",
+     "rgb": [
+      193,
+      84,
+      126
+     ],
+     "hsv_deg_pct": [
+      336,
+      56,
+      76
+     ],
+     "lab": [
+      51.1,
+      47.8,
+      -1.9
+     ],
+     "std_rgb": [
+      18.7,
+      8.1,
+      10.2
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "dominant"
+    },
+    {
+     "video": "V01",
+     "frame": 1740,
+     "timecode": "00:00:58.000",
+     "label": "final_pink_wall",
+     "region_xyxy": [
+      0,
+      0,
+      720,
+      400
+     ],
+     "n_pixels": 288000,
+     "hex": "#d692ac",
+     "rgb": [
+      214,
+      146,
+      172
+     ],
+     "hsv_deg_pct": [
+      338,
+      32,
+      84
+     ],
+     "lab": [
+      68.0,
+      29.3,
+      -3.1
+     ],
+     "std_rgb": [
+      39.9,
+      47.4,
+      39.4
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "dominant"
+    },
+    {
+     "video": "V01",
+     "frame": 1935,
+     "timecode": "00:01:04.500",
+     "label": "rage_red_aura",
+     "region_xyxy": [
+      0,
+      0,
+      200,
+      300
+     ],
+     "n_pixels": 60000,
+     "hex": "#d66893",
+     "rgb": [
+      214,
+      104,
+      147
+     ],
+     "hsv_deg_pct": [
+      336,
+      51,
+      84
+     ],
+     "lab": [
+      58.4,
+      48.0,
+      -2.7
+     ],
+     "std_rgb": [
+      16.7,
+      14.5,
+      15.1
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "accent"
+    }
+   ],
+   "kmeans": [
+    {
+     "video": "V01",
+     "frame": 290,
+     "timecode": "00:00:09.667",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#928f99",
+       "share": 0.276
+      },
+      {
+       "hex": "#f43ca0",
+       "share": 0.268
+      },
+      {
+       "hex": "#df6f9a",
+       "share": 0.227
+      },
+      {
+       "hex": "#3c2b42",
+       "share": 0.125
+      },
+      {
+       "hex": "#e2d1d7",
+       "share": 0.104
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    },
+    {
+     "video": "V01",
+     "frame": 750,
+     "timecode": "00:00:25.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#d85482",
+       "share": 0.291
+      },
+      {
+       "hex": "#f086ae",
+       "share": 0.29
+      },
+      {
+       "hex": "#8a8794",
+       "share": 0.219
+      },
+      {
+       "hex": "#b4aeb7",
+       "share": 0.13
+      },
+      {
+       "hex": "#49425a",
+       "share": 0.07
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    },
+    {
+     "video": "V01",
+     "frame": 1420,
+     "timecode": "00:00:47.333",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#d35c89",
+       "share": 0.496
+      },
+      {
+       "hex": "#e57ebd",
+       "share": 0.357
+      },
+      {
+       "hex": "#6976bd",
+       "share": 0.06
+      },
+      {
+       "hex": "#b4a8c3",
+       "share": 0.053
+      },
+      {
+       "hex": "#573650",
+       "share": 0.033
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    },
+    {
+     "video": "V01",
+     "frame": 1545,
+     "timecode": "00:00:51.500",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#d8aece",
+       "share": 0.255
+      },
+      {
+       "hex": "#d549a1",
+       "share": 0.251
+      },
+      {
+       "hex": "#ef81c9",
+       "share": 0.243
+      },
+      {
+       "hex": "#654c7a",
+       "share": 0.209
+      },
+      {
+       "hex": "#9f381e",
+       "share": 0.042
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    },
+    {
+     "video": "V01",
+     "frame": 1800,
+     "timecode": "00:01:00.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#f292b5",
+       "share": 0.354
+      },
+      {
+       "hex": "#9a959e",
+       "share": 0.266
+      },
+      {
+       "hex": "#d25d89",
+       "share": 0.236
+      },
+      {
+       "hex": "#dac9d3",
+       "share": 0.122
+      },
+      {
+       "hex": "#523b47",
+       "share": 0.023
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "Le rose n'est PAS constant: magenta saturé (#f43ca0 en k-means à 290), rose moyen (#d85482 / #f086ae à 750), rose pâle (#f292b5 à 1800). Le sol gris (#8a8794) reste neutre et sert de repos. MESURÉ: saturation par seconde 0,23 (bleu, 4 s) à 0,54 (48 s, rage)."
+  },
+  {
+   "mood": "salle commune jour, faisceaux de verrière",
+   "place": "POD C",
+   "frames": [
+    380,
+    935
+   ],
+   "samples": [
+    {
+     "video": "V01",
+     "frame": 300,
+     "timecode": "00:00:10.000",
+     "label": "skin_scientist",
+     "region_xyxy": [
+      400,
+      640,
+      560,
+      760
+     ],
+     "n_pixels": 19200,
+     "hex": "#b08294",
+     "rgb": [
+      176,
+      130,
+      148
+     ],
+     "hsv_deg_pct": [
+      336,
+      26,
+      69
+     ],
+     "lab": [
+      59.3,
+      20.7,
+      -2.8
+     ],
+     "std_rgb": [
+      84.0,
+      84.9,
+      83.3
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "skin (teinté par la lumière rose)"
+    },
+    {
+     "video": "V01",
+     "frame": 300,
+     "timecode": "00:00:10.000",
+     "label": "tie_brown",
+     "region_xyxy": [
+      470,
+      900,
+      560,
+      1100
+     ],
+     "n_pixels": 18000,
+     "hex": "#984570",
+     "rgb": [
+      152,
+      69,
+      112
+     ],
+     "hsv_deg_pct": [
+      328,
+      55,
+      60
+     ],
+     "lab": [
+      41.4,
+      40.2,
+      -8.4
+     ],
+     "std_rgb": [
+      91.5,
+      66.6,
+      71.2
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "accent"
+    },
+    {
+     "video": "V01",
+     "frame": 380,
+     "timecode": "00:00:12.667",
+     "label": "guard_uniform",
+     "region_xyxy": [
+      60,
+      980,
+      160,
+      1100
+     ],
+     "n_pixels": 12000,
+     "hex": "#4977a5",
+     "rgb": [
+      73,
+      119,
+      165
+     ],
+     "hsv_deg_pct": [
+      210,
+      56,
+      65
+     ],
+     "lab": [
+      48.7,
+      -1.8,
+      -29.2
+     ],
+     "std_rgb": [
+      19.2,
+      23.6,
+      29.6
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "character"
+    }
+   ],
+   "kmeans": [
+    {
+     "video": "V01",
+     "frame": 935,
+     "timecode": "00:00:31.167",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#466784",
+       "share": 0.388
+      },
+      {
+       "hex": "#9d9da0",
+       "share": 0.242
+      },
+      {
+       "hex": "#21324d",
+       "share": 0.142
+      },
+      {
+       "hex": "#7295b3",
+       "share": 0.138
+      },
+      {
+       "hex": "#edf0f1",
+       "share": 0.091
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "mood": "nuit intérieure bleue + lampe chaude",
+   "place": "hall et guérite S10",
+   "frames": [
+    1310,
+    1350
+   ],
+   "samples": [
+    {
+     "video": "V01",
+     "frame": 1310,
+     "timecode": "00:00:43.667",
+     "label": "night_hall_blue",
+     "region_xyxy": [
+      200,
+      200,
+      520,
+      400
+     ],
+     "n_pixels": 64000,
+     "hex": "#253f9a",
+     "rgb": [
+      37,
+      63,
+      154
+     ],
+     "hsv_deg_pct": [
+      226,
+      76,
+      60
+     ],
+     "lab": [
+      30.2,
+      23.7,
+      -52.6
+     ],
+     "std_rgb": [
+      5.5,
+      4.5,
+      7.1
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "dominant"
+    },
+    {
+     "video": "V01",
+     "frame": 1350,
+     "timecode": "00:00:45.000",
+     "label": "night_desk_red",
+     "region_xyxy": [
+      0,
+      900,
+      300,
+      1050
+     ],
+     "n_pixels": 45000,
+     "hex": "#010121",
+     "rgb": [
+      1,
+      1,
+      33
+     ],
+     "hsv_deg_pct": [
+      240,
+      97,
+      13
+     ],
+     "lab": [
+      1.3,
+      7.0,
+      -17.9
+     ],
+     "std_rgb": [
+      8.4,
+      8.7,
+      9.4
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "shadow (région tombée dans le noir)"
+    }
+   ],
+   "kmeans": [
+    {
+     "video": "V01",
+     "frame": 1310,
+     "timecode": "00:00:43.667",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#263d97",
+       "share": 0.656
+      },
+      {
+       "hex": "#445398",
+       "share": 0.201
+      },
+      {
+       "hex": "#777caa",
+       "share": 0.078
+      },
+      {
+       "hex": "#c4b5ba",
+       "share": 0.042
+      },
+      {
+       "hex": "#407ee5",
+       "share": 0.023
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "Nuit = changement de teinte global vers bleu saturé (#263d97 = 66 % de l'image à 1310), pas seulement une baisse de luminosité; une seule source chaude (écran rose, bureau orange) au point d'intérêt."
+  },
+  {
+   "mood": "extérieur jour aérien",
+   "place": "S09",
+   "frames": [
+    1230,
+    1260
+   ],
+   "samples": [
+    {
+     "video": "V01",
+     "frame": 1230,
+     "timecode": "00:00:41.000",
+     "label": "aerial_field_green",
+     "region_xyxy": [
+      100,
+      300,
+      600,
+      500
+     ],
+     "n_pixels": 100000,
+     "hex": "#69a47d",
+     "rgb": [
+      105,
+      164,
+      125
+     ],
+     "hsv_deg_pct": [
+      140,
+      36,
+      64
+     ],
+     "lab": [
+      62.7,
+      -27.9,
+      14.2
+     ],
+     "std_rgb": [
+      66.2,
+      45.4,
+      30.0
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "dominant"
+    },
+    {
+     "video": "V01",
+     "frame": 1260,
+     "timecode": "00:00:42.000",
+     "label": "sky_day",
+     "region_xyxy": [
+      0,
+      100,
+      720,
+      300
+     ],
+     "n_pixels": 144000,
+     "hex": "#8cc4f6",
+     "rgb": [
+      140,
+      196,
+      246
+     ],
+     "hsv_deg_pct": [
+      208,
+      43,
+      96
+     ],
+     "lab": [
+      77.3,
+      -5.8,
+      -30.1
+     ],
+     "std_rgb": [
+      32.9,
+      15.0,
+      8.4
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "sky"
+    }
+   ],
+   "kmeans": [],
+   "notes": ""
+  }
+ ]
+}

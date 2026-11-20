@@ -1,0 +1,59 @@
+{
+ "video": "V01",
+ "frames_total": 1957,
+ "shots": 13,
+ "stills_saved": 69,
+ "ranges_frame_by_frame": [
+  [
+   750,
+   797,
+   "impact au pied + fissures (2 planches lues par le chef d'analyse)"
+  ],
+  [
+   1524,
+   1547,
+   "arrachage du banc (planche 1 sur 3 lue)"
+  ],
+  [
+   1384,
+   1407,
+   "poussée dans le moniteur (transition)"
+  ]
+ ],
+ "ranges_10fps": [
+  [
+   0,
+   1956,
+   "les images 10 i/s existent (_work/V01/f10) mais n'ont été lues que via les captures de l'analyste précédent"
+  ]
+ ],
+ "ranges_2fps_only": [
+  [
+   0,
+   1956,
+   "niveau A: 4 planches overview lues en entier"
+  ]
+ ],
+ "complex_passages_studied": [
+  "piétinement et fissures 750-797",
+  "rage éclairs 788-858 (2 fps + captures)",
+  "bras de fer 1030-1060 (captures)",
+  "traversée du toit 1150-1170 (2 fps + mesure de différence)",
+  "poussée dans le moniteur 1384-1407",
+  "arrachage du banc 1524-1547"
+ ],
+ "audio": "Pas d'écoute possible. Analysé: loudness EBU R128 (-14,2 LUFS, LRA 2,2 LU, crête -1,9 dBTP), enveloppe RMS 50 ms, 104 attaques, mots minutés (237 mots, 3,65 mots/s, pause max 0,46 s), corrélation stéréo 0,994 (quasi mono). Non analysé: musique, instruments, timbre de voix, bruitages identifiés.",
+ "tool_limits": [
+  "PySceneDetect absent: coupes par différence d'images + vérification à l'œil",
+  "fondus enchaînés non détectés par le seuil (vérifiés à l'œil sur les planches)",
+  "couleurs: vidéo H.264 8 bits compressée; certaines régions mélangent deux objets (signalé dans palette.json)",
+  "transcription automatique: le texte peut contenir des erreurs"
+ ],
+ "not_done": [
+  "lecture image par image complète de la rage 798-869 et du bras de fer 1030-1077 (planches existantes non relues)",
+  "mesure en pixels des proportions des personnages (estimée sur les planches)",
+  "identification des sons"
+ ],
+ "confidence": "moyenne-haute pour la structure, les plans, les événements et les palettes; moyenne pour le détail des micro-animations (peu de plages lues image par image)",
+ "status": "PARTIAL"
+}
