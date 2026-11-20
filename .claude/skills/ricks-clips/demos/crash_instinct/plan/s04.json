@@ -1,0 +1,473 @@
+{
+ "style": "references/crash_instinct/ANALYSE_FR.md",
+ "format": "1080x1920",
+ "fps": 30,
+ "kind": "fragment",
+ "needs": [
+  {
+   "id": "planter",
+   "kind": "character",
+   "source": "cast:planter (sheet17)",
+   "state": "drawn by tools/card_service.py"
+  },
+  {
+   "id": "oak",
+   "kind": "model",
+   "source": "script: demos/crash_instinct/sets/oak.py (bark polyhaven:jolcham_oak_bark_01, CC0)",
+   "state": "built (no library tree matched: Poly Haven island trees fork at the base, Sketchfab oaks are sparse)"
+  },
+  {
+   "id": "white_car",
+   "kind": "model",
+   "source": "sketchfab:5db696c6ed5d4bdc87905c1040fa072a (MMC Generic Small SUV, MMC Works, CC-BY)",
+   "state": "in library (matte white paint, clear glass; CB 2026-11-19)"
+  },
+  {
+   "id": "grass_tufts",
+   "kind": "model",
+   "source": "polyhaven:grass_medium_02",
+   "state": "in library"
+  },
+  {
+   "id": "dandelion",
+   "kind": "model",
+   "source": "polyhaven:dandelion_01",
+   "state": "in library"
+  },
+  {
+   "id": "road_asphalt",
+   "kind": "texture",
+   "source": "polyhaven:asphalt_track",
+   "state": "cached"
+  },
+  {
+   "id": "mud",
+   "kind": "texture",
+   "source": "polyhaven:brown_mud_02",
+   "state": "in library"
+  },
+  {
+   "id": "field_grass",
+   "kind": "texture",
+   "source": "polyhaven:leafy_grass",
+   "state": "in library"
+  },
+  {
+   "id": "sky_hdri",
+   "kind": "hdri",
+   "source": "polyhaven:kloofendal_48d_partly_cloudy_puresky",
+   "state": "cached (reflections only)"
+  },
+  {
+   "id": "oak_bark",
+   "kind": "texture",
+   "source": "polyhaven:jolcham_oak_bark_01",
+   "state": "cached"
+  },
+  {
+   "id": "sky",
+   "kind": "hdri",
+   "source": "polyhaven:kloofendal_48d_partly_cloudy_puresky",
+   "state": "cached (visible sky, CB 2026-11-19)"
+  },
+  {
+   "id": "old_tyre",
+   "kind": "model",
+   "source": "library:old_tyre",
+   "state": "in library"
+  },
+  {
+   "id": "crash_sign",
+   "kind": "model",
+   "source": "script: demos/crash_instinct/sets/sign.py (galvanised steel polyhaven:metal_plate, painted plates)",
+   "state": "to build"
+  }
+ ],
+ "places": [
+  {
+   "id": "roadside",
+   "description": "bord de route de campagne plate : herbe haute dense, accotement ras, route droite à deux voies (rive blanche, axe jaune) jusqu'à l'horizon, clôture bois + barbelés à gauche, champs beiges et labourés en bandes, ciel pâle à gros cumulus ; vue aérienne : route et champs prolongés à 2,5 km, double ligne jaune continue au centre",
+   "ground": {
+    "name": "roadside grass",
+    "texture": "polyhaven:leafy_grass",
+    "tile": 2.0,
+    "value": 1.1,
+    "extra": "touffes 3D grass_medium_02 denses au premier plan, pissenlits, trou de terre brown_mud_02 Ø 0,6 m"
+   },
+   "surfaces": [
+    {
+     "name": "road",
+     "texture": "polyhaven:asphalt_02",
+     "tile": 4.0,
+     "value": 1.2,
+     "extra": "scanned worn asphalt, dark blue-grey measured on the reference (#3b3a4b from the air), double solid yellow centre, white edge lines",
+     "wear": "wheel paths darker in both lanes (patchy), sealed cracks / tar snakes (roadside.road_wear)"
+    },
+    {
+     "name": "fields",
+     "texture": "polyhaven:farm_furrows",
+     "tile": 1.6,
+     "extra": "furrows along the road, recoloured to the measured gold #b79c5c / ochre #9c8a5c / straw #c9b666, regular rows (stripes), three tones in bands"
+    }
+   ],
+   "sky": "dégradé bleu pâle → blanc à l'horizon, 4 gros cumulus blancs à gauche et en haut, légère brume au loin ; HDRI pour les reflets seulement",
+   "light": {
+    "sun": {
+     "elevation": 15,
+     "azimuth": -48,
+     "energy": 9.0,
+     "angle": 2.0
+    },
+    "fill": 0.55,
+    "mood": "day sun, soft"
+   },
+   "shadows": "ombre nette à bord doux du tronc et de la couronne sur l'herbe et la route ; ombres des piquets ; occlusion au pied du tronc et sous le héros assis ; ombres jamais noires (fill fort)",
+   "props": [
+    {
+     "id": "fence",
+     "source": "script: piquets bois gris tous les 3 m + 3 fils barbelés, texture polyhaven:brown_planks_05"
+    },
+    {
+     "id": "dirt_hole",
+     "source": "script: disque brown_mud_02 + bourrelet + petit tas de terre"
+    },
+    {
+     "id": "dandelions",
+     "source": "polyhaven:dandelion_01"
+    },
+    {
+     "id": "grass_tufts",
+     "source": "polyhaven:grass_medium_02"
+    }
+   ],
+   "look": {
+    "sky": "hdri:kloofendal_48d_partly_cloudy_puresky (visible, rotated to the sun lamp)",
+    "sun_from": "back-left, 30 deg high (backlight, like the reference): sun glow top-left of the aerial",
+    "hero_shadow": "the oak's long shadow across the verge and the road toward the camera",
+    "fill": "bounce_fill: camera-side area light 7 m, 900 W, invisible (trunk never black)",
+    "shafts": "light_shafts attached to the oak: thin, toward the ground; haze 0.0015",
+    "fence": "rough_wood posts (varied height, lean, slanted cut), sagging barbed wires, posts and wires cast shadows, both sides of the road",
+    "grass": {
+     "height_cm": "8-25 (tall 30 only in shot 1's foreground)",
+     "colour": "#4e8a2e..#a4d866 (measured, CB brighter)",
+     "both_sides": true
+    }
+   }
+  }
+ ],
+ "sound": {
+  "music": "light bed, about -7.6 dB under the voice",
+  "lufs": -14
+ },
+ "captions": {
+  "words": [
+   1,
+   3
+  ],
+  "style": "white bold rounded, thick black outline, centred at 70 % height, one change per word"
+ },
+ "objects": [
+  {
+   "id": "oak",
+   "source": "script: sets/oak.py",
+   "material": "écorce polyhaven:jolcham_oak_bark_01, feuilles 3D",
+   "states": [
+    "planté",
+    "secoué, perd des feuilles"
+   ]
+  },
+  {
+   "id": "blue_car",
+   "source": "sketchfab:5db696c6ed5d4bdc87905c1040fa072a",
+   "material": "bleu vif verni #2f5fd6 (métal 0,3, rugosité 0,3, vernis 0,6), peinture refaite ; vitres claires ; conducteur visible",
+   "states": [
+    "roule",
+    "avant écrasé (clé de forme)",
+    "arrière soulevé puis retombé",
+    "fume"
+   ]
+  },
+  {
+   "id": "blue_wheel",
+   "source": "sketchfab:5db696c6ed5d4bdc87905c1040fa072a",
+   "material": "pneu + jante du modèle",
+   "states": [
+    "sur la voiture",
+    "arrachée, roule",
+    "à plat sur le vieux pneu"
+   ]
+  },
+  {
+   "id": "crash_sign",
+   "source": "script: sets/sign.py",
+   "material": "poteaux acier galvanisé, plaque rouge #c8202a à lettres blanches DAYS SINCE LAST CRASH, boîtier noir à volets, chiffre blanc ; poussière",
+   "states": [
+    "affiche 7",
+    "volet qui bascule",
+    "affiche 0"
+   ]
+  },
+  {
+   "id": "old_tyre",
+   "source": "library:old_tyre",
+   "material": "caoutchouc usé",
+   "states": [
+    "couché dans l'herbe",
+    "sous la roue bleue (pile de pneus)"
+   ]
+  }
+ ],
+ "lessons_planned": [
+  "PI-016",
+  "PI-018",
+  "PI-019",
+  "PI-020",
+  "PI-021",
+  "PI-022",
+  "PI-025",
+  "PI-026",
+  "PI-027"
+ ],
+ "title": "crash_instinct — plan 4 (9,4 → 12,07 s, images 282-362)",
+ "notes": "Suite de la même prise (aucune coupe avant 22,9 s, PI-020) ; le fouetté 282-285 cache un saut dans le temps. Analyse : references/crash_instinct/shots/s04.md. Plan écrit et contrôlé AVANT la construction. Temps relatifs au début du plan (image 282 = 0 s).",
+ "duration_s": 2.7,
+ "voice": {
+  "text": "somehow, somebody hits it every week.",
+  "words": 6,
+  "key_words": {
+   "somehow": 0.04,
+   "somebody": 0.78,
+   "hits it": 1.06,
+   "every week": 1.6
+  }
+ },
+ "hook": {
+  "action": "(plan 1)",
+  "t": 0.0
+ },
+ "characters": [
+  {
+   "id": "driver",
+   "puppet": "cast:driver",
+   "costume": "polo bleu, lunettes de soleil",
+   "view": "front",
+   "held": [],
+   "notes": "assis au volant, vu à travers le pare-brise ; projeté en avant au choc"
+  }
+ ],
+ "shots": [
+  {
+   "id": "4",
+   "place": "roadside",
+   "t0": 0.0,
+   "t1": 2.7,
+   "narration": "somehow, somebody hits it every week.",
+   "transition_in": "no cut: whip from the road view (frame 282) through the foliage onto the sign (285); the swap (white wreck and planter out, sign in) happens off-frame inside the whip",
+   "transition_out": "dissolve to shot 5 (frame 363): the planter on a ladder at the trunk",
+   "camera": [
+    {
+     "t": 0.1,
+     "pos": [
+      4.6,
+      -3.3,
+      1.6
+     ],
+     "aim": "the sign",
+     "lens": 35,
+     "move": "lands from the whip, short settle"
+    },
+    {
+     "t": 0.9,
+     "pos": [
+      15.5,
+      -1.0,
+      1.0
+     ],
+     "aim": "the whole tree",
+     "lens": 22,
+     "move": "fast pull back across the road"
+    },
+    {
+     "t": 1.6,
+     "pos": [
+      15.2,
+      -1.2,
+      1.05
+     ],
+     "aim": "the whole tree",
+     "lens": 22,
+     "move": "drift, 2-frame shake at the impact"
+    },
+    {
+     "t": 2.2,
+     "pos": [
+      6.6,
+      -2.7,
+      1.35
+     ],
+     "aim": "the sign",
+     "lens": 30,
+     "move": "push in"
+    },
+    {
+     "t": 2.67,
+     "pos": [
+      6.3,
+      -2.75,
+      1.38
+     ],
+     "aim": "the sign",
+     "lens": 30,
+     "move": "slow drift"
+    }
+   ],
+   "actions": [
+    {
+     "id": "car_in",
+     "who": "blue_car",
+     "f": [
+      306,
+      316
+     ],
+     "what": "a blue car comes fast along the verge from the right of the frame, brakes, skids toward the trunk",
+     "recipe": "vehicle_brake_skid",
+     "anim": "keyed path, wheels turn, nose dips",
+     "micro": [
+      "nose dips under braking",
+      "driver leans forward"
+     ],
+     "reactions": [
+      "dust from the shoulder",
+      "grass flattened"
+     ],
+     "consequences": [
+      "skid marks in the gravel and flattened grass stay"
+     ],
+     "sfx": [
+      "engine rushing in",
+      "short tyre screech"
+     ]
+    },
+    {
+     "id": "car_hit",
+     "who": "blue_car",
+     "f": [
+      316,
+      330
+     ],
+     "what": "hits the trunk, front crushed, the rear lifts and drops back",
+     "recipe": "vehicle_impact",
+     "anim": "shape key crash_dent, pitch 0 -> 24 deg -> 0 with a bounce",
+     "micro": [
+      "oak shakes",
+      "leaves fall",
+      "driver thrown forward"
+     ],
+     "reactions": [
+      "dust burst at the foot of the trunk",
+      "camera shake 2 frames",
+      "the oak sways",
+      "the front wheel breaks off"
+     ],
+     "consequences": [
+      "the car stays crushed against the trunk and smokes",
+      "leaves stay on the ground"
+     ],
+     "sfx": [
+      "heavy thud + metal crunch",
+      "foliage rustle"
+     ]
+    },
+    {
+     "id": "wheel_off",
+     "who": "blue_wheel",
+     "f": [
+      318,
+      351
+     ],
+     "what": "the front wheel rolls to the foot of the sign, wobbles and falls flat on the old tyre",
+     "recipe": "wheel_off",
+     "anim": "keyed roll (rotation = distance / radius), tip over",
+     "micro": [
+      "wobble before it falls"
+     ],
+     "reactions": [
+      "small dust puff when it lands",
+      "the old tyre squashes a little"
+     ],
+     "consequences": [
+      "a stack of two tyres stays at the foot of the sign"
+     ],
+     "sfx": [
+      "wheel rolling in grass",
+      "rubber flop"
+     ]
+    },
+    {
+     "id": "counter_flip",
+     "who": "crash_sign",
+     "f": [
+      339,
+      343
+     ],
+     "what": "the split-flap digit flips from 7 to 0",
+     "recipe": "counter_flip",
+     "anim": "top flap rotates 180 deg about the hinge, 0 behind",
+     "micro": [
+      "the sign shakes at the impact (frame 318)",
+      "flap overshoots and settles"
+     ],
+     "reactions": [
+      "the flap claps down"
+     ],
+     "consequences": [
+      "the sign stays on 0"
+     ],
+     "sfx": [
+      "split-flap clack"
+     ]
+    }
+   ],
+   "state_changes": [
+    {
+     "who": "blue_car",
+     "change": "driving -> crushed against the trunk, smoking",
+     "by_action": "car_hit"
+    },
+    {
+     "who": "blue_wheel",
+     "change": "on the car -> flat on the old tyre",
+     "by_action": "wheel_off"
+    },
+    {
+     "who": "crash_sign",
+     "change": "shows 7 -> shows 0",
+     "by_action": "counter_flip"
+    }
+   ],
+   "fx": [
+    "impact dust at the trunk",
+    "falling leaves",
+    "wreck smoke",
+    "dust puff under the wheel"
+   ],
+   "sound": {
+    "ambience": "wind on the plain, birds",
+    "music": "light bed"
+   },
+   "handheld": true
+  }
+ ],
+ "grade": {
+  "method": "tools/grade_match.py on the key frames",
+  "reference": "references/crash_instinct/source.mp4",
+  "result": "Standard + Medium Contrast, exposure -0.5, saturation 1.05 (same take as shot 3)"
+ },
+ "facts": [
+  {
+   "fact": "somebody hits it every week",
+   "prop": "crash_sign",
+   "text": "DAYS SINCE LAST CRASH 7 -> 0"
+  }
+ ]
+}

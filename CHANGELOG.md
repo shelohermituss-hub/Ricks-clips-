@@ -17,6 +17,14 @@ Historique détaillé des versions du skill : `.claude/skills/ricks-clips/CHANGE
 - Méthode : aperçu rapide en une couche (`preview.sh`), `grade_match.py`, `rc/look.py` (lumière cinématique, textures réelles, usure de route), contrôles LOOK dans `plan_check`, contrôle CLIP dans `continuity.py`.
 - `docs/CORRECTIONS_CB_FR.md` : toutes les corrections de CB et où elles sont appliquées ; leçons PI-017 à PI-024 ; règles CB_RULES §11h.
 
+## 20/11/2026 — crash_instinct : vue aérienne corrigée, plan 4 préparé
+- Environnement cloud « Ricks-clips » créé (hôtes Blender, Poly Haven, ambientCG, Sketchfab ; secret Sketchfab avec le préfixe Token). `restore_untracked.sh` retélécharge aussi le SUV.
+- `rc/look.py` : la lampe est le seul soleil (ciel HDRI plafonné et réduit pour l'éclairage), `sun_glow()`, soleil −48° / 15°, `tex()` avec `recolor`, `untile`, `macro`, `stripes`, faisceaux larges et courts, brume 0,004.
+- `roadside.py` : route bleu-gris usée, champs or / ocre / paille à rangs, accotement clair, herbe translucide ; touffes d'herbe sous la caméra aérienne.
+- Mesures : `grade_match` PASS sur les images 180 et 262 ; continuité du plan 3 PASS.
+- Plan 4 : analyse à 10 i/s (`shots/s04.md`), `plan/s04.json` PLAN PASS, recette `counter_flip`, `sets/sign.py`, `shots/s04_sign.py`.
+- Leçons PI-025 à PI-028 ; `docs/CORRECTIONS_CB_FR.md` complété (9 lignes).
+
 ## 19/11/2026 — reprise dans une session neuve (branche `ccr-1c670715-ewni3e`)
 - Blender 5.2.2 installé (`download.blender.org` ajouté aux hôtes autorisés de l'environnement).
 - Session neuve : `test_rc` 25/27 → **27/27** après correction (leçon PI-017) : `tools/gltf_to_glb.py`, `scripts/restore_untracked.sh`, `test_rc` cuit le plan manquant. `test_pod_guard` 13/13, `test_plan_check` PASS, `test_production_intelligence` 11/11 (après `git fetch --unshallow`).

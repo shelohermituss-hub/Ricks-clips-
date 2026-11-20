@@ -919,6 +919,31 @@
     "small grunt"
    ],
    "build": "play the sit move BACKWARDS with frozen times (m:sit/A@=0.95 ... @=0.55, one act per frame) while the card rises from its sunk height (crash_instinct s02)"
+  },
+  {
+   "id": "counter_flip",
+   "triggers": [
+    "counter",
+    "flip",
+    "split-flap",
+    "compteur",
+    "days since"
+   ],
+   "reactions": [
+    "the flap rotates about its hinge and claps down (4-5 frames)",
+    "the whole sign shakes when the event that resets it happens"
+   ],
+   "consequences": [
+    "the display stays on the new number"
+   ],
+   "micro": [
+    "the flap overshoots a little and settles",
+    "a little dust falls off the sign"
+   ],
+   "sfx": [
+    "split-flap clack"
+   ],
+   "build": "two digit meshes cut at the hinge line; top flap of the old digit rotates 180 deg, its back carries the bottom of the new digit (sets/sign.py)"
   }
  ]
 }

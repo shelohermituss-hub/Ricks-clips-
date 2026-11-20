@@ -249,3 +249,43 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Evidence:** demos/crash_instinct/build/continuity/s03_aerial.json
 - **Regression check:** continuity.py runs before every preview and render
 
+## PI-025 — Aerial view: the oak's shadow was a small soft blob toward the camera instead of the long  [validated, high]
+
+- **Where:** crash_instinct s03
+- **Root cause:** The visible HDRI sky also LIT the scene at full strength: its own photographed sun (48 deg high) cast a second short shadow and its fill washed out the shadow of the sun lamp. The sun lamp was not the dominant light.
+- **Fix:** rc.look.sky_hdri: for every ray but the camera's the sky is capped (no hot sun) and dimmed (light=.5): the lamp is the only sun. Sun height and direction MEASURED on the reference shadow (length / object height, direction on the ground): crash_instinct -48 deg, 15 deg. A sun-only debug render (world strength 0) shows what the lamp really does.
+- **Files:** blender/rc/look.py
+- **Tests:** frame 180 before: contrast 0.14, shadow 1 crown long; after: contrast 0.20 (ref 0.21), shadow crosses the road and the far verge; grade_match PASS on 180 and 262
+- **Evidence:** demos/crash_instinct/build/review/keyframes_ref_vs_ours.jpg
+- **Regression check:** grade_match.py on the key frames of every shot
+
+## PI-026 — From the air the grounds were flat colours with visible repeating squares: one green, brow [validated, high]
+
+- **Where:** crash_instinct s03
+- **Root cause:** A scanned texture tiled every 2-4 m averages to ONE colour from 15 m up; a multiply tint over a dark scan cannot reach a light target colour; a grazing/high camera needs its own measured values.
+- **Fix:** rc.look.tex: recolor (the scan keeps its detail, takes the measured colour), untile (second bigger turned copy mixed by noise), macro (3-25 m patches lighter/darker), stripes (regular rows readable from the air). Target colours are sampled on the reference frame, not guessed.
+- **Files:** blender/rc/look.py, demos/crash_instinct/sets/roadside.py
+- **Tests:** frame 180: fields #86735a -> gold/ochre/straw rows; road near #6c6c68 -> dark blue-grey; saturation 0.29 (ref 0.30)
+- **Evidence:** demos/crash_instinct/build/review/keyframes_ref_vs_ours.jpg
+- **Regression check:** key frame from the highest camera of the film, side by side with the reference
+
+## PI-027 — Backlit grass tufts were either dark (sun only) or flat neon green (sky fill): the tree's  [validated, medium]
+
+- **Where:** crash_instinct s03
+- **Root cause:** Blades were opaque: with the sun behind, the camera only sees their shadow side.
+- **Fix:** Grass and leaves let light through (Translucent mixed at .45 into the blade material): they glow in backlight and the shadows of big objects read on them.
+- **Files:** demos/crash_instinct/sets/roadside.py
+- **Tests:** frame 180: the oak shadow is readable on the right verge
+- **Evidence:** demos/crash_instinct/build/k/v5_180.png
+- **Regression check:** key frame with the sun behind the subject
+
+## PI-028 — A fresh session on another account lost 40 minutes on the environment: Blender 4.0 install [validated, medium]
+
+- **Where:** crash_instinct s03
+- **Root cause:** The cloud environment (allowed hosts, network secrets) is an account setting, not in git; the Sketchfab secret was saved as Bearer while an API token needs the prefix Token; restore_untracked.sh did not list the SUV.
+- **Fix:** restore_untracked.sh downloads the SUV too and says which prefix the secret needs; HANDOFF 0 lists the environment check first (get the environment, hosts of CLOUD_NETWORK_DOMAINS.txt, secret with prefix Token, verify with /v3/me = 200).
+- **Files:** scripts/restore_untracked.sh, HANDOFF.md
+- **Tests:** api.sketchfab.com/v3/me: 401 with Bearer, 200 with Token; test_rc 27/27 after restore
+- **Evidence:** scripts/restore_untracked.sh
+- **Regression check:** first step of every new session
+

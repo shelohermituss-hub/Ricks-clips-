@@ -18,6 +18,8 @@ Tous les chemins `S/...` désignent `.claude/skills/ricks-clips/...`, le dossier
 
 ## 0. Démarrage en 10 minutes (à faire dans cet ordre)
 
+**Avant tout (leçon PI-028, 20/11)** : l'environnement cloud est un réglage du compte, pas du dépôt. Vérifier que la session tourne sur l'environnement « Ricks-clips » (ou un autre qui autorise les hôtes de `S/CLOUD_NETWORK_DOMAINS.txt`). Sinon le script d'installation retombe sur Blender 4.0 et les textures sont refusées (403). Le secret réseau de `api.sketchfab.com` doit avoir le préfixe **Token** si c'est un jeton d'API Sketchfab (`curl https://api.sketchfab.com/v3/me` doit répondre 200). Lancer `restore_untracked.sh` avec `SKETCHFAB_OAUTH_TOKEN=proxy-injected`, puis redessiner les cartes : `python3 tools/card_service.py demos/crash_instinct/tracks_s01.json demos/crash_instinct/build/cards_s01` (7 min).
+
 1. **Branche** : `git checkout ccr-00f60cb8-lenpig && git pull`. C'est la seule branche de travail.
 2. **Lire** :
    - ce fichier ;
@@ -226,22 +228,19 @@ Voir `OPEN_ISSUES.md`. Les plus importants :
 
 Procédure : `pod.py fetch <id>` → `pod.py verify <id>` (code de sortie 0) → `pod.py delete <id>`. **Aucun pod n'existe aujourd'hui** : rien n'est à récupérer.
 
-## 12. Prochaine action exacte (mise à jour le 19/11, fin de session `ccr-1c670715-ewni3e`)
+## 12. Prochaine action exacte (mise à jour le 20/11, session `session_01DrjR3N93CxSzGJM1SUUeAG`)
 
 **Projet en cours : reproduire « The Instinct That Makes You Crash » (vidéo de CB, il en est l'auteur).** crashed_car et gta6-leak sont en pause.
 
+**Branches** : le travail crash_instinct est sur `ccr-1c670715-ewni3e`. La branche `ccr-9680578f-tkhnlz` porte 3 commits gta6-leak ; les deux ont divergé (7 conflits, `OPEN_ISSUES` n° 27).
+
 **État (avec preuve)** :
-- Analyse complète : `S/references/crash_instinct/ANALYSE_FR.md` (25 plans, bible du look). Analyses détaillées `shots/s01.md`, `s02.md`, `s03.md`.
-- Plans 1, 2 et 3 **construits en une seule prise continue** (aucune coupe avant 22,9 s) : `S/demos/crash_instinct/shots/s01_plant.py`, `s02_crash.py`, `s03_aerial.py` ; plans de production `plan/s01..s03.json` (PLAN PASS) ; continuité PASS (0 partout, CLIP 0).
-- Décor : `sets/roadside.py` + `sets/oak.py` ; kit de lumière et de textures réutilisable : `S/blender/rc/look.py`.
-- Rendus validés par CB : plan 1 (64 min en couches, CPU), plan 2 (aperçu). Le plan 3 n'a que des images clés.
+- Plans 1, 2, 3 construits en une prise continue ; continuité PASS (0 partout) sur le plan 3 corrigé.
+- **Plan 3, vue aérienne : corrigé, rendu et mesuré le 20/11** (`OPEN_ISSUES` n° 26) : lampe soleil seul soleil (ciel HDRI plafonné pour l'éclairage), soleil à −48° / 15°, ombre longue de l'arbre à travers la route et l'herbe, lueur du soleil, champs dorés à rangs, route bleu-gris usée, sols sans répétition, herbe translucide. `grade_match` : **180 PASS, 262 PASS** ; 0, 46, 126 hors tolérance (`OPEN_ISSUES` n° 22). Planche : `S/demos/crash_instinct/build/review/keyframes_ref_vs_ours.jpg` (hors Git).
+- **Plan 4** (images 282-362) : analyse `S/references/crash_instinct/shots/s04.md`, plan `plan/s04.json` (**PLAN PASS**, 0 FAIL), panneau `sets/sign.py`, script `shots/s04_sign.py`. Voir `PROJECT_STATE.md` pour l'état de la construction.
 
-**Dernières corrections de CB, appliquées mais PAS encore revues par lui** (route usée avec traces de roues, champs en sillons, clôtures réelles qui projettent une ombre, herbe identique des deux côtés, soleil en contre-jour arrière-gauche) :
-- à refaire d'abord : images clés 0, 46, 126, 180, 262 (côte à côte avec la référence), puis `tools/grade_match.py` (il échoue sur le contraste des images 0, 126, 180 : à régler) ;
-- les rayons de soleil sont encore trop discrets ; le cadrage de la vue aérienne (images 177-231) est trop plongeant et l'arbre trop gros par rapport à la référence.
+**Suite** : 1) faire revoir par CB les images clés et l'aperçu du plan 3 ; 2) finir le plan 4 dans l'ordre (construction, `continuity.py`, images clés 285, 297, 309, 318, 324, 342, 357, `grade_match`, aperçu) ; 3) plan 5 (« So the town nails a giant flashing arrow to it », image 363+) ; 4) test GPU RunPod sur un plan construit (accord et plafond de CB d'abord ; aucun pod n'existe).
 
-**Règles de CB apprises ce jour** : `S/docs/CORRECTIONS_CB_FR.md` (à lire avant tout plan), `CB_RULES.md` §11h (en fin de fichier), leçons PI-016 à PI-024.
+**Règles de CB** : `S/docs/CORRECTIONS_CB_FR.md` (à lire avant tout plan), `CB_RULES.md` §11h, leçons PI-016 à PI-028.
 
-**Suite** : 1) régler les points ci-dessus et montrer les images clés du plan 3 ; 2) plan 4 (« But somehow, somebody hits it every week » : panneau DAYS SINCE LAST CRASH, images 282+) avec la méthode dans l'ordre : analyse à 10 i/s, plan validé par `plan_check`, construction, `continuity.py`, images clés, `grade_match.py`, aperçu rapide ; 3) test GPU RunPod sur un plan construit (accord et plafond de CB d'abord ; aucun pod n'existe).
-
-**Aperçu et rendus** : sur le processeur seulement les images clés et `S/demos/crashed_car/shots/preview.sh <plan> <images> demos/crash_instinct` (une couche, environ 3 s par image). Les vrais rendus par couches vont sur le GPU RunPod.
+**Aperçu et rendus** : sur le processeur seulement les images clés (environ 2 min pour construire la prise + 20 s par image en 270×480) et `S/demos/crashed_car/shots/preview.sh <plan> <images> demos/crash_instinct` (mesuré le 20/11 : environ 15 s par image, soit 25 min pour 105 images, et non 5 min). Les vrais rendus par couches vont sur le GPU RunPod.

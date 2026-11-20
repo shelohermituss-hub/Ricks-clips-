@@ -13,6 +13,7 @@ import s01_plant as S1  # noqa: E402
 from s01_plant import street, vfx, smooth  # noqa: E402
 
 F0, F1 = 96, 176; HIT = 106; FLAT = 134; UP0, UP1 = 136, 145
+SMOKE_END = None                                    # shot 4 stops the white wreck's smoke before its whip (the wreck is gone a week later)
 A, opt = S1.A, S1.opt
 OUT = A[0] if A and not A[0].startswith("--") else "/tmp/s02_crash.blend"
 
@@ -115,7 +116,7 @@ def build_take2(sc):
     vfx.apply(sc, [
         {"type": "dust_burst", "name": "car_brake", "at": [1.5, 3.7, .1], "frame": 100, "count": 8, "radius": 1.2, "height": .8, "seed": 31, "life": 30, "color": [.72, .64, .5]},
         {"type": "dust_burst", "name": "car_hit", "at": [.6, 1.2, .3], "frame": HIT, "count": 16, "radius": 2.0, "height": 1.6, "seed": 32, "life": 45, "color": [.75, .7, .6]},
-        {"type": "smoke", "name": "wreck_smoke", "at": [.9, 1.9, 1.0], "frames": [HIT + 4, S1.F1], "every": 6, "per_burst": 2, "rise": 1.8, "size": .35, "density": .45,
+        {"type": "smoke", "name": "wreck_smoke", "at": [.9, 1.9, 1.0], "frames": [HIT + 4, SMOKE_END or S1.F1], "every": 6, "per_burst": 2, "rise": 1.8, "size": .35, "density": .45,
          "color": [.88, .88, .88], "life": 50, "seed": 33, "drift": [-.3, 0]},
         {"type": "dust_burst", "name": "wheel_flat", "at": [-1.25, -1.55, .05], "frame": FLAT, "count": 6, "radius": .5, "height": .3, "seed": 34, "life": 24, "color": [.6, .52, .4]}])
     S1.fx_to_layer(("car_brake", "car_hit", "wreck_smoke", "wheel_flat"))

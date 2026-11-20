@@ -86,24 +86,24 @@
     {
      "name": "road",
      "texture": "polyhaven:asphalt_02",
-     "tile": 3.0,
-     "value": 1.45,
-     "extra": "scanned worn asphalt, double solid yellow centre, white edge lines",
+     "tile": 4.0,
+     "value": 1.2,
+     "extra": "scanned worn asphalt, dark blue-grey measured on the reference (#3b3a4b from the air), double solid yellow centre, white edge lines",
      "wear": "wheel paths darker in both lanes (patchy), sealed cracks / tar snakes (roadside.road_wear)"
     },
     {
      "name": "fields",
      "texture": "polyhaven:farm_furrows",
-     "tile": 8.0,
-     "extra": "tilled furrows along the road (relief x2.2), bands of golden stubble / brown soil"
+     "tile": 1.6,
+     "extra": "furrows along the road, recoloured to the measured gold #b79c5c / ochre #9c8a5c / straw #c9b666, regular rows (stripes), three tones in bands"
     }
    ],
    "sky": "dégradé bleu pâle → blanc à l'horizon, 4 gros cumulus blancs à gauche et en haut, légère brume au loin ; HDRI pour les reflets seulement",
    "light": {
     "sun": {
-     "elevation": 45,
-     "azimuth": -120,
-     "energy": 5.2,
+     "elevation": 15,
+     "azimuth": -48,
+     "energy": 9.0,
      "angle": 2.0
     },
     "fill": 0.55,
@@ -191,7 +191,10 @@
   "PI-019",
   "PI-020",
   "PI-021",
-  "PI-022"
+  "PI-022",
+  "PI-025",
+  "PI-026",
+  "PI-027"
  ],
  "title": "crash_instinct — plan 3 (5,9 → 9,4 s, images 177-281)",
  "notes": "Suite de la même prise (aucune coupe avant 22,9 s : shots.json + différence d'image, PI-020). Analyse : references/crash_instinct/shots/s03.md. Plan écrit et contrôlé AVANT la construction. Temps relatifs au début du plan (image 177 = 0 s).",
