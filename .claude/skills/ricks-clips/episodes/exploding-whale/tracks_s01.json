@@ -1,0 +1,77 @@
+{
+ "title": "exploding-whale shot 01 (frames 0-131)",
+ "fps": 30,
+ "end": 140,
+ "cast": {
+  "engineer": {
+   "puppet": "cast:engineer",
+   "height": 1.78
+  },
+  "worker_a": {
+   "puppet": "cast:worker",
+   "height": 1.74
+  },
+  "worker_b": {
+   "puppet": "cast:worker",
+   "height": 1.8
+  }
+ },
+ "acts": [
+  {
+   "who": "engineer",
+   "at": 0,
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:button/A@=0",
+   "face": "k:proud",
+   "move_s": 0.01
+  },
+  {
+   "who": "engineer",
+   "at": 36,
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:button/A",
+   "face": "k:proud",
+   "move_s": 0.01
+  },
+  {
+   "who": "worker_a",
+   "at": 0,
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:push/A",
+   "face": "k:concentrate",
+   "move_s": 0.01
+  },
+  {
+   "who": "worker_b",
+   "at": 0,
+   "pos": [
+    0,
+    0,
+    0
+   ],
+   "view": "front",
+   "dir": 1,
+   "pose": "m:push/C",
+   "face": "k:annoyed",
+   "move_s": 0.01
+  }
+ ]
+}

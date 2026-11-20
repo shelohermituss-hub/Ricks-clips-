@@ -152,11 +152,12 @@ def _marram_tuft():
     nt.links.new(b.outputs[0], ms.inputs[1]); nt.links.new(tl.outputs[0], ms.inputs[2]); nt.links.new(ms.outputs[0], nt.nodes["Material Output"].inputs["Surface"])
     me.materials.append(m); c = bpy.data.collections.new("marram_tuft"); c.objects.link(bpy.data.objects.new("marram_tuft", me)); return c
 
-def dune_grass(c, n=90000, seed=3):
+def dune_grass(c, n=90000, seed=3, clear=()):
     """marram grass on the dunes: thin pale blades in tufts, in drifts along the crests, none on the beach"""
     src = _marram_tuft(); R = random.Random(seed); P, Rt, Sc = [], [], []
     while len(P) < n:
         x = R.uniform(-110, 110); y = R.uniform(-100, -15); z = height(x, y)
+        if any((x - cx) ** 2 + (y - cy) ** 2 < r * r for cx, cy, r in clear): continue          # trampled patches (where people stand)
         if z < .4 or R.random() > min(1.0, z / 3.5) * (.2 + .8 * max(0, math.sin(x * .3 + y * .2) * .6 + math.sin(x * .07 - y * .11) * .4 + .3)): continue
         P.append((x, y, z - .02)); Rt.append((R.uniform(-.15, .15), R.uniform(-.15, .15), R.uniform(0, 6.28))); Sc.append(R.uniform(1.0, 1.9))
     return geo.instancer("dune_grass", P, src, c, Rt, Sc, wind=.06)
@@ -212,12 +213,13 @@ def traces(c, seed=9):
             if i % 2 == 0: foot(x, y, yaw, L_=.22, W_=.26)
     mesh_obj("sand_prints", bm, dark, c)
 
-def light(scene, mood="grey"):
-    Mo = MOODS[mood]; look.SUN[0], look.SUN[1] = Mo["az"], Mo["el"]
+def light(scene, mood="grey", az=None, el=None):
+    Mo = dict(MOODS[mood]); Mo["az"] = Mo["az"] if az is None else az; Mo["el"] = Mo["el"] if el is None else el   # the sun is placed per view (lesson PI-030)
+    look.SUN[0], look.SUN[1] = Mo["az"], Mo["el"]
     look.sky_hdri(scene, strength=Mo.get("sky", 1.0), hdri=Mo["hdri"], glow=Mo["glow"], light=Mo["light"] / Mo.get("sky", 1.0)); look.sun(scene, energy=Mo["energy"])
     look.bounce_fill(col("L_SET"), at=(-8.0, -22.0, 14.0), aim=(0, 0, 1.5), energy=2500.0, size=22.0)   # high and wide: no visible pool of light on the sand
     return Mo
 
-def build(scene, mood="grey"):
-    c = col("L_SET"); Mo = light(scene, mood); ground(c); sea(c); w = whale(col("L_OBJECTS")); traces(c); dune_grass(c); rocks_and_wood(c)
+def build(scene, mood="grey", az=None, el=None, clear=()):
+    c = col("L_SET"); Mo = light(scene, mood, az, el); ground(c); sea(c); w = whale(col("L_OBJECTS")); traces(c); dune_grass(c, clear=clear); rocks_and_wood(c)
     return c, w, Mo
