@@ -190,7 +190,7 @@ def s07(n):
     kit.finish(sc, Mo, ((0, 0.0), (50, 0.0), (90, -.2))); return sc
 
 # ---------------------------------------------------------------------------------------------------------------- the dune top (shots 08-12)
-DT = (19.0, -31.0); CAR = (25.5, -34.5); BLUB = (.36, .17, .17)
+DT = (19.0, -31.0); CAR = (25.5, -34.5); BLUB = (.2, .075, .08)
 def dz(x, y, z=0.0): return H(x, y) + z
 CLEAR = ((DT[0] + .5, DT[1] - 1.5, 6.5), (CAR[0] - 1.5, CAR[1] - 2.0, 8.0))
 
@@ -416,7 +416,7 @@ def s14(n):
         for f, x, sv in ((0, -16.9, .3), (40, -13.4, .7), (n - 1, -8.0, 1.25)): key(m, "location", f, (x, oy, H(x, oy) + .1)); key(m, "scale", f, (sv, sv, sv))
         kit.linear(m)
     wave = blob("sand_wave", 1.0, (0, 0, -20), sand, col("L_FX"), seed=9, squash=(1, 1, 1), sub=3)   # thrown sand that covers the lens: the wipe
-    for f, p, sv in ((n - 12, (-9.2, dy, .6), .3), (n - 5, (-10.0, -6.6, 1.2), 1.0), (n - 1, (-10.35, -7.5, 1.25), 1.6)): key(wave, "location", f, p); key(wave, "scale", f, (sv, sv, sv))
+    for f, p, sv in ((n - 12, (-9.2, dy, .6), .3), (n - 5, (-10.0, -6.6, 1.2), 1.0), (n - 1, (-10.2, -6.7, 1.2), 1.05)): key(wave, "location", f, p); key(wave, "scale", f, (sv, sv, sv))
     cam = kit.camera([(0, (-5.0, -13.5, 2.1), (.5, -2.5, 1.0), 26), (34, (-7.0, -12.0, 1.9), (-1.0, -2.5, 1.0), 26), (62, (-10.8, -8.6, 1.4), (-11.5, -4.6, 1.0), 28), (n - 1, (-10.5, -7.9, 1.25), (-9.5, -4.6, .9), 28)], n)
     C = kit.cards(sc, "14", cam, {"engineer": [(0, -3.6, -6.2)], "worker": [(0, -19.6, dy, H(-19.6, dy) + 1.0), (40, -16.1, dy, H(-16.1, dy) + 1.0), (n - 1, -10.8, dy, H(-10.8, dy) + 1.0)]}, H)
     fx(sc, [{"type": "smoke", "name": "after_smoke", "at": [.6, -3.4, .6], "frame": -20, "count": 9, "seed": 4, "life": 70, "color": [.2, .18, .17], "size": 1.6, "rise": 3.0, "spread": 2.2},
