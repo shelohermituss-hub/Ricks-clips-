@@ -48,3 +48,8 @@ Tout ce qui n'est pas listé « image par image » a été vu à 2 i/s (planches
 - **Haut** : mesures techniques, structure, liste des plans, ambiances, chaînes d'événements vérifiées image par image.
 - **Moyen** : détail des micro-animations, méthodes des effets (INFÉRÉ).
 - **Bas / inconnu** : son (musique, bruitages), logiciels et réglages des originaux.
+
+## Mise à jour du 20/11 (priorité 3 et étape 1)
+- Image par image : **24 passages, 600 images (5,9 % des 10 102 images)**, choisis par type : chocs, gestes, expressions, clignements, transitions, effets. Liste exacte : `data/V0x/coverage.json`.
+- Personnages mesurés au pixel : `data/character_measures.csv` (6 personnages de référence + notre carte).
+- Son : couches mesurées (`data/V0x/audio_layers.json`), toujours sans écoute.

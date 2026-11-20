@@ -1,0 +1,8 @@
+"video","frame","character","head_w_px","head_h_px","torso_w_px","torso_h_px","legs_h_px","total_h_px","head_over_total","headw_over_torsow","torso_over_head_h","legs_over_total","notes"
+"V01","475","scientifique (debout)","180","166","100","162","410","738","0.22","1.8","0.98","0.56","cheveux compris dans la tête; jambes très longues"
+"V02","213","victime chemise verte (debout, penchée)","160","150","115","160","230","540","0.28","1.39","1.07","0.43","tête légèrement plus large que haute"
+"V03","1365","héros au bonnet (debout)","240","250","195","250","305","805","0.31","1.23","1.0","0.38","bonnet compris; doudoune large"
+"V04","885","shérif (debout, marche)","255","280","210","210","240","730","0.38","1.21","0.75","0.33","chapeau compris"
+"V05","1260","héros tunique blanche (debout)","110","100","100","220","150","470","0.21","1.1","2.2","0.32","tunique longue jusqu'aux genoux"
+"V05","1260","soldat tunique verte (plus loin)","95","90","85","170","80","345","0.26","1.12","1.89","0.23","perspective"
+"RC","0","notre planteur (carte, sans échelle)","340","220","200","300","350","1050","0.21","1.7","1.36","0.33","mesuré sur l'image de la carte réduite; casquette en plus (+160)"
