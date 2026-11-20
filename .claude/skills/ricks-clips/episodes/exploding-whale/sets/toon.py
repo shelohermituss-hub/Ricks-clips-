@@ -398,12 +398,13 @@ def glass(o):
         b.inputs["Base Color"].default_value = (.02, .035, .05, 1); b.inputs["Roughness"].default_value = .03; b.inputs["Alpha"].default_value = 1.0; b.inputs["Specular IOR Level"].default_value = 1.0
         b.inputs["Coat Weight"].default_value = 1.0; b.inputs["Coat Roughness"].default_value = .0
 
-def smoke_mat(name, rgb, density=.9):
+def smoke_mat(name, rgb, density=.9, glow=.0):
     """real smoke for the blast: a volume, thick in the heart and torn at the edge, lit by the sun"""
     m = bpy.data.materials.get(name) or bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links; N.clear(); out = N.new("ShaderNodeOutputMaterial")
     v = N.new("ShaderNodeVolumePrincipled"); v.inputs["Color"].default_value = (*rgb, 1); v.inputs["Anisotropy"].default_value = .25; tc = N.new("ShaderNodeTexCoord")
     nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 2.4; nz.inputs["Detail"].default_value = 5; nz.inputs["Roughness"].default_value = .6; L.new(tc.outputs["Object"], nz.inputs["Vector"])
-    L.new(_m(N, L, "MULTIPLY", _m(N, L, "MULTIPLY_ADD", nz.outputs["Fac"], 3.2, -1.15, clamp=True), density), v.inputs["Density"]); L.new(v.outputs[0], out.inputs["Volume"]); return m
+    L.new(_m(N, L, "MULTIPLY", _m(N, L, "MULTIPLY_ADD", nz.outputs["Fac"], 3.2, -1.15, clamp=True), density), v.inputs["Density"]); L.new(v.outputs[0], out.inputs["Volume"])
+    v.inputs["Emission Color"].default_value = (*rgb, 1); v.inputs["Emission Strength"].default_value = glow; return m                  # a little of its own light: thick smoke in full sun is bright, not black
 
 def realist(scene, whale=None, sun=(95, 24)):
     """the photo beach kept (real sky, scanned sand, real water) and FINISHED: characters readable, glass that reflects, sun rays in a light
@@ -416,9 +417,9 @@ def realist(scene, whale=None, sun=(95, 24)):
                     if nd.type == "MIX_SHADER" and not nd.inputs[0].links: nd.inputs[0].default_value = max(nd.inputs[0].default_value, .72)
         if o.type == "MESH" and any(m and m.name == "Material.001" for m in o.data.materials) and o.name.startswith("Object_"): glass(o)
         if o.type == "MESH" and o.data.materials and o.data.materials[0] and o.data.materials[0].name in ("blast_sand", "blast_smoke"):
-            nm = o.data.materials[0].name; o.data.materials.clear(); o.data.materials.append(smoke_mat(nm + "_vol", (.92, .86, .74) if nm == "blast_sand" else (.34, .31, .30), 1.7 if nm == "blast_sand" else 1.0)); o.visible_shadow = True
-    look.god_rays(col("L_SET"), center=(0, 200, 0), size=(1400, 1400, 160), density=.0007, anisotropy=.8)             # sea haze, larger than any view (a small box showed its edges as noise)
-    sun_rays(col("L_FX"), sun)
+            nm = o.data.materials[0].name; o.data.materials.clear(); o.data.materials.append(smoke_mat(nm + "_vol", (.92, .86, .74) if nm == "blast_sand" else (.40, .36, .34), 1.0 if nm == "blast_sand" else .9, .28 if nm == "blast_sand" else .08)); o.visible_shadow = True
+    for o in [o for o in bpy.data.objects if o.name.startswith("blast_smoke") and o.type == "MESH"]: bpy.data.objects.remove(o)   # the effect's own puffs inside the column made a square of grain: the column IS the smoke
+    # no haze VOLUME and no beam cards: at preview samples they render as grain (seen 2026-11-20); the haze is the mist pass and the sun rays are drawn by the compositor (kit.grade, Mo["sun_xy"])
 
 def sun_rays(c, sun, n=9, seed=5, strength=.07):
     """SUN RAYS you can see on an open beach: broad soft slanted beams falling between the whale and the sea, along the sun's direction,

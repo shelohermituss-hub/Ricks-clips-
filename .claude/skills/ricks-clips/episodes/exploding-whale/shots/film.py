@@ -14,7 +14,12 @@ def _drawn_finish(sc, Mo, expo=(), haze=.5):
     if "beach_sand" in bpy.data.materials:
         real = toon.STYLE == "real"
         toon.stylize(sc, bpy.data.objects.get("whale"), sun=(Mo["az"], Mo["el"]), dim=2 ** Mo["exposure"]); toon.dress(col("L_OBJECTS"), clear=DRESS_CLEAR); toon.ink_all()
-        if real: Mo.update(haze_color=(.80, .88, .98, 1), bloom=.45, bloom_at=1.0); haze = .28
+        if real:
+            Mo.update(haze_color=(.80, .88, .98, 1), bloom=.45, bloom_at=1.0); haze = .28
+            from bpy_extras.object_utils import world_to_camera_view
+            el, az = math.radians(Mo["el"]), math.radians(Mo["az"]); cam = sc.camera; sc.frame_set((sc.frame_start + sc.frame_end) // 2)
+            v = world_to_camera_view(sc, cam, cam.matrix_world.translation + Vector((math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el))) * 1000)
+            if v.z > 0: Mo["sun_xy"] = (max(-.12, min(1.12, v.x)), max(.35, min(1.12, v.y))); Mo["rays"] = .5                # the sun's place in (or beside) the picture; behind the camera: no rays
         else: Mo["exposure"] = 0.0; Mo.update(haze_color=(1.0, .80, .60, 1) if Mo["el"] < 35 else (.78, .92, 1.0, 1), bloom=.3); haze = .2
     _finish(sc, Mo, expo, haze)
 kit.finish = _drawn_finish

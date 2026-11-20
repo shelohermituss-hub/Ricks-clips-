@@ -163,6 +163,10 @@ def grade(sc, Mo, haze):
         mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; ci, co = col_io(mx); ci[1].default_value = Mo.get("haze_color", (.62, .78, .95, 1)); L.new(f2.outputs[0], mx.inputs[0]); L.new(last, ci[0]); last = co[0]
     gl = N.new("CompositorNodeGlare"); gl.inputs["Type"].default_value = "Bloom"; gl.inputs["Threshold"].default_value = Mo.get("bloom_at", 1.1); gl.inputs["Strength"].default_value = Mo.get("bloom", .35); gl.inputs["Size"].default_value = .55
     L.new(last, gl.inputs["Image"]); last = gl.outputs["Image"]
+    if Mo.get("sun_xy"):                                                                             # SUN RAYS: beams that leave the sun's place in the picture and rake across it (no grain: drawn on the image)
+        sb = N.new("CompositorNodeGlare"); sb.inputs["Type"].default_value = "Sun Beams"; sb.inputs["Threshold"].default_value = Mo.get("rays_at", .75); sb.inputs["Strength"].default_value = 1.0
+        sb.inputs["Sun Position"].default_value = Mo["sun_xy"]; sb.inputs["Size"].default_value = Mo.get("rays_len", .55); L.new(last, sb.inputs["Image"])
+        mxr = N.new("ShaderNodeMix"); mxr.data_type = "RGBA"; mxr.blend_type = "ADD"; mxr.inputs[0].default_value = Mo.get("rays", .35); ci, co = col_io(mxr); L.new(last, ci[0]); L.new(sb.outputs["Glare"], ci[1]); last = co[0]
     cb = N.new("ColorBalance" if False else "CompositorNodeColorBalance"); cs = [i for i in cb.inputs if i.bl_idname == "NodeSocketColor"]
     for sock, v in zip(cs[1:4], (Mo.get("lift", (.965, .995, 1.045)), Mo.get("gamma", (1.0, 1.0, 1.0)), Mo.get("gain", (1.06, 1.0, .93)))): sock.default_value = (*v, 1.0)
     L.new(last, cb.inputs["Image"]); last = cb.outputs[0]
