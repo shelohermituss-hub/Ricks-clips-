@@ -435,9 +435,9 @@ def s14(n):
         for f, x, sv in ((0, -16.9, .3), (40, -13.4, .7), (n - 1, -8.0, 1.25)): key(m, "location", f, (x, oy, H(x, oy) + .1)); key(m, "scale", f, (sv, sv, sv))
         kit.linear(m)
     wave = blob("sand_wave", 1.0, (0, 0, -20), sand, col("L_FX"), seed=9, squash=(1, 1, 1), sub=3)   # thrown sand that covers the lens: the wipe
-    for f, p, sv in ((n - 12, (-9.2, dy, .6), .3), (n - 5, (-10.0, -6.6, 1.2), 1.0), (n - 1, (-10.2, -6.7, 1.2), 1.05)): key(wave, "location", f, p); key(wave, "scale", f, (sv, sv, sv))
-    cam = kit.camera([(0, (-5.0, -13.5, 2.1), (.5, -2.5, 1.0), 26), (34, (-7.0, -12.0, 1.9), (-1.0, -2.5, 1.0), 26), (62, (-10.8, -8.6, 1.4), (-11.5, -4.6, 1.0), 28), (n - 1, (-10.5, -7.9, 1.25), (-9.5, -4.6, .9), 28)], n)
-    C = kit.cards(sc, "14", cam, {"engineer": [(0, -3.6, -6.2)], "worker": [(0, -19.6, dy, H(-19.6, dy) + 1.0), (40, -16.1, dy, H(-16.1, dy) + 1.0), (n - 1, -10.8, dy, H(-10.8, dy) + 1.0)]}, H)
+    for f, p, sv in ((n - 12, (-9.2, dy, .6), .3), (n - 5, (-7.6, -10.2, 1.3), 1.0), (n - 1, (-7.25, -10.8, 1.35), 1.05)): key(wave, "location", f, p); key(wave, "scale", f, (sv, sv, sv))
+    cam = kit.camera([(0, (-5.0, -13.5, 2.1), (.5, -2.5, 1.0), 26), (34, (-7.0, -12.0, 1.9), (-1.0, -2.5, 1.0), 26), (62, (-7.6, -13.2, 1.7), (-13.4, -4.6, 1.5), 26), (n - 1, (-7.0, -11.4, 1.4), (-10.6, -4.6, 1.3), 26)], n)   # pulled back: the real bulldozer is 5.6 m long
+    C = kit.cards(sc, "14", cam, {"engineer": [(0, -3.6, -6.2)], "worker": [(0, -21.0, dy, H(-21.0, dy) + 1.35), (40, -17.5, dy, H(-17.5, dy) + 1.35), (n - 1, -12.2, dy, H(-12.2, dy) + 1.35)]}, H)
     fx(sc, [{"type": "smoke", "name": "after_smoke", "at": [.6, -3.4, .6], "frame": -20, "count": 9, "seed": 4, "life": 70, "color": [.2, .18, .17], "size": 1.6, "rise": 3.0, "spread": 2.2},
             {"type": "dust_burst", "name": "blade_dust", "at": [-12.0, dy, .3], "frame": 44, "count": 8, "radius": 1.2, "height": .6, "seed": 6, "life": 30, "color": [.8, .74, .6]}])
     signs.scribble(C["engineer"], 24, 60)
