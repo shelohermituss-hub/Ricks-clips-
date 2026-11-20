@@ -4,7 +4,8 @@ big low Y branches, a broad crown (~10-11 m) made of rounded CLUMPS of leaves, l
 No library model matched (Poly Haven island trees fork at the base, Sketchfab oaks are sparse), so it is built here:
   trunk   tapered tube with a flared, lobed root base; real bark (Poly Haven jolcham_oak_bark_01, CC0)
   limbs   5 main limbs + 2 twigs each, curved tubes from the trunk top into the clumps
-  crown   ~34 clumps on an ellipsoid; each = a dark core (density) + real leaf meshes instanced on its surface,
+  crown   style='masses' (default since 2026-11-20, reference V04): 4 low limbs + side branches, 6-8 separate leaf masses with sky
+          between them; style='blob': ~95 clumps on one ellipsoid; each = a dark core (density) + real leaf meshes instanced on its surface,
           sunny variants on the upper half, shaded variants underneath (geometry-nodes instancer, rc.geo)
 oak(collection, name, seed, height) -> root empty (animate the root: the whole tree follows); parts named <name>_trunk/_limbs/_core/_leaves*."""
 import bpy, bmesh, math, random, os, sys
@@ -64,34 +65,64 @@ def _leaf_set(name, cols):
         src = _leaf_src("%s%d" % (name, k), h); c.objects.link(src.objects[0])
     return c
 
-def oak(collection, name="oak", seed=7, height=9.0, crown=10.6):
+def oak(collection, name="oak", seed=7, height=9.0, crown=10.6, style="masses"):
     from rc import geo
     R = random.Random(seed); s = height / 9.0
     root = bpy.data.objects.new(name, None); collection.objects.link(root)
     bark = street.pbr("oak_bark", "jolcham_oak_bark_01", tile=1.1, value=.95, normal=1.6)
     # trunk: flared lobed base -> 3.1 m, a slight lean
     bm = bmesh.new()
-    tp = [Vector((.06 * math.sin(i * .5) * s, .05 * math.cos(i * .4) * s, i * .39 * s)) for i in range(11)]
+    th = .27 if style == "masses" else .39                                               # masses: the trunk splits low (~2.7 m)
+    tp = [Vector((.06 * math.sin(i * .5) * s, .05 * math.cos(i * .4) * s, i * th * s)) for i in range(11)]
     tr = [(.62 - .26 * min(1, i / 10) + (.22 if i == 0 else .1 if i == 1 else 0)) * s for i in range(11)]
     _tube(bm, tp, tr, seg=20, lobes=5, lobe_amp=.55); trunk = street.mesh_obj(name + "_trunk", bm, bark, collection, smooth=True); trunk.parent = root
     top = tp[-1]
-    # crown clumps on an ellipsoid (flatter underneath)
-    C = Vector((0, 0, 6.9 * s)); rx = crown / 2 * .8; rz = 2.4 * s; clumps = []
-    while len(clumps) < 95:                                                             # CB 2026-11-19: more, smaller, irregular clumps (more real)
-        u = R.uniform(-.35, 1.0); a = R.uniform(0, 2 * math.pi); h = math.sqrt(max(0, 1 - u * u)); r = R.uniform(.72, 1.0)
-        p = C + Vector((math.cos(a) * h * rx * r, math.sin(a) * h * rx * r, u * rz * r))
-        if all((p - q[0]).length > .7 * s for q in clumps): clumps.append((p, R.uniform(.6, 1.15) * s))
-    # limbs: 5 main limbs to the biggest outer clumps, 2 twigs each to neighbours
-    bm = bmesh.new(); outer = sorted(clumps, key=lambda q: -(Vector((q[0].x, q[0].y, 0)).length))[:5]
-    for k, (p, _) in enumerate(outer):
-        start = top + Vector((0, 0, -.2 * s)); mid = start.lerp(p, .45) + Vector((0, 0, .9 * s))
-        pts = _bezier(start, mid, p, 9); _tube(bm, pts, [(.3 - .22 * i / 8) * s for i in range(9)], seg=10)
-        near = sorted(clumps, key=lambda q: (q[0] - pts[4]).length)[1:3]
-        for q, _ in near:
-            b0 = pts[4]; pts2 = _bezier(b0, b0.lerp(q, .5) + Vector((0, 0, .4 * s)), q, 6); _tube(bm, pts2, [(.11 - .07 * i / 5) * s for i in range(6)], seg=7)
-    limbs = street.mesh_obj(name + "_limbs", bm, bark, collection, smooth=True); limbs.parent = root
+    if style == "masses":
+        # REFERENCE SHAPE (style_analysis V04 300-450, 936-959): the trunk splits low into 4 big limbs that reach out at a LOW angle, and the
+        # crown is 6-8 SEPARATE leaf masses at their ends, with sky between them (the blob crown gave too few deep shadows: contrast 0.19 vs 0.24)
+        bm = bmesh.new(); clumps = []; start = top + Vector((0, 0, -.35 * s))
+        angs = [R.uniform(0, 2 * math.pi)]; [angs.append(angs[-1] + 2 * math.pi / 4 + R.uniform(-.35, .35)) for _ in range(3)]
+        masses = []
+        for k, a in enumerate(angs):
+            L = R.uniform(3.4, 4.4) * s * crown / 10.6; el = math.radians(R.uniform(26, 40))
+            d = Vector((math.cos(a) * math.cos(el), math.sin(a) * math.cos(el), math.sin(el)))
+            end = start + d * L; mid = start + d * L * .5 + Vector((0, 0, .5 * s))
+            pts = _bezier(start, mid, end, 10); _tube(bm, pts, [(.36 - .26 * i / 9) * s for i in range(10)], seg=12)
+            masses.append((end + Vector((0, 0, 1.1 * s)), R.uniform(1.05, 1.35) * s))
+            for t in (.45, .7):                                                         # secondary branches lifting into side masses
+                b0 = pts[int(t * 9)]; sa = a + R.choice((-1, 1)) * R.uniform(.6, 1.0); sd = Vector((math.cos(sa), math.sin(sa), R.uniform(.5, .9))).normalized()
+                e2 = b0 + sd * R.uniform(1.8, 2.6) * s; _tube(bm, _bezier(b0, b0.lerp(e2, .5) + Vector((0, 0, .25 * s)), e2, 6), [(.14 - .09 * i / 5) * s for i in range(6)], seg=8)
+                if R.random() < .6: masses.append((e2 + Vector((0, 0, .8 * s)), R.uniform(.75, 1.0) * s))
+        e3 = start + Vector((R.uniform(-.4, .4) * s, R.uniform(-.4, .4) * s, 2.6 * s)); _tube(bm, _bezier(start, start + Vector((0, 0, 1.2 * s)), e3, 6), [(.26 - .16 * i / 5) * s for i in range(6)], seg=10)
+        masses.append((e3 + Vector((0, 0, 1.2 * s)), 1.35 * s))
+        limbs = street.mesh_obj(name + "_limbs", bm, bark, collection, smooth=True); limbs.parent = root
+        for c, mr in masses:                                                            # each mass = a tight cluster of clumps, flatter underneath
+            n = int(7 * (mr / s) ** 1.6) + 3; tries = 0; mine = []
+            while len(mine) < n and tries < 400:
+                tries += 1; v = Vector((R.uniform(-1, 1), R.uniform(-1, 1), R.uniform(-.55, 1)))
+                if v.length > 1: continue
+                p = c + Vector((v.x * mr, v.y * mr, v.z * mr * .72))
+                if all((p - q[0]).length > .5 * s for q in clumps + mine): mine.append((p, R.uniform(.45, .8) * s))
+            clumps += mine
+        root["rc_masses"] = len(masses)
+    else:
+        # crown clumps on an ellipsoid (flatter underneath)
+        C = Vector((0, 0, 6.9 * s)); rx = crown / 2 * .8; rz = 2.4 * s; clumps = []
+        while len(clumps) < 95:                                                             # CB 2026-11-19: more, smaller, irregular clumps (more real)
+            u = R.uniform(-.35, 1.0); a = R.uniform(0, 2 * math.pi); h = math.sqrt(max(0, 1 - u * u)); r = R.uniform(.72, 1.0)
+            p = C + Vector((math.cos(a) * h * rx * r, math.sin(a) * h * rx * r, u * rz * r))
+            if all((p - q[0]).length > .7 * s for q in clumps): clumps.append((p, R.uniform(.6, 1.15) * s))
+        # limbs: 5 main limbs to the biggest outer clumps, 2 twigs each to neighbours
+        bm = bmesh.new(); outer = sorted(clumps, key=lambda q: -(Vector((q[0].x, q[0].y, 0)).length))[:5]
+        for k, (p, _) in enumerate(outer):
+            start = top + Vector((0, 0, -.2 * s)); mid = start.lerp(p, .45) + Vector((0, 0, .9 * s))
+            pts = _bezier(start, mid, p, 9); _tube(bm, pts, [(.3 - .22 * i / 8) * s for i in range(9)], seg=10)
+            near = sorted(clumps, key=lambda q: (q[0] - pts[4]).length)[1:3]
+            for q, _ in near:
+                b0 = pts[4]; pts2 = _bezier(b0, b0.lerp(q, .5) + Vector((0, 0, .4 * s)), q, 6); _tube(bm, pts2, [(.11 - .07 * i / 5) * s for i in range(6)], seg=7)
+        limbs = street.mesh_obj(name + "_limbs", bm, bark, collection, smooth=True); limbs.parent = root
     # dark core of every clump (no see-through holes), then the leaves on its surface
-    core_m = street.mat("oak_core", "#2f5a1e", .8)
+    core_m = street.mat("oak_core", "#1d3a13", .8)
     bm = bmesh.new()
     for p, r in clumps:
         sph = bmesh.new(); bmesh.ops.create_icosphere(sph, subdivisions=2, radius=r * .7)
@@ -100,7 +131,7 @@ def oak(collection, name="oak", seed=7, height=9.0, crown=10.6):
         for f in sph.faces: bm.faces.new([vm[v] for v in f.verts])
         sph.free()
     core = street.mesh_obj(name + "_core", bm, core_m, collection, smooth=True); core.parent = root
-    sunny = _leaf_set("oakleaf_sun", ["#c2dc5e", "#a6cc48", "#8aba3c", "#6fa232"]); shade = _leaf_set("oakleaf_shade", ["#5f9a2e", "#4b8326", "#3c6e22", "#2e5a1c"])
+    sunny = _leaf_set("oakleaf_sun", ["#c2dc5e", "#a6cc48", "#8aba3c", "#6fa232"]); shade = _leaf_set("oakleaf_shade", ["#3f7424", "#2f5e1d", "#244a17", "#1a3a12"])   # darker under-leaves: deep shadows inside the masses (reference crown contrast)
     up_pts, up_rot, up_sc, dn_pts, dn_rot, dn_sc = [], [], [], [], [], []
     for p, r in clumps:
         n = int(520 * r / 1.0)

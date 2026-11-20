@@ -233,12 +233,12 @@ def leaves_third():
 
 def camera_sign(cam):
     sg = Vector((SIGN_AT[0], SIGN_AT[1], 1.95))
-    aim2 = (SIGN_AT[0], SIGN_AT[1] + .45, 1.5)
+    aim2 = (SIGN_AT[0], SIGN_AT[1] + .45, 1.5); aim3 = (SIGN_AT[0], SIGN_AT[1] - .25, 1.55)
     keys = [(283, (4.2, -15.0, 1.6), (2.5, -6.0, 15.0), 24), (284, (4.5, -2.4, 1.62), (SIGN_AT[0], SIGN_AT[1], 7.5), 32),
             (284.8, (4.6, -2.05, 1.6), tuple(sg), 35),                                        # the whip ENDS before frame 285's shutter opens: 285 is sharp
             (285, (4.61, -2.05, 1.6), tuple(sg), 35), (288, (4.9, -2.0, 1.58), tuple(sg), 35),
-            (309, (11.6, -.6, .6), (0.0, 0.3, 4.8), 22), (330, (11.4, -.75, .64), (0.0, 0.25, 4.75), 22),
-            (348, (6.6, -1.3, 1.35), aim2, 30), (F1, (6.3, -1.35, 1.38), aim2, 30)]
+            (309, (13.2, -.7, .7), (0.0, 0.3, 5.4), 22), (330, (13.0, -.85, .74), (0.0, 0.25, 5.35), 22),   # whole tree in frame, low horizon (reference 309)
+            (348, (6.6, -2.0, 1.35), aim3, 30), (F1, (6.3, -2.05, 1.38), aim3, 30)]   # more field and sky, the trunk at the right edge (reference 357)
     for f, p, a, lens in keys:
         cam.location = p; cam.rotation_euler = (Vector(a) - Vector(p)).to_track_quat("-Z", "Y").to_euler(); cam.data.lens = lens
         cam.keyframe_insert("location", frame=f); cam.keyframe_insert("rotation_euler", frame=f); cam.data.keyframe_insert("lens", frame=f)
@@ -260,7 +260,7 @@ def build_take4(sc):
     n = a_week_later()
     for o in bpy.data.objects:                                                                  # a week later the clods of the planting are gone too
         if o.name.startswith("clod"): key_vis(o, hidden_from=SWAP)
-    S1.roadside.verge_grass(street.col("L_SET"), [[10.55, -3.2], [10.95, -3.2], [10.95, 2.0], [10.55, 2.0]], 260, 21, scale=(2.0, 3.3))   # tall blades in front of the wide shot's lens (reference)
+    S1.roadside.verge_grass(street.col("L_SET"), [[12.1, -3.2], [12.5, -3.2], [12.5, 2.0], [12.1, 2.0]], 260, 21, scale=(2.0, 3.3))   # tall blades in front of the wide shot's lens (reference)
     sg = signkit.build(street.col("L_OBJECTS"), SIGN_AT)
     for o in tree_and_children(sg): key_vis(o, visible_from=SWAP)
     signkit.shake(sg, HIT); signkit.flip(sg, FLIP)
