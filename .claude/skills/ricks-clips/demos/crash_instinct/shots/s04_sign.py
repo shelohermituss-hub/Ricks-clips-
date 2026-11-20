@@ -203,9 +203,9 @@ def week_later_light(sc):
     shadows on the trunk), deep blue sky with small clouds and NO glow, open bright shadows. A week has passed inside the whip, so the
     time of day changes there, off-frame: sun from the south-east at 45 deg, sky photo turned with it, no sun glow, stronger sky fill."""
     from rc.look import relight, bounce_fill
-    relight(sc, SWAP, azimuth=128.0, elevation=45.0, energy=10.0, glow=0.0, light=.9, sky=1.4)
+    relight(sc, SWAP, azimuth=160.0, elevation=54.0, energy=11.5, glow=0.0, light=.55, sky=1.4)
     l = bounce_fill(street.col("LIGHT"), at=(12.0, 4.0, 3.0), aim=(0, 0, 3.0), energy=0.0, size=10.0, name="bounce_fill_east")   # opens the trunk's shadow side
-    l.data.energy = 0.0; l.data.keyframe_insert("energy", frame=SWAP - 1); l.data.energy = 1500.0; l.data.keyframe_insert("energy", frame=SWAP)
+    l.data.energy = 0.0; l.data.keyframe_insert("energy", frame=SWAP - 1); l.data.energy = 500.0; l.data.keyframe_insert("energy", frame=SWAP)
     return l
 
 

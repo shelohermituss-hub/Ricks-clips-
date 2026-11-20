@@ -81,6 +81,12 @@
    "kind": "model",
    "source": "script: demos/crash_instinct/sets/sign.py (galvanised steel polyhaven:metal_plate, painted plates)",
    "state": "to build"
+  },
+  {
+   "id": "blue_car",
+   "kind": "model",
+   "source": "sketchfab:6689ab2bf0f244808efcbe6baf31b7de (Generic Kei car, ahadika, CC-BY 4.0)",
+   "state": "in library"
   }
  ],
  "places": [
@@ -113,13 +119,13 @@
    "sky": "dégradé bleu pâle → blanc à l'horizon, 4 gros cumulus blancs à gauche et en haut, légère brume au loin ; HDRI pour les reflets seulement",
    "light": {
     "sun": {
-     "elevation": 15,
-     "azimuth": -48,
-     "energy": 9.0,
+     "elevation": 54,
+     "azimuth": 160,
+     "energy": 11.5,
      "angle": 2.0
     },
     "fill": 0.55,
-    "mood": "day sun, soft"
+    "mood": "day sun from the camera side, high left; blue sky, no glow (relit inside the whip, s04.md §10)"
    },
    "shadows": "ombre nette à bord doux du tronc et de la couronne sur l'herbe et la route ; ombres des piquets ; occlusion au pied du tronc et sous le héros assis ; ombres jamais noires (fill fort)",
    "props": [
@@ -178,8 +184,8 @@
   },
   {
    "id": "blue_car",
-   "source": "sketchfab:5db696c6ed5d4bdc87905c1040fa072a",
-   "material": "bleu vif verni #2f5fd6 (métal 0,3, rugosité 0,3, vernis 0,6), peinture refaite ; vitres claires ; conducteur visible",
+   "source": "sketchfab:6689ab2bf0f244808efcbe6baf31b7de",
+   "material": "bleu vif uni #2f74d8 (référence mesurée #3e7ecf), vernis lisse 0,8, sans paillettes ; grandes vitres claires ; intérieur gris clair visible ; conducteur visible",
    "states": [
     "roule",
     "avant écrasé (clé de forme)",
@@ -189,8 +195,8 @@
   },
   {
    "id": "blue_wheel",
-   "source": "sketchfab:5db696c6ed5d4bdc87905c1040fa072a",
-   "material": "pneu + jante du modèle",
+   "source": "sketchfab:6689ab2bf0f244808efcbe6baf31b7de",
+   "material": "pneu + jante argent du modèle (roue avant côté caméra, découpée du maillage)",
    "states": [
     "sur la voiture",
     "arrachée, roule",
@@ -226,7 +232,9 @@
   "PI-022",
   "PI-025",
   "PI-026",
-  "PI-027"
+  "PI-027",
+  "PI-029",
+  "PI-030"
  ],
  "title": "crash_instinct — plan 4 (9,4 → 12,07 s, images 282-362)",
  "notes": "Suite de la même prise (aucune coupe avant 22,9 s, PI-020) ; le fouetté 282-285 cache un saut dans le temps. Analyse : references/crash_instinct/shots/s04.md. Plan écrit et contrôlé AVANT la construction. Temps relatifs au début du plan (image 282 = 0 s).",

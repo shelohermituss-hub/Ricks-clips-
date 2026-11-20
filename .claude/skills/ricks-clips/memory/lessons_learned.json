@@ -754,6 +754,56 @@
    },
    "status": "validated",
    "applies_to": "every new cloud session"
+  },
+  {
+   "id": "PI-029",
+   "date": "2026-11-20",
+   "episode": "crash_instinct",
+   "shot_timecode": "s04",
+   "severity": "medium",
+   "problem": "The second imported car came out white instead of blue: the paint was applied to the first car's material.",
+   "root_cause": "bpy.data.materials.get('body') returns the FIRST material of that name; the second import's material is 'body.001'.",
+   "fix": "Materials of an imported model are collected from the imported objects' own slots (dict by base name), never looked up by bare name.",
+   "files_changed": [
+    "demos/crash_instinct/shots/s04_sign.py"
+   ],
+   "verification": {
+    "tests": [
+     "key frame 324 before: white car; after: blue #2f74d8, clear glass"
+    ],
+    "before_after_evidence": [
+     "demos/crash_instinct/build/review"
+    ],
+    "regression_check": "key frame of every imported vehicle"
+   },
+   "status": "validated",
+   "applies_to": "every scene with two imported models"
+  },
+  {
+   "id": "PI-030",
+   "date": "2026-11-20",
+   "episode": "crash_instinct",
+   "shot_timecode": "s04",
+   "severity": "high",
+   "problem": "Shot 4 was lit with the aerial view's backlight: the tree, the sign and the posts were dark, the sky white; CB: 'the scene is too dark, give me exactly the reference's lighting'.",
+   "root_cause": "The light was copied from the previous view instead of being read on the reference for THIS view; the reference re-lights each view (shadow of the sign falls behind it: sun on the camera's side).",
+   "fix": "Each shot analysis has a table 'clue on the reference -> light' (shadow direction and length, lit faces, sky, glow, fill). rc.look.relight() changes sun, sky rotation, glow and fill together on one frame, off-frame inside a whip.",
+   "files_changed": [
+    "blender/rc/look.py",
+    "demos/crash_instinct/shots/s04_sign.py",
+    "references/crash_instinct/shots/s04.md"
+   ],
+   "verification": {
+    "tests": [
+     "frame 309: luma 0.52 -> 0.42 (ref 0.45), saturation 0.27 -> 0.36 (ref 0.40); sky blue; sign and posts lit"
+    ],
+    "before_after_evidence": [
+     "demos/crash_instinct/build/review"
+    ],
+    "regression_check": "grade_match on the key frames of every view"
+   },
+   "status": "validated",
+   "applies_to": "every shot of a reproduced video"
   }
  ],
  "notes": [

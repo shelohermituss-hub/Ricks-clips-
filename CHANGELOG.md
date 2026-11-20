@@ -23,6 +23,7 @@ Historique détaillé des versions du skill : `.claude/skills/ricks-clips/CHANGE
 - `roadside.py` : route bleu-gris usée, champs or / ocre / paille à rangs, accotement clair, herbe translucide ; touffes d'herbe sous la caméra aérienne.
 - Mesures : `grade_match` PASS sur les images 180 et 262 ; continuité du plan 3 PASS.
 - Plan 4 : analyse à 10 i/s (`shots/s04.md`), `plan/s04.json` PLAN PASS, recette `counter_flip`, `sets/sign.py`, `shots/s04_sign.py`.
+- Plan 4 corrigé d'après CB : voiture de la référence analysée et remplacée (« Generic Kei car », bleu mesuré, vitres claires, intérieur visible), roue avant de la voiture découpée du modèle qui se détache et roule, lumière de la référence analysée vue par vue (`shots/s04.md` §10) et appliquée par `rc.look.relight()` dans le fouetté ; leçons PI-029, PI-030.
 - Leçons PI-025 à PI-028 ; `docs/CORRECTIONS_CB_FR.md` complété (9 lignes).
 
 ## 19/11/2026 — reprise dans une session neuve (branche `ccr-1c670715-ewni3e`)

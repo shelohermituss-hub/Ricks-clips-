@@ -289,3 +289,23 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Evidence:** scripts/restore_untracked.sh
 - **Regression check:** first step of every new session
 
+## PI-029 — The second imported car came out white instead of blue: the paint was applied to the first [validated, medium]
+
+- **Where:** crash_instinct s04
+- **Root cause:** bpy.data.materials.get('body') returns the FIRST material of that name; the second import's material is 'body.001'.
+- **Fix:** Materials of an imported model are collected from the imported objects' own slots (dict by base name), never looked up by bare name.
+- **Files:** demos/crash_instinct/shots/s04_sign.py
+- **Tests:** key frame 324 before: white car; after: blue #2f74d8, clear glass
+- **Evidence:** demos/crash_instinct/build/review
+- **Regression check:** key frame of every imported vehicle
+
+## PI-030 — Shot 4 was lit with the aerial view's backlight: the tree, the sign and the posts were dar [validated, high]
+
+- **Where:** crash_instinct s04
+- **Root cause:** The light was copied from the previous view instead of being read on the reference for THIS view; the reference re-lights each view (shadow of the sign falls behind it: sun on the camera's side).
+- **Fix:** Each shot analysis has a table 'clue on the reference -> light' (shadow direction and length, lit faces, sky, glow, fill). rc.look.relight() changes sun, sky rotation, glow and fill together on one frame, off-frame inside a whip.
+- **Files:** blender/rc/look.py, demos/crash_instinct/shots/s04_sign.py, references/crash_instinct/shots/s04.md
+- **Tests:** frame 309: luma 0.52 -> 0.42 (ref 0.45), saturation 0.27 -> 0.36 (ref 0.40); sky blue; sign and posts lit
+- **Evidence:** demos/crash_instinct/build/review
+- **Regression check:** grade_match on the key frames of every view
+

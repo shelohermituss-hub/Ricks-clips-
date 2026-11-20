@@ -35,7 +35,7 @@ def road(c):
     # scanned worn asphalt, DARK BLUE-GREY as measured on the reference aerial (#3b3a4b), + wheel paths + tar snakes + repair patches
     asphalt = road_wear(tex("road_asphalt", "asphalt_02", tile=4.0, value=2.3, tint="#9aa0c0", tint_k=.85, normal=1.6, rough_mul=.9, spec=.4, macro=.22))
     plane("road", c, ROAD[0], ROAD[1], Y0, Y1, asphalt, .02)
-    gravel = tex("shoulder_gravel", "asphalt_track", tile=1.2, value=1.7, tint="#b8a890", tint_k=.6, macro=.25, spec=.3)
+    gravel = tex("shoulder_gravel", "asphalt_track", tile=1.2, recolor="#8f8a84", value=1.0, macro=.25, spec=.3)   # light grey-beige gravel measured on the reference (was near black away from the sun)
     plane("shoulder_L", c, 1.5, ROAD[0], Y0, Y1, gravel, .012); plane("shoulder_R", c, ROAD[1], ROAD[1] + .7, Y0, Y1, gravel, .012)
     white = mat("paint_white", "#f2f2ec", .45); yellow = mat("paint_yellow", "#f7cf4a", .5)
     plane("edge_L", c, ROAD[0] + .2, ROAD[0] + .35, Y0, Y1, white, .026); plane("edge_R", c, ROAD[1] - .35, ROAD[1] - .2, Y0, Y1, white, .026)
