@@ -147,3 +147,13 @@ Lire avec :
 - **Règle** : ne jamais montrer à CB un film dont l'étape look n'est pas faite sans le dire en première ligne. Un aperçu d'animation s'annonce comme tel.
 - **Code (v1, test sur 3 images)** : `kit.ink` = surface peinte (rugosité variable, grain, arêtes arrondies, saleté dans les creux, poussière sur le dessus) ; `kit.grade` = brume de distance (jamais sur le ciel), halo doux, hautes lumières chaudes / ombres froides, vignette, netteté ; caméra avec profondeur de champ.
 - **Mesure honnête** : l'avant/après v1 est une amélioration légère, pas suffisante. Le vrai levier restant = remplacer les objets codés par de vrais modèles, travailler le sable (relief, sable mouillé, traces) et la fumée en volume.
+
+## CB 2026-11-20 — comparaison avec les références : « pratiquement rien n'a été fait »
+Comparaison côte à côte (`episodes/exploding-whale/build/review/comparaison_reference_v1.jpg`). Ce que les références ont et que le film n'a pas :
+1. **Trait d'encre sur les objets 3D** (contour sombre + lignes intérieures : planches, joints, rivets) — nos objets 3D n'ont aucun trait, donc ils ne vont pas avec les personnages dessinés.
+2. **Monde peint, pas photo** : ciel en dégradé (orange à l'horizon → bleu) avec nuages dessinés, eau stylisée avec dessins d'écume blancs. Nous : photo de ciel + photo de sable = « 3D brute ».
+3. **Décors pleins** : chaque image de référence contient 10–20 objets lisibles. Notre plage est vide.
+4. **Palette décidée** : 2–3 couleurs fortes opposées (bleu/orange, turquoise/rouge). Nous : beige + gris.
+5. **Lumière mise en scène** : lampes chaudes qui rayonnent, reflets au sol, contre-jour sur les personnages, ombres colorées. Nous : un soleil et c'est tout.
+6. **Détail dessiné sur chaque objet** : planches, lettres, sangles, bandes de couleur. Nous : boîtes unies.
+**Règle** : avant tout aperçu de film, poser 4 images du film à côté de 4 images de référence et lister les écarts. Le « réalisme photo » (HDRI + textures photo) n'est PAS le style des références.
