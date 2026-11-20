@@ -1,0 +1,46 @@
+{
+ "video": "V05",
+ "frames_total": 2005,
+ "shots": 17,
+ "stills_saved": 61,
+ "ranges_frame_by_frame": [
+  [
+   762,
+   785,
+   "gifle et onde de choc"
+  ],
+  [
+   1808,
+   1831,
+   "lancement des 82 fusées"
+  ]
+ ],
+ "ranges_10fps": [],
+ "ranges_2fps_only": [
+  [
+   0,
+   2004,
+   "niveau A: 4 planches overview lues en entier"
+  ]
+ ],
+ "complex_passages_studied": [
+  "perçage en macro 0-60",
+  "construction de la charrette 436-700 (captures)",
+  "gifle 762-785 (image par image)",
+  "parapluie humain 900-1100 (2 fps)",
+  "étincelle et flammes 1531-1800 (2 fps + captures)",
+  "lancement 1808-1831 (image par image)",
+  "explosions 1900-1964 (2 fps)"
+ ],
+ "audio": "Pas d'écoute. MESURÉ: -14,1 LUFS, LRA 2,9 LU, crête -2,0 dBTP, corrélation 0,984, 86 attaques, 235 mots (3,53 mots/s, pause max 0,42 s).",
+ "tool_limits": [
+  "aucune coupe franche détectée: transitions par fondus, filés et coupes sur mouvement, vérifiées à l'œil; les ruptures retenues (1173, 1211, 1356, 1452) sont des pics d'histogramme >0,6, coupes franches confirmées à 2 fps"
+ ],
+ "not_done": [
+  "lecture image par image de la construction et des explosions",
+  "mesure en pixels des personnages",
+  "comptage exact des figurants (estimé: plusieurs centaines)"
+ ],
+ "confidence": "moyenne-haute",
+ "status": "PARTIAL"
+}
