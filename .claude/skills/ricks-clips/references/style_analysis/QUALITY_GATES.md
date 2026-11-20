@@ -18,7 +18,7 @@ Chaque porte : critère, seuil, **justification** (mesure sur les références),
 | G12 | Signes d'émotion | au moins un signe 2D sur chaque émotion extrême du script | 5 références | plan.json | éclairs sur la rage / rage sans signe | **oui** (`plan_check` STYLE5, champ `sign`) |
 | G13 | Transitions | chaque changement de lieu déclare sa transition (objet, fouetté, fondu, coupe) ; coupes franches réservées à l'accélération | §2 de `CAMERA_AND_EDITING_LANGUAGE.md` | plan.json | passage par une porte / coupe sèche entre deux lieux calmes | **oui** (`plan_check` STYLE5 : type de transition obligatoire ; coupe entre deux lieux = WARN sauf `accelerate: true`) |
 | G14 | Choc de véhicule | anticipation + contact 1 image + pièce détachée ou déformation proportionnée + débris + trace qui reste | V02, V03, V04 image par image | images clés du choc | roue qui roule et reste / voitures qui s'interpénètrent sans dégât | partiel (recettes `vehicle_rear_end`, `vehicle_frontal_crash`, `vehicle_hits_fixed_obstacle` ajoutées le 20/11) |
-| G15 | Benchmark moteur | temps par image et écart d'étalonnage mesurés sur EEVEE Next et Cycles, même plan | exigence de la mission | rapport de benchmark | deux chiffres + planches / choix sans mesure | **à créer** |
+| G15 | Benchmark moteur | temps par image et écart d'étalonnage mesurés sur EEVEE Next et Cycles, même plan | exigence de la mission | rapport de benchmark | deux chiffres + planches / choix sans mesure | **partiel** (20/11 : Cycles mesuré sur processeur, EEVEE non mesurable sans carte graphique ; `benchmark/BENCHMARK_FR.md`) |
 
 Statuts de contrôle : PASS / WARN / FAIL / NOT_RUN (NOT_RUN ne vaut jamais PASS), comme le contrôleur de production existant.
 
