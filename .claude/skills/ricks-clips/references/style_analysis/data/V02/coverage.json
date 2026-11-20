@@ -1,0 +1,44 @@
+{
+ "video": "V02",
+ "frames_total": 1867,
+ "shots": 19,
+ "stills_saved": 77,
+ "ranges_frame_by_frame": [
+  [
+   80,
+   103,
+   "premier choc arrière"
+  ],
+  [
+   908,
+   931,
+   "voiture de sport qui percute la camionnette"
+  ]
+ ],
+ "ranges_10fps": [],
+ "ranges_2fps_only": [
+  [
+   0,
+   1866,
+   "niveau A: 4 planches overview lues en entier"
+  ]
+ ],
+ "complex_passages_studied": [
+  "choc 80-103 (image par image)",
+  "choc nuit 908-931 (image par image)",
+  "explosion de billets 440-475 (2 fps + captures)",
+  "compteur 1054-1071 (capture)",
+  "replay dashcam 1690-1829 (2 fps + captures)"
+ ],
+ "audio": "Pas d'écoute. MESURÉ: -14,1 LUFS, LRA 2,2 LU, crête -1,9 dBTP, corrélation stéréo 0,996, 89 attaques, 237 mots (3,83 mots/s, pause max 0,36 s). Non analysé: musique, bruitages identifiés.",
+ "tool_limits": [
+  "coupes: 18 candidats dont 10 sont l'essuie-glace qui passe devant la dashcam (1710-1767), vérifié à l'œil",
+  "plusieurs échantillons de couleur ponctuels ont manqué leur objet: marqués REJETÉ dans palette.json, seules les k-means sont retenues pour ces ambiances"
+ ],
+ "not_done": [
+  "lecture image par image des autres chocs (530-555, 810-830)",
+  "mesure en pixels des personnages"
+ ],
+ "confidence": "moyenne-haute pour la structure et les chocs; moyenne pour les micro-animations",
+ "status": "PARTIAL"
+}

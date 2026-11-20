@@ -1,0 +1,790 @@
+{
+ "video": "V02",
+ "moods": [
+  {
+   "mood": "jour ensoleillé autoroute",
+   "place": "S02-S05, S08",
+   "frames": [
+    60
+   ],
+   "samples": [
+    {
+     "video": "V02",
+     "frame": 60,
+     "timecode": "00:00:02.000",
+     "label": "asphalt_day",
+     "region_xyxy": [
+      0,
+      1000,
+      500,
+      1200
+     ],
+     "n_pixels": 100000,
+     "hex": "#868390",
+     "rgb": [
+      134,
+      131,
+      144
+     ],
+     "hsv_deg_pct": [
+      254,
+      9,
+      56
+     ],
+     "lab": [
+      55.7,
+      3.5,
+      -6.3
+     ],
+     "std_rgb": [
+      29.8,
+      30.0,
+      29.8
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "secondary"
+    },
+    {
+     "video": "V02",
+     "frame": 60,
+     "timecode": "00:00:02.000",
+     "label": "sky_day",
+     "region_xyxy": [
+      0,
+      50,
+      720,
+      250
+     ],
+     "n_pixels": 144000,
+     "hex": "#0f7fe6",
+     "rgb": [
+      15,
+      127,
+      230
+     ],
+     "hsv_deg_pct": [
+      208,
+      93,
+      90
+     ],
+     "lab": [
+      53.1,
+      9.9,
+      -59.7
+     ],
+     "std_rgb": [
+      3.0,
+      9.1,
+      9.7
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "sky"
+    }
+   ],
+   "kmeans": [
+    {
+     "video": "V02",
+     "frame": 60,
+     "timecode": "00:00:02.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#888894",
+       "share": 0.458
+      },
+      {
+       "hex": "#2687e7",
+       "share": 0.358
+      },
+      {
+       "hex": "#bfd2e1",
+       "share": 0.13
+      },
+      {
+       "hex": "#db172e",
+       "share": 0.032
+      },
+      {
+       "hex": "#e445a7",
+       "share": 0.022
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "Ciel bleu très saturé (#0f7fe6, S 93 %) + asphalte gris neutre (#888894) + accent rouge pur de la voiture héros (#db172e). MESURÉ."
+  },
+  {
+   "mood": "jour banlieue pelouse",
+   "place": "S06-S07, S10",
+   "frames": [
+    330
+   ],
+   "samples": [
+    {
+     "video": "V02",
+     "frame": 330,
+     "timecode": "00:00:11.000",
+     "label": "lawn_grass",
+     "region_xyxy": [
+      0,
+      1000,
+      720,
+      1270
+     ],
+     "n_pixels": 194400,
+     "hex": "#54772d",
+     "rgb": [
+      84,
+      119,
+      45
+     ],
+     "hsv_deg_pct": [
+      88,
+      62,
+      47
+     ],
+     "lab": [
+      46.2,
+      -25.8,
+      36.2
+     ],
+     "std_rgb": [
+      49.3,
+      50.7,
+      40.0
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "dominant"
+    },
+    {
+     "video": "V02",
+     "frame": 330,
+     "timecode": "00:00:11.000",
+     "label": "house_siding",
+     "region_xyxy": [
+      0,
+      300,
+      300,
+      500
+     ],
+     "n_pixels": 60000,
+     "hex": "#2a90ee",
+     "rgb": [
+      42,
+      144,
+      238
+     ],
+     "hsv_deg_pct": [
+      208,
+      82,
+      93
+     ],
+     "lab": [
+      58.7,
+      4.2,
+      -55.1
+     ],
+     "std_rgb": [
+      66.1,
+      34.6,
+      26.9
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "REJETÉ: la région ne tombe pas sur l'objet visé (vérifié)"
+    }
+   ],
+   "kmeans": [
+    {
+     "video": "V02",
+     "frame": 330,
+     "timecode": "00:00:11.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#1576e6",
+       "share": 0.406
+      },
+      {
+       "hex": "#5b7f31",
+       "share": 0.326
+      },
+      {
+       "hex": "#cbcdd7",
+       "share": 0.162
+      },
+      {
+       "hex": "#403b4a",
+       "share": 0.062
+      },
+      {
+       "hex": "#d80d23",
+       "share": 0.044
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "mood": "crépuscule violet",
+   "place": "S09",
+   "frames": [
+    600
+   ],
+   "samples": [
+    {
+     "video": "V02",
+     "frame": 600,
+     "timecode": "00:00:20.000",
+     "label": "dusk_sky",
+     "region_xyxy": [
+      0,
+      0,
+      720,
+      300
+     ],
+     "n_pixels": 216000,
+     "hex": "#7767df",
+     "rgb": [
+      119,
+      103,
+      223
+     ],
+     "hsv_deg_pct": [
+      248,
+      54,
+      87
+     ],
+     "lab": [
+      50.6,
+      37.0,
+      -59.8
+     ],
+     "std_rgb": [
+      23.7,
+      18.1,
+      15.5
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "sky"
+    },
+    {
+     "video": "V02",
+     "frame": 600,
+     "timecode": "00:00:20.000",
+     "label": "dusk_road",
+     "region_xyxy": [
+      0,
+      1100,
+      720,
+      1270
+     ],
+     "n_pixels": 122400,
+     "hex": "#48283f",
+     "rgb": [
+      72,
+      40,
+      63
+     ],
+     "hsv_deg_pct": [
+      316,
+      44,
+      28
+     ],
+     "lab": [
+      21.1,
+      19.4,
+      -8.3
+     ],
+     "std_rgb": [
+      31.5,
+      29.8,
+      31.4
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "shadow"
+    }
+   ],
+   "kmeans": [
+    {
+     "video": "V02",
+     "frame": 600,
+     "timecode": "00:00:20.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#4d2d46",
+       "share": 0.394
+      },
+      {
+       "hex": "#8a63d7",
+       "share": 0.304
+      },
+      {
+       "hex": "#d5b0d2",
+       "share": 0.164
+      },
+      {
+       "hex": "#a68a66",
+       "share": 0.088
+      },
+      {
+       "hex": "#f01e24",
+       "share": 0.05
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "Le crépuscule n'est pas un ciel orange: ciel lavande-violet (#8a63d7) et route prune (#4d2d46), phares blancs; accent rouge conservé (#f01e24)."
+  },
+  {
+   "mood": "nuit bleue extérieure",
+   "place": "S11, S13, S14",
+   "frames": [
+    900,
+    1110
+   ],
+   "samples": [
+    {
+     "video": "V02",
+     "frame": 900,
+     "timecode": "00:00:30.000",
+     "label": "night_sky",
+     "region_xyxy": [
+      0,
+      0,
+      720,
+      300
+     ],
+     "n_pixels": 216000,
+     "hex": "#071473",
+     "rgb": [
+      7,
+      20,
+      115
+     ],
+     "hsv_deg_pct": [
+      232,
+      94,
+      45
+     ],
+     "lab": [
+      14.5,
+      34.5,
+      -54.1
+     ],
+     "std_rgb": [
+      28.2,
+      25.0,
+      22.6
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "sky"
+    },
+    {
+     "video": "V02",
+     "frame": 900,
+     "timecode": "00:00:30.000",
+     "label": "night_car_lime",
+     "region_xyxy": [
+      400,
+      500,
+      600,
+      650
+     ],
+     "n_pixels": 30000,
+     "hex": "#1e3556",
+     "rgb": [
+      30,
+      53,
+      86
+     ],
+     "hsv_deg_pct": [
+      216,
+      65,
+      34
+     ],
+     "lab": [
+      22.1,
+      3.0,
+      -22.8
+     ],
+     "std_rgb": [
+      36.8,
+      44.3,
+      50.7
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "REJETÉ: la région ne tombe pas sur l'objet visé (vérifié)"
+    },
+    {
+     "video": "V02",
+     "frame": 1110,
+     "timecode": "00:00:37.000",
+     "label": "pool_water",
+     "region_xyxy": [
+      0,
+      1050,
+      720,
+      1270
+     ],
+     "n_pixels": 158400,
+     "hex": "#28232e",
+     "rgb": [
+      40,
+      35,
+      46
+     ],
+     "hsv_deg_pct": [
+      268,
+      24,
+      18
+     ],
+     "lab": [
+      14.9,
+      5.2,
+      -6.7
+     ],
+     "std_rgb": [
+      37.6,
+      34.8,
+      39.5
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "REJETÉ: la région ne tombe pas sur l'objet visé (vérifié)"
+    }
+   ],
+   "kmeans": [
+    {
+     "video": "V02",
+     "frame": 900,
+     "timecode": "00:00:30.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#07187a",
+       "share": 0.347
+      },
+      {
+       "hex": "#1f2c1a",
+       "share": 0.306
+      },
+      {
+       "hex": "#98a064",
+       "share": 0.142
+      },
+      {
+       "hex": "#0e1432",
+       "share": 0.11
+      },
+      {
+       "hex": "#6f6da5",
+       "share": 0.095
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    },
+    {
+     "video": "V02",
+     "frame": 1110,
+     "timecode": "00:00:37.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#231d25",
+       "share": 0.416
+      },
+      {
+       "hex": "#071c69",
+       "share": 0.165
+      },
+      {
+       "hex": "#3d859d",
+       "share": 0.146
+      },
+      {
+       "hex": "#e7ebe2",
+       "share": 0.143
+      },
+      {
+       "hex": "#a3874e",
+       "share": 0.13
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "Nuit = bleu outremer saturé (#07187a) pour le ciel, végétation presque noire (#1f2c1a), sources chaudes locales (phares, guirlandes)."
+  },
+  {
+   "mood": "intérieur bureau jour",
+   "place": "S12",
+   "frames": [
+    1000
+   ],
+   "samples": [
+    {
+     "video": "V02",
+     "frame": 1000,
+     "timecode": "00:00:33.333",
+     "label": "office_window_sky",
+     "region_xyxy": [
+      450,
+      0,
+      720,
+      600
+     ],
+     "n_pixels": 162000,
+     "hex": "#849dba",
+     "rgb": [
+      132,
+      157,
+      186
+     ],
+     "hsv_deg_pct": [
+      212,
+      29,
+      73
+     ],
+     "lab": [
+      63.8,
+      -1.6,
+      -18.0
+     ],
+     "std_rgb": [
+      56.4,
+      52.8,
+      55.9
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "background"
+    }
+   ],
+   "kmeans": [
+    {
+     "video": "V02",
+     "frame": 1000,
+     "timecode": "00:00:33.333",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#402c33",
+       "share": 0.249
+      },
+      {
+       "hex": "#a0542b",
+       "share": 0.194
+      },
+      {
+       "hex": "#739fd7",
+       "share": 0.187
+      },
+      {
+       "hex": "#d6d3cb",
+       "share": 0.186
+      },
+      {
+       "hex": "#72958f",
+       "share": 0.184
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "mood": "pluie couverte",
+   "place": "S15-S17",
+   "frames": [
+    1350
+   ],
+   "samples": [
+    {
+     "video": "V02",
+     "frame": 1350,
+     "timecode": "00:00:45.000",
+     "label": "rain_trees",
+     "region_xyxy": [
+      0,
+      0,
+      720,
+      400
+     ],
+     "n_pixels": 288000,
+     "hex": "#233f41",
+     "rgb": [
+      35,
+      63,
+      65
+     ],
+     "hsv_deg_pct": [
+      184,
+      46,
+      25
+     ],
+     "lab": [
+      24.6,
+      -9.5,
+      -4.8
+     ],
+     "std_rgb": [
+      33.5,
+      36.5,
+      38.2
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "dominant"
+    },
+    {
+     "video": "V02",
+     "frame": 1650,
+     "timecode": "00:00:55.000",
+     "label": "shirt_yellow",
+     "region_xyxy": [
+      220,
+      1100,
+      500,
+      1270
+     ],
+     "n_pixels": 47600,
+     "hex": "#171b25",
+     "rgb": [
+      23,
+      27,
+      37
+     ],
+     "hsv_deg_pct": [
+      222,
+      38,
+      15
+     ],
+     "lab": [
+      9.8,
+      1.5,
+      -7.3
+     ],
+     "std_rgb": [
+      23.0,
+      24.6,
+      24.7
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "REJETÉ: la région ne tombe pas sur l'objet visé (vérifié)"
+    }
+   ],
+   "kmeans": [
+    {
+     "video": "V02",
+     "frame": 1350,
+     "timecode": "00:00:45.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#596f72",
+       "share": 0.289
+      },
+      {
+       "hex": "#2c4042",
+       "share": 0.28
+      },
+      {
+       "hex": "#161e32",
+       "share": 0.208
+      },
+      {
+       "hex": "#12110e",
+       "share": 0.158
+      },
+      {
+       "hex": "#afc3cc",
+       "share": 0.065
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "Pluie = la seule ambiance désaturée (saturation par seconde 0,26-0,30 entre 48 et 54 s, MESURÉ): verts-gris (#596f72, #2c4042)."
+  },
+  {
+   "mood": "image dashcam",
+   "place": "S18",
+   "frames": [
+    1700
+   ],
+   "samples": [
+    {
+     "video": "V02",
+     "frame": 1700,
+     "timecode": "00:00:56.667",
+     "label": "dashcam_road",
+     "region_xyxy": [
+      0,
+      600,
+      720,
+      900
+     ],
+     "n_pixels": 216000,
+     "hex": "#829da9",
+     "rgb": [
+      130,
+      157,
+      169
+     ],
+     "hsv_deg_pct": [
+      198,
+      23,
+      66
+     ],
+     "lab": [
+      63.1,
+      -6.5,
+      -9.6
+     ],
+     "std_rgb": [
+      72.1,
+      64.1,
+      56.5
+     ],
+     "method": "mean of the region in the decoded H.264 frame (8-bit, limited by compression)",
+     "role": "dominant"
+    }
+   ],
+   "kmeans": [
+    {
+     "video": "V02",
+     "frame": 1700,
+     "timecode": "00:00:56.667",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#82a6be",
+       "share": 0.252
+      },
+      {
+       "hex": "#242c30",
+       "share": 0.221
+      },
+      {
+       "hex": "#55778a",
+       "share": 0.193
+      },
+      {
+       "hex": "#204966",
+       "share": 0.17
+      },
+      {
+       "hex": "#d7e6e9",
+       "share": 0.163
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": ""
+  }
+ ]
+}
