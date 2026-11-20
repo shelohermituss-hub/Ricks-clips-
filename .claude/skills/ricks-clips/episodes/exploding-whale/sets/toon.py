@@ -416,5 +416,22 @@ def realist(scene, whale=None, sun=(95, 24)):
                     if nd.type == "MIX_SHADER" and not nd.inputs[0].links: nd.inputs[0].default_value = max(nd.inputs[0].default_value, .72)
         if o.type == "MESH" and any(m and m.name == "Material.001" for m in o.data.materials) and o.name.startswith("Object_"): glass(o)
         if o.type == "MESH" and o.data.materials and o.data.materials[0] and o.data.materials[0].name in ("blast_sand", "blast_smoke"):
-            nm = o.data.materials[0].name; o.data.materials.clear(); o.data.materials.append(smoke_mat(nm + "_vol", (.86, .80, .68) if nm == "blast_sand" else (.16, .14, .14), .8 if nm == "blast_sand" else 1.3)); o.visible_shadow = True
-    look.god_rays(col("L_SET"), center=(0, -6, 0), size=(150, 110, 26), density=.0016, anisotropy=.8)                 # sea haze: the sun draws rays through whatever stands in it
+            nm = o.data.materials[0].name; o.data.materials.clear(); o.data.materials.append(smoke_mat(nm + "_vol", (.92, .86, .74) if nm == "blast_sand" else (.34, .31, .30), 1.7 if nm == "blast_sand" else 1.0)); o.visible_shadow = True
+    look.god_rays(col("L_SET"), center=(0, 200, 0), size=(1400, 1400, 160), density=.0007, anisotropy=.8)             # sea haze, larger than any view (a small box showed its edges as noise)
+    sun_rays(col("L_FX"), sun)
+
+def sun_rays(c, sun, n=9, seed=5, strength=.07):
+    """SUN RAYS you can see on an open beach: broad soft slanted beams falling between the whale and the sea, along the sun's direction,
+    additive light that fades along the beam and at its edges (the reference shows such beams in every daylight exterior)"""
+    R = random.Random(seed); el, az = math.radians(sun[1]), math.radians(sun[0]); d = -Vector((math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el)))
+    m = bpy.data.materials.new("sun_ray"); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links; N.clear(); out = N.new("ShaderNodeOutputMaterial")
+    tc = N.new("ShaderNodeTexCoord"); sx = N.new("ShaderNodeSeparateXYZ"); L.new(tc.outputs["UV"], sx.inputs[0])
+    fade = _m(N, L, "MULTIPLY", _m(N, L, "SINE", _m(N, L, "MULTIPLY", sx.outputs["X"], math.pi)), _m(N, L, "SINE", _m(N, L, "MULTIPLY", sx.outputs["Y"], math.pi)))
+    em = N.new("ShaderNodeEmission"); em.inputs["Color"].default_value = (1, .93, .78, 1); L.new(_m(N, L, "MULTIPLY", _m(N, L, "POWER", fade, 1.6), strength), em.inputs["Strength"])
+    tr = N.new("ShaderNodeBsdfTransparent"); add = N.new("ShaderNodeAddShader"); L.new(tr.outputs[0], add.inputs[0]); L.new(em.outputs[0], add.inputs[1]); L.new(add.outputs[0], out.inputs["Surface"])
+    side = d.cross(Vector((0, 1, 0))); side = (side if side.length > .2 else d.cross(Vector((1, 0, 0)))).normalized()          # wide as seen from cameras that look toward the sea
+    for i in range(n):
+        p1 = Vector((R.uniform(-30, 34), R.uniform(3, 34), -1.0)); p0 = p1 - d * (R.uniform(28, 44) / max(.25, -d.z)); w0, w1 = R.uniform(.8, 1.8), R.uniform(2.2, 4.5)
+        bm = bmesh.new(); uv = bm.loops.layers.uv.new(); f = bm.faces.new([bm.verts.new(v) for v in (p0 - side * w0, p0 + side * w0, p1 + side * w1, p1 - side * w1)])
+        for lp, q in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uv].uv = q
+        o = mesh_obj("sun_ray%d" % i, bm, m, c); o.visible_shadow = o.visible_glossy = o.visible_diffuse = False
