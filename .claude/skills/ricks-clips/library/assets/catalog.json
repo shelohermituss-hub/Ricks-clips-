@@ -1585,6 +1585,88 @@
     {
       "schema_version": 1,
       "provider": "sketchfab",
+      "asset_id": "6689ab2bf0f244808efcbe6baf31b7de",
+      "name": "Generic Kei car",
+      "creator": "ahadika",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_url": "https://sketchfab.com/3d-models/generic-kei-car-6689ab2bf0f244808efcbe6baf31b7de",
+      "kind": "model",
+      "commercial_use": "check exact license and preserve attribution",
+      "downloaded_at_utc": "2026-11-20T00:29:37Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/6689ab2bf0f244808efcbe6baf31b7de_source.zip",
+          "bytes": 1451610,
+          "sha256": "921613156c2aaf71513ebfb40dd75a681ac85341e4ec8e70f333f75d06b4119e",
+          "md5": "8e8235c855fff918da04943c6eb6f2ea",
+          "role": "source_archive"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/license.txt",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/scene.bin",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/scene.gltf",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/textures/WHEEL_baseColor.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/textures/body_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/textures/frontgrille_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/textures/glass_baseColor.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/textures/glass_metallicRoughness.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/textures/grille_baseColor.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/textures/headlamp_baseColor.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/textures/interior_baseColor.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/textures/taillight_baseColor.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/6689ab2bf0f244808efcbe6baf31b7de/gltf/textures/tire_baseColor.jpeg",
+          "role": "extracted"
+        }
+      ],
+      "status": "ingested"
+    },
+    {
+      "schema_version": 1,
+      "provider": "sketchfab",
       "asset_id": "58c33766470d46e7b2aed542650494e5",
       "name": "Generic Sedan Car",
       "creator": "MMC Works",

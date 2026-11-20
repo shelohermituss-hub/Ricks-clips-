@@ -8,7 +8,7 @@ PY=python3; [ -x .venv/bin/python ] && PY=.venv/bin/python
 say(){ printf '[restore] %s\n' "$*"; }
 # 1. Sketchfab models (CC-BY): F1, sedan (crashed_car), vintage bicycle (library + test_rc), small SUV (crash_instinct)
 #    The network secret for api.sketchfab.com must use the prefix "Token" when it is a Sketchfab API token (Bearer only for OAuth tokens).
-for id in ca91852b29bb435d8d0278d9131aa775 58c33766470d46e7b2aed542650494e5 1795f6e907634afda88fdaf45f67b279 5db696c6ed5d4bdc87905c1040fa072a; do   # last one: white SUV of crash_instinct
+for id in ca91852b29bb435d8d0278d9131aa775 58c33766470d46e7b2aed542650494e5 1795f6e907634afda88fdaf45f67b279 5db696c6ed5d4bdc87905c1040fa072a 6689ab2bf0f244808efcbe6baf31b7de; do   # last one: white SUV of crash_instinct
   if [ -f library/assets/sketchfab/$id/gltf/scene.gltf ]; then say "sketchfab $id present"
   else say "sketchfab $id: downloading"; $PY tools/asset_hub.py download sketchfab $id >/dev/null; fi
 done

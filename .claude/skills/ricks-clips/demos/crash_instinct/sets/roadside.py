@@ -33,7 +33,7 @@ SUN_AZ, SUN_EL = SUN
 
 def road(c):
     # scanned worn asphalt, DARK BLUE-GREY as measured on the reference aerial (#3b3a4b), + wheel paths + tar snakes + repair patches
-    asphalt = road_wear(tex("road_asphalt", "asphalt_02", tile=4.0, value=1.2, tint="#9aa0c0", tint_k=.85, normal=1.6, rough_mul=.9, spec=.4, macro=.22))
+    asphalt = road_wear(tex("road_asphalt", "asphalt_02", tile=4.0, value=2.3, tint="#9aa0c0", tint_k=.85, normal=1.6, rough_mul=.9, spec=.4, macro=.22))
     plane("road", c, ROAD[0], ROAD[1], Y0, Y1, asphalt, .02)
     gravel = tex("shoulder_gravel", "asphalt_track", tile=1.2, value=1.7, tint="#b8a890", tint_k=.6, macro=.25, spec=.3)
     plane("shoulder_L", c, 1.5, ROAD[0], Y0, Y1, gravel, .012); plane("shoulder_R", c, ROAD[1], ROAD[1] + .7, Y0, Y1, gravel, .012)

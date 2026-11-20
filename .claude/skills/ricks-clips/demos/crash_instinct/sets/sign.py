@@ -29,7 +29,7 @@ def _box(name, c, size, loc, m):
 
 def build(c, at=(0.4, -3.0), face_deg=90.0, old="7", new="0"):
     root = bpy.data.objects.new("crash_sign", None); c.objects.link(root); root.location = (at[0], at[1], 0); root.rotation_euler = (0, 0, math.radians(face_deg))
-    steel = tex("sign_steel", "metal_plate", tile=.6, value=1.25, spec=.5, macro=.1); steel.node_tree.nodes["Principled BSDF"].inputs["Metallic"].default_value = .85
+    steel = tex("sign_steel", "metal_plate", tile=.6, recolor="#b9bcc0", value=1.0, spec=.5, macro=.1); steel.node_tree.nodes["Principled BSDF"].inputs["Metallic"].default_value = .25   # light galvanised grey (reference #978c80 lit)
     red = tex("sign_red", "painted_metal_shutter", tile=1.2, recolor="#c8202a", value=1.0, spec=.4, macro=.12, untile=False)
     black = tex("sign_black", "painted_metal_shutter", tile=1.2, recolor="#16171a", value=1.0, spec=.35, macro=.1, untile=False)
     white = mat("sign_white", "#f4f3ee", .5); frame = mat("sign_frame", "#c9ccd0", .4, .6)

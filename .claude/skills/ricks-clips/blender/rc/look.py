@@ -68,7 +68,7 @@ def sky_hdri(scene, strength=1.0, hdri=HDRI, hdri_sun_deg=HDRI_SUN_DEG, sun_az=N
     trunk is never black in daylight); rotated so its sun sits where the sun lamp is"""
     from rc import fetch
     w = bpy.data.worlds.new("sky_hdri"); scene.world = w; w.use_nodes = True; nt = w.node_tree; N, L = nt.nodes, nt.links; bg = N["Background"]
-    tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); env = N.new("ShaderNodeTexEnvironment")
+    tc = N.new("ShaderNodeTexCoord"); mp = N.new("ShaderNodeMapping"); mp.name = "sky_rot"; env = N.new("ShaderNodeTexEnvironment")
     env.image = bpy.data.images.load(fetch.polyhaven_hdri(hdri, "1k", log=lambda *a: None), check_existing=True)
     az = SUN[0] if sun_az is None else sun_az
     want = math.degrees(math.atan2(math.cos(math.radians(az)), math.sin(math.radians(az))))     # direction the light comes from, as atan2(y, x)
@@ -81,7 +81,7 @@ def sky_hdri(scene, strength=1.0, hdri=HDRI, hdri_sun_deg=HDRI_SUN_DEG, sun_az=N
     L.new(env.outputs["Color"], cap.inputs[6]); cap.inputs[7].default_value = (1.6, 1.6, 1.6, 1)
     pick = N.new("ShaderNodeMix"); pick.data_type = "RGBA"; L.new(lp.outputs["Is Camera Ray"], pick.inputs[0]); L.new(cap.outputs[2], pick.inputs[6]); L.new(env.outputs["Color"], pick.inputs[7])
     L.new(pick.outputs[2], bg.inputs["Color"])
-    st = N.new("ShaderNodeMix"); st.data_type = "FLOAT"; L.new(lp.outputs["Is Camera Ray"], st.inputs[0]); st.inputs[2].default_value = light * strength; st.inputs[3].default_value = strength
+    st = N.new("ShaderNodeMix"); st.name = "sky_light"; st.data_type = "FLOAT"; L.new(lp.outputs["Is Camera Ray"], st.inputs[0]); st.inputs[2].default_value = light * strength; st.inputs[3].default_value = strength
     L.new(st.outputs[0], bg.inputs["Strength"])
     if glow > 0: sun_glow(w, glow)
 
@@ -102,10 +102,11 @@ def sun_glow(w, k=1.0, wide=7.0, tight=90.0):
     c = m("MAXIMUM", dot.outputs["Value"], 0.0)
     g = m("ADD", m("MULTIPLY", m("POWER", c, wide), 1.5 * k), m("MULTIPLY", m("POWER", c, tight), 5.0 * k))
     lp = N.new("ShaderNodeLightPath"); g = m("MULTIPLY", g, lp.outputs["Is Camera Ray"])
+    gain = N.new("ShaderNodeMath"); gain.name = "glow_gain"; gain.operation = "MULTIPLY"; L.new(g, gain.inputs[0]); gain.inputs[1].default_value = 1.0; g = gain.outputs[0]
     mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "ADD"; mx.clamp_result = False; L.new(g, mx.inputs[0]); L.new(src, mx.inputs[6]); mx.inputs[7].default_value = (1, .96, .88, 1)
     L.new(mx.outputs[2], bg.inputs["Color"])
 
-def god_rays(c, center=(0, 0, 0), size=(34, 34, 16), density=.004, anisotropy=.75):
+def god_rays(c, center=(0, 0, 0), size=(34, 34, 16), density=.0025, anisotropy=.75):
     """SUN RAYS (CB 2026-11-19): a light haze volume around the tree; the sun lamp shining through the crown draws the shafts"""
     m = bpy.data.materials.get("god_ray_haze") or bpy.data.materials.new("god_ray_haze"); m.use_nodes = True; nt = m.node_tree
     for n_ in list(nt.nodes):
@@ -146,6 +147,26 @@ def light_shafts(c, n=14, seed=3, under=(0, 0, 4.4), spread=2.2, length=None, st
         o = mesh_obj("light_shaft%d" % i, bm, m, c); o.visible_shadow = False; o.visible_glossy = False; out.append(o)
         if parent: o.parent = parent                                                        # they belong to the tree (fall with it)
     return out
+
+def relight(scene, frame, azimuth, elevation, energy=None, glow=None, light=None, sky=None, hdri_sun_deg=HDRI_SUN_DEG):
+    """ANOTHER TIME OF DAY inside a hidden cut (a whip, a wipe): on `frame` the sun lamp, the sky photo (turned so its bright side follows the
+    sun), the sun glow and the sky fill change together; the frame before keeps the old light. Use it when the reference lights a new view
+    from another side (crash_instinct shot 4: the sun is behind the tree in the aerial view, on the camera's side a week later)."""
+    o = bpy.data.objects["sun"]; nt = scene.world.node_tree; N = nt.nodes
+    mp = N["sky_rot"]; st = N.get("sky_light"); gg = N.get("glow_gain")
+    def key(f):
+        o.keyframe_insert("rotation_euler", frame=f); o.data.keyframe_insert("energy", frame=f); mp.inputs["Rotation"].keyframe_insert("default_value", frame=f)
+        if st: st.inputs[2].keyframe_insert("default_value", frame=f); st.inputs[3].keyframe_insert("default_value", frame=f)
+        if gg: gg.inputs[1].keyframe_insert("default_value", frame=f)
+    key(frame - 1)
+    el, az = math.radians(elevation), math.radians(azimuth); d = Vector((math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el)))
+    o.rotation_euler = (-d).to_track_quat("-Z", "Y").to_euler()
+    if energy is not None: o.data.energy = energy
+    want = math.degrees(math.atan2(math.cos(az), math.sin(az))); mp.inputs["Rotation"].default_value = (0, 0, math.radians(hdri_sun_deg - want))
+    if st and light is not None: st.inputs[2].default_value = light
+    if st and sky is not None: st.inputs[3].default_value = sky                               # how bright the camera sees the sky
+    if gg and glow is not None: gg.inputs[1].default_value = glow
+    key(frame)
 
 def bounce_fill(c, at=(-3.0, -9.0, 2.2), aim=(0, 0, 2.0), energy=900.0, size=7.0, name="bounce_fill"):
     """CINEMATIC FILL (CB 2026-11-19: "le tronc est tout sombre en plein jour"): a big soft area light on the camera side, like a bounce board;
