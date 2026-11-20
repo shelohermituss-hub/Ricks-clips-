@@ -93,6 +93,39 @@ def s01(n):
     kit.cards(sc, "01", cam, {"engineer": [(0, bx - 1.2, hy + .02)]}, fort.height)
     kit.finish(sc, Mo, haze=.12); return sc
 
-SHOTS = {"01": s01}
+# ---------------------------------------------------------------------------------------------------------------- 02
+def palanquin(c):
+    """the general's litter: a red lacquered platform with a gold rim on two long carrying poles, and the great parasol planted on it
+    (olive canopy, red and yellow scalloped rim, red tassels)"""
+    root = bpy.data.objects.new("palanquin", None); c.objects.link(root); red = ink("laq_red", (.62, .05, .04), 0, .35); gold = ink("laq_gold", (.85, .62, .1), 0, .35); wd = wood("pole_wood", "#6a4426")
+    box("pal_floor", (1.5, 1.9, .16), (0, 0, 1.0), red, c, bevel=.02, parent=root); box("pal_rim", (1.6, 2.0, .06), (0, 0, 1.1), gold, c, bevel=.01, parent=root)
+    for s in (-1, 1):
+        cyl("pal_pole", .05, 4.4, (s * .72, 0, .93), wd, c, rot=(math.radians(90), 0, 0), seg=10, parent=root); box("pal_rail", (.05, 1.7, .3), (s * .72, 0, 1.3), red, c, bevel=.01, parent=root)
+    ol = ink("par_olive", (.42, .40, .12), 0, .7); cyl("par_pole", .035, 4.2, (.55, -.5, 3.15), wd, c, seg=10, parent=root)
+    cyl("par_canopy", 1.6, .42, (.55, -.5, 5.3), ol, c, r2=.1, seg=18, parent=root); cyl("par_under", 1.56, .03, (.55, -.5, 5.08), ol, c, seg=18, parent=root)
+    cyl("par_rim_y", 1.63, .07, (.55, -.5, 5.13), ink("par_yellow", (.95, .75, .08), 0, .6), c, seg=18, parent=root); cyl("par_rim_r", 1.65, .05, (.55, -.5, 5.07), red, c, seg=18, parent=root)
+    for k in range(18): a = k * math.tau / 18; cyl("par_tassel", .03, .16, (.55 + 1.62 * math.cos(a), -.5 + 1.62 * math.sin(a), 4.96), red, c, seg=6, parent=root)
+    for k in range(12): a = k * math.tau / 12; cyl("par_rib", .012, 1.55, (.55 + .78 * math.cos(a), -.5 + .78 * math.sin(a), 5.2), wd, c, rot=(0, math.radians(76), a), seg=6, parent=root)
+    return root
+
+def s02(n):
+    """66-177 "because down(77) the hill(92) an army(109) is marching(125) straight(134) for his fort(158)": the camera clears the rampart, dives down the
+    slope and along the road to the head of the army (the general on his palanquin under the parasol, the yellow column and its dust behind him), holds
+    on him as they march (40-74), then swings round: the general in three-quarter view with the fort on its hill behind him (84-111)"""
+    import valley
+    sc = kit.begin(n); Mo = valley.build(sc); O = col("L_OBJECTS"); H = valley.height; hx, hy0 = valley.HEAD; v = 1.3 / 30                      # they march up the road (+Y) at 1.3 m/s
+    pal = palanquin(O); move(pal, ((0, hx, hy0, H(hx, hy0)), (n, hx, hy0 + v * n, H(hx, hy0 + v * n)))); kit.linear(pal)
+    army = bpy.data.objects.new("army", None); O.objects.link(army); move(army, ((0, 0, 0, 0), (n, 0, v * n, 0))); kit.linear(army)
+    cam = kit.camera([(0, (0, 14, 26), (0, -90, 0), 22), (12, (1.5, -12, 20), (0, -150, 0), 22), (30, (2.5, hy0 + 34, 9), (hx, hy0, 2.6), 24), (40, (1.6, hy0 + 10.5, 3.3), (hx + .1, hy0, 2.7), 30),
+                      (74, (1.5, hy0 + 10.8 + v * 34, 3.2), (hx + .1, hy0 + v * 34, 2.7), 30), (84, (-2.4, hy0 - 6.5 + v * 84, 1.5), (1.6, hy0 + 3 + v * 84, 3.4), 28), (n - 1, (-2.2, hy0 - 6.3 + v * n, 1.5), (1.6, hy0 + 3.2 + v * n, 3.4), 28)], n, amp=.006, clip=6000.0)
+    P = lambda dx, dy, dz=0.0: [(0, hx + dx, hy0 + dy, H(hx + dx, hy0 + dy) + dz), (n, hx + dx, hy0 + dy + v * n, H(hx + dx, hy0 + dy + v * n) + dz)]
+    C = kit.cards(sc, "02", cam, {"general": P(0, 0, 1.12), "bearer_a": P(-1.25, 1.5), "bearer_b": P(1.25, 1.7), "bearer_c": P(.15, 2.9), "crowd": P(-2.6, -3.0)}, None)
+    src = bpy.data.objects["Card_crowd"]; R = random.Random(2)                                        # the column: hundreds of the same soldier, each a card of its own
+    for i in range(260):
+        o = src.copy(); O.objects.link(o); o.animation_data_clear(); row, k = divmod(i, 10); o.parent = army; x = -9 + k * 2.0 + R.uniform(-.4, .4); y = hy0 - 5.5 - row * 2.2 + R.uniform(-.4, .4); o.location = (x, y, H(x, y)); o.rotation_euler = src.rotation_euler
+    fx(sc, [{"type": "dust_burst", "name": "march_dust_%d" % i, "at": [R.uniform(-14, 14), hy0 - 30 - i * 9, 1.0], "frame": -30 + i * 3, "count": 6, "radius": 9.0, "height": 5.0, "seed": 20 + i, "life": 200, "color": [.86, .82, .7]} for i in range(6)])
+    kit.finish(sc, Mo, haze=.3); return sc
+
+SHOTS = {"01": s01, "02": s02}
 if __name__ == "__main__":
     sid = kit.A[0]; n = cast.SHOTS[sid][0] if sid in cast.SHOTS else 60; sc = SHOTS[sid](n); kit.output(sc, kit.A[1])

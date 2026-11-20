@@ -6,4 +6,10 @@ const whiteBand = Pp => PIECES.headband(Pp).map(s => typeof s === 'string' ? s.r
 export const TITLE = 'Cast sheet 19: cart army';
 const fort_engineer = wear({ name: 'fort_engineer', label: 'Fort engineer', form: 'standard', size: 'thin', coat: '#b3243d', face: 'smug', hairCol: '#5a3a24',
                              outfit: ['judoka', { a: '#b3243d', b: '#7a4a2a', c: '#5a3a22' }] }, 'spiky', { col: '#5a3a24', pieces: [whiteBand] });
-export const CAST = [fort_engineer];
+//   enemy_general : the general carried on a palanquin under a parasol: the sheet-02 samurai (horned helmet, armour) in black lacquer
+//   enemy_soldier : the marching army: yellow tunic, grey kettle helmet (the helmet piece was drawn for this very film)
+import { CAST as ASIA } from './sheet02.mjs';
+const enemy_general = { ...ASIA.find(c => c.name === 'samurai'), name: 'enemy_general', label: 'Enemy general', coat: '#2b2733' };
+const enemy_soldier = wear({ name: 'enemy_soldier', label: 'Enemy soldier', form: 'standard', size: 'thin', coat: '#e0aa1c', face: 'annoyed', hairCol: '#2e2a26',
+                             outfit: ['mongol', { a: '#e0aa1c', b: '#3a3a40', c: '#7a5a20' }] }, 'buzz', { col: '#2e2a26', hat: 'dome', hatCol: '#aeb4c2' });
+export const CAST = [fort_engineer, enemy_general, enemy_soldier];
