@@ -77,7 +77,7 @@ def s03(n):
         f0 = 38 if i < 5 else 84; x = (D[1] if i < 5 else D[2]) + random.Random(i).uniform(-.6, .6); p = box("fly_paper%d" % i, (.21, .3, .003), (x, .6, .8), ink("paper", (.9, .88, .8), 0, .8), O, bevel=0)
         move(p, ((f0, x, .6, .8), (f0 + 10, x + (i % 3 - 1) * .5, .3, 1.9 + .1 * i), (f0 + 40, x + (i % 3 - 1) * .9, -.2 - .1 * i, .02)))
         for f, r in ((f0, 0), (f0 + 40, 5 + i)): key(p, "rotation_euler", f, (r, r * .6, r * .3))
-    kit.finish(sc, Mo, ((0, 0.0), (158, 0.0), (167, -1.5))); return sc                              # the map wall takes the sun full on: exposure follows the view
+    kit.finish(sc, Mo, ((0, 0.0), (158, 0.0), (167, -1.5)), haze=0); return sc                              # the map wall takes the sun full on: exposure follows the view
 
 # ---------------------------------------------------------------------------------------------------------------- 04
 def chalk(name, body, size, at, f, c, pop=5):
@@ -106,7 +106,7 @@ def s04(n):
     cam = kit.camera([(0, (-1.4, -4.4, 1.5), (-.4, 2.0, 1.5), 32), (50, (-.5, -4.0, 1.5), (-.1, 2.0, 1.55), 32), (86, (.5, -3.4, 1.55), (.4, 2.0, 1.6), 32), (106, (.7, -2.6, 1.65), (.6, 2.0, 1.75), 34), (n - 1, (.9, -3.2, 1.8), (1.2, -1.0, 2.2), 34)], n, amp=.006)
     C = kit.cards(sc, "04", cam, {"engineer": [(0, -1.25, 1.45, 0), (84, -1.25, 1.45, 0)]})
     fx(sc, [{"type": "dust_burst", "name": "chalk_dust", "at": [.4, 1.95, 1.75], "frame": 107, "count": 6, "radius": .35, "height": .3, "seed": 3, "life": 20, "color": [.9, .9, .88]}])
-    kit.finish(sc, Mo); return sc
+    kit.finish(sc, Mo, haze=0); return sc
 
 # ---------------------------------------------------------------------------------------------------------------- props of the beach shots
 ORANGE = (.9, .32, .03)

@@ -60,14 +60,43 @@ def camera(keys, n, amp=.008, rot=.18, seed=3, clip=4000.0):
     for f, p, a, lens in keys:
         cam.location = p; cam.rotation_euler = (Vector(a) - Vector(p)).to_track_quat("-Z", "Y").to_euler(); cam.data.lens = lens
         cam.keyframe_insert("location", frame=f); cam.keyframe_insert("rotation_euler", frame=f); cam.data.keyframe_insert("lens", frame=f)
+        cam.data.dof.focus_distance = max(.3, (Vector(a) - Vector(p)).length); cam.data.dof.keyframe_insert("focus_distance", frame=f)   # a real lens: the subject sharp, the rest soft
+    cam.data.dof.use_dof = True; cam.data.dof.aperture_fstop = 4.0
     if amp: street.handheld(cam, 0, n - 1, amp=amp, rot_deg=rot, seed=seed)
     return cam
 
+FLAT = ("ink_", "chalk", "gull", "foam", "ring_", "blast_")          # drawn lettering, chalk, effects: stay flat on purpose
+
 def ink(name, rgb, strength=0.0, rough=.6):
+    """a painted surface, not a flat colour (CB 2026-11-20: "de la 3D dure, aucun travail de texture"): the roughness varies (worn patches),
+    a fine grain catches the sun, the edges are rounded for the highlight (Bevel), dirt sits in the creases (AO) and dust on what faces up"""
     m = bpy.data.materials.get(name)
     if m: return m
-    m = bpy.data.materials.new(name); m.use_nodes = True; b = m.node_tree.nodes["Principled BSDF"]; b.inputs["Base Color"].default_value = (*rgb, 1); b.inputs["Roughness"].default_value = rough
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links; b = N["Principled BSDF"]
+    b.inputs["Base Color"].default_value = (*rgb, 1); b.inputs["Roughness"].default_value = rough
     if strength: b.inputs["Emission Color"].default_value = (*rgb, 1); b.inputs["Emission Strength"].default_value = strength
+    if strength or name.startswith(FLAT): return m
+    tc = N.new("ShaderNodeTexCoord"); big = N.new("ShaderNodeTexNoise"); big.inputs["Scale"].default_value = 1.6; big.inputs["Detail"].default_value = 6; big.inputs["Roughness"].default_value = .65
+    fine = N.new("ShaderNodeTexNoise"); fine.inputs["Scale"].default_value = 60; fine.inputs["Detail"].default_value = 3
+    L.new(tc.outputs["Object"], big.inputs["Vector"]); L.new(tc.outputs["Object"], fine.inputs["Vector"])
+    def M(op, a, bv, cv=None):
+        n = N.new("ShaderNodeMath"); n.operation = op; n.use_clamp = True
+        for i, v in enumerate((a, bv, cv)):
+            if v is None: continue
+            if isinstance(v, (int, float)): n.inputs[i].default_value = v
+            else: L.new(v, n.inputs[i])
+        return n.outputs[0]
+    L.new(M("MULTIPLY_ADD", big.outputs["Fac"], .5, rough - .22), b.inputs["Roughness"])                    # worn / polished patches
+    ao = N.new("ShaderNodeAmbientOcclusion"); ao.inputs["Distance"].default_value = .35; ao.samples = 4
+    geo = N.new("ShaderNodeNewGeometry"); sep = N.new("ShaderNodeSeparateXYZ"); L.new(geo.outputs["Normal"], sep.inputs[0])
+    dust = M("MULTIPLY", M("MULTIPLY_ADD", sep.outputs["Z"], 1.6, -.75), M("MULTIPLY_ADD", big.outputs["Fac"], 1.4, -.25))   # dust settles on what faces the sky
+    grime = M("MULTIPLY", M("SUBTRACT", 1.0, ao.outputs["AO"]), 1.5)
+    c1 = N.new("ShaderNodeMix"); c1.data_type = "RGBA"; c1.inputs[6].default_value = (*rgb, 1); c1.inputs[7].default_value = (rgb[0] * .22 + .01, rgb[1] * .2 + .008, rgb[2] * .18 + .006, 1); L.new(grime, c1.inputs[0])
+    c2 = N.new("ShaderNodeMix"); c2.data_type = "RGBA"; c2.inputs[7].default_value = (.46, .38, .27, 1); L.new(M("MULTIPLY", dust, .45), c2.inputs[0]); L.new(c1.outputs[2], c2.inputs[6])
+    L.new(c2.outputs[2], b.inputs["Base Color"])
+    bev = N.new("ShaderNodeBevel"); bev.samples = 4; bev.inputs["Radius"].default_value = .025
+    bmp = N.new("ShaderNodeBump"); bmp.inputs["Strength"].default_value = .06; bmp.inputs["Distance"].default_value = .01
+    L.new(fine.outputs["Fac"], bmp.inputs["Height"]); L.new(bev.outputs["Normal"], bmp.inputs["Normal"]); L.new(bmp.outputs["Normal"], b.inputs["Normal"])
     return m
 
 def label(name, body, size, loc, rot, mat, c=None, parent=None, extrude=.004, align="CENTER"):
@@ -115,12 +144,40 @@ def flash(sc, f, frames=4, peak=3.0):
     for ff, e in ((f - 1, e0), (f, e0 + peak), (f + 1, e0 + peak * .8), (f + frames, e0)): v.exposure = e; v.keyframe_insert("exposure", frame=ff)
     v.exposure = e0
 
-def finish(sc, Mo, expo=()):
+def grade(sc, Mo, haze):
+    """THE FINISH OF THE IMAGE (CB 2026-11-20: "aucun travail de color grading, de lighting"): air between the lens and the far things
+    (distance haze from the mist pass, never on the sky), a soft bloom on what the sun burns, warm highlights over cool shadows,
+    saturation, a vignette that holds the eye, a light sharpen after the denoiser"""
+    vl = sc.view_layers[0]; vl.use_pass_mist = True; vl.use_pass_z = True; ms = sc.world.mist_settings; ms.start = 6; ms.depth = 260; ms.falloff = "QUADRATIC"
+    ng = bpy.data.node_groups.new("rc_finish", "CompositorNodeTree"); sc.compositing_node_group = ng; N, L = ng.nodes, ng.links
+    ng.interface.new_socket("Image", in_out="OUTPUT", socket_type="NodeSocketColor"); out = N.new("NodeGroupOutput"); rl = N.new("CompositorNodeRLayers"); rl.scene = sc
+    def col_io(n): return [i for i in n.inputs if i.bl_idname == "NodeSocketColor"], [o for o in n.outputs if o.bl_idname == "NodeSocketColor"]
+    last = rl.outputs["Image"]
+    if haze:
+        near = N.new("ShaderNodeMath"); near.operation = "LESS_THAN"; near.inputs[1].default_value = 3000.0; L.new(rl.outputs["Depth"], near.inputs[0])
+        fac = N.new("ShaderNodeMath"); fac.operation = "MULTIPLY"; L.new(rl.outputs["Mist"], fac.inputs[0]); L.new(near.outputs[0], fac.inputs[1])
+        f2 = N.new("ShaderNodeMath"); f2.operation = "MULTIPLY"; f2.inputs[1].default_value = haze; L.new(fac.outputs[0], f2.inputs[0])
+        mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; ci, co = col_io(mx); ci[1].default_value = Mo.get("haze_color", (.62, .78, .95, 1)); L.new(f2.outputs[0], mx.inputs[0]); L.new(last, ci[0]); last = co[0]
+    gl = N.new("CompositorNodeGlare"); gl.inputs["Type"].default_value = "Bloom"; gl.inputs["Threshold"].default_value = Mo.get("bloom_at", 1.1); gl.inputs["Strength"].default_value = Mo.get("bloom", .35); gl.inputs["Size"].default_value = .55
+    L.new(last, gl.inputs["Image"]); last = gl.outputs["Image"]
+    cb = N.new("ColorBalance" if False else "CompositorNodeColorBalance"); cs = [i for i in cb.inputs if i.bl_idname == "NodeSocketColor"]
+    for sock, v in zip(cs[1:4], (Mo.get("lift", (.965, .995, 1.045)), Mo.get("gamma", (1.0, 1.0, 1.0)), Mo.get("gain", (1.06, 1.0, .93)))): sock.default_value = (*v, 1.0)
+    L.new(last, cb.inputs["Image"]); last = cb.outputs[0]
+    hsv = N.new("CompositorNodeHueSat"); hsv.inputs["Saturation"].default_value = Mo.get("sat", 1.0) * 1.06; L.new(last, hsv.inputs["Image"]); last = hsv.outputs[0]
+    ell = N.new("CompositorNodeEllipseMask"); ell.inputs["Size"].default_value = (1.0, 1.0); ell.inputs["Value"].default_value = 1.0
+    bl = N.new("CompositorNodeBlur"); px = int(sc.render.resolution_x * .28); bl.inputs["Size"].default_value = (px, px)
+    mr = N.new("ShaderNodeMapRange"); mr.inputs["To Min"].default_value = 1 - Mo.get("vignette", .22); mr.inputs["To Max"].default_value = 1.0
+    vm = N.new("ShaderNodeMix"); vm.data_type = "RGBA"; vm.blend_type = "MULTIPLY"; vm.inputs[0].default_value = 1.0; ci, co = col_io(vm)
+    L.new(ell.outputs[0], bl.inputs["Image"]); L.new(bl.outputs[0], mr.inputs["Value"]); L.new(last, ci[0]); L.new(mr.outputs[0], ci[1]); last = co[0]
+    sh = N.new("CompositorNodeFilter"); sh.inputs["Type"].default_value = "Diamond Sharpen"; sh.inputs["Factor"].default_value = .12; L.new(last, sh.inputs["Image"]); last = sh.outputs[0]
+    L.new(last, out.inputs[0]); sc.render.use_compositing = True
+
+def finish(sc, Mo, expo=(), haze=.5):
     v = sc.view_settings; v.view_transform = "Standard"; v.look = Mo.get("contrast", "Medium High Contrast"); v.exposure = Mo["exposure"]
     for f, d in expo: v.exposure = Mo["exposure"] + d; v.keyframe_insert("exposure", frame=f)       # light per view (rule L3)
-    v.exposure = Mo["exposure"] + (expo[0][1] if expo else 0); lookdev.grade(sc, {"saturation": Mo.get("sat", 1.0)})
+    v.exposure = Mo["exposure"] + (expo[0][1] if expo else 0)
     sc.render.use_motion_blur = True; sc.render.motion_blur_shutter = .3
-    w, h = map(int, opt("--res", "270x480").split("x")); render.setup(sc, "CYCLES", (w, h), int(opt("--samples", "16")), 0)
+    w, h = map(int, opt("--res", "270x480").split("x")); render.setup(sc, "CYCLES", (w, h), int(opt("--samples", "16")), 0); grade(sc, Mo, haze)
 
 def output(sc, out):
     bpy.ops.wm.save_as_mainfile(filepath=out)

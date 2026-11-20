@@ -141,3 +141,9 @@ Lire avec :
 - **Écume** : une grande plaque blanche se lit comme une dalle. Bande étroite seulement.
 - **Petits objets (clés)** : une forme pleine devient un « œuf ». Dessiner la silhouette vraie (anneau ouvert, deux lames, porte-clés) et garder la poussière petite et couleur sable.
 - **Vérifier que la reconstruction a réussi** : une faute de syntaxe ne produit pas le mot « Traceback » ; le contrôle cherche maintenant aussi « SyntaxError », et je regarde l'heure du fichier .blend avant de relancer un calcul (une heure de calcul perdue sur d'anciennes scènes).
+
+## CB 2026-11-20 — « le film reste en mode preview : aucun travail de color grading, de lighting, de texture ; de la 3D dure »
+- **Constat (CB a raison)** : la finition des plans 02–16 se limitait à un réglage de saturation ; les objets codés (camion, caméra TV, colonne de fumée, panneau, mobilier) avaient une couleur unie sans matière ; pas de brume de distance, pas de halo, pas de flou d'objectif. L'étape « look » (modèles réels + matières + finition, étape 9) n'avait pas été faite et je l'avais présentée à tort comme « décors faits ».
+- **Règle** : ne jamais montrer à CB un film dont l'étape look n'est pas faite sans le dire en première ligne. Un aperçu d'animation s'annonce comme tel.
+- **Code (v1, test sur 3 images)** : `kit.ink` = surface peinte (rugosité variable, grain, arêtes arrondies, saleté dans les creux, poussière sur le dessus) ; `kit.grade` = brume de distance (jamais sur le ciel), halo doux, hautes lumières chaudes / ombres froides, vignette, netteté ; caméra avec profondeur de champ.
+- **Mesure honnête** : l'avant/après v1 est une amélioration légère, pas suffisante. Le vrai levier restant = remplacer les objets codés par de vrais modèles, travailler le sable (relief, sable mouillé, traces) et la fumée en volume.
