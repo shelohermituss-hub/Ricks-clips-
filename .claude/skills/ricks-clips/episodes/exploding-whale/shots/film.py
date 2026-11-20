@@ -15,7 +15,8 @@ def _drawn_finish(sc, Mo, expo=(), haze=.5):
         real = toon.STYLE == "real"
         toon.stylize(sc, bpy.data.objects.get("whale"), sun=(Mo["az"], Mo["el"]), dim=2 ** Mo["exposure"]); toon.dress(col("L_OBJECTS"), clear=DRESS_CLEAR); toon.ink_all()
         if real:
-            Mo.update(haze_color=(.80, .88, .98, 1), bloom=.45, bloom_at=1.0); haze = .28
+            Mo.update(haze_color=(.86, .90, .96, 1), bloom=.35, bloom_at=1.1); haze = .18
+            if Mo.get("glow", 0) >= .6: look_god = kit.look.god_rays(col("L_FX"), center=(2, -4, 0), size=(44, 30, 14), density=.0014)   # as in the demo: a light haze box around the subject, the low sun draws the rays
             from bpy_extras.object_utils import world_to_camera_view
             el, az = math.radians(Mo["el"]), math.radians(Mo["az"]); cam = sc.camera; sc.frame_set((sc.frame_start + sc.frame_end) // 2)
             v = world_to_camera_view(sc, cam, cam.matrix_world.translation + Vector((math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el))) * 1000)
@@ -197,7 +198,7 @@ def s06(n):
 def s07(n):
     """775-884 "They used twenty cases. So everyone backed up a quarter mile." the orange truck tips its bed: crates slide off and pile up by the whale (cases 33);
     the crowd walks off up the beach past the 1/4 MILE marker (backed 68, mile 94); the camera pulls back and up, no cut"""
-    sc = kit.begin(n); c, w, Mo = beach.build(sc, "noon", az=120, el=44); O = col("L_OBJECTS"); R = random.Random(7)
+    sc = kit.begin(n); c, w, Mo = beach.build(sc, "ref"); O = col("L_OBJECTS"); R = random.Random(7)   # reference light (measured), sun low and in front of the camera
     tr, bed = truck(O, (5.6, -4.4, H(5.6, -4.4)), 0.0)
     for f, a in ((0, 0), (8, 0), (30, -.62), (70, -.62), (95, 0)): key(bed, "rotation_euler", f, (0, a, 0))
     for f in range(8, 34, 5): key(tr, "location", f, (5.6, -4.4, H(5.6, -4.4) + (.03 if (f // 5) % 2 else 0)))                           # the truck rocks on its springs

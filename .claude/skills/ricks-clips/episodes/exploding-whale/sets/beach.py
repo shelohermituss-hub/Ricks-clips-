@@ -19,6 +19,9 @@ MOODS = {   # sun azimuth (from), elevation, energy, sky HDRI, sky fill for ligh
     "grey":  dict(az=-70, el=20, energy=11.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.42, glow=.35, exposure=-.42, sat=1.0, sky=1.0, sky_sat=1.5, sky_gain=1.85, contrast="Medium High Contrast"),   # bright clear morning: vivid blue sky, white clouds (CB 2026-11-20: as vivid as the references)
     "noon":  dict(az=150, el=46, energy=11.5, hdri="kloofendal_48d_partly_cloudy_puresky", light=.42, glow=.2, exposure=-.5, sat=1.0, sky=1.0, sky_sat=1.5, sky_gain=1.8, contrast="Medium High Contrast"),    # the blast: high hard sun
     "gold":  dict(az=-115, el=13, energy=9.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.36, glow=.9, exposure=-.3, sat=1.05, sky=1.0, sky_sat=1.35, sky_gain=1.5, contrast="Medium High Contrast"),  # late afternoon / dusk: low warm sun
+    # THE REFERENCE LIGHT (CB 2026-11-20: "utilise la même méthode que la démo"): the settings MEASURED on The Instinct That Makes You Crash
+    # (demos/crash_instinct: Standard + Medium Contrast, exposure -0.3, saturation 1.0, natural HDRI sky, low backlit sun, glow, bounce fill)
+    "ref":   dict(az=-35, el=24, energy=9.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.5, glow=.4, exposure=-.55, sat=1.0, sky=1.0, contrast="Medium Contrast"),
     "today": dict(az=120, el=40, energy=11.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.5, glow=.1, exposure=-.45, sat=1.06, sky=1.0, sky_sat=1.5, sky_gain=1.8, contrast="Medium High Contrast")}   # clean modern day
 
 def height(x, y):

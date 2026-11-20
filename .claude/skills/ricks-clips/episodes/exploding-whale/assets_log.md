@@ -1,0 +1,1 @@
+- rowboat: "Rowboat" by Dovydas Alytas, licence royalty_free, faces 13689, https://www.blenderkit.com/asset-gallery-detail/ea188acb-4411-4a94-b92c-370c51590333/, file library/blenderkit/rowboat/rowboat.blend
