@@ -202,3 +202,13 @@ Voir `data/V05/coverage.json`. Lu par le chef d'analyse :
 - `seq_1784_1855` planche 1 (1808-1831, image par image) ;
 - 13 k-means ;
 - 61 captures de l'analyste précédent, recoupées avec les planches.
+
+## 15. Compléments image par image (20/11, priorité 3)
+- **Première flèche dans la planche 468-491** (OBSERVÉ image par image) :
+  - la caméra glisse derrière la planche percée, pendant que le héros sort du cadre à droite ;
+  - une flèche entre **en vol** depuis le haut à droite (478-479), avec un petit éclat de lumière à sa pointe ;
+  - elle se plante dans le premier trou (480-489) puis glisse jusqu'à sa place ;
+  - les mots « into every hole » tombent sur cette pose ;
+  - la planche est montrée sous un angle qui fait lire les rangées de trous.
+
+  C'est la **première étape visible de la construction**, montrée seule avant la mise en série.

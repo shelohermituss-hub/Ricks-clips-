@@ -13,6 +13,11 @@
    1808,
    1831,
    "lancement des 82 fusées"
+  ],
+  [
+   468,
+   491,
+   "première flèche posée dans la planche"
   ]
  ],
  "ranges_10fps": [],
@@ -37,9 +42,9 @@
   "aucune coupe franche détectée: transitions par fondus, filés et coupes sur mouvement, vérifiées à l'œil; les ruptures retenues (1173, 1211, 1356, 1452) sont des pics d'histogramme >0,6, coupes franches confirmées à 2 fps"
  ],
  "not_done": [
-  "lecture image par image de la construction et des explosions",
   "mesure en pixels des personnages",
-  "comptage exact des figurants (estimé: plusieurs centaines)"
+  "comptage exact des figurants (estimé: plusieurs centaines)",
+  "lecture image par image des autres passages (voir analysis_coverage.md)"
  ],
  "confidence": "moyenne-haute",
  "status": "PARTIAL"

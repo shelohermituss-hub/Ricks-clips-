@@ -13,6 +13,11 @@
    1224,
    1247,
    "voiture verticale sur la souche"
+  ],
+  [
+   936,
+   959,
+   "coup de hache: éclairs et lame lumineuse"
   ]
  ],
  "ranges_10fps": [
@@ -43,8 +48,8 @@
   "pas d'échantillon ponctuel neuf: k-means + échantillons de la session précédente"
  ],
  "not_done": [
-  "lecture image par image du coup de hache et des chocs de nuit",
-  "mesure en pixels des personnages"
+  "mesure en pixels des personnages",
+  "lecture image par image des autres passages (voir analysis_coverage.md)"
  ],
  "confidence": "haute pour les plans 1 à 4 (analysés deux fois), moyenne-haute pour le reste",
  "status": "PARTIAL"

@@ -18,6 +18,16 @@
    1384,
    1407,
    "poussée dans le moniteur (transition)"
+  ],
+  [
+   798,
+   821,
+   "rage: éclairs et anneau d'onde (planche 0 sur 3)"
+  ],
+  [
+   1030,
+   1053,
+   "bras de fer: claque et choc caméra"
   ]
  ],
  "ranges_10fps": [
@@ -50,9 +60,9 @@
   "transcription automatique: le texte peut contenir des erreurs"
  ],
  "not_done": [
-  "lecture image par image complète de la rage 798-869 et du bras de fer 1030-1077 (planches existantes non relues)",
   "mesure en pixels des proportions des personnages (estimée sur les planches)",
-  "identification des sons"
+  "identification des sons",
+  "lecture image par image des autres passages (voir analysis_coverage.md)"
  ],
  "confidence": "moyenne-haute pour la structure, les plans, les événements et les palettes; moyenne pour le détail des micro-animations (peu de plages lues image par image)",
  "status": "PARTIAL"

@@ -1,0 +1,297 @@
+{
+ "video": "V02",
+ "method": [
+  "measured from the signal and the word timings:",
+  "  - music bed: level during the gaps between words (>= 120 ms, away from word edges by 40 ms) vs level during words -> voice-to-bed ratio",
+  "  - bed presence: share of gaps whose level is above -50 dBFS (silence would be lower)",
+  "  - tonal bed: spectral flatness in gaps (low = tonal / musical, high = noise)",
+  "  - band balance: sub-bass (<120 Hz) / low-mid / presence (2-5 kHz) / air (>8 kHz) in words and in gaps",
+  "  - SFX candidates: onsets (>9 dB rise in 50 ms) NOT within 60 ms of a word start, with their peak level over the local bed",
+  "    .venv/bin/python references/style_analysis/tools/audio_layers.py V01"
+ ],
+ "voice_dbfs_rms": -16.7,
+ "gaps_count": 26,
+ "gaps_total_s": 4.38,
+ "bed_dbfs_rms_in_gaps": -22.3,
+ "voice_to_bed_db": 5.6,
+ "gaps_above_-50dBFS_share": 1.0,
+ "bands_words": {
+  "sub_<120Hz": 0.029,
+  "low_120-500": 0.76,
+  "mid_500-2k": 0.136,
+  "presence_2-5k": 0.031,
+  "air_>8k": 0.017,
+  "flatness": 0.0175
+ },
+ "bands_gaps": {
+  "sub_<120Hz": 0.085,
+  "low_120-500": 0.531,
+  "mid_500-2k": 0.09,
+  "presence_2-5k": 0.045,
+  "air_>8k": 0.084,
+  "flatness": 0.0516
+ },
+ "sfx_candidates_off_word_onsets": [
+  {
+   "t": 4.15,
+   "peak_dbfs": -13.9,
+   "over_local_bed_db": 2.5
+  },
+  {
+   "t": 6.3,
+   "peak_dbfs": -10.4,
+   "over_local_bed_db": 8.2
+  },
+  {
+   "t": 6.7,
+   "peak_dbfs": -19.5,
+   "over_local_bed_db": -4.9
+  },
+  {
+   "t": 7.05,
+   "peak_dbfs": -14.4,
+   "over_local_bed_db": 4.8
+  },
+  {
+   "t": 7.75,
+   "peak_dbfs": -12.2,
+   "over_local_bed_db": 7.7
+  },
+  {
+   "t": 9.1,
+   "peak_dbfs": -12.9,
+   "over_local_bed_db": 5.0
+  },
+  {
+   "t": 9.6,
+   "peak_dbfs": -15.2,
+   "over_local_bed_db": 2.2
+  },
+  {
+   "t": 11.85,
+   "peak_dbfs": -14.3,
+   "over_local_bed_db": 3.3
+  },
+  {
+   "t": 12.1,
+   "peak_dbfs": -18.0,
+   "over_local_bed_db": 0.1
+  },
+  {
+   "t": 13.0,
+   "peak_dbfs": -15.1,
+   "over_local_bed_db": 2.9
+  },
+  {
+   "t": 13.25,
+   "peak_dbfs": -15.8,
+   "over_local_bed_db": 1.2
+  },
+  {
+   "t": 14.2,
+   "peak_dbfs": -16.4,
+   "over_local_bed_db": 3.0
+  },
+  {
+   "t": 14.4,
+   "peak_dbfs": -16.0,
+   "over_local_bed_db": 2.9
+  },
+  {
+   "t": 14.75,
+   "peak_dbfs": -15.1,
+   "over_local_bed_db": 3.3
+  },
+  {
+   "t": 16.6,
+   "peak_dbfs": -13.5,
+   "over_local_bed_db": 7.4
+  },
+  {
+   "t": 18.15,
+   "peak_dbfs": -14.8,
+   "over_local_bed_db": 0.9
+  },
+  {
+   "t": 18.8,
+   "peak_dbfs": -13.4,
+   "over_local_bed_db": 5.7
+  },
+  {
+   "t": 19.25,
+   "peak_dbfs": -13.8,
+   "over_local_bed_db": 6.0
+  },
+  {
+   "t": 21.0,
+   "peak_dbfs": -10.0,
+   "over_local_bed_db": 8.4
+  },
+  {
+   "t": 21.45,
+   "peak_dbfs": -16.1,
+   "over_local_bed_db": -0.5
+  },
+  {
+   "t": 22.45,
+   "peak_dbfs": -18.1,
+   "over_local_bed_db": 0.2
+  },
+  {
+   "t": 24.15,
+   "peak_dbfs": -14.0,
+   "over_local_bed_db": 4.6
+  },
+  {
+   "t": 26.1,
+   "peak_dbfs": -15.2,
+   "over_local_bed_db": 2.0
+  },
+  {
+   "t": 28.15,
+   "peak_dbfs": -10.8,
+   "over_local_bed_db": 6.4
+  },
+  {
+   "t": 28.95,
+   "peak_dbfs": -17.9,
+   "over_local_bed_db": -1.8
+  },
+  {
+   "t": 29.35,
+   "peak_dbfs": -14.0,
+   "over_local_bed_db": 3.4
+  },
+  {
+   "t": 30.9,
+   "peak_dbfs": -15.0,
+   "over_local_bed_db": 4.8
+  },
+  {
+   "t": 33.25,
+   "peak_dbfs": -12.0,
+   "over_local_bed_db": 3.8
+  },
+  {
+   "t": 33.65,
+   "peak_dbfs": -15.4,
+   "over_local_bed_db": 1.7
+  },
+  {
+   "t": 33.9,
+   "peak_dbfs": -13.8,
+   "over_local_bed_db": 5.2
+  },
+  {
+   "t": 35.45,
+   "peak_dbfs": -16.1,
+   "over_local_bed_db": 3.0
+  },
+  {
+   "t": 35.7,
+   "peak_dbfs": -10.8,
+   "over_local_bed_db": 8.7
+  },
+  {
+   "t": 39.1,
+   "peak_dbfs": -16.5,
+   "over_local_bed_db": 3.2
+  },
+  {
+   "t": 41.8,
+   "peak_dbfs": -17.3,
+   "over_local_bed_db": 1.4
+  },
+  {
+   "t": 43.5,
+   "peak_dbfs": -14.9,
+   "over_local_bed_db": 3.0
+  },
+  {
+   "t": 44.95,
+   "peak_dbfs": -16.3,
+   "over_local_bed_db": 0.1
+  },
+  {
+   "t": 45.8,
+   "peak_dbfs": -17.8,
+   "over_local_bed_db": 1.6
+  },
+  {
+   "t": 46.5,
+   "peak_dbfs": -15.4,
+   "over_local_bed_db": 2.5
+  },
+  {
+   "t": 46.9,
+   "peak_dbfs": -18.6,
+   "over_local_bed_db": -0.8
+  },
+  {
+   "t": 48.8,
+   "peak_dbfs": -21.7,
+   "over_local_bed_db": -3.0
+  },
+  {
+   "t": 50.5,
+   "peak_dbfs": -16.5,
+   "over_local_bed_db": 5.8
+  },
+  {
+   "t": 53.0,
+   "peak_dbfs": -17.5,
+   "over_local_bed_db": 0.2
+  },
+  {
+   "t": 53.85,
+   "peak_dbfs": -15.4,
+   "over_local_bed_db": 3.7
+  },
+  {
+   "t": 54.25,
+   "peak_dbfs": -14.7,
+   "over_local_bed_db": 4.7
+  },
+  {
+   "t": 54.45,
+   "peak_dbfs": -11.4,
+   "over_local_bed_db": 7.9
+  },
+  {
+   "t": 55.25,
+   "peak_dbfs": -17.8,
+   "over_local_bed_db": -1.2
+  },
+  {
+   "t": 55.6,
+   "peak_dbfs": -13.0,
+   "over_local_bed_db": 7.1
+  },
+  {
+   "t": 56.3,
+   "peak_dbfs": -15.4,
+   "over_local_bed_db": 6.1
+  },
+  {
+   "t": 56.7,
+   "peak_dbfs": -14.7,
+   "over_local_bed_db": 2.3
+  },
+  {
+   "t": 58.1,
+   "peak_dbfs": -15.0,
+   "over_local_bed_db": 0.2
+  },
+  {
+   "t": 59.3,
+   "peak_dbfs": -9.9,
+   "over_local_bed_db": 9.6
+  },
+  {
+   "t": 59.8,
+   "peak_dbfs": -20.7,
+   "over_local_bed_db": -5.0
+  }
+ ],
+ "sfx_count": 52
+}

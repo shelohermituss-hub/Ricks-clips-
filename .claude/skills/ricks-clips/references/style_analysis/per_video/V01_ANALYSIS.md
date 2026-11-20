@@ -245,3 +245,17 @@ Voir `data/V01/coverage.json`.
 - Lu par le chef d'analyse : 4 planches overview (2 i/s, vidéo entière), `seq_750_797` (2 planches, image par image), `seq_1500_1571` planche 1 (1524-1547), `seq_1384_1407` (image par image).
 - Captures : 69, faites par l'analyste précédent (session interrompue), réutilisées ; leurs noms et leur contenu ont été recoupés avec les planches overview.
 - Couleurs : 16 échantillons + 8 k-means faits par le chef d'analyse.
+
+## 15. Compléments image par image (20/11, priorité 3)
+- **Rage 798-821** (OBSERVÉ image par image) :
+  - les éclairs rouges ramifiés partent du personnage dans toutes les directions et **changent de forme à chaque image** (798-816), sans boucle répétée : effet dessiné image par image (INFÉRÉ) ;
+  - les bras descendent progressivement des épaules à la taille (806-816) ;
+  - l'**anneau d'onde** naît autour du torse à 817 et s'étend jusqu'au bord du cadre en 4 images (817-820) ;
+  - les éclairs suivent l'anneau ;
+  - les fissures du sol déjà présentes rougeoient pendant toute la rage ;
+  - la caméra est fixe en contre-plongée, légère dérive.
+- **Bras de fer 1030-1053** (OBSERVÉ image par image) :
+  - effort du gardien maigre, yeux plissés et dents serrées, pendant que le gros détenu reste béat (1030-1043) ;
+  - **claque à 1044** : flou de mouvement et voile blanc sur l'image, la casquette du gardien bascule en avant ;
+  - les témoins passent de neutre à **yeux ronds** entre 1044 et 1047 (réaction des témoins en 3 images) ;
+  - le sous-titre « 2 » s'affiche sur « two seconds » à 1051.

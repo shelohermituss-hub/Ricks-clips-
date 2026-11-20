@@ -13,6 +13,11 @@
    1998,
    2021,
    "voiture qui défonce la glissière"
+  ],
+  [
+   1540,
+   1563,
+   "explosion de la voiture devant la caserne"
   ]
  ],
  "ranges_10fps": [],
@@ -37,8 +42,8 @@
   "pas d'échantillon ponctuel de couleur: k-means seulement"
  ],
  "not_done": [
-  "lecture image par image du déraillement, de l'explosion et de la chute de la falaise",
-  "mesure en pixels des personnages"
+  "mesure en pixels des personnages",
+  "lecture image par image des autres passages (voir analysis_coverage.md)"
  ],
  "confidence": "moyenne-haute pour la structure, moyenne pour le détail des animations",
  "status": "PARTIAL"

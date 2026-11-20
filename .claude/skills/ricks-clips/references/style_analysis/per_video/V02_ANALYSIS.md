@@ -195,3 +195,11 @@ Voir `data/V02/coverage.json`. Lu par le chef d'analyse :
 - `seq_56_127` planche 1 (80-103, image par image) ;
 - `seq_884_967` planche 1 (908-931, image par image) ;
 - 15 échantillons de couleur (6 rejetés car hors de l'objet) et 8 k-means.
+
+## 15. Compléments image par image (20/11, priorité 3)
+- **2e choc arrière 540-556** (OBSERVÉ image par image) :
+  - la voiture turquoise colle l'arrière rouge, contact à 546 ;
+  - l'avant turquoise se froisse (calandre enfoncée), **bouffée de poussière blanche** à 548-555, un petit éclat blanc tombe sur la route (547-549) ;
+  - le conducteur turquoise passe à des yeux ronds (548) ;
+  - c'est une version plus courte et plus légère du premier choc : répétition qui accélère.
+- **Fondu vers le crépuscule 556-563** : fondu enchaîné de 6 images entre le jour et le crépuscule violet, sur « He picks ». Le changement d'ambiance se fait dans le fondu (MESURÉ, la saturation passe de 0,35 à 0,62).

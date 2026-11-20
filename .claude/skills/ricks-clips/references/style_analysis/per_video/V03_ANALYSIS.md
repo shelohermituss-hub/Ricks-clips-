@@ -206,3 +206,12 @@ Voir `data/V03/coverage.json`. Lu par le chef d'analyse :
 - `seq_1998_2060` planche 0 (1998-2021, image par image) ;
 - 43 captures ;
 - 14 k-means.
+
+## 15. Compléments image par image (20/11, priorité 3)
+- **Explosion de la voiture 1540-1563** (OBSERVÉ image par image) :
+  - il démarre, le visage passe de grimaçant (1540-1545) à des yeux ronds (1546-1551), soit 0,2 s d'anticipation sur le visage ;
+  - **flash jaune plein cadre à 1552**, sur 4 images (1552-1555) ;
+  - pendant le flash, le personnage est **projeté vers le haut** (1556-1559), cheveux dressés et noircis, taches de suie sur le visage ;
+  - les flammes orange apparaissent à 1560 et éclairent la façade ;
+  - une passante entre au premier plan, bouche ouverte (1560) ;
+  - la voiture reste en flammes.

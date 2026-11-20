@@ -13,6 +13,11 @@
    908,
    931,
    "voiture de sport qui percute la camionnette"
+  ],
+  [
+   540,
+   563,
+   "2e choc arrière + fondu vers le crépuscule"
   ]
  ],
  "ranges_10fps": [],
@@ -36,8 +41,8 @@
   "plusieurs échantillons de couleur ponctuels ont manqué leur objet: marqués REJETÉ dans palette.json, seules les k-means sont retenues pour ces ambiances"
  ],
  "not_done": [
-  "lecture image par image des autres chocs (530-555, 810-830)",
-  "mesure en pixels des personnages"
+  "mesure en pixels des personnages",
+  "lecture image par image des autres passages (voir analysis_coverage.md)"
  ],
  "confidence": "moyenne-haute pour la structure et les chocs; moyenne pour les micro-animations",
  "status": "PARTIAL"

@@ -187,3 +187,13 @@ Voir `data/V04/coverage.json`. Lu par le chef d'analyse :
 - `seq_1200_1265` planche 1 (1224-1247, image par image) ;
 - 36 captures ;
 - 13 k-means.
+
+## 15. Compléments image par image (20/11, priorité 3)
+- **Coup de hache 936-959** (OBSERVÉ image par image) :
+  - coupe franche à 938 de la marche furieuse au pied de l'arbre ;
+  - le shérif arme la hache, petites lignes rouges de colère autour de lui ;
+  - **éclairs blancs** qui descendent du ciel sur la hache à l'armé (947-950) ;
+  - coup à 951-952 : la lame devient une **traînée lumineuse blanche** (frottis), éclats de lumière à l'impact ;
+  - à 956-958, des éclairs blancs remontent le long du tronc et la scène s'illumine ;
+  - le sol est déjà fissuré par ses pas ;
+  - le dépanneur assis reste visible au fond, dans sa chaise (témoin).
