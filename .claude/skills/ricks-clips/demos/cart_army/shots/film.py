@@ -101,7 +101,7 @@ def palanquin(c):
     box("pal_floor", (1.5, 1.9, .16), (0, 0, 1.0), red, c, bevel=.02, parent=root); box("pal_rim", (1.6, 2.0, .06), (0, 0, 1.1), gold, c, bevel=.01, parent=root)
     for s in (-1, 1):
         cyl("pal_pole", .05, 4.4, (s * .72, 0, .93), wd, c, rot=(math.radians(90), 0, 0), seg=10, parent=root); box("pal_rail", (.05, 1.7, .3), (s * .72, 0, 1.3), red, c, bevel=.01, parent=root)
-    ol = ink("par_olive", (.42, .40, .12), 0, .7); cyl("par_pole", .035, 4.2, (.55, -.5, 3.15), wd, c, seg=10, parent=root)
+    ol = ink("par_olive", (.17, .14, .045), 0, .7); cyl("par_pole", .035, 4.2, (.55, -.5, 3.15), wd, c, seg=10, parent=root)
     cyl("par_canopy", 1.6, .42, (.55, -.5, 5.3), ol, c, r2=.1, seg=18, parent=root); cyl("par_under", 1.56, .03, (.55, -.5, 5.08), ol, c, seg=18, parent=root)
     cyl("par_rim_y", 1.63, .07, (.55, -.5, 5.13), ink("par_yellow", (.95, .75, .08), 0, .6), c, seg=18, parent=root); cyl("par_rim_r", 1.65, .05, (.55, -.5, 5.07), red, c, seg=18, parent=root)
     for k in range(18): a = k * math.tau / 18; cyl("par_tassel", .03, .16, (.55 + 1.62 * math.cos(a), -.5 + 1.62 * math.sin(a), 4.96), red, c, seg=6, parent=root)
@@ -121,12 +121,12 @@ def s02(n):
     pal = palanquin(O)
     for fr in list(range(0, n, 8)) + [n]:
         d = up(S0 - v * fr); pal.location = at(S0 - v * fr); pal.rotation_euler = (0, 0, math.atan2(d.y, d.x) - math.pi / 2); pal.keyframe_insert("location", frame=fr); pal.keyframe_insert("rotation_euler", frame=fr)
-    g0 = Vector(at(S0)); g1 = Vector(at(S0 - v * 57)); g2 = Vector(at(S0 - v * 97)); u0 = up(S0); r0 = Vector((-u0.y, u0.x, 0)); U = Vector((u0.x, u0.y, 0))
+    g0 = Vector(at(S0)); g1 = Vector(at(S0 - v * 57)); g2 = Vector(at(S0 - v * 97)); u0 = up(S0); r0 = Vector((-u0.y, u0.x, 0)); U = Vector((u0.x, u0.y, 0)); GATE = Vector((0, 0, valley.HILL + 7))
     cam = kit.camera([(0, (18, 16, valley.HILL + 20), (-8, -150, 0), 22), (18, (20, -22, valley.HILL + 14), (-14, -170, 0), 22), (30, tuple(g0 + U * 30 + r0 * 9 + Vector((0, 0, 12))), tuple(g0 + Vector((0, 0, 2.6))), 24),
                       (40, tuple(g0 + U * 9.5 + r0 * 4.2 + Vector((0, 0, 4.4))), tuple(g0 + Vector((0, 0, 2.4))), 30), (74, tuple(g1 + U * 9.5 + r0 * 4.0 + Vector((0, 0, 4.3))), tuple(g1 + Vector((0, 0, 2.4))), 30),
-                      (84, tuple(g2 - U * 7.0 + r0 * 3.4 + Vector((0, 0, .5))), tuple(g2 + U * 6 - r0 * 1.5 + Vector((0, 0, 4.2))), 26), (n - 1, tuple(g2 - U * 6.8 + r0 * 3.3 + Vector((0, 0, .5))), tuple(g2 + U * 6 - r0 * 1.5 + Vector((0, 0, 4.2))), 26)], n, amp=.006, clip=9000.0)
+                      (84, tuple(g2 - U * 9.0 - r0 * 2.6 + Vector((0, 0, .9))), tuple(g2 * .62 + GATE * .38 + Vector((0, 0, 1.0))), 26), (n - 1, tuple(g2 - U * 8.8 - r0 * 2.5 + Vector((0, 0, .9))), tuple(g2 * .62 + GATE * .38 + Vector((0, 0, 1.0))), 26)], n, amp=.006, clip=9000.0)
     cam.data.dof.use_dof = False                                                                      # the characters stay SHARP (CB: "nets, clairs, détaillés")
-    C = kit.cards(sc, "02", cam, {"general": path(0, 0, 1.12), "bearer_a": path(-1.6, -1.25), "bearer_b": path(-1.8, 1.25), "bearer_c": path(-3.1, .15), "crowd": path(6.5, -2.2)}, None)
+    C = kit.cards(sc, "02", cam, {"general": path(0, 0, 1.05), "bearer_a": path(-1.6, -1.25), "bearer_b": path(-1.8, 1.25), "bearer_c": path(-3.1, .15), "crowd": path(6.5, -2.2)}, None)
     for o in bpy.data.objects:                                                                        # and CLEAR: the cards are lit almost only by their own light
         if o.name.startswith("Card_"):
             for m in o.data.materials:

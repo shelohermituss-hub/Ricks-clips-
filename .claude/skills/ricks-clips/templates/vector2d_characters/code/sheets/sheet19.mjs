@@ -9,7 +9,7 @@ const fort_engineer = wear({ name: 'fort_engineer', label: 'Fort engineer', form
 //   enemy_general : the general carried on a palanquin under a parasol: the sheet-02 samurai (horned helmet, armour) in black lacquer
 //   enemy_soldier : the marching army: yellow tunic, grey kettle helmet (the helmet piece was drawn for this very film)
 import { CAST as ASIA } from './sheet02.mjs';
-const enemy_general = { ...ASIA.find(c => c.name === 'samurai'), name: 'enemy_general', label: 'Enemy general', coat: '#2b2733' };
+const enemy_general = { ...ASIA.find(c => c.name === 'samurai'), name: 'enemy_general', label: 'Enemy general', coat: '#26232b', outfit: ['samurai', { a: '#26232b', b: '#3a3540', c: '#c9a227' }] };
 const enemy_soldier = wear({ name: 'enemy_soldier', label: 'Enemy soldier', form: 'standard', size: 'thin', coat: '#e0aa1c', face: 'annoyed', hairCol: '#2e2a26',
                              outfit: ['mongol', { a: '#e0aa1c', b: '#3a3a40', c: '#7a5a20' }] }, 'buzz', { col: '#2e2a26', hat: 'pith', hatCol: '#aeb4c2' });
 export const CAST = [fort_engineer, enemy_general, enemy_soldier];

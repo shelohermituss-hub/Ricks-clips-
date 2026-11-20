@@ -6,7 +6,7 @@ EP = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".
 P = lambda puppet, h=1.75: {"puppet": "cast:" + puppet, "height": h}
 SHOTS = {   # id: (length in frames, cast, acts)
  "01": (68, {"engineer": P("fort_engineer", 2.25)}, [("engineer", 0, "m:push/A", "k:concentrate", "side", 1)]),
- "02": (112, {"general": P("enemy_general", 1.9), "bearer_a": P("enemy_soldier", 1.6), "bearer_b": P("enemy_soldier", 1.6), "bearer_c": P("enemy_soldier", 1.6), "crowd": P("enemy_soldier", 1.6)},
+ "02": (112, {"general": P("enemy_general", 2.5), "bearer_a": P("enemy_soldier", 1.6), "bearer_b": P("enemy_soldier", 1.6), "bearer_c": P("enemy_soldier", 1.6), "crowd": P("enemy_soldier", 1.6)},
         [("general", 0, "m:idle/B", "k:annoyed", "front", 1), ("general", 78, "m:idle/B", "k:annoyed", "front", 1),
          ("bearer_a", 0, "m:walk/A", "k:annoyed", "front", 1), ("bearer_b", 0, "m:walk/A", "k:annoyed", "front", 1), ("bearer_c", 0, "m:walk/A", "k:annoyed", "front", 1),
          ("bearer_a", 78, "m:walk/A", "k:annoyed", "front", 1), ("bearer_b", 78, "m:walk/A", "k:annoyed", "front", 1), ("bearer_c", 78, "m:walk/A", "k:annoyed", "front", 1),

@@ -38,7 +38,7 @@ def ground(c):
         a, b = rd.verts.new((x - nx_ * w, y - ny_ * w, height(x - nx_ * w, y - ny_ * w) + .14)), rd.verts.new((x + nx_ * w, y + ny_ * w, height(x + nx_ * w, y + ny_ * w) + .14))
         if pv: rd.faces.new((pv[0], pv[1], b, a))
         pv = (a, b)
-    mesh_obj("valley_road", rd, tex("valley_road", "brown_mud_02", tile=2.0, recolor="#9a7f50", value=1.0, normal=1.6, spec=.1, macro=.25), c, smooth=True)
+    mesh_obj("valley_road", rd, tex("valley_road", "brown_mud_02", tile=2.0, recolor="#b8a47e", value=1.0, normal=1.6, spec=.1, macro=.25), c, smooth=True)
 
 def fields(c, seed=7):
     """the patchwork of the plain: small plots, each one colour of the reference (greens and straw yellows), dark hedge lines, a blue river"""
@@ -80,7 +80,7 @@ def relief(c):
         for i in range(nx + 1):
             x, y = X0 + (X1 - X0) * i / nx, Y0 + (Y1 - Y0) * j / ny; amp = min(1.0, max(0.0, (-y - 470) / 500.0)) ** 1.3; far = min(1.0, max(0.0, (-y - 1500) / 1200.0))
             n1 = noise.fractal(Vector((x * .0016, y * .0016, .3)), 1.0, 2.1, 6); rid = 1.0 - abs(noise.fractal(Vector((x * .0011 + 7, y * .0011, 1.7)), .9, 2.0, 5))
-            row.append(bm.verts.new((x, y, amp * (70 + 90 * n1 + (130 + 520 * far) * rid ** 2.2 * (.35 + .65 * far)) - 6)))
+            row.append(bm.verts.new((x, y, amp * (60 + 80 * n1 + (90 + 300 * far) * rid ** 1.6 * (.35 + .65 * far)) - 6)))
         V.append(row)
     for j in range(ny):
         for i in range(nx): bm.faces.new((V[j][i], V[j][i + 1], V[j + 1][i + 1], V[j + 1][i]))
@@ -88,8 +88,8 @@ def relief(c):
     geo_ = N.new("ShaderNodeNewGeometry"); sep = N.new("ShaderNodeSeparateXYZ"); L.new(geo_.outputs["Position"], sep.inputs[0]); nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = .012; nz.inputs["Detail"].default_value = 8; nz.inputs["Roughness"].default_value = .65; L.new(geo_.outputs["Position"], nz.inputs["Vector"])
     rp = N.new("ShaderNodeValToRGB"); e = rp.color_ramp.elements; e[0].position = .38; e[0].color = (*srgb("#2c5f36"), 1); e[1].position = .62; e[1].color = (*srgb("#5a9440"), 1); L.new(nz.outputs["Fac"], rp.inputs["Fac"])       # woods / meadows
     nrm = N.new("ShaderNodeSeparateXYZ"); L.new(geo_.outputs["Normal"], nrm.inputs[0])
-    hh = N.new("ShaderNodeMapRange"); hh.inputs["From Min"].default_value = 300; hh.inputs["From Max"].default_value = 470; L.new(sep.outputs["Z"], hh.inputs["Value"])
-    sl = N.new("ShaderNodeMapRange"); sl.inputs["From Min"].default_value = .86; sl.inputs["From Max"].default_value = .62; L.new(nrm.outputs["Z"], sl.inputs["Value"])                                                    # steep = bare rock
+    hh = N.new("ShaderNodeMapRange"); hh.inputs["From Min"].default_value = 330; hh.inputs["From Max"].default_value = 430; L.new(sep.outputs["Z"], hh.inputs["Value"])
+    sl = N.new("ShaderNodeMapRange"); sl.inputs["From Min"].default_value = .80; sl.inputs["From Max"].default_value = .50; L.new(nrm.outputs["Z"], sl.inputs["Value"])                                                    # steep = bare rock
     mxf = N.new("ShaderNodeMath"); mxf.operation = "MULTIPLY"; L.new(hh.outputs[0], mxf.inputs[0]); L.new(sl.outputs[0], mxf.inputs[1])
     mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; L.new(mxf.outputs[0], mx.inputs[0]); L.new(rp.outputs["Color"], mx.inputs[6]); mx.inputs[7].default_value = (*srgb("#9aa0a4"), 1); L.new(mx.outputs[2], b.inputs["Base Color"])
     mesh_obj("valley_relief", bm, m, c, smooth=True)
@@ -134,7 +134,7 @@ def tufts(c, zones, seed=5):
     """a FEW real grass tufts over the texture, only near the lens"""
     src = street.blade_clump(); m = bpy.data.materials.get("grass_blades")
     if m and not m.get("rc_recoloured"):
-        cr = [n_ for n_ in m.node_tree.nodes if n_.type == "VALTORGB"][0].color_ramp; cr.elements[0].color = (*srgb("#4f8a2a"), 1); cr.elements[1].color = (*srgb("#9fd04a"), 1); m["rc_recoloured"] = 1
+        cr = [n_ for n_ in m.node_tree.nodes if n_.type == "VALTORGB"][0].color_ramp; cr.elements[0].color = (*srgb("#5f9f30"), 1); cr.elements[1].color = (*srgb("#a8d850"), 1); m["rc_recoloured"] = 1
     for k, (poly, n) in enumerate(zones):
         P, Rt, Sc = geo.scatter_points({"polygon": poly}, n, seed + k, scale_range=(1.0, 2.6)); keep = [i for i, p in enumerate(P) if min(math.hypot(p[0] - road(s)[0], p[1] - road(s)[1]) for s in range(0, 200, 3)) > 3.3]
         geo.instancer("vgrass_%d" % k, [(P[i][0], P[i][1], height(P[i][0], P[i][1])) for i in keep], src, c, [Rt[i] for i in keep], [Sc[i] for i in keep], wind=.05)

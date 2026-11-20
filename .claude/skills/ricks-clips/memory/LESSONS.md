@@ -325,3 +325,9 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Problem:** la copie plan par plan converge (cart_army plan 1 : 6 versions) ; le film original (exploding-whale) divergeait, faute d'image cible, de proportions de cadre mesurées et de décor dense.
 - **Rule:** chaque plan d'un film original reçoit une image modèle de même type prise dans une référence ; on en relève cadre, hauteur caméra, taille du personnage, densité, lumière ; on construit et on compare à cette image comme pour une copie.
 - **Files:** docs/CORRECTIONS_CB_FR.md, demos/cart_army
+
+## PI-034 — Règles de fabrication d'un plan tirées des corrections de CB sur cart_army plan 2 (2026-11-20)
+- **Problem:** v2 du plan 2 : tout cadré de face, herbe en tapis de géométrie fluo, lointains en bosses lisses, couleurs inventées, personnages sombres et flous, fort sommaire.
+- **Rule:** (1) ne détailler que ce que la caméra du plan voit ; (2) sol = texture d'herbe + quelques vraies touffes près de l'objectif ; (3) relever l'ANGLE de chaque image clé (plongée, biais, contre-plongée) et le relief (colline, route en S) avant de poser la caméra ; (4) couleurs prélevées à la pipette sur la référence ; (5) lointains = vrai relief fractal (bois, clairières, roche), peu détaillé mais riche ; (6) cartes des personnages auto-éclairées à 0,9, sans flou d'objectif, assez grandes ; (7) contrôle chiffré `grade_match` sur chaque image clé.
+- **Tests:** plan 2 v3 : images 84 et 160 dans la tolérance (luminosité, saturation, contraste), image 112 trop saturée (0,58 contre 0,41).
+- **Files:** demos/cart_army/sets/valley.py, demos/cart_army/shots/film.py, docs/CORRECTIONS_CB_FR.md
