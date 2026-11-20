@@ -76,7 +76,7 @@ def sky(scene, ambient=(.50, .60, 1.0), k=.30, sun=(95, 24)):
     w = scene.world; nt = w.node_tree; N, L = nt.nodes, nt.links; N.clear(); out = N.new("ShaderNodeOutputWorld")
     tc = N.new("ShaderNodeTexCoord"); nrm = N.new("ShaderNodeVectorMath"); nrm.operation = "NORMALIZE"; L.new(tc.outputs["Generated"], nrm.inputs[0]); sep = N.new("ShaderNodeSeparateXYZ"); L.new(nrm.outputs[0], sep.inputs[0])
     grad = _ramp(N, L, _m(N, L, "ADD", sep.outputs["Z"], .02, clamp=True),
-                 ((0.0, (1.0, .56, .34)), (.03, (1.0, .74, .56)), (.07, (.98, .86, .80)), (.13, (.56, .88, 1.0)), (.27, (.14, .52, 1.0)), (.5, (.05, .30, .90)), (.85, (.03, .14, .62))))
+                 ((0.0, (1.0, .56, .34)), (.03, (1.0, .74, .56)), (.07, (.98, .86, .80)), (.13, (.56, .88, 1.0)), (.27, (.14, .52, 1.0)), (.5, (.07, .36, .95)), (.85, (.05, .24, .82))))
     el, az = math.radians(sun[1]), math.radians(sun[0]); sd = N.new("ShaderNodeVectorMath"); sd.operation = "DOT_PRODUCT"; sd.inputs[1].default_value = (math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el)); L.new(nrm.outputs[0], sd.inputs[0])
     halo = _m(N, L, "POWER", _m(N, L, "MAXIMUM", sd.outputs["Value"], 0.0), 5.0); core = _m(N, L, "GREATER_THAN", sd.outputs["Value"], .9988)
     grad = _mix(N, L, _m(N, L, "MULTIPLY", halo, .55), grad, (1.0, .90, .66)); grad = _mix(N, L, core, grad, (1.0, .98, .86))                # the sun: a warm halo and a drawn disc
@@ -107,6 +107,7 @@ def clouds(c, seed=4, dist=900.0, sun=(95, 24)):
     for i in range(14): puff("cloud%02d" % i, R.randint(5, 9), R.uniform(-85, 85) if i < 10 else R.uniform(100, 260), R.uniform(7, 30), R.uniform(45, 92))
     for i in range(16): puff("cloud_h%02d" % i, R.randint(4, 7), -90 + i * 12 + R.uniform(-4, 4), R.uniform(1.6, 3.6), R.uniform(22, 40), .7, 1500.0)       # the horizon line
     for i in range(9): puff("cloud_s%02d" % i, R.randint(8, 12), R.uniform(-80, 80), R.uniform(36, 62), R.uniform(60, 110), .12)                           # high streaks
+    for i in range(9): puff("cloud_z%02d" % i, R.randint(5, 8), R.uniform(0, 360), R.uniform(56, 86), R.uniform(55, 95), .5)                              # overhead: a camera that looks straight up never finds an empty blue
     gm = paint("far_gull", (.98, .98, 1.0), .5, emit=1.0)
     for i in range(9):                                                                         # gulls far out: two strokes each
         a = math.radians(R.uniform(-40, 40)); e = math.radians(R.uniform(6, 22)); d = R.uniform(140, 260); bm = bmesh.new(); w = R.uniform(1.6, 2.6)
@@ -363,7 +364,8 @@ def dress(c, clear=()):
 
 def ink_all(skip=("Card_", "Contact_")):
     """the ink line on everything the shot itself built or imported (props, vehicles, pieces): thickness follows the size of the object"""
-    for o in list(col("L_OBJECTS").all_objects) + [o for o in bpy.data.objects if o.type == "MESH" and o.data.materials and o.data.materials[0] and o.data.materials[0].name == "blubber"]:
+    for o in list(col("L_OBJECTS").all_objects) + [o for o in bpy.data.objects if o.type == "MESH" and o.data.materials and o.data.materials[0] and o.data.materials[0].name in ("blubber", "blast_sand", "blast_smoke")]:
         if o.type != "MESH" or o.name.startswith(skip) or o.modifiers.get("ink_line") or not o.data.polygons: continue
+        if o.name.startswith("col") and o.data.materials and o.data.materials[0].name.startswith("blast_"): outline(o, .05); continue   # the blast column is drawn too
         if any(m and (m.name == "ink_line" or m.name.startswith(("ink_", "chalk", "sign_", "stink"))) for m in o.data.materials): continue
         s = max(1e-4, abs(o.matrix_world.to_scale().x)); outline(o, min(.03, max(.006, max(o.dimensions) * .01)) / s / 1.8)

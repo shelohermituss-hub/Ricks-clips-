@@ -264,7 +264,7 @@ def s08(n):
     to the whale far away; BOOM on 52: flash, a column of sand 100 feet high, a mushroom; the crowd cheers (66-80); the camera tilts up with the debris"""
     sc = kit.begin(n); c, w, Mo, O = dune(sc, "noon", 120, 44, "08"); B = 52; x, y = DT
     tv_camera(O, (x + .6, y + .2, dz(x + .6, y + .2)), math.atan2(0 - y, 0 - x))
-    sandm = ink("blast_sand", (.62, .52, .36), 0, .9); smoke = ink("blast_smoke", (.16, .14, .13), 0, .95); R = random.Random(8)
+    sandm = ink("blast_sand", (.90, .84, .72), 0, .9); smoke = ink("blast_smoke", (.34, .30, .40), 0, .95); R = random.Random(8)
     for i in range(22):                                                                            # the column: a stem and a cap that keeps growing, then hangs there
         cap = i >= 10; hgt = (4 + i * 2.6) if not cap else R.uniform(27, 33); rr = R.uniform(2.2, 3.4) if not cap else R.uniform(4.5, 7.5); a = R.uniform(0, 6.283); off = 0 if not cap else R.uniform(2, 7)
         o = blob("col%02d" % i, 1.0, (0, 0, -20), sandm if i % 3 else smoke, col("L_FX"), seed=40 + i, squash=(1, 1, 1), sub=3)
