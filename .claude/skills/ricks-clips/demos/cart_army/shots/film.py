@@ -101,9 +101,9 @@ def palanquin(c):
     box("pal_floor", (1.5, 1.9, .16), (0, 0, 1.0), red, c, bevel=.02, parent=root); box("pal_rim", (1.6, 2.0, .06), (0, 0, 1.1), gold, c, bevel=.01, parent=root)
     for s in (-1, 1):
         cyl("pal_pole", .05, 4.4, (s * .72, 0, .93), wd, c, rot=(math.radians(90), 0, 0), seg=10, parent=root); box("pal_rail", (.05, 1.7, .3), (s * .72, 0, 1.3), red, c, bevel=.01, parent=root)
-    ol = ink("par_olive", (.17, .14, .045), 0, .7); cyl("par_pole", .035, 4.2, (.55, -.5, 3.15), wd, c, seg=10, parent=root)
+    ol = fort._flat("par_olive_flat", (.17, .14, .045), .7); cyl("par_pole", .035, 4.2, (.55, -.5, 3.15), wd, c, seg=10, parent=root)
     cyl("par_canopy", 1.6, .42, (.55, -.5, 5.3), ol, c, r2=.1, seg=18, parent=root); cyl("par_under", 1.56, .03, (.55, -.5, 5.08), ol, c, seg=18, parent=root)
-    cyl("par_rim_y", 1.63, .07, (.55, -.5, 5.13), ink("par_yellow", (.95, .75, .08), 0, .6), c, seg=18, parent=root); cyl("par_rim_r", 1.65, .05, (.55, -.5, 5.07), red, c, seg=18, parent=root)
+    cyl("par_rim_y", 1.615, .07, (.55, -.5, 5.13), ink("par_yellow", (.95, .75, .08), 0, .6), c, seg=18, parent=root); cyl("par_rim_r", 1.63, .05, (.55, -.5, 5.07), red, c, seg=18, parent=root)
     for k in range(18): a = k * math.tau / 18; cyl("par_tassel", .03, .16, (.55 + 1.62 * math.cos(a), -.5 + 1.62 * math.sin(a), 4.96), red, c, seg=6, parent=root)
     for k in range(12): a = k * math.tau / 12; cyl("par_rib", .012, 1.55, (.55 + .78 * math.cos(a), -.5 + .78 * math.sin(a), 5.2), wd, c, rot=(0, math.radians(76), a), seg=6, parent=root)
     return root
@@ -121,12 +121,12 @@ def s02(n):
     pal = palanquin(O)
     for fr in list(range(0, n, 8)) + [n]:
         d = up(S0 - v * fr); pal.location = at(S0 - v * fr); pal.rotation_euler = (0, 0, math.atan2(d.y, d.x) - math.pi / 2); pal.keyframe_insert("location", frame=fr); pal.keyframe_insert("rotation_euler", frame=fr)
-    g0 = Vector(at(S0)); g1 = Vector(at(S0 - v * 57)); g2 = Vector(at(S0 - v * 97)); u0 = up(S0); r0 = Vector((-u0.y, u0.x, 0)); U = Vector((u0.x, u0.y, 0)); GATE = Vector((0, 0, valley.HILL + 7))
+    g0 = Vector(at(S0)); g1 = Vector(at(S0 - v * 57)); g2 = Vector(at(S0 - v * 97)); u0 = up(S0); r0 = Vector((-u0.y, u0.x, 0)); U = Vector((u0.x, u0.y, 0)); GATE = Vector((0, 0, valley.HILL + 7)); BK = (g2 - GATE); BK.z = 0; BK.normalize(); SD = Vector((-BK.y, BK.x, 0))   # the reverse view: on the line gate -> general, a step aside: he is on the left, the fort up on the right
     cam = kit.camera([(0, (18, 16, valley.HILL + 20), (-8, -150, 0), 22), (18, (20, -22, valley.HILL + 14), (-14, -170, 0), 22), (30, tuple(g0 + U * 30 + r0 * 9 + Vector((0, 0, 12))), tuple(g0 + Vector((0, 0, 2.6))), 24),
                       (40, tuple(g0 + U * 9.5 + r0 * 4.2 + Vector((0, 0, 4.4))), tuple(g0 + Vector((0, 0, 2.4))), 30), (74, tuple(g1 + U * 9.5 + r0 * 4.0 + Vector((0, 0, 4.3))), tuple(g1 + Vector((0, 0, 2.4))), 30),
-                      (84, tuple(g2 - U * 9.0 - r0 * 2.6 + Vector((0, 0, .9))), tuple(g2 * .62 + GATE * .38 + Vector((0, 0, 1.0))), 26), (n - 1, tuple(g2 - U * 8.8 - r0 * 2.5 + Vector((0, 0, .9))), tuple(g2 * .62 + GATE * .38 + Vector((0, 0, 1.0))), 26)], n, amp=.006, clip=9000.0)
+                      (84, tuple(g2 + BK * 5.6 + SD * 2.4 + Vector((0, 0, 1.0))), tuple(g2 * .8 + GATE * .2 + Vector((0, 0, 1.6))), 24), (n - 1, tuple(g2 + BK * 5.4 + SD * 2.3 + Vector((0, 0, 1.0))), tuple(g2 * .8 + GATE * .2 + Vector((0, 0, 1.6))), 24)], n, amp=.006, clip=9000.0)
     cam.data.dof.use_dof = False                                                                      # the characters stay SHARP (CB: "nets, clairs, détaillés")
-    C = kit.cards(sc, "02", cam, {"general": path(0, 0, 1.05), "bearer_a": path(-1.6, -1.25), "bearer_b": path(-1.8, 1.25), "bearer_c": path(-3.1, .15), "crowd": path(6.5, -2.2)}, None)
+    C = kit.cards(sc, "02", cam, {"general": path(0, 0, 1.05), "bearer_a": path(-1.6, -1.25), "bearer_b": path(-1.8, 1.25), "bearer_c": path(-3.1, .15), "crowd": path(9.5, -2.6)}, None)
     for o in bpy.data.objects:                                                                        # and CLEAR: the cards are lit almost only by their own light
         if o.name.startswith("Card_"):
             for m in o.data.materials:
@@ -134,7 +134,7 @@ def s02(n):
                     if nd.type == "MIX_SHADER" and not nd.inputs[0].links: nd.inputs[0].default_value = .9
     src = bpy.data.objects["Card_crowd"]; R = random.Random(2); spear = ink("spear_wood", (.25, .16, .08), 0, .6); tip = ink("spear_tip", (.75, .76, .8), 0, .3); yel = ink("banner_yellow", (.9, .68, .05), 0, .7)
     for i in range(300):                                                                              # the column: it follows the S of the road
-        row, k = divmod(i, 6); ds = 5.0 + row * 2.1 + R.uniform(-.3, .3); lat = -2.3 + k * .92 + R.uniform(-.15, .15); o = src.copy(); O.objects.link(o); o.animation_data_clear()
+        row, k = divmod(i, 6); ds = 9.5 + row * 2.1 + R.uniform(-.3, .3); lat = -2.3 + k * .92 + R.uniform(-.15, .15); o = src.copy(); O.objects.link(o); o.animation_data_clear()
         ct = o.constraints.new("COPY_ROTATION"); ct.target = src                                       # every card turns to the lens with the first one
         for fr in (0, n // 2, n): o.location = at(S0 + ds - v * fr, lat); o.keyframe_insert("location", frame=fr)
         if i % 5 == 2:

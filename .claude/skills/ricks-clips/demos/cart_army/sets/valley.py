@@ -11,7 +11,7 @@ from mathutils import Vector, noise
 import fort
 from fort import look, geo, tex, col, mesh_obj, srgb, street, SKILL, _flat, _tint
 
-MOOD = dict(az=-100, el=56, energy=7.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.75, glow=.25, exposure=-.15, sat=1.12, contrast="Medium Contrast")
+MOOD = dict(az=-100, el=56, energy=7.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.75, glow=.25, exposure=-.32, sat=1.12, contrast="Medium Contrast")
 HILL = 16.0; HEAD_S = 72.0                                                               # the general is 72 m down the road at frame 0
 
 def road(s):
@@ -145,5 +145,5 @@ def build(scene):
     nt = scene.world.node_tree; N, L = nt.nodes, nt.links                                # the reference's sky: a soft periwinkle blue (#919fc6-#96abde) with white streaks, never navy
     pick = [n for n in N if n.type == "MIX" and n.inputs[0].links and n.inputs[0].links[0].from_node.type == "LIGHT_PATH" and n.data_type == "RGBA"]
     if pick:
-        src = pick[0].inputs[7].links[0].from_socket; hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Saturation"].default_value = .7; hs.inputs["Value"].default_value = 2.0; L.new(src, hs.inputs["Color"]); L.new(hs.outputs["Color"], pick[0].inputs[7])
+        src = pick[0].inputs[7].links[0].from_socket; hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Saturation"].default_value = 1.0; hs.inputs["Value"].default_value = 1.7; L.new(src, hs.inputs["Color"]); L.new(hs.outputs["Color"], pick[0].inputs[7])
     ground(c); fields(c); relief(c); fort_outside(c); return Mo
