@@ -5,7 +5,7 @@ import json, os, subprocess, sys, hashlib
 EP = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")); SKILL = os.path.abspath(os.path.join(EP, "..", ".."))
 P = lambda puppet, h=1.75: {"puppet": "cast:" + puppet, "height": h}
 SHOTS = {   # id: (length in frames, cast, acts)
- "01": (68, {"engineer": P("fort_engineer", 1.72)}, [("engineer", 0, "m:push/A", "k:smug", "side", 1)]),
+ "01": (68, {"engineer": P("fort_engineer", 2.05)}, [("engineer", 0, "m:push/A", "k:smug", "side", 1)]),
 }
 
 def tracks(sid):

@@ -86,14 +86,14 @@ def ground(c):
     """grass field (dense blades, as in the demo that matched its reference) with a worn dirt path along the foot of the wall"""
     bm = bmesh.new(); bm.faces.new([bm.verts.new(p) for p in ((-60, -40, 0), (60, -40, 0), (60, 30, 0), (-60, 30, 0))])
     mesh_obj("fort_ground", bm, tex("fort_soil", "brown_mud_02", tile=3.0, recolor="#5d7a35", value=1.0, normal=1.0, spec=.1, macro=.2), c)
-    bp = bmesh.new(); bp.faces.new([bp.verts.new(p) for p in ((-40, 2.9, .012), (2.3, 2.9, .012), (2.3, 6.0, .012), (-40, 6.0, .012))])
+    bp = bmesh.new(); bp.faces.new([bp.verts.new(p) for p in ((-40, 2.6, .012), (1.5, 2.6, .012), (1.5, 6.0, .012), (-40, 6.0, .012))])
     mesh_obj("fort_path", bp, tex("fort_path", "brown_mud_02", tile=2.0, recolor="#8a6a48", value=1.0, normal=1.4, spec=.12, macro=.2), c)
     src = street.blade_clump(); m = bpy.data.materials.get("grass_blades")
     if m and not m.get("rc_recoloured"):
         cr = [n_ for n_ in m.node_tree.nodes if n_.type == "VALTORGB"][0].color_ramp; cr.elements[0].color = (*srgb("#3c7a24"), 1); cr.elements[1].color = (*srgb("#a6d552"), 1); m["rc_recoloured"] = 1   # the reference's vivid yellow-green
         nt = m.node_tree; b = nt.nodes["Principled BSDF"]; out = nt.nodes["Material Output"]; tl = nt.nodes.new("ShaderNodeBsdfTranslucent"); mixs = nt.nodes.new("ShaderNodeMixShader")
         nt.links.new(b.inputs["Base Color"].links[0].from_socket, tl.inputs["Color"]); mixs.inputs[0].default_value = .45; nt.links.new(b.outputs[0], mixs.inputs[1]); nt.links.new(tl.outputs[0], mixs.inputs[2]); nt.links.new(mixs.outputs[0], out.inputs["Surface"])
-    for k, (zone, n, sd, sc) in enumerate(((  [[-6, -6.5], [7, -6.5], [7, 2.7], [-6, 2.7]], 42000, 1, (.8, 1.9)), ([[-30, -22], [30, -22], [30, -6.5], [-30, -6.5]], 16000, 2, (1.0, 2.0)),
+    for k, (zone, n, sd, sc) in enumerate(((  [[-6, -6.5], [7, -6.5], [7, 2.4], [-6, 2.4]], 30000, 1, (.5, 2.3)), ([[-30, -22], [30, -22], [30, -6.5], [-30, -6.5]], 16000, 2, (1.0, 2.0)),
                                              ([[-36, -6.5], [-6, -6.5], [-6, 2.7], [-36, 2.7]], 22000, 3, (.9, 1.9)), ([[7, -6.5], [36, -6.5], [36, 3.4], [7, 3.4]], 16000, 4, (.9, 1.9)))):
         P, Rt, Sc = geo.scatter_points({"polygon": zone}, n, sd, exclude=[{"center": [.55, 0], "radius": .38}], scale_range=sc); geo.instancer("grass_%d" % k, P, src, c, Rt, Sc, wind=.05)
 
@@ -101,13 +101,13 @@ def build(scene):
     c = col("L_SET"); Mo = dict(MOOD); look.SUN[0], look.SUN[1] = Mo["az"], Mo["el"]
     look.sky_hdri(scene, strength=1.0, hdri=Mo["hdri"], glow=Mo["glow"], light=Mo["light"]); look.sun(scene, energy=Mo["energy"]); look.bounce_fill(c, at=(-2.0, -9.0, 3.0), aim=(0, 0, 1.2), energy=700.0, size=8.0)
     st = stone(); ground(c)
-    blocks("wall_A", c, (-34, 6, 0), (1, 0, 0), (0, -1, 0), 37.0, 9.6, st, seed=1, holes=[(25.2, 28.8, 0, 2.6, True)])           # the curtain wall with its arched gate (x -8.8 .. -5.2)
-    blocks("tower_front", c, (2.3, 3.6, 0), (1, 0, 0), (0, -1, 0), 9.0, 12.0, st, seed=2); blocks("tower_side", c, (2.3, 6.0, 0), (0, -1, 0), (-1, 0, 0), 2.4, 12.0, st, seed=3)
+    blocks("wall_A", c, (-34, 6, 0), (1, 0, 0), (0, -1, 0), 37.0, 9.6, st, seed=1, holes=[(29.2, 32.0, 0, 2.7, True)])           # the curtain wall with its arched gate (x -8.8 .. -5.2)
+    blocks("tower_front", c, (1.5, 3.4, 0), (1, 0, 0), (0, -1, 0), 9.0, 12.0, st, seed=2); blocks("tower_side", c, (1.5, 6.0, 0), (0, -1, 0), (-1, 0, 0), 2.6, 12.0, st, seed=3)
     back = bmesh.new(); back.faces.new([back.verts.new(p) for p in ((-34, 6.05, 0), (3, 6.05, 0), (3, 6.05, 9.6), (-34, 6.05, 9.6))]); mesh_obj("wall_A_back", back, bpy.data.materials["fort_joint"] if bpy.data.materials.get("fort_joint") else _flat("fort_joint", (.06, .055, .05)), c)
-    gate = bmesh.new(); gate.faces.new([gate.verts.new(p) for p in ((-8.9, 6.6, 0), (-5.1, 6.6, 0), (-5.1, 6.6, 4.6), (-8.9, 6.6, 4.6))]); mesh_obj("gate_dark", gate, _flat("gate_dark", (.02, .018, .016)), c)
-    banner(c, (-1.9, 6.0, 6.9), h=3.4)
+    gate = bmesh.new(); gate.faces.new([gate.verts.new(p) for p in ((-4.9, 6.6, 0), (-1.9, 6.6, 0), (-1.9, 6.6, 4.6), (-4.9, 6.6, 4.6))]); mesh_obj("gate_dark", gate, _flat("gate_dark", (.02, .018, .016)), c)
+    banner(c, (-.9, 6.0, 7.4), h=3.6)
     nt = scene.world.node_tree; N, L = nt.nodes, nt.links                                           # the reference's sky is pale everywhere: the photo seen by the lens is lightened and less saturated (the light it gives does not change)
     pick = [n for n in N if n.type == "MIX" and n.inputs[0].links and n.inputs[0].links[0].from_node.type == "LIGHT_PATH" and n.data_type == "RGBA"]
     if pick:
-        src = pick[0].inputs[7].links[0].from_socket; hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Saturation"].default_value = .8; hs.inputs["Value"].default_value = 1.35; L.new(src, hs.inputs["Color"]); L.new(hs.outputs["Color"], pick[0].inputs[7])
+        src = pick[0].inputs[7].links[0].from_socket; hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Saturation"].default_value = .62; hs.inputs["Value"].default_value = 2.1; L.new(src, hs.inputs["Color"]); L.new(hs.outputs["Color"], pick[0].inputs[7])
     return Mo
