@@ -157,3 +157,14 @@ Comparaison côte à côte (`episodes/exploding-whale/build/review/comparaison_r
 5. **Lumière mise en scène** : lampes chaudes qui rayonnent, reflets au sol, contre-jour sur les personnages, ombres colorées. Nous : un soleil et c'est tout.
 6. **Détail dessiné sur chaque objet** : planches, lettres, sangles, bandes de couleur. Nous : boîtes unies.
 **Règle** : avant tout aperçu de film, poser 4 images du film à côté de 4 images de référence et lister les écarts. Le « réalisme photo » (HDRI + textures photo) n'est PAS le style des références.
+
+## CB 2026-11-20 — STYLE VALIDÉ : « c'est exactement ce style que je veux, garde-le en tête pour tous les prochains plans et vidéos »
+**Le monde dessiné** (code : `episodes/exploding-whale/sets/toon.py`, appliqué au plan 02) est LE style de tous les plans et de toutes les vidéos à venir :
+1. Ciel peint en dégradé (orangé à l'horizon → bleu), nuages dessinés en trois couches (gros cumulus, ligne d'horizon, traînées hautes), halo du soleil, oiseaux au loin. Jamais de photo de ciel.
+2. Mer dessinée : turquoise au bord → bleu profond, traits d'écume blancs animés, lisière d'écume sur le sable.
+3. Sol dessiné, **sable blanc crème, jamais jaune** (CB : « le sable est jaune, je n'aime pas, une couleur plus blanche »), avec du dessin au sol : groupes de traits de rides, creux mauves, mouchetures, dentelle d'écume séchée, sable mouillé plus froid et brillant.
+4. Trait d'encre sur CHAQUE objet 3D (coque inversée) ; détail dessiné (planches, rayures, bandes) plutôt que textures photo.
+5. Décor plein : 10–20 objets lisibles par image, jamais une moitié d'image vide ; un fond qui ferme l'horizon (cap, phare, voilier).
+6. Couleurs décidées qui s'opposent (bleu / orangé-rouge), soleil chaud, ombres bleutées, halo léger, brume de distance teintée.
+7. Une vague = eau claire + lèvre d'écume festonnée, jamais une plaque blanche.
+**Règle de travail** : valider UN plan à côté des références avant d'habiller les autres ; montrer avant/après + référence sur la même planche.

@@ -70,32 +70,50 @@ def outline(o, t=.02):
     md.material_offset = len(o.data.materials) - 1; md.use_quality_normals = True; return o
 
 # ------------------------------------------------------------------------------------------------------------ the painted sky
-def sky(scene, ambient=(.50, .60, 1.0), k=.42):
+def sky(scene, ambient=(.50, .60, 1.0), k=.42, sun=(95, 24)):
     """camera rays: a painted gradient (peach at the horizon, blue above, as in the references' sea shots); light: a blue ambient, so that
     every shadow is coloured"""
     w = scene.world; nt = w.node_tree; N, L = nt.nodes, nt.links; N.clear(); out = N.new("ShaderNodeOutputWorld")
     tc = N.new("ShaderNodeTexCoord"); nrm = N.new("ShaderNodeVectorMath"); nrm.operation = "NORMALIZE"; L.new(tc.outputs["Generated"], nrm.inputs[0]); sep = N.new("ShaderNodeSeparateXYZ"); L.new(nrm.outputs[0], sep.inputs[0])
     grad = _ramp(N, L, _m(N, L, "ADD", sep.outputs["Z"], .02, clamp=True),
-                 ((0.0, (1.0, .62, .36)), (.035, (1.0, .78, .55)), (.10, (.62, .86, 1.0)), (.26, (.16, .50, 1.0)), (.7, (.04, .22, .78))))
+                 ((0.0, (1.0, .56, .34)), (.03, (1.0, .74, .56)), (.07, (.98, .86, .80)), (.13, (.56, .88, 1.0)), (.27, (.14, .52, 1.0)), (.5, (.05, .30, .90)), (.85, (.03, .14, .62))))
+    el, az = math.radians(sun[1]), math.radians(sun[0]); sd = N.new("ShaderNodeVectorMath"); sd.operation = "DOT_PRODUCT"; sd.inputs[1].default_value = (math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el)); L.new(nrm.outputs[0], sd.inputs[0])
+    halo = _m(N, L, "POWER", _m(N, L, "MAXIMUM", sd.outputs["Value"], 0.0), 5.0); core = _m(N, L, "GREATER_THAN", sd.outputs["Value"], .9988)
+    grad = _mix(N, L, _m(N, L, "MULTIPLY", halo, .55), grad, (1.0, .90, .66)); grad = _mix(N, L, core, grad, (1.0, .98, .86))                # the sun: a warm halo and a drawn disc
     lp = N.new("ShaderNodeLightPath"); cam = N.new("ShaderNodeBackground"); L.new(grad, cam.inputs["Color"]); cam.inputs["Strength"].default_value = 1.0
     amb = N.new("ShaderNodeBackground"); amb.inputs["Color"].default_value = (*ambient, 1); amb.inputs["Strength"].default_value = k
     mix = N.new("ShaderNodeMixShader"); L.new(lp.outputs["Is Camera Ray"], mix.inputs[0]); L.new(amb.outputs[0], mix.inputs[1]); L.new(cam.outputs[0], mix.inputs[2]); L.new(mix.outputs[0], out.inputs["Surface"])
 
-def clouds(c, n=11, seed=4, dist=900.0):
-    """drawn cumulus: puffs with a flat base, white on top and lavender under (never lit by the scene: they are painted)"""
+def clouds(c, seed=4, dist=900.0, sun=(95, 24)):
+    """a drawn sky in three layers (the references' skies are never one row of clouds): big cumulus (white on top, warm on the sun side,
+    lavender under), a line of small clouds sitting on the horizon, long thin streaks high up; and a few gulls far away"""
     m = bpy.data.materials.new("cloud_paint"); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links; N.clear(); out = N.new("ShaderNodeOutputMaterial"); em = N.new("ShaderNodeEmission")
     geo = N.new("ShaderNodeNewGeometry"); sep = N.new("ShaderNodeSeparateXYZ"); L.new(geo.outputs["Normal"], sep.inputs[0])
-    L.new(_ramp(N, L, _m(N, L, "MULTIPLY_ADD", sep.outputs["Z"], .5, .5), ((.30, (.62, .66, .98)), (.46, (.86, .88, 1.0)), (.60, (1.0, .99, .97)))), em.inputs["Color"]); em.inputs["Strength"].default_value = 1.05
+    base = _ramp(N, L, _m(N, L, "MULTIPLY_ADD", sep.outputs["Z"], .5, .5), ((.28, (.56, .60, .98)), (.44, (.84, .86, 1.0)), (.58, (1.0, .99, .97))))
+    el, az = math.radians(sun[1]), math.radians(sun[0]); sd = N.new("ShaderNodeVectorMath"); sd.operation = "DOT_PRODUCT"; sd.inputs[1].default_value = (math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el)); L.new(geo.outputs["Normal"], sd.inputs[0])
+    L.new(_mix(N, L, _m(N, L, "MULTIPLY", _m(N, L, "GREATER_THAN", sd.outputs["Value"], .45), .55), base, (1.0, .86, .68)), em.inputs["Color"]); em.inputs["Strength"].default_value = 1.05
     L.new(em.outputs[0], out.inputs["Surface"]); R = random.Random(seed)
-    for i in range(n):
-        bm = bmesh.new(); k = R.randint(5, 9); x = 0.0
+    def puff(name, k, az, el, s, flat=.8, d=dist):
+        bm = bmesh.new(); x = 0.0
         for j in range(k):
-            r = R.uniform(.55, 1.0) * (1.0 - abs(j - (k - 1) / 2) / k); mat = bmesh.ops.create_icosphere(bm, subdivisions=3, radius=r)
+            r = R.uniform(.55, 1.0) * (1.0 - abs(j - (k - 1) / 2) / k); mat = bmesh.ops.create_icosphere(bm, subdivisions=4, radius=r)
             bmesh.ops.translate(bm, verts=mat["verts"], vec=(x, R.uniform(-.2, .2), r * .55)); x += r * 1.05
+            if R.random() < .5 and r > .5:
+                m2 = bmesh.ops.create_icosphere(bm, subdivisions=3, radius=r * .6); bmesh.ops.translate(bm, verts=m2["verts"], vec=(x - r * 1.3, 0, r * 1.15))   # a second storey
         for v in bm.verts: v.co.z = max(v.co.z, 0.0); v.co.x -= x / 2
-        o = mesh_obj("cloud%02d" % i, bm, m, c, smooth=True); az = math.radians(R.uniform(-80, 80) if i < n - 3 else R.uniform(100, 260)); el = math.radians(R.uniform(5, 30)); s = R.uniform(55, 120)
-        o.location = (dist * math.sin(az) * math.cos(el), dist * math.cos(az) * math.cos(el), dist * math.sin(el)); o.scale = (s, s, s * .8); o.rotation_euler = (0, 0, -az)
-        o.visible_shadow = o.visible_diffuse = o.visible_glossy = False
+        o = mesh_obj(name, bm, m, c, smooth=True); a, e = math.radians(az), math.radians(el)
+        o.location = (d * math.sin(a) * math.cos(e), d * math.cos(a) * math.cos(e), d * math.sin(e)); o.scale = (s, s, s * flat); o.rotation_euler = (0, 0, -a)
+        o.visible_shadow = o.visible_diffuse = o.visible_glossy = False; return o
+    for i in range(14): puff("cloud%02d" % i, R.randint(5, 9), R.uniform(-85, 85) if i < 10 else R.uniform(100, 260), R.uniform(7, 30), R.uniform(45, 92))
+    for i in range(16): puff("cloud_h%02d" % i, R.randint(4, 7), -90 + i * 12 + R.uniform(-4, 4), R.uniform(1.6, 3.6), R.uniform(22, 40), .7, 1500.0)       # the horizon line
+    for i in range(9): puff("cloud_s%02d" % i, R.randint(8, 12), R.uniform(-80, 80), R.uniform(36, 62), R.uniform(60, 110), .12)                           # high streaks
+    gm = paint("far_gull", (.98, .98, 1.0), .5, emit=1.0)
+    for i in range(9):                                                                         # gulls far out: two strokes each
+        a = math.radians(R.uniform(-40, 40)); e = math.radians(R.uniform(6, 22)); d = R.uniform(140, 260); bm = bmesh.new(); w = R.uniform(1.6, 2.6)
+        vs = [bm.verts.new(p) for p in ((-w, 0, .5 * w * .5), (-w * .5, 0, w * .32), (0, 0, 0), (w * .5, 0, w * .32), (w, 0, .5 * w * .5), (0, 0, -.28 * w))]
+        bm.faces.new((vs[0], vs[1], vs[2], vs[5])); bm.faces.new((vs[2], vs[3], vs[4], vs[5]))
+        o = mesh_obj("far_gull%d" % i, bm, gm, c); o.location = (d * math.sin(a) * math.cos(e), d * math.cos(a) * math.cos(e), d * math.sin(e)); o.rotation_euler = (0, R.uniform(-.3, .3), -a); o.visible_shadow = False
+        o.keyframe_insert("location", frame=0); o.location.x += R.uniform(-22, 22); o.location.z += R.uniform(-3, 5); o.keyframe_insert("location", frame=240)
 
 # ------------------------------------------------------------------------------------------------------------ sea and sand
 def sea():
@@ -115,19 +133,30 @@ def sea():
     L.new(colr, b.inputs["Base Color"]); L.new(colr, b.inputs["Emission Color"]); b.inputs["Emission Strength"].default_value = .38; b.inputs["Roughness"].default_value = .22; b.inputs["Specular IOR Level"].default_value = .35
 
 def sand():
-    """the drawn sand: one warm golden colour, darker and shiny where the sea wets it, paler on the dunes, thin ripple strokes; no photo"""
+    """the drawn sand (CB 2026-11-20: "le sable est jaune, je n'aime pas, une couleur plus blanche" + more drawing on the ground): a pale
+    cream, cooler and shiny where the sea wets it, almost white on the dunes; on it, DRAWN: groups of curved ripple strokes, soft
+    lavender hollows, speckles (grains, bits of shell), lace of dried foam along the wet line"""
     m = bpy.data.materials["beach_sand"]; nt = m.node_tree; N, L = nt.nodes, nt.links; N.clear(); out = N.new("ShaderNodeOutputMaterial"); b = N.new("ShaderNodeBsdfPrincipled"); L.new(b.outputs[0], out.inputs["Surface"])
     geo = N.new("ShaderNodeNewGeometry"); sep = N.new("ShaderNodeSeparateXYZ"); L.new(geo.outputs["Position"], sep.inputs[0])
-    big = N.new("ShaderNodeTexNoise"); big.inputs["Scale"].default_value = .09; big.inputs["Detail"].default_value = 3; L.new(geo.outputs["Position"], big.inputs["Vector"])
-    y = _m(N, L, "ADD", sep.outputs["Y"], _m(N, L, "MULTIPLY_ADD", big.outputs["Fac"], 5.0, -2.5))                                           # the wet line wanders
+    def noise(scale, detail=3):
+        n = N.new("ShaderNodeTexNoise"); n.inputs["Scale"].default_value = scale; n.inputs["Detail"].default_value = detail; L.new(geo.outputs["Position"], n.inputs["Vector"]); return n.outputs["Fac"]
+    big = noise(.09); mid = noise(.45, 2); grp = noise(.22, 2)
+    y = _m(N, L, "ADD", sep.outputs["Y"], _m(N, L, "MULTIPLY_ADD", big, 5.0, -2.5))                                                          # the wet line wanders
     wet = _m(N, L, "DIVIDE", _m(N, L, "SUBTRACT", y, SHORE_Y - 10.5), 6.0, clamp=True)
-    base = _ramp(N, L, _m(N, L, "MULTIPLY_ADD", sep.outputs["Y"], 1 / 60.0, .75, clamp=True), ((0.0, (1.0, .72, .38)), (.5, (.95, .60, .26)), (1.0, (.92, .55, .22))))   # dunes paler
-    base = _mix(N, L, _m(N, L, "MULTIPLY_ADD", big.outputs["Fac"], .5, -.1, clamp=True), base, (.80, .45, .18))                               # large soft patches
-    mp = N.new("ShaderNodeMapping"); L.new(geo.outputs["Position"], mp.inputs["Vector"]); mp.inputs["Scale"].default_value = (.12, .9, 1)
-    wv = N.new("ShaderNodeTexWave"); wv.bands_direction = "Y"; wv.inputs["Scale"].default_value = 1.0; wv.inputs["Distortion"].default_value = 11.0; wv.inputs["Detail"].default_value = 2.0; wv.inputs["Detail Scale"].default_value = 1.6; L.new(mp.outputs["Vector"], wv.inputs["Vector"])
-    base = _mix(N, L, _m(N, L, "MULTIPLY", _m(N, L, "GREATER_THAN", wv.outputs["Fac"], .93), .16), base, (.55, .33, .16))                     # ripple strokes
-    colr = _mix(N, L, wet, base, (.50, .34, .26)); L.new(colr, b.inputs["Base Color"])
-    L.new(_m(N, L, "MULTIPLY_ADD", wet, -.62, .9), b.inputs["Roughness"]); b.inputs["Specular IOR Level"].default_value = .3
+    base = _ramp(N, L, _m(N, L, "MULTIPLY_ADD", sep.outputs["Y"], 1 / 60.0, .75, clamp=True), ((0.0, (.93, .90, .84)), (.5, (.88, .83, .74)), (1.0, (.85, .79, .69))))   # dunes almost white
+    base = _mix(N, L, _m(N, L, "MULTIPLY", _m(N, L, "GREATER_THAN", mid, .56), .45), base, (.62, .62, .82))                                  # soft lavender hollows, hard edged: drawn, not shaded
+    base = _mix(N, L, _m(N, L, "MULTIPLY_ADD", big, .5, -.1, clamp=True), base, (.90, .80, .64))                                              # large warmer patches
+    mp = N.new("ShaderNodeMapping"); L.new(geo.outputs["Position"], mp.inputs["Vector"]); mp.inputs["Scale"].default_value = (.3, 1.5, 1)
+    wv = N.new("ShaderNodeTexWave"); wv.bands_direction = "Y"; wv.inputs["Scale"].default_value = 1.0; wv.inputs["Distortion"].default_value = 14.0; wv.inputs["Detail"].default_value = 2.0; wv.inputs["Detail Scale"].default_value = 1.6; L.new(mp.outputs["Vector"], wv.inputs["Vector"])
+    strokes = _m(N, L, "MULTIPLY", _m(N, L, "GREATER_THAN", wv.outputs["Fac"], .90), _m(N, L, "GREATER_THAN", grp, .50))                      # ripple strokes, in groups
+    base = _mix(N, L, _m(N, L, "MULTIPLY", strokes, .8), base, (.50, .42, .40))
+    vo = N.new("ShaderNodeTexVoronoi"); vo.inputs["Scale"].default_value = 5.5; L.new(geo.outputs["Position"], vo.inputs["Vector"])
+    dots = _m(N, L, "MULTIPLY", _m(N, L, "LESS_THAN", vo.outputs["Distance"], .075), _m(N, L, "GREATER_THAN", noise(1.3, 1), .52))            # speckles, in patches
+    base = _mix(N, L, _m(N, L, "MULTIPLY", dots, .6), base, (.55, .46, .44))
+    lw = N.new("ShaderNodeTexWave"); lw.bands_direction = "Y"; lw.inputs["Scale"].default_value = .55; lw.inputs["Distortion"].default_value = 6.0; lw.inputs["Detail"].default_value = 2.0; L.new(geo.outputs["Position"], lw.inputs["Vector"])
+    lace = _m(N, L, "MULTIPLY", _m(N, L, "GREATER_THAN", lw.outputs["Fac"], .93), _m(N, L, "MULTIPLY", wet, _m(N, L, "SUBTRACT", 1.0, wet), clamp=True))   # dried foam where wet meets dry
+    colr = _mix(N, L, wet, base, (.56, .55, .60)); colr = _mix(N, L, _m(N, L, "MULTIPLY", lace, 3.2, clamp=True), colr, (1.0, 1.0, 1.0)); L.new(colr, b.inputs["Base Color"])
+    L.new(_m(N, L, "MULTIPLY_ADD", wet, -.64, .9), b.inputs["Roughness"]); b.inputs["Specular IOR Level"].default_value = .3
 
 def recolor(o, rgb, detail=.5, rough=.5):
     """keep a model's own texture only as drawn detail (its light and dark), over ONE decided colour"""
@@ -142,9 +171,9 @@ def recolor(o, rgb, detail=.5, rough=.5):
         else: b.inputs["Base Color"].default_value = (*rgb, 1)
         b.inputs["Roughness"].default_value = rough
 
-def stylize(scene, whale=None, sun_color=(1.0, .86, .64)):
+def stylize(scene, whale=None, sun_color=(1.0, .90, .74), sun=(95, 24)):
     """turn the photo beach into the drawn beach (call after beach.build and after the shot's own objects exist)"""
-    sky(scene); clouds(col("L_SET")); sea(); sand()
+    sky(scene, sun=sun); clouds(col("L_SET"), sun=sun); sea(); sand()
     for o in bpy.data.objects:
         if o.type == "LIGHT" and o.data.type == "SUN": o.data.color = sun_color
         if o.name.startswith("bounce_fill"): o.data.energy *= .35
@@ -283,7 +312,7 @@ def gull(c, at, yaw=0.0, z=None):
 
 def castle(c, at):
     """a sand castle with a paper flag, a red bucket and a blue spade: somebody was playing here an hour ago"""
-    R = _root("castle", c, at); sd = paint("castle_sand", (.90, .58, .26), .9)
+    R = _root("castle", c, at); sd = paint("castle_sand", (.90, .82, .68), .9)
     _cyl("castle_base", .42, .22, (0, 0, .11), sd, c, parent=R, r2=.36, line=.012, seg=16)
     for i, (x, y) in enumerate(((.26, .26), (-.26, .26), (.26, -.26), (-.26, -.26), (0, 0))):
         h = .5 if i == 4 else .34; _cyl("castle_tower%d" % i, .13 if i == 4 else .1, h, (x, y, .22 + h / 2 - .06), sd, c, parent=R, r2=.09 if i == 4 else .075, line=.01, seg=12)
@@ -299,12 +328,29 @@ def crate(c, at, yaw, word="FISH"):
 
 def fore(c):
     """the near sand of the low cameras (never an empty half picture)"""
-    castle(c, (10.0, -6.0)); crate(c, (-.6, -8.4), .5); gull(c, (3.1, -7.6), 2.2); gull(c, (3.9, -7.1), 2.9); gull(c, (-9.6, -5.6), .6); gull(c, (12.6, -6.9), 2.0)
+    castle(c, (9.9, -3.6)); crate(c, (-.6, -8.4), .5); gull(c, (3.1, -7.6), 2.2); gull(c, (3.9, -7.1), 2.9); gull(c, (-9.6, -5.6), .6); gull(c, (12.6, -6.9), 2.0)
     gull(c, (-10.4, 31.0), 1.2, SEA_Z + 1.32); gull(c, (-10.1, 26.5), -1.0, SEA_Z + 1.32)
     crab = _root("crab", c, (1.3, -9.6), .4); cr = paint("crab_red", RED, .4); _ball("crab_body", .09, (0, 0, .07), cr, c, scale=(1.3, 1, .55), parent=crab, line=.006)
     for s in (-1, 1):
         _ball("crab_claw", .04, (.1, s * .12, .08), cr, c, scale=(1.3, 1, .7), parent=crab, line=.004)
         for k in range(3): _cyl("crab_leg", .008, .12, (-.04 + k * .04, s * .13, .04), cr, c, rot=(math.radians(60) * s, 0, 0), parent=crab, line=.003, seg=6)
+
+def wave(c, width=70.0, depth=11.0):
+    """the wave that lays the whale on the sand: a sheet of clear turquoise water with a scalloped lip of white foam and lace behind it
+    (not a white slab). Returns its root: the LIP is at the root's y; move the root."""
+    R_ = bpy.data.objects.new("wave", None); c.objects.link(R_); R = random.Random(11); bm = bmesh.new(); n = 60; lip = []
+    for i in range(n + 1):
+        x = -width / 2 + width * i / n; f = -.9 * math.sin(i * .7) - .5 * math.sin(i * 1.9 + 1); lip.append((x, f)); a = bm.verts.new((x, f, 0)); b = bm.verts.new((x, depth, 0))
+        if i: bm.faces.new((pa, a, b, pb))
+        pa, pb = a, b
+    m = bpy.data.materials.new("wave_water"); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links; bs = N["Principled BSDF"]; tc = N.new("ShaderNodeTexCoord")
+    wv = N.new("ShaderNodeTexWave"); wv.bands_direction = "Y"; wv.inputs["Scale"].default_value = .9; wv.inputs["Distortion"].default_value = 7.0; wv.inputs["Detail"].default_value = 2.0; L.new(tc.outputs["Object"], wv.inputs["Vector"])
+    colr = _mix(N, L, _m(N, L, "GREATER_THAN", wv.outputs["Fac"], .9), (.30, .90, .86), (1, 1, 1)); L.new(colr, bs.inputs["Base Color"]); L.new(colr, bs.inputs["Emission Color"]); bs.inputs["Emission Strength"].default_value = .38; bs.inputs["Roughness"].default_value = .2
+    o = mesh_obj("wave_sheet", bm, m, c); o.parent = R_; o.visible_shadow = False; fm = paint("wave_foam", (1, 1, 1), .5, emit=.75)
+    for i, (x, f) in enumerate(lip):
+        for k in range(2):
+            b = _ball("wave_lip", R.uniform(.45, .8), (x + R.uniform(-.3, .3), f + k * R.uniform(.3, .7), .02), fm, c, scale=(1.15, .8, .16), parent=R_, line=0); b.visible_shadow = False
+    return R_
 
 def dress(c, clear=()):
     """the beach of shot 02 and of every beach shot: nothing empty (references: 10-20 readable things per picture)"""

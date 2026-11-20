@@ -309,3 +309,9 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Evidence:** demos/crash_instinct/build/review
 - **Regression check:** grade_match on the key frames of every view
 
+
+## PI-031 — Le style du film est un MONDE DESSINÉ, pas un monde photo (CB 2026-11-20, validé sur exploding-whale plan 02)
+- **Problem:** film entier construit en « photo » (HDRI, sable scanné, objets unis, étalonnage = saturation seule) → CB : « 3D dure, mode preview, rien n'a été fait ».
+- **Rule:** ciel peint + nuages dessinés, mer et sol dessinés (sable blanc crème, jamais jaune), trait d'encre sur chaque objet, détail dessiné, décor plein (10–20 objets), couleurs opposées, ombres colorées. Comparer 4 images du film à 4 références AVANT tout aperçu de film.
+- **Files:** episodes/exploding-whale/sets/toon.py, docs/CORRECTIONS_CB_FR.md
+- **Evidence:** episodes/exploding-whale/build/review/s02_monde_dessine_v1.jpg

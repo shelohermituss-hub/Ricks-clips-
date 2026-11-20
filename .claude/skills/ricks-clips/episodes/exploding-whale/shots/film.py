@@ -30,8 +30,8 @@ def s02(n):
     y0, r0 = w.location.y, w.rotation_euler.z
     for f, y, rz in ((0, 9.0, .25), (44, 1.2, .06), (56, -.25, -.03), (70, 0, 0)):                 # carried in by the wave, slides, settles
         w.location.y = y0 + y; w.rotation_euler.z = r0 + rz; w.keyframe_insert("location", frame=f); w.keyframe_insert("rotation_euler", frame=f)
-    foam = blob("wave_foam", 1.0, (0, 12, 0), ink("foam", (.80, .93, .95), .05, .12), seed=3, squash=(26, 2.0, .04), sub=4)   # the wave that brings it, then pulls back
-    move(foam, ((0, 0, 13.0, .05), (44, 0, 3.0, .16), (58, 0, 2.2, .10), (110, 0, 16.0, -.1)))
+    foam = toon.wave(col("L_FX"))                                                                   # the wave that brings it, then pulls back: clear water with a foam lip
+    move(foam, ((0, 0, 11.5, .05), (44, 0, 1.5, .16), (58, 0, .8, .10), (110, 0, 16.0, -.1)))
     tape = box("tape", (1, .06, .012), (0, 0, 0), ink("tape_yellow", YELLOW, .3, .4), bevel=0); x0, x1, ty = -7.0, 6.6, -3.0
     for f, t in ((62, .02), (112, 1.0)):                                                           # the tape unrolls behind the surveyor
         L = (x1 - x0) * t; tape.scale = (L, 1, 1); tape.location = (x0 + L / 2, ty, H(0, ty) + .03); key(tape, "scale", f); key(tape, "location", f)
@@ -47,9 +47,9 @@ def s02(n):
     stink(col("L_FX"), (1.0, -2.2, 2.2), 150, n, 6, 1); stink(col("L_FX"), (8.6, -3.8, .6), 168, n, 3, 2)
     signs.spiral_eyes(C["jogger"], 186, n); fx(sc, [{"type": "dust_burst", "name": "faint", "at": [11.0, -4.4, .1], "frame": 190, "count": 8, "radius": .9, "height": .4, "seed": 4, "life": 24, "color": [.78, .7, .56]},
                                                    {"type": "dust_burst", "name": "beach_slide", "at": [0, -1.0, .2], "frame": 46, "count": 14, "radius": 5.0, "height": .7, "seed": 6, "life": 30, "color": [.8, .74, .6]}])
-    toon.stylize(sc, w); toon.dress(O, clear=((0, 0, 9.5),)); Mo.update(haze_color=(1.0, .80, .60, 1), bloom=.3, exposure=Mo["exposure"] - .2)
+    toon.stylize(sc, w); toon.dress(O, clear=((0, 0, 9.5),)); Mo.update(haze_color=(1.0, .80, .60, 1), bloom=.3, exposure=Mo["exposure"] - .5)
     d5 = bpy.data.objects.get("driftwood5"); d5.location.x += 9; d5.location.y += 1.5                # it lay across the jogger's close-up as a dark slab   # THE DRAWN WORLD (CB 2026-11-20)
-    for o in (tape, tag, foam): toon.outline(o, .012)
+    for o in (tape, tag): toon.outline(o, .012)
     kit.finish(sc, Mo, ((0, -.1), (70, 0.0)), haze=.2); return sc
 
 # ---------------------------------------------------------------------------------------------------------------- 03
