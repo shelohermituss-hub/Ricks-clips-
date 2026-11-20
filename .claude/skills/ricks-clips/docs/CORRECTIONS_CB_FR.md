@@ -111,3 +111,9 @@ Lire avec :
 | 64 min pour 3,2 s sur le processeur | Processeur = images clés + **un aperçu rapide en une couche** ; GPU RunPod pour les vrais rendus (accord et plafond de CB) ; mesurer le temps GPU avant de chiffrer | `preview.sh` ; CB_RULES §11h |
 | « Utilise Cycles comme moteur principal » (20/11) | Cycles pour tous les rendus (processeur pour les images clés et aperçus, GPU OptiX pour les vrais rendus) ; pas de nouveau comparatif de moteurs | défaut de `rc.render.setup`, `rc/cli.py`, `render_manager.py` ; `CB_RULES.md` |
 | « Chaque problème devient une solution permanente » | Leçon + contrôle / recette / code / ligne de modèle, dans la même séance | ce document, `memory/`, `plan_check`, `continuity` |
+
+## 20/11 — Baleine explosée, plan 1 : couleurs « aussi vives et cinématiques que les références »
+- **Remarque de CB** : les couleurs des références sont plus vives, plus saturées et plus cinématiques que les miennes ; j'avais comparé seulement des moyennes globales.
+- **Ce qui a été fait** : ciel rendu vif pour la caméra seulement (saturation 1,5, gain 1,85), soleil plus fort (11), sujets plus gros dans le cadre, sable calmé, et **exposition qui suit la vue** (`EXPO_KEYS` dans `shots/s01_button.py` : −0,17 sur la partie dune, qui regarde le côté clair du ciel).
+- **Règle retenue** : comparer **côte à côte et par zone** (ciel, sol, sujet) avec des images de référence, pas seulement la moyenne de l'image. Mesure du 20/11 : ciel S73-78 V81-82 côté caisses (références S54-94 V82-89) ; ciel V98 côté dune et sol V71-85 (références V53-67) : **encore trop clairs**, à corriger avant le rendu final.
+- **Reste hors plage** : image 70 (fouetté, luminosité 0,60 pour 0,58 max, saturation 0,52 pour 0,48 max) ; images 20 et 40 à la limite de saturation (0,48-0,49).

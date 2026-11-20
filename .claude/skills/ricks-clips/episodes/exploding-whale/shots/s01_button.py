@@ -113,8 +113,14 @@ def build(sc):
             beach.col("L_FX").objects.link(o)
     return cam, Mo
 
+EXPO_KEYS = ((0, 0.0), (48, 0.0), (68, -.25), (90, -.17), (131, -.17))
+
 def finish(sc, Mo, out):
-    sc.view_settings.view_transform = "Standard"; sc.view_settings.look = Mo.get("contrast", "Medium Contrast"); sc.view_settings.exposure = Mo["exposure"]; lookdev.grade(sc, {"saturation": Mo["sat"]})
+    sc.view_settings.view_transform = "Standard"; sc.view_settings.look = Mo.get("contrast", "Medium Contrast"); sc.view_settings.exposure = Mo["exposure"]; 
+    # CB 20/11: the dune part faces the bright side of the sky -> exposure follows the view (rule L3, light per view)
+    for f, d in EXPO_KEYS:
+        sc.view_settings.exposure = Mo["exposure"] + d; sc.view_settings.keyframe_insert("exposure", frame=f)
+    lookdev.grade(sc, {"saturation": Mo["sat"]})
     sc.render.use_motion_blur = True; sc.render.motion_blur_shutter = .3
     w, h = map(int, opt("--res", "270x480").split("x")); render.setup(sc, "CYCLES", (w, h), int(opt("--samples", "16")), 0)
     bpy.ops.wm.save_as_mainfile(filepath=out)
