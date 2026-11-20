@@ -16,7 +16,7 @@ SEA_Z = -0.30; SHORE_Y = 13.0
 WHALE_GLTF = os.path.join(SKILL, "library", "assets", "sketchfab", "e09c5bd25d92467db1bf938fdb1e701f", "gltf", "scene.gltf")   # "cachalot whale", allthingsaurus, CC-BY 4.0
 WHALE_LEN = 13.7                                                                           # 45 feet
 MOODS = {   # sun azimuth (from), elevation, energy, sky HDRI, sky fill for lighting, sun glow, exposure, saturation
-    "grey":  dict(az=-70, el=20, energy=3.2, hdri="kloofendal_overcast_puresky", light=1.0, glow=0.0, exposure=-.2, sat=.9),      # the stink morning
+    "grey":  dict(az=-70, el=20, energy=3.6, hdri="kloppenheim_06_puresky", light=1.0, glow=0.0, exposure=-.25, sat=.92, sky=.75),   # heavy clouds with shape, never a white sheet      # the stink morning
     "noon":  dict(az=150, el=48, energy=9.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.55, glow=0.0, exposure=-.5, sat=1.08),  # the blast
     "gold":  dict(az=-115, el=14, energy=8.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.5, glow=.9, exposure=-.4, sat=1.05),   # late afternoon / dusk
     "today": dict(az=120, el=40, energy=8.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.7, glow=0.0, exposure=-.45, sat=1.1)}
@@ -49,9 +49,21 @@ def ground(c):
         return n.outputs[0]
     # WET SAND: where the ground is low (near the water) the same sand is darker and glossy; the edge of the wet zone wanders (noise)
     zz = M("ADD", sx.outputs["Z"], M("MULTIPLY", M("SUBTRACT", nz.outputs["Fac"], .5), .10))
-    wet = M("MULTIPLY_ADD", zz, -9.0, .1, clamp=True)                                     # 1 below z = -0.1, 0 above z = 0.01
+    wet0 = M("MULTIPLY_ADD", zz, -9.0, .1, clamp=True)                                    # 1 below z = -0.1, 0 above z = 0.01
+    # the whale leaks: a dark damp halo around its body (ellipse along X) with a wandering edge
+    ex = M("DIVIDE", sx.outputs["X"], WHALE_LEN * .62); ey = M("DIVIDE", sx.outputs["Y"], 3.4)
+    rr = M("ADD", M("ADD", M("MULTIPLY", ex, ex), M("MULTIPLY", ey, ey)), M("MULTIPLY", M("SUBTRACT", nz.outputs["Fac"], .5), .5))
+    wet = M("MAXIMUM", wet0, M("MULTIPLY_ADD", rr, -1.6, 1.9, clamp=True))
     mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; L.new(wet, mx.inputs[0]); L.new(src, mx.inputs[6]); mx.inputs[7].default_value = (.46, .43, .40, 1)
     L.new(mx.outputs[2], b.inputs["Base Color"])
+    # WIND RIPPLES on the dry sand (fine bands across the wind) + small pits: a beach is never a smooth sheet
+    wv = N.new("ShaderNodeTexWave"); wv.wave_type = "BANDS"; wv.inputs["Scale"].default_value = 2.6; wv.inputs["Distortion"].default_value = 3.5; wv.inputs["Detail"].default_value = 2.0; wv.inputs["Detail Scale"].default_value = 1.2
+    mpw = N.new("ShaderNodeMapping"); mpw.inputs["Rotation"].default_value = (0, 0, math.radians(18)); L.new(tc.outputs["Object"], mpw.inputs["Vector"]); L.new(mpw.outputs["Vector"], wv.inputs["Vector"])
+    pit = N.new("ShaderNodeTexNoise"); pit.inputs["Scale"].default_value = 9.0; pit.inputs["Detail"].default_value = 4; L.new(tc.outputs["Object"], pit.inputs["Vector"])
+    hgt = M("ADD", M("MULTIPLY", wv.outputs["Fac"], M("MULTIPLY_ADD", wet, -.8, 1.0)), M("MULTIPLY", pit.outputs["Fac"], .5))
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = .55; bp.inputs["Distance"].default_value = .05; L.new(hgt, bp.inputs["Height"])
+    if b.inputs["Normal"].links: L.new(b.inputs["Normal"].links[0].from_socket, bp.inputs["Normal"])
+    L.new(bp.outputs["Normal"], b.inputs["Normal"])
     rsrc = b.inputs["Roughness"].links[0].from_socket if b.inputs["Roughness"].links else None
     rough = M("MULTIPLY", rsrc if rsrc else .8, M("MULTIPLY_ADD", wet, -.72, 1.0))
     L.new(rough, b.inputs["Roughness"]); L.new(M("MULTIPLY_ADD", wet, .35, .2), b.inputs["Specular IOR Level"])
@@ -113,7 +125,7 @@ def whale(c, at=(0.0, 0.0), yaw=8.0, roll=16.0):
                 for inp in ("Roughness", "Metallic"):
                     for l in list(b.inputs[inp].links): sl.material.node_tree.links.remove(l)
                 b.inputs["Metallic"].default_value = 0.0
-                b.inputs["Roughness"].default_value = .6; b.inputs["Specular IOR Level"].default_value = .3; b.inputs["Coat Weight"].default_value = .12; b.inputs["Coat Roughness"].default_value = .3   # damp skin, not chrome
+                b.inputs["Roughness"].default_value = .72; b.inputs["Specular IOR Level"].default_value = .22; b.inputs["Coat Weight"].default_value = .06; b.inputs["Coat Roughness"].default_value = .35   # damp skin, not chrome
     return root
 
 def _marram_tuft():
@@ -140,13 +152,13 @@ def _marram_tuft():
     nt.links.new(b.outputs[0], ms.inputs[1]); nt.links.new(tl.outputs[0], ms.inputs[2]); nt.links.new(ms.outputs[0], nt.nodes["Material Output"].inputs["Surface"])
     me.materials.append(m); c = bpy.data.collections.new("marram_tuft"); c.objects.link(bpy.data.objects.new("marram_tuft", me)); return c
 
-def dune_grass(c, n=45000, seed=3):
+def dune_grass(c, n=90000, seed=3):
     """marram grass on the dunes: thin pale blades in tufts, in drifts along the crests, none on the beach"""
     src = _marram_tuft(); R = random.Random(seed); P, Rt, Sc = [], [], []
     while len(P) < n:
         x = R.uniform(-110, 110); y = R.uniform(-100, -15); z = height(x, y)
         if z < .4 or R.random() > min(1.0, z / 3.5) * (.2 + .8 * max(0, math.sin(x * .3 + y * .2) * .6 + math.sin(x * .07 - y * .11) * .4 + .3)): continue
-        P.append((x, y, z - .02)); Rt.append((R.uniform(-.15, .15), R.uniform(-.15, .15), R.uniform(0, 6.28))); Sc.append(R.uniform(.8, 1.5))
+        P.append((x, y, z - .02)); Rt.append((R.uniform(-.15, .15), R.uniform(-.15, .15), R.uniform(0, 6.28))); Sc.append(R.uniform(1.0, 1.9))
     return geo.instancer("dune_grass", P, src, c, Rt, Sc, wind=.06)
 
 def rocks_and_wood(c, seed=5):
@@ -166,12 +178,46 @@ def rocks_and_wood(c, seed=5):
         x = R.uniform(-45, 45); y = R.uniform(-13, -5)
         o = mesh_obj("driftwood%d" % k, bm, wood, c, smooth=True); o.rotation_euler = (math.radians(90), 0, R.uniform(0, 3.14)); o.location = (x, y, height(x, y) + .12)
 
+def traces(c, seed=9):
+    """WHAT HAPPENED HERE stays written in the sand: the berm pushed up around the whale, footprints from the dunes to it, the truck's tracks"""
+    R = random.Random(seed); sand = bpy.data.materials["beach_sand"]
+    bm = bmesh.new(); n = 72; rings = []                                                   # berm: a low ridge of pushed sand around the body
+    for k in range(n):
+        t = 2 * math.pi * k / n; cx, cy = math.cos(t) * WHALE_LEN * .56, math.sin(t) * 2.5; w = .55 + .2 * math.sin(k * 1.7); hgt = .16 + .09 * math.sin(k * 2.3 + 1)
+        d = Vector((math.cos(t) * 2.5, math.sin(t) * WHALE_LEN * .56, 0)).normalized()
+        ring = [bm.verts.new((cx + d.x * o_, cy + d.y * o_, height(cx, cy) + z_)) for o_, z_ in ((-w, -.02), (-w * .3, hgt * .8), (0, hgt), (w * .5, hgt * .5), (w, -.02))]
+        rings.append(ring)
+    for k in range(n):
+        a_, b_ = rings[k], rings[(k + 1) % n]
+        for i in range(4): bm.faces.new((a_[i], a_[i + 1], b_[i + 1], b_[i]))
+    mesh_obj("whale_berm", bm, sand, c, smooth=True)
+    dark = bpy.data.materials.get("sand_print")
+    if not dark:
+        dark = tex("sand_print", "coast_sand_01", tile=3.0, recolor="#9a8a6c", value=1.0, normal=1.4, spec=.15, macro=.1)
+    bm = bmesh.new()
+    def foot(x, y, yaw, L_=.27, W_=.1):
+        c_, s_ = math.cos(yaw), math.sin(yaw); z = height(x, y) + .006; vs = []
+        for k in range(12):
+            t = 2 * math.pi * k / 12; lx, ly = math.cos(t) * L_ / 2 * (1.0 if math.cos(t) > 0 else .8), math.sin(t) * W_ / 2 * (1 + .25 * math.cos(t))
+            vs.append(bm.verts.new((x + lx * c_ - ly * s_, y + lx * s_ + ly * c_, z)))
+        bm.faces.new(vs)
+    for path in range(9):                                                                  # walkers came down from the dunes to look, and went back
+        x0 = R.uniform(-28, 30); y0 = -16.0; x1 = R.uniform(-7, 7); y1 = R.uniform(-4.5, -3.0); steps = int(math.hypot(x1 - x0, y1 - y0) / .7)
+        for i in range(steps):
+            t = i / steps; x = x0 + (x1 - x0) * t + .25 * math.sin(i * .4 + path); y = y0 + (y1 - y0) * t; yaw = math.atan2(y1 - y0, x1 - x0) + R.uniform(-.15, .15)
+            side = (-1) ** i * .11; foot(x - math.sin(yaw) * side, y + math.cos(yaw) * side, yaw)
+    for side in (-.85, .85):                                                               # the highway truck's two wheel tracks, with tread blocks
+        for i in range(160):
+            t = i / 160; x = 34 - 30 * t; y = -15 + 10 * t * t + side; yaw = math.atan2(20 * t, -30)
+            if i % 2 == 0: foot(x, y, yaw, L_=.22, W_=.26)
+    mesh_obj("sand_prints", bm, dark, c)
+
 def light(scene, mood="grey"):
     Mo = MOODS[mood]; look.SUN[0], look.SUN[1] = Mo["az"], Mo["el"]
-    look.sky_hdri(scene, hdri=Mo["hdri"], glow=Mo["glow"], light=Mo["light"]); look.sun(scene, energy=Mo["energy"])
+    look.sky_hdri(scene, strength=Mo.get("sky", 1.0), hdri=Mo["hdri"], glow=Mo["glow"], light=Mo["light"] / Mo.get("sky", 1.0)); look.sun(scene, energy=Mo["energy"])
     look.bounce_fill(col("L_SET"), at=(-8.0, -22.0, 14.0), aim=(0, 0, 1.5), energy=2500.0, size=22.0)   # high and wide: no visible pool of light on the sand
     return Mo
 
 def build(scene, mood="grey"):
-    c = col("L_SET"); Mo = light(scene, mood); ground(c); sea(c); w = whale(col("L_OBJECTS")); dune_grass(c); rocks_and_wood(c)
+    c = col("L_SET"); Mo = light(scene, mood); ground(c); sea(c); w = whale(col("L_OBJECTS")); traces(c); dune_grass(c); rocks_and_wood(c)
     return c, w, Mo

@@ -371,7 +371,7 @@
      "angle": 2.0
     },
     "fill": 0.5,
-    "mood": "grey overcast morning (the stink)"
+    "mood": "cool cloudy morning (the stink)"
    },
    "shadows": "ombre longue de la baleine sur le sable mouillé ; ombres des spectateurs et des oyats sur la dune ; ombre du camion ; disques de contact",
    "look": {
@@ -712,7 +712,7 @@
     "music": "light bed"
    },
    "handheld": true,
-   "mood": "grey overcast morning",
+   "mood": "cool cloudy morning",
    "shot_type": "insert then close"
   },
   {
@@ -871,7 +871,7 @@
     "music": "light bed"
    },
    "handheld": true,
-   "mood": "grey overcast morning",
+   "mood": "cool cloudy morning",
    "shot_type": "wide then close"
   },
   {
@@ -1180,7 +1180,7 @@
     "music": "light bed"
    },
    "handheld": true,
-   "mood": "grey overcast morning",
+   "mood": "cool cloudy morning",
    "shot_type": "medium then close"
   },
   {
@@ -1254,7 +1254,7 @@
     "music": "light bed"
    },
    "handheld": true,
-   "mood": "grey overcast morning",
+   "mood": "cool cloudy morning",
    "shot_type": "insert",
    "accelerate": true
   },
