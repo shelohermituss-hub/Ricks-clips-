@@ -1527,6 +1527,114 @@
     {
       "schema_version": 1,
       "provider": "sketchfab",
+      "asset_id": "3076676b30294c119ec2065c3bf3dc47",
+      "name": "Animated Sperm Whale",
+      "creator": "Anees Animates",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_url": "https://sketchfab.com/3d-models/animated-sperm-whale-3076676b30294c119ec2065c3bf3dc47",
+      "kind": "model",
+      "commercial_use": "check exact license and preserve attribution",
+      "downloaded_at_utc": "2026-11-20T05:21:48Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/3076676b30294c119ec2065c3bf3dc47/3076676b30294c119ec2065c3bf3dc47_source.zip",
+          "bytes": 9578272,
+          "sha256": "3dc9391a7bfba44a2cd01c98e762965566099c319802f74a22053ce36e8dd794",
+          "md5": "59a286aa01cd17775fb0d4b765c0eac0",
+          "role": "source_archive"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/3076676b30294c119ec2065c3bf3dc47/gltf/license.txt",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/3076676b30294c119ec2065c3bf3dc47/gltf/scene.bin",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/3076676b30294c119ec2065c3bf3dc47/gltf/scene.gltf",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/3076676b30294c119ec2065c3bf3dc47/gltf/textures/Material_diffuse.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/3076676b30294c119ec2065c3bf3dc47/gltf/textures/Material_normal.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/3076676b30294c119ec2065c3bf3dc47/gltf/textures/Material_occlusion.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/3076676b30294c119ec2065c3bf3dc47/gltf/textures/Material_specularGlossiness.png",
+          "role": "extracted"
+        }
+      ],
+      "status": "ingested"
+    },
+    {
+      "schema_version": 1,
+      "provider": "sketchfab",
+      "asset_id": "e09c5bd25d92467db1bf938fdb1e701f",
+      "name": "cachalot whale",
+      "creator": "allthingsaurus",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_url": "https://sketchfab.com/3d-models/cachalot-whale-e09c5bd25d92467db1bf938fdb1e701f",
+      "kind": "model",
+      "commercial_use": "check exact license and preserve attribution",
+      "downloaded_at_utc": "2026-11-20T05:22:20Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/e09c5bd25d92467db1bf938fdb1e701f/e09c5bd25d92467db1bf938fdb1e701f_source.zip",
+          "bytes": 1153197,
+          "sha256": "40c14c4de50f268996dcef57c050f4b3478ad88400447bfcb67ad1c1cd2496c4",
+          "md5": "e038e031c94e10f3bbf7b74259edd97e",
+          "role": "source_archive"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/e09c5bd25d92467db1bf938fdb1e701f/gltf/license.txt",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/e09c5bd25d92467db1bf938fdb1e701f/gltf/scene.bin",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/e09c5bd25d92467db1bf938fdb1e701f/gltf/scene.gltf",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/e09c5bd25d92467db1bf938fdb1e701f/gltf/textures/cachalot_lowinitialShadingGroup1_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/e09c5bd25d92467db1bf938fdb1e701f/gltf/textures/cachalot_lowinitialShadingGroup1_metallicRoughness.png",
+          "role": "extracted"
+        }
+      ],
+      "status": "ingested"
+    },
+    {
+      "schema_version": 1,
+      "provider": "sketchfab",
       "asset_id": "ca91852b29bb435d8d0278d9131aa775",
       "name": "Formula 1 Car Midpoly",
       "creator": "LWDream",
