@@ -1913,6 +1913,60 @@
     {
       "schema_version": 1,
       "provider": "sketchfab",
+      "asset_id": "716ed002ef0e4f5abc2d4ded74e050ca",
+      "name": "Isuzu TX Tipper truck",
+      "creator": "DoggFathera",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_url": "https://sketchfab.com/3d-models/isuzu-tx-tipper-truck-716ed002ef0e4f5abc2d4ded74e050ca",
+      "kind": "model",
+      "commercial_use": "check exact license and preserve attribution",
+      "downloaded_at_utc": "2026-11-20T13:10:48Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/716ed002ef0e4f5abc2d4ded74e050ca/716ed002ef0e4f5abc2d4ded74e050ca_source.zip",
+          "bytes": 11014624,
+          "sha256": "984b92fbb9708c75c4ae51fcc9daf40f0e0a9e7952862c787d1fd95d7f17e19c",
+          "md5": "006a0e34e4a1bffcc5ce1e36bf5a6fd7",
+          "role": "source_archive"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/716ed002ef0e4f5abc2d4ded74e050ca/gltf/license.txt",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/716ed002ef0e4f5abc2d4ded74e050ca/gltf/scene.bin",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/716ed002ef0e4f5abc2d4ded74e050ca/gltf/scene.gltf",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/716ed002ef0e4f5abc2d4ded74e050ca/gltf/textures/CustomMaterial_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/716ed002ef0e4f5abc2d4ded74e050ca/gltf/textures/CustomMaterial_metallicRoughness.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/716ed002ef0e4f5abc2d4ded74e050ca/gltf/textures/CustomMaterial_normal.png",
+          "role": "extracted"
+        }
+      ],
+      "status": "ingested"
+    },
+    {
+      "schema_version": 1,
+      "provider": "sketchfab",
       "asset_id": "4f6ab5594a8a415aba3f958682b9ced5",
       "name": "Mighty Oak Trees",
       "creator": "Jagobo",
@@ -2073,6 +2127,134 @@
         },
         {
           "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/5db696c6ed5d4bdc87905c1040fa072a/gltf/textures/wheels-brakes_normal.png",
+          "role": "extracted"
+        }
+      ],
+      "status": "ingested"
+    },
+    {
+      "schema_version": 1,
+      "provider": "sketchfab",
+      "asset_id": "fb5a2cfd06b14431962a6d769af3f30d",
+      "name": "Stylized Bulldozer",
+      "creator": "freddielin",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_url": "https://sketchfab.com/3d-models/stylized-bulldozer-fb5a2cfd06b14431962a6d769af3f30d",
+      "kind": "model",
+      "commercial_use": "check exact license and preserve attribution",
+      "downloaded_at_utc": "2026-11-20T13:10:50Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/fb5a2cfd06b14431962a6d769af3f30d/fb5a2cfd06b14431962a6d769af3f30d_source.zip",
+          "bytes": 326747,
+          "sha256": "7007fae952ba96cf502b332913281ec190633803123f1b177fa7d0819db9ae71",
+          "md5": "0c647c9b3512852b6dfa3f2cdfffc878",
+          "role": "source_archive"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/fb5a2cfd06b14431962a6d769af3f30d/gltf/license.txt",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/fb5a2cfd06b14431962a6d769af3f30d/gltf/scene.bin",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/fb5a2cfd06b14431962a6d769af3f30d/gltf/scene.gltf",
+          "role": "extracted"
+        }
+      ],
+      "status": "ingested"
+    },
+    {
+      "schema_version": 1,
+      "provider": "sketchfab",
+      "asset_id": "bcc2004e446d42329485e08c68879948",
+      "name": "Tatra 148 dump truck",
+      "creator": "Randonavt",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_url": "https://sketchfab.com/3d-models/tatra-148-dump-truck-bcc2004e446d42329485e08c68879948",
+      "kind": "model",
+      "commercial_use": "check exact license and preserve attribution",
+      "downloaded_at_utc": "2026-11-20T13:10:56Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/bcc2004e446d42329485e08c68879948_source.zip",
+          "bytes": 25215730,
+          "sha256": "0df53654a714a27fe37c9d3a07be68e88c1626735985aa8b38892f4598f67d9b",
+          "md5": "fa0247eec5ac5680794c03f69f85a4b8",
+          "role": "source_archive"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/license.txt",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/scene.bin",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/scene.gltf",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/textures/Material.001_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/textures/Material.003_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/textures/Material_2_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/textures/Material_3_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/textures/Material_7_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/textures/dashboard_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/textures/default_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/textures/interior_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/textures/lights_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/textures/mirrors_baseColor.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/bcc2004e446d42329485e08c68879948/gltf/textures/seats_baseColor.png",
           "role": "extracted"
         }
       ],

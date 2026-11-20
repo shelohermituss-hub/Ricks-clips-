@@ -13,7 +13,7 @@ _finish = kit.finish
 def _drawn_finish(sc, Mo, expo=(), haze=.5):
     if "beach_sand" in bpy.data.materials:
         toon.stylize(sc, bpy.data.objects.get("whale"), sun=(Mo["az"], Mo["el"])); toon.dress(col("L_OBJECTS"), clear=DRESS_CLEAR); toon.ink_all()
-        Mo.update(haze_color=(1.0, .80, .60, 1), bloom=.3); haze = .2
+        Mo.update(haze_color=(1.0, .80, .60, 1) if Mo["el"] < 35 else (.78, .92, 1.0, 1), bloom=.3); haze = .2
     _finish(sc, Mo, expo, haze)
 kit.finish = _drawn_finish
 YELLOW, RED, WHITE, BLACK, GREEN = (.95, .72, .05), (.75, .04, .03), (.9, .9, .88), (.02, .02, .02), (.25, .75, .12)
@@ -121,22 +121,33 @@ def s04(n):
 
 # ---------------------------------------------------------------------------------------------------------------- props of the beach shots
 ORANGE = (.9, .32, .03)
+SKETCHFAB = os.path.join(beach.SKILL, "library", "assets", "sketchfab")
+TRUCK_ID = "bcc2004e446d42329485e08c68879948"      # "Tatra 148 dump truck", Randonavt, CC-BY 4.0 (a real model: CB 2026-11-20 "cherche de vrais assets, pas des formes assemblées")
+DOZER_ID = "fb5a2cfd06b14431962a6d769af3f30d"      # "Stylized Bulldozer", freddielin, CC-BY 4.0
+
+def model(c, asset_id, name, at, yaw, length, turn, shift=0.0):
+    """import a real model and stand it on the ground: root at `at` (X = forward after `turn` degrees about Z), scaled to `length` metres"""
+    before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(SKETCHFAB, asset_id, "gltf", "scene.gltf")); new = [o for o in bpy.data.objects if o not in before]
+    root = bpy.data.objects.new(name, None); c.objects.link(root); fix = bpy.data.objects.new(name + "_fix", None); c.objects.link(fix); fix.parent = root
+    for o in new:
+        for uc in list(o.users_collection): uc.objects.unlink(o)
+        c.objects.link(o)
+        if o.parent is None: o.parent = fix
+    bpy.context.view_layer.update(); ms = [o for o in new if o.type == "MESH"]; pts = [o.matrix_world @ Vector(v) for o in ms for v in o.bound_box]
+    mn = Vector([min(p[k] for p in pts) for k in range(3)]); mx = Vector([max(p[k] for p in pts) for k in range(3)]); s = length / max(mx.x - mn.x, mx.y - mn.y); cen = (mn + mx) / 2
+    t = math.radians(turn); fix.rotation_euler = (0, 0, t); fix.scale = (s, s, s); cx, cy = cen.x * math.cos(t) - cen.y * math.sin(t), cen.x * math.sin(t) + cen.y * math.cos(t)
+    fix.location = (-cx * s + shift, -cy * s, -mn.z * s); root.location = at; root.rotation_euler = (0, 0, yaw); bpy.context.view_layer.update(); return root, ms
+
 def truck(c, at, yaw=0.0):
-    """the orange highway department dump truck: cab, hood, tilting bed, six wheels. Returns (root, bed); X = forward"""
-    root = bpy.data.objects.new("truck", None); c.objects.link(root); root.location = at; root.rotation_euler = (0, 0, yaw)
-    paint = ink("truck_orange", ORANGE, 0, .32); dark = ink("truck_dark", (.03, .03, .035), 0, .5); glass = ink("truck_glass", (.05, .09, .12), 0, .08); steel = ink("truck_steel", (.5, .5, .5), 0, .3)
-    P = dict(c=c, parent=root)
-    box("tr_frame", (6.2, 1.1, .25), (0, 0, .75), dark, **P); box("tr_cab", (1.7, 2.2, 1.7), (1.5, 0, 1.75), paint, bevel=.08, **P); box("tr_hood", (1.3, 2.0, 1.0), (2.9, 0, 1.35), paint, bevel=.08, **P)
-    box("tr_wind", (.06, 1.9, .75), (2.36, 0, 2.15), glass, bevel=0, **P); box("tr_grille", (.08, 1.5, .6), (3.56, 0, 1.3), steel, bevel=.01, **P); box("tr_bumper", (.2, 2.3, .22), (3.65, 0, .78), steel, **P)
-    for sy in (-1.11, 1.11): box("tr_door_%d" % sy, (1.2, .04, 1.1), (1.5, sy, 1.6), paint, bevel=.02, **P)
-    label("tr_txt", "HIGHWAY DEPT", .2, (1.5, -1.14, 1.5), (math.radians(90), 0, 0), ink("ink_black", BLACK), c, parent=root, extrude=.002)
-    for x in (2.7, -1.2, -2.3):
-        for sy in (-1.05, 1.05):
-            cyl("tr_wheel", .52, .42, (x, sy, .52), ink("tyre", (.025, .025, .025), 0, .8), rot=(math.radians(90), 0, 0), seg=28, **P); cyl("tr_hub", .24, .46, (x, sy, .52), steel, rot=(math.radians(90), 0, 0), **P)
-    bed = bpy.data.objects.new("truck_bed", None); c.objects.link(bed); bed.parent = root; bed.location = (-2.9, 0, 1.0)            # pivot at the rear
-    Q = dict(c=c, parent=bed)
-    box("tr_bed_floor", (3.6, 2.3, .12), (1.8, 0, 0), paint, **Q); box("tr_bed_front", (.1, 2.3, 1.0), (3.55, 0, .5), paint, **Q)
-    for sy in (-1.13, 1.13): box("tr_bed_side_%d" % sy, (3.6, .08, .8), (1.8, sy, .42), paint, **Q)
+    """the orange highway department dump truck: a REAL model (cab, chassis, six wheels) with its bed on a hinge at the rear. Returns (root, bed); X = forward"""
+    root, ms = model(c, TRUCK_ID, "truck", at, yaw, 7.4, 90.0)
+    for o in ms:
+        if any(m and m.name in ("Material_2", "Material_3") for m in o.data.materials): toon.recolor(o, (1.0, .40, .04), .45, .4)        # cab and bed: highway orange
+    bedm = [o for o in ms if any(m and m.name == "Material_3" for m in o.data.materials)]
+    bed = bpy.data.objects.new("truck_bed", None); c.objects.link(bed); bed.parent = root; bed.location = (-3.05, 0, 1.0); bpy.context.view_layer.update()   # the hinge
+    for o in bedm:
+        mw = o.matrix_world.copy(); o.parent = bed; o.matrix_world = mw
+    label("tr_txt", "HIGHWAY DEPT", .17, (2.05, -1.2, 1.45), (math.radians(90), 0, 0), ink("ink_black", BLACK), c, parent=root, extrude=.002)
     return root, bed
 
 def sticks(c, at, n=20):
@@ -414,15 +425,7 @@ def s14(n):
     """1389-1483 "Most of the whale was still lying there, so they buried it anyway." the smoke clears: a crater, and the whale exactly where it was (still 25); the engineer
     shrugs; a bulldozer pushes a wave of sand over it (buried 61); the sand thrown by the blade covers the lens"""
     sc = kit.begin(n); c, w, Mo, O = after(sc, "gold", -115, 14)
-    before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(kit.EP, "build", "assets", "crawler_dozer.glb")); new = [o for o in bpy.data.objects if o not in before]
-    dz_root = bpy.data.objects.new("dozer", None); O.objects.link(dz_root)
-    for o in new:
-        for uc in list(o.users_collection): uc.objects.unlink(o)
-        O.objects.link(o)
-        if o.parent is None: o.parent = dz_root
-        for m in (o.data.materials if o.type == "MESH" else ()):
-            b = m.node_tree.nodes.get("Principled BSDF") if m and m.node_tree else None
-            if b and m.name.startswith("paint"): b.inputs["Base Color"].default_value = (.85, .55, .04, 1)          # highway yellow
+    dz_root, dms = model(O, DOZER_ID, "dozer", (0, 0, 0), 0.0, 5.6, -90.0, shift=-1.7)               # a REAL model (stylized bulldozer), blade toward +X
     dy = -4.6
     for f, x in ((0, -19.0), (40, -15.5), (n - 1, -10.2)): key(dz_root, "location", f, (x, dy, H(x, dy)))
     kit.linear(dz_root); sand = bpy.data.materials["beach_sand"]

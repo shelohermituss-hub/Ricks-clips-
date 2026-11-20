@@ -76,7 +76,7 @@ def sky(scene, ambient=(.50, .60, 1.0), k=.30, sun=(95, 24)):
     w = scene.world; nt = w.node_tree; N, L = nt.nodes, nt.links; N.clear(); out = N.new("ShaderNodeOutputWorld")
     tc = N.new("ShaderNodeTexCoord"); nrm = N.new("ShaderNodeVectorMath"); nrm.operation = "NORMALIZE"; L.new(tc.outputs["Generated"], nrm.inputs[0]); sep = N.new("ShaderNodeSeparateXYZ"); L.new(nrm.outputs[0], sep.inputs[0])
     grad = _ramp(N, L, _m(N, L, "ADD", sep.outputs["Z"], .02, clamp=True),
-                 ((0.0, (1.0, .56, .34)), (.03, (1.0, .74, .56)), (.07, (.98, .86, .80)), (.13, (.56, .88, 1.0)), (.27, (.14, .52, 1.0)), (.5, (.07, .36, .95)), (.85, (.05, .24, .82))))
+                 (((0.0, (1.0, .56, .34)), (.03, (1.0, .74, .56)), (.07, (.98, .86, .80))) if sun[1] < 35 else ((0.0, (.86, .96, 1.0)), (.03, (.78, .94, 1.0)), (.07, (.64, .90, 1.0)))) + ((.13, (.50, .86, 1.0)), (.27, (.14, .52, 1.0)), (.5, (.07, .36, .95)), (.85, (.05, .24, .82))))                 # low sun: a peach horizon; high sun (noon): a pale cyan horizon, never grey
     el, az = math.radians(sun[1]), math.radians(sun[0]); sd = N.new("ShaderNodeVectorMath"); sd.operation = "DOT_PRODUCT"; sd.inputs[1].default_value = (math.sin(az) * math.cos(el), math.cos(az) * math.cos(el), math.sin(el)); L.new(nrm.outputs[0], sd.inputs[0])
     halo = _m(N, L, "POWER", _m(N, L, "MAXIMUM", sd.outputs["Value"], 0.0), 5.0); core = _m(N, L, "GREATER_THAN", sd.outputs["Value"], .9988)
     grad = _mix(N, L, _m(N, L, "MULTIPLY", halo, .55), grad, (1.0, .90, .66)); grad = _mix(N, L, core, grad, (1.0, .98, .86))                # the sun: a warm halo and a drawn disc
@@ -176,7 +176,7 @@ def stylize(scene, whale=None, sun_color=(1.0, .90, .74), sun=(95, 24)):
     """turn the photo beach into the drawn beach (call after beach.build and after the shot's own objects exist)"""
     sky(scene, sun=sun); clouds(col("L_SET"), sun=sun); sea(); sand()
     for o in bpy.data.objects:
-        if o.type == "LIGHT" and o.data.type == "SUN": o.data.color = sun_color; o.data.energy *= .7       # the pale sand is held by the LAMP, not by the exposure: sky, clouds and characters keep their brightness (CB 2026-11-20)
+        if o.type == "LIGHT" and o.data.type == "SUN": o.data.color = sun_color; o.data.energy *= (.7 if sun[1] < 35 else .55)       # the pale sand is held by the LAMP, not by the exposure: sky, clouds and characters keep their brightness (CB 2026-11-20)
         if o.name.startswith("bounce_fill"): o.data.energy *= .35
         if o.name.startswith("rock"):
             o.data.materials.clear(); o.data.materials.append(paint("rock_paint", (.13, .16, .27), .5)); outline(o, .05)
