@@ -19,7 +19,7 @@ def height(x, y): return 0.0
 
 def stone():
     """ashlar: a smooth scanned stone surface, recoloured beige-grey, each block with its own tint (vertex colour), dark recessed joints"""
-    m = tex("fort_stone", "concrete_floor_01", tile=1.2, recolor="#cfc4ae", value=1.0, normal=.8, spec=.15, macro=.2)
+    m = tex("fort_stone", "grey_plaster_02", tile=2.5, recolor="#c9bea8", value=1.0, normal=.5, spec=.12, macro=.25)   # smooth dressed stone (the first scan was speckled like terrazzo)
     nt = m.node_tree; N, L = nt.nodes, nt.links; b = N["Principled BSDF"]; src = b.inputs["Base Color"].links[0].from_socket
     vc = N.new("ShaderNodeVertexColor"); vc.layer_name = "tint"; mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs[0].default_value = 1.0
     L.new(src, mx.inputs[6]); L.new(vc.outputs["Color"], mx.inputs[7]); L.new(mx.outputs[2], b.inputs["Base Color"]); b.inputs["Roughness"].default_value = .85
@@ -90,11 +90,11 @@ def ground(c):
     mesh_obj("fort_path", bp, tex("fort_path", "brown_mud_02", tile=2.0, recolor="#8a6a48", value=1.0, normal=1.4, spec=.12, macro=.2), c)
     src = street.blade_clump(); m = bpy.data.materials.get("grass_blades")
     if m and not m.get("rc_recoloured"):
-        cr = [n_ for n_ in m.node_tree.nodes if n_.type == "VALTORGB"][0].color_ramp; cr.elements[0].color = (*srgb("#3f8a22"), 1); cr.elements[1].color = (*srgb("#b6e85a"), 1); m["rc_recoloured"] = 1   # the reference's vivid yellow-green
+        cr = [n_ for n_ in m.node_tree.nodes if n_.type == "VALTORGB"][0].color_ramp; cr.elements[0].color = (*srgb("#3c7a24"), 1); cr.elements[1].color = (*srgb("#a6d552"), 1); m["rc_recoloured"] = 1   # the reference's vivid yellow-green
         nt = m.node_tree; b = nt.nodes["Principled BSDF"]; out = nt.nodes["Material Output"]; tl = nt.nodes.new("ShaderNodeBsdfTranslucent"); mixs = nt.nodes.new("ShaderNodeMixShader")
         nt.links.new(b.inputs["Base Color"].links[0].from_socket, tl.inputs["Color"]); mixs.inputs[0].default_value = .45; nt.links.new(b.outputs[0], mixs.inputs[1]); nt.links.new(tl.outputs[0], mixs.inputs[2]); nt.links.new(mixs.outputs[0], out.inputs["Surface"])
-    for k, (zone, n, sd, sc) in enumerate(((  [[-9, -8], [8, -8], [8, 2.7], [-9, 2.7]], 70000, 1, (1.9, 3.4)), ([[-40, -30], [40, -30], [40, -7], [-40, -7]], 30000, 2, (1.2, 2.2)),
-                                             ([[-40, -7], [-9, -7], [-9, 2.4], [-40, 2.4]], 26000, 3, (1.1, 2.0)), ([[8, -7], [40, -7], [40, 3.4], [8, 3.4]], 22000, 4, (1.5, 2.6)))):
+    for k, (zone, n, sd, sc) in enumerate(((  [[-6, -6.5], [7, -6.5], [7, 2.7], [-6, 2.7]], 42000, 1, (.8, 1.9)), ([[-30, -22], [30, -22], [30, -6.5], [-30, -6.5]], 16000, 2, (1.0, 2.0)),
+                                             ([[-36, -6.5], [-6, -6.5], [-6, 2.7], [-36, 2.7]], 22000, 3, (.9, 1.9)), ([[7, -6.5], [36, -6.5], [36, 3.4], [7, 3.4]], 16000, 4, (.9, 1.9)))):
         P, Rt, Sc = geo.scatter_points({"polygon": zone}, n, sd, exclude=[{"center": [.55, 0], "radius": .38}], scale_range=sc); geo.instancer("grass_%d" % k, P, src, c, Rt, Sc, wind=.05)
 
 def build(scene):
@@ -105,4 +105,9 @@ def build(scene):
     blocks("tower_front", c, (2.3, 3.6, 0), (1, 0, 0), (0, -1, 0), 9.0, 12.0, st, seed=2); blocks("tower_side", c, (2.3, 6.0, 0), (0, -1, 0), (-1, 0, 0), 2.4, 12.0, st, seed=3)
     back = bmesh.new(); back.faces.new([back.verts.new(p) for p in ((-34, 6.05, 0), (3, 6.05, 0), (3, 6.05, 9.6), (-34, 6.05, 9.6))]); mesh_obj("wall_A_back", back, bpy.data.materials["fort_joint"] if bpy.data.materials.get("fort_joint") else _flat("fort_joint", (.06, .055, .05)), c)
     gate = bmesh.new(); gate.faces.new([gate.verts.new(p) for p in ((-8.9, 6.6, 0), (-5.1, 6.6, 0), (-5.1, 6.6, 4.6), (-8.9, 6.6, 4.6))]); mesh_obj("gate_dark", gate, _flat("gate_dark", (.02, .018, .016)), c)
-    banner(c, (-1.0, 6.0, 8.2)); return Mo
+    banner(c, (-1.9, 6.0, 6.9), h=3.4)
+    nt = scene.world.node_tree; N, L = nt.nodes, nt.links                                           # the reference's sky is pale everywhere: the photo seen by the lens is lightened and less saturated (the light it gives does not change)
+    pick = [n for n in N if n.type == "MIX" and n.inputs[0].links and n.inputs[0].links[0].from_node.type == "LIGHT_PATH" and n.data_type == "RGBA"]
+    if pick:
+        src = pick[0].inputs[7].links[0].from_socket; hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Saturation"].default_value = .8; hs.inputs["Value"].default_value = 1.35; L.new(src, hs.inputs["Color"]); L.new(hs.outputs["Color"], pick[0].inputs[7])
+    return Mo

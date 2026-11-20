@@ -61,17 +61,17 @@ def s01(n):
     """0-66 "He drilled 82 holes into the wood" (drilled 6, 82 14, holes 28, into 45, wood 58): the engineer cranks his drill into the plank in the grass
     before the fort wall; snap push to the bit (30-36), extreme close-up of the turning bit and the chips (44-56), then the camera climbs the wall
     past the banner (58-66) on its way over the rampart (shot 2)"""
-    sc = kit.begin(n); Mo = fort.build(sc); O = col("L_OBJECTS"); brd, holes = board(O); hz = holes[40][2]; hy = holes[40][1]
-    dr, parts = bk(O, "hand_drill", .8); dr.rotation_euler = (0, math.radians(-90), 0); dr.location = (.52, hy, hz)                 # the bit points at the plank
+    sc = kit.begin(n); Mo = fort.build(sc); O = col("L_OBJECTS"); brd, holes = board(O); hz = holes[64][2]; hy = holes[64][1]                 # a hole high on the camera side of the plank
+    dr, parts = bk(O, "hand_drill", .95); dr.rotation_euler = (0, math.radians(-90), 0); dr.location = (.45, hy, hz)                 # the bit points at the plank
     crank = parts.get("vintage_hand_drill_crank")
-    for f in range(0, n, 2): key(dr, "location", f, (.52 + (.012 if (f // 2) % 2 else 0), hy, hz))                                    # he leans on it
+    for f in range(0, n, 2): key(dr, "location", f, (.45 + (.012 if (f // 2) % 2 else 0), hy, hz))                                    # he leans on it
     if crank:
         for f in (0, n): key(crank, "rotation_euler", f, (0, (crank.rotation_euler.y + (f / 30) * math.tau * 2.5), 0))
         kit.linear(crank)
     chips(col("L_FX"), (.95, hy, hz), 4, 60)
-    cam = kit.camera([(0, (-.3, -6.0, 1.0), (.5, 0, 1.3), 32), (26, (-.25, -5.8, 1.0), (.52, 0, 1.28), 32), (36, (-.2, -1.6, 1.0), (.85, hy, hz + .02), 34),
-                      (44, (.1, -1.0, hz - .05), (.9, hy, hz + .1), 36), (56, (.12, -.95, hz - .04), (.9, hy, hz + .1), 36), (62, (.2, -3.2, 2.4), (-.6, 6, 5.0), 26), (n - 1, (-.2, -1.5, 5.2), (-.9, 6, 7.4), 24)], n, amp=.006)
-    kit.cards(sc, "01", cam, {"engineer": [(0, -.35, hy + .02)]}, fort.height)
+    cam = kit.camera([(0, (.35, -4.3, 1.0), (.5, 0, .98), 32), (26, (.38, -4.15, 1.0), (.52, 0, .98), 32), (36, (.2, -2.0, 1.0), (.85, hy, hz - .05), 36),
+                      (44, (.42, -1.35, hz - .28), (.93, hy + .1, hz + .03), 42), (56, (.44, -1.3, hz - .27), (.93, hy + .1, hz + .04), 42), (62, (.2, -3.2, 2.4), (-1.2, 6, 4.6), 26), (n - 1, (-.2, -1.5, 4.6), (-1.6, 6, 6.2), 24)], n, amp=.006)
+    kit.cards(sc, "01", cam, {"engineer": [(0, -.5, hy + .02)]}, fort.height)
     kit.finish(sc, Mo, haze=.12); return sc
 
 SHOTS = {"01": s01}
