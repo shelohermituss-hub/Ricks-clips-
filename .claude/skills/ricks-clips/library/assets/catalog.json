@@ -1677,6 +1677,76 @@
     {
       "schema_version": 1,
       "provider": "sketchfab",
+      "asset_id": "b0f6c1fb43e744ec876faecaba3d4925",
+      "name": "Chinese pavilion",
+      "creator": "shineSUU",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_url": "https://sketchfab.com/3d-models/chinese-pavilion-b0f6c1fb43e744ec876faecaba3d4925",
+      "kind": "model",
+      "commercial_use": "check exact license and preserve attribution",
+      "downloaded_at_utc": "2026-11-20T17:06:09Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/b0f6c1fb43e744ec876faecaba3d4925/b0f6c1fb43e744ec876faecaba3d4925_source.zip",
+          "bytes": 1455060,
+          "sha256": "019bc52d038b8e0888e9d722a35736bfbf8ebfaef3a1b16123abe2d668b8266f",
+          "md5": "406693d713f082ca69316848fe5d3b43",
+          "role": "source_archive"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/b0f6c1fb43e744ec876faecaba3d4925/gltf/license.txt",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/b0f6c1fb43e744ec876faecaba3d4925/gltf/scene.bin",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/b0f6c1fb43e744ec876faecaba3d4925/gltf/scene.gltf",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/b0f6c1fb43e744ec876faecaba3d4925/gltf/textures/Beige_2_baseColor.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/b0f6c1fb43e744ec876faecaba3d4925/gltf/textures/Concrete_rough_baseColor.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/b0f6c1fb43e744ec876faecaba3d4925/gltf/textures/Concrete_rough_metallicRoughness.png",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/b0f6c1fb43e744ec876faecaba3d4925/gltf/textures/DSCF3954__bump5_baseColor.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/b0f6c1fb43e744ec876faecaba3d4925/gltf/textures/Spanish_Tile_1_baseColor.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/b0f6c1fb43e744ec876faecaba3d4925/gltf/textures/Yellow_4_baseColor.jpeg",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/b0f6c1fb43e744ec876faecaba3d4925/gltf/textures/material_baseColor.jpeg",
+          "role": "extracted"
+        }
+      ],
+      "status": "ingested"
+    },
+    {
+      "schema_version": 1,
+      "provider": "sketchfab",
       "asset_id": "ca91852b29bb435d8d0278d9131aa775",
       "name": "Formula 1 Car Midpoly",
       "creator": "LWDream",

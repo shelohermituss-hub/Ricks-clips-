@@ -11,5 +11,5 @@ const fort_engineer = wear({ name: 'fort_engineer', label: 'Fort engineer', form
 import { CAST as ASIA } from './sheet02.mjs';
 const enemy_general = { ...ASIA.find(c => c.name === 'samurai'), name: 'enemy_general', label: 'Enemy general', coat: '#2b2733' };
 const enemy_soldier = wear({ name: 'enemy_soldier', label: 'Enemy soldier', form: 'standard', size: 'thin', coat: '#e0aa1c', face: 'annoyed', hairCol: '#2e2a26',
-                             outfit: ['mongol', { a: '#e0aa1c', b: '#3a3a40', c: '#7a5a20' }] }, 'buzz', { col: '#2e2a26', hat: 'dome', hatCol: '#aeb4c2' });
+                             outfit: ['mongol', { a: '#e0aa1c', b: '#3a3a40', c: '#7a5a20' }] }, 'buzz', { col: '#2e2a26', hat: 'pith', hatCol: '#aeb4c2' });
 export const CAST = [fort_engineer, enemy_general, enemy_soldier];

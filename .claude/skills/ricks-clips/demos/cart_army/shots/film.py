@@ -109,22 +109,44 @@ def palanquin(c):
     return root
 
 def s02(n):
-    """66-177 "because down(77) the hill(92) an army(109) is marching(125) straight(134) for his fort(158)": the camera clears the rampart, dives down the
-    slope and along the road to the head of the army (the general on his palanquin under the parasol, the yellow column and its dust behind him), holds
-    on him as they march (40-74), then swings round: the general in three-quarter view with the fort on its hill behind him (84-111)"""
+    """66-177 "because down(77) the hill(92) an army(109) is marching(125) straight(134) for his fort(158)". Nothing head-on (CB 2026-11-20):
+    0-30 the camera clears the rampart and looks DOWN THE HILL in a diagonal: the S of the road, the column climbing it, the plain of small fields,
+    the wooded hills, the peaks; 40-74 above and in front of the general (three-quarter, plunging), the column winding away behind him;
+    84-111 low on the road below him, looking UP: the general, and the fort on its hill up to the right"""
     import valley
-    sc = kit.begin(n); Mo = valley.build(sc); O = col("L_OBJECTS"); H = valley.height; hx, hy0 = valley.HEAD; v = 1.3 / 30                      # they march up the road (+Y) at 1.3 m/s
-    pal = palanquin(O); move(pal, ((0, hx, hy0, H(hx, hy0)), (n, hx, hy0 + v * n, H(hx, hy0 + v * n)))); kit.linear(pal)
-    army = bpy.data.objects.new("army", None); O.objects.link(army); move(army, ((0, 0, 0, 0), (n, 0, v * n, 0))); kit.linear(army)
-    cam = kit.camera([(0, (0, 14, 26), (0, -90, 0), 22), (12, (1.5, -12, 20), (0, -150, 0), 22), (30, (2.5, hy0 + 34, 9), (hx, hy0, 2.6), 24), (40, (1.6, hy0 + 10.5, 3.3), (hx + .1, hy0, 2.7), 30),
-                      (74, (1.5, hy0 + 10.8 + v * 34, 3.2), (hx + .1, hy0 + v * 34, 2.7), 30), (84, (-2.4, hy0 - 6.5 + v * 84, 1.5), (1.6, hy0 + 3 + v * 84, 3.4), 28), (n - 1, (-2.2, hy0 - 6.3 + v * n, 1.5), (1.6, hy0 + 3.2 + v * n, 3.4), 28)], n, amp=.006, clip=6000.0)
-    P = lambda dx, dy, dz=0.0: [(0, hx + dx, hy0 + dy, H(hx + dx, hy0 + dy) + dz), (n, hx + dx, hy0 + dy + v * n, H(hx + dx, hy0 + dy + v * n) + dz)]
-    C = kit.cards(sc, "02", cam, {"general": P(0, 0, 1.12), "bearer_a": P(-1.25, 1.5), "bearer_b": P(1.25, 1.7), "bearer_c": P(.15, 2.9), "crowd": P(-2.6, -3.0)}, None)
-    src = bpy.data.objects["Card_crowd"]; R = random.Random(2)                                        # the column: hundreds of the same soldier, each a card of its own
-    for i in range(260):
-        o = src.copy(); O.objects.link(o); o.animation_data_clear(); row, k = divmod(i, 10); o.parent = army; x = -9 + k * 2.0 + R.uniform(-.4, .4); y = hy0 - 5.5 - row * 2.2 + R.uniform(-.4, .4); o.location = (x, y, H(x, y)); o.rotation_euler = src.rotation_euler
-    fx(sc, [{"type": "dust_burst", "name": "march_dust_%d" % i, "at": [R.uniform(-14, 14), hy0 - 30 - i * 9, 1.0], "frame": -30 + i * 3, "count": 6, "radius": 9.0, "height": 5.0, "seed": 20 + i, "life": 200, "color": [.86, .82, .7]} for i in range(6)])
-    kit.finish(sc, Mo, haze=.3); return sc
+    sc = kit.begin(n); Mo = valley.build(sc); O = col("L_OBJECTS"); H = valley.height; road, up = valley.road, valley.road_dir; S0 = valley.HEAD_S; v = 1.3 / 30   # they climb at 1.3 m/s
+    def at(s, lat=0.0, dz=0.0):
+        x, y = road(s); d = up(s); return (x - d.y * lat, y + d.x * lat, H(x - d.y * lat, y + d.x * lat) + dz)
+    def path(ds, lat=0.0, dz=0.0): return [(fr, *at(S0 + ds - v * fr, lat, dz)) for fr in list(range(0, n, 8)) + [n]]
+    pal = palanquin(O)
+    for fr in list(range(0, n, 8)) + [n]:
+        d = up(S0 - v * fr); pal.location = at(S0 - v * fr); pal.rotation_euler = (0, 0, math.atan2(d.y, d.x) - math.pi / 2); pal.keyframe_insert("location", frame=fr); pal.keyframe_insert("rotation_euler", frame=fr)
+    g0 = Vector(at(S0)); g1 = Vector(at(S0 - v * 57)); g2 = Vector(at(S0 - v * 97)); u0 = up(S0); r0 = Vector((-u0.y, u0.x, 0)); U = Vector((u0.x, u0.y, 0))
+    cam = kit.camera([(0, (18, 16, valley.HILL + 20), (-8, -150, 0), 22), (18, (20, -22, valley.HILL + 14), (-14, -170, 0), 22), (30, tuple(g0 + U * 30 + r0 * 9 + Vector((0, 0, 12))), tuple(g0 + Vector((0, 0, 2.6))), 24),
+                      (40, tuple(g0 + U * 9.5 + r0 * 4.2 + Vector((0, 0, 4.4))), tuple(g0 + Vector((0, 0, 2.4))), 30), (74, tuple(g1 + U * 9.5 + r0 * 4.0 + Vector((0, 0, 4.3))), tuple(g1 + Vector((0, 0, 2.4))), 30),
+                      (84, tuple(g2 - U * 7.0 + r0 * 3.4 + Vector((0, 0, .5))), tuple(g2 + U * 6 - r0 * 1.5 + Vector((0, 0, 4.2))), 26), (n - 1, tuple(g2 - U * 6.8 + r0 * 3.3 + Vector((0, 0, .5))), tuple(g2 + U * 6 - r0 * 1.5 + Vector((0, 0, 4.2))), 26)], n, amp=.006, clip=9000.0)
+    cam.data.dof.use_dof = False                                                                      # the characters stay SHARP (CB: "nets, clairs, détaillés")
+    C = kit.cards(sc, "02", cam, {"general": path(0, 0, 1.12), "bearer_a": path(-1.6, -1.25), "bearer_b": path(-1.8, 1.25), "bearer_c": path(-3.1, .15), "crowd": path(6.5, -2.2)}, None)
+    for o in bpy.data.objects:                                                                        # and CLEAR: the cards are lit almost only by their own light
+        if o.name.startswith("Card_"):
+            for m in o.data.materials:
+                for nd in (m.node_tree.nodes if m and m.use_nodes else ()):
+                    if nd.type == "MIX_SHADER" and not nd.inputs[0].links: nd.inputs[0].default_value = .9
+    src = bpy.data.objects["Card_crowd"]; R = random.Random(2); spear = ink("spear_wood", (.25, .16, .08), 0, .6); tip = ink("spear_tip", (.75, .76, .8), 0, .3); yel = ink("banner_yellow", (.9, .68, .05), 0, .7)
+    for i in range(300):                                                                              # the column: it follows the S of the road
+        row, k = divmod(i, 6); ds = 5.0 + row * 2.1 + R.uniform(-.3, .3); lat = -2.3 + k * .92 + R.uniform(-.15, .15); o = src.copy(); O.objects.link(o); o.animation_data_clear()
+        ct = o.constraints.new("COPY_ROTATION"); ct.target = src                                       # every card turns to the lens with the first one
+        for fr in (0, n // 2, n): o.location = at(S0 + ds - v * fr, lat); o.keyframe_insert("location", frame=fr)
+        if i % 5 == 2:
+            sp = cyl("spear", .018, 2.7, (0, 0, 0), spear, O, seg=6); tp = cyl("spear_tip", .035, .22, (0, 0, 0), tip, O, r2=.002, seg=6)
+            for fr in (0, n // 2, n): q = at(S0 + ds - v * fr, lat + .3); sp.location = (q[0], q[1], q[2] + 1.35); sp.keyframe_insert("location", frame=fr); tp.location = (q[0], q[1], q[2] + 2.8); tp.keyframe_insert("location", frame=fr)
+        if i % 47 == 9:
+            bp = cyl("ban_pole", .025, 3.6, (0, 0, 0), spear, O, seg=6); bf = box("ban_flag", (.75, .03, 1.0), (0, 0, 0), yel, O, bevel=0)
+            for fr in (0, n // 2, n): q = at(S0 + ds - v * fr, lat - .3); bp.location = (q[0], q[1], q[2] + 1.8); bp.keyframe_insert("location", frame=fr); bf.location = (q[0] + .4, q[1], q[2] + 3.05); bf.keyframe_insert("location", frame=fr)
+    c_ = col("L_SET"); z1 = [[g0.x + dx, g0.y + dy] for dx, dy in ((-16, -16), (16, -16), (16, 26), (-16, 26))]; z2 = [[-10, -60], [40, -60], [40, -8], [-10, -8]]
+    valley.tufts(c_, [(z1, 9000), (z2, 5000)])                                                          # real grass only where the lens comes close
+    fx(sc, [{"type": "dust_burst", "name": "march_dust_%d" % i, "at": list(at(S0 + 30 + i * 22, R.uniform(-5, 5), 1.2)), "frame": -40 + i * 4, "count": 8, "radius": 7.0, "height": 4.0, "seed": 20 + i, "life": 260, "color": [.86, .80, .66]} for i in range(5)])
+    kit.finish(sc, Mo, haze=.32); return sc
 
 SHOTS = {"01": s01, "02": s02}
 if __name__ == "__main__":

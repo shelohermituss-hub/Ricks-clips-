@@ -128,3 +128,16 @@ def build(scene):
     if pick:
         src = pick[0].inputs[7].links[0].from_socket; hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Saturation"].default_value = .62; hs.inputs["Value"].default_value = 2.1; L.new(src, hs.inputs["Color"]); L.new(hs.outputs["Color"], pick[0].inputs[7])
     return Mo
+
+
+def gltf(c, asset_id, size, at, yaw=0.0):
+    """a real Sketchfab model (library/assets/sketchfab/<id>): stood on `at`, its largest horizontal side scaled to `size` metres"""
+    before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(SKILL, "library", "assets", "sketchfab", asset_id, "gltf", "scene.gltf")); new = [o for o in bpy.data.objects if o not in before]
+    root = bpy.data.objects.new("sf_" + asset_id[:6], None); c.objects.link(root); fix = bpy.data.objects.new("sf_fix", None); c.objects.link(fix); fix.parent = root
+    for o in new:
+        for uc in list(o.users_collection): uc.objects.unlink(o)
+        c.objects.link(o)
+        if o.parent is None: o.parent = fix
+    bpy.context.view_layer.update(); ms = [o for o in new if o.type == "MESH"]; pts = [o.matrix_world @ Vector(v) for o in ms for v in o.bound_box]
+    mn = Vector([min(p[k] for p in pts) for k in range(3)]); mx = Vector([max(p[k] for p in pts) for k in range(3)]); s = size / max(mx.x - mn.x, mx.y - mn.y); cen = (mn + mx) / 2
+    fix.scale = (s, s, s); fix.location = (-cen.x * s, -cen.y * s, -mn.z * s); root.location = at; root.rotation_euler = (0, 0, yaw); return root

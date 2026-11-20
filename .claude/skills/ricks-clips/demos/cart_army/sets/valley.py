@@ -1,108 +1,149 @@
-"""cart_army shot 2: THE VALLEY below the fort (reference: references/cart_army/shots/s02_hi.jpg).
-Layout (metres): the fort wall runs along X at y = 0 on its hill (z = 7), gate at x = 0; a dirt road goes down the slope and across the plain
-along -Y; the army marches up it (its head near y = -120). The plain is a patchwork of small fields (greens, straw yellow, olive) with
-hedges, a river, tree clumps; rolling green hills behind, grey rocky peaks far away; a deep blue sky with streaks of white cloud.
+"""cart_army shot 2: THE VALLEY below the fort (reference: references/cart_army/shots/s02_hi.jpg). Rebuilt after CB's corrections of 2026-11-20:
+  * the fort stands ON A HILL (16 m), the road comes down from its gate in an S and the army CLIMBS it: nothing is seen head-on
+  * the ground is a grass TEXTURE; real grass tufts are added only near the lens
+  * colours are the reference's own (sampled): grass #77b336/#68993f/#52a72f, road #947848, hills #376d3f-#4f823e, sky #919fc6-#96abde, sunlit stone #ebe2d3
+  * the far country is real relief (ridges and folds from fractal noise: woods, meadows, grey rock high up), not smooth bumps
+  * detail only where a camera of this shot looks
+Layout (metres): fort wall along X at y = 0 on the hill top (gate at x = 0, facing -Y); road(s) = point of the road s metres below the gate.
     import valley; Mo = valley.build(scene)"""
 import bpy, bmesh, math, os, random, sys
-from mathutils import Vector
+from mathutils import Vector, noise
 import fort
 from fort import look, geo, tex, col, mesh_obj, srgb, street, SKILL, _flat, _tint
 
-MOOD = dict(az=-150, el=48, energy=8.5, hdri="kloofendal_48d_partly_cloudy_puresky", light=.55, glow=.3, exposure=-.3, sat=1.18, contrast="Medium Contrast")
-HEAD = (0.0, -80.0)                                                                     # where the general's palanquin is at frame 0 of the close view
+MOOD = dict(az=-100, el=56, energy=7.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.75, glow=.25, exposure=-.15, sat=1.12, contrast="Medium Contrast")
+HILL = 16.0; HEAD_S = 72.0                                                               # the general is 72 m down the road at frame 0
+
+def road(s):
+    t = s / 200.0; return 26.0 * math.sin(t * math.tau * .95) * min(1.0, s / 25.0), -6.0 - s * .93
+
+def road_dir(s):
+    a, b = road(s - .5), road(s + .5); d = Vector((a[0] - b[0], a[1] - b[1])).normalized(); return d                      # unit vector pointing UP the road (toward the gate)
 
 def height(x, y):
-    t = min(1.0, max(0.0, (y + 75.0) / 60.0)); t = t * t * (3 - 2 * t); return 7.0 * t + .25 * math.sin(x * .05) * (1 - t)
+    d = math.hypot(x, y - 15.0); t = min(1.0, max(0.0, 1.0 - (d - 45.0) / 80.0)); t = t * t * (3 - 2 * t)
+    return HILL * t + .5 * math.sin(x * .031 + 1.0) * math.sin(y * .027) * (1 - t)
 
 def ground(c):
-    bm = bmesh.new(); nx, ny = 120, 360; V = [[bm.verts.new((-600 + 1200 * i / nx, -1400 + 1440 * j / ny, height(-600 + 1200 * i / nx, -1400 + 1440 * j / ny))) for i in range(nx + 1)] for j in range(ny + 1)]
+    bm = bmesh.new(); uv = bm.loops.layers.uv.new(); nx, ny = 240, 170; X0, X1, Y0, Y1 = -620.0, 620.0, -760.0, 110.0
+    V = [[bm.verts.new((X0 + (X1 - X0) * i / nx, Y0 + (Y1 - Y0) * j / ny, height(X0 + (X1 - X0) * i / nx, Y0 + (Y1 - Y0) * j / ny))) for i in range(nx + 1)] for j in range(ny + 1)]
     for j in range(ny):
-        for i in range(nx): bm.faces.new((V[j][i], V[j][i + 1], V[j + 1][i + 1], V[j + 1][i]))
-    mesh_obj("valley_ground", bm, tex("valley_grass", "brown_mud_02", tile=6.0, recolor="#5f9a2c", value=1.0, normal=.8, spec=.1, macro=.25), c, smooth=True)
+        for i in range(nx):
+            f = bm.faces.new((V[j][i], V[j][i + 1], V[j + 1][i + 1], V[j + 1][i]))
+            for lp in f.loops: lp[uv].uv = (lp.vert.co.x * .25, lp.vert.co.y * .25)
+    mesh_obj("valley_ground", bm, tex("valley_grass", "leafy_grass", tile=3.0, recolor="#6aa838", value=1.0, normal=1.2, spec=.08, macro=.3), c, smooth=True)   # THE GRASS IS A TEXTURE
     rd = bmesh.new(); pv = None
-    for k in range(120):                                                                 # the dirt road, following the ground
-        y = 2 - 420 * k / 119; x = 3.5 * math.sin(y * .012) * min(1.0, max(0.0, (-y - 150) / 100)); a, b = rd.verts.new((x - 2.8, y, height(x, y) + .16)), rd.verts.new((x + 2.8, y, height(x, y) + .16))
+    for k in range(0, 420):                                                              # the dirt road, an S down the hill and across the plain
+        s = k * 1.0; x, y = road(s); d = road_dir(s); nx_, ny_ = -d.y, d.x; w = 2.9
+        a, b = rd.verts.new((x - nx_ * w, y - ny_ * w, height(x - nx_ * w, y - ny_ * w) + .14)), rd.verts.new((x + nx_ * w, y + ny_ * w, height(x + nx_ * w, y + ny_ * w) + .14))
         if pv: rd.faces.new((pv[0], pv[1], b, a))
         pv = (a, b)
-    mesh_obj("valley_road", rd, tex("valley_road", "brown_mud_02", tile=2.0, recolor="#8a6540", value=1.0, normal=1.4, spec=.12, macro=.2), c, smooth=True)
+    mesh_obj("valley_road", rd, tex("valley_road", "brown_mud_02", tile=2.0, recolor="#9a7f50", value=1.0, normal=1.6, spec=.1, macro=.25), c, smooth=True)
 
 def fields(c, seed=7):
-    """the patchwork: hundreds of small plots, each one colour, with a darker hedge line between them (seen from the air and from the road)"""
-    R = random.Random(seed); cols = ["#6fae2e", "#8cc23a", "#4f9a2a", "#d6c84a", "#ead867", "#9fbf3e", "#3f8a2c", "#c9b540", "#7fb83a", "#e2d060"]; bm = bmesh.new(); lay = bm.loops.layers.color.new("tint"); hed = bmesh.new(); y = -112.0
-    while y > -900:
-        h = R.uniform(14, 30); x = -520.0 + R.uniform(0, 30)
-        while x < 520:
-            w = R.uniform(18, 46)
-            if abs(x + w / 2) > 9 + w / 2:
-                cc = srgb(R.choice(cols)); k = R.uniform(.85, 1.1); q = [(x + 1, y - h + 1), (x + w - 1, y - h + 1), (x + w - 1, y - 1), (x + 1, y - 1)]
-                f = bm.faces.new([bm.verts.new((px, py, height(px, py) + .05)) for px, py in q])
+    """the patchwork of the plain: small plots, each one colour of the reference (greens and straw yellows), dark hedge lines, a blue river"""
+    R = random.Random(seed); cols = ["#52a72f", "#6aa838", "#77b336", "#c9c24e", "#dccf66", "#8fbd3c", "#3f8a2c", "#b9ae44", "#e3d874", "#5f9f34"]; bm = bmesh.new(); lay = bm.loops.layers.color.new("tint"); hed = bmesh.new(); y = -150.0
+    while y > -470:
+        h = R.uniform(9, 20); x = -400.0 + R.uniform(0, 12)
+        while x < 400:
+            w = R.uniform(10, 26); rx, ry = road(-(y + 6) / .93)
+            if abs(x + w / 2 - rx) > 6 + w / 2 and not (-312 < y < -286):
+                cc = srgb(R.choice(cols)); k = R.uniform(.9, 1.08); q = [(x + .5, y - h + .5), (x + w - .5, y - h + .5), (x + w - .5, y - .5), (x + .5, y - .5)]
+                f = bm.faces.new([bm.verts.new((px, py, height(px, py) + .06)) for px, py in q])
                 for lp in f.loops: lp[lay] = (cc[0] * k, cc[1] * k, cc[2] * k, 1)
-                if R.random() < .5:
+                if R.random() < .35:
                     g = bmesh.ops.create_cube(hed, size=1.0)
-                    for v in g["verts"]: v.co = Vector((v.co.x * w + x + w / 2, v.co.y * 1.6 + y, v.co.z * 1.6 + .8))
+                    for v in g["verts"]: v.co = Vector((v.co.x * w + x + w / 2, v.co.y * 1.2 + y, v.co.z * 1.4 + .7 + height(x, y)))
             x += w
         y -= h
     m = bpy.data.materials.new("field_paint"); m.use_nodes = True; nt = m.node_tree; b = nt.nodes["Principled BSDF"]; vc = nt.nodes.new("ShaderNodeVertexColor"); vc.layer_name = "tint"
-    nz = nt.nodes.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = .6; mx = nt.nodes.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs[0].default_value = .35
-    nt.links.new(vc.outputs["Color"], mx.inputs[6]); nt.links.new(nz.outputs["Color"], mx.inputs[7]); nt.links.new(mx.outputs[2], b.inputs["Base Color"]); b.inputs["Roughness"].default_value = .95
-    mesh_obj("valley_fields", bm, m, c); mesh_obj("valley_hedges", hed, _flat("hedge_green", (.05, .16, .04), .95), c)
+    wv = nt.nodes.new("ShaderNodeTexWave"); wv.inputs["Scale"].default_value = 3.0; wv.inputs["Distortion"].default_value = 1.0; mx = nt.nodes.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs[0].default_value = .22   # furrows
+    nt.links.new(vc.outputs["Color"], mx.inputs[6]); nt.links.new(wv.outputs["Color"], mx.inputs[7]); nt.links.new(mx.outputs[2], b.inputs["Base Color"]); b.inputs["Roughness"].default_value = .95
+    mesh_obj("valley_fields", bm, m, c); mesh_obj("valley_hedges", hed, _flat("hedge_green", (.04, .15, .05), .95), c)
     rv = bmesh.new(); pv = None
-    for k in range(80):                                                                  # a river crossing the plain
-        x = -560 + 1120 * k / 79; yy = -330 + 40 * math.sin(x * .011) + 18 * math.sin(x * .03); a, b2 = rv.verts.new((x, yy - 7, .12)), rv.verts.new((x, yy + 7, .12))
+    for k in range(120):
+        x = -560 + 1120 * k / 119; yy = -299 + 5 * math.sin(x * .02); a, b2 = rv.verts.new((x, yy - 6, height(x, yy) + .1)), rv.verts.new((x, yy + 6, height(x, yy) + .1))
         if pv: rv.faces.new((pv[0], pv[1], b2, a))
         pv = (a, b2)
-    wm = _flat("river_blue", (.10, .32, .62), .08); mesh_obj("valley_river", rv, wm, c)
+    mesh_obj("valley_river", rv, _flat("river_blue", (.16, .36, .66), .08), c)
+    tm = _flat("tree_green", (.05, .22, .07), .95)
+    for i in range(150):
+        x, yy = R.uniform(-400, 400), R.uniform(-470, -150)
+        if abs(x - road(-(yy + 6) / .93)[0]) < 12: continue
+        bt = bmesh.new(); bmesh.ops.create_icosphere(bt, subdivisions=2, radius=1.0); o = mesh_obj("clump%03d" % i, bt, tm, c, smooth=True); s = R.uniform(2.5, 5.5); o.location = (x, yy, height(x, yy) + s * .6); o.scale = (s * R.uniform(1, 1.6), s * R.uniform(1, 1.5), s * .9)
 
-def relief(c, seed=3):
-    """rolling green hills behind the plain, then grey rocky peaks (three planes of depth)"""
-    R = random.Random(seed); gm = _flat("hill_green", (.10, .34, .07), .95); nt = gm.node_tree; nz = nt.nodes.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 9.0; nz.inputs["Detail"].default_value = 6; rp = nt.nodes.new("ShaderNodeValToRGB"); rp.color_ramp.elements[0].position = .4; rp.color_ramp.elements[0].color = (.03, .16, .03, 1); rp.color_ramp.elements[1].position = .62; rp.color_ramp.elements[1].color = (.20, .50, .10, 1); nt.links.new(nz.outputs["Fac"], rp.inputs["Fac"]); nt.links.new(rp.outputs["Color"], nt.nodes["Principled BSDF"].inputs["Base Color"]); rk = _flat("peak_grey", (.42, .44, .46), .9); tm = _flat("tree_green", (.04, .2, .05), .95)
-    for i in range(46):
-        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=3, radius=1.0); a, b = R.uniform(2, 5), R.uniform(2, 5)
-        for v in bm.verts: v.co *= 1 + .16 * math.sin(v.co.x * a + i) * math.cos(v.co.y * b)
-        far = i >= 30; o = mesh_obj("peak%02d" % i if far else "hill%02d" % i, bm, rk if far else gm, c, smooth=True)
-        if far: o.location = (R.uniform(-1500, 1500), R.uniform(-2600, -1900), -20); o.scale = (R.uniform(160, 300), R.uniform(140, 220), R.uniform(260, 420))
-        else: o.location = (R.uniform(-1200, 1200), R.uniform(-1700, -950), -30); o.scale = (R.uniform(180, 380), R.uniform(160, 300), R.uniform(90, 200))
-    for i in range(160):                                                                 # tree clumps in the plain
-        bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=2, radius=1.0); x, y = R.uniform(-520, 520), R.uniform(-900, -160)
-        if abs(x) < 14: continue
-        o = mesh_obj("clump%03d" % i, bm, tm, c, smooth=True); s = R.uniform(4, 9); o.location = (x, y, height(x, y) + s * .5); o.scale = (s * R.uniform(1, 1.8), s * R.uniform(1, 1.6), s * .8)
+def relief(c):
+    """the far country: REAL relief from fractal noise (ridges, folds, valleys), wooded green low down (#376d3f-#4f823e), grey rock on the peaks"""
+    bm = bmesh.new(); nx, ny = 200, 130; X0, X1, Y0, Y1 = -2800.0, 2800.0, -3600.0, -440.0; V = []
+    for j in range(ny + 1):
+        row = []
+        for i in range(nx + 1):
+            x, y = X0 + (X1 - X0) * i / nx, Y0 + (Y1 - Y0) * j / ny; amp = min(1.0, max(0.0, (-y - 470) / 500.0)) ** 1.3; far = min(1.0, max(0.0, (-y - 1500) / 1200.0))
+            n1 = noise.fractal(Vector((x * .0016, y * .0016, .3)), 1.0, 2.1, 6); rid = 1.0 - abs(noise.fractal(Vector((x * .0011 + 7, y * .0011, 1.7)), .9, 2.0, 5))
+            row.append(bm.verts.new((x, y, amp * (70 + 90 * n1 + (130 + 520 * far) * rid ** 2.2 * (.35 + .65 * far)) - 6)))
+        V.append(row)
+    for j in range(ny):
+        for i in range(nx): bm.faces.new((V[j][i], V[j][i + 1], V[j + 1][i + 1], V[j + 1][i]))
+    m = bpy.data.materials.new("relief_paint"); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links; b = N["Principled BSDF"]; b.inputs["Roughness"].default_value = .95
+    geo_ = N.new("ShaderNodeNewGeometry"); sep = N.new("ShaderNodeSeparateXYZ"); L.new(geo_.outputs["Position"], sep.inputs[0]); nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = .012; nz.inputs["Detail"].default_value = 8; nz.inputs["Roughness"].default_value = .65; L.new(geo_.outputs["Position"], nz.inputs["Vector"])
+    rp = N.new("ShaderNodeValToRGB"); e = rp.color_ramp.elements; e[0].position = .38; e[0].color = (*srgb("#2c5f36"), 1); e[1].position = .62; e[1].color = (*srgb("#5a9440"), 1); L.new(nz.outputs["Fac"], rp.inputs["Fac"])       # woods / meadows
+    nrm = N.new("ShaderNodeSeparateXYZ"); L.new(geo_.outputs["Normal"], nrm.inputs[0])
+    hh = N.new("ShaderNodeMapRange"); hh.inputs["From Min"].default_value = 300; hh.inputs["From Max"].default_value = 470; L.new(sep.outputs["Z"], hh.inputs["Value"])
+    sl = N.new("ShaderNodeMapRange"); sl.inputs["From Min"].default_value = .86; sl.inputs["From Max"].default_value = .62; L.new(nrm.outputs["Z"], sl.inputs["Value"])                                                    # steep = bare rock
+    mxf = N.new("ShaderNodeMath"); mxf.operation = "MULTIPLY"; L.new(hh.outputs[0], mxf.inputs[0]); L.new(sl.outputs[0], mxf.inputs[1])
+    mx = N.new("ShaderNodeMix"); mx.data_type = "RGBA"; L.new(mxf.outputs[0], mx.inputs[0]); L.new(rp.outputs["Color"], mx.inputs[6]); mx.inputs[7].default_value = (*srgb("#9aa0a4"), 1); L.new(mx.outputs[2], b.inputs["Base Color"])
+    mesh_obj("valley_relief", bm, m, c, smooth=True)
+
+def stone_far():
+    """the fort seen from the road: dressed blocks as a BRICK TEXTURE with a little relief (at 50 m a block is a few pixels: no geometry needed)"""
+    m = bpy.data.materials.get("fort_stone_far")
+    if m: return m
+    m = bpy.data.materials.new("fort_stone_far"); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links; b = N["Principled BSDF"]; b.inputs["Roughness"].default_value = .85
+    tc = N.new("ShaderNodeTexCoord"); br = N.new("ShaderNodeTexBrick"); br.inputs["Color1"].default_value = (*srgb("#d8cfbf"), 1); br.inputs["Color2"].default_value = (*srgb("#c3b9a6"), 1); br.inputs["Mortar"].default_value = (*srgb("#6f675c"), 1)
+    br.inputs["Scale"].default_value = 1.0; br.inputs["Mortar Size"].default_value = .012; br.inputs["Brick Width"].default_value = 1.15; br.inputs["Row Height"].default_value = .55; br.offset = .5
+    mp = N.new("ShaderNodeMapping"); mp.inputs["Rotation"].default_value = (math.radians(90), 0, 0); L.new(tc.outputs["Object"], mp.inputs["Vector"]); L.new(mp.outputs[0], br.inputs["Vector"]); L.new(br.outputs["Color"], b.inputs["Base Color"])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = .5; bp.inputs["Distance"].default_value = .05; inv = N.new("ShaderNodeMath"); inv.operation = "SUBTRACT"; inv.inputs[0].default_value = 1.0; L.new(br.outputs["Fac"], inv.inputs[1]); L.new(inv.outputs[0], bp.inputs["Height"]); L.new(bp.outputs["Normal"], b.inputs["Normal"])
+    return m
 
 def fort_outside(c):
-    """the fort seen from the road: a long crenellated curtain wall, round towers, the gate with its roofed gatehouse"""
-    st = fort.stone(); z = 7.0
-    for nm, x0, L in (("L", -90.0, 86.5), ("R", 3.5, 86.5)): fort.blocks("out_wall_" + nm, c, (x0, 0, z), (1, 0, 0), (0, -1, 0), L, 9.0, st, seed=11 if nm == "L" else 12, row=.7)
-    fort.blocks("out_lintel", c, (-3.5, 0, z + 5.2), (1, 0, 0), (0, -1, 0), 7.0, 3.8, st, seed=13, row=.7)
-    for x in range(-88, 90, 3):
+    """the fort on its hill: curtain wall with battlements, an arched gate between two round towers, the roofed pavilion over the gate
+    (a real model: "Chinese pavilion", Sketchfab b0f6c1fb, CC-BY), two more towers along the wall, the tall blue banner"""
+    st = stone_far(); z = HILL; P_ = dict(c=c)
+    def bx(name, size, loc, mat=st):
         bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0)
-        for v in bm.verts: v.co = Vector((v.co.x * 1.5, v.co.y * .7, v.co.z * 1.2))
-        _tint(bm, .9); o = mesh_obj("out_merlon", bm, st, c); o.location = (x, .1, z + 9.6)
-    for x in (-46, -16, 16, 46):                                                         # round towers
-        bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=20, radius1=4.6, radius2=4.2, depth=13.0); _tint(bm, .86); o = mesh_obj("out_tower", bm, st, c, smooth=True); o.location = (x, -1.5, z + 6.5)
+        for v in bm.verts: v.co = Vector((v.co.x * size[0], v.co.y * size[1], v.co.z * size[2]))
+        o = mesh_obj(name, bm, mat, c); o.location = loc; return o
+    for sx in (-1, 1): bx("out_wall", (72.0, 2.2, 8.0), (sx * 39.0, 0, z + 4.0))
+    bx("out_lintel", (6.0, 2.2, 3.0), (0, 0, z + 6.5)); bx("gate_dark", (6.0, .3, 5.2), (0, .9, z + 2.6), _flat("gate_dark2", (.02, .018, .016)))
+    for i in range(9):                                                                   # the arch stones
+        a = math.pi * (i + .5) / 9; o = bx("out_voussoir", (.75, 2.4, .7), (3.0 * math.cos(a) * .92, -.05, z + 2.6 + 2.75 * math.sin(a))); o.rotation_euler = (0, -a, 0)
+    for sx in (-1, 1): bx("gate_jamb", (.7, 2.4, 2.8), (sx * 2.85, -.05, z + 1.4))
+    x = -74.0
+    while x < 75:
+        if abs(x) > 3.5: bx("out_merlon", (1.2, .6, 1.0), (x, -.8, z + 8.5))
+        x += 2.4
+    for x, r, hgt in ((-7.5, 3.6, 11.5), (7.5, 3.6, 11.5), (-44, 4.2, 11.0), (44, 4.2, 11.0)):
+        bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=24, radius1=r, radius2=r * .93, depth=hgt); o = mesh_obj("out_tower", bm, st, c, smooth=True); o.location = (x, -1.6, z + hgt / 2)
         try: o.data.set_sharp_from_angle(angle=.9)
         except Exception: pass
-        bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=20, radius1=5.0, radius2=5.0, depth=1.4); _tint(bm, .8); mesh_obj("out_tower_top", bm, st, c, smooth=True).location = (x, -1.5, z + 13.5)
-    roof = _flat("roof_tile", (.10, .11, .13), .5); red = _flat("lacquer_red", (.55, .05, .04), .4)
-    for sx in (-2.6, 2.6):
-        for sy in (-.6, 1.8): bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=10, radius1=.22, radius2=.22, depth=3.4); mesh_obj("gate_col", bm, red, c, smooth=True).location = (sx, sy, z + 10.7)
-    for k, (w, zz) in enumerate(((9.5, 12.6), (7.0, 13.5), (3.6, 14.3))):                   # the curved tiled roof in three courses
-        bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0)
-        for v in bm.verts: v.co = Vector((v.co.x * w, v.co.y * (w * .62), v.co.z * .5 + .35 * abs(v.co.x) ** 1 * (1 if v.co.z < 0 else 0)))
-        mesh_obj("gate_roof%d" % k, bm, roof, c).location = (0, .6, z + zz)
-    gd = bmesh.new(); gd.faces.new([gd.verts.new(p) for p in ((-3.5, .4, z), (3.5, .4, z), (3.5, .4, z + 5.2), (-3.5, .4, z + 5.2))]); mesh_obj("out_gate_dark", gd, _flat("gate_dark2", (.02, .018, .016)), c)
+        for k in range(10): a = k * math.tau / 10; bx("tower_merlon", (.9, .5, .9), (x + (r - .3) * math.cos(a), -1.6 + (r - .3) * math.sin(a), z + hgt + .45)).rotation_euler = (0, 0, a + math.pi / 2)
+    pv = fort.gltf(c, "b0f6c1fb43e744ec876faecaba3d4925", 11.0, (0, .6, z + 8.0), 0.0)                                   # the pavilion over the gate
+    bx("flag_pole", (.12, .12, 9.0), (-7.5, -1.6, z + 16.0), _flat("pole_dark", (.08, .06, .05))); fl = bx("flag_blue", (1.1, .05, 5.0), (-6.9, -1.6, z + 17.6), _flat("flag_blue", (.05, .2, .75), .8))
 
-def grass(c, at, r=14.0, n=26000, seed=5):
+def tufts(c, zones, seed=5):
+    """a FEW real grass tufts over the texture, only near the lens"""
     src = street.blade_clump(); m = bpy.data.materials.get("grass_blades")
     if m and not m.get("rc_recoloured"):
-        cr = [n_ for n_ in m.node_tree.nodes if n_.type == "VALTORGB"][0].color_ramp; cr.elements[0].color = (*srgb("#4a8426"), 1); cr.elements[1].color = (*srgb("#c6e060"), 1); m["rc_recoloured"] = 1
-    for k, (x0, x1) in enumerate(((at[0] - r, at[0] - 3.0), (at[0] + 3.0, at[0] + r))):
-        P, Rt, Sc = geo.scatter_points({"polygon": [[x0, at[1] - r], [x1, at[1] - r], [x1, at[1] + r * 1.4], [x0, at[1] + r * 1.4]]}, n // 2, seed + k, scale_range=(.9, 2.4))
-        P = [(p[0], p[1], height(p[0], p[1])) for p in P]; geo.instancer("vgrass_%d" % k, P, src, c, Rt, Sc, wind=.05)
+        cr = [n_ for n_ in m.node_tree.nodes if n_.type == "VALTORGB"][0].color_ramp; cr.elements[0].color = (*srgb("#4f8a2a"), 1); cr.elements[1].color = (*srgb("#9fd04a"), 1); m["rc_recoloured"] = 1
+    for k, (poly, n) in enumerate(zones):
+        P, Rt, Sc = geo.scatter_points({"polygon": poly}, n, seed + k, scale_range=(1.0, 2.6)); keep = [i for i, p in enumerate(P) if min(math.hypot(p[0] - road(s)[0], p[1] - road(s)[1]) for s in range(0, 200, 3)) > 3.3]
+        geo.instancer("vgrass_%d" % k, [(P[i][0], P[i][1], height(P[i][0], P[i][1])) for i in keep], src, c, [Rt[i] for i in keep], [Sc[i] for i in keep], wind=.05)
 
 def build(scene):
     c = col("L_SET"); Mo = dict(MOOD); look.SUN[0], look.SUN[1] = Mo["az"], Mo["el"]
     look.sky_hdri(scene, strength=1.0, hdri=Mo["hdri"], glow=Mo["glow"], light=Mo["light"]); look.sun(scene, energy=Mo["energy"])
-    nt = scene.world.node_tree; N, L = nt.nodes, nt.links                                # this reference's sky is a DEEP saturated blue with white streaks
+    nt = scene.world.node_tree; N, L = nt.nodes, nt.links                                # the reference's sky: a soft periwinkle blue (#919fc6-#96abde) with white streaks, never navy
     pick = [n for n in N if n.type == "MIX" and n.inputs[0].links and n.inputs[0].links[0].from_node.type == "LIGHT_PATH" and n.data_type == "RGBA"]
     if pick:
-        src = pick[0].inputs[7].links[0].from_socket; hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Saturation"].default_value = 1.35; hs.inputs["Value"].default_value = 1.5; L.new(src, hs.inputs["Color"]); L.new(hs.outputs["Color"], pick[0].inputs[7])
-    ground(c); fields(c); relief(c); fort_outside(c); grass(c, HEAD); return Mo
+        src = pick[0].inputs[7].links[0].from_socket; hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Saturation"].default_value = .7; hs.inputs["Value"].default_value = 2.0; L.new(src, hs.inputs["Color"]); L.new(hs.outputs["Color"], pick[0].inputs[7])
+    ground(c); fields(c); relief(c); fort_outside(c); return Mo
