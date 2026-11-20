@@ -16,7 +16,7 @@ SEA_Z = -0.30; SHORE_Y = 13.0
 WHALE_GLTF = os.path.join(SKILL, "library", "assets", "sketchfab", "e09c5bd25d92467db1bf938fdb1e701f", "gltf", "scene.gltf")   # "cachalot whale", allthingsaurus, CC-BY 4.0
 WHALE_LEN = 13.7                                                                           # 45 feet
 MOODS = {   # sun azimuth (from), elevation, energy, sky HDRI, sky fill for lighting, sun glow, exposure, saturation
-    "grey":  dict(az=-70, el=20, energy=10.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.38, glow=0.0, exposure=-.7, sat=1.04, sky=.85, contrast="Medium High Contrast"),   # cool clear morning; measured against the references' daylight (luma .51, sat .37, contrast .20)
+    "grey":  dict(az=-70, el=20, energy=11.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.42, glow=.35, exposure=-.42, sat=1.0, sky=1.0, sky_sat=1.5, sky_gain=1.85, contrast="Medium High Contrast"),   # bright clear morning: vivid blue sky, white clouds (CB 2026-11-20: as vivid as the references)
     "noon":  dict(az=150, el=48, energy=9.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.55, glow=0.0, exposure=-.5, sat=1.08),  # the blast
     "gold":  dict(az=-115, el=14, energy=8.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.5, glow=.9, exposure=-.4, sat=1.05),   # late afternoon / dusk
     "today": dict(az=120, el=40, energy=8.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.7, glow=0.0, exposure=-.45, sat=1.1)}
@@ -36,7 +36,7 @@ def ground(c):
         V.append(row)
     for j in range(ny):
         for i in range(nx): bm.faces.new((V[j][i], V[j][i + 1], V[j + 1][i + 1], V[j + 1][i]))
-    m = tex("beach_sand", "coast_sand_01", tile=3.0, recolor="#d4b98c", value=1.0, normal=1.4, spec=.2, macro=.2)   # warm golden sand (the references' grounds are never grey)
+    m = tex("beach_sand", "coast_sand_01", tile=3.0, recolor="#dcc8a2", value=1.0, normal=1.0, spec=.2, macro=.16)   # warm golden sand (the references' grounds are never grey)
     nt = m.node_tree; N, L = nt.nodes, nt.links; b = N["Principled BSDF"]; src = b.inputs["Base Color"].links[0].from_socket
     tc = [n for n in N if n.type == "TEX_COORD"][0]; sx = N.new("ShaderNodeSeparateXYZ"); L.new(tc.outputs["Object"], sx.inputs[0])
     nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = .25; nz.inputs["Detail"].default_value = 3; L.new(tc.outputs["Object"], nz.inputs["Vector"])
@@ -61,7 +61,7 @@ def ground(c):
     mpw = N.new("ShaderNodeMapping"); mpw.inputs["Rotation"].default_value = (0, 0, math.radians(18)); L.new(tc.outputs["Object"], mpw.inputs["Vector"]); L.new(mpw.outputs["Vector"], wv.inputs["Vector"])
     pit = N.new("ShaderNodeTexNoise"); pit.inputs["Scale"].default_value = 9.0; pit.inputs["Detail"].default_value = 4; L.new(tc.outputs["Object"], pit.inputs["Vector"])
     hgt = M("ADD", M("MULTIPLY", wv.outputs["Fac"], M("MULTIPLY_ADD", wet, -.8, 1.0)), M("MULTIPLY", pit.outputs["Fac"], .5))
-    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = .3; bp.inputs["Distance"].default_value = .05; L.new(hgt, bp.inputs["Height"])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = .14; bp.inputs["Distance"].default_value = .05; L.new(hgt, bp.inputs["Height"])   # discreet: the ground must not pull the eye from the characters
     if b.inputs["Normal"].links: L.new(b.inputs["Normal"].links[0].from_socket, bp.inputs["Normal"])
     L.new(bp.outputs["Normal"], b.inputs["Normal"])
     rsrc = b.inputs["Roughness"].links[0].from_socket if b.inputs["Roughness"].links else None
@@ -89,7 +89,7 @@ def sea(c):
     dist = M("SUBTRACT", sx.outputs["Y"], SHORE_Y - 1.0)                                    # metres from the water's edge
     foam = M("MULTIPLY", M("MULTIPLY_ADD", dist, -.22, 1.0, clamp=True), M("MULTIPLY_ADD", fn.outputs["Fac"], 3.0, -.9, clamp=True))
     far = M("MULTIPLY", dist, .004, clamp=True)
-    c1 = N.new("ShaderNodeMix"); c1.data_type = "RGBA"; L.new(far, c1.inputs[0]); c1.inputs[6].default_value = (*srgb("#2f9aa0"), 1); c1.inputs[7].default_value = (*srgb("#14508a"), 1)
+    c1 = N.new("ShaderNodeMix"); c1.data_type = "RGBA"; L.new(far, c1.inputs[0]); c1.inputs[6].default_value = (*srgb("#22b0b8"), 1); c1.inputs[7].default_value = (*srgb("#0f5fb0"), 1)
     c2 = N.new("ShaderNodeMix"); c2.data_type = "RGBA"; L.new(foam, c2.inputs[0]); L.new(c1.outputs[2], c2.inputs[6]); c2.inputs[7].default_value = (.93, .95, .95, 1)
     L.new(c2.outputs[2], b.inputs["Base Color"]); L.new(M("MULTIPLY_ADD", foam, .5, .06), b.inputs["Roughness"]); b.inputs["Specular IOR Level"].default_value = .6
     return mesh_obj("sea", bm, m, c)
@@ -217,6 +217,13 @@ def light(scene, mood="grey", az=None, el=None):
     Mo = dict(MOODS[mood]); Mo["az"] = Mo["az"] if az is None else az; Mo["el"] = Mo["el"] if el is None else el   # the sun is placed per view (lesson PI-030)
     look.SUN[0], look.SUN[1] = Mo["az"], Mo["el"]
     look.sky_hdri(scene, strength=Mo.get("sky", 1.0), hdri=Mo["hdri"], glow=Mo["glow"], light=Mo["light"] / Mo.get("sky", 1.0)); look.sun(scene, energy=Mo["energy"])
+    # VIVID SKY FOR THE CAMERA (CB 2026-11-20; references: sky value 82-89 %, saturation 67-94 %): the photo seen by the lens is brightened
+    # and saturated; the light it gives to the scene does not change
+    if Mo.get("sky_sat") or Mo.get("sky_gain"):
+        nt = scene.world.node_tree; N, L = nt.nodes, nt.links
+        pick = [n for n in N if n.type == "MIX" and n.inputs[0].links and n.inputs[0].links[0].from_node.type == "LIGHT_PATH" and n.data_type == "RGBA"][0]
+        src = pick.inputs[7].links[0].from_socket; hs = N.new("ShaderNodeHueSaturation"); hs.inputs["Saturation"].default_value = Mo.get("sky_sat", 1.0); hs.inputs["Value"].default_value = Mo.get("sky_gain", 1.0)
+        L.new(src, hs.inputs["Color"]); L.new(hs.outputs["Color"], pick.inputs[7])
     look.bounce_fill(col("L_SET"), at=(-8.0, -22.0, 14.0), aim=(0, 0, 1.5), energy=2500.0, size=22.0)   # high and wide: no visible pool of light on the sand
     return Mo
 

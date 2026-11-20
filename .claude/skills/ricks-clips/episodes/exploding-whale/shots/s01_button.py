@@ -20,24 +20,24 @@ ENG = Vector((22.0, -30.0, 0)); CARDS = os.path.join(EP, "build", "cards_s01")
 def smooth(t): t = max(0., min(1., t)); return t * t * (3 - 2 * t)
 
 HAND = (-.60, .97)                                                                       # the drawn hands of the pushing workers (card_anchors: local x, height)
-PUSH = (("worker_a", -2.6, 5.3, 2.25, 40), ("worker_b", -3.6, 6.2, 2.9, 46))               # who, row y, crate x at frame 0, x at the end, last frame of the shove
+PUSH = (("worker_a", -2.6, 4.6, 2.25, 40), ("worker_b", -3.6, 5.3, 2.9, 46))               # who, row y, crate x at frame 0, x at the end, last frame of the shove
 
 def furrow(c, y, x0, x1, f1, name):
     """THE SAND GIVES WAY (CB 2026-11-20): two ridges of pushed sand along the crate's path, growing with it, and a mound that rides in front"""
     sand = bpy.data.materials["beach_sand"]; out = []
     for side in (-1, 1):
-        cu = bpy.data.curves.new(name + "_ridge%d" % side, "CURVE"); cu.dimensions = "3D"; cu.bevel_depth = .055; cu.bevel_resolution = 3
+        cu = bpy.data.curves.new(name + "_ridge%d" % side, "CURVE"); cu.dimensions = "3D"; cu.bevel_depth = .05; cu.bevel_resolution = 3
         sp = cu.splines.new("POLY"); n = 24; sp.points.add(n - 1)
         for k, q in enumerate(sp.points):
             x = x0 + (x1 - x0) * k / (n - 1); yy = y + side * .36 + .02 * math.sin(k * 1.3 + side)
             q.co = (x, yy, beach.height(x, yy) + .01 + .012 * math.sin(k * 2.1), 1)
-        o = bpy.data.objects.new(cu.name, cu); c.objects.link(o); cu.materials.append(sand); o.scale = (1, 1, .55)
+        o = bpy.data.objects.new(cu.name, cu); c.objects.link(o); cu.materials.append(sand); o.scale = (1, 1, .3); o.location.z = -.004   # a low flat ridge of pushed sand, not a tube
         for f, v in ((0, 0.0), (f1, 1.0)): cu.bevel_factor_end = v; cu.keyframe_insert("bevel_factor_end", frame=f)
         out.append(o)
     import bmesh
     bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=3, radius=1.0)
     for v in bm.verts: v.co *= 1 + .18 * math.sin(v.co.x * 5 + v.co.y * 3)
-    m = beach.mesh_obj(name + "_mound", bm, sand, c, smooth=True); m.scale = (.2, .42, .13); out.append(m)
+    m = beach.mesh_obj(name + "_mound", bm, sand, c, smooth=True); m.scale = (.24, .44, .09); out.append(m)
     return out
 
 def crates():
@@ -83,7 +83,7 @@ def camera():
     cam = bpy.data.objects.new("cam", bpy.data.cameras.new("cam")); beach.col("CAM").objects.link(cam); bpy.context.scene.camera = cam
     cam.data.sensor_fit = "VERTICAL"; cam.data.sensor_height = 24; cam.data.clip_end = 4000.0
     hz = beach.height(ENG.x, ENG.y)
-    keys = [(0, (4.4, -12.5, 1.5), (4.2, -2.0, 1.0), 22), (40, (4.6, -8.6, .8), (4.0, -2.9, .75), 24),          # the whale, the wall of crates, two men shoving the last stacks
+    keys = [(0, (5.3, -9.8, 1.25), (4.9, -2.3, 1.05), 24), (40, (4.3, -7.2, 1.0), (3.6, -3.0, .95), 26),   # CLOSE: the men and the whale fill the frame (references: big subjects, centred)          # the whale, the wall of crates, two men shoving the last stacks
             (52, (6.2, -9.5, .75), (9.5, -12.0, .7), 24), (62, (9.5, -12.5, .8), (14.0, -18.5, 1.0), 24),          # whip round onto the wire, then ride it
             (84, (15.5, -20.5, 1.6), (21.0, -28.5, hz + 1.2), 26),
             (102, (19.0, -25.6, hz + 1.25), (ENG.x + .1, ENG.y, hz + 1.12), 30), (124, (19.3, -26.0, hz + 1.22), (ENG.x + .12, ENG.y, hz + 1.1), 31),
