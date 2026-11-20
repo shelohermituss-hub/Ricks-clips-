@@ -26,12 +26,12 @@ def furrow(c, y, x0, x1, f1, name):
     """THE SAND GIVES WAY (CB 2026-11-20): two ridges of pushed sand along the crate's path, growing with it, and a mound that rides in front"""
     sand = bpy.data.materials["beach_sand"]; out = []
     for side in (-1, 1):
-        cu = bpy.data.curves.new(name + "_ridge%d" % side, "CURVE"); cu.dimensions = "3D"; cu.bevel_depth = .05; cu.bevel_resolution = 3
+        cu = bpy.data.curves.new(name + "_ridge%d" % side, "CURVE"); cu.dimensions = "3D"; cu.bevel_depth = .11; cu.bevel_resolution = 3
         sp = cu.splines.new("POLY"); n = 24; sp.points.add(n - 1)
         for k, q in enumerate(sp.points):
-            x = x0 + (x1 - x0) * k / (n - 1); yy = y + side * .36 + .02 * math.sin(k * 1.3 + side)
+            x = x0 + (x1 - x0) * k / (n - 1); yy = y + side * (.40 + .05 * math.sin(k * .9 + side * 2)) + .03 * math.sin(k * 2.7 + side)
             q.co = (x, yy, beach.height(x, yy) + .01 + .012 * math.sin(k * 2.1), 1)
-        o = bpy.data.objects.new(cu.name, cu); c.objects.link(o); cu.materials.append(sand); o.scale = (1, 1, .3); o.location.z = -.004   # a low flat ridge of pushed sand, not a tube
+        o = bpy.data.objects.new(cu.name, cu); c.objects.link(o); cu.materials.append(sand); o.scale = (1, 1, .16); o.location.z = -.006   # a low flat ridge of pushed sand, not a tube
         for f, v in ((0, 0.0), (f1, 1.0)): cu.bevel_factor_end = v; cu.keyframe_insert("bevel_factor_end", frame=f)
         out.append(o)
     import bmesh
@@ -113,7 +113,7 @@ def build(sc):
             beach.col("L_FX").objects.link(o)
     return cam, Mo
 
-EXPO_KEYS = ((0, 0.0), (48, 0.0), (68, -.25), (90, -.17), (131, -.17))
+EXPO_KEYS = ((0, 0.0), (48, 0.0), (68, -.30), (90, -.28), (131, -.28))
 
 def finish(sc, Mo, out):
     sc.view_settings.view_transform = "Standard"; sc.view_settings.look = Mo.get("contrast", "Medium Contrast"); sc.view_settings.exposure = Mo["exposure"]; 
