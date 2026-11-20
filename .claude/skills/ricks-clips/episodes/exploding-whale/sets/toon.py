@@ -172,12 +172,12 @@ def recolor(o, rgb, detail=.5, rough=.5):
         else: b.inputs["Base Color"].default_value = (*rgb, 1)
         b.inputs["Roughness"].default_value = rough
 
-def stylize(scene, whale=None, sun_color=(1.0, .90, .74), sun=(95, 24)):
+def stylize(scene, whale=None, sun_color=(1.0, .90, .74), sun=(95, 24), dim=1.0):
     """turn the photo beach into the drawn beach (call after beach.build and after the shot's own objects exist)"""
-    sky(scene, sun=sun); clouds(col("L_SET"), sun=sun); sea(); sand()
+    sky(scene, sun=sun, k=.30 * dim); clouds(col("L_SET"), sun=sun); sea(); sand()
     for o in bpy.data.objects:
-        if o.type == "LIGHT" and o.data.type == "SUN": o.data.color = sun_color; o.data.energy *= (.7 if sun[1] < 35 else .55)       # the pale sand is held by the LAMP, not by the exposure: sky, clouds and characters keep their brightness (CB 2026-11-20)
-        if o.name.startswith("bounce_fill"): o.data.energy *= .35
+        if o.type == "LIGHT" and o.data.type == "SUN": o.data.color = sun_color; o.data.energy *= (.7 if sun[1] < 35 else .55) * dim       # the pale sand is held by the LAMP, not by the exposure: sky, clouds and characters keep their brightness (CB 2026-11-20)
+        if o.name.startswith("bounce_fill"): o.data.energy *= .35 * dim
         if o.name.startswith("rock"):
             o.data.materials.clear(); o.data.materials.append(paint("rock_paint", (.13, .16, .27), .5)); outline(o, .05)
         if o.name.startswith("driftwood"):

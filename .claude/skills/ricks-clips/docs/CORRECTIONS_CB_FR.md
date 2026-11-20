@@ -173,3 +173,8 @@ Comparaison côte à côte (`episodes/exploding-whale/build/review/comparaison_r
 - **Cause** : pour empêcher le sable blanc de brûler, j'avais baissé l'exposition de toute l'image (−0,5) : le ciel peint, les nuages et les personnages baissaient avec.
 - **Règle** : un sol clair se tient avec la LAMPE (soleil ×0,7, ambiance 0,30), jamais avec l'exposition. Le ciel et les nuages gardent leur pleine valeur ; les personnages dessinés sont éclairés à 86 % par leur propre lumière pour que le blanc reste blanc.
 - **Code** : `sets/toon.py` (`stylize`), `shots/film.py` (`_drawn_finish` sans baisse d'exposition).
+
+## CB 2026-11-20 — « pour le camion et le tracteur, cherche de vrais assets, pas des formes assemblées »
+- **Règle** : un véhicule ou une machine = TOUJOURS un vrai modèle (Asset Hub : `tools/asset_hub.py search/download sketchfab`), jamais des boîtes et cylindres assemblés. Choisir sur vignettes, licence CC-BY, pièce mobile séparée si le plan l'anime (benne).
+- **Fait** : camion = « Tatra 148 dump truck » (Randonavt, CC-BY 4.0), benne sur charnière, repeint orange ; bulldozer = « Stylized Bulldozer » (freddielin, CC-BY 4.0). Code : `shots/film.py` (`model`, `truck`, plan 14).
+- **Ciel terne des plans de midi (10, 11)** : les ambiances avaient une exposition négative (−0,42 à −0,5) réglée pour un ciel photo ; elle assombrissait le ciel peint. Elle passe maintenant sur les lampes (exposition 0), horizon cyan pâle à midi.

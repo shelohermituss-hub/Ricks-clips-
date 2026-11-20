@@ -12,7 +12,8 @@ DRESS_CLEAR = ((0, 0, 9.5), (-6.4, -8.0, 3.2), (-3.0, -8.2, 2.2), (-12.5, -4.6, 
 _finish = kit.finish
 def _drawn_finish(sc, Mo, expo=(), haze=.5):
     if "beach_sand" in bpy.data.materials:
-        toon.stylize(sc, bpy.data.objects.get("whale"), sun=(Mo["az"], Mo["el"])); toon.dress(col("L_OBJECTS"), clear=DRESS_CLEAR); toon.ink_all()
+        toon.stylize(sc, bpy.data.objects.get("whale"), sun=(Mo["az"], Mo["el"]), dim=2 ** Mo["exposure"]); Mo["exposure"] = 0.0   # the moods' negative exposure was made for a photo sky: here it goes to the LAMPS, the painted sky keeps its full value
+        pass; toon.dress(col("L_OBJECTS"), clear=DRESS_CLEAR); toon.ink_all()
         Mo.update(haze_color=(1.0, .80, .60, 1) if Mo["el"] < 35 else (.78, .92, 1.0, 1), bloom=.3); haze = .2
     _finish(sc, Mo, expo, haze)
 kit.finish = _drawn_finish
@@ -425,7 +426,7 @@ def s14(n):
     """1389-1483 "Most of the whale was still lying there, so they buried it anyway." the smoke clears: a crater, and the whale exactly where it was (still 25); the engineer
     shrugs; a bulldozer pushes a wave of sand over it (buried 61); the sand thrown by the blade covers the lens"""
     sc = kit.begin(n); c, w, Mo, O = after(sc, "gold", -115, 14)
-    dz_root, dms = model(O, DOZER_ID, "dozer", (0, 0, 0), 0.0, 5.6, -90.0, shift=-1.7)               # a REAL model (stylized bulldozer), blade toward +X
+    dz_root, dms = model(O, DOZER_ID, "dozer", (0, 0, 0), 0.0, 5.6, -90.0, shift=-1.1)               # a REAL model (stylized bulldozer), blade toward +X
     dy = -4.6
     for f, x in ((0, -19.0), (40, -15.5), (n - 1, -10.2)): key(dz_root, "location", f, (x, dy, H(x, dy)))
     kit.linear(dz_root); sand = bpy.data.materials["beach_sand"]
