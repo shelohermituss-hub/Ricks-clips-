@@ -3,7 +3,7 @@
 import bpy, bmesh, math, os, random, sys
 from mathutils import Vector
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import kit
+import kit, toon
 from kit import beach, props, cast, signs, col, key, move, ink, label, box, cyl, blob, show, fx
 H = beach.height
 YELLOW, RED, WHITE, BLACK, GREEN = (.95, .72, .05), (.75, .04, .03), (.9, .9, .88), (.02, .02, .02), (.25, .75, .12)
@@ -47,7 +47,10 @@ def s02(n):
     stink(col("L_FX"), (1.0, -2.2, 2.2), 150, n, 6, 1); stink(col("L_FX"), (8.6, -3.8, .6), 168, n, 3, 2)
     signs.spiral_eyes(C["jogger"], 186, n); fx(sc, [{"type": "dust_burst", "name": "faint", "at": [11.0, -4.4, .1], "frame": 190, "count": 8, "radius": .9, "height": .4, "seed": 4, "life": 24, "color": [.78, .7, .56]},
                                                    {"type": "dust_burst", "name": "beach_slide", "at": [0, -1.0, .2], "frame": 46, "count": 14, "radius": 5.0, "height": .7, "seed": 6, "life": 30, "color": [.8, .74, .6]}])
-    kit.finish(sc, Mo, ((0, -.1), (70, 0.0))); return sc
+    toon.stylize(sc, w); toon.dress(O, clear=((0, 0, 9.5),)); Mo.update(haze_color=(1.0, .80, .60, 1), bloom=.3, exposure=Mo["exposure"] - .2)
+    d5 = bpy.data.objects.get("driftwood5"); d5.location.x += 9; d5.location.y += 1.5                # it lay across the jogger's close-up as a dark slab   # THE DRAWN WORLD (CB 2026-11-20)
+    for o in (tape, tag, foam): toon.outline(o, .012)
+    kit.finish(sc, Mo, ((0, -.1), (70, 0.0)), haze=.2); return sc
 
 # ---------------------------------------------------------------------------------------------------------------- 03
 def phone(c):
