@@ -1,0 +1,13 @@
+{
+ "words": 235,
+ "words_per_s": 3.53,
+ "voice_from_s": 0.0,
+ "voice_to_s": 66.48,
+ "longest_pause_s": 0.42,
+ "pauses_over_0_35": [
+  [
+   12.4,
+   0.42
+  ]
+ ]
+}

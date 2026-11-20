@@ -1,0 +1,11 @@
+# « How One Cart Stopped an Entire Army » — découpage des 20 premières secondes (relevé le 20/11 sur sheet_00 et sheet_01, 2 i/s)
+Fiche : 66,9 s, 720×1280, 30 i/s, 235 mots (3,53 mots/s), −14,1 LUFS, **0 coupe franche** (tout en mouvements de caméra et fondus), mouvement médian 34,8.
+
+| Plan | Temps | Narration | Ce qui se passe | Caméra | Décor et objets |
+|---|---|---|---|---|---|
+| 1 | 0 – 2,2 s | He drilled 82 holes into the wood | L'ingénieur (tunique rouge, bandeau) perce une planche avec une chignole ; très gros plan de la mèche qui tourne et des copeaux | Plan moyen → poussée en très gros plan sur la chignole | Mur de forteresse en blocs de pierre, bannière bleue au tigre, herbe dense, planche à trous, chignole |
+| 2 | 2,2 – 5,8 s | because down the hill an army is marching straight for his fort | La caméra passe par-dessus le rempart et plonge dans la vallée : champs en damier, puis l'armée en marche (général sous une ombrelle, soldats jaunes par centaines, poussière) | Envol par-dessus le mur → descente rapide → arrêt devant le général → recul vers le fort | Vallée de champs en terrasses, collines, armée instanciée, ombrelle, fort au loin |
+| 3 | 5,8 – 7,8 s | and while everyone else sharpens swords | Dans la cour : soldats qui aiguisent des épées sur une meule (étincelles), d'autres regardent | Travelling latéral | Porte voûtée en bois, meule, épées, bannières |
+| 4 | 7,8 – 9,6 s | he's in the corner still drilling | L'ingénieur dans son coin, de dos puis de profil, toujours en train de percer | Glissement vers lui | Cour en herbe, chariot au fond |
+| 5 | 9,6 – 12,6 s | His commander asks, are we fighting them or grating cheese? | Le commandant (casque à plumet rouge, cotte bleue) se penche, sourcils froncés ; l'ingénieur continue | Plan rapproché à deux, légère poussée | Même coin de cour |
+| 6 | 12,6 – 20 s | But it gets weirder. He bolts the wood onto a cart, and into every hole goes something long and thin, wrapped in paper, each with a string | Il porte la planche, la fixe sur le chariot ; gros plans : les flèches-fusées entrent une à une dans les trous, tube de papier, ficelle ; vue arrière des 82 hampes | Suivi de la planche → gros plans successifs → très gros plan des trous → vue arrière | Chariot à roues à rayons, 82 flèches à tube de poudre, ficelles, tour à toit rouge au fond |

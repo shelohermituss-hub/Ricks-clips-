@@ -1,0 +1,22 @@
+{
+ "slug": "cart_army",
+ "duration_s": 66.9,
+ "resolution": "720x1280",
+ "fps": 30.0,
+ "words": 235,
+ "words_per_s": 3.53,
+ "longest_pause_s": 0.42,
+ "lufs": -14.1,
+ "lra": 2.9,
+ "hard_cuts": 0,
+ "seconds_per_hard_cut": 66.9,
+ "motion_per_second_median": 34.8,
+ "motion_median_x1000": 35.68,
+ "peaks_per_10s": 10.32,
+ "luma": 0.433,
+ "saturation": 0.401,
+ "contrast": 0.181,
+ "edge_detail": 0.0946,
+ "still_frames_pct": 0.0,
+ "sheets": 7
+}
