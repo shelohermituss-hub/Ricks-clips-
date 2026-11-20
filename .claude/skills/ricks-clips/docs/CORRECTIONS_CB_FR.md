@@ -199,3 +199,9 @@ Causes réelles (constat, pas excuse) :
 3. **Jugement sur des images trop pauvres** : tests à 405×720, 16–24 échantillons, débruités ; la référence est nette en 1080p. Un look ne se valide qu'à qualité finale.
 4. **Travail à l'aveugle** : je ne vois pas la scène, seulement des images fixes ; chaque essai coûte plusieurs minutes.
 **Règle** : un look se construit en REPRODUISANT une image de référence précise, sur un plan, à qualité finale, avec comparaison mesurée ; rien d'autre n'avance tant que ce plan n'est pas validé par CB.
+
+## CB 2026-11-20 — « dans la démo tu y arrives très bien, pourquoi ne pas utiliser la même méthode ? c'est pour t'imprégner du style que je t'ai donné les références »
+- **Règle permanente** : tout nouveau film se construit avec la MÉTHODE DE LA DÉMO (`demos/crash_instinct`) : réglages de lumière MESURÉS sur la référence (mood `ref` de `sets/beach.py` : Standard + Medium Contrast, soleil bas, ciel HDRI naturel, halo, lumière de rebond, rayons en volume local), puis `tools/grade_match.py` image contre image, et correction jusqu'à être dans la tolérance. Jamais de look inventé.
+- **Accès** : BlenderKit branché (secret réseau `www.blenderkit.com`, hôtes `assets.blendkit.com` + `public.blenderkit.com`). Commande : `BLENDERKIT_API_KEY=proxy-injected CLAUDE_CODE_REMOTE=true blender -b --factory-startup --python tools/blenderkit_tool.py -- search|get …`. Fichiers hors Git (`library/blenderkit/`, ignoré), journal `library/blenderkit_assets.md`.
+- **Décor** : uniquement de vrais modèles (`toon.bk`, `toon.dress_real`) : barque, ponton, parasol, transats, bouée, coffre, voilier.
+- **Mesures plan 07** (réf → nous) : v1 rapproché 0,51/0,28/0,23 → 0,57/0,29/0,21 ; large 0,60/0,25/0,20 → 0,77/0,14/0,18 (délavé) ; v2 large → 0,66/0,19/0,19.

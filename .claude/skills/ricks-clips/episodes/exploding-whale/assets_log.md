@@ -1,1 +1,7 @@
 - rowboat: "Rowboat" by Dovydas Alytas, licence royalty_free, faces 13689, https://www.blenderkit.com/asset-gallery-detail/ea188acb-4411-4a94-b92c-370c51590333/, file library/blenderkit/rowboat/rowboat.blend
+- pier: "Modular Wooden Pier" by Poly Haven , licence cc_zero, faces 43025, https://www.blenderkit.com/asset-gallery-detail/7ec6c814-33ad-41e5-a988-afca2c9ee73d/, file library/blenderkit/pier/pier.blend
+- umbrella: "Round Beach Umbrella" by Jesús Snz, licence royalty_free, faces 32038, https://www.blenderkit.com/asset-gallery-detail/57e4f088-3c68-4295-adb7-96b51c219197/, file library/blenderkit/umbrella/umbrella.blend
+- buoy: "Ocean Buoy" by Poly Haven , licence cc_zero, faces None, https://www.blenderkit.com/asset-gallery-detail/d6ab9756-5ec8-4b43-9233-0e92cf541572/, file library/blenderkit/buoy/buoy.blend
+- deckchair: "Beach Folding Chair" by Adam Kořistka, licence royalty_free, faces 1896, https://www.blenderkit.com/asset-gallery-detail/00055979-35ca-4057-8058-89012df5a804/, file library/blenderkit/deckchair/deckchair.blend
+- chest: "Wooden Crate 02" by Poly Haven , licence cc_zero, faces None, https://www.blenderkit.com/asset-gallery-detail/c748e629-fb82-479c-8bed-835e05220737/, file library/blenderkit/chest/chest.blend
+- sailboat: "Ship miniature" by Dovydas Alytas, licence royalty_free, faces None, https://www.blenderkit.com/asset-gallery-detail/0880637f-3d0f-4809-954c-73dfe1163c2f/, file library/blenderkit/sailboat/sailboat.blend

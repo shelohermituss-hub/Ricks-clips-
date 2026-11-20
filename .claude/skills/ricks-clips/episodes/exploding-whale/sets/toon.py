@@ -5,7 +5,7 @@ What the references have and a photo world (HDRI sky + scanned sand) has not, do
   3. flat decided colours (blue / orange opposition) with drawn detail (planks, stripes, bands), coloured shadows (blue ambient, warm sun)
   4. a dressed beach: rowboat, jetty, buoys, traps, umbrella, shells, starfish, kelp, a lighthouse on the far headland, a sail on the horizon
     import toon; toon.stylize(scene, whale); toon.dress(col)"""
-import bpy, bmesh, math, random
+import bpy, bmesh, math, os, random
 from mathutils import Vector
 import beach
 from beach import col, mesh_obj, height, SEA_Z, SHORE_Y
@@ -373,8 +373,39 @@ def wave(c, width=70.0, depth=11.0):
             b = _ball("wave_lip", R.uniform(.45, .8), (x + R.uniform(-.3, .3), f + k * R.uniform(.3, .7), .02), fm, c, scale=(1.15, .8, .16), parent=R_, line=0); b.visible_shadow = False
     return R_
 
+BK = os.path.join(beach.SKILL, "library", "blenderkit")
+
+def bk(c, name, at, yaw=0.0, size=2.0, tilt=(0, 0), sink=0.0, tex_max=2048):
+    """a REAL model from BlenderKit (library/blenderkit/<name>/<name>.blend, log in library/blenderkit_assets.md): appended, stood on the
+    ground at `at`, scaled so that its largest side is `size` metres; textures above `tex_max` px are reduced (memory)"""
+    p = os.path.join(BK, name, name + ".blend")
+    with bpy.data.libraries.load(p, link=False) as (src, dst): dst.objects = list(src.objects)
+    objs = [o for o in dst.objects if o is not None and o.type in ("MESH", "EMPTY", "CURVE")]; root = bpy.data.objects.new("bk_" + name, None); c.objects.link(root); fix = bpy.data.objects.new("bk_" + name + "_fix", None); c.objects.link(fix); fix.parent = root
+    for o in objs:
+        c.objects.link(o)
+        if o.parent is None or o.parent not in objs: o.parent = fix
+        o.hide_render = False
+    bpy.context.view_layer.update(); ms = [o for o in objs if o.type == "MESH"]; pts = [o.matrix_world @ Vector(v) for o in ms for v in o.bound_box]
+    mn = Vector([min(q[k] for q in pts) for k in range(3)]); mx = Vector([max(q[k] for q in pts) for k in range(3)]); s = size / max(mx - mn); cen = (mn + mx) / 2
+    fix.scale = (s, s, s); fix.location = (-cen.x * s, -cen.y * s, -mn.z * s - sink); root.location = (at[0], at[1], at[2] if len(at) > 2 else height(at[0], at[1])); root.rotation_euler = (tilt[0], tilt[1], yaw)
+    for im in {n.image for o in ms for m in o.data.materials if m and m.use_nodes for n in m.node_tree.nodes if n.type == "TEX_IMAGE" and n.image}:
+        if max(im.size) > tex_max:
+            k = tex_max / max(im.size); im.scale(max(1, int(im.size[0] * k)), max(1, int(im.size[1] * k)))
+    return root
+
+def dress_real(c):
+    """the beach dressed with REAL models only (CB 2026-11-20: "cherche de vrais assets, pas des formes assemblées"; BlenderKit + Sketchfab)"""
+    bk(c, "rowboat", (-11.5, 6.6), math.radians(68), 4.2, tilt=(math.radians(8), 0), sink=.08)
+    for i in range(3): bk(c, "pier", (-10.4, 12.5 + i * 7.2, SEA_Z - .9), math.radians(90), 7.6, tex_max=1024)          # three spans walking into the sea
+    bk(c, "umbrella", (12.6, 6.0), .4, 2.4, tilt=(math.radians(6), math.radians(4))); bk(c, "deckchair", (13.6, 5.4), 2.4, 1.25); bk(c, "deckchair", (11.4, 5.2), 3.4, 1.25)
+    bk(c, "buoy", (8.2, 7.4), .6, 2.2, tilt=(math.radians(62), 0), sink=.25, tex_max=1024)                              # a channel buoy washed up, lying on its side
+    bk(c, "chest", (-.6, -8.4), .5, 1.0, tilt=(math.radians(6), 0), sink=.06, tex_max=1024)
+    bk(c, "sailboat", (-34.0, 235.0, SEA_Z - .4), .6, 13.0)
+    hd = paint("headland", (.20, .33, .22), .85); _ball("headland", 1.0, (150.0, 720.0, SEA_Z - 4), hd, c, scale=(190, 100, 46), line=0, seed=3, rough=.12)
+
 def dress(c, clear=()):
     """the beach of shot 02 and of every beach shot: nothing empty (references: 10-20 readable things per picture)"""
+    if STYLE == "real": return dress_real(c)
     rowboat(c, (-11.5, 6.6), math.radians(68)); jetty(c); umbrella(c, (12.6, 6.0), .4); tackle(c, (8.6, 7.2)); litter(c, clear=clear); far(c); fore(c)
 
 def ink_all(skip=("Card_", "Contact_")):
