@@ -6,6 +6,16 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import kit, toon
 from kit import beach, props, cast, signs, col, key, move, ink, label, box, cyl, blob, show, fx
 H = beach.height
+
+# THE DRAWN WORLD on every beach shot (CB 2026-11-20: "exactement ce style, pour tous les prochains plans et vidéos"): sets/toon.py
+DRESS_CLEAR = ((0, 0, 9.5), (-6.4, -8.0, 3.2), (-3.0, -8.2, 2.2), (-12.5, -4.6, 5.0))
+_finish = kit.finish
+def _drawn_finish(sc, Mo, expo=(), haze=.5):
+    if "beach_sand" in bpy.data.materials:
+        toon.stylize(sc, bpy.data.objects.get("whale"), sun=(Mo["az"], Mo["el"])); toon.dress(col("L_OBJECTS"), clear=DRESS_CLEAR); toon.ink_all()
+        Mo.update(haze_color=(1.0, .80, .60, 1), bloom=.3, exposure=Mo["exposure"] - .5); haze = .2
+    _finish(sc, Mo, expo, haze)
+kit.finish = _drawn_finish
 YELLOW, RED, WHITE, BLACK, GREEN = (.95, .72, .05), (.75, .04, .03), (.9, .9, .88), (.02, .02, .02), (.25, .75, .12)
 
 def stink(c, at, f0, f1, n=5, seed=1):
@@ -47,10 +57,8 @@ def s02(n):
     stink(col("L_FX"), (1.0, -2.2, 2.2), 150, n, 6, 1); stink(col("L_FX"), (8.6, -3.8, .6), 168, n, 3, 2)
     signs.spiral_eyes(C["jogger"], 186, n); fx(sc, [{"type": "dust_burst", "name": "faint", "at": [11.0, -4.4, .1], "frame": 190, "count": 8, "radius": .9, "height": .4, "seed": 4, "life": 24, "color": [.78, .7, .56]},
                                                    {"type": "dust_burst", "name": "beach_slide", "at": [0, -1.0, .2], "frame": 46, "count": 14, "radius": 5.0, "height": .7, "seed": 6, "life": 30, "color": [.8, .74, .6]}])
-    toon.stylize(sc, w); toon.dress(O, clear=((0, 0, 9.5),)); Mo.update(haze_color=(1.0, .80, .60, 1), bloom=.3, exposure=Mo["exposure"] - .5)
-    d5 = bpy.data.objects.get("driftwood5"); d5.location.x += 9; d5.location.y += 1.5                # it lay across the jogger's close-up as a dark slab   # THE DRAWN WORLD (CB 2026-11-20)
-    for o in (tape, tag): toon.outline(o, .012)
-    kit.finish(sc, Mo, ((0, -.1), (70, 0.0)), haze=.2); return sc
+    d5 = bpy.data.objects.get("driftwood5"); d5.location.x += 9; d5.location.y += 1.5                # it lay across the jogger's close-up as a dark slab
+    kit.finish(sc, Mo, ((0, -.1), (70, 0.0))); return sc
 
 # ---------------------------------------------------------------------------------------------------------------- 03
 def phone(c):

@@ -328,7 +328,7 @@ def crate(c, at, yaw, word="FISH"):
 
 def fore(c):
     """the near sand of the low cameras (never an empty half picture)"""
-    castle(c, (9.9, -3.6)); crate(c, (-.6, -8.4), .5); gull(c, (3.1, -7.6), 2.2); gull(c, (3.9, -7.1), 2.9); gull(c, (-9.6, -5.6), .6); gull(c, (12.6, -6.9), 2.0)
+    castle(c, (9.9, -3.6)); crate(c, (-.6, -8.4), .5); gull(c, (3.1, -7.6), 2.2); gull(c, (3.9, -7.1), 2.9); gull(c, (6.5, -9.6), .6); gull(c, (12.6, -6.9), 2.0)
     gull(c, (-10.4, 31.0), 1.2, SEA_Z + 1.32); gull(c, (-10.1, 26.5), -1.0, SEA_Z + 1.32)
     crab = _root("crab", c, (1.3, -9.6), .4); cr = paint("crab_red", RED, .4); _ball("crab_body", .09, (0, 0, .07), cr, c, scale=(1.3, 1, .55), parent=crab, line=.006)
     for s in (-1, 1):
@@ -355,3 +355,10 @@ def wave(c, width=70.0, depth=11.0):
 def dress(c, clear=()):
     """the beach of shot 02 and of every beach shot: nothing empty (references: 10-20 readable things per picture)"""
     rowboat(c, (-11.5, 6.6), math.radians(68)); jetty(c); umbrella(c, (12.6, 6.0), .4); tackle(c, (8.6, 7.2)); litter(c, clear=clear); far(c); fore(c)
+
+def ink_all(skip=("Card_", "Contact_")):
+    """the ink line on everything the shot itself built or imported (props, vehicles, pieces): thickness follows the size of the object"""
+    for o in list(col("L_OBJECTS").all_objects) + [o for o in bpy.data.objects if o.type == "MESH" and o.data.materials and o.data.materials[0] and o.data.materials[0].name == "blubber"]:
+        if o.type != "MESH" or o.name.startswith(skip) or o.modifiers.get("ink_line") or not o.data.polygons: continue
+        if any(m and (m.name == "ink_line" or m.name.startswith(("ink_", "chalk", "sign_", "stink"))) for m in o.data.materials): continue
+        s = max(1e-4, abs(o.matrix_world.to_scale().x)); outline(o, min(.03, max(.006, max(o.dimensions) * .01)) / s / 1.8)
