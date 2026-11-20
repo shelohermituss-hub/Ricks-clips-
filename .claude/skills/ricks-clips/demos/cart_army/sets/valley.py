@@ -55,7 +55,7 @@ def fields(c, seed=7):
 
 def relief(c, seed=3):
     """rolling green hills behind the plain, then grey rocky peaks (three planes of depth)"""
-    R = random.Random(seed); gm = _flat("hill_green", (.10, .34, .07), .95); nt = gm.node_tree; nz = nt.nodes.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 9.0; nz.inputs["Detail"].default_value = 6; rp = nt.nodes.new("ShaderNodeValToRGB"); rp.color_ramp.elements[0].position = .4; rp.color_ramp.elements[0].color = (.03, .16, .03, 1); rp.color_ramp.elements[1].position = .62; rp.color_ramp.elements[1].color = (.20, .50, .10, 1); nt.links.new(nz.outputs["Fac"], rp.inputs["Fac"]); nt.links.new(rp.outputs["Color"], nt.nodes["Principled BSDF"].inputs["Base Color"])   # woods and meadows on the hills; rk = _flat("peak_grey", (.42, .44, .46), .9); tm = _flat("tree_green", (.04, .2, .05), .95)
+    R = random.Random(seed); gm = _flat("hill_green", (.10, .34, .07), .95); nt = gm.node_tree; nz = nt.nodes.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 9.0; nz.inputs["Detail"].default_value = 6; rp = nt.nodes.new("ShaderNodeValToRGB"); rp.color_ramp.elements[0].position = .4; rp.color_ramp.elements[0].color = (.03, .16, .03, 1); rp.color_ramp.elements[1].position = .62; rp.color_ramp.elements[1].color = (.20, .50, .10, 1); nt.links.new(nz.outputs["Fac"], rp.inputs["Fac"]); nt.links.new(rp.outputs["Color"], nt.nodes["Principled BSDF"].inputs["Base Color"]); rk = _flat("peak_grey", (.42, .44, .46), .9); tm = _flat("tree_green", (.04, .2, .05), .95)
     for i in range(46):
         bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=3, radius=1.0); a, b = R.uniform(2, 5), R.uniform(2, 5)
         for v in bm.verts: v.co *= 1 + .16 * math.sin(v.co.x * a + i) * math.cos(v.co.y * b)
