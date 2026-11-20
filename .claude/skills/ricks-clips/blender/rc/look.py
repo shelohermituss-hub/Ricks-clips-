@@ -63,7 +63,7 @@ def pbr(name, ph_id, tile=2.0, tint=None, tint_k=0.0, rough_mul=1.0, normal=1.0,
         n = img("normal", True); nm = N.new("ShaderNodeNormalMap"); nm.inputs["Strength"].default_value = normal; L.new(n.outputs["Color"], nm.inputs["Color"]); L.new(nm.outputs["Normal"], b.inputs["Normal"])
     return m
 
-def sky_hdri(scene, strength=1.0, hdri=HDRI, hdri_sun_deg=HDRI_SUN_DEG, sun_az=None, glow=.8, light=.5):
+def sky_hdri(scene, strength=1.0, hdri=HDRI, hdri_sun_deg=HDRI_SUN_DEG, sun_az=None, glow=.65, light=.5):
     """CINEMATIC SKY (CB 2026-11-19): a real cloudy sky photo (Poly Haven CC0) seen by the camera AND lighting the scene (soft fill, so the
     trunk is never black in daylight); rotated so its sun sits where the sun lamp is"""
     from rc import fetch
@@ -85,7 +85,7 @@ def sky_hdri(scene, strength=1.0, hdri=HDRI, hdri_sun_deg=HDRI_SUN_DEG, sun_az=N
     L.new(st.outputs[0], bg.inputs["Strength"])
     if glow > 0: sun_glow(w, glow)
 
-def sun_glow(w, k=1.0, wide=5.0, tight=90.0):
+def sun_glow(w, k=1.0, wide=7.0, tight=90.0):
     """THE SUN SEEN IN THE SKY (CB 2026-11-19: "le soleil doit apparaître en lueur en haut à gauche sur la vue aérienne"): a warm white glow
     around the direction of the sun LAMP (SUN), added to the sky for camera rays only (the lighting does not change): a wide halo that
     whitens the sky on the sun's side even when the sun is out of frame, and a hot core where the camera looks at it"""
@@ -147,11 +147,11 @@ def light_shafts(c, n=14, seed=3, under=(0, 0, 4.4), spread=2.2, length=None, st
         if parent: o.parent = parent                                                        # they belong to the tree (fall with it)
     return out
 
-def bounce_fill(c, at=(-3.0, -9.0, 2.2), aim=(0, 0, 2.0), energy=900.0, size=7.0):
+def bounce_fill(c, at=(-3.0, -9.0, 2.2), aim=(0, 0, 2.0), energy=900.0, size=7.0, name="bounce_fill"):
     """CINEMATIC FILL (CB 2026-11-19: "le tronc est tout sombre en plein jour"): a big soft area light on the camera side, like a bounce board;
     invisible to the camera and in reflections, it opens the shadow side of the trunk and the characters under the crown"""
-    l = bpy.data.lights.new("bounce_fill", "AREA"); l.energy = energy; l.size = size; l.color = srgb("#fff6ea")
-    o = bpy.data.objects.new("bounce_fill", l); col("LIGHT").objects.link(o); o.location = at
+    l = bpy.data.lights.new(name, "AREA"); l.energy = energy; l.size = size; l.color = srgb("#fff6ea")
+    o = bpy.data.objects.new(name, l); col("LIGHT").objects.link(o); o.location = at
     o.rotation_euler = (Vector(aim) - Vector(at)).to_track_quat("-Z", "Y").to_euler()
     o.visible_camera = False; o.visible_glossy = False
     return o

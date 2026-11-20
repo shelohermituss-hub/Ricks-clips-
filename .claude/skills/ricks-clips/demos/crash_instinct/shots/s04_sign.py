@@ -16,8 +16,8 @@ import s01_plant as S1, s02_crash as S2, s03_aerial as S3  # noqa: E402
 from s01_plant import street, vfx, smooth  # noqa: E402
 import sign as signkit  # noqa: E402  (sets/ is on the path through s01_plant)
 
-F0, F1 = 282, 362; SWAP = 284; HIT = 315; FLIP = 339; FLAT = 349
-SIGN_AT = (0.4, -3.0); TYRE_AT = Vector((1.25, -2.85, 0)); CAR_X = .35; CAR_STOP = .55 + S1.CAR_FRONT; SPEED = 1.3     # m per frame = 140 km/h (measured: 5 frames across 6.5 m)
+F0, F1 = 282, 362; SWAP = 284; HIT = 313; FLIP = 339; FLAT = 349   # HIT measured on the reference (rear already lifted at 318)
+SIGN_AT = (0.5, -1.75); TYRE_AT = Vector((1.3, -1.6, 0)); CAR_X = .35; CAR_STOP = .55 + S1.CAR_FRONT; SPEED = 1.3     # m per frame = 140 km/h (measured: 5 frames across 6.5 m)
 A = S1.A
 OUT = A[0] if A and not A[0].startswith("--") else "/tmp/s04_sign.blend"
 
@@ -146,17 +146,31 @@ def old_tyre():
     return o
 
 def driver2(body, cam):
-    """the blue car's driver: a copy of the drawn driver card on the blue car's seat, thrown forward at the hit (seat belt)"""
-    src = bpy.data.objects.get("Card_driver")
-    if src is None: return None
-    card = src.copy(); card.name = "Card_driver_blue"; card.animation_data_clear(); street.col("L_OBJECTS").objects.link(card); sc = bpy.context.scene
-    card.hide_render = card.hide_viewport = False
+    """the blue car's driver: ONE still drawing of the seated driver (first drawing of the driver card) on its own card, standing on the
+    blue car's seat and facing the road side (this shot's camera is always east of the tree); thrown forward at the hit (seat belt)"""
+    src = bpy.data.objects.get("Card_driver"); png = os.path.join(HERE, "..", "build", "cards_s01", "cards", "driver", "s0001.png")
+    if src is None or not os.path.exists(png): return None
+    m = bpy.data.materials.new("card_driver_blue"); m.use_nodes = True; nt = m.node_tree; b = nt.nodes["Principled BSDF"]
+    t = nt.nodes.new("ShaderNodeTexImage"); t.image = bpy.data.images.load(png, check_existing=True)
+    nt.links.new(t.outputs["Color"], b.inputs["Base Color"]); nt.links.new(t.outputs["Alpha"], b.inputs["Alpha"]); nt.links.new(t.outputs["Color"], b.inputs["Emission Color"])
+    b.inputs["Emission Strength"].default_value = .45; b.inputs["Roughness"].default_value = .9; b.inputs["Specular IOR Level"].default_value = 0.0
+    me = src.data.copy(); me.materials.clear(); me.materials.append(m)
+    card = bpy.data.objects.new("Card_driver_blue", me); street.col("L_OBJECTS").objects.link(card); card.scale = src.scale; sc = bpy.context.scene
+    card.rotation_euler = (0, 0, math.radians(90))
     for f in [SWAP - 2] + list(range(SWAP - 1, F1 + 1)):
         sc.frame_set(f); off = S1.DRIVER_SEAT.copy()
-        if f >= HIT: t = f - HIT; off.y -= .22 * math.exp(-t / 3.0) * math.sin(min(math.pi, t * .7) + .01)
+        if f >= HIT: t_ = f - HIT; off.y -= .22 * math.exp(-t_ / 3.0) * math.sin(min(math.pi, t_ * .7) + .01)
         card.location = body.matrix_world @ off; card.keyframe_insert("location", frame=f)
     key_vis(card, visible_from=SWAP)
     return card
+
+def east_fill():
+    """CINEMATIC FILL for this side of the tree (CB: never black or grey in daylight): the camera now looks west, the sun is behind the
+    tree, so a big soft bounce on the camera side opens the crown, the trunk and the sign. Switched on inside the whip (off-frame)."""
+    from rc.look import bounce_fill
+    l = bounce_fill(street.col("LIGHT"), at=(13.0, -5.0, 4.5), aim=(0, -.5, 3.5), energy=0.0, size=10.0, name="bounce_fill_east")
+    l.data.energy = 0.0; l.data.keyframe_insert("energy", frame=SWAP - 1); l.data.energy = 2200.0; l.data.keyframe_insert("energy", frame=SWAP)
+    return l
 
 def oak_shake():
     o = bpy.data.objects["oak"]
@@ -182,9 +196,10 @@ def leaves_third():
 
 def camera_sign(cam):
     sg = Vector((SIGN_AT[0], SIGN_AT[1], 1.95))
-    keys = [(283, (4.2, -16.0, 1.6), (2.5, -7.0, 15.0), 24), (284, (4.5, -8.5, 1.65), (1.2, -3.0, 10.0), 30), (285, (4.6, -3.3, 1.6), tuple(sg), 35), (288, (5.0, -3.25, 1.58), tuple(sg), 35),
-            (309, (15.5, -1.0, 1.0), (0.0, 0.5, 4.0), 22), (330, (15.2, -1.2, 1.05), (0.0, 0.45, 3.9), 22),
-            (348, (6.6, -2.7, 1.35), (SIGN_AT[0], SIGN_AT[1] + .1, 1.55), 30), (F1, (6.3, -2.75, 1.38), (SIGN_AT[0], SIGN_AT[1] + .1, 1.55), 30)]
+    aim2 = (SIGN_AT[0], SIGN_AT[1] + .45, 1.5)
+    keys = [(283, (4.2, -15.0, 1.6), (2.5, -6.0, 15.0), 24), (284, (4.5, -2.4, 1.62), (SIGN_AT[0], SIGN_AT[1], 7.5), 32), (285, (4.6, -2.05, 1.6), tuple(sg), 35), (288, (4.9, -2.0, 1.58), tuple(sg), 35),
+            (309, (11.2, -.6, .8), (0.0, 0.3, 4.3), 20), (330, (11.0, -.75, .84), (0.0, 0.25, 4.25), 20),
+            (348, (6.6, -1.3, 1.35), aim2, 30), (F1, (6.3, -1.35, 1.38), aim2, 30)]
     for f, p, a, lens in keys:
         cam.location = p; cam.rotation_euler = (Vector(a) - Vector(p)).to_track_quat("-Z", "Y").to_euler(); cam.data.lens = lens
         cam.keyframe_insert("location", frame=f); cam.keyframe_insert("rotation_euler", frame=f); cam.data.keyframe_insert("lens", frame=f)
@@ -208,7 +223,7 @@ def build_take4(sc):
     for o in tree_and_children(sg): key_vis(o, visible_from=SWAP)
     signkit.shake(sg, HIT); signkit.flip(sg, FLIP)
     old_tyre(); brig, body, parts = blue_car(); nd = crush(brig, parts); driver2(body, cam); w = wheel_off(parts)
-    oak_shake(); leaves_third(); camera_sign(cam)
+    oak_shake(); leaves_third(); camera_sign(cam); east_fill()
     print("SHOT4 gone", n, "dent verts", nd, "wheel", w.name if w else None)
     vfx.apply(sc, [
         {"type": "dust_burst", "name": "blue_brake", "at": [CAR_X + .6, 3.6, .1], "frame": HIT - 3, "count": 8, "radius": 1.2, "height": .8, "seed": 41, "life": 30, "color": [.72, .64, .5]},
