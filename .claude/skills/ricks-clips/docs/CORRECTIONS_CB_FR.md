@@ -222,3 +222,14 @@ Causes réelles (constat, pas excuse) :
 5. **L'objet héros est spécifique et détaillé**, vrai modèle pour l'outil.
 6. **Lumière : soleil derrière la caméra, sur le décor** ; ciel pâle ; pierre claire. Sur la baleine : contre-jour ou soleil rasant choisis au hasard, trois styles essayés.
 **Règle pour créer un film original dans le même univers :** avant de construire un plan, lui attribuer une IMAGE MODÈLE prise dans une référence (même type de plan : même valeur de cadre, même hauteur de caméra, même place du personnage, même densité de décor, même direction de lumière), écrire ces mesures dans la fiche du plan, construire, puis comparer à cette image modèle exactement comme pour une copie. Choisir des lieux qui ont de l'architecture et de la végétation ; un lieu nu (plage, désert) doit être habillé jusqu'à atteindre la densité de l'image modèle.
+
+## CB 2026-11-20 — corrections sur cart_army plan 2 (v2) — règles générales à garder
+1. **Ne détailler que ce qui est bien visible dans le plan.** Le reste reste simple.
+2. **Herbe = une TEXTURE d'herbe verte sur le sol + quelques vraies touffes par-dessus** (c'est ce qui donne le rendu de la référence) ; pas un tapis entier de brins en géométrie (lourd et uniforme).
+3. **L'angle de caméra compte autant que le contenu.** Je posais tout de face. La référence : l'armée MONTE une colline, la forteresse est SUR une colline, la route fait un S ; les vues sont en biais (trois-quarts, plongée, contre-plongée). Relever l'angle sur chaque image clé avant de placer la caméra.
+4. **La forteresse doit être détaillée et réaliste** (c'est l'objet du fond) : porte voûtée, tours crénelées, pavillon à toit courbe, blocs.
+5. **Les lointains sont peu détaillés mais riches** : vraies formes de montagnes vertes (crêtes, plis, bois, clairières), pas de grosses bosses lisses.
+6. **Prélever EXACTEMENT les couleurs de la référence** (pipette sur les images) et les appliquer : sol, route, herbe, champs, collines, ciel, pierre. Relevé plan 2 : herbe #77b336 / #68993f / #52a72f ; route #947848 – #997e4c ; collines #376d3f – #4f823e ; ciel #919fc6 – #96abde (bleu pervenche doux, pas bleu nuit) ; pierre au soleil #ebe2d3, à l'ombre #4c4e55 ; image entière : luminosité 0,51–0,56, saturation 0,39–0,51, contraste 0,14–0,21.
+7. **Les personnages de la référence sont nets, clairs et détaillés** ; les miens sortent assombris et flous → cartes presque entièrement auto-éclairées, pas de flou d'objectif sur elles, taille suffisante dans le cadre.
+8. **La lumière cinématique n'est pas la même** : soleil haut et franc, beaucoup de lumière d'ambiance (ombres claires), brume légère au loin, couleurs vives → vérifier avec `tools/grade_match.py` sur chaque image clé.
+9. **Apprendre de chaque correction** : ce relevé est la liste de contrôle à relire avant chaque plan.
