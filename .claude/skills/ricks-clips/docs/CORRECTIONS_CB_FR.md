@@ -140,3 +140,4 @@ Lire avec :
 - **Anneau de choc au sol** : jamais émissif ni persistant — il blanchissait toute la plage après l'explosion. Couleur sable, disparaît en 16 images.
 - **Écume** : une grande plaque blanche se lit comme une dalle. Bande étroite seulement.
 - **Petits objets (clés)** : une forme pleine devient un « œuf ». Dessiner la silhouette vraie (anneau ouvert, deux lames, porte-clés) et garder la poussière petite et couleur sable.
+- **Vérifier que la reconstruction a réussi** : une faute de syntaxe ne produit pas le mot « Traceback » ; le contrôle cherche maintenant aussi « SyntaxError », et je regarde l'heure du fichier .blend avant de relancer un calcul (une heure de calcul perdue sur d'anciennes scènes).

@@ -331,7 +331,7 @@ def s11(n):
     cu = bpy.data.curves.new("key_ring", "CURVE"); cu.dimensions = "3D"; cu.bevel_depth = .004; sp = cu.splines.new("POLY"); sp.points.add(23); sp.use_cyclic_u = True
     for i, p in enumerate(sp.points): p.co = (.032 * math.cos(i * .2618), .032 * math.sin(i * .2618), 0, 1)
     kr = bpy.data.objects.new("key_ring", cu); O.objects.link(kr); kr.parent = keys; cu.materials.append(st)
-    box("key_a", (.014, .075, .004), (.03, -.065, 0), st, O, bevel=0, parent=keys); box("key_a_teeth", (.012, .03, .004), (.04, -.085, 0), st, O, bevel=0, parent=keys); box("key_b", (.012, .06, .004), (.0, -.06, 0), st, O, bevel=0, parent=keys) box("key_fob", (.035, .05, .008), (-.035, -.055, 0), ink("fob_red", RED, 0, .4), O, bevel=.002, parent=keys); keys.scale = (2.6, 2.6, 2.6)   # drawn large: readable on a phone
+    box("key_a", (.014, .075, .004), (.03, -.065, 0), st, O, bevel=0, parent=keys); box("key_a_teeth", (.012, .03, .004), (.04, -.085, 0), st, O, bevel=0, parent=keys); box("key_b", (.012, .06, .004), (.0, -.06, 0), st, O, bevel=0, parent=keys); box("key_fob", (.035, .05, .008), (-.035, -.055, 0), ink("fob_red", RED, 0, .4), O, bevel=.002, parent=keys); keys.scale = (2.6, 2.6, 2.6)   # drawn large: readable on a phone
     for f, zz, r in ((0, 1.0, 0), (9, .02, 5), (12, .09, 6), (15, .02, 6.6)): key(keys, "location", f, (kx, ky, g + zz)); key(keys, "rotation_euler", f, (r * .3, r * .2, r))
     cam = kit.camera([(0, (kx + .2, ky - 1.5, g + .6), (kx, ky, g + .3), 35), (16, (kx + .1, ky - 1.4, g + .5), (kx - .02, ky + .05, g + .08), 38),
                       (30, (VET[0] + .1, VET[1] - 2.4, g + .9), (VET[0], VET[1], g + .7), 38), (n - 1, (VET[0], VET[1] - 2.6, g + 1.45), (VET[0], VET[1], g + 1.42), 40)], n, amp=.005)
