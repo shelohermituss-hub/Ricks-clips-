@@ -191,3 +191,11 @@ Planche : `episodes/exploding-whale/build/review/audit_realisme_v1.jpg`. Écarts
 | Fumée | panache réel, doux | boules avec trait | fumée en volume |
 | Objets 3D | AUCUN trait d'encre (seuls les personnages 2D en ont) | trait partout | trait retiré en mode réel |
 **Règle (remplace « monde dessiné » pour les matières)** : monde RÉEL et cinématographique (ciel réel, textures réelles, reflets, rayons, fumée en volume), personnages 2D dessinés ; on GARDE du travail précédent : décor plein, sable blanc, vrais modèles, couleurs vives, personnages blancs. Code : `sets/toon.py` (`STYLE = "real"`, `realist`, `glass`, `smoke_mat`).
+
+## CB 2026-11-20 — « ce n'est pas du tout bon, ça n'a presque rien à voir avec les références ; pourquoi ne peux-tu pas les reproduire ? »
+Causes réelles (constat, pas excuse) :
+1. **Méthode** : j'ai changé de look trois fois en une journée (photo → dessiné → réaliste) en réinventant chaque fois, au lieu de prendre UNE image de référence comme cible et de la reproduire élément par élément avec mesure (`tools/reference_compare.py`, `tools/grade_match.py` non utilisés sur ce film).
+2. **Assets** : les références sont faites avec des bibliothèques d'assets professionnels cohérents (végétation, véhicules, bâtiments du même style) ; j'ai mélangé photo-scan, modèles Sketchfab de styles différents et objets codés à la main.
+3. **Jugement sur des images trop pauvres** : tests à 405×720, 16–24 échantillons, débruités ; la référence est nette en 1080p. Un look ne se valide qu'à qualité finale.
+4. **Travail à l'aveugle** : je ne vois pas la scène, seulement des images fixes ; chaque essai coûte plusieurs minutes.
+**Règle** : un look se construit en REPRODUISANT une image de référence précise, sur un plan, à qualité finale, avec comparaison mesurée ; rien d'autre n'avance tant que ce plan n'est pas validé par CB.
