@@ -17,7 +17,7 @@ Statuts :
 | Reproduction de la vidéo de CB « crashed_car » | **PARTIEL** : 2 plans sur 15 | `S/demos/crashed_car/`, `S/references/crashed_car/` |
 | Méthode nouvelle vidéo sans référence | **FAIT** (outils et documents) ; **NOT_RUN** sur une vraie vidéo | `S/docs/PREPRODUCTION_FR.md` |
 | Base de style : 7 vidéos de référence de CB analysées | **FAIT** (19/11) | `S/references/ANALYSE_7_VIDEOS_FR.md`, `S/references/STYLE_BIBLE_FR.md` v2 |
-| Reproduction de « The Instinct That Makes You Crash » (`crash_instinct`) | **PARTIEL** : plans 1 à 3 construits (une prise continue), plan 1 rendu, plans 2-3 en aperçu / images clés ; vue aérienne du plan 3 corrigée et mesurée le 20/11 (`grade_match` PASS sur 180 et 262) ; plan 4 analysé, plan de production PASS, script écrit ; 21 plans restants | `S/demos/crash_instinct/`, `S/references/crash_instinct/` |
+| Reproduction de « The Instinct That Makes You Crash » (`crash_instinct`) | **PARTIEL** : plans 1 à 3 construits (une prise continue), plan 1 rendu, plans 2-3 en aperçu / images clés ; vue aérienne du plan 3 corrigée et mesurée le 20/11 (`grade_match` PASS sur 180 et 262) ; plan 4 construit en première version le 20/11 (continuité PASS ; `grade_match` : 357 dans la tolérance selon le réglage, 288 / 309 / 324 trop clairs et pas assez saturés) ; 21 plans restants | `S/demos/crash_instinct/`, `S/references/crash_instinct/` |
 | Ghost Army | **Archivé** (rien supprimé) | `S/episodes/ghost-army/ARCHIVED.md` |
 
 ## 2. crashed_car, plan par plan

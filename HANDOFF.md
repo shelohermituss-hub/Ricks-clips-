@@ -237,9 +237,9 @@ Procédure : `pod.py fetch <id>` → `pod.py verify <id>` (code de sortie 0) →
 **État (avec preuve)** :
 - Plans 1, 2, 3 construits en une prise continue ; continuité PASS (0 partout) sur le plan 3 corrigé.
 - **Plan 3, vue aérienne : corrigé, rendu et mesuré le 20/11** (`OPEN_ISSUES` n° 26) : lampe soleil seul soleil (ciel HDRI plafonné pour l'éclairage), soleil à −48° / 15°, ombre longue de l'arbre à travers la route et l'herbe, lueur du soleil, champs dorés à rangs, route bleu-gris usée, sols sans répétition, herbe translucide. `grade_match` : **180 PASS, 262 PASS** ; 0, 46, 126 hors tolérance (`OPEN_ISSUES` n° 22). Planche : `S/demos/crash_instinct/build/review/keyframes_ref_vs_ours.jpg` (hors Git).
-- **Plan 4** (images 282-362) : analyse `S/references/crash_instinct/shots/s04.md`, plan `plan/s04.json` (**PLAN PASS**, 0 FAIL), panneau `sets/sign.py`, script `shots/s04_sign.py`. Voir `PROJECT_STATE.md` pour l'état de la construction.
+- **Plan 4** (images 282-362) : analyse `S/references/crash_instinct/shots/s04.md`, plan `plan/s04.json` (**PLAN PASS**, 0 FAIL), panneau `sets/sign.py`, script `shots/s04_sign.py`, **construit en première version**, continuité PASS. Écarts connus avec la référence : ciel trop blanc vers l'ouest (la référence est bleue), vue large trop proche et trop basse (l'arbre paraît vu d'en dessous), poteaux et pneus trop noirs, image 285 encore floue (fin du fouetté), `grade_match` hors tolérance sur 288, 309, 324 (trop clair, saturation 0,28 pour 0,40).
 
-**Suite** : 1) faire revoir par CB les images clés et l'aperçu du plan 3 ; 2) finir le plan 4 dans l'ordre (construction, `continuity.py`, images clés 285, 297, 309, 318, 324, 342, 357, `grade_match`, aperçu) ; 3) plan 5 (« So the town nails a giant flashing arrow to it », image 363+) ; 4) test GPU RunPod sur un plan construit (accord et plafond de CB d'abord ; aucun pod n'existe).
+**Suite** : 1) faire revoir par CB les images clés et l'aperçu du plan 3 ; 2) corriger les écarts du plan 4 listés ci-dessus dans la scène, puis `grade_match` PASS et nouvel aperçu ; 3) plan 5 (« So the town nails a giant flashing arrow to it », image 363+) ; 4) test GPU RunPod sur un plan construit (accord et plafond de CB d'abord ; aucun pod n'existe).
 
 **Règles de CB** : `S/docs/CORRECTIONS_CB_FR.md` (à lire avant tout plan), `CB_RULES.md` §11h, leçons PI-016 à PI-028.
 
