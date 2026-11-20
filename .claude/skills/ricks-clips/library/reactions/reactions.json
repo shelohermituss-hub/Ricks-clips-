@@ -944,6 +944,229 @@
     "split-flap clack"
    ],
    "build": "two digit meshes cut at the hinge line; top flap of the old digit rotates 180 deg, its back carries the bottom of the new digit (sets/sign.py)"
+  },
+  {
+   "id": "ground_impact_cracks",
+   "triggers": [
+    "stomp",
+    "frappe du pied",
+    "slam the ground",
+    "ground cracks",
+    "fissure"
+   ],
+   "reactions": [
+    "anticipation: the foot or fist rises for ~8 frames",
+    "contact on ONE frame",
+    "cracks spread from the contact point in 4 frames, small chips thrown"
+   ],
+   "consequences": [
+    "the cracks stay; still visible in the next shot where the place appears"
+   ],
+   "micro": [
+    "body stays rigid, the face changes on the word"
+   ],
+   "sfx": [
+    "heavy thud",
+    "crackle"
+   ],
+   "build": "decal growing over 4 frames (rc.vfx), kept; V01 E05 750-790",
+   "source": "references/style_analysis (event_catalog.csv)"
+  },
+  {
+   "id": "vehicle_rear_end",
+   "triggers": [
+    "rear-end",
+    "hits from behind",
+    "smashes into his bumper",
+    "percute l'arrière",
+    "brake check"
+   ],
+   "reactions": [
+    "tyre smoke under braking BEFORE the contact",
+    "contact on ONE frame: the follower's nose sinks into the rear",
+    "the rear bumper breaks off and hangs",
+    "debris thrown backward and up for 6-10 frames",
+    "the follower's driver reacts (eyes wide)"
+   ],
+   "consequences": [
+    "a body panel stays on the road in the next shot",
+    "both cars stay locked together"
+   ],
+   "micro": [
+    "camera shake 3-10 frames",
+    "steam / brake lights"
+   ],
+   "sfx": [
+    "tyre screech",
+    "crunch"
+   ],
+   "build": "shape key + detached bumper object + rc.vfx debris; V02 E01 40-130",
+   "source": "references/style_analysis (event_catalog.csv)"
+  },
+  {
+   "id": "vehicle_frontal_crash",
+   "triggers": [
+    "frontal crash",
+    "smashes through the railing",
+    "défonce la glissière",
+    "head-on"
+   ],
+   "reactions": [
+    "contact on ONE frame",
+    "the bonnet crumples and lifts in ~5 frames",
+    "the obstacle is torn away (railing posts rise)",
+    "rock / dust debris"
+   ],
+   "consequences": [
+    "the car tips over or the driver is thrown out; the torn obstacle stays"
+   ],
+   "micro": [
+    "camera shake"
+   ],
+   "sfx": [
+    "metal crunch",
+    "debris"
+   ],
+   "build": "shape key on the bonnet + physics on the obstacle; V03 E08 1998-2084",
+   "source": "references/style_analysis (event_catalog.csv)"
+  },
+  {
+   "id": "vehicle_hits_fixed_obstacle",
+   "triggers": [
+    "hits the tree",
+    "into the tree",
+    "percute l'arbre",
+    "hits the wall",
+    "into the stump"
+   ],
+   "reactions": [
+    "dust from the shoulder BEFORE the contact",
+    "contact on ONE frame",
+    "the front wheel breaks off",
+    "the obstacle shakes (crown sways, leaves fall)"
+   ],
+   "consequences": [
+    "the wheel rolls, wobbles and falls flat; the wreck stays at the obstacle in every later shot"
+   ],
+   "micro": [
+    "camera shake",
+    "smoke from the wreck"
+   ],
+   "sfx": [
+    "crash",
+    "leaves rustle"
+   ],
+   "build": "the model's own wheel cut out and keyed (PI-021); V04 E02 84-140",
+   "source": "references/style_analysis (event_catalog.csv)"
+  },
+  {
+   "id": "impossible_pose_hold",
+   "triggers": [
+    "stands vertical",
+    "se dresse à la verticale",
+    "balances",
+    "tient en équilibre"
+   ],
+   "reactions": [
+    "the object tips into an impossible pose in ~6 frames",
+    "it HOLDS there ~1 s with dust at the base",
+    "then falls back"
+   ],
+   "consequences": [
+    "the stunned face of the character in the next shot"
+   ],
+   "micro": [
+    "dust puff at the pivot"
+   ],
+   "sfx": [
+    "creak",
+    "thud on the fall"
+   ],
+   "build": "keyed rotation about the contact; lateral fixed camera so the pose reads; V04 E09 1224-1290",
+   "source": "references/style_analysis (event_catalog.csv)"
+  },
+  {
+   "id": "announced_rupture",
+   "triggers": [
+    "burst open",
+    "explodes open",
+    "saute",
+    "s'arrache",
+    "bursts"
+   ],
+   "reactions": [
+    "warning signs appear one by one on the attachment points (sparks on rivets) over ~7 frames",
+    "full-frame white flash 2-4 frames",
+    "the part is torn away; loose objects are sucked or blown out"
+   ],
+   "consequences": [
+    "the opening stays; the next shot shows its effect"
+   ],
+   "micro": [
+    "camera shake"
+   ],
+   "sfx": [
+    "creaks then a bang"
+   ],
+   "build": "emissive sparks per rivet + compositing flash; V03 E01 96-140",
+   "source": "references/style_analysis (event_catalog.csv)"
+  },
+  {
+   "id": "forbidden_gesture_punished",
+   "triggers": [
+    "slaps",
+    "gifle",
+    "reaches for",
+    "forbidden",
+    "nobody's allowed to touch"
+   ],
+   "reactions": [
+    "anticipation: red aura and levitating pebbles around the punisher ~7 frames",
+    "two-beat gesture: wind-up then strike on ONE frame",
+    "circular shock ring expands 3-4 frames",
+    "the ground lifts in slabs, the victim's hat flies off spinning",
+    "bystanders flinch"
+   ],
+   "consequences": [
+    "the broken ground stays visible in the wide shot"
+   ],
+   "micro": [
+    "bystanders' heads turn to the cause"
+   ],
+   "sfx": [
+    "huge slap",
+    "rumble"
+   ],
+   "build": "2D aura + ring on the FX layer, 3D slabs and hat; V05 E03 740-830",
+   "source": "references/style_analysis (event_catalog.csv)"
+  },
+  {
+   "id": "material_reward_pile",
+   "triggers": [
+    "money comes in",
+    "pays",
+    "jackpot",
+    "cash",
+    "billets",
+    "truckload"
+   ],
+   "reactions": [
+    "the reward bursts out (briefcase, garage door, screen) for ~0.5 s",
+    "it falls and piles up",
+    "the character climbs or dances on the pile"
+   ],
+   "consequences": [
+    "the pile stays in the set in the following shots"
+   ],
+   "micro": [
+    "notes still fluttering down"
+   ],
+   "sfx": [
+    "cash burst",
+    "coins"
+   ],
+   "build": "instanced notes with keyframes or a quick rigid simulation, kept as a static pile; V02 E04/E07",
+   "source": "references/style_analysis (event_catalog.csv)"
   }
  ]
 }

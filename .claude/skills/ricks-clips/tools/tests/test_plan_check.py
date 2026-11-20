@@ -16,6 +16,7 @@ V = copy.deepcopy(P); V["kind"] = "video"
 FV = {r["item"] for r in plan_check.check(V) if r["status"] == "FAIL"}
 for want in ("hook action shown in the 1st second", "facts written in the set", "insert shot"): assert want in FV, (want, FV)
 V["hook"] = {"action": "pose", "t": 0.0}; V["facts"] = [{"fact": "70 MPH", "prop": "speed sign"}]; V["shots"][0]["camera"][1]["framing"] = "insert"
+for _i, _s in enumerate(V["shots"]): _s["mood"] = ("dusk", "night rain", "dawn mist", "golden noon")[_i % 4]   # STYLE5: >= 4 light moods in a full video
 assert not [r for r in plan_check.check(V) if r["status"] == "FAIL"], [r for r in plan_check.check(V) if r["status"] == "FAIL"]
 print("test_plan_check STORY PASS")
 
@@ -29,3 +30,14 @@ _r = _sp.run([sys.executable, os.path.join(_SK, "tools", "plan_check.py"), _f.na
 _fails = [l for l in _r.stdout.splitlines() if l.startswith("FAIL LOOK")]
 assert _r.returncode == 1 and len(_fails) >= 5, "a plan without look must FAIL (got %d LOOK fails)" % len(_fails)
 print("test_plan_check LOOK PASS (%d LOOK fails on a plan without look)" % len(_fails))
+
+# STYLE5 (5 reference videos analysed 2026-11-20, references/style_analysis/QUALITY_GATES.md G8 G9 G12 G13): a FULL video with fewer than
+# 4 light moods, an exit without a transition kind, a consequence that persists nowhere or in an earlier shot, and a rage without a 2D sign is refused
+S = copy.deepcopy(_P); S["kind"] = "video"; S["hook"] = {"action": "pose", "t": 0.0}; S["facts"] = [{"fact": "70 MPH", "prop": "speed sign"}]; S["shots"][0]["camera"][1]["framing"] = "insert"
+sh = sorted(S["shots"], key=lambda s: s["t0"]); sh[0]["transition_out"] = "then"; a0 = sh[0]["actions"][0]; a0.pop("persists", None)
+a1 = sh[-1]["actions"][0]; a1["persists"] = [sh[0]["id"]]; a1["what"] = "goes into a rage"; a1.pop("sign", None); a1["micro"] = []; a1["reactions"] = ["x"]; sh[-1]["fx"] = []
+FS = {r["item"] for r in plan_check.check(S) if r["status"] == "FAIL" and r["area"] == "STYLE5"}
+for want in (">= 4 light moods (refs: 5-10)", "%s transition kind declared" % sh[0]["id"], "%s/%s consequence persists" % (sh[0]["id"], a0["id"]),
+             "%s/%s consequence persists" % (sh[-1]["id"], a1["id"]), "%s/%s emotion sign" % (sh[-1]["id"], a1["id"])):
+    assert want in FS, (want, FS)
+print("test_plan_check STYLE5 PASS (%d STYLE5 fails on a bad full video)" % len(FS))

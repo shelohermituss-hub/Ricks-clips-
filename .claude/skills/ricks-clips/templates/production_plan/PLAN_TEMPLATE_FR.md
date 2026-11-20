@@ -61,6 +61,8 @@ Pour chaque action :
 - les **micro-animations** : respiration, vibration, objet qui oscille, cheveux ;
 - les **réactions** : ce que l'action provoque tout de suite (éclaboussure, poussière, débris, secousse, foule) ;
 - les **conséquences** qui **restent** : mouillé, cassé, enfoncé, traces, objet déplacé ;
+- **`persists`** : où la conséquence se voit encore (ids des plans suivants, `next_shot` ou `end`) — contrôlé par `plan_check` STYLE5 (5 vidéos de référence : chaque trace reste) ;
+- **`sign`** pour une émotion extrême (rage, panique, hypnose, cupidité, choc) : éclairs, yeux lumineux, spirales, yeux en $, aura, sueur, gribouillis ;
 - les **bruitages**.
 
 Chaque action est rapprochée de sa recette dans `library/reactions/reactions.json`. Si aucune ne convient, on en écrit une nouvelle après la construction.
@@ -72,7 +74,7 @@ Pour chaque personnage et chaque objet : **par quelle action** il entre, sort ou
 - Les clés : temps, position, visée, focale, et le **nom du mouvement**.
 - Elle ne s'arrête jamais, avec en plus une dérive façon caméra à l'épaule.
 - Ce qu'elle suit.
-- Les transitions d'entrée et de sortie.
+- Les transitions d'entrée et de sortie, avec leur **type** : traversée d'un objet (porte, écran, vitre), fouetté de 3 images, fondu de 0,3 s, ou coupe (réservée à l'accélération : `accelerate: true`). Une vidéo complète a **au moins 4 ambiances de lumière** (champ `mood` des plans). Voir `references/style_analysis/`.
 
 ## 10. Effets visuels
 - Chaque effet, avec l'action qui le déclenche.

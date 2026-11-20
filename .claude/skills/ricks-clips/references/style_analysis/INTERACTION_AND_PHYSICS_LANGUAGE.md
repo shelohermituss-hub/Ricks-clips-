@@ -68,4 +68,4 @@ Format : nom — étapes — durées indicatives mesurées sur les références.
    - témoins qui sursautent (V05 E03).
 8. **Récompense matérielle** : matière en masse qui jaillit, s'empile et reste (V02 E04, E07).
 
-Ces recettes complètent `library/reactions/reactions.json`, à mettre à jour lors d'une mission de développement ; aucune modification n'a été faite pendant cette mission d'analyse.
+Ces 8 recettes ont été ajoutées à `library/reactions/reactions.json` le 20/11 (ids `ground_impact_cracks`, `vehicle_rear_end`, `vehicle_frontal_crash`, `vehicle_hits_fixed_obstacle`, `impossible_pose_hold`, `announced_rupture`, `forbidden_gesture_punished`, `material_reward_pile`).

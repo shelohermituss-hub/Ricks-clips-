@@ -28,6 +28,9 @@ import json, os, re, sys
 SKILL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REAL_TEX = re.compile(r"^(polyhaven|ambientcg|sketchfab|blenderkit|fab|file|library):")
 
+EXTREME = ("rage", "furious", "furieux", "fureur", "colère", "angry", "panic", "panique", "hypno", "terrified", "terrifié", "greed", "jackpot", "shock", "choqué", "scream", "hurle")
+SIGNS = ("lightning", "éclair", "eclair", "glow", "lumineux", "spiral", "spirale", "$", "dollar", "aura", "sweat", "sueur", "scribble", "gribouill", "shock ring", "onde", "steam", "vapeur")
+
 def check(P):
     out = []; add = lambda area, item, ok, msg="", warn=False: out.append({"area": area, "item": item, "status": "PASS" if ok else ("WARN" if warn else "FAIL"), "msg": msg})
     lib = json.load(open(os.path.join(SKILL, "library", "reactions", "reactions.json")))["recipes"]
@@ -134,6 +137,35 @@ def check(P):
     add("STORY", "insert shot", any("insert" in t for t in types), "shot_type / framing 'insert' (top-down detail of the story object)", warn=sw)
     cap = P.get("captions", {}); add("STORY", "captions spec", bool(cap.get("style")) and cap.get("words", [0, 9])[1] <= 3, json.dumps(cap) if cap else "missing", warn=sw)
     add("STORY", "loop to the first image", bool(P.get("loop")), str(P.get("loop", "none")), warn=True)
+    # STYLE5 (references/style_analysis, 5 reference videos analysed 2026-11-20; QUALITY_GATES.md G8, G9, G12, G13)
+    later = {s.get("id"): i for i, s in enumerate(sorted(shots, key=lambda s: s["t0"]))}
+    # G9: one light mood per story step; the 5 references have 5 to 10 moods (a full video needs >= 4)
+    add("STYLE5", ">= 4 light moods (refs: 5-10)", len(moods) >= 4, "%d: %s" % (len(moods), ", ".join(map(str, moods))), warn=sw)
+    TR = ("cut", "coupe", "whip", "fouett", "filé", "file", "dissolve", "fondu", "through", "travers", "wipe", "volet", "no cut", "continu", "match", "raccord", "push into", "becomes", "devient", "end", "fin", "fade")
+    for s in shots:
+        sid = s.get("id", "?"); to = str(s.get("transition_out", "")).lower()
+        # G13: every exit names its kind (object passed through / 3-frame whip / 0.3 s dissolve / cut); a hard cut between two places is for acceleration only
+        add("STYLE5", sid + " transition kind declared", any(k in to for k in TR), s.get("transition_out", "missing") + " (through an object / whip / dissolve / cut)")
+        nxt = [o for o in shots if o["t0"] >= s["t1"] - .01 and o is not s]
+        if nxt and ("cut" in to or "coupe" in to) and not any(k in to for k in ("through", "travers", "whip", "fouett", "dissolve", "fondu", "match", "raccord")):
+            n = min(nxt, key=lambda o: o["t0"])
+            if n.get("place") != s.get("place"):
+                add("STYLE5", sid + " hard cut between places", bool(s.get("accelerate") or n.get("accelerate")), "refs change place through an object, a whip or a dissolve; a hard cut is for acceleration (set accelerate: true)", warn=True)
+        for a in s.get("actions", []):
+            aid = "%s/%s" % (sid, a["id"])
+            # G8: a lasting consequence says where it is still seen (later shot ids, "next_shot" or "end")
+            if a.get("consequences"):
+                ps = a.get("persists")
+                if not ps: add("STYLE5", aid + " consequence persists", False, "persists: [later shot ids] | next_shot | end (the refs keep every trace in the following shots)", warn=sw)
+                else:
+                    ps = ps if isinstance(ps, list) else [ps]
+                    bad = [x for x in ps if x not in ("next_shot", "end") and (x not in later or later[x] <= later.get(sid, -1))]
+                    add("STYLE5", aid + " consequence persists", not bad, ("unknown or earlier shots: %s" % bad) if bad else ", ".join(map(str, ps)))
+            # G12: an extreme emotion carries a 2D sign on the character (lightning, glowing eyes, spirals, $, aura, sweat, scribble)
+            em = (str(a.get("what", "")) + " " + str(a.get("emotion", "")) + " " + str(a.get("anim", ""))).lower()
+            if any(k in em for k in EXTREME):
+                sig = " ".join(map(str, [a.get("sign", "")] + a.get("micro", []) + a.get("reactions", []) + s.get("fx", []))).lower()
+                add("STYLE5", aid + " emotion sign", any(k in sig for k in SIGNS), a.get("sign") or "sign: lightning / glowing eyes / spirals / $ eyes / aura / sweat / scribble (all 5 refs)", warn=sw)
     # LESSONS
     les = json.load(open(os.path.join(SKILL, "memory", "lessons_learned.json")))["lessons"]
     rem = [l for l in les if l.get("status") == "validated" and any(x in ("every shot", "every card character", "every held prop") for x in l.get("applies_to", []))]

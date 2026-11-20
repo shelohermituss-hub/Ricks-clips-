@@ -298,6 +298,9 @@
      ],
      "sfx": [
       "crowd cheer"
+     ],
+     "persists": [
+      "2C"
      ]
     },
     {
@@ -324,6 +327,9 @@
      "sfx": [
       "whoosh",
       "thud of the landing"
+     ],
+     "persists": [
+      "2C"
      ]
     },
     {
@@ -350,6 +356,9 @@
      "sfx": [
       "plastic rub",
       "small pop"
+     ],
+     "persists": [
+      "2C"
      ]
     }
    ],
@@ -433,6 +442,9 @@
      "sfx": [
       "distant crash",
       "debris rattle"
+     ],
+     "persists": [
+      "next_shot"
      ]
     },
     {
@@ -456,7 +468,11 @@
      ],
      "sfx": [
       "sting"
-     ]
+     ],
+     "persists": [
+      "next_shot"
+     ],
+     "sign": "sweat drops + shock lines"
     },
     {
      "id": "oath",
@@ -479,6 +495,9 @@
      ],
      "sfx": [
       "whoosh of the arm"
+     ],
+     "persists": [
+      "next_shot"
      ]
     }
    ],
