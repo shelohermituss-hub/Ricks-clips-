@@ -24,7 +24,7 @@ Les décisions de production de la démo ferme sont aussi dans `S/demos/farmyard
 
 | Décision | Justification mesurée |
 |---|---|
-| **Blender 5.2.2 + Cycles**, pas EEVEE | Benchmark sur RTX 4090 : EEVEE seulement environ 10 % plus rapide (4,0 contre 4,5 s par image), contre une différence moyenne de 6,7/255 et des ombres de contact plus faibles ; le coût est dans la préparation de la scène |
+| **Blender 5.2.2 + Cycles**, pas EEVEE (**confirmé par CB le 20/11 : Cycles est le moteur principal**) | Benchmark sur RTX 4090 : EEVEE seulement environ 10 % plus rapide (4,0 contre 4,5 s par image), contre une différence moyenne de 6,7/255 et des ombres de contact plus faibles ; le coût est dans la préparation de la scène |
 | Volumes biaisés par défaut | Les volumes non biaisés de Blender 5 coûtent 22,7 s de préparation par image, contre 1,7 s biaisés, pour une image identique |
 | Benchmark : médiane après échauffement | 1re image GPU à 121 s (compilation OptiX), puis 4,5 s |
 | Calibration persistée dans `places/<lieu>/calibration.json` | Le pod a rendu sans la calibration qui n'existait que dans le .blend local |
@@ -40,3 +40,9 @@ Les décisions de production de la démo ferme sont aussi dans `S/demos/farmyard
 | `render_layers.sh` refuse de rendre si `continuity.py` échoue | Un rendu sur un plan faux est du temps perdu |
 | Seuil des sauts de pose à 0,9 m par image | Le geste le plus rapide de la bibliothèque de mouvements fait 0,83 m par image. Deux transitions du plan 2 (0,85 et 0,87) passent juste en dessous : **signalé à CB** |
 | `pod.py delete` refuse sans récupération vérifiée | Incident passé : un lock perdu par la suppression d'un pod avant récupération |
+
+
+## 20/11/2026 — Cycles moteur principal (décision de CB)
+- Décision de CB : « utilise Cycles comme moteur principal ». Pas de nouveau test EEVEE sur GPU.
+- Appuis : benchmark RTX 4090 du 18/11 (EEVEE 4,0 s contre Cycles 4,5 s par image, qualité moindre) ; test du 20/11 sur le processeur du cloud (`S/references/style_analysis/benchmark/BENCHMARK_FR.md`) : Cycles 7,4 à 10,1 s par image en 270×480, EEVEE sans carte graphique n'a pas fini une image en 7 min 40 s.
+- Conséquence : tous les rendus (images clés, aperçus, couches, GPU RunPod) en Cycles ; EEVEE reste disponible dans `rc.render.setup` mais n'est plus proposé.

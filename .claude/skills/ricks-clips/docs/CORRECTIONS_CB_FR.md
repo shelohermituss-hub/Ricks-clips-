@@ -108,4 +108,5 @@ Lire avec :
 | Temps de correction qui doublent | Corriger seulement ce qui change (`--patch`), images clés d'abord | `render_manager.py --patch` |
 | « On va faire comme cela pour tous nos prochains shots » | Rendu **par couches** (ciel, décor, objets, effets) | `layers.py`, `render_layers.sh` |
 | 64 min pour 3,2 s sur le processeur | Processeur = images clés + **un aperçu rapide en une couche** ; GPU RunPod pour les vrais rendus (accord et plafond de CB) ; mesurer le temps GPU avant de chiffrer | `preview.sh` ; CB_RULES §11h |
+| « Utilise Cycles comme moteur principal » (20/11) | Cycles pour tous les rendus (processeur pour les images clés et aperçus, GPU OptiX pour les vrais rendus) ; pas de nouveau comparatif de moteurs | défaut de `rc.render.setup`, `rc/cli.py`, `render_manager.py` ; `CB_RULES.md` |
 | « Chaque problème devient une solution permanente » | Leçon + contrôle / recette / code / ligne de modèle, dans la même séance | ce document, `memory/`, `plan_check`, `continuity` |

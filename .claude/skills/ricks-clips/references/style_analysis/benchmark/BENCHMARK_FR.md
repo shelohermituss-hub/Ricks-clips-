@@ -1,6 +1,6 @@
 # Comparatif de moteurs EEVEE / Cycles — 20/11/2026 (QUALITY_GATES G15, PRODUCTION_PIPELINE_SPEC §H)
 
-**Statut : PARTIEL.** Cycles mesuré ; EEVEE **non mesurable sur cette machine** (arrêté à la demande de CB). Le choix du moteur reste ouvert jusqu'à un essai sur une vraie carte graphique.
+**Statut : CLOS par décision de CB (20/11) : Cycles est le moteur principal.** Cycles mesuré sur processeur ; EEVEE non mesurable sur cette machine (arrêté à la demande de CB) ; pas d'essai GPU supplémentaire.
 
 ## Protocole
 - Même scène construite : `demos/crash_instinct/build/s04_sign.blend` (plans 1 à 4 de crash_instinct, prise continue).
@@ -28,14 +28,7 @@ Planche côte à côte : `benchmark/cycles_s04_ref_vs_ours.jpg`.
 ## Ce qu'on peut conclure
 - **Sur une machine sans carte graphique, Cycles est le seul moteur utilisable** : environ 8 s par image en 270×480 à 12 échantillons, soit environ 14 min pour un plan de 100 images en aperçu. EEVEE sans carte graphique est inutilisable : la première image n'est pas finie au bout de 7 min 40 s, plus de 50 fois plus lent.
 - **Cela ne dit rien d'EEVEE sur une vraie carte graphique**, où il est fait pour être rapide. La référence de CB (un ancien flux EEVEE de 20 à 30 min) n'est ni confirmée ni infirmée ici.
-- Mesure déjà notée dans le dépôt (`HANDOFF.md` §6) : EEVEE environ 10 % plus rapide que Cycles « pour une qualité moindre ». Les conditions de cette mesure ne sont pas connues ici.
+- Mesure GPU déjà faite le 18/11 (`DECISIONS.md`) : sur RTX 4090, EEVEE 4,0 s contre Cycles 4,5 s par image (environ 10 % plus rapide), avec une différence moyenne de 6,7/255 et des ombres de contact plus faibles. (Correction : la première version de ce rapport disait à tort que ses conditions étaient inconnues.)
 
-## Pour trancher (nécessite l'accord de CB et un plafond de dépense)
-Refaire ce même script sur une carte graphique RunPod (RTX 4090 : 0,89 $/h, déjà utilisée le 18/11) :
-- les trois mêmes images ;
-- EEVEE (32 et 64 échantillons) contre Cycles OptiX (12, 32 et 64 échantillons) ;
-- temps par image + `grade_match` + planche côte à côte.
-
-Durée estimée : 15 à 25 min de pod, soit environ 0,25 à 0,40 $. **Aucun pod n'a été créé.**
-
-Point bloquant connu (`OPEN_ISSUES` n° 25) : la scène utilise des modèles Sketchfab que le pod ne peut pas télécharger. Il faut envoyer le `.blend` avec ses fichiers inclus (packed).
+## Décision
+CB, 20/11 : **Cycles comme moteur principal.** Le test GPU EEVEE / Cycles proposé n'est pas lancé.

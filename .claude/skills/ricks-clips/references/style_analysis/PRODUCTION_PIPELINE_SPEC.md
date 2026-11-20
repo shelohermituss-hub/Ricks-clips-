@@ -58,7 +58,8 @@ Script → voix minutée → **A** Style Director → **B/C/D/E/F/G** en parall�
   3. Juger à l'œil côte à côte les ombres, la transparence (vitres), le volumétrique (rayons) et l'émission.
   4. Le moteur n'est choisi qu'avec ces chiffres. Ne pas choisir Cycles par réputation.
 - **Référence historique de CB** : l'ancien flux EEVEE prenait 20-30 min. C'est à revérifier sur un projet comparable, ce n'est pas une garantie.
-- **Mesure déjà notée dans ce dépôt** (`HANDOFF.md` §6, `DECISIONS.md`) : EEVEE environ 10 % plus rapide que Cycles, « pour une qualité moindre ». Les conditions de cette mesure ne sont pas reprises ici : à refaire sur un plan de style RicksClips actuel.
+- **Mesure GPU du 18/11** (`DECISIONS.md`) : RTX 4090, EEVEE 4,0 s contre Cycles 4,5 s par image, qualité moindre en EEVEE.
+- **Décision de CB (20/11) : Cycles est le moteur principal.** Le benchmark décrit ci-dessus n'est plus à refaire sauf demande de CB (`benchmark/BENCHMARK_FR.md`).
 - **Contenu** : ombres, transparence, volumes, instances (foule, herbe), LOD, cache, rendu par couches et par lots, preuve d'utilisation du GPU, temps par image.
 - **Existant** : `render_manager.py`, `layers.py`, `scripts/runpod/pod.py`, `preview.sh`.
 - **Contrôle** : manifeste de rendu, preuve GPU, coût plafonné par CB.

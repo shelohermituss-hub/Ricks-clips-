@@ -47,7 +47,7 @@ Bible centrale : `RICKCLIPS_REFERENCE_STYLE_BIBLE.md`. Palettes avec provenance 
 - **Propreté** : peu de crasse ; l'usure existe (asphalte V04, épaves) mais reste modérée.
 
 ## 5. Reconstruction Blender (RECOMMANDATION, pas des réglages retrouvés)
-- **Moteur** : choisir par **benchmark à scène identique** (EEVEE Next d'abord, Cycles en comparaison), voir `PRODUCTION_PIPELINE_SPEC.md` §H. Les références n'indiquent pas leur moteur (INCONNU).
+- **Moteur** : **Cycles** (décision de CB du 20/11). Les références n'indiquent pas leur moteur (INCONNU).
 - **Soleil** : une seule lampe soleil dure (angle ≤ 2°) placée pour l'image ; le ciel HDRI est limité pour l'éclairage (déjà codé : `rc/look.py`, leçon PI-025).
 - **Rayons** : volume léger (densité 0,002-0,004) + soleil à travers un feuillage ou une ouverture.
 - **Nuit** : balance des blancs vers le bleu (monde bleu saturé) + lampes ponctuelles chaudes ; exposition modérée, pas noire.
