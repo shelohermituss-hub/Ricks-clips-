@@ -1,0 +1,45 @@
+{
+ "video": "V03",
+ "frames_total": 2490,
+ "shots": 18,
+ "stills_saved": 43,
+ "ranges_frame_by_frame": [
+  [
+   96,
+   119,
+   "porte arrachée"
+  ],
+  [
+   1998,
+   2021,
+   "voiture qui défonce la glissière"
+  ]
+ ],
+ "ranges_10fps": [],
+ "ranges_2fps_only": [
+  [
+   0,
+   2489,
+   "niveau A: 5 planches overview lues en entier"
+  ]
+ ],
+ "complex_passages_studied": [
+  "porte 96-119 (image par image)",
+  "glissière 1998-2021 (image par image)",
+  "chute 168-359 (2 fps)",
+  "déraillement 1125-1289 (2 fps)",
+  "explosion 1500-1649 (2 fps)",
+  "éjection et chute 2030-2219 (2 fps)"
+ ],
+ "audio": "Pas d'écoute. MESURÉ: -13,9 LUFS, LRA 3,9 LU (la plus large des cinq), crête -0,9 dBTP, corrélation 0,969, 109 attaques, 264 mots (3,21 mots/s, pause max 0,64 s). INFÉRÉ: la plage plus large vient des explosions et chocs. Non analysé: musique, bruitages.",
+ "tool_limits": [
+  "15 candidats de coupe, dont 4 sont le flash de la porte (103-116) et 4 le flash de l'explosion (1552-1556); vérifié à l'œil",
+  "pas d'échantillon ponctuel de couleur: k-means seulement"
+ ],
+ "not_done": [
+  "lecture image par image du déraillement, de l'explosion et de la chute de la falaise",
+  "mesure en pixels des personnages"
+ ],
+ "confidence": "moyenne-haute pour la structure, moyenne pour le détail des animations",
+ "status": "PARTIAL"
+}

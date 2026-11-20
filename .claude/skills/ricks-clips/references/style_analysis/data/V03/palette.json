@@ -1,0 +1,526 @@
+{
+ "video": "V03",
+ "method_note": "V03: ambiances décrites par k-means (5 couleurs) sur une image représentative; pas d'échantillons ponctuels.",
+ "moods": [
+  {
+   "mood": "ciel jour au-dessus des nuages",
+   "place": "S01, S05",
+   "frames": [
+    0,
+    195
+   ],
+   "samples": [],
+   "kmeans": [
+    {
+     "video": "V03",
+     "frame": 0,
+     "timecode": "00:00:00.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#89a3ee",
+       "share": 0.322
+      },
+      {
+       "hex": "#b5c7ec",
+       "share": 0.26
+      },
+      {
+       "hex": "#dfe3eb",
+       "share": 0.236
+      },
+      {
+       "hex": "#3570be",
+       "share": 0.102
+      },
+      {
+       "hex": "#4a737e",
+       "share": 0.08
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    },
+    {
+     "video": "V03",
+     "frame": 195,
+     "timecode": "00:00:06.500",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#c4d9ea",
+       "share": 0.322
+      },
+      {
+       "hex": "#809644",
+       "share": 0.212
+      },
+      {
+       "hex": "#315d3a",
+       "share": 0.204
+      },
+      {
+       "hex": "#dab649",
+       "share": 0.135
+      },
+      {
+       "hex": "#71524a",
+       "share": 0.127
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "bleu ciel #89a3ee, nuages #dfe3eb; champs #809644 / #dab649 en chute"
+  },
+  {
+   "mood": "ferme rêvée, rayons",
+   "place": "S06",
+   "frames": [
+    360
+   ],
+   "samples": [],
+   "kmeans": [
+    {
+     "video": "V03",
+     "frame": 360,
+     "timecode": "00:00:12.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#5783c8",
+       "share": 0.397
+      },
+      {
+       "hex": "#b8bfcc",
+       "share": 0.243
+      },
+      {
+       "hex": "#575e57",
+       "share": 0.172
+      },
+      {
+       "hex": "#808958",
+       "share": 0.151
+      },
+      {
+       "hex": "#b06d25",
+       "share": 0.037
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "ciel #5783c8, rayons volumétriques"
+  },
+  {
+   "mood": "hôpital désaturé (réveil)",
+   "place": "S08",
+   "frames": [
+    540,
+    690
+   ],
+   "samples": [],
+   "kmeans": [
+    {
+     "video": "V03",
+     "frame": 540,
+     "timecode": "00:00:18.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#97af9f",
+       "share": 0.286
+      },
+      {
+       "hex": "#8d928f",
+       "share": 0.208
+      },
+      {
+       "hex": "#aeb1af",
+       "share": 0.17
+      },
+      {
+       "hex": "#cbd2d1",
+       "share": 0.169
+      },
+      {
+       "hex": "#666b71",
+       "share": 0.167
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    },
+    {
+     "video": "V03",
+     "frame": 690,
+     "timecode": "00:00:23.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#64696a",
+       "share": 0.237
+      },
+      {
+       "hex": "#8e9392",
+       "share": 0.236
+      },
+      {
+       "hex": "#cfcecd",
+       "share": 0.215
+      },
+      {
+       "hex": "#4e7b70",
+       "share": 0.186
+      },
+      {
+       "hex": "#23292b",
+       "share": 0.125
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "gris-vert #97af9f / #8d928f: saturation 0,11-0,20 (MESURÉ 16-26 s)"
+  },
+  {
+   "mood": "rue dorée de fin d'après-midi",
+   "place": "S09",
+   "frames": [
+    870
+   ],
+   "samples": [],
+   "kmeans": [
+    {
+     "video": "V03",
+     "frame": 870,
+     "timecode": "00:00:29.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#ac7a53",
+       "share": 0.304
+      },
+      {
+       "hex": "#4e3a30",
+       "share": 0.251
+      },
+      {
+       "hex": "#ecc66e",
+       "share": 0.225
+      },
+      {
+       "hex": "#2c719e",
+       "share": 0.147
+      },
+      {
+       "hex": "#dad4bf",
+       "share": 0.073
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "ocre #ac7a53, or #ecc66e, ciel #2c719e"
+  },
+  {
+   "mood": "intérieur chaud du train",
+   "place": "S10",
+   "frames": [
+    1095
+   ],
+   "samples": [],
+   "kmeans": [
+    {
+     "video": "V03",
+     "frame": 1095,
+     "timecode": "00:00:36.500",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#48251a",
+       "share": 0.387
+      },
+      {
+       "hex": "#384f6b",
+       "share": 0.224
+      },
+      {
+       "hex": "#b58a59",
+       "share": 0.139
+      },
+      {
+       "hex": "#912c2d",
+       "share": 0.135
+      },
+      {
+       "hex": "#e0caab",
+       "share": 0.115
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "brun #48251a, rouge #912c2d"
+  },
+  {
+   "mood": "froid bleu (Alaska)",
+   "place": "S11-S12",
+   "frames": [
+    1260,
+    1380
+   ],
+   "samples": [],
+   "kmeans": [
+    {
+     "video": "V03",
+     "frame": 1260,
+     "timecode": "00:00:42.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#222f47",
+       "share": 0.324
+      },
+      {
+       "hex": "#1e4688",
+       "share": 0.273
+      },
+      {
+       "hex": "#5e7fb5",
+       "share": 0.262
+      },
+      {
+       "hex": "#897473",
+       "share": 0.098
+      },
+      {
+       "hex": "#cfced6",
+       "share": 0.042
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    },
+    {
+     "video": "V03",
+     "frame": 1380,
+     "timecode": "00:00:46.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#4b7dbd",
+       "share": 0.336
+      },
+      {
+       "hex": "#253f66",
+       "share": 0.335
+      },
+      {
+       "hex": "#152131",
+       "share": 0.27
+      },
+      {
+       "hex": "#c6c8d4",
+       "share": 0.047
+      },
+      {
+       "hex": "#8d1d33",
+       "share": 0.012
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "bleus #1e4688 / #4b7dbd / #253f66; accent rouge du bonnet #8d1d33"
+  },
+  {
+   "mood": "feu au crépuscule",
+   "place": "S13",
+   "frames": [
+    1590
+   ],
+   "samples": [],
+   "kmeans": [
+    {
+     "video": "V03",
+     "frame": 1590,
+     "timecode": "00:00:53.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#3e2224",
+       "share": 0.337
+      },
+      {
+       "hex": "#da773a",
+       "share": 0.297
+      },
+      {
+       "hex": "#944e40",
+       "share": 0.201
+      },
+      {
+       "hex": "#314ea8",
+       "share": 0.115
+      },
+      {
+       "hex": "#f2cb4f",
+       "share": 0.049
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "brun #3e2224, orange #da773a, bleu nuit #314ea8: contraste chaud/froid"
+  },
+  {
+   "mood": "canyon orange",
+   "place": "S14-S17",
+   "frames": [
+    1755,
+    1875
+   ],
+   "samples": [],
+   "kmeans": [
+    {
+     "video": "V03",
+     "frame": 1755,
+     "timecode": "00:00:58.500",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#d85e13",
+       "share": 0.325
+      },
+      {
+       "hex": "#a04721",
+       "share": 0.29
+      },
+      {
+       "hex": "#481d0f",
+       "share": 0.162
+      },
+      {
+       "hex": "#56444b",
+       "share": 0.139
+      },
+      {
+       "hex": "#9c725b",
+       "share": 0.083
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    },
+    {
+     "video": "V03",
+     "frame": 1875,
+     "timecode": "00:01:02.500",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#4e4144",
+       "share": 0.352
+      },
+      {
+       "hex": "#1f1614",
+       "share": 0.333
+      },
+      {
+       "hex": "#825c47",
+       "share": 0.156
+      },
+      {
+       "hex": "#c0b4ab",
+       "share": 0.099
+      },
+      {
+       "hex": "#cd945e",
+       "share": 0.059
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "orange #d85e13, rouille #a04721"
+  },
+  {
+   "mood": "flashback noir et blanc",
+   "place": "S18",
+   "frames": [
+    2310
+   ],
+   "samples": [],
+   "kmeans": [
+    {
+     "video": "V03",
+     "frame": 2310,
+     "timecode": "00:01:17.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#e1dfe0",
+       "share": 0.288
+      },
+      {
+       "hex": "#8c898b",
+       "share": 0.233
+      },
+      {
+       "hex": "#666466",
+       "share": 0.215
+      },
+      {
+       "hex": "#b4b2b3",
+       "share": 0.193
+      },
+      {
+       "hex": "#3f3d3f",
+       "share": 0.071
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "gris #e1dfe0 à #3f3d3f: saturation 0,02 (MESURÉ 77 s)"
+  },
+  {
+   "mood": "jackpot doré",
+   "place": "S18 fin",
+   "frames": [
+    2460
+   ],
+   "samples": [],
+   "kmeans": [
+    {
+     "video": "V03",
+     "frame": 2460,
+     "timecode": "00:01:22.000",
+     "k": 5,
+     "colors": [
+      {
+       "hex": "#5f402d",
+       "share": 0.273
+      },
+      {
+       "hex": "#e3ce5e",
+       "share": 0.249
+      },
+      {
+       "hex": "#b8934f",
+       "share": 0.245
+      },
+      {
+       "hex": "#e2d9c3",
+       "share": 0.147
+      },
+      {
+       "hex": "#673d6e",
+       "share": 0.087
+      }
+     ],
+     "method": "k-means in CIE Lab on the frame reduced to 90x160"
+    }
+   ],
+   "notes": "or #e3ce5e, brun #5f402d"
+  }
+ ]
+}
