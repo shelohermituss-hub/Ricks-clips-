@@ -1,0 +1,27 @@
+{
+ "id": "V04",
+ "title": "The Instinct That Makes You Crash",
+ "file": "V04.mp4",
+ "size_bytes": 11956869,
+ "sha256": "fcef92de9dcb8f12985d80d8f0c04071e63eb03aa9d2d7b5625848b23a22eb61",
+ "duration_s": 59.489524,
+ "width": 720,
+ "height": 1280,
+ "ratio": "9:16",
+ "fps": "30/1",
+ "frames": 1783,
+ "video_codec": "h264",
+ "video_profile": "Main",
+ "pix_fmt": "yuv420p",
+ "video_bitrate": 1468947,
+ "audio_codec": "aac",
+ "audio_rate": 44100,
+ "audio_channels": 2,
+ "audio_bitrate": 128071,
+ "bitrate_total": 1607929,
+ "tags": {
+  "major_brand": "isom",
+  "minor_version": "512",
+  "compatible_brands": "isomiso2avc1mp41"
+ }
+}

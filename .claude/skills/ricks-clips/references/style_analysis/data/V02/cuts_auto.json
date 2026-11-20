@@ -1,0 +1,131 @@
+{
+ "method": "frame diff 90x160 grey > 18 and > 3.5 x local median, or HSV histogram L1 > .9; candidates only, verified by eye in the per-video analysis",
+ "candidates": [
+  {
+   "frame": 37,
+   "t": 1.233,
+   "diff": 61.0,
+   "hist": 1.481,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 99,
+   "t": 3.3,
+   "diff": 56.26,
+   "hist": 0.873,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 209,
+   "t": 6.967,
+   "diff": 78.75,
+   "hist": 0.984,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 387,
+   "t": 12.9,
+   "diff": 53.51,
+   "hist": 0.807,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 884,
+   "t": 29.467,
+   "diff": 74.63,
+   "hist": 1.325,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1101,
+   "t": 36.7,
+   "diff": 86.19,
+   "hist": 1.326,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1161,
+   "t": 38.7,
+   "diff": 75.28,
+   "hist": 1.174,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1657,
+   "t": 55.233,
+   "diff": 50.56,
+   "hist": 1.181,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1710,
+   "t": 57.0,
+   "diff": 25.62,
+   "hist": 0.105,
+   "kind": "fast_move_or_transition"
+  },
+  {
+   "frame": 1711,
+   "t": 57.033,
+   "diff": 29.46,
+   "hist": 0.095,
+   "kind": "fast_move_or_transition"
+  },
+  {
+   "frame": 1713,
+   "t": 57.1,
+   "diff": 26.27,
+   "hist": 0.098,
+   "kind": "fast_move_or_transition"
+  },
+  {
+   "frame": 1714,
+   "t": 57.133,
+   "diff": 31.03,
+   "hist": 0.11,
+   "kind": "fast_move_or_transition"
+  },
+  {
+   "frame": 1715,
+   "t": 57.167,
+   "diff": 21.37,
+   "hist": 0.099,
+   "kind": "fast_move_or_transition"
+  },
+  {
+   "frame": 1762,
+   "t": 58.733,
+   "diff": 20.2,
+   "hist": 0.12,
+   "kind": "fast_move_or_transition"
+  },
+  {
+   "frame": 1763,
+   "t": 58.767,
+   "diff": 27.87,
+   "hist": 0.111,
+   "kind": "fast_move_or_transition"
+  },
+  {
+   "frame": 1764,
+   "t": 58.8,
+   "diff": 26.61,
+   "hist": 0.086,
+   "kind": "fast_move_or_transition"
+  },
+  {
+   "frame": 1766,
+   "t": 58.867,
+   "diff": 28.59,
+   "hist": 0.122,
+   "kind": "fast_move_or_transition"
+  },
+  {
+   "frame": 1767,
+   "t": 58.9,
+   "diff": 24.96,
+   "hist": 0.111,
+   "kind": "fast_move_or_transition"
+  }
+ ]
+}

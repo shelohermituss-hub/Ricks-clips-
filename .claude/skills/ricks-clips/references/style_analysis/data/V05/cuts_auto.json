@@ -1,0 +1,4 @@
+{
+ "method": "frame diff 90x160 grey > 18 and > 3.5 x local median, or HSV histogram L1 > .9; candidates only, verified by eye in the per-video analysis",
+ "candidates": []
+}

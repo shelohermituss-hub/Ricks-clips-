@@ -1,0 +1,40 @@
+{
+ "method": "frame diff 90x160 grey > 18 and > 3.5 x local median, or HSV histogram L1 > .9; candidates only, verified by eye in the per-video analysis",
+ "candidates": [
+  {
+   "frame": 1044,
+   "t": 34.8,
+   "diff": 29.9,
+   "hist": 0.268,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1163,
+   "t": 38.767,
+   "diff": 42.08,
+   "hist": 0.93,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1164,
+   "t": 38.8,
+   "diff": 44.63,
+   "hist": 1.244,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1167,
+   "t": 38.9,
+   "diff": 73.84,
+   "hist": 1.355,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1168,
+   "t": 38.933,
+   "diff": 44.73,
+   "hist": 1.129,
+   "kind": "hard_cut"
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+ "id": "V05",
+ "title": "How One Cart Stopped an Entire Army",
+ "file": "V05.mp4",
+ "size_bytes": 18866934,
+ "sha256": "710899ba8c82b4c8c9dc1dbed867faf5c9bb3dab714b88da64cf8eca9a012260",
+ "duration_s": 66.896689,
+ "width": 720,
+ "height": 1280,
+ "ratio": "9:16",
+ "fps": "30/1",
+ "frames": 2005,
+ "video_codec": "h264",
+ "video_profile": "Main",
+ "pix_fmt": "yuv420p",
+ "video_bitrate": 2117178,
+ "audio_codec": "aac",
+ "audio_rate": 44100,
+ "audio_channels": 2,
+ "audio_bitrate": 128021,
+ "bitrate_total": 2256247,
+ "tags": {
+  "major_brand": "isom",
+  "minor_version": "512",
+  "compatible_brands": "isomiso2avc1mp41"
+ }
+}

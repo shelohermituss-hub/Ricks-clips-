@@ -1,0 +1,110 @@
+{
+ "method": "frame diff 90x160 grey > 18 and > 3.5 x local median, or HSV histogram L1 > .9; candidates only, verified by eye in the per-video analysis",
+ "candidates": [
+  {
+   "frame": 42,
+   "t": 1.4,
+   "diff": 72.09,
+   "hist": 1.075,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 94,
+   "t": 3.133,
+   "diff": 44.05,
+   "hist": 1.034,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 103,
+   "t": 3.433,
+   "diff": 48.39,
+   "hist": 1.09,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 110,
+   "t": 3.667,
+   "diff": 95.71,
+   "hist": 1.507,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 116,
+   "t": 3.867,
+   "diff": 28.62,
+   "hist": 1.014,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 168,
+   "t": 5.6,
+   "diff": 25.01,
+   "hist": 1.071,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 439,
+   "t": 14.633,
+   "diff": 91.0,
+   "hist": 1.371,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 515,
+   "t": 17.167,
+   "diff": 77.54,
+   "hist": 1.689,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 516,
+   "t": 17.2,
+   "diff": 69.76,
+   "hist": 1.756,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1552,
+   "t": 51.733,
+   "diff": 147.02,
+   "hist": 1.638,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1553,
+   "t": 51.767,
+   "diff": 26.83,
+   "hist": 1.106,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1555,
+   "t": 51.833,
+   "diff": 22.96,
+   "hist": 1.046,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1556,
+   "t": 51.867,
+   "diff": 54.74,
+   "hist": 1.134,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 1658,
+   "t": 55.267,
+   "diff": 22.36,
+   "hist": 0.902,
+   "kind": "hard_cut"
+  },
+  {
+   "frame": 2438,
+   "t": 81.267,
+   "diff": 60.83,
+   "hist": 1.136,
+   "kind": "hard_cut"
+  }
+ ]
+}
