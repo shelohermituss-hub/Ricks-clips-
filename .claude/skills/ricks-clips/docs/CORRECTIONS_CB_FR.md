@@ -205,3 +205,10 @@ Causes réelles (constat, pas excuse) :
 - **Accès** : BlenderKit branché (secret réseau `www.blenderkit.com`, hôtes `assets.blendkit.com` + `public.blenderkit.com`). Commande : `BLENDERKIT_API_KEY=proxy-injected CLAUDE_CODE_REMOTE=true blender -b --factory-startup --python tools/blenderkit_tool.py -- search|get …`. Fichiers hors Git (`library/blenderkit/`, ignoré), journal `library/blenderkit_assets.md`.
 - **Décor** : uniquement de vrais modèles (`toon.bk`, `toon.dress_real`) : barque, ponton, parasol, transats, bouée, coffre, voilier.
 - **Mesures plan 07** (réf → nous) : v1 rapproché 0,51/0,28/0,23 → 0,57/0,29/0,21 ; large 0,60/0,25/0,20 → 0,77/0,14/0,18 (délavé) ; v2 large → 0,66/0,19/0,19.
+
+## CB 2026-11-20 — CHANGEMENT DE PROGRAMME : « garde cette vidéo de côté, nous allons reproduire les vidéos de référence, comme ça tu apprendras de toi-même ; après, tu me construis une vidéo originale à partir des références »
+- **« Exploding Whale » est mis de côté** (`episodes/exploding-whale/`, état : script, voix, sous-titres, animation et cadrages des 16 plans faits ; look non validé — trois essais refusés : photo, dessiné, réaliste). Ne pas y retravailler sans demande de CB.
+- **Programme** : 1) reproduire les vidéos de référence plan par plan (assets, étalonnage, environnement, animations, actions, effets, lumière), en notant ce que chaque plan m'apprend ; 2) seulement ensuite, une vidéo originale construite à partir de ces acquis.
+- **Point de départ** : `demos/crash_instinct` (« The Instinct That Makes You Crash », 59,5 s, 1 783 images) : plans 1 à 4 reproduits (images 0 à 362) ; reprise au **plan 5** (image 363 : « So the town nails a giant flashing arrow to it… »).
+- **Méthode par plan** (celle qui a marché) : fiche de plan depuis la référence (`references/crash_instinct/shots/sNN.md` : découpage, décor, personnages, objets, caméra, effets, son) → construction → images clés à côté de la référence → `tools/grade_match.py` → corrections → aperçu en mouvement à côté de la référence.
+- **Assets** : Sketchfab + BlenderKit branchés ; toujours de vrais modèles.

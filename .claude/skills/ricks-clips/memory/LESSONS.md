@@ -315,3 +315,8 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Rule:** ciel peint + nuages dessinés, mer et sol dessinés (sable blanc crème, jamais jaune), trait d'encre sur chaque objet, détail dessiné, décor plein (10–20 objets), couleurs opposées, ombres colorées. Comparer 4 images du film à 4 références AVANT tout aperçu de film.
 - **Files:** episodes/exploding-whale/sets/toon.py, docs/CORRECTIONS_CB_FR.md
 - **Evidence:** episodes/exploding-whale/build/review/s02_monde_dessine_v1.jpg
+
+## PI-032 — On apprend le style en REPRODUISANT les références, pas en l'inventant (CB 2026-11-20)
+- **Problem:** film original (exploding-whale) construit sans plan de référence du même sujet : trois looks inventés, tous refusés (« presque rien à voir avec les références »), alors que la reproduction plan par plan de crash_instinct s'en approchait bien.
+- **Rule:** reproduire d'abord les vidéos de référence plan par plan (fiche de plan → construction → comparaison image contre image → mesure) ; un film original ne démarre qu'après, et réutilise les décors, réglages et assets validés par ces reproductions.
+- **Files:** docs/CORRECTIONS_CB_FR.md, demos/crash_instinct, references/crash_instinct/shots
