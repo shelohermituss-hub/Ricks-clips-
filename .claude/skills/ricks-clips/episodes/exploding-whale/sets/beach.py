@@ -36,7 +36,7 @@ def ground(c):
         V.append(row)
     for j in range(ny):
         for i in range(nx): bm.faces.new((V[j][i], V[j][i + 1], V[j + 1][i + 1], V[j + 1][i]))
-    m = tex("beach_sand", "coast_sand_01", tile=3.0, recolor="#b8a37e", value=1.0, normal=1.0, spec=.2, macro=.16)   # warm golden sand (the references' grounds are never grey)
+    m = tex("beach_sand", "coast_sand_01", tile=3.0, recolor="#d8cdb9", value=1.0, normal=1.0, spec=.2, macro=.16)   # warm golden sand (the references' grounds are never grey)
     nt = m.node_tree; N, L = nt.nodes, nt.links; b = N["Principled BSDF"]; src = b.inputs["Base Color"].links[0].from_socket
     tc = [n for n in N if n.type == "TEX_COORD"][0]; sx = N.new("ShaderNodeSeparateXYZ"); L.new(tc.outputs["Object"], sx.inputs[0])
     nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = .25; nz.inputs["Detail"].default_value = 3; L.new(tc.outputs["Object"], nz.inputs["Vector"])
@@ -194,7 +194,7 @@ def traces(c, seed=9):
     mesh_obj("whale_berm", bm, sand, c, smooth=True)
     dark = bpy.data.materials.get("sand_print")
     if not dark:
-        dark = tex("sand_print", "coast_sand_01", tile=3.0, recolor="#9a8a6c", value=1.0, normal=1.4, spec=.15, macro=.1)
+        dark = tex("sand_print", "coast_sand_01", tile=3.0, recolor="#b3a791", value=1.0, normal=1.4, spec=.15, macro=.1)
     bm = bmesh.new()
     def foot(x, y, yaw, L_=.27, W_=.1):
         c_, s_ = math.cos(yaw), math.sin(yaw); z = height(x, y) + .006; vs = []

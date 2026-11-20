@@ -178,3 +178,16 @@ Comparaison côte à côte (`episodes/exploding-whale/build/review/comparaison_r
 - **Règle** : un véhicule ou une machine = TOUJOURS un vrai modèle (Asset Hub : `tools/asset_hub.py search/download sketchfab`), jamais des boîtes et cylindres assemblés. Choisir sur vignettes, licence CC-BY, pièce mobile séparée si le plan l'anime (benne).
 - **Fait** : camion = « Tatra 148 dump truck » (Randonavt, CC-BY 4.0), benne sur charnière, repeint orange ; bulldozer = « Stylized Bulldozer » (freddielin, CC-BY 4.0). Code : `shots/film.py` (`model`, `truck`, plan 14).
 - **Ciel terne des plans de midi (10, 11)** : les ambiances avaient une exposition négative (−0,42 à −0,5) réglée pour un ciel photo ; elle assombrissait le ciel peint. Elle passe maintenant sur les lampes (exposition 0), horizon cyan pâle à midi.
+
+## CB 2026-11-20 — AUDIT RÉALISME : « les objets et l'environnement doivent avoir un look plus réaliste » (référence : The Instinct That Makes You Crash)
+Planche : `episodes/exploding-whale/build/review/audit_realisme_v1.jpg`. Écarts mesurés à l'œil, image par image :
+| Point | Référence | Notre film (monde dessiné) | Correction |
+|---|---|---|---|
+| Ciel | vrais nuages en volume, éclairés par le soleil, brume à l'horizon | dégradé plat + nuages en boules | vrai ciel (photo HDRI vive) + brume |
+| Véhicules | peinture vernie, vitres qui reflètent le ciel, chrome, pneus | couleur unie + trait d'encre | textures d'origine du modèle, vernis, vitres miroir, pas de trait |
+| Sol | bitume / herbe réels avec relief | sable dessiné à plat | sable scanné, recoloré blanc crème, sable mouillé brillant |
+| Mer | (réf. eau réelle dans whale_boat) | aplats + traits | eau réelle qui reflète le ciel, écume au bord |
+| Lumière | soleil fort, ombres longues, rayons, halo | soleil seul | rayons de soleil dans une brume légère, halo |
+| Fumée | panache réel, doux | boules avec trait | fumée en volume |
+| Objets 3D | AUCUN trait d'encre (seuls les personnages 2D en ont) | trait partout | trait retiré en mode réel |
+**Règle (remplace « monde dessiné » pour les matières)** : monde RÉEL et cinématographique (ciel réel, textures réelles, reflets, rayons, fumée en volume), personnages 2D dessinés ; on GARDE du travail précédent : décor plein, sable blanc, vrais modèles, couleurs vives, personnages blancs. Code : `sets/toon.py` (`STYLE = "real"`, `realist`, `glass`, `smoke_mat`).

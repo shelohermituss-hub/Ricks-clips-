@@ -76,7 +76,8 @@ def ink(name, rgb, strength=0.0, rough=.6):
     b.inputs["Base Color"].default_value = (*rgb, 1); b.inputs["Roughness"].default_value = rough
     if strength: b.inputs["Emission Color"].default_value = (*rgb, 1); b.inputs["Emission Strength"].default_value = strength
     if strength or name.startswith(FLAT): return m
-    if True:                                                                                         # THE DRAWN WORLD (CB 2026-11-20, style locked): flat decided colour, rounded edge for the highlight; the ink line comes from toon.ink_all
+    import toon
+    if toon.STYLE == "drawn":                                                                        # THE DRAWN WORLD (CB 2026-11-20, style locked): flat decided colour, rounded edge for the highlight; the ink line comes from toon.ink_all
         bev = N.new("ShaderNodeBevel"); bev.samples = 4; bev.inputs["Radius"].default_value = .02; L.new(bev.outputs["Normal"], b.inputs["Normal"]); return m
     tc = N.new("ShaderNodeTexCoord"); big = N.new("ShaderNodeTexNoise"); big.inputs["Scale"].default_value = 1.6; big.inputs["Detail"].default_value = 6; big.inputs["Roughness"].default_value = .65
     fine = N.new("ShaderNodeTexNoise"); fine.inputs["Scale"].default_value = 60; fine.inputs["Detail"].default_value = 3

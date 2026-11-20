@@ -11,6 +11,7 @@ import beach
 from beach import col, mesh_obj, height, SEA_Z, SHORE_Y
 
 INK = (.035, .03, .07)
+STYLE = "real"          # "real": real sky, scanned sand, real water, PBR surfaces, no ink line on the 3D (CB 2026-11-20, reference: The Instinct That Makes You Crash) | "drawn": the painted world
 
 # ------------------------------------------------------------------------------------------------------------ node helpers
 def _m(N, L, op, a, b=None, c=None, clamp=False):
@@ -48,6 +49,19 @@ def paint(name, rgb, rough=.55, planks=None, stripes=None, band=None, emit=0.0):
     if planks: c = _mix(N, L, _m(N, L, "LESS_THAN", _m(N, L, "FRACT", _m(N, L, "DIVIDE", sep.outputs[planks[0]], planks[1])), planks[2] / planks[1]), c if c is not None else rgb, tuple(v * .28 for v in rgb))
     if c is None: b.inputs["Base Color"].default_value = (*rgb, 1)
     else: L.new(c, b.inputs["Base Color"])
+    c0 = c
+    if STYLE == "real" and not emit:                                                                  # a real surface: patches of wear in the gloss, a fine grain, dirt in the creases, dust on top, a clear coat on glossy paint
+        nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 2.2; nz.inputs["Detail"].default_value = 6; nz.inputs["Roughness"].default_value = .65; L.new(tc.outputs["Object"], nz.inputs["Vector"])
+        fn = N.new("ShaderNodeTexNoise"); fn.inputs["Scale"].default_value = 90; fn.inputs["Detail"].default_value = 3; L.new(tc.outputs["Object"], fn.inputs["Vector"])
+        L.new(_m(N, L, "MULTIPLY_ADD", nz.outputs["Fac"], .45, rough - .2, clamp=True), b.inputs["Roughness"])
+        ao = N.new("ShaderNodeAmbientOcclusion"); ao.inputs["Distance"].default_value = .25; ao.samples = 4; geo = N.new("ShaderNodeNewGeometry"); sp2 = N.new("ShaderNodeSeparateXYZ"); L.new(geo.outputs["Normal"], sp2.inputs[0])
+        src = c if c is not None else rgb
+        c = _mix(N, L, _m(N, L, "MULTIPLY", _m(N, L, "SUBTRACT", 1.0, ao.outputs["AO"]), 1.4, clamp=True), src, tuple(v * .25 for v in rgb))
+        c = _mix(N, L, _m(N, L, "MULTIPLY", _m(N, L, "MULTIPLY_ADD", nz.outputs["Fac"], 1.6, -.55, clamp=True), .22), c, tuple(v * .6 + .12 for v in rgb))          # sun-bleached patches
+        c = _mix(N, L, _m(N, L, "MULTIPLY", _m(N, L, "MULTIPLY_ADD", sp2.outputs["Z"], 1.6, -.8, clamp=True), .3), c, (.62, .57, .48)); L.new(c, b.inputs["Base Color"])
+        bev = N.new("ShaderNodeBevel"); bev.samples = 4; bev.inputs["Radius"].default_value = .012; bmp = N.new("ShaderNodeBump"); bmp.inputs["Strength"].default_value = .08; bmp.inputs["Distance"].default_value = .01
+        L.new(fn.outputs["Fac"], bmp.inputs["Height"]); L.new(bev.outputs["Normal"], bmp.inputs["Normal"]); L.new(bmp.outputs["Normal"], b.inputs["Normal"])
+        if rough < .45: b.inputs["Coat Weight"].default_value = .35; b.inputs["Coat Roughness"].default_value = .08
     if emit:
         if c is None: b.inputs["Emission Color"].default_value = (*rgb, 1)
         else: L.new(c, b.inputs["Emission Color"])
@@ -65,7 +79,7 @@ def line_mat():
     L.new(hide, mix.inputs[0]); L.new(em.outputs[0], mix.inputs[1]); L.new(tr.outputs[0], mix.inputs[2]); L.new(mix.outputs[0], out.inputs["Surface"]); return m
 
 def outline(o, t=.02):
-    if o.type != "MESH" or o.modifiers.get("ink_line"): return o
+    if STYLE == "real" or o.type != "MESH" or o.modifiers.get("ink_line"): return o
     o.data.materials.append(line_mat()); md = o.modifiers.new("ink_line", "SOLIDIFY"); md.thickness = t * 1.8; md.offset = 1.0; md.use_flip_normals = True; md.use_rim = False
     md.material_offset = len(o.data.materials) - 1; md.use_quality_normals = True; return o
 
@@ -174,6 +188,7 @@ def recolor(o, rgb, detail=.5, rough=.5):
 
 def stylize(scene, whale=None, sun_color=(1.0, .90, .74), sun=(95, 24), dim=1.0):
     """turn the photo beach into the drawn beach (call after beach.build and after the shot's own objects exist)"""
+    if STYLE == "real": return realist(scene, whale, sun)
     sky(scene, sun=sun, k=.30 * dim); clouds(col("L_SET"), sun=sun); sea(); sand()
     for o in bpy.data.objects:
         if o.type == "LIGHT" and o.data.type == "SUN": o.data.color = sun_color; o.data.energy *= (.7 if sun[1] < 35 else .55) * dim       # the pale sand is held by the LAMP, not by the exposure: sky, clouds and characters keep their brightness (CB 2026-11-20)
@@ -363,9 +378,43 @@ def dress(c, clear=()):
     rowboat(c, (-11.5, 6.6), math.radians(68)); jetty(c); umbrella(c, (12.6, 6.0), .4); tackle(c, (8.6, 7.2)); litter(c, clear=clear); far(c); fore(c)
 
 def ink_all(skip=("Card_", "Contact_")):
+    if STYLE == "real": return
     """the ink line on everything the shot itself built or imported (props, vehicles, pieces): thickness follows the size of the object"""
     for o in list(col("L_OBJECTS").all_objects) + [o for o in bpy.data.objects if o.type == "MESH" and o.data.materials and o.data.materials[0] and o.data.materials[0].name in ("blubber", "blast_sand", "blast_smoke")]:
         if o.type != "MESH" or o.name.startswith(skip) or o.modifiers.get("ink_line") or not o.data.polygons: continue
         if o.name.startswith("col") and o.data.materials and o.data.materials[0].name.startswith("blast_"): outline(o, .05); continue   # the blast column is drawn too
         if any(m and (m.name == "ink_line" or m.name.startswith(("ink_", "chalk", "sign_", "stink"))) for m in o.data.materials): continue
         s = max(1e-4, abs(o.matrix_world.to_scale().x)); outline(o, min(.03, max(.006, max(o.dimensions) * .01)) / s / 1.8)
+
+
+# ------------------------------------------------------------------------------------------------------------ THE REAL WORLD (CB 2026-11-20)
+def glass(o):
+    """a real window: dark, mirror smooth, it reflects the sky"""
+    for m in o.data.materials:
+        b = m.node_tree.nodes.get("Principled BSDF") if m and m.use_nodes else None
+        if not b: continue
+        for inp in ("Base Color", "Roughness", "Alpha"):
+            for l in list(b.inputs[inp].links): m.node_tree.links.remove(l)
+        b.inputs["Base Color"].default_value = (.02, .035, .05, 1); b.inputs["Roughness"].default_value = .03; b.inputs["Alpha"].default_value = 1.0; b.inputs["Specular IOR Level"].default_value = 1.0
+        b.inputs["Coat Weight"].default_value = 1.0; b.inputs["Coat Roughness"].default_value = .0
+
+def smoke_mat(name, rgb, density=.9):
+    """real smoke for the blast: a volume, thick in the heart and torn at the edge, lit by the sun"""
+    m = bpy.data.materials.get(name) or bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N, L = nt.nodes, nt.links; N.clear(); out = N.new("ShaderNodeOutputMaterial")
+    v = N.new("ShaderNodeVolumePrincipled"); v.inputs["Color"].default_value = (*rgb, 1); v.inputs["Anisotropy"].default_value = .25; tc = N.new("ShaderNodeTexCoord")
+    nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 2.4; nz.inputs["Detail"].default_value = 5; nz.inputs["Roughness"].default_value = .6; L.new(tc.outputs["Object"], nz.inputs["Vector"])
+    L.new(_m(N, L, "MULTIPLY", _m(N, L, "MULTIPLY_ADD", nz.outputs["Fac"], 3.2, -1.15, clamp=True), density), v.inputs["Density"]); L.new(v.outputs[0], out.inputs["Volume"]); return m
+
+def realist(scene, whale=None, sun=(95, 24)):
+    """the photo beach kept (real sky, scanned sand, real water) and FINISHED: characters readable, glass that reflects, sun rays in a light
+    sea haze, real smoke for the blast"""
+    from rc import look
+    for o in bpy.data.objects:
+        if o.name.startswith("Card_"):
+            for m in o.data.materials:
+                for nd in (m.node_tree.nodes if m and m.use_nodes else ()):
+                    if nd.type == "MIX_SHADER" and not nd.inputs[0].links: nd.inputs[0].default_value = max(nd.inputs[0].default_value, .72)
+        if o.type == "MESH" and any(m and m.name == "Material.001" for m in o.data.materials) and o.name.startswith("Object_"): glass(o)
+        if o.type == "MESH" and o.data.materials and o.data.materials[0] and o.data.materials[0].name in ("blast_sand", "blast_smoke"):
+            nm = o.data.materials[0].name; o.data.materials.clear(); o.data.materials.append(smoke_mat(nm + "_vol", (.86, .80, .68) if nm == "blast_sand" else (.16, .14, .14), .8 if nm == "blast_sand" else 1.3)); o.visible_shadow = True
+    look.god_rays(col("L_SET"), center=(0, -6, 0), size=(150, 110, 26), density=.0016, anisotropy=.8)                 # sea haze: the sun draws rays through whatever stands in it
