@@ -21,7 +21,7 @@ MOODS = {   # sun azimuth (from), elevation, energy, sky HDRI, sky fill for ligh
     "gold":  dict(az=-115, el=13, energy=9.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.36, glow=.9, exposure=-.3, sat=1.05, sky=1.0, sky_sat=1.35, sky_gain=1.5, contrast="Medium High Contrast"),  # late afternoon / dusk: low warm sun
     # THE REFERENCE LIGHT (CB 2026-11-20: "utilise la même méthode que la démo"): the settings MEASURED on The Instinct That Makes You Crash
     # (demos/crash_instinct: Standard + Medium Contrast, exposure -0.3, saturation 1.0, natural HDRI sky, low backlit sun, glow, bounce fill)
-    "ref":   dict(az=-72, el=27, energy=9.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.5, glow=.4, exposure=-.5, sat=1.15, sky=1.0, contrast="Medium Contrast"),
+    "ref":   dict(az=-72, el=27, energy=9.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.5, glow=.4, exposure=-.5, sat=1.05, sky=1.0, sky_sat=.72, sky_gain=1.3, contrast="Medium Contrast"),
     "today": dict(az=120, el=40, energy=11.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.5, glow=.1, exposure=-.45, sat=1.06, sky=1.0, sky_sat=1.5, sky_gain=1.8, contrast="Medium High Contrast")}   # clean modern day
 
 def height(x, y):
