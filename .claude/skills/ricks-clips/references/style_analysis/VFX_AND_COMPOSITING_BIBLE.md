@@ -52,3 +52,19 @@ Les attaques audio coïncident avec les impacts quand ils ont été vérifiés :
 | Flash plein cadre | compositing (2-4 images) + lampe très forte | à créer |
 | Vignettage, flou, noir et blanc, CRT, HUD | compositing par plan | `lookdev` en partie |
 | Matière en masse (billets) | instances avec simulation ou keyframes, tas persistant | `rc.geo.instancer` |
+
+## 6. Bibliothèque construite (20/11) — `blender/rc/signs.py`
+Les 9 signes ci-dessous sont codés, avec les timings mesurés sur les références :
+- `lightning` : redessinés à chaque image ;
+- `shock_ring` : 4 images ;
+- `glow_eyes` : allumés en 1 image, avec une petite lumière rouge ;
+- `spiral_eyes` : spirales qui tournent ;
+- `dollar_eyes` : apparition en 1 image ;
+- `sweat_drop` : goutte qui glisse un peu ;
+- `aura` : halo + cailloux qui flottent ;
+- `scribble` : redessiné toutes les 3 images ;
+- `impact_lines` : traits au sol qui s'écartent.
+
+Tous sont plats, émissifs, sans ombre, dans `L_FX`, et attachés à la carte du personnage. La position de la tête et des yeux est lue dans `anchors.json` de la carte.
+- Planche de preuve : `demos/signs_test/proof/signs_sheet_v2.jpg`, rendue en Cycles par `demos/signs_test/signs_test.py`.
+- Limite connue : la hauteur des yeux par défaut (0,69 de la hauteur de la carte) vaut pour les personnages à casquette ou à chapeau ; pour un autre gabarit, donner `eyes=[(x, z), (x, z)]` (coordonnées locales de la carte).
