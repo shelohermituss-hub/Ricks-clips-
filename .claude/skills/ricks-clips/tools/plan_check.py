@@ -147,7 +147,7 @@ def check(P):
         # G13: every exit names its kind (object passed through / 3-frame whip / 0.3 s dissolve / cut); a hard cut between two places is for acceleration only
         add("STYLE5", sid + " transition kind declared", any(k in to for k in TR), s.get("transition_out", "missing") + " (through an object / whip / dissolve / cut)")
         nxt = [o for o in shots if o["t0"] >= s["t1"] - .01 and o is not s]
-        if nxt and ("cut" in to or "coupe" in to) and not any(k in to for k in ("through", "travers", "whip", "fouett", "dissolve", "fondu", "match", "raccord")):
+        if nxt and ("cut" in to or "coupe" in to) and not any(k in to for k in ("through", "travers", "whip", "fouett", "dissolve", "fondu", "match", "raccord", "no cut", "wipe", "volet", "continu")):
             n = min(nxt, key=lambda o: o["t0"])
             if n.get("place") != s.get("place"):
                 add("STYLE5", sid + " hard cut between places", bool(s.get("accelerate") or n.get("accelerate")), "refs change place through an object, a whip or a dissolve; a hard cut is for acceleration (set accelerate: true)", warn=True)

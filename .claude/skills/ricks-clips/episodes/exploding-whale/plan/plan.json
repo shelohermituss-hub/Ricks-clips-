@@ -1,0 +1,2300 @@
+{
+ "title": "The Exploding Whale (Oregon, 1970)",
+ "notes": "Nouvelle vidéo construite avec la bible de style des 5 références (references/style_analysis/) et les corrections de CB. Faits : episodes/exploding-whale/research/SOURCES.md. Aucun nom réel, aucune marque. Moteur : Cycles (décision de CB du 20/11). Qualité demandée par CB : ultra (1080x1920, GPU RunPod, accord et plafond à demander avant tout pod).",
+ "style": "references/STYLE_BIBLE_FR.md",
+ "format": "1080x1920",
+ "fps": 30,
+ "duration_s": 56.0,
+ "kind": "video",
+ "voice": {
+  "text": "They packed half a ton of dynamite under a dead whale, and the engineer pushed the button. You see, in 1970, a whale washed up on a beach in Oregon. Forty five feet long, eight tons, and it stank for miles. Nobody knew whose job that was, so it went to the highway department, because out there, the beach counts as a road. Their plan was simple. Blow it into tiny pieces, and let the seagulls eat the rest. One guy in the crowd actually knew explosives. He told them twenty sticks would do it. They used twenty cases. So everyone backed up a quarter mile, a news crew started filming, and boom. For one second, it was beautiful. Then the sky started falling. Chunks of whale three feet wide came down on the crowd, and one of them crushed a brand new car. Guess whose car it was. The guy who said twenty sticks. And the seagulls? The blast scared every single one away. Most of the whale was still lying there, so they buried it anyway. Today, Oregon has one rule for dead whales. Bury them where they land. And the engineer? He said it went exactly right.",
+  "words": 200,
+  "key_words": {
+   "button": 3.94,
+   "stank": 10.3,
+   "road": 17.0,
+   "seagulls": 20.38,
+   "twenty sticks": 24.92,
+   "twenty cases": 26.94,
+   "boom": 31.2,
+   "beautiful": 32.78,
+   "falling": 34.32,
+   "crushed": 38.38,
+   "buried": 48.34,
+   "exactly right": 55.3
+  }
+ },
+ "hook": {
+  "action": "pack",
+  "t": 0.0
+ },
+ "loop": "last image = the plunger in the engineer's hands = first shot's plunger",
+ "facts": [
+  {
+   "fact": "half a ton",
+   "prop": "dynamite_crates",
+   "text": "DYNAMITE x20, 1/2 TON on the truck"
+  },
+  {
+   "fact": "1970",
+   "prop": "calendar / newspaper on the dune",
+   "text": "NOV 1970"
+  },
+  {
+   "fact": "45 feet (Forty five)",
+   "prop": "tape measure stake",
+   "text": "45 FT"
+  },
+  {
+   "fact": "8 tons (eight)",
+   "prop": "crane scale",
+   "text": "8 TONS"
+  },
+  {
+   "fact": "twenty sticks / twenty cases",
+   "prop": "bundle and crates",
+   "text": "20"
+  },
+  {
+   "fact": "quarter mile",
+   "prop": "quarter_mile_marker",
+   "text": "1/4 MILE"
+  },
+  {
+   "fact": "three feet",
+   "prop": "ruler stuck in the chunk on the car",
+   "text": "3 FT"
+  },
+  {
+   "fact": "one rule",
+   "prop": "rule_sign",
+   "text": "BURY THEM WHERE THEY LAND"
+  }
+ ],
+ "needs": [
+  {
+   "id": "whale",
+   "kind": "model",
+   "source": "asset hub search: sperm whale (Sketchfab CC-BY / CC0)",
+   "state": "to find; else built by script"
+  },
+  {
+   "id": "sedan_1970",
+   "kind": "model",
+   "source": "asset hub: generic 1970s sedan (no real brand)",
+   "state": "to find"
+  },
+  {
+   "id": "pickup",
+   "kind": "model",
+   "source": "asset hub: generic pickup",
+   "state": "to find"
+  },
+  {
+   "id": "bulldozer",
+   "kind": "model",
+   "source": "asset hub",
+   "state": "to find"
+  },
+  {
+   "id": "sand",
+   "kind": "texture",
+   "source": "polyhaven:aerial_beach_01",
+   "state": "to cache"
+  },
+  {
+   "id": "sky",
+   "kind": "hdri",
+   "source": "polyhaven:kloofendal_48d_partly_cloudy_puresky",
+   "state": "cached"
+  },
+  {
+   "id": "cast",
+   "kind": "character",
+   "source": "cast: engineer, veteran, reporter, cameraman, workers, clerks, jogger, crowd x12, ranger",
+   "state": "to draw with tools/card_service.py"
+  }
+ ],
+ "objects": [
+  {
+   "id": "whale",
+   "source": "asset hub or script",
+   "material": "peau gris-bleu mouillée, cicatrices claires, ventre plus clair ; rugosité basse (brillant mouillé)",
+   "states": [
+    "dans l'eau",
+    "échouée",
+    "entourée de caisses",
+    "explosée en partie (cratère)",
+    "enterrée"
+   ]
+  },
+  {
+   "id": "dynamite_crates",
+   "source": "script + polyhaven:wooden_crate_02",
+   "material": "bois brut scanné, pochoir rouge DYNAMITE",
+   "states": [
+    "sur le camion",
+    "empilées sous la baleine",
+    "explosées"
+   ]
+  },
+  {
+   "id": "dynamite",
+   "source": "script",
+   "material": "bâtons rouges papier ciré, mèche",
+   "states": [
+    "en fagot de 20",
+    "en caisses",
+    "explosé"
+   ]
+  },
+  {
+   "id": "fuse_wire",
+   "source": "script (curve)",
+   "material": "fil noir gainé",
+   "states": [
+    "enroulé",
+    "déroulé sur la plage"
+   ]
+  },
+  {
+   "id": "highway_truck",
+   "source": "asset hub pickup",
+   "material": "peinture orange #e8791c refaite, vitres claires (glass), lettrage STATE HIGHWAY DIV.",
+   "states": [
+    "chargé",
+    "benne levée",
+    "vide"
+   ]
+  },
+  {
+   "id": "new_car",
+   "source": "asset hub sedan 1970",
+   "material": "peinture rouge vernie #c8202a refaite, chromes, vitres claires (glass), intérieur visible",
+   "states": [
+    "neuve, brillante",
+    "toit écrasé, vitres soufflées, morceau dessus"
+   ]
+  },
+  {
+   "id": "blubber_chunks",
+   "source": "script",
+   "material": "graisse rose-blanc brillante, peau grise d'un côté",
+   "states": [
+    "en vol",
+    "écrasés en flaques"
+   ]
+  },
+  {
+   "id": "blubber_chunk_big",
+   "source": "script",
+   "material": "idem, 3 pieds",
+   "states": [
+    "en vol",
+    "sur le toit de la voiture"
+   ]
+  },
+  {
+   "id": "key_ring",
+   "source": "script",
+   "material": "métal + porte-clés",
+   "states": [
+    "en main",
+    "dans le sable"
+   ]
+  },
+  {
+   "id": "seagulls",
+   "source": "script",
+   "material": "plumes blanches et grises",
+   "states": [
+    "sur la plage",
+    "en fuite"
+   ]
+  },
+  {
+   "id": "chalk_seagull",
+   "source": "script",
+   "material": "craie blanche",
+   "states": [
+    "dessinée",
+    "envolée"
+   ]
+  },
+  {
+   "id": "bulldozer",
+   "source": "asset hub",
+   "material": "peinture jaune usée, vitres claires (glass)",
+   "states": [
+    "arrive",
+    "pousse le sable"
+   ]
+  },
+  {
+   "id": "rule_sign",
+   "source": "script + text",
+   "material": "bois peint brun, lettres jaunes",
+   "states": [
+    "planté",
+    "lettres allumées"
+   ]
+  },
+  {
+   "id": "tv_camera",
+   "source": "script",
+   "material": "métal gris, objectif verre",
+   "states": [
+    "sur trépied",
+    "secouée"
+   ]
+  }
+ ],
+ "characters": [
+  {
+   "id": "engineer",
+   "puppet": "cast:engineer",
+   "costume": "casque blanc, chemise et cravate, plan sous le bras",
+   "view": "front",
+   "held": [
+    "plunger"
+   ]
+  },
+  {
+   "id": "veteran",
+   "puppet": "cast:veteran",
+   "costume": "calot militaire, blouson kaki",
+   "view": "front",
+   "held": [
+    "20 sticks"
+   ]
+  },
+  {
+   "id": "workers",
+   "puppet": "cast:worker",
+   "costume": "gilet orange, casque",
+   "view": "front",
+   "held": []
+  },
+  {
+   "id": "surveyor",
+   "puppet": "cast:worker",
+   "costume": "gilet orange, mètre ruban",
+   "view": "front",
+   "held": [
+    "tape"
+   ]
+  },
+  {
+   "id": "jogger",
+   "puppet": "cast:jogger",
+   "costume": "survêtement 1970, bandeau",
+   "view": "front",
+   "held": [
+    "leash"
+   ]
+  },
+  {
+   "id": "clerks",
+   "puppet": "cast:clerk",
+   "costume": "chemise blanche, cravate fine, lunettes",
+   "view": "front",
+   "held": [
+    "phone"
+   ]
+  },
+  {
+   "id": "highway_clerk",
+   "puppet": "cast:clerk",
+   "costume": "gilet, visière verte",
+   "view": "front",
+   "held": [
+    "stamp"
+   ]
+  },
+  {
+   "id": "crowd",
+   "puppet": "cast:crowd x12",
+   "costume": "habits de 1970 variés, enfants, chapeaux",
+   "view": "front",
+   "held": [
+    "chairs",
+    "umbrellas"
+   ]
+  },
+  {
+   "id": "tv_crew",
+   "puppet": "cast:reporter + cameraman",
+   "costume": "costume beige, micro ; casquette, caméra",
+   "view": "front",
+   "held": [
+    "microphone",
+    "camera"
+   ]
+  }
+ ],
+ "places": [
+  {
+   "id": "beach",
+   "description": "plage de l'Oregon : sable mouillé brillant près de l'eau, sable sec ridé, vagues qui montent et descendent, dunes à oyats, bois flotté, rochers noirs au loin, brume marine ; la baleine au centre ; le même lieu revu à chaque étape (lieu-compteur) : trou, cratère, morceaux, tumulus",
+   "ground": {
+    "name": "beach sand",
+    "texture": "polyhaven:aerial_beach_01",
+    "tile": 6.0,
+    "value": 1.0,
+    "extra": "sable mouillé plus sombre et brillant près de l'eau (rugosité basse), rides du vent, traces de pas et de pneus qui restent"
+   },
+   "surfaces": [
+    {
+     "name": "dry dune sand",
+     "texture": "polyhaven:sand_01"
+    },
+    {
+     "name": "rocks",
+     "texture": "polyhaven:coast_sand_rocks_02"
+    },
+    {
+     "name": "driftwood",
+     "texture": "polyhaven:bark_brown_02"
+    },
+    {
+     "name": "ocean",
+     "texture": "ambientcg:Water002",
+     "extra": "animated waves and a foam line (script), reflects the HDRI sky"
+    }
+   ],
+   "sky": "HDRI réel visible, tourné vers le soleil ; brume marine légère au loin",
+   "light": {
+    "sun": {
+     "elevation": 22,
+     "azimuth": -60,
+     "energy": 7.0,
+     "angle": 2.0
+    },
+    "fill": 0.5,
+    "mood": "grey overcast morning (the stink)"
+   },
+   "shadows": "ombre longue de la baleine sur le sable mouillé ; ombres des spectateurs et des oyats sur la dune ; ombre du camion ; disques de contact",
+   "look": {
+    "sky": "hdri:kloofendal_48d_partly_cloudy_puresky (visible, rotated to the sun lamp; capped for lighting: the lamp is the only sun)",
+    "sun_from": "set per mood and per view (rc.look.relight inside the transitions)",
+    "hero_shadow": "the whale's long shadow on the wet sand; the crowd's shadows on the dune",
+    "fill": "camera-side bounce area light, invisible",
+    "shafts": "none (open beach)",
+    "grass": {
+     "height_cm": 45,
+     "colour": "dune grass #9aa45a, measured against V04/V05 greens",
+     "both_sides": true
+    }
+   },
+   "props": [
+    {
+     "id": "whale",
+     "source": "asset hub (Sketchfab CC-BY / CC0 sperm whale) or script"
+    },
+    {
+     "id": "dune_grass",
+     "source": "script (instances)"
+    },
+    {
+     "id": "driftwood_logs",
+     "source": "polyhaven:dead_tree_trunk"
+    },
+    {
+     "id": "seagulls",
+     "source": "script (flock, wings flap)"
+    },
+    {
+     "id": "speed_sign",
+     "source": "script + text: SPEED 25 planted in the sand"
+    },
+    {
+     "id": "quarter_mile_marker",
+     "source": "script + text: 1/4 MILE"
+    },
+    {
+     "id": "dynamite_crates",
+     "source": "script + polyhaven:wooden_crate_02, stencil DYNAMITE"
+    },
+    {
+     "id": "highway_truck",
+     "source": "asset hub pickup, repainted orange, door text STATE HIGHWAY DIV."
+    },
+    {
+     "id": "bulldozer",
+     "source": "asset hub"
+    },
+    {
+     "id": "rule_sign",
+     "source": "script + text"
+    }
+   ]
+  },
+  {
+   "id": "office",
+   "description": "bureau de la voirie d'État, 1970 : bureaux en bois, téléphones à cadran, carte routière murale, ventilateur, stores, lampe de bureau, tampon, dossier ROADS",
+   "ground": {
+    "name": "office floor",
+    "texture": "polyhaven:wood_floor_deck",
+    "tile": 2.0,
+    "value": 1.0,
+    "extra": "lino usé près des bureaux"
+   },
+   "surfaces": [
+    {
+     "name": "walls",
+     "texture": "polyhaven:beige_wall_001"
+    },
+    {
+     "name": "desks",
+     "texture": "polyhaven:wood_table_001"
+    }
+   ],
+   "sky": "fenêtre : ciel HDRI derrière des stores",
+   "light": {
+    "sun": {
+     "elevation": 35,
+     "azimuth": 40,
+     "energy": 5.0,
+     "angle": 2.0
+    },
+    "fill": 0.6,
+    "mood": "warm interior, sun stripes through the blinds"
+   },
+   "shadows": "bandes d'ombre des stores sur le mur et les bureaux ; ombres des personnages sur le sol",
+   "look": {
+    "sky": "hdri:kloofendal_48d_partly_cloudy_puresky (seen through the window)",
+    "sun_from": "through the blinds, right, 35 deg",
+    "hero_shadow": "blind stripes across the desks",
+    "fill": "desk lamps (warm) + bounce"
+   },
+   "props": [
+    {
+     "id": "rotary_phones",
+     "source": "asset hub"
+    },
+    {
+     "id": "wall_map",
+     "source": "script + text: OREGON HIGHWAYS, the beach drawn as a road"
+    },
+    {
+     "id": "desk_lamps",
+     "source": "polyhaven:desk_lamp_arm_01"
+    },
+    {
+     "id": "fan",
+     "source": "polyhaven:standing_fan"
+    },
+    {
+     "id": "blackboard",
+     "source": "script (chalk drawing of the plan)"
+    },
+    {
+     "id": "door_sign",
+     "source": "script + text: HIGHWAY DIVISION"
+    }
+   ]
+  },
+  {
+   "id": "dune_top",
+   "description": "haut de la dune à un quart de mile : spectateurs, voitures de 1970 garées dans l'herbe, équipe de télé avec caméra sur trépied, vue sur la plage et la baleine au loin",
+   "ground": {
+    "name": "dune sand and grass",
+    "texture": "polyhaven:sand_01",
+    "tile": 3.0,
+    "value": 1.05,
+    "extra": "oyats 3D, traces de pneus"
+   },
+   "surfaces": [
+    {
+     "name": "parking gravel",
+     "texture": "polyhaven:gravel_floor_02"
+    }
+   ],
+   "sky": "HDRI réel visible",
+   "light": {
+    "sun": {
+     "elevation": 48,
+     "azimuth": 150,
+     "energy": 9.0,
+     "angle": 2.0
+    },
+    "fill": 0.55,
+    "mood": "bright noon for the blast"
+   },
+   "shadows": "ombres courtes et nettes des voitures et des spectateurs ; ombre du trépied",
+   "look": {
+    "sky": "hdri:kloofendal_48d_partly_cloudy_puresky (visible, rotated to the sun lamp; capped for lighting: the lamp is the only sun)",
+    "sun_from": "set per mood and per view (rc.look.relight inside the transitions)",
+    "hero_shadow": "the cars' and the crowd's hard shadows on the sand",
+    "fill": "camera-side bounce area light, invisible",
+    "shafts": "none (open beach)",
+    "grass": {
+     "height_cm": 45,
+     "colour": "dune grass #9aa45a, measured against V04/V05 greens",
+     "both_sides": true
+    }
+   },
+   "props": [
+    {
+     "id": "cars_1970",
+     "source": "asset hub (3 sedans, repainted, clear glass)"
+    },
+    {
+     "id": "new_car",
+     "source": "asset hub sedan, glossy red paint, clear glass, dealer sticker"
+    },
+    {
+     "id": "tv_camera",
+     "source": "script (film camera on tripod, text NEWS)"
+    },
+    {
+     "id": "crowd",
+     "source": "cards (12 varied figures)"
+    },
+    {
+     "id": "dune_grass",
+     "source": "script (instances)"
+    },
+    {
+     "id": "picnic_things",
+     "source": "library (cooler, folding chairs, umbrellas)"
+    }
+   ]
+  }
+ ],
+ "shots": [
+  {
+   "id": "01",
+   "place": "beach",
+   "t0": 0.0,
+   "t1": 4.367,
+   "narration": "They packed half a ton of dynamite under a dead whale, and the engineer pushed the button.",
+   "transition_in": "first image: the action has already started (crates sliding under the whale)",
+   "transition_out": "push into the plunger then white flash: dissolve",
+   "camera": [
+    {
+     "t": 0.0,
+     "pos": [
+      2.0,
+      -3.0,
+      0.5
+     ],
+     "aim": "crates under the whale",
+     "lens": 24,
+     "move": "macro glide along the crates",
+     "framing": "insert"
+    },
+    {
+     "t": 1.6,
+     "pos": [
+      6.0,
+      -9.0,
+      0.4
+     ],
+     "aim": "the fuse wire on the sand",
+     "lens": 24,
+     "move": "follows the wire fast, low"
+    },
+    {
+     "t": 3.3,
+     "pos": [
+      22.0,
+      -30.0,
+      2.2
+     ],
+     "aim": "the engineer at the plunger",
+     "lens": 35,
+     "move": "rises up the dune to him",
+     "framing": "close"
+    },
+    {
+     "t": 4.36,
+     "pos": [
+      22.6,
+      -30.6,
+      2.0
+     ],
+     "aim": "the plunger",
+     "lens": 50,
+     "move": "5-frame push on the plunger"
+    }
+   ],
+   "actions": [
+    {
+     "id": "pack",
+     "who": "workers",
+     "f": [
+      0,
+      45
+     ],
+     "what": "two workers slide the last dynamite crates under the whale",
+     "anim": "m:push/A",
+     "micro": [
+      "the crate scrapes a furrow in the sand",
+      "a worker wipes his brow"
+     ],
+     "reactions": [
+      "sand piles in front of the crate",
+      "the whale's skin wobbles"
+     ],
+     "consequences": [
+      "a wall of crates stays under the whale"
+     ],
+     "sfx": [
+      "wood scraping on sand",
+      "grunt"
+     ],
+     "persists": [
+      "07",
+      "08"
+     ]
+    },
+    {
+     "id": "wire",
+     "who": "fuse_wire",
+     "f": [
+      45,
+      100
+     ],
+     "what": "the wire unrolls from the crates up the dune",
+     "anim": "keyed curve growth",
+     "micro": [
+      "the reel spins"
+     ],
+     "reactions": [
+      "the wire draws a line in the sand"
+     ],
+     "consequences": [
+      "the wire lies across the beach"
+     ],
+     "sfx": [
+      "reel whirr"
+     ],
+     "persists": [
+      "08"
+     ]
+    },
+    {
+     "id": "push",
+     "who": "engineer",
+     "f": [
+      100,
+      126
+     ],
+     "what": "the engineer, proud, pushes the plunger down on the word button",
+     "anim": "m:press/A, face k:proud",
+     "micro": [
+      "breath in",
+      "blink"
+     ],
+     "reactions": [
+      "the plunger handle goes down in 3 frames",
+      "his hard hat bobs"
+     ],
+     "consequences": [
+      "the plunger stays down"
+     ],
+     "sfx": [
+      "plunger clack"
+     ],
+     "persists": [
+      "08"
+     ]
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "sand furrows",
+    "white flash at the end"
+   ],
+   "sound": {
+    "ambience": "surf, wind, distant gulls",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "grey overcast morning",
+   "shot_type": "insert then close"
+  },
+  {
+   "id": "02",
+   "place": "beach",
+   "t0": 4.367,
+   "t1": 11.5,
+   "narration": "You see, in 1970, a whale washed up on a beach in Oregon. Forty five feet long, eight tons, and it stank for miles.",
+   "transition_in": "dissolve from the flash (three days earlier)",
+   "transition_out": "the stink cloud fills the frame: wipe through the cloud",
+   "camera": [
+    {
+     "t": 4.37,
+     "pos": [
+      0.0,
+      -40.0,
+      18.0
+     ],
+     "aim": "the whale on the wet sand",
+     "lens": 22,
+     "move": "aerial, slow descent",
+     "framing": "wide"
+    },
+    {
+     "t": 7.5,
+     "pos": [
+      -9.0,
+      -14.0,
+      2.0
+     ],
+     "aim": "the whale's length, tape measure",
+     "lens": 28,
+     "move": "slide along the whale"
+    },
+    {
+     "t": 9.6,
+     "pos": [
+      -3.0,
+      -7.0,
+      1.5
+     ],
+     "aim": "jogger and dog",
+     "lens": 35,
+     "move": "push in"
+    },
+    {
+     "t": 11.5,
+     "pos": [
+      -2.0,
+      -5.0,
+      1.6
+     ],
+     "aim": "green stink cloud",
+     "lens": 35,
+     "move": "into the cloud"
+    }
+   ],
+   "actions": [
+    {
+     "id": "wash",
+     "who": "whale",
+     "f": [
+      131,
+      200
+     ],
+     "what": "a wave leaves the whale on the sand and pulls back",
+     "anim": "keyed slide + settle wobble",
+     "micro": [
+      "foam slides back",
+      "the tail flops once"
+     ],
+     "reactions": [
+      "wet sand darkens around it",
+      "a groove is dug by the body"
+     ],
+     "consequences": [
+      "the whale lies in its groove for the rest of the film"
+     ],
+     "sfx": [
+      "wave",
+      "heavy wet thud"
+     ],
+     "persists": [
+      "07",
+      "08",
+      "14"
+     ]
+    },
+    {
+     "id": "measure",
+     "who": "surveyor",
+     "f": [
+      200,
+      270
+     ],
+     "what": "a surveyor unrolls a tape along it: 45 FT; a crane scale reads 8 TONS",
+     "anim": "m:walk/A",
+     "micro": [
+      "the tape wobbles",
+      "he whistles"
+     ],
+     "reactions": [
+      "the scale needle swings to 8 and breaks"
+     ],
+     "consequences": [
+      "the 45 FT stake stays planted"
+     ],
+     "sfx": [
+      "tape zip",
+      "needle boing"
+     ],
+     "persists": [
+      "04"
+     ]
+    },
+    {
+     "id": "stink",
+     "who": "jogger",
+     "f": [
+      270,
+      345
+     ],
+     "what": "a jogger and his dog run by, smell it and faint flat",
+     "anim": "m:run/A then m:faint/A, face k:sick",
+     "micro": [
+      "nose wrinkles first",
+      "the dog's ears drop"
+     ],
+     "reactions": [
+      "green stink lines rise from the whale",
+      "seagulls peel away",
+      "the jogger falls stiff as a board, sand puff"
+     ],
+     "consequences": [
+      "two body prints stay in the sand"
+     ],
+     "sfx": [
+      "sniff",
+      "thud",
+      "flies"
+     ],
+     "persists": [
+      "04"
+     ],
+     "sign": "steam (green stink lines) + scribble over the jogger"
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "foam",
+    "stink lines (2D)",
+    "sand puff"
+   ],
+   "sound": {
+    "ambience": "surf, wind, flies",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "grey overcast morning",
+   "shot_type": "wide then close"
+  },
+  {
+   "id": "03",
+   "place": "office",
+   "t0": 11.5,
+   "t1": 17.367,
+   "narration": "Nobody knew whose job that was, so it went to the highway department, because out there, the beach counts as a road.",
+   "transition_in": "wipe out of the stink cloud into the office",
+   "transition_out": "whip pan from the wall map to the beach sign (3 frames)",
+   "camera": [
+    {
+     "t": 11.5,
+     "pos": [
+      -3.0,
+      -4.0,
+      1.5
+     ],
+     "aim": "phone on desk 1",
+     "lens": 30,
+     "move": "slide along the desks with the phone"
+    },
+    {
+     "t": 14.3,
+     "pos": [
+      1.5,
+      -3.5,
+      1.5
+     ],
+     "aim": "highway desk",
+     "lens": 30,
+     "move": "follows the phone",
+     "framing": "close"
+    },
+    {
+     "t": 16.2,
+     "pos": [
+      2.5,
+      -2.0,
+      1.7
+     ],
+     "aim": "wall map",
+     "lens": 40,
+     "move": "push to the map: the beach drawn as a road"
+    },
+    {
+     "t": 17.37,
+     "pos": [
+      3.0,
+      -1.5,
+      1.7
+     ],
+     "aim": "wall map",
+     "lens": 40,
+     "move": "whip right"
+    }
+   ],
+   "actions": [
+    {
+     "id": "pass",
+     "who": "clerks",
+     "f": [
+      345,
+      440
+     ],
+     "what": "a ringing phone is passed like a hot potato from desk to desk",
+     "anim": "m:toss/A x3",
+     "micro": [
+      "each clerk leans away",
+      "papers fly up"
+     ],
+     "reactions": [
+      "the phone cord stretches and snaps back",
+      "a coffee cup is knocked over"
+     ],
+     "consequences": [
+      "spilled coffee stays on desk 2"
+     ],
+     "sfx": [
+      "phone ring",
+      "cup clink"
+     ],
+     "persists": [
+      "04"
+     ]
+    },
+    {
+     "id": "land",
+     "who": "highway_clerk",
+     "f": [
+      440,
+      521
+     ],
+     "what": "it lands on the highway desk; he stamps the file ROADS and points at the map",
+     "anim": "m:stamp/A, face k:shrug",
+     "micro": [
+      "shoulders go up",
+      "blink"
+     ],
+     "reactions": [
+      "red stamp ROADS on the file",
+      "dust jumps from the desk"
+     ],
+     "consequences": [
+      "the stamped file stays"
+     ],
+     "sfx": [
+      "thud",
+      "stamp"
+     ],
+     "persists": [
+      "04"
+     ]
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "flying papers",
+    "dust"
+   ],
+   "sound": {
+    "ambience": "office hum, fan, typewriter",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "warm interior, sun stripes",
+   "shot_type": "medium"
+  },
+  {
+   "id": "04",
+   "place": "office",
+   "t0": 17.367,
+   "t1": 21.533,
+   "narration": "Their plan was simple. Blow it into tiny pieces, and let the seagulls eat the rest.",
+   "transition_in": "whip lands on the blackboard",
+   "transition_out": "the chalk seagull flies off the board: match cut to a real seagull on the beach",
+   "camera": [
+    {
+     "t": 17.37,
+     "pos": [
+      0.0,
+      -3.0,
+      1.6
+     ],
+     "aim": "engineer at the blackboard",
+     "lens": 32,
+     "move": "arc around him"
+    },
+    {
+     "t": 19.5,
+     "pos": [
+      0.8,
+      -2.2,
+      1.6
+     ],
+     "aim": "chalk drawing",
+     "lens": 40,
+     "move": "push on the drawing",
+     "framing": "insert"
+    },
+    {
+     "t": 21.53,
+     "pos": [
+      1.0,
+      -1.8,
+      1.7
+     ],
+     "aim": "chalk seagull",
+     "lens": 50,
+     "move": "follows the chalk bird"
+    }
+   ],
+   "actions": [
+    {
+     "id": "draw",
+     "who": "engineer",
+     "f": [
+      521,
+      600
+     ],
+     "what": "the engineer draws: whale, BOOM, tiny pieces, happy seagulls with bibs",
+     "anim": "m:write/A, face k:proud",
+     "micro": [
+      "tongue out",
+      "chalk dust falls"
+     ],
+     "reactions": [
+      "the drawing appears under the chalk, stroke by stroke"
+     ],
+     "consequences": [
+      "the drawing stays on the board"
+     ],
+     "sfx": [
+      "chalk taps"
+     ],
+     "persists": [
+      "end"
+     ]
+    },
+    {
+     "id": "bird",
+     "who": "chalk_seagull",
+     "f": [
+      600,
+      646
+     ],
+     "what": "the chalk seagull blinks and flies off the board",
+     "anim": "2D to 3D morph",
+     "micro": [
+      "wing flap"
+     ],
+     "reactions": [
+      "chalk dust burst where it left"
+     ],
+     "consequences": [
+      "a bird-shaped gap stays on the board"
+     ],
+     "sfx": [
+      "flap",
+      "squawk"
+     ],
+     "persists": [
+      "end"
+     ]
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "chalk dust"
+   ],
+   "sound": {
+    "ambience": "office hum",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "warm interior, sun stripes",
+   "shot_type": "medium then insert"
+  },
+  {
+   "id": "05",
+   "place": "beach",
+   "t0": 21.533,
+   "t1": 23.933,
+   "narration": "One guy in the crowd actually knew explosives.",
+   "transition_in": "match cut on the seagull landing on the whale",
+   "transition_out": "cut",
+   "camera": [
+    {
+     "t": 21.53,
+     "pos": [
+      -8.0,
+      -12.0,
+      1.6
+     ],
+     "aim": "the crowd by the truck",
+     "lens": 30,
+     "move": "slide along the crowd"
+    },
+    {
+     "t": 23.93,
+     "pos": [
+      -5.0,
+      -9.5,
+      1.7
+     ],
+     "aim": "the veteran",
+     "lens": 45,
+     "move": "push in on him",
+     "framing": "close"
+    }
+   ],
+   "actions": [
+    {
+     "id": "raise",
+     "who": "veteran",
+     "f": [
+      660,
+      718
+     ],
+     "what": "a quiet man in an army cap raises one finger",
+     "anim": "m:point/A, face k:calm",
+     "micro": [
+      "he adjusts his cap",
+      "blink"
+     ],
+     "reactions": [
+      "the people beside him turn their heads"
+     ],
+     "consequences": [
+      "he stays in front of the crowd"
+     ],
+     "sfx": [
+      "throat clear"
+     ],
+     "persists": [
+      "06"
+     ]
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "wind in the dune grass"
+   ],
+   "sound": {
+    "ambience": "surf, crowd murmur",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "grey overcast morning",
+   "shot_type": "medium then close"
+  },
+  {
+   "id": "06",
+   "place": "beach",
+   "t0": 23.933,
+   "t1": 25.833,
+   "narration": "He told them twenty sticks would do it.",
+   "transition_in": "cut",
+   "transition_out": "cut",
+   "camera": [
+    {
+     "t": 23.93,
+     "pos": [
+      -4.2,
+      -8.6,
+      1.5
+     ],
+     "aim": "his hand with the bundle",
+     "lens": 50,
+     "move": "push on the 20 sticks",
+     "framing": "insert"
+    },
+    {
+     "t": 25.83,
+     "pos": [
+      -4.0,
+      -8.4,
+      1.5
+     ],
+     "aim": "the bundle",
+     "lens": 55,
+     "move": "slow drift"
+    }
+   ],
+   "actions": [
+    {
+     "id": "sticks",
+     "who": "veteran",
+     "f": [
+      718,
+      775
+     ],
+     "what": "he holds up a small bundle of twenty sticks tied with string",
+     "anim": "m:show/A",
+     "micro": [
+      "the bundle wobbles",
+      "the fuse hangs"
+     ],
+     "reactions": [
+      "the engineer laughs and waves it away"
+     ],
+     "consequences": [
+      "he keeps the bundle under his arm"
+     ],
+     "sfx": [
+      "paper rustle",
+      "laugh"
+     ],
+     "persists": [
+      "12"
+     ]
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "none: clean insert"
+   ],
+   "sound": {
+    "ambience": "surf",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "grey overcast morning",
+   "shot_type": "insert",
+   "accelerate": true
+  },
+  {
+   "id": "07",
+   "place": "beach",
+   "t0": 25.833,
+   "t1": 29.467,
+   "narration": "They used twenty cases. So everyone backed up a quarter mile.",
+   "transition_in": "cut",
+   "transition_out": "the camera rides back with the crowd up the dune: no cut",
+   "camera": [
+    {
+     "t": 25.83,
+     "pos": [
+      3.0,
+      -6.0,
+      1.2
+     ],
+     "aim": "the truck tipping crates",
+     "lens": 24,
+     "move": "low, shakes at each crate"
+    },
+    {
+     "t": 27.4,
+     "pos": [
+      1.0,
+      -10.0,
+      2.5
+     ],
+     "aim": "the wall of crates",
+     "lens": 24,
+     "move": "pull back"
+    },
+    {
+     "t": 29.47,
+     "pos": [
+      18.0,
+      -45.0,
+      6.0
+     ],
+     "aim": "crowd walking up the dune, 1/4 MILE marker",
+     "lens": 28,
+     "move": "rides back and up with them"
+    }
+   ],
+   "actions": [
+    {
+     "id": "dump",
+     "who": "highway_truck",
+     "f": [
+      775,
+      830
+     ],
+     "what": "the orange highway truck tips twenty crates stamped DYNAMITE beside the whale",
+     "anim": "keyed bed tilt, crates slide and bounce",
+     "micro": [
+      "the truck rocks on its springs",
+      "a crate lands on a worker's toe"
+     ],
+     "reactions": [
+      "each crate thuds, sand jumps",
+      "the veteran's jaw drops"
+     ],
+     "consequences": [
+      "the pile of 20 crates stays by the whale"
+     ],
+     "sfx": [
+      "crate thuds x5",
+      "truck creak"
+     ],
+     "persists": [
+      "08"
+     ]
+    },
+    {
+     "id": "back",
+     "who": "crowd",
+     "f": [
+      830,
+      884
+     ],
+     "what": "the whole crowd walks backwards up the dune past the 1/4 MILE marker",
+     "anim": "m:walk_back/A varied",
+     "micro": [
+      "folding chairs carried",
+      "a kid on shoulders"
+     ],
+     "reactions": [
+      "footprints in the sand",
+      "the marker wobbles as they pass"
+     ],
+     "consequences": [
+      "footprints stay up the dune"
+     ],
+     "sfx": [
+      "feet on sand",
+      "murmur"
+     ],
+     "persists": [
+      "08",
+      "10"
+     ]
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "sand puffs",
+    "dust"
+   ],
+   "sound": {
+    "ambience": "surf, crowd",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "bright noon for the blast",
+   "shot_type": "wide"
+  },
+  {
+   "id": "08",
+   "place": "dune_top",
+   "t0": 29.467,
+   "t1": 33.333,
+   "narration": "A news crew started filming, and boom. For one second, it was beautiful.",
+   "transition_in": "no cut: the camera arrives behind the TV camera",
+   "transition_out": "tilt up to the sky with the debris: no cut",
+   "camera": [
+    {
+     "t": 29.47,
+     "pos": [
+      20.0,
+      -47.0,
+      1.6
+     ],
+     "aim": "TV camera and reporter",
+     "lens": 32,
+     "move": "settles behind the tripod"
+    },
+    {
+     "t": 31.0,
+     "pos": [
+      20.5,
+      -46.0,
+      1.7
+     ],
+     "aim": "the whale far away, through the viewfinder",
+     "lens": 60,
+     "move": "push through the viewfinder"
+    },
+    {
+     "t": 31.4,
+     "pos": [
+      19.0,
+      -44.0,
+      2.0
+     ],
+     "aim": "the blast column",
+     "lens": 24,
+     "move": "kicked back by the blast, shake"
+    },
+    {
+     "t": 33.33,
+     "pos": [
+      19.0,
+      -44.0,
+      2.2
+     ],
+     "aim": "the mushroom of sand",
+     "lens": 22,
+     "move": "slow tilt up"
+    }
+   ],
+   "actions": [
+    {
+     "id": "film",
+     "who": "tv_crew",
+     "f": [
+      884,
+      936
+     ],
+     "what": "the cameraman cranks the camera, the reporter fixes his tie",
+     "anim": "m:crank/A",
+     "micro": [
+      "the red REC light blinks",
+      "the reporter breathes in"
+     ],
+     "reactions": [
+      "the crowd leans forward together"
+     ],
+     "consequences": [
+      "the camera keeps rolling"
+     ],
+     "sfx": [
+      "camera whirr"
+     ],
+     "persists": [
+      "10"
+     ]
+    },
+    {
+     "id": "boom",
+     "who": "dynamite",
+     "f": [
+      936,
+      1000
+     ],
+     "what": "the dynamite goes off: flash, a column of sand and whale 100 feet high, a perfect mushroom",
+     "anim": "announced_rupture then volume burst",
+     "micro": [
+      "sparks run along the wire first",
+      "the plunger handle is already down"
+     ],
+     "reactions": [
+      "white flash 3 frames",
+      "shock ring across the sand",
+      "the crowd's hair and hats blow back",
+      "the TV camera shakes",
+      "everybody says ooh, faces lit orange"
+     ],
+     "consequences": [
+      "a crater where the crates were",
+      "the mushroom hangs in the sky"
+     ],
+     "sfx": [
+      "huge boom",
+      "ooh"
+     ],
+     "persists": [
+      "09",
+      "14"
+     ],
+     "sign": "shock ring on the sand",
+     "recipe": "announced_rupture"
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "flash",
+    "shock ring",
+    "sand column (volume)",
+    "hats flying"
+   ],
+   "sound": {
+    "ambience": "wind then the blast",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "blast: orange flash then golden",
+   "shot_type": "medium then wide"
+  },
+  {
+   "id": "09",
+   "place": "dune_top",
+   "t0": 33.333,
+   "t1": 34.967,
+   "narration": "Then the sky started falling.",
+   "transition_in": "no cut: looking straight up",
+   "transition_out": "the first chunk falls past the lens: wipe",
+   "camera": [
+    {
+     "t": 33.33,
+     "pos": [
+      19.0,
+      -44.0,
+      1.7
+     ],
+     "aim": "straight up at the sky",
+     "lens": 20,
+     "move": "tilt to vertical"
+    },
+    {
+     "t": 34.97,
+     "pos": [
+      19.0,
+      -44.0,
+      1.7
+     ],
+     "aim": "dots growing in the sky",
+     "lens": 20,
+     "move": "tiny pull back, dread"
+    }
+   ],
+   "actions": [
+    {
+     "id": "dots",
+     "who": "blubber_chunks",
+     "f": [
+      1000,
+      1049
+     ],
+     "what": "black dots appear in the blue sky and grow fast",
+     "anim": "keyed ballistic paths toward the lens",
+     "micro": [
+      "one seagull overtakes them, fleeing"
+     ],
+     "reactions": [
+      "the crowd's smiles drop one by one (eyes first, mouth 5 frames later)",
+      "sweat drops"
+     ],
+     "consequences": [
+      "the chunks are on their way down"
+     ],
+     "sfx": [
+      "rising whistle"
+     ],
+     "persists": [
+      "10"
+     ],
+     "sign": "sweat drops on the three nearest faces"
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "growing dots",
+    "whistle lines"
+   ],
+   "sound": {
+    "ambience": "wind, whistle",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "bright noon for the blast",
+   "shot_type": "low angle up"
+  },
+  {
+   "id": "10",
+   "place": "dune_top",
+   "t0": 34.967,
+   "t1": 39.733,
+   "narration": "Chunks of whale three feet wide came down on the crowd, and one of them crushed a brand new car.",
+   "transition_in": "wipe by the falling chunk",
+   "transition_out": "cut on the impact",
+   "camera": [
+    {
+     "t": 34.97,
+     "pos": [
+      16.0,
+      -46.0,
+      1.4
+     ],
+     "aim": "crowd running under falling chunks",
+     "lens": 24,
+     "move": "handheld run with the crowd"
+    },
+    {
+     "t": 37.2,
+     "pos": [
+      24.0,
+      -50.0,
+      1.2
+     ],
+     "aim": "the shiny new red car",
+     "lens": 28,
+     "move": "whip to the car"
+    },
+    {
+     "t": 38.4,
+     "pos": [
+      25.0,
+      -51.0,
+      1.0
+     ],
+     "aim": "the roof",
+     "lens": 35,
+     "move": "low, locked for the gag"
+    },
+    {
+     "t": 39.73,
+     "pos": [
+      25.2,
+      -51.2,
+      1.0
+     ],
+     "aim": "the crushed car",
+     "lens": 35,
+     "move": "shake then drift"
+    }
+   ],
+   "actions": [
+    {
+     "id": "rain",
+     "who": "blubber_chunks",
+     "f": [
+      1049,
+      1130
+     ],
+     "what": "chunks slap down on umbrellas, a picnic table, a hat; people run in every direction",
+     "anim": "ballistic + squash on contact",
+     "micro": [
+      "umbrellas fold",
+      "a cooler is knocked flying"
+     ],
+     "reactions": [
+      "each chunk squashes and leaves a greasy splat",
+      "sand puffs",
+      "a man slips on one"
+     ],
+     "consequences": [
+      "splats and chunks stay all over the dune"
+     ],
+     "sfx": [
+      "wet slaps",
+      "screams"
+     ],
+     "persists": [
+      "11",
+      "12",
+      "14"
+     ],
+     "sign": "sweat drops, panic lines",
+     "recipe": "material_reward_pile"
+    },
+    {
+     "id": "crush",
+     "who": "blubber_chunk_big",
+     "f": [
+      1130,
+      1192
+     ],
+     "what": "a three-foot chunk lands on the roof of the brand new car and flattens it",
+     "anim": "vehicle roof crush: shape key in 4 frames, suspension bounce, windows burst outward",
+     "micro": [
+      "the dealer sticker peels off",
+      "one hubcap rolls away and falls flat"
+     ],
+     "reactions": [
+      "the roof caves in on ONE frame",
+      "glass bursts outward",
+      "the car rocks twice",
+      "the alarm of surprise: every head turns"
+     ],
+     "consequences": [
+      "the car stays crushed with the chunk on it",
+      "the hubcap lies in the sand"
+     ],
+     "sfx": [
+      "huge crunch",
+      "glass",
+      "hubcap ring"
+     ],
+     "persists": [
+      "11",
+      "12"
+     ],
+     "recipe": "vehicle_hits_fixed_obstacle"
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "splats",
+    "sand puffs",
+    "glass burst",
+    "dust"
+   ],
+   "sound": {
+    "ambience": "screams, slaps",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "bright noon for the blast",
+   "shot_type": "medium then low angle"
+  },
+  {
+   "id": "11",
+   "place": "dune_top",
+   "t0": 39.733,
+   "t1": 41.133,
+   "narration": "Guess whose car it was.",
+   "transition_in": "cut on the impact",
+   "transition_out": "slow pan from the car to its owner: no cut",
+   "camera": [
+    {
+     "t": 39.73,
+     "pos": [
+      24.0,
+      -49.5,
+      1.5
+     ],
+     "aim": "the crushed car, keys on the ground",
+     "lens": 35,
+     "move": "slow pan left"
+    },
+    {
+     "t": 41.13,
+     "pos": [
+      22.5,
+      -48.5,
+      1.6
+     ],
+     "aim": "a pair of boots, then up",
+     "lens": 40,
+     "move": "tilt up the owner"
+    }
+   ],
+   "actions": [
+    {
+     "id": "keys",
+     "who": "key_ring",
+     "f": [
+      1192,
+      1234
+     ],
+     "what": "the car keys slip out of a hand and fall in the sand in front of the wreck",
+     "anim": "keyed fall + small bounce",
+     "micro": [
+      "the key ring spins"
+     ],
+     "reactions": [
+      "a little sand puff"
+     ],
+     "consequences": [
+      "the keys lie in the sand"
+     ],
+     "sfx": [
+      "key jingle"
+     ],
+     "persists": [
+      "12"
+     ]
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "sand puff"
+   ],
+   "sound": {
+    "ambience": "wind, a dripping sound",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "bright noon for the blast",
+   "shot_type": "insert",
+   "accelerate": true
+  },
+  {
+   "id": "12",
+   "place": "dune_top",
+   "t0": 41.133,
+   "t1": 43.967,
+   "narration": "The guy who said twenty sticks. And the seagulls?",
+   "transition_in": "no cut: the tilt ends on his face",
+   "transition_out": "whip pan to the ocean (3 frames)",
+   "camera": [
+    {
+     "t": 41.13,
+     "pos": [
+      22.0,
+      -48.0,
+      1.6
+     ],
+     "aim": "the veteran, deadpan, bundle under his arm",
+     "lens": 50,
+     "move": "push in on his face",
+     "framing": "close"
+    },
+    {
+     "t": 43.2,
+     "pos": [
+      22.2,
+      -47.6,
+      1.6
+     ],
+     "aim": "his eye twitching",
+     "lens": 60,
+     "move": "tiny push"
+    },
+    {
+     "t": 43.97,
+     "pos": [
+      22.4,
+      -47.4,
+      1.7
+     ],
+     "aim": "ocean",
+     "lens": 40,
+     "move": "whip right"
+    }
+   ],
+   "actions": [
+    {
+     "id": "deadpan",
+     "who": "veteran",
+     "f": [
+      1234,
+      1319
+     ],
+     "what": "the veteran stares at his crushed car, still holding the twenty sticks; a bit of blubber slides off his cap",
+     "anim": "held pose, face k:deadpan, one eye twitch",
+     "micro": [
+      "eye twitch",
+      "one blink",
+      "the blubber slides slowly"
+     ],
+     "reactions": [
+      "the engineer behind him looks away and whistles"
+     ],
+     "consequences": [
+      "he stands there for the rest of the scene"
+     ],
+     "sfx": [
+      "drip",
+      "tiny whistle"
+     ],
+     "persists": [
+      "16"
+     ],
+     "sign": "scribble over his head + sweat drop on the engineer"
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "drip"
+   ],
+   "sound": {
+    "ambience": "wind",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "bright noon for the blast",
+   "shot_type": "close"
+  },
+  {
+   "id": "13",
+   "place": "beach",
+   "t0": 43.967,
+   "t1": 46.3,
+   "narration": "The blast scared every single one away.",
+   "transition_in": "whip lands on the ocean",
+   "transition_out": "the camera drops from the birds down to the beach: no cut",
+   "camera": [
+    {
+     "t": 43.97,
+     "pos": [
+      0.0,
+      -20.0,
+      3.0
+     ],
+     "aim": "the seagulls fleeing over the sea",
+     "lens": 40,
+     "move": "follows the flock"
+    },
+    {
+     "t": 46.3,
+     "pos": [
+      0.0,
+      -14.0,
+      2.0
+     ],
+     "aim": "the horizon, then down to the beach",
+     "lens": 30,
+     "move": "tilt down"
+    }
+   ],
+   "actions": [
+    {
+     "id": "flee",
+     "who": "seagulls",
+     "f": [
+      1319,
+      1389
+     ],
+     "what": "the whole flock flies away over the horizon; the last one carries a tiny suitcase",
+     "anim": "flock paths, wing flaps",
+     "micro": [
+      "feathers drift down"
+     ],
+     "reactions": [
+      "a feather lands on the lens line"
+     ],
+     "consequences": [
+      "no bird is left on the beach"
+     ],
+     "sfx": [
+      "many wings",
+      "far squawks"
+     ],
+     "persists": [
+      "14",
+      "end"
+     ]
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "feathers"
+   ],
+   "sound": {
+    "ambience": "surf, wings",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "late afternoon gold",
+   "shot_type": "wide"
+  },
+  {
+   "id": "14",
+   "place": "beach",
+   "t0": 46.3,
+   "t1": 49.433,
+   "narration": "Most of the whale was still lying there, so they buried it anyway.",
+   "transition_in": "no cut: tilt down from the birds",
+   "transition_out": "the sand thrown by the bulldozer covers the lens: wipe",
+   "camera": [
+    {
+     "t": 46.3,
+     "pos": [
+      -6.0,
+      -12.0,
+      2.0
+     ],
+     "aim": "the crater and the whale, still there",
+     "lens": 26,
+     "move": "slide around the crater"
+    },
+    {
+     "t": 48.2,
+     "pos": [
+      -10.0,
+      -8.0,
+      1.4
+     ],
+     "aim": "the bulldozer pushing sand",
+     "lens": 28,
+     "move": "low, close to the blade"
+    },
+    {
+     "t": 49.43,
+     "pos": [
+      -9.0,
+      -7.0,
+      1.2
+     ],
+     "aim": "sand wave",
+     "lens": 28,
+     "move": "the sand covers the lens"
+    }
+   ],
+   "actions": [
+    {
+     "id": "still",
+     "who": "whale",
+     "f": [
+      1389,
+      1440
+     ],
+     "what": "the smoke clears: a crater, and most of the whale exactly where it was, a little shorter",
+     "anim": "smoke fade",
+     "micro": [
+      "a last chunk drops beside it",
+      "the engineer scratches his hard hat"
+     ],
+     "reactions": [
+      "smoke drifts off",
+      "blubber steams"
+     ],
+     "consequences": [
+      "crater + whale stay"
+     ],
+     "sfx": [
+      "wind",
+      "plop"
+     ],
+     "persists": [
+      "end"
+     ]
+    },
+    {
+     "id": "bury",
+     "who": "bulldozer",
+     "f": [
+      1440,
+      1483
+     ],
+     "what": "a bulldozer pushes a wave of sand over the whale",
+     "anim": "keyed drive + sand pile growth",
+     "micro": [
+      "the exhaust flap claps",
+      "the driver holds his nose"
+     ],
+     "reactions": [
+      "sand rolls in front of the blade",
+      "tracks are printed in the sand"
+     ],
+     "consequences": [
+      "a big mound where the whale was, bulldozer tracks"
+     ],
+     "sfx": [
+      "diesel",
+      "sand hiss"
+     ],
+     "persists": [
+      "15",
+      "16"
+     ]
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "smoke",
+    "sand wave",
+    "exhaust puffs"
+   ],
+   "sound": {
+    "ambience": "surf, diesel",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "dusk, low orange sun",
+   "shot_type": "wide then low"
+  },
+  {
+   "id": "15",
+   "place": "beach",
+   "t0": 49.433,
+   "t1": 51.8,
+   "narration": "Today, Oregon has one rule for dead whales.",
+   "transition_in": "wipe: the sand falls away and it is today",
+   "transition_out": "the camera pushes into the sign: no cut",
+   "camera": [
+    {
+     "t": 49.43,
+     "pos": [
+      -5.0,
+      -11.0,
+      1.6
+     ],
+     "aim": "the same beach today, a clean sign",
+     "lens": 28,
+     "move": "the sand clears, push in"
+    },
+    {
+     "t": 51.8,
+     "pos": [
+      -3.0,
+      -8.0,
+      1.6
+     ],
+     "aim": "the sign",
+     "lens": 40,
+     "move": "push on the sign",
+     "framing": "insert"
+    }
+   ],
+   "actions": [
+    {
+     "id": "today",
+     "who": "rule_sign",
+     "f": [
+      1483,
+      1554
+     ],
+     "what": "the same dune, modern day: a ranger hammers in a state park sign",
+     "anim": "m:hammer/A",
+     "micro": [
+      "the sign shivers at each hit",
+      "a crab walks by"
+     ],
+     "reactions": [
+      "sand jumps at each hammer blow"
+     ],
+     "consequences": [
+      "the sign stands on the dune"
+     ],
+     "sfx": [
+      "hammer x3"
+     ],
+     "persists": [
+      "16"
+     ]
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "sand puffs"
+   ],
+   "sound": {
+    "ambience": "surf, gulls back",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "clear modern day",
+   "shot_type": "medium then insert"
+  },
+  {
+   "id": "16",
+   "place": "beach",
+   "t0": 51.8,
+   "t1": 56.0,
+   "narration": "Bury them where they land. And the engineer? He said it went exactly right.",
+   "transition_in": "no cut: on the sign",
+   "transition_out": "end: loop to the first image (the plunger)",
+   "camera": [
+    {
+     "t": 51.8,
+     "pos": [
+      -3.0,
+      -8.0,
+      1.6
+     ],
+     "aim": "sign: BURY THEM WHERE THEY LAND",
+     "lens": 40,
+     "move": "hold-drift on the words"
+    },
+    {
+     "t": 53.6,
+     "pos": [
+      -1.0,
+      -6.0,
+      1.6
+     ],
+     "aim": "dissolve back to 1970: the engineer",
+     "lens": 35,
+     "move": "slide to him"
+    },
+    {
+     "t": 55.0,
+     "pos": [
+      -0.5,
+      -5.5,
+      1.6
+     ],
+     "aim": "his face, covered in blubber",
+     "lens": 50,
+     "move": "push in",
+     "framing": "close"
+    },
+    {
+     "t": 56.0,
+     "pos": [
+      -0.3,
+      -5.3,
+      1.6
+     ],
+     "aim": "the plunger in his hands",
+     "lens": 50,
+     "move": "tilt down to the plunger"
+    }
+   ],
+   "actions": [
+    {
+     "id": "read",
+     "who": "rule_sign",
+     "f": [
+      1554,
+      1600
+     ],
+     "what": "the words light up one by one as they are said",
+     "anim": "emission keyed per word",
+     "micro": [
+      "a seagull lands on the sign"
+     ],
+     "reactions": [
+      "the seagull nods"
+     ],
+     "consequences": [
+      "the sign stays"
+     ],
+     "sfx": [
+      "soft dings"
+     ],
+     "persists": [
+      "end"
+     ]
+    },
+    {
+     "id": "smirk",
+     "who": "engineer",
+     "f": [
+      1600,
+      1680
+     ],
+     "what": "1970 again: the engineer, covered in blubber, gives a proud thumbs up beside the crater, still holding the plunger",
+     "anim": "m:thumbs_up/A, face k:proud",
+     "micro": [
+      "a chunk slides off his hard hat",
+      "blink"
+     ],
+     "reactions": [
+      "the crowd behind him glares, arms crossed",
+      "the veteran's eye twitches again"
+     ],
+     "consequences": [
+      "he believes it"
+     ],
+     "sfx": [
+      "squelch",
+      "ding"
+     ],
+     "persists": [
+      "end"
+     ],
+     "sign": "sweat drop on the reporter + scribble over the crowd"
+    }
+   ],
+   "state_changes": [],
+   "fx": [
+    "drip",
+    "soft sparkle on the thumbs up"
+   ],
+   "sound": {
+    "ambience": "surf",
+    "music": "light bed"
+   },
+   "handheld": true,
+   "mood": "dusk, low orange sun",
+   "shot_type": "insert then close"
+  }
+ ],
+ "sound": {
+  "music": "light bed, 6-7 dB under the voice (measured on the references)",
+  "lufs": -14
+ },
+ "captions": {
+  "words": [
+   1,
+   2
+  ],
+  "style": "white bold rounded, thick black outline, centred at 70 % height, one change per word"
+ },
+ "grade": {
+  "method": "tools/grade_match.py per shot against the measured ranges of the 5 references (references/style_analysis/data/*/per_second.json)",
+  "reference": "references/style_analysis",
+  "result": "to measure on the key frames"
+ },
+ "render": {
+  "engine": "CYCLES",
+  "final": "1080x1920, GPU RunPod OptiX, layers, 64+ samples with denoise (CB: ultra quality)",
+  "previews": "CPU: key frames 270x480 + quick one-layer preview"
+ },
+ "lessons_planned": [
+  "PI-016",
+  "PI-018",
+  "PI-019",
+  "PI-020",
+  "PI-021",
+  "PI-022",
+  "PI-025",
+  "PI-026",
+  "PI-027",
+  "PI-029",
+  "PI-030"
+ ]
+}
