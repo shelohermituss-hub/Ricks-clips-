@@ -16,7 +16,7 @@ SEA_Z = -0.30; SHORE_Y = 13.0
 WHALE_GLTF = os.path.join(SKILL, "library", "assets", "sketchfab", "e09c5bd25d92467db1bf938fdb1e701f", "gltf", "scene.gltf")   # "cachalot whale", allthingsaurus, CC-BY 4.0
 WHALE_LEN = 13.7                                                                           # 45 feet
 MOODS = {   # sun azimuth (from), elevation, energy, sky HDRI, sky fill for lighting, sun glow, exposure, saturation
-    "grey":  dict(az=-70, el=20, energy=3.6, hdri="kloppenheim_06_puresky", light=1.0, glow=0.0, exposure=-.25, sat=.92, sky=.75),   # heavy clouds with shape, never a white sheet      # the stink morning
+    "grey":  dict(az=-70, el=20, energy=10.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.38, glow=0.0, exposure=-.7, sat=1.04, sky=.85, contrast="Medium High Contrast"),   # cool clear morning; measured against the references' daylight (luma .51, sat .37, contrast .20)
     "noon":  dict(az=150, el=48, energy=9.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.55, glow=0.0, exposure=-.5, sat=1.08),  # the blast
     "gold":  dict(az=-115, el=14, energy=8.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.5, glow=.9, exposure=-.4, sat=1.05),   # late afternoon / dusk
     "today": dict(az=120, el=40, energy=8.0, hdri="kloofendal_48d_partly_cloudy_puresky", light=.7, glow=0.0, exposure=-.45, sat=1.1)}
@@ -36,7 +36,7 @@ def ground(c):
         V.append(row)
     for j in range(ny):
         for i in range(nx): bm.faces.new((V[j][i], V[j][i + 1], V[j + 1][i + 1], V[j + 1][i]))
-    m = tex("beach_sand", "coast_sand_01", tile=3.0, recolor="#cdb892", value=1.0, normal=1.4, spec=.2, macro=.2)
+    m = tex("beach_sand", "coast_sand_01", tile=3.0, recolor="#d4b98c", value=1.0, normal=1.4, spec=.2, macro=.2)   # warm golden sand (the references' grounds are never grey)
     nt = m.node_tree; N, L = nt.nodes, nt.links; b = N["Principled BSDF"]; src = b.inputs["Base Color"].links[0].from_socket
     tc = [n for n in N if n.type == "TEX_COORD"][0]; sx = N.new("ShaderNodeSeparateXYZ"); L.new(tc.outputs["Object"], sx.inputs[0])
     nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = .25; nz.inputs["Detail"].default_value = 3; L.new(tc.outputs["Object"], nz.inputs["Vector"])
@@ -61,7 +61,7 @@ def ground(c):
     mpw = N.new("ShaderNodeMapping"); mpw.inputs["Rotation"].default_value = (0, 0, math.radians(18)); L.new(tc.outputs["Object"], mpw.inputs["Vector"]); L.new(mpw.outputs["Vector"], wv.inputs["Vector"])
     pit = N.new("ShaderNodeTexNoise"); pit.inputs["Scale"].default_value = 9.0; pit.inputs["Detail"].default_value = 4; L.new(tc.outputs["Object"], pit.inputs["Vector"])
     hgt = M("ADD", M("MULTIPLY", wv.outputs["Fac"], M("MULTIPLY_ADD", wet, -.8, 1.0)), M("MULTIPLY", pit.outputs["Fac"], .5))
-    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = .55; bp.inputs["Distance"].default_value = .05; L.new(hgt, bp.inputs["Height"])
+    bp = N.new("ShaderNodeBump"); bp.inputs["Strength"].default_value = .3; bp.inputs["Distance"].default_value = .05; L.new(hgt, bp.inputs["Height"])
     if b.inputs["Normal"].links: L.new(b.inputs["Normal"].links[0].from_socket, bp.inputs["Normal"])
     L.new(bp.outputs["Normal"], b.inputs["Normal"])
     rsrc = b.inputs["Roughness"].links[0].from_socket if b.inputs["Roughness"].links else None
@@ -89,7 +89,7 @@ def sea(c):
     dist = M("SUBTRACT", sx.outputs["Y"], SHORE_Y - 1.0)                                    # metres from the water's edge
     foam = M("MULTIPLY", M("MULTIPLY_ADD", dist, -.22, 1.0, clamp=True), M("MULTIPLY_ADD", fn.outputs["Fac"], 3.0, -.9, clamp=True))
     far = M("MULTIPLY", dist, .004, clamp=True)
-    c1 = N.new("ShaderNodeMix"); c1.data_type = "RGBA"; L.new(far, c1.inputs[0]); c1.inputs[6].default_value = (*srgb("#3f7f86"), 1); c1.inputs[7].default_value = (*srgb("#1d4660"), 1)
+    c1 = N.new("ShaderNodeMix"); c1.data_type = "RGBA"; L.new(far, c1.inputs[0]); c1.inputs[6].default_value = (*srgb("#2f9aa0"), 1); c1.inputs[7].default_value = (*srgb("#14508a"), 1)
     c2 = N.new("ShaderNodeMix"); c2.data_type = "RGBA"; L.new(foam, c2.inputs[0]); L.new(c1.outputs[2], c2.inputs[6]); c2.inputs[7].default_value = (.93, .95, .95, 1)
     L.new(c2.outputs[2], b.inputs["Base Color"]); L.new(M("MULTIPLY_ADD", foam, .5, .06), b.inputs["Roughness"]); b.inputs["Specular IOR Level"].default_value = .6
     return mesh_obj("sea", bm, m, c)
@@ -146,7 +146,7 @@ def _marram_tuft():
     me = bpy.data.meshes.new("marram_tuft"); bm.to_mesh(me); bm.free()
     m = bpy.data.materials.new("marram"); m.use_nodes = True; nt = m.node_tree; b = nt.nodes["Principled BSDF"]
     vc = nt.nodes.new("ShaderNodeVertexColor"); vc.layer_name = "Col"; cr = nt.nodes.new("ShaderNodeValToRGB")
-    cr.color_ramp.elements[0].color = (*srgb("#4f5e2a"), 1); cr.color_ramp.elements[1].color = (*srgb("#d9d29a"), 1)
+    cr.color_ramp.elements[0].color = (*srgb("#3f6a22"), 1); cr.color_ramp.elements[1].color = (*srgb("#c4d06a"), 1)
     nt.links.new(vc.outputs["Color"], cr.inputs[0]); nt.links.new(cr.outputs[0], b.inputs["Base Color"]); b.inputs["Roughness"].default_value = .6; b.inputs["Specular IOR Level"].default_value = .2
     tl = nt.nodes.new("ShaderNodeBsdfTranslucent"); ms = nt.nodes.new("ShaderNodeMixShader"); nt.links.new(cr.outputs[0], tl.inputs["Color"]); ms.inputs[0].default_value = .4   # lets the light through (PI-027)
     nt.links.new(b.outputs[0], ms.inputs[1]); nt.links.new(tl.outputs[0], ms.inputs[2]); nt.links.new(ms.outputs[0], nt.nodes["Material Output"].inputs["Surface"])

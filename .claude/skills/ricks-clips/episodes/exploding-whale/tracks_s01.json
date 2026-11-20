@@ -53,8 +53,8 @@
     0,
     0
    ],
-   "view": "front",
-   "dir": 1,
+   "view": "side",
+   "dir": -1,
    "pose": "m:push/A",
    "face": "k:concentrate",
    "move_s": 0.01
@@ -67,10 +67,10 @@
     0,
     0
    ],
-   "view": "front",
-   "dir": 1,
-   "pose": "m:push/C",
-   "face": "k:annoyed",
+   "view": "side",
+   "dir": -1,
+   "pose": "m:push/A@1.2",
+   "face": "k:concentrate",
    "move_s": 0.01
   }
  ]
