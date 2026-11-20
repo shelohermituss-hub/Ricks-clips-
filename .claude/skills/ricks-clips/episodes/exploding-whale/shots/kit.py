@@ -87,6 +87,8 @@ def box(name, size, loc, mat, c=None, rot=(0, 0, 0), bevel=.01, parent=None):
 def cyl(name, r, h, loc, mat, c=None, rot=(0, 0, 0), seg=20, parent=None, r2=None):
     bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=seg, radius1=r, radius2=r if r2 is None else r2, depth=h)
     o = beach.mesh_obj(name, bm, mat, c or col("L_OBJECTS"), smooth=True); o.location = loc; o.rotation_euler = rot
+    try: o.data.set_sharp_from_angle(angle=.9)                                                      # flat caps, round side (else a wheel shades like a ball)
+    except Exception: pass
     if parent: o.parent = parent
     return o
 

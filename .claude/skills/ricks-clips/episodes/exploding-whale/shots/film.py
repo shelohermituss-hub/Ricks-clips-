@@ -30,7 +30,7 @@ def s02(n):
     y0, r0 = w.location.y, w.rotation_euler.z
     for f, y, rz in ((0, 9.0, .25), (44, 1.2, .06), (56, -.25, -.03), (70, 0, 0)):                 # carried in by the wave, slides, settles
         w.location.y = y0 + y; w.rotation_euler.z = r0 + rz; w.keyframe_insert("location", frame=f); w.keyframe_insert("rotation_euler", frame=f)
-    foam = blob("wave_foam", 1.0, (0, 12, 0), ink("foam", (.80, .93, .95), .05, .12), seed=3, squash=(24, 6, .05), sub=4)   # the wave that brings it, then pulls back
+    foam = blob("wave_foam", 1.0, (0, 12, 0), ink("foam", (.80, .93, .95), .05, .12), seed=3, squash=(26, 2.0, .04), sub=4)   # the wave that brings it, then pulls back
     move(foam, ((0, 0, 13.0, .05), (44, 0, 3.0, .16), (58, 0, 2.2, .10), (110, 0, 16.0, -.1)))
     tape = box("tape", (1, .06, .012), (0, 0, 0), ink("tape_yellow", YELLOW, .3, .4), bevel=0); x0, x1, ty = -7.0, 6.6, -3.0
     for f, t in ((62, .02), (112, 1.0)):                                                           # the tape unrolls behind the surveyor
@@ -120,7 +120,8 @@ def truck(c, at, yaw=0.0):
     for sy in (-1.11, 1.11): box("tr_door_%d" % sy, (1.2, .04, 1.1), (1.5, sy, 1.6), paint, bevel=.02, **P)
     label("tr_txt", "HIGHWAY DEPT", .2, (1.5, -1.14, 1.5), (math.radians(90), 0, 0), ink("ink_black", BLACK), c, parent=root, extrude=.002)
     for x in (2.7, -1.2, -2.3):
-        for sy in (-1.05, 1.05): cyl("tr_wheel", .52, .42, (x, sy, .52), ink("tyre", (.025, .025, .025), 0, .8), rot=(math.radians(90), 0, 0), **P)
+        for sy in (-1.05, 1.05):
+            cyl("tr_wheel", .52, .42, (x, sy, .52), ink("tyre", (.025, .025, .025), 0, .8), rot=(math.radians(90), 0, 0), seg=28, **P); cyl("tr_hub", .24, .46, (x, sy, .52), steel, rot=(math.radians(90), 0, 0), **P)
     bed = bpy.data.objects.new("truck_bed", None); c.objects.link(bed); bed.parent = root; bed.location = (-2.9, 0, 1.0)            # pivot at the rear
     Q = dict(c=c, parent=bed)
     box("tr_bed_floor", (3.6, 2.3, .12), (1.8, 0, 0), paint, **Q); box("tr_bed_front", (.1, 2.3, 1.0), (3.55, 0, .5), paint, **Q)
@@ -263,8 +264,8 @@ def s08(n):
         o = chunk(col("L_FX"), "up%02d" % i, R.uniform(.25, .6), 60 + i); a = R.uniform(0, 6.283); r1 = R.uniform(4, 16)
         for f, p in ((B, (0, 0, 1)), (B + 12, (r1 * .5 * math.cos(a), r1 * .5 * math.sin(a), R.uniform(28, 44))), (B + 60, (r1 * math.cos(a), r1 * math.sin(a), R.uniform(70, 120)))): o.location = p; key(o, "location", f)
         key(o, "rotation_euler", B, (0, 0, 0)); key(o, "rotation_euler", n, (9, 6, 3))
-    ring = cyl("shock_ring", 1.0, .08, (0, 0, .25), ink("ring_dust", (.85, .78, .62), .6, .9), col("L_FX"), seg=48)                          # ground shock ring
-    for f, sv, z in ((B - 1, .01, .01), (B + 1, 4, 1), (B + 10, 26, .6), (B + 22, 40, .05)): key(ring, "scale", f, (sv, sv, z))
+    ring = cyl("shock_ring", 1.0, .08, (0, 0, .25), ink("ring_dust", (.62, .54, .40), 0, .95), col("L_FX"), seg=48)                          # ground shock ring
+    for f, sv, z in ((B - 1, .01, .01), (B + 1, 4, 1), (B + 8, 20, .5), (B + 14, 30, .05), (B + 16, .01, .01)): key(ring, "scale", f, (sv, sv, z))
     fx(sc, [{"type": "explosion_stylized", "name": "boom", "at": [0, 0, 1.5], "frame": B, "seed": 5, "scale": 6.0}])
     cam = kit.camera([(0, (x + 2.6, y - 3.6, dz(x, y, 1.6)), (x + .4, y + .2, dz(x, y, 1.35)), 30), (30, (x + 2.0, y - 2.9, dz(x, y, 1.65)), (x + .2, y + .4, dz(x, y, 1.4)), 32),
                       (46, (x + .9, y - .6, dz(x, y, 1.9)), (0, 0, 2.0), 55), (B + 6, (x + .9, y - .6, dz(x, y, 1.9)), (0, 0, 6.0), 50), (B + 22, (x + 2.4, y - 4.2, dz(x, y, 1.7)), (8.0, -14.0, 9.0), 26),
@@ -327,12 +328,15 @@ def s11(n):
     """1192-1234 "Guess whose car it was." the keys slip from a hand and fall in the sand in front of the wreck (10), a puff; slow pan left and up: a pair of boots, then their owner"""
     sc = kit.begin(n); c, w, Mo, O = dune(sc, "noon", 120, 44, "11"); wreck(O); kx, ky = VET[0] + .35, VET[1] - .35; g = dz(kx, ky)
     keys = bpy.data.objects.new("keys", None); O.objects.link(keys); st = ink("truck_steel", (.5, .5, .5), 0, .3)
-    cyl("key_ring", .03, .004, (0, 0, 0), st, O, seg=16, parent=keys); box("key_a", (.02, .06, .004), (.03, -.04, 0), st, O, bevel=0, parent=keys); box("key_fob", (.035, .05, .008), (-.03, -.04, 0), ink("fob_red", RED, 0, .4), O, bevel=.002, parent=keys); keys.scale = (2.6, 2.6, 2.6)   # drawn large: readable on a phone
+    cu = bpy.data.curves.new("key_ring", "CURVE"); cu.dimensions = "3D"; cu.bevel_depth = .004; sp = cu.splines.new("POLY"); sp.points.add(23); sp.use_cyclic_u = True
+    for i, p in enumerate(sp.points): p.co = (.032 * math.cos(i * .2618), .032 * math.sin(i * .2618), 0, 1)
+    kr = bpy.data.objects.new("key_ring", cu); O.objects.link(kr); kr.parent = keys; cu.materials.append(st)
+    box("key_a", (.014, .075, .004), (.03, -.065, 0), st, O, bevel=0, parent=keys); box("key_a_teeth", (.012, .03, .004), (.04, -.085, 0), st, O, bevel=0, parent=keys); box("key_b", (.012, .06, .004), (.0, -.06, 0), st, O, bevel=0, parent=keys) box("key_fob", (.035, .05, .008), (-.035, -.055, 0), ink("fob_red", RED, 0, .4), O, bevel=.002, parent=keys); keys.scale = (2.6, 2.6, 2.6)   # drawn large: readable on a phone
     for f, zz, r in ((0, 1.0, 0), (9, .02, 5), (12, .09, 6), (15, .02, 6.6)): key(keys, "location", f, (kx, ky, g + zz)); key(keys, "rotation_euler", f, (r * .3, r * .2, r))
     cam = kit.camera([(0, (kx + .2, ky - 1.5, g + .6), (kx, ky, g + .3), 35), (16, (kx + .1, ky - 1.4, g + .5), (kx - .02, ky + .05, g + .08), 38),
                       (30, (VET[0] + .1, VET[1] - 2.4, g + .9), (VET[0], VET[1], g + .7), 38), (n - 1, (VET[0], VET[1] - 2.6, g + 1.45), (VET[0], VET[1], g + 1.42), 40)], n, amp=.005)
     kit.cards(sc, "11", cam, {"veteran": [(0, VET[0], VET[1])]}, H)
-    fx(sc, [{"type": "dust_burst", "name": "keys_puff", "at": [kx, ky, g + .05], "frame": 9, "count": 5, "radius": .25, "height": .15, "seed": 3, "life": 16, "color": [.8, .74, .6]}])
+    fx(sc, [{"type": "dust_burst", "name": "keys_puff", "at": [kx, ky, g + .05], "frame": 9, "count": 4, "radius": .1, "height": .06, "seed": 3, "life": 10, "color": [.7, .62, .46]}])
     kit.finish(sc, Mo, ((0, -.2),)); return sc
 
 # ---------------------------------------------------------------------------------------------------------------- 12

@@ -133,3 +133,10 @@ Lire avec :
 - **Limites** : aucune image de Fortnite n'est dans le dépôt, le style vient de ses traits connus et pas d'une mesure ; les personnages sont des cartes 2D plates, donc ni contre-jour sur leur contour ni translucidité ; pas encore branché dans le script du plan (appliqué sur la scène enregistrée) ; seules 2 images clés vérifiées.
 - **Leçons** : (1) un contre-jour doit exclure le sol, sinon il le peint en cyan ; (2) la lumière de remplissage bleue doit rester faible (6 % du soleil), sinon elle éteint les couleurs chaudes ; (3) l'exposition se règle par mesure sur plusieurs moments du plan, pas sur un seul.
 - **Décision de CB (20/11)** : style Fortnite abandonné lui aussi, module retiré. Le film garde le look du plan 1 (ciel vif à nuages, soleil dur, exposition par vue). CB passe en mode automatique : construire tous les plans, analyser et corriger chacun, sans rien demander avant la fin.
+
+## Construction autonome du film « Exploding Whale » — leçons de la relecture sur images calculées
+- **Relire sur les images calculées, pas seulement sur les images clés** : 4 défauts n'étaient visibles que là (plans 02, 07, 08, 11).
+- **Cylindres** : un cylindre entièrement lissé s'ombre comme une boule (roues du camion). `kit.cyl` marque maintenant les arêtes vives (`set_sharp_from_angle`), et les roues ont un moyeu.
+- **Anneau de choc au sol** : jamais émissif ni persistant — il blanchissait toute la plage après l'explosion. Couleur sable, disparaît en 16 images.
+- **Écume** : une grande plaque blanche se lit comme une dalle. Bande étroite seulement.
+- **Petits objets (clés)** : une forme pleine devient un « œuf ». Dessiner la silhouette vraie (anneau ouvert, deux lames, porte-clés) et garder la poussière petite et couleur sable.
