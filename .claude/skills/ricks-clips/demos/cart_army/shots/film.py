@@ -88,9 +88,9 @@ def s01(n):
     for fr in (0, n): key(spin, "rotation_euler", fr, ((fr / 30) * math.tau * 2.2, 0, 0))                                            # the crank goes round
     kit.linear(spin)
     chips(col("L_FX"), (bx - .05, hy, hz), 4, 60)
-    cam = kit.camera([(0, (bx - .3, hy - 5.7, 1.05), (bx - .5, hy, 1.12), 32), (26, (bx - .28, hy - 5.55, 1.05), (bx - .48, hy, 1.12), 32),   # portrait frame: at 32 mm the picture is only 0.42 x distance wide (36, (.2, -2.2, 1.0), (bx - .15, hy, hz - .05), 36),
-                      (44, (bx - .95, hy - .5, hz - .3), (bx - .1, hy + .2, hz + .06), 30), (56, (bx - .92, hy - .47, hz - .29), (bx - .1, hy + .2, hz + .07), 30), (62, (.2, -3.2, 2.4), (-1.6, 6, 4.4), 26), (n - 1, (-.2, -2.0, 5.0), (-1.9, 6, 7.0), 24)], n, amp=.006)
-    kit.cards(sc, "01", cam, {"engineer": [(0, bx - 1.5, hy + .02)]}, fort.height)
+    cam = kit.camera([(0, (bx - .3, hy - 5.7, 1.05), (bx - .62, hy, 1.12), 32), (26, (bx - .28, hy - 5.55, 1.05), (bx - .6, hy, 1.12), 32),   # portrait frame: at 32 mm the picture is only 0.42 x distance wide (36, (.2, -2.2, 1.0), (bx - .15, hy, hz - .05), 36),
+                      (44, (bx - .75, hy - 1.15, hz - .12), (bx - .22, hy, hz + .02), 40), (56, (bx - .73, hy - 1.1, hz - .11), (bx - .22, hy, hz + .03), 40), (62, (.2, -3.2, 2.4), (-1.6, 6, 4.4), 26), (n - 1, (-.2, -2.0, 5.0), (-1.9, 6, 7.0), 24)], n, amp=.006)
+    kit.cards(sc, "01", cam, {"engineer": [(0, bx - 1.2, hy + .02)]}, fort.height)
     kit.finish(sc, Mo, haze=.12); return sc
 
 SHOTS = {"01": s01}

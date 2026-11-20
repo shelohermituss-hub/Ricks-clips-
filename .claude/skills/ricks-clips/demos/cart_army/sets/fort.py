@@ -79,6 +79,12 @@ def banner(c, at, w=1.25, h=3.6):
         bf = bmesh.new(); bmesh.ops.create_cube(bf, size=1.0); fo = mesh_obj("fringe", bf, bpy.data.materials.get("fringe_gold") or _flat("fringe_gold", (.75, .55, .1)), c); fo.scale = (.012, .006, .16); fo.location = (at[0] - w / 2 + w * (k + .5) / 26, at[1] - .12, at[2] - h - .08)
     return o
 
+def _tint(bm, t=.9):
+    """the stone material multiplies by the per-block tint attribute: a mesh without it renders black"""
+    lay = bm.loops.layers.color.get("tint") or bm.loops.layers.color.new("tint")
+    for f in bm.faces:
+        for lp in f.loops: lp[lay] = (t, t, t, 1)
+
 def _flat(name, rgb, rough=.7):
     m = bpy.data.materials.new(name); m.use_nodes = True; b = m.node_tree.nodes["Principled BSDF"]; b.inputs["Base Color"].default_value = (*rgb, 1); b.inputs["Roughness"].default_value = rough; return m
 
@@ -109,14 +115,14 @@ def build(scene):
     for i in range(11):                                                                            # the gate arch: a ring of dressed wedge stones (voussoirs), each its own block
         a = math.pi * (i + .5) / 11; r = 1.4 + .27; bmv = bmesh.new(); bmesh.ops.create_cube(bmv, size=1.0)
         for v in bmv.verts: v.co = Vector((v.co.x * .56, v.co.y * .3, v.co.z * .5))
-        bmesh.ops.bevel(bmv, geom=bmv.edges[:], offset=.02, segments=2, affect="EDGES"); o = mesh_obj("voussoir%02d" % i, bmv, st, c, smooth=True)
+        bmesh.ops.bevel(bmv, geom=bmv.edges[:], offset=.02, segments=2, affect="EDGES"); _tint(bmv, .92 - .12 * (i % 3) / 2); o = mesh_obj("voussoir%02d" % i, bmv, st, c, smooth=True)
         o.location = (-3.4 + r * math.cos(a), 5.9, 2.7 + r * math.sin(a)); o.rotation_euler = (0, -a, 0)
     for nm, x0, x1, y, z in (("A", -34.0, 1.5, 5.8, 9.6), ("T", 1.5, 10.5, 3.2, 12.0)):               # crenellations: one merlon every two metres
         x = x0 + .6
         while x < x1 - .4:
             bmm = bmesh.new(); bmesh.ops.create_cube(bmm, size=1.0)
             for v in bmm.verts: v.co = Vector((v.co.x * 1.05, v.co.y * .55, v.co.z * .95))
-            bmesh.ops.bevel(bmm, geom=bmm.edges[:], offset=.03, segments=2, affect="EDGES"); o = mesh_obj("merlon_" + nm, bmm, st, c, smooth=True); o.location = (x, y + .1, z + .47); x += 2.0
+            bmesh.ops.bevel(bmm, geom=bmm.edges[:], offset=.03, segments=2, affect="EDGES"); _tint(bmm, .9); o = mesh_obj("merlon_" + nm, bmm, st, c, smooth=True); o.location = (x, y + .1, z + .47); x += 2.0
     nt = scene.world.node_tree; N, L = nt.nodes, nt.links                                           # the reference's sky is pale everywhere: the photo seen by the lens is lightened and less saturated (the light it gives does not change)
     pick = [n for n in N if n.type == "MIX" and n.inputs[0].links and n.inputs[0].links[0].from_node.type == "LIGHT_PATH" and n.data_type == "RGBA"]
     if pick:
