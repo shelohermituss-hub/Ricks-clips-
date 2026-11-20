@@ -20,10 +20,12 @@ def anchors(folder, win=.12):
         if fn not in cache:
             a = np.asarray(Image.open(os.path.join(folder, fn)).getchannel("A")) > 128
             rows = np.where(a.any(1))[0]; feet = (g - rows.max()) * k if rows.size else 0.
-            x0, x1 = int(cx - win / k), int(cx + win / k); band = a[:, max(0, x0):x1]; br = np.where(band.any(1))[0]
-            top = int(br.min()) if br.size else int(rows.min()); cols = np.where(a[top + int(.04 / k)])[0] if br.size else np.array([cx])
-            cols = cols[(cols > x0 - .1 / k) & (cols < x1 + .1 / k)] if cols.size else cols
-            cache[fn] = {"head_top": round((g - top) * k, 4), "head_x": round(((cols.min() + cols.max()) / 2 - cx) * k, 4) if cols.size else 0., "feet": round(feet, 4)}
+            if not rows.size: cache[fn] = {"head_top": 0., "head_x": 0., "feet": 0., "empty": True}       # a drawing with nothing in it (the body left the picture)
+            else:
+              x0, x1 = int(cx - win / k), int(cx + win / k); band = a[:, max(0, x0):x1]; br = np.where(band.any(1))[0]
+              top = int(br.min()) if br.size else int(rows.min()); cols = np.where(a[top + int(.04 / k)])[0] if br.size else np.array([cx])
+              cols = cols[(cols > x0 - .1 / k) & (cols < x1 + .1 / k)] if cols.size else cols
+              cache[fn] = {"head_top": round((g - top) * k, 4), "head_x": round(((cols.min() + cols.max()) / 2 - cx) * k, 4) if cols.size else 0., "feet": round(feet, 4)}
         pose = (I["images"][r["img"] - 1].get("keys") or ["|||"])[0].split("|")[3]
         for f in range(r["f0"], r["f1"] + 1): out[str(f)] = cache[fn] | {"hands": r.get("hands"), "pose": pose}
     pops = []
