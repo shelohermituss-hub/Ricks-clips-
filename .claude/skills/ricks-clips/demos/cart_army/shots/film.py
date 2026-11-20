@@ -1,0 +1,79 @@
+"""cart_army: reproduction of "How One Cart Stopped an Entire Army" shot by shot (reference: references/cart_army, breakdown in shots/*.md).
+    blender -b --factory-startup --python shots/film.py -- <shot id> <out.blend> [--res 405x720] [--samples 32] [--still f:png ...] [--anim dir]"""
+import bpy, bmesh, math, os, random, sys
+from mathutils import Vector
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import kit
+from kit import beach as fort, cast, col, key, move, ink, label, box, cyl, blob, fx
+BK = os.path.join(fort.SKILL, "library", "blenderkit")
+
+def bk(c, name, size, tex_max=1024):
+    """a real BlenderKit model appended under a root empty at the origin, its largest side scaled to `size` metres"""
+    with bpy.data.libraries.load(os.path.join(BK, name, name + ".blend"), link=False) as (src, dst): dst.objects = list(src.objects)
+    objs = [o for o in dst.objects if o is not None]; root = bpy.data.objects.new("bk_" + name, None); c.objects.link(root)
+    for o in objs:
+        c.objects.link(o)
+        if o.name.startswith("wdg"): o.hide_render = True
+        if o.parent is None or o.parent not in objs: o.parent = root
+    bpy.context.view_layer.update(); ms = [o for o in objs if o.type == "MESH" and not o.hide_render]; pts = [o.matrix_world @ Vector(v) for o in ms for v in o.bound_box]
+    ext = max(max(p[k] for p in pts) - min(p[k] for p in pts) for k in range(3)); s = size / ext; root.scale = (s, s, s)
+    for im in {n.image for o in ms for m in o.data.materials if m and m.use_nodes for n in m.node_tree.nodes if n.type == "TEX_IMAGE" and n.image}:
+        if max(im.size) > tex_max: k = tex_max / max(im.size); im.scale(max(1, int(im.size[0] * k)), max(1, int(im.size[1] * k)))
+    return root, {o.name: o for o in objs}
+
+def wood(name, hexcol, tile=1.0):
+    return fort.tex(name, "brown_planks_05", tile=tile, recolor=hexcol, value=1.0, normal=.6, spec=.25, macro=.1)
+
+def board(c, at=(1.0, 0.0), holes=82):
+    """THE HERO: the plank with its 82 drilled holes, held upright in a stand (ochre uprights with black iron clamps, pale wooden feet).
+    The plank faces the engineer (-X). Returns (root, list of hole centres in world space)."""
+    root = bpy.data.objects.new("board", None); c.objects.link(root); root.location = (at[0], at[1], 0); T, W, Hh, Z0 = .06, 1.05, 1.0, .42
+    bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0)
+    for v in bm.verts: v.co = Vector((v.co.x * T, v.co.y * W, v.co.z * Hh + Z0 + Hh / 2))
+    bmesh.ops.bevel(bm, geom=bm.edges[:], offset=.006, segments=2, affect="EDGES")
+    pl = fort.mesh_obj("plank", bm, wood("plank_wood", "#e6c690", .5), c, smooth=True); pl.parent = root
+    cut = bmesh.new(); pts = []; nx, nz = 9, 10; k = 0
+    for j in range(nz):
+        for i in range(nx):
+            if k >= holes: break
+            y = -W / 2 + .1 + (W - .2) * i / (nx - 1) + (.03 if j % 2 else 0); z = Z0 + .09 + (Hh - .18) * j / (nz - 1); k += 1
+            g = bmesh.ops.create_cone(cut, cap_ends=True, segments=14, radius1=.024, radius2=.024, depth=T * 3)
+            bmesh.ops.rotate(cut, verts=g["verts"], cent=(0, 0, 0), matrix=__import__("mathutils").Matrix.Rotation(math.radians(90), 3, "Y")); bmesh.ops.translate(cut, verts=g["verts"], vec=(0, y, z)); pts.append((at[0], at[1] + y, z))
+    co = fort.mesh_obj("plank_holes", cut, ink("hole_dark", (.05, .03, .02), 0, .9), c); co.parent = root; co.hide_render = True; co.display_type = "WIRE"
+    md = pl.modifiers.new("holes", "BOOLEAN"); md.object = co; md.operation = "DIFFERENCE"; md.solver = "EXACT"
+    och = wood("stand_ochre", "#e0a021", .9); pale = wood("stand_pale", "#e2cba0", .8); iron = ink("clamp_iron", (.03, .03, .035), 0, .45)
+    for s in (-1, 1):
+        box("stand_post", (.17, .17, 1.3), (0, s * (W / 2 + .1), .78), och, c, bevel=.012, parent=root); box("stand_foot", (.5, .24, .16), (0, s * (W / 2 + .1), .08), pale, c, bevel=.02, parent=root)
+        box("stand_brace", (.1, .1, .5), (-.2, s * (W / 2 + .1), .3), pale, c, rot=(0, math.radians(-35), 0), bevel=.01, parent=root)
+        for z in (1.32, .82): box("stand_clamp", (.19, .19, .16), (0, s * (W / 2 + .1), z), iron, c, bevel=.01, parent=root); cyl("clamp_knob", .035, .05, (-.11, s * (W / 2 + .1), z), wood("knob", "#7a4a22"), c, rot=(0, math.radians(90), 0), seg=12, parent=root)
+    return root, pts
+
+def chips(c, at, f0, f1, n=26, seed=3):
+    """wood chips thrown by the bit: small pale curls that fly off and fall in the grass (they stay there)"""
+    R = random.Random(seed); m = ink("chip_wood", (.86, .70, .45), 0, .8)
+    for i in range(n):
+        o = box("chip%02d" % i, (R.uniform(.012, .03), R.uniform(.008, .016), .003), (0, 0, -5), m, c, bevel=0); t0 = f0 + int((f1 - f0) * i / n); vx, vy, vz = R.uniform(-1.1, -.2), R.uniform(-.7, .7), R.uniform(.3, 1.6)
+        for f in range(t0, t0 + 16):
+            t = (f - t0) / 30; z = max(.02, at[2] + vz * t - 4.9 * t * t); o.location = (at[0] + vx * t, at[1] + vy * t, z); key(o, "location", f); key(o, "rotation_euler", f, (t * 19, t * 13, t * 7))
+
+# ---------------------------------------------------------------------------------------------------------------- 01
+def s01(n):
+    """0-66 "He drilled 82 holes into the wood" (drilled 6, 82 14, holes 28, into 45, wood 58): the engineer cranks his drill into the plank in the grass
+    before the fort wall; snap push to the bit (30-36), extreme close-up of the turning bit and the chips (44-56), then the camera climbs the wall
+    past the banner (58-66) on its way over the rampart (shot 2)"""
+    sc = kit.begin(n); Mo = fort.build(sc); O = col("L_OBJECTS"); brd, holes = board(O); hz = holes[40][2]; hy = holes[40][1]
+    dr, parts = bk(O, "hand_drill", .8); dr.rotation_euler = (0, math.radians(-90), 0); dr.location = (.52, hy, hz)                 # the bit points at the plank
+    crank = parts.get("vintage_hand_drill_crank")
+    for f in range(0, n, 2): key(dr, "location", f, (.52 + (.012 if (f // 2) % 2 else 0), hy, hz))                                    # he leans on it
+    if crank:
+        for f in (0, n): key(crank, "rotation_euler", f, (0, (crank.rotation_euler.y + (f / 30) * math.tau * 2.5), 0))
+        kit.linear(crank)
+    chips(col("L_FX"), (.95, hy, hz), 4, 60)
+    cam = kit.camera([(0, (-.3, -6.0, 1.0), (.5, 0, 1.3), 32), (26, (-.25, -5.8, 1.0), (.52, 0, 1.28), 32), (36, (-.2, -1.6, 1.0), (.85, hy, hz + .02), 34),
+                      (44, (.1, -1.0, hz - .05), (.9, hy, hz + .1), 36), (56, (.12, -.95, hz - .04), (.9, hy, hz + .1), 36), (62, (.2, -3.2, 2.4), (-.6, 6, 5.0), 26), (n - 1, (-.2, -1.5, 5.2), (-.9, 6, 7.4), 24)], n, amp=.006)
+    kit.cards(sc, "01", cam, {"engineer": [(0, -.35, hy + .02)]}, fort.height)
+    kit.finish(sc, Mo, haze=.12); return sc
+
+SHOTS = {"01": s01}
+if __name__ == "__main__":
+    sid = kit.A[0]; n = cast.SHOTS[sid][0] if sid in cast.SHOTS else 60; sc = SHOTS[sid](n); kit.output(sc, kit.A[1])

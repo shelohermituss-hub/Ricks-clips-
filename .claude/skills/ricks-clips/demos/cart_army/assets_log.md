@@ -1,0 +1,2 @@
+- hand_drill: "Vintage Hand Drill" by Poly Haven , licence cc_zero, faces None, https://www.blenderkit.com/asset-gallery-detail/89710fec-0dd1-42d9-9510-1032e86c0f66/, file library/blenderkit/hand_drill/hand_drill.blend
+- grindstone: "Grindstone" by Haseeb Ahmed, licence royalty_free, faces 786, https://www.blenderkit.com/asset-gallery-detail/76446384-2430-4baf-ab7a-85772db01a7b/, file library/blenderkit/grindstone/grindstone.blend

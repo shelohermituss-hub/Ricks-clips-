@@ -5,3 +5,5 @@
 - deckchair: "Beach Folding Chair" by Adam Kořistka, licence royalty_free, faces 1896, https://www.blenderkit.com/asset-gallery-detail/00055979-35ca-4057-8058-89012df5a804/, file library/blenderkit/deckchair/deckchair.blend
 - chest: "Wooden Crate 02" by Poly Haven , licence cc_zero, faces None, https://www.blenderkit.com/asset-gallery-detail/c748e629-fb82-479c-8bed-835e05220737/, file library/blenderkit/chest/chest.blend
 - sailboat: "Ship miniature" by Dovydas Alytas, licence royalty_free, faces None, https://www.blenderkit.com/asset-gallery-detail/0880637f-3d0f-4809-954c-73dfe1163c2f/, file library/blenderkit/sailboat/sailboat.blend
+- hand_drill: "Vintage Hand Drill" by Poly Haven , licence cc_zero, faces None, https://www.blenderkit.com/asset-gallery-detail/89710fec-0dd1-42d9-9510-1032e86c0f66/, file library/blenderkit/hand_drill/hand_drill.blend
+- grindstone: "Grindstone" by Haseeb Ahmed, licence royalty_free, faces 786, https://www.blenderkit.com/asset-gallery-detail/76446384-2430-4baf-ab7a-85772db01a7b/, file library/blenderkit/grindstone/grindstone.blend
