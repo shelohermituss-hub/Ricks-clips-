@@ -149,19 +149,18 @@ def s05(n):
     sc = kit.begin(n); c, w, Mo = beach.build(sc, "grey", az=95, el=24); O = col("L_OBJECTS"); truck(O, (-12.5, -4.6, H(-12.5, -4.6)), .3)
     cam = kit.camera([(0, (-9.6, -12.6, 1.55), (-7.6, -8.0, 1.25), 30), (34, (-6.6, -12.0, 1.55), (-5.4, -8.0, 1.3), 34), (n - 1, (-4.9, -10.9, 1.55), (-4.5, -8.0, 1.42), 46)], n)
     C = kit.cards(sc, "05", cam, {k: [(0, x, y)] for k, (x, y) in CROWD.items()}, H)
-    signs.impact_lines((-4.5, -8.05, 2.25), 30, frames=8, n=7, r0=.12, r1=.4)                       # a small 2D accent on the raised finger
     kit.finish(sc, Mo); return sc
 
 # ---------------------------------------------------------------------------------------------------------------- 06
 def s06(n):
     """718-775 "He told them twenty sticks would do it." insert: his hand holds up a small bundle of twenty sticks (sticks 30); behind him the engineer laughs it away (28)"""
     sc = kit.begin(n); c, w, Mo = beach.build(sc, "grey", az=95, el=24); O = col("L_OBJECTS"); vx, vy = CROWD["veteran"]; z0 = H(vx, vy)
-    b = sticks(O, (vx + .3, vy - .16, z0 + 1.06)); b.rotation_euler = (0, .2, 0)
+    b = sticks(O, (vx + .16, vy - .2, z0 + 1.12)); b.rotation_euler = (0, .2, 0)
     for f in range(0, n, 4): key(b, "rotation_euler", f, (.05 * math.sin(f * .7), .2 + .06 * math.sin(f * .5), .3 * math.sin(f * .21)))     # the bundle wobbles in his hand
-    for f, z in ((0, .92), (10, 1.1), (14, 1.06)): key(b, "location", f, (vx + .3, vy - .16, z0 + z))                                      # he lifts it into view
+    for f, z in ((0, .92), (10, 1.1), (14, 1.06)): key(b, "location", f, (vx + .16, vy - .2, z0 + z + .06))                                      # he lifts it into view
     tg = box("tag20", (.12, .004, .07), (.1, -.09, .0), ink("tag_card", (.93, .9, .8), 0, .7), O, bevel=0, parent=b); label("tag20_t", "x20", .05, (0, -.004, 0), (math.radians(90), 0, 0), ink("ink_red", RED), O, parent=tg, extrude=.001)
-    cam = kit.camera([(0, (-4.5, -10.4, 1.3), (-4.25, -8.0, 1.1), 44), (30, (-4.35, -9.7, 1.22), (-4.2, -8.1, 1.07), 52), (n - 1, (-4.3, -9.5, 1.2), (-4.2, -8.1, 1.06), 55)], n, amp=.005)
-    C = kit.cards(sc, "06", cam, {"veteran": [(0, vx, vy)], "engineer": [(0, vx + 1.5, vy + 1.3)]}, H)
+    cam = kit.camera([(0, (-4.7, -10.9, 1.35), (-4.35, -8.0, 1.22), 40), (30, (-4.55, -10.4, 1.3), (-4.35, -8.1, 1.2), 44), (n - 1, (-4.5, -10.2, 1.28), (-4.33, -8.1, 1.18), 46)], n, amp=.005)
+    C = kit.cards(sc, "06", cam, {"veteran": [(0, vx, vy)], "engineer": [(0, vx + .95, vy + 1.1)]}, H)
     kit.finish(sc, Mo); return sc
 
 # ---------------------------------------------------------------------------------------------------------------- 07
@@ -181,7 +180,7 @@ def s07(n):
             o.location = (p[0], p[1], H(p[0], p[1]) + p[2]); key(o, "location", f); key(o, "rotation_euler", f, (r[0], r[1], r[2] if f < f0 + 11 else o.rotation_euler.z))
         land.append((x1, y1, f0 + 11))
     marker(O, (14.0, -24.5, H(14.0, -24.5)), "1/4 MILE", .3)
-    cam = kit.camera([(0, (3.2, -9.2, 1.2), (3.2, -4.2, 1.3), 24), (20, (3.0, -9.4, 1.25), (2.6, -4.0, 1.2), 24), (50, (3.6, -11.5, 2.0), (3.0, -4.5, 1.1), 24),
+    cam = kit.camera([(0, (.6, -11.6, 1.3), (2.6, -4.2, 1.4), 24), (20, (.8, -11.4, 1.3), (2.4, -4.0, 1.3), 24), (50, (2.4, -13.0, 2.0), (3.0, -4.5, 1.1), 24),
                       (86, (11.5, -24.0, H(11.5, -24.0) + 2.6), (8.5, -9.0, 1.0), 24), (n - 1, (15.5, -29.0, H(15.5, -29.0) + 3.4), (10.5, -12.0, 1.2), 26)], n)
     for f, d in ((14, .02), (17, -.02), (26, .025), (29, -.02)): key(cam, "delta_location", f, (0, 0, d))                                   # the camera shakes at each crate
     W = ("farmer", "teacher", "bbqdad", "soccermom"); paths = {"worker": [(0, 7.4, -6.6)]}
@@ -191,9 +190,9 @@ def s07(n):
     kit.finish(sc, Mo, ((0, 0.0), (50, 0.0), (90, -.2))); return sc
 
 # ---------------------------------------------------------------------------------------------------------------- the dune top (shots 08-12)
-DT = (19.0, -31.0); CAR = (25.5, -34.5); BLUB = (.55, .36, .34)
+DT = (19.0, -31.0); CAR = (25.5, -34.5); BLUB = (.36, .17, .17)
 def dz(x, y, z=0.0): return H(x, y) + z
-CLEAR = ((DT[0] + .5, DT[1] - 1.5, 5.5), (CAR[0], CAR[1], 4.5))
+CLEAR = ((DT[0] + .5, DT[1] - 1.5, 6.5), (CAR[0] - 1.5, CAR[1] - 2.0, 8.0))
 
 def tv_camera(c, at, yaw):
     root = bpy.data.objects.new("tv_camera", None); c.objects.link(root); root.location = at; root.rotation_euler = (0, 0, yaw); dark = ink("tv_dark", (.05, .05, .06), 0, .4); steel = ink("truck_steel", (.5, .5, .5), 0, .3)
@@ -234,7 +233,7 @@ def car(c, at, yaw=0.0, length=4.7):
     root.location = at; root.rotation_euler = (0, 0, yaw); return root
 
 def chunk(c, name, r, seed):
-    return blob(name, r, (0, 0, -30), ink("blubber", BLUB, 0, .35), c, seed=seed, squash=(1, 1, .7))
+    return blob(name, r, (0, 0, -30), ink("blubber", BLUB, 0, .5), c, seed=seed, squash=(1, 1, .7))
 
 def fall(o, f0, f1, top, land, squash=True):
     """ballistic fall then a SPLAT: it lands on frame f1, flattens in 2 frames and stays (the consequence persists)"""
@@ -256,7 +255,7 @@ def s08(n):
     sandm = ink("blast_sand", (.62, .52, .36), 0, .9); smoke = ink("blast_smoke", (.16, .14, .13), 0, .95); R = random.Random(8)
     for i in range(22):                                                                            # the column: a stem and a cap that keeps growing, then hangs there
         cap = i >= 10; hgt = (4 + i * 2.6) if not cap else R.uniform(27, 33); rr = R.uniform(2.2, 3.4) if not cap else R.uniform(4.5, 7.5); a = R.uniform(0, 6.283); off = 0 if not cap else R.uniform(2, 7)
-        o = blob("col%02d" % i, 1.0, (0, 0, -20), sandm if i % 3 else smoke, col("L_FX"), seed=40 + i, squash=(1, 1, 1), sub=2)
+        o = blob("col%02d" % i, 1.0, (0, 0, -20), sandm if i % 3 else smoke, col("L_FX"), seed=40 + i, squash=(1, 1, 1), sub=3)
         px, py = off * math.cos(a), off * math.sin(a); t0 = B + (i if not cap else 6 + (i - 10) // 2)
         for f, z, sv in ((t0 - 1, .2, .01), (t0 + 5, hgt * .8, rr * .8), (t0 + 14, hgt, rr), (n + 40, hgt + (5 if cap else 0), rr * (1.35 if cap else 1.05))):
             o.location = (px, py, z); key(o, "location", f); key(o, "scale", f, (sv, sv, sv))
@@ -273,15 +272,15 @@ def s08(n):
     for f, d in ((B, 0), (B + 1, .06), (B + 2, -.05), (B + 3, .035), (B + 4, -.025), (B + 6, .012), (B + 8, 0)): key(cam, "delta_location", f, (d, 0, d * .6))   # the blast kicks the camera
     C = kit.cards(sc, "08", cam, {"reporter": [(0, x - .9, y + .3)], "cameraman": [(0, x + 1.45, y + .1)], "farmer": [(0, x - 2.4, y + .9)], "teacher": [(0, x - 3.3, y + .5)]}, H)
     signs.shock_ring(C["reporter"], B + 2)
-    kit.finish(sc, Mo, ((0, -.15), (44, -.15), (50, 0.0))); kit.flash(sc, B, 4, 2.6); return sc
+    kit.finish(sc, Mo, ((0, -.25),)); kit.flash(sc, B, 4, 2.6); return sc
 
 # ---------------------------------------------------------------------------------------------------------------- 09
 def s09(n):
     """1000-1049 "Then the sky started falling." straight up: black dots in the blue sky grow fast (sky 12, falling 30); a seagull flees across; the first chunk passes the lens"""
     sc = kit.begin(n); c, w, Mo, O = dune(sc, "noon", 120, 44, "09"); x, y = DT; z = dz(x, y, 1.7); R = random.Random(9)
     for i in range(16):
-        o = chunk(col("L_FX"), "dot%02d" % i, R.uniform(.35, .8), 80 + i); ox, oy = R.uniform(-7, 7), R.uniform(-9, 9); f0 = R.randint(0, 14)
-        for f, p in ((f0, (x + ox * 2.2, y + oy * 2.2, z + R.uniform(150, 230))), (n + R.randint(4, 30), (x + ox, y + oy, z + 3))): o.location = p; key(o, "location", f)
+        o = chunk(col("L_FX"), "dot%02d" % i, R.uniform(.9, 1.8), 80 + i); ox, oy = R.uniform(-7, 7), R.uniform(-9, 9); f0 = R.randint(0, 14)
+        for f, p in ((f0, (x + ox * 2.2, y + oy * 2.2, z + R.uniform(90, 140))), (n + R.randint(2, 16), (x + ox, y + oy, z + 3))): o.location = p; key(o, "location", f)
         kit.linear(o); key(o, "rotation_euler", 0, (0, 0, 0)); key(o, "rotation_euler", n, (5, 3, 2))
     first = chunk(col("L_FX"), "first", 1.1, 99)                                                    # the one that wipes the frame
     for f, p in ((6, (x + 1.5, y + 2.0, z + 200)), (n - 6, (x + .3, y + .35, z + 14)), (n - 1, (x, y + .05, z + .5))): first.location = p; key(first, "location", f)
@@ -298,17 +297,17 @@ def s10(n):
     sc = kit.begin(n); c, w, Mo, O = dune(sc, "noon", 120, 44, "10"); x, y = DT; R = random.Random(10); K = 102
     cr = car(O, (CAR[0], CAR[1], dz(*CAR)), .5); lands = []
     for i in range(11):
-        o = chunk(O, "rain%02d" % i, R.uniform(.3, .5), 110 + i); lx, ly = x + R.uniform(-5, 4), y + R.uniform(-2.5, 3.5); f1 = 6 + i * 6
+        o = chunk(O, "rain%02d" % i, R.uniform(.2, .34), 110 + i); lx, ly = x + R.uniform(-5, 4), y + R.uniform(-2.5, 3.5); f1 = 6 + i * 6
         fall(o, f1 - 16, f1, (lx + R.uniform(-3, 3), ly + 4, dz(lx, ly) + 60), (lx, ly, dz(lx, ly) + .14)); lands.append((lx, ly, f1))
-    big = chunk(O, "big", .5, 150)                                                                  # three feet wide
+    big = chunk(O, "big", .45, 150)                                                                 # three feet wide
     fall(big, K - 18, K, (CAR[0] + 2, CAR[1] + 6, dz(*CAR) + 70), (CAR[0], CAR[1], dz(*CAR) + 1.42), squash=False)
-    for f, sv in ((K, (1, 1, 1)), (K + 3, (1.5, 1.5, .5)), (n, (1.5, 1.5, .5))): key(big, "scale", f, sv)
+    for f, sv in ((K, (1, 1, 1)), (K + 3, (1.15, 1.15, .6)), (n, (1.15, 1.15, .6))): key(big, "scale", f, sv)
     for f, zz in ((K + 3, .78), (K + 6, .86), (K + 9, .8)): key(big, "location", f, (CAR[0], CAR[1], dz(*CAR) + zz))
     for f, sz, z in ((K, 1.0, 0), (K + 3, .52, -.02), (K + 6, .6, .05), (K + 9, .55, 0), (n, .55, 0)):                                       # roof flattened in 4 frames, suspension bounce, stays flat
         key(cr, "scale", f, (1.04 if sz < 1 else 1, 1.06 if sz < 1 else 1, sz)); key(cr, "location", f, (CAR[0], CAR[1], dz(*CAR) + z))
     cam = kit.camera([(0, (x - 4.5, y - 5.5, dz(x, y, 1.4)), (x - 1.0, y + .5, dz(x, y, 1.2)), 24), (40, (x - 1.5, y - 6.0, dz(x, y, 1.4)), (x + .5, y + .5, dz(x, y, 1.1)), 24),
-                      (72, (x + 1.5, y - 6.2, dz(x, y, 1.4)), (x + 2.5, y + .2, dz(x, y, 1.1)), 24), (84, (CAR[0] - 3.6, CAR[1] - 4.6, dz(*CAR) + 1.2), (CAR[0], CAR[1], dz(*CAR) + .8), 28),
-                      (K - 2, (CAR[0] - 3.3, CAR[1] - 4.2, dz(*CAR) + 1.1), (CAR[0], CAR[1], dz(*CAR) + .8), 28), (n - 1, (CAR[0] - 2.9, CAR[1] - 3.8, dz(*CAR) + .9), (CAR[0], CAR[1], dz(*CAR) + .6), 30)], n, amp=.014, rot=.3)
+                      (72, (x + 1.5, y - 6.2, dz(x, y, 1.4)), (x + 2.5, y + .2, dz(x, y, 1.1)), 24), (84, (CAR[0] - 3.6, CAR[1] - 4.6, dz(CAR[0] - 3.6, CAR[1] - 4.6) + 1.5), (CAR[0], CAR[1], dz(*CAR) + .8), 28),
+                      (K - 2, (CAR[0] - 3.3, CAR[1] - 4.2, dz(CAR[0] - 3.3, CAR[1] - 4.2) + 1.4), (CAR[0], CAR[1], dz(*CAR) + .8), 28), (n - 1, (CAR[0] - 2.9, CAR[1] - 3.8, dz(CAR[0] - 2.9, CAR[1] - 3.8) + 1.2), (CAR[0], CAR[1], dz(*CAR) + .6), 30)], n, amp=.014, rot=.3)
     for f, d in ((K, 0), (K + 1, .07), (K + 2, -.05), (K + 3, .03), (K + 5, -.02), (K + 8, 0)): key(cam, "delta_location", f, (0, 0, d))
     C = kit.cards(sc, "10", cam, {"farmer": [(0, x - 6.5, y + .8), (80, x + 7.5, y - .6)], "teacher": [(0, x + 5.0, y + 1.8), (80, x - 8.0, y + 2.6)],
                                    "soccermom": [(0, x - 9.0, y - .8), (90, x + 6.0, y - 1.6)], "bbqdad": [(0, x - .6, y + 1.2)]}, H)
@@ -319,8 +318,8 @@ def s10(n):
 
 # ---------------------------------------------------------------------------------------------------------------- 11
 def wreck(O):
-    cr = car(O, (CAR[0], CAR[1], dz(*CAR)), .5); cr.scale = (1.04, 1.06, .55); big = chunk(O, "big", .5, 150); big.location = (CAR[0], CAR[1], dz(*CAR) + .8); big.scale = (1.5, 1.5, .5)
-    for i in range(5): o = chunk(O, "left%02d" % i, .32 + .05 * i, 110 + i); a = i * 1.3; o.location = (CAR[0] + 3.2 * math.cos(a), CAR[1] + 2.6 * math.sin(a), dz(CAR[0] + 3.2 * math.cos(a), CAR[1] + 2.6 * math.sin(a)) + .14); o.scale = (1.35, 1.35, .45)
+    cr = car(O, (CAR[0], CAR[1], dz(*CAR)), .5); cr.scale = (1.04, 1.06, .55); big = chunk(O, "big", .45, 150); big.location = (CAR[0], CAR[1], dz(*CAR) + .8); big.scale = (1.15, 1.15, .6)
+    for i in range(5): o = chunk(O, "left%02d" % i, .2 + .03 * i, 110 + i); a = .3 + i * .6; o.location = (CAR[0] + 3.2 * math.cos(a), CAR[1] + 2.6 * math.sin(a), dz(CAR[0] + 3.2 * math.cos(a), CAR[1] + 2.6 * math.sin(a)) + .14); o.scale = (1.35, 1.35, .45)
     return cr
 VET = (CAR[0] - 2.6, CAR[1] - 1.4)
 
@@ -328,9 +327,9 @@ def s11(n):
     """1192-1234 "Guess whose car it was." the keys slip from a hand and fall in the sand in front of the wreck (10), a puff; slow pan left and up: a pair of boots, then their owner"""
     sc = kit.begin(n); c, w, Mo, O = dune(sc, "noon", 120, 44, "11"); wreck(O); kx, ky = VET[0] + .35, VET[1] - .35; g = dz(kx, ky)
     keys = bpy.data.objects.new("keys", None); O.objects.link(keys); st = ink("truck_steel", (.5, .5, .5), 0, .3)
-    cyl("key_ring", .03, .004, (0, 0, 0), st, O, seg=16, parent=keys); box("key_a", (.02, .06, .004), (.03, -.04, 0), st, O, bevel=0, parent=keys); box("key_fob", (.035, .05, .008), (-.03, -.04, 0), ink("fob_red", RED, 0, .4), O, bevel=.002, parent=keys)
+    cyl("key_ring", .03, .004, (0, 0, 0), st, O, seg=16, parent=keys); box("key_a", (.02, .06, .004), (.03, -.04, 0), st, O, bevel=0, parent=keys); box("key_fob", (.035, .05, .008), (-.03, -.04, 0), ink("fob_red", RED, 0, .4), O, bevel=.002, parent=keys); keys.scale = (2.6, 2.6, 2.6)   # drawn large: readable on a phone
     for f, zz, r in ((0, 1.0, 0), (9, .02, 5), (12, .09, 6), (15, .02, 6.6)): key(keys, "location", f, (kx, ky, g + zz)); key(keys, "rotation_euler", f, (r * .3, r * .2, r))
-    cam = kit.camera([(0, (kx + .2, ky - 1.9, g + .45), (kx, ky, g + .05), 35), (16, (kx + .1, ky - 1.9, g + .45), (kx - .05, ky + .1, g + .08), 35),
+    cam = kit.camera([(0, (kx + .2, ky - 1.5, g + .6), (kx, ky, g + .3), 35), (16, (kx + .1, ky - 1.4, g + .5), (kx - .02, ky + .05, g + .08), 38),
                       (30, (VET[0] + .1, VET[1] - 2.4, g + .9), (VET[0], VET[1], g + .7), 38), (n - 1, (VET[0], VET[1] - 2.6, g + 1.45), (VET[0], VET[1], g + 1.42), 40)], n, amp=.005)
     kit.cards(sc, "11", cam, {"veteran": [(0, VET[0], VET[1])]}, H)
     fx(sc, [{"type": "dust_burst", "name": "keys_puff", "at": [kx, ky, g + .05], "frame": 9, "count": 5, "radius": .25, "height": .15, "seed": 3, "life": 16, "color": [.8, .74, .6]}])
@@ -350,7 +349,114 @@ def s12(n):
     key(bit, "scale", 67, (1, 1, .7)); key(bit, "scale", 69, (1.5, 1.5, .3)); signs.sweat_drop(C["veteran"], 30, n - 6, side=1)
     kit.finish(sc, Mo, ((0, -.2),)); return sc
 
-SHOTS = {"02": s02, "03": s03, "04": s04, "05": s05, "06": s06, "07": s07, "08": s08, "09": s09, "10": s10, "11": s11, "12": s12}
+# ---------------------------------------------------------------------------------------------------------------- after the blast (shots 13-16)
+def crater(O, at=(0.6, -3.4), r=3.2):
+    """what the blast left: a ring of thrown sand around a dark hollow, and pieces lying about (they stay until the end)"""
+    sand = bpy.data.materials["beach_sand"]; R = random.Random(13)
+    for i in range(16):
+        a = i / 16 * 6.283; x, y = at[0] + r * math.cos(a), at[1] + r * .8 * math.sin(a); o = blob("rim%02d" % i, R.uniform(.7, 1.1), (x, y, H(x, y) - .05), sand, O, seed=200 + i, squash=(1, 1, .35), sub=2)
+    blob("hollow", 1.0, (at[0], at[1], H(*at) + .02), ink("scorch", (.07, .06, .05), 0, .95), O, seed=5, squash=(r * .8, r * .62, .03), sub=3)
+    for i in range(9):
+        a = R.uniform(0, 6.283); d = R.uniform(4, 9); x, y = at[0] + d * math.cos(a), at[1] - abs(d * math.sin(a)) * .8; o = chunk(O, "lying%02d" % i, R.uniform(.25, .45), 300 + i); o.location = (x, y, H(x, y) + .12); o.scale = (1.35, 1.35, .45)
+
+def sign(O, at, lines, yaw=0.0):
+    """the state park sign; returns (root, [word objects])"""
+    root = bpy.data.objects.new("rule_sign", None); O.objects.link(root); root.location = at; root.rotation_euler = (0, 0, yaw); wood = ink("sign_post", (.3, .2, .12), 0, .7)
+    for sx in (-.75, .75): box("sg_post", (.1, .1, 2.1), (sx, 0, 1.05), wood, O, parent=root)
+    box("sg_board", (1.9, .06, 1.15), (0, -.05, 1.6), ink("sign_brown", (.22, .12, .05), 0, .6), O, parent=root); box("sg_head", (1.9, .065, .26), (0, -.052, 2.04), ink("sign_yellow_p", (.9, .68, .08), 0, .5), O, parent=root, bevel=.005)
+    label("sg_h", "OREGON STATE PARKS", .11, (0, -.09, 2.04), (math.radians(90), 0, 0), ink("ink_black", BLACK), O, parent=root, extrude=.002); words = []
+    for li, line in enumerate(lines):
+        ws = line.split(); wd = [len(wv) * .088 + .06 for wv in ws]; x = -sum(wd) / 2
+        for wv, d in zip(ws, wd):
+            m = bpy.data.materials.new("sg_word_%d" % len(words)); m.use_nodes = True; b = m.node_tree.nodes["Principled BSDF"]; b.inputs["Base Color"].default_value = (.93, .9, .8, 1); b.inputs["Emission Color"].default_value = (1, .86, .35, 1)
+            o = label("sg_w%d" % len(words), wv, .135, (x + d / 2, -.09, 1.78 - li * .27), (math.radians(90), 0, 0), m, O, parent=root, extrude=.003); words.append((o, b)); x += d
+    return root, words
+
+def flock(n, f0, start, end, count=13, seed=3):
+    """seagulls: flat white V shapes that beat their wings and fly away over the sea"""
+    R = random.Random(seed); out = []; white = ink("gull_white", (.93, .93, .9), .25)
+    for i in range(count):
+        o = label("gull%02d" % i, "v", R.uniform(1.3, 2.0), (0, 0, 0), (math.radians(75), 0, 0), white, col("L_FX"), extrude=.01); dx, dz_, d0 = R.uniform(-6, 6), R.uniform(-1.5, 2.5), R.randint(0, 10)
+        move(o, ((f0 + d0, start[0] + dx, start[1] + R.uniform(-2, 2), start[2] + dz_), (n + 10, end[0] + dx * 4, end[1], end[2] + dz_ * 3))); kit.linear(o)
+        for f in range(f0, n): key(o, "scale", f, (1.0, 1.0 if (f + i * 2) % 6 < 3 else .35, 1.0))
+        out.append(o)
+    cs = box("suitcase", (.22, .08, .15), (0, 0, -.3), ink("case_brown", (.35, .2, .1), 0, .5), col("L_FX"), parent=out[-1]); return out
+
+def after(sc, mood, az, el, clear=()):
+    c, w, Mo = beach.build(sc, mood, az=az, el=el, clear=clear); O = col("L_OBJECTS"); crater(O); w.scale = tuple(v * .93 for v in w.scale); return c, w, Mo, O
+
+def s13(n):
+    """1319-1389 "The blast scared every single one away." the whole flock flies off over the sea (away 54); the last one carries a tiny suitcase; the camera follows, then drops to the beach"""
+    sc = kit.begin(n); c, w, Mo, O = after(sc, "gold", -115, 14); flock(n, 0, (0, -2, 5.0), (4, 110, 22))
+    cam = kit.camera([(0, (-1.0, -19.0, 2.6), (0, 6, 6.0), 36), (40, (-.6, -18.0, 2.5), (1.5, 40, 12.0), 40), (56, (-.4, -17.0, 2.4), (2.0, 60, 13.0), 40), (n - 1, (-3.0, -14.5, 2.1), (-1.0, -3.0, 1.2), 28)], n)
+    for i in range(6):                                                                             # feathers drift down
+        f = box("feather%d" % i, (.16, .04, .004), (0, 0, 0), ink("gull_white", (.93, .93, .9)), col("L_FX"), bevel=0); x = -2 + i * .9
+        move(f, ((4 + i * 5, x, -6 - i, 7.0), (n + 20, x + 1.5, -9 - i, .1)))
+        for ff in range(0, n, 6): key(f, "rotation_euler", ff, (math.sin(ff * .3 + i), ff * .12, math.cos(ff * .2 + i)))
+    kit.finish(sc, Mo, ((0, -.35),)); return sc
+
+def s14(n):
+    """1389-1483 "Most of the whale was still lying there, so they buried it anyway." the smoke clears: a crater, and the whale exactly where it was (still 25); the engineer
+    shrugs; a bulldozer pushes a wave of sand over it (buried 61); the sand thrown by the blade covers the lens"""
+    sc = kit.begin(n); c, w, Mo, O = after(sc, "gold", -115, 14)
+    before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(kit.EP, "build", "assets", "crawler_dozer.glb")); new = [o for o in bpy.data.objects if o not in before]
+    dz_root = bpy.data.objects.new("dozer", None); O.objects.link(dz_root)
+    for o in new:
+        for uc in list(o.users_collection): uc.objects.unlink(o)
+        O.objects.link(o)
+        if o.parent is None: o.parent = dz_root
+        for m in (o.data.materials if o.type == "MESH" else ()):
+            b = m.node_tree.nodes.get("Principled BSDF") if m and m.node_tree else None
+            if b and m.name.startswith("paint"): b.inputs["Base Color"].default_value = (.85, .55, .04, 1)          # highway yellow
+    dy = -4.6
+    for f, x in ((0, -19.0), (40, -15.5), (n - 1, -10.2)): key(dz_root, "location", f, (x, dy, H(x, dy)))
+    kit.linear(dz_root); sand = bpy.data.materials["beach_sand"]
+    for i in range(7):                                                                             # the sand rolls in front of the blade and grows
+        m = blob("push%d" % i, 1.0, (0, 0, 0), sand, O, seed=400 + i, squash=(1, 1, .6), sub=2); oy = dy + (i - 3) * .55
+        for f, x, sv in ((0, -16.9, .3), (40, -13.4, .7), (n - 1, -8.0, 1.25)): key(m, "location", f, (x, oy, H(x, oy) + .1)); key(m, "scale", f, (sv, sv, sv))
+        kit.linear(m)
+    wave = blob("sand_wave", 1.0, (0, 0, -20), sand, col("L_FX"), seed=9, squash=(1, 1, 1), sub=3)   # thrown sand that covers the lens: the wipe
+    for f, p, sv in ((n - 12, (-9.2, dy, .6), .3), (n - 5, (-10.0, -6.6, 1.2), 1.0), (n - 1, (-10.35, -7.5, 1.25), 1.6)): key(wave, "location", f, p); key(wave, "scale", f, (sv, sv, sv))
+    cam = kit.camera([(0, (-5.0, -13.5, 2.1), (.5, -2.5, 1.0), 26), (34, (-7.0, -12.0, 1.9), (-1.0, -2.5, 1.0), 26), (62, (-10.8, -8.6, 1.4), (-11.5, -4.6, 1.0), 28), (n - 1, (-10.5, -7.9, 1.25), (-9.5, -4.6, .9), 28)], n)
+    C = kit.cards(sc, "14", cam, {"engineer": [(0, -3.6, -6.2)], "worker": [(0, -19.6, dy, H(-19.6, dy) + 1.0), (40, -16.1, dy, H(-16.1, dy) + 1.0), (n - 1, -10.8, dy, H(-10.8, dy) + 1.0)]}, H)
+    fx(sc, [{"type": "smoke", "name": "after_smoke", "at": [.6, -3.4, .6], "frame": -20, "count": 9, "seed": 4, "life": 70, "color": [.2, .18, .17], "size": 1.6, "rise": 3.0, "spread": 2.2},
+            {"type": "dust_burst", "name": "blade_dust", "at": [-12.0, dy, .3], "frame": 44, "count": 8, "radius": 1.2, "height": .6, "seed": 6, "life": 30, "color": [.8, .74, .6]}])
+    signs.scribble(C["engineer"], 24, 60)
+    kit.finish(sc, Mo, ((0, -.35),)); return sc
+
+SIGN = (-3.0, -8.2); LINES = ("DEAD WHALES:", "BURY THEM", "WHERE THEY LAND")
+def s15(n):
+    """1483-1554 "Today, Oregon has one rule for dead whales." the same beach today, clean and empty; a ranger hammers a state park sign into the sand: it shivers at each blow"""
+    sc = kit.begin(n); c, w, Mo = beach.build(sc, "today", az=120, el=40); O = col("L_OBJECTS"); w.location.z = -60                             # today: no whale
+    root, words = sign(O, (SIGN[0], SIGN[1], H(*SIGN)), LINES)
+    for f in range(0, n, 12):                                                                      # a hammer blow every 12 frames
+        for ff, r, z in ((f + 5, 0, .12 - f * .0012), (f + 6, .035, .1 - f * .0012), (f + 8, -.02, .1 - f * .0012), (f + 10, 0, .1 - f * .0012)): key(root, "rotation_euler", ff, (0, r, 0)); key(root, "location", ff, (SIGN[0], SIGN[1], H(*SIGN) + z))
+    cam = kit.camera([(0, (-5.8, -13.4, 1.6), (-3.4, -8.0, 1.4), 28), (n - 1, (-3.5, -12.4, 1.6), (-3.1, -8.2, 1.55), 34)], n)
+    kit.cards(sc, "15", cam, {"ranger": [(0, SIGN[0] - 1.35, SIGN[1] - .1)]}, H)
+    fx(sc, [{"type": "dust_burst", "name": "hammer_puff%d" % i, "at": [SIGN[0] - .75, SIGN[1], H(*SIGN) + .05], "frame": f + 6, "count": 4, "radius": .3, "height": .2, "seed": i, "life": 14, "color": [.8, .74, .6]} for i, f in enumerate(range(0, n - 8, 12))])
+    kit.finish(sc, Mo); return sc
+
+def s16(n):
+    """1554-1680 "Bury them where they land. And the engineer? He said it went exactly right." the words of the sign light up as they are said (0-34); whip (50-56) back to 1970:
+    the engineer by the crater, covered in blubber, still holding the plunger, gives a proud thumbs up (78; right 105); a chunk slides off his hard hat. Loops to the first image"""
+    sc = kit.begin(n); c, w, Mo, O = after(sc, "gold", -115, 14); root, words = sign(O, (SIGN[0], SIGN[1], H(*SIGN)), LINES); EN = (5.2, -7.2); g = H(*EN)
+    for (o, b), f in zip(words[2:], (0, 18, 23, 29, 34)):                                          # BURY THEM WHERE THEY LAND, one word per spoken word
+        for ff, v in ((f - 1, 0.0), (f + 2, 6.0), (f + 10, 2.5)): b.inputs["Emission Strength"].default_value = v; b.inputs["Emission Strength"].keyframe_insert("default_value", frame=ff)
+        for ff, sv in ((f - 1, 1), (f + 2, 1.25), (f + 6, 1)): key(o, "scale", ff, (sv, sv, sv))
+    boxp, handle = props.plunger(O, (EN[0] + .3, EN[1] - .2, g))
+    cam = kit.camera([(0, (-3.5, -12.4, 1.6), (-3.1, -8.2, 1.55), 34), (48, (-3.2, -11.6, 1.6), (-3.0, -8.2, 1.6), 38), (57, (4.6, -11.4, 1.45), (EN[0], EN[1], g + 1.2), 32),
+                      (100, (4.9, -10.6, 1.4), (EN[0], EN[1], g + 1.25), 36), (n - 1, (5.3, -9.6, 1.2), (EN[0] + .3, EN[1] - .2, g + .55), 45)], n)
+    C = kit.cards(sc, "16", cam, {"engineer": [(0, EN[0], EN[1])]}, H); e = C["engineer"]
+    for i, (px, pz) in enumerate(((-.2, 1.72), (.24, 1.2), (-.3, .9), (.1, .5))):                    # covered in blubber: bits stuck on him (parented to the card)
+        bt = chunk(O, "stuck%d" % i, .06 + .015 * i, 500 + i); bt.parent = e; bt.location = (px, -.06, pz); bt.scale = (1.3, .5, 1.0)
+        if i == 0:
+            for f, p in ((0, (px, -.06, pz)), (84, (px, -.06, pz)), (104, (px - .22, -.07, 1.5)), (112, (px - .3, -.08, .05))): key(bt, "location", f, p)
+    signs.impact_lines((EN[0] + .35, EN[1] - .1, g + 1.3), 82, frames=8, n=8, r0=.15, r1=.45, color=(.95, .8, .1))
+    kit.finish(sc, Mo, ((0, -.3),)); return sc
+
+SHOTS = {"02": s02, "03": s03, "04": s04, "05": s05, "06": s06, "07": s07, "08": s08, "09": s09, "10": s10, "11": s11, "12": s12, "13": s13, "14": s14, "15": s15, "16": s16}
+if "13" not in cast.SHOTS: cast.SHOTS.update({"09": (49, {}, []), "13": (70, {}, [])})
+
 
 
 
