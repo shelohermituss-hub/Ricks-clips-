@@ -40,7 +40,7 @@ def blocks(name, c, origin, u, n, length, hgt, mat, seed=1, row=.56, holes=()):
         while x < length:
             w = R.uniform(.85, 1.55); a, bb = max(0.0, x), min(length, x + w); x += w
             if bb - a < .12 or is_open(a, bb, z, z + row): continue
-            d = R.uniform(.07, .10); t = R.uniform(.80, 1.0); tw = R.uniform(-.03, .03)
+            d = R.uniform(.06, .11); t = R.uniform(.70, 1.0); tw = R.uniform(-.05, .05)
             g = bmesh.ops.create_cube(bm, size=1.0); vs = g["verts"]
             for v in vs:
                 lu, ld, lz = (v.co.x + .5) * (bb - a - .016) + a + .008, (v.co.y + .5) * (d + .3) - .3, (v.co.z + .5) * (row - .016) + z + .008
@@ -90,10 +90,10 @@ def ground(c):
     mesh_obj("fort_path", bp, tex("fort_path", "brown_mud_02", tile=2.0, recolor="#8a6a48", value=1.0, normal=1.4, spec=.12, macro=.2), c)
     src = street.blade_clump(); m = bpy.data.materials.get("grass_blades")
     if m and not m.get("rc_recoloured"):
-        cr = [n_ for n_ in m.node_tree.nodes if n_.type == "VALTORGB"][0].color_ramp; cr.elements[0].color = (*srgb("#3c7a24"), 1); cr.elements[1].color = (*srgb("#a6d552"), 1); m["rc_recoloured"] = 1   # the reference's vivid yellow-green
+        cr = [n_ for n_ in m.node_tree.nodes if n_.type == "VALTORGB"][0].color_ramp; cr.elements[0].color = (*srgb("#4a8426"), 1); cr.elements[1].color = (*srgb("#c6e060"), 1); m["rc_recoloured"] = 1   # the reference's vivid yellow-green
         nt = m.node_tree; b = nt.nodes["Principled BSDF"]; out = nt.nodes["Material Output"]; tl = nt.nodes.new("ShaderNodeBsdfTranslucent"); mixs = nt.nodes.new("ShaderNodeMixShader")
         nt.links.new(b.inputs["Base Color"].links[0].from_socket, tl.inputs["Color"]); mixs.inputs[0].default_value = .45; nt.links.new(b.outputs[0], mixs.inputs[1]); nt.links.new(tl.outputs[0], mixs.inputs[2]); nt.links.new(mixs.outputs[0], out.inputs["Surface"])
-    for k, (zone, n, sd, sc) in enumerate(((  [[-6, -6.5], [7, -6.5], [7, 2.4], [-6, 2.4]], 30000, 1, (.5, 2.3)), ([[-30, -22], [30, -22], [30, -6.5], [-30, -6.5]], 16000, 2, (1.0, 2.0)),
+    for k, (zone, n, sd, sc) in enumerate(((  [[-2.2, -6.6], [3.4, -6.6], [3.4, -3.2], [-2.2, -3.2]], 9000, 9, (1.5, 2.9)), (  [[-6, -6.5], [7, -6.5], [7, 2.4], [-6, 2.4]], 30000, 1, (.5, 2.3)), ([[-30, -22], [30, -22], [30, -6.5], [-30, -6.5]], 16000, 2, (1.0, 2.0)),
                                              ([[-36, -6.5], [-6, -6.5], [-6, 2.7], [-36, 2.7]], 22000, 3, (.9, 1.9)), ([[7, -6.5], [36, -6.5], [36, 3.4], [7, 3.4]], 16000, 4, (.9, 1.9)))):
         P, Rt, Sc = geo.scatter_points({"polygon": zone}, n, sd, exclude=[{"center": [.55, 0], "radius": .38}], scale_range=sc); geo.instancer("grass_%d" % k, P, src, c, Rt, Sc, wind=.05)
 
@@ -106,6 +106,17 @@ def build(scene):
     back = bmesh.new(); back.faces.new([back.verts.new(p) for p in ((-34, 6.05, 0), (3, 6.05, 0), (3, 6.05, 9.6), (-34, 6.05, 9.6))]); mesh_obj("wall_A_back", back, bpy.data.materials["fort_joint"] if bpy.data.materials.get("fort_joint") else _flat("fort_joint", (.06, .055, .05)), c)
     gate = bmesh.new(); gate.faces.new([gate.verts.new(p) for p in ((-4.9, 6.6, 0), (-1.9, 6.6, 0), (-1.9, 6.6, 4.6), (-4.9, 6.6, 4.6))]); mesh_obj("gate_dark", gate, _flat("gate_dark", (.02, .018, .016)), c)
     banner(c, (-.9, 6.0, 7.4), h=3.6)
+    for i in range(11):                                                                            # the gate arch: a ring of dressed wedge stones (voussoirs), each its own block
+        a = math.pi * (i + .5) / 11; r = 1.4 + .27; bmv = bmesh.new(); bmesh.ops.create_cube(bmv, size=1.0)
+        for v in bmv.verts: v.co = Vector((v.co.x * .56, v.co.y * .3, v.co.z * .5))
+        bmesh.ops.bevel(bmv, geom=bmv.edges[:], offset=.02, segments=2, affect="EDGES"); o = mesh_obj("voussoir%02d" % i, bmv, st, c, smooth=True)
+        o.location = (-3.4 + r * math.cos(a), 5.9, 2.7 + r * math.sin(a)); o.rotation_euler = (0, -a, 0)
+    for nm, x0, x1, y, z in (("A", -34.0, 1.5, 5.8, 9.6), ("T", 1.5, 10.5, 3.2, 12.0)):               # crenellations: one merlon every two metres
+        x = x0 + .6
+        while x < x1 - .4:
+            bmm = bmesh.new(); bmesh.ops.create_cube(bmm, size=1.0)
+            for v in bmm.verts: v.co = Vector((v.co.x * 1.05, v.co.y * .55, v.co.z * .95))
+            bmesh.ops.bevel(bmm, geom=bmm.edges[:], offset=.03, segments=2, affect="EDGES"); o = mesh_obj("merlon_" + nm, bmm, st, c, smooth=True); o.location = (x, y + .1, z + .47); x += 2.0
     nt = scene.world.node_tree; N, L = nt.nodes, nt.links                                           # the reference's sky is pale everywhere: the photo seen by the lens is lightened and less saturated (the light it gives does not change)
     pick = [n for n in N if n.type == "MIX" and n.inputs[0].links and n.inputs[0].links[0].from_node.type == "LIGHT_PATH" and n.data_type == "RGBA"]
     if pick:

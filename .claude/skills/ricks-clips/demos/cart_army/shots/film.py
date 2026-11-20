@@ -21,6 +21,26 @@ def bk(c, name, size, tex_max=1024):
         if max(im.size) > tex_max: k = tex_max / max(im.size); im.scale(max(1, int(im.size[0] * k)), max(1, int(im.size[1] * k)))
     return root, {o.name: o for o in objs}
 
+SF = os.path.join(fort.SKILL, "library", "assets", "sketchfab")
+BRACE_ID = "d6a4c41ff34f4f638aeb8aec72a2f6ef"                                          # "Brace" (carpenter's brace), Sketchfab, CC-BY: the reference's tool
+
+def brace(c, length=.62):
+    """the carpenter's brace of the reference (a real model): black crank, wooden knob and handle; root at the tip of its bit, pointing +X"""
+    before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=os.path.join(SF, BRACE_ID, "gltf", "scene.gltf")); new = [o for o in bpy.data.objects if o not in before]
+    root = bpy.data.objects.new("brace", None); c.objects.link(root); spin = bpy.data.objects.new("brace_spin", None); c.objects.link(spin); spin.parent = root
+    for o in new:
+        for uc in list(o.users_collection): uc.objects.unlink(o)
+        c.objects.link(o)
+        if o.parent is None: o.parent = spin
+    bpy.context.view_layer.update(); ms = [o for o in new if o.type == "MESH"]; pts = [o.matrix_world @ Vector(v) for o in ms for v in o.bound_box]
+    x0, x1 = min(p.x for p in pts), max(p.x for p in pts); s = length / (x1 - x0); spin.scale = (s, s, s); spin.location = (-(x1 * s) - .13, 0, 0)
+    for o in ms:
+        for m in o.data.materials:
+            b = m.node_tree.nodes.get("Principled BSDF") if m and m.use_nodes else None
+            if b and m.name.startswith("Light"): b.inputs["Base Color"].default_value = (.025, .025, .03, 1); b.inputs["Metallic"].default_value = .7; b.inputs["Roughness"].default_value = .38   # blackened iron
+    cyl("brace_bit", .009, .14, (-.065, 0, 0), ink("bit_steel", (.55, .55, .58), 0, .25), c, rot=(0, math.radians(90), 0), seg=10, parent=root)
+    return root, spin
+
 def wood(name, hexcol, tile=1.0):
     return fort.tex(name, "brown_planks_05", tile=tile, recolor=hexcol, value=1.0, normal=.6, spec=.25, macro=.1)
 
@@ -63,16 +83,14 @@ def s01(n):
     past the banner (58-66) on its way over the rampart (shot 2)"""
     sc = kit.begin(n); Mo = fort.build(sc); O = col("L_OBJECTS"); brd, holes = board(O); brd.rotation_euler = (0, 0, math.radians(24)); q = holes[64]                                              # turned a little toward the lens, as in the reference: its drilled face shows
     ca, sa = math.cos(math.radians(24)), math.sin(math.radians(24)); hy = (q[0] - 1.0) * sa + q[1] * ca; hz = q[2]; bx = 1.0 + (q[0] - 1.0) * ca - q[1] * sa
-    dr, parts = bk(O, "hand_drill", 1.15); dr.rotation_euler = (0, math.radians(-90), 0); dr.location = (bx - .62, hy, hz)                 # the bit points at the plank
-    crank = parts.get("vintage_hand_drill_crank")
-    for f in range(0, n, 2): key(dr, "location", f, (bx - .62 + (.012 if (f // 2) % 2 else 0), hy, hz))                                    # he leans on it
-    if crank:
-        for f in (0, n): key(crank, "rotation_euler", f, (0, (crank.rotation_euler.y + (f / 30) * math.tau * 2.5), 0))
-        kit.linear(crank)
+    dr, spin = brace(O); dr.location = (bx - .03, hy, hz)                                            # the tip of the bit in the hole
+    for fr in range(0, n, 2): key(dr, "location", fr, (bx - .03 + (.012 if (fr // 2) % 2 else 0), hy, hz))                             # he leans on it
+    for fr in (0, n): key(spin, "rotation_euler", fr, ((fr / 30) * math.tau * 2.2, 0, 0))                                            # the crank goes round
+    kit.linear(spin)
     chips(col("L_FX"), (bx - .05, hy, hz), 4, 60)
     cam = kit.camera([(0, (bx - .3, hy - 5.7, 1.05), (bx - .5, hy, 1.12), 32), (26, (bx - .28, hy - 5.55, 1.05), (bx - .48, hy, 1.12), 32),   # portrait frame: at 32 mm the picture is only 0.42 x distance wide (36, (.2, -2.2, 1.0), (bx - .15, hy, hz - .05), 36),
-                      (44, (bx - .75, hy - 1.05, hz - .28), (bx - .07, hy + .1, hz + .03), 42), (56, (bx - .73, hy - 1.0, hz - .27), (bx - .07, hy + .1, hz + .04), 42), (62, (.2, -3.2, 2.4), (-1.2, 6, 4.6), 26), (n - 1, (-.2, -1.5, 4.6), (-1.6, 6, 6.2), 24)], n, amp=.006)
-    kit.cards(sc, "01", cam, {"engineer": [(0, bx - 1.3, hy + .02)]}, fort.height)
+                      (44, (bx - .95, hy - .5, hz - .3), (bx - .1, hy + .2, hz + .06), 30), (56, (bx - .92, hy - .47, hz - .29), (bx - .1, hy + .2, hz + .07), 30), (62, (.2, -3.2, 2.4), (-1.6, 6, 4.4), 26), (n - 1, (-.2, -2.0, 5.0), (-1.9, 6, 7.0), 24)], n, amp=.006)
+    kit.cards(sc, "01", cam, {"engineer": [(0, bx - 1.5, hy + .02)]}, fort.height)
     kit.finish(sc, Mo, haze=.12); return sc
 
 SHOTS = {"01": s01}

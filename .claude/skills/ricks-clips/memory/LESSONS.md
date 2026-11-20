@@ -320,3 +320,8 @@ demonstrated cause, a reproducible fix, tests, before/after evidence and a regre
 - **Problem:** film original (exploding-whale) construit sans plan de référence du même sujet : trois looks inventés, tous refusés (« presque rien à voir avec les références »), alors que la reproduction plan par plan de crash_instinct s'en approchait bien.
 - **Rule:** reproduire d'abord les vidéos de référence plan par plan (fiche de plan → construction → comparaison image contre image → mesure) ; un film original ne démarre qu'après, et réutilise les décors, réglages et assets validés par ces reproductions.
 - **Files:** docs/CORRECTIONS_CB_FR.md, demos/crash_instinct, references/crash_instinct/shots
+
+## PI-033 — Un plan original se construit contre une IMAGE MODÈLE tirée d'une référence (CB 2026-11-20)
+- **Problem:** la copie plan par plan converge (cart_army plan 1 : 6 versions) ; le film original (exploding-whale) divergeait, faute d'image cible, de proportions de cadre mesurées et de décor dense.
+- **Rule:** chaque plan d'un film original reçoit une image modèle de même type prise dans une référence ; on en relève cadre, hauteur caméra, taille du personnage, densité, lumière ; on construit et on compare à cette image comme pour une copie.
+- **Files:** docs/CORRECTIONS_CB_FR.md, demos/cart_army

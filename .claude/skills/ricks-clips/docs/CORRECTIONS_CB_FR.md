@@ -212,3 +212,13 @@ Causes réelles (constat, pas excuse) :
 - **Point de départ** : `demos/crash_instinct` (« The Instinct That Makes You Crash », 59,5 s, 1 783 images) : plans 1 à 4 reproduits (images 0 à 362) ; reprise au **plan 5** (image 363 : « So the town nails a giant flashing arrow to it… »).
 - **Méthode par plan** (celle qui a marché) : fiche de plan depuis la référence (`references/crash_instinct/shots/sNN.md` : découpage, décor, personnages, objets, caméra, effets, son) → construction → images clés à côté de la référence → `tools/grade_match.py` → corrections → aperçu en mouvement à côté de la référence.
 - **Assets** : Sketchfab + BlenderKit branchés ; toujours de vrais modèles.
+
+## CB 2026-11-20 — « tu es capable de les recopier, alors pourquoi ne peux-tu pas en créer d'autres dans le même univers ? qu'as-tu appris ? qu'est-ce qui était différent dans la vidéo qu'on essayait de créer ? »
+**Ce qui fait marcher la copie (cart_army plan 1, 6 versions en ~1 h 30) :**
+1. **Une cible précise par image.** Chaque essai est posé sous l'image de référence correspondante ; l'écart se lit tout de suite (trop sombre, trop petit, mauvais angle) et se corrige point par point. Sur le film original, il n'y avait aucune image cible : je jugeais « à l'idée ».
+2. **Les proportions du cadre viennent de la référence.** Personnage ≈ 45 % de la hauteur, objet héros à côté de lui, mur à 6 m, sol riche jusqu'à l'objectif. Sur la baleine : plage vide, personnages petits, horizon au milieu.
+3. **Le décor est de l'architecture construite** (mur bloc par bloc, bannière, arche, créneaux) qui remplit le fond. Une plage n'a que sable, mer, ciel : rien pour accrocher la lumière ni fermer l'image.
+4. **Chaque personnage est fait pour son rôle** (planche de personnages dédiée). Sur la baleine : personnages du catalogue général.
+5. **L'objet héros est spécifique et détaillé**, vrai modèle pour l'outil.
+6. **Lumière : soleil derrière la caméra, sur le décor** ; ciel pâle ; pierre claire. Sur la baleine : contre-jour ou soleil rasant choisis au hasard, trois styles essayés.
+**Règle pour créer un film original dans le même univers :** avant de construire un plan, lui attribuer une IMAGE MODÈLE prise dans une référence (même type de plan : même valeur de cadre, même hauteur de caméra, même place du personnage, même densité de décor, même direction de lumière), écrire ces mesures dans la fiche du plan, construire, puis comparer à cette image modèle exactement comme pour une copie. Choisir des lieux qui ont de l'architecture et de la végétation ; un lieu nu (plage, désert) doit être habillé jusqu'à atteindre la densité de l'image modèle.

@@ -1585,6 +1585,48 @@
     {
       "schema_version": 1,
       "provider": "sketchfab",
+      "asset_id": "d6a4c41ff34f4f638aeb8aec72a2f6ef",
+      "name": "Brace",
+      "creator": "Lakhdar.B",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_url": "https://sketchfab.com/3d-models/brace-d6a4c41ff34f4f638aeb8aec72a2f6ef",
+      "kind": "model",
+      "commercial_use": "check exact license and preserve attribution",
+      "downloaded_at_utc": "2026-11-20T16:05:42Z",
+      "files": [
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/d6a4c41ff34f4f638aeb8aec72a2f6ef/d6a4c41ff34f4f638aeb8aec72a2f6ef_source.zip",
+          "bytes": 26246,
+          "sha256": "0a9e7f787d3c9f301ab889e28197013def9ec95aff61c9a9780095ffc0a0fd71",
+          "md5": "c9455577e5cbf53824a978246de81b84",
+          "role": "source_archive"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/d6a4c41ff34f4f638aeb8aec72a2f6ef/gltf/license.txt",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/d6a4c41ff34f4f638aeb8aec72a2f6ef/gltf/scene.bin",
+          "role": "extracted"
+        },
+        {
+          "path": "/home/user/Ricks-clips-/.claude/skills/ricks-clips/library/assets/sketchfab/d6a4c41ff34f4f638aeb8aec72a2f6ef/gltf/scene.gltf",
+          "role": "extracted"
+        }
+      ],
+      "status": "ingested"
+    },
+    {
+      "schema_version": 1,
+      "provider": "sketchfab",
       "asset_id": "e09c5bd25d92467db1bf938fdb1e701f",
       "name": "cachalot whale",
       "creator": "allthingsaurus",
